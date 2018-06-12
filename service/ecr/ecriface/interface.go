@@ -9,7 +9,6 @@
 package ecriface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ecr"
 )
 
@@ -73,23 +72,23 @@ type ECRAPI interface {
 
 	CreateRepositoryRequest(*ecr.CreateRepositoryInput) ecr.CreateRepositoryRequest
 
+	DeleteLifecyclePolicyRequest(*ecr.DeleteLifecyclePolicyInput) ecr.DeleteLifecyclePolicyRequest
+
 	DeleteRepositoryRequest(*ecr.DeleteRepositoryInput) ecr.DeleteRepositoryRequest
 
 	DeleteRepositoryPolicyRequest(*ecr.DeleteRepositoryPolicyInput) ecr.DeleteRepositoryPolicyRequest
 
 	DescribeImagesRequest(*ecr.DescribeImagesInput) ecr.DescribeImagesRequest
 
-	DescribeImagesPages(*ecr.DescribeImagesInput, func(*ecr.DescribeImagesOutput, bool) bool) error
-	DescribeImagesPagesWithContext(aws.Context, *ecr.DescribeImagesInput, func(*ecr.DescribeImagesOutput, bool) bool, ...aws.Option) error
-
 	DescribeRepositoriesRequest(*ecr.DescribeRepositoriesInput) ecr.DescribeRepositoriesRequest
-
-	DescribeRepositoriesPages(*ecr.DescribeRepositoriesInput, func(*ecr.DescribeRepositoriesOutput, bool) bool) error
-	DescribeRepositoriesPagesWithContext(aws.Context, *ecr.DescribeRepositoriesInput, func(*ecr.DescribeRepositoriesOutput, bool) bool, ...aws.Option) error
 
 	GetAuthorizationTokenRequest(*ecr.GetAuthorizationTokenInput) ecr.GetAuthorizationTokenRequest
 
 	GetDownloadUrlForLayerRequest(*ecr.GetDownloadUrlForLayerInput) ecr.GetDownloadUrlForLayerRequest
+
+	GetLifecyclePolicyRequest(*ecr.GetLifecyclePolicyInput) ecr.GetLifecyclePolicyRequest
+
+	GetLifecyclePolicyPreviewRequest(*ecr.GetLifecyclePolicyPreviewInput) ecr.GetLifecyclePolicyPreviewRequest
 
 	GetRepositoryPolicyRequest(*ecr.GetRepositoryPolicyInput) ecr.GetRepositoryPolicyRequest
 
@@ -97,12 +96,13 @@ type ECRAPI interface {
 
 	ListImagesRequest(*ecr.ListImagesInput) ecr.ListImagesRequest
 
-	ListImagesPages(*ecr.ListImagesInput, func(*ecr.ListImagesOutput, bool) bool) error
-	ListImagesPagesWithContext(aws.Context, *ecr.ListImagesInput, func(*ecr.ListImagesOutput, bool) bool, ...aws.Option) error
-
 	PutImageRequest(*ecr.PutImageInput) ecr.PutImageRequest
 
+	PutLifecyclePolicyRequest(*ecr.PutLifecyclePolicyInput) ecr.PutLifecyclePolicyRequest
+
 	SetRepositoryPolicyRequest(*ecr.SetRepositoryPolicyInput) ecr.SetRepositoryPolicyRequest
+
+	StartLifecyclePolicyPreviewRequest(*ecr.StartLifecyclePolicyPreviewInput) ecr.StartLifecyclePolicyPreviewRequest
 
 	UploadLayerPartRequest(*ecr.UploadLayerPartInput) ecr.UploadLayerPartRequest
 }

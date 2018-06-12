@@ -18,6 +18,7 @@ const opAbortDocumentVersionUpload = "AbortDocumentVersionUpload"
 type AbortDocumentVersionUploadRequest struct {
 	*aws.Request
 	Input *AbortDocumentVersionUploadInput
+	Copy  func(*AbortDocumentVersionUploadInput) AbortDocumentVersionUploadRequest
 }
 
 // Send marshals and sends the AbortDocumentVersionUpload API request.
@@ -56,10 +57,13 @@ func (c *WorkDocs) AbortDocumentVersionUploadRequest(input *AbortDocumentVersion
 		input = &AbortDocumentVersionUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &AbortDocumentVersionUploadOutput{})
+	output := &AbortDocumentVersionUploadOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AbortDocumentVersionUploadRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AbortDocumentVersionUploadRequest{Request: req, Input: input, Copy: c.AbortDocumentVersionUploadRequest}
 }
 
 const opActivateUser = "ActivateUser"
@@ -68,6 +72,7 @@ const opActivateUser = "ActivateUser"
 type ActivateUserRequest struct {
 	*aws.Request
 	Input *ActivateUserInput
+	Copy  func(*ActivateUserInput) ActivateUserRequest
 }
 
 // Send marshals and sends the ActivateUser API request.
@@ -104,8 +109,11 @@ func (c *WorkDocs) ActivateUserRequest(input *ActivateUserInput) ActivateUserReq
 		input = &ActivateUserInput{}
 	}
 
-	req := c.newRequest(op, input, &ActivateUserOutput{})
-	return ActivateUserRequest{Request: req, Input: input}
+	output := &ActivateUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ActivateUserRequest{Request: req, Input: input, Copy: c.ActivateUserRequest}
 }
 
 const opAddResourcePermissions = "AddResourcePermissions"
@@ -114,6 +122,7 @@ const opAddResourcePermissions = "AddResourcePermissions"
 type AddResourcePermissionsRequest struct {
 	*aws.Request
 	Input *AddResourcePermissionsInput
+	Copy  func(*AddResourcePermissionsInput) AddResourcePermissionsRequest
 }
 
 // Send marshals and sends the AddResourcePermissions API request.
@@ -151,8 +160,11 @@ func (c *WorkDocs) AddResourcePermissionsRequest(input *AddResourcePermissionsIn
 		input = &AddResourcePermissionsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddResourcePermissionsOutput{})
-	return AddResourcePermissionsRequest{Request: req, Input: input}
+	output := &AddResourcePermissionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddResourcePermissionsRequest{Request: req, Input: input, Copy: c.AddResourcePermissionsRequest}
 }
 
 const opCreateComment = "CreateComment"
@@ -161,6 +173,7 @@ const opCreateComment = "CreateComment"
 type CreateCommentRequest struct {
 	*aws.Request
 	Input *CreateCommentInput
+	Copy  func(*CreateCommentInput) CreateCommentRequest
 }
 
 // Send marshals and sends the CreateComment API request.
@@ -197,8 +210,11 @@ func (c *WorkDocs) CreateCommentRequest(input *CreateCommentInput) CreateComment
 		input = &CreateCommentInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateCommentOutput{})
-	return CreateCommentRequest{Request: req, Input: input}
+	output := &CreateCommentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateCommentRequest{Request: req, Input: input, Copy: c.CreateCommentRequest}
 }
 
 const opCreateCustomMetadata = "CreateCustomMetadata"
@@ -207,6 +223,7 @@ const opCreateCustomMetadata = "CreateCustomMetadata"
 type CreateCustomMetadataRequest struct {
 	*aws.Request
 	Input *CreateCustomMetadataInput
+	Copy  func(*CreateCustomMetadataInput) CreateCustomMetadataRequest
 }
 
 // Send marshals and sends the CreateCustomMetadata API request.
@@ -244,8 +261,11 @@ func (c *WorkDocs) CreateCustomMetadataRequest(input *CreateCustomMetadataInput)
 		input = &CreateCustomMetadataInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateCustomMetadataOutput{})
-	return CreateCustomMetadataRequest{Request: req, Input: input}
+	output := &CreateCustomMetadataOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateCustomMetadataRequest{Request: req, Input: input, Copy: c.CreateCustomMetadataRequest}
 }
 
 const opCreateFolder = "CreateFolder"
@@ -254,6 +274,7 @@ const opCreateFolder = "CreateFolder"
 type CreateFolderRequest struct {
 	*aws.Request
 	Input *CreateFolderInput
+	Copy  func(*CreateFolderInput) CreateFolderRequest
 }
 
 // Send marshals and sends the CreateFolder API request.
@@ -290,8 +311,11 @@ func (c *WorkDocs) CreateFolderRequest(input *CreateFolderInput) CreateFolderReq
 		input = &CreateFolderInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateFolderOutput{})
-	return CreateFolderRequest{Request: req, Input: input}
+	output := &CreateFolderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateFolderRequest{Request: req, Input: input, Copy: c.CreateFolderRequest}
 }
 
 const opCreateLabels = "CreateLabels"
@@ -300,6 +324,7 @@ const opCreateLabels = "CreateLabels"
 type CreateLabelsRequest struct {
 	*aws.Request
 	Input *CreateLabelsInput
+	Copy  func(*CreateLabelsInput) CreateLabelsRequest
 }
 
 // Send marshals and sends the CreateLabels API request.
@@ -336,8 +361,11 @@ func (c *WorkDocs) CreateLabelsRequest(input *CreateLabelsInput) CreateLabelsReq
 		input = &CreateLabelsInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLabelsOutput{})
-	return CreateLabelsRequest{Request: req, Input: input}
+	output := &CreateLabelsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLabelsRequest{Request: req, Input: input, Copy: c.CreateLabelsRequest}
 }
 
 const opCreateNotificationSubscription = "CreateNotificationSubscription"
@@ -346,6 +374,7 @@ const opCreateNotificationSubscription = "CreateNotificationSubscription"
 type CreateNotificationSubscriptionRequest struct {
 	*aws.Request
 	Input *CreateNotificationSubscriptionInput
+	Copy  func(*CreateNotificationSubscriptionInput) CreateNotificationSubscriptionRequest
 }
 
 // Send marshals and sends the CreateNotificationSubscription API request.
@@ -386,8 +415,11 @@ func (c *WorkDocs) CreateNotificationSubscriptionRequest(input *CreateNotificati
 		input = &CreateNotificationSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateNotificationSubscriptionOutput{})
-	return CreateNotificationSubscriptionRequest{Request: req, Input: input}
+	output := &CreateNotificationSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateNotificationSubscriptionRequest{Request: req, Input: input, Copy: c.CreateNotificationSubscriptionRequest}
 }
 
 const opCreateUser = "CreateUser"
@@ -396,6 +428,7 @@ const opCreateUser = "CreateUser"
 type CreateUserRequest struct {
 	*aws.Request
 	Input *CreateUserInput
+	Copy  func(*CreateUserInput) CreateUserRequest
 }
 
 // Send marshals and sends the CreateUser API request.
@@ -433,8 +466,11 @@ func (c *WorkDocs) CreateUserRequest(input *CreateUserInput) CreateUserRequest {
 		input = &CreateUserInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateUserOutput{})
-	return CreateUserRequest{Request: req, Input: input}
+	output := &CreateUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateUserRequest{Request: req, Input: input, Copy: c.CreateUserRequest}
 }
 
 const opDeactivateUser = "DeactivateUser"
@@ -443,6 +479,7 @@ const opDeactivateUser = "DeactivateUser"
 type DeactivateUserRequest struct {
 	*aws.Request
 	Input *DeactivateUserInput
+	Copy  func(*DeactivateUserInput) DeactivateUserRequest
 }
 
 // Send marshals and sends the DeactivateUser API request.
@@ -480,10 +517,13 @@ func (c *WorkDocs) DeactivateUserRequest(input *DeactivateUserInput) DeactivateU
 		input = &DeactivateUserInput{}
 	}
 
-	req := c.newRequest(op, input, &DeactivateUserOutput{})
+	output := &DeactivateUserOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeactivateUserRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeactivateUserRequest{Request: req, Input: input, Copy: c.DeactivateUserRequest}
 }
 
 const opDeleteComment = "DeleteComment"
@@ -492,6 +532,7 @@ const opDeleteComment = "DeleteComment"
 type DeleteCommentRequest struct {
 	*aws.Request
 	Input *DeleteCommentInput
+	Copy  func(*DeleteCommentInput) DeleteCommentRequest
 }
 
 // Send marshals and sends the DeleteComment API request.
@@ -528,10 +569,13 @@ func (c *WorkDocs) DeleteCommentRequest(input *DeleteCommentInput) DeleteComment
 		input = &DeleteCommentInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteCommentOutput{})
+	output := &DeleteCommentOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteCommentRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteCommentRequest{Request: req, Input: input, Copy: c.DeleteCommentRequest}
 }
 
 const opDeleteCustomMetadata = "DeleteCustomMetadata"
@@ -540,6 +584,7 @@ const opDeleteCustomMetadata = "DeleteCustomMetadata"
 type DeleteCustomMetadataRequest struct {
 	*aws.Request
 	Input *DeleteCustomMetadataInput
+	Copy  func(*DeleteCustomMetadataInput) DeleteCustomMetadataRequest
 }
 
 // Send marshals and sends the DeleteCustomMetadata API request.
@@ -576,8 +621,11 @@ func (c *WorkDocs) DeleteCustomMetadataRequest(input *DeleteCustomMetadataInput)
 		input = &DeleteCustomMetadataInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteCustomMetadataOutput{})
-	return DeleteCustomMetadataRequest{Request: req, Input: input}
+	output := &DeleteCustomMetadataOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteCustomMetadataRequest{Request: req, Input: input, Copy: c.DeleteCustomMetadataRequest}
 }
 
 const opDeleteDocument = "DeleteDocument"
@@ -586,6 +634,7 @@ const opDeleteDocument = "DeleteDocument"
 type DeleteDocumentRequest struct {
 	*aws.Request
 	Input *DeleteDocumentInput
+	Copy  func(*DeleteDocumentInput) DeleteDocumentRequest
 }
 
 // Send marshals and sends the DeleteDocument API request.
@@ -622,10 +671,13 @@ func (c *WorkDocs) DeleteDocumentRequest(input *DeleteDocumentInput) DeleteDocum
 		input = &DeleteDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDocumentOutput{})
+	output := &DeleteDocumentOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteDocumentRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDocumentRequest{Request: req, Input: input, Copy: c.DeleteDocumentRequest}
 }
 
 const opDeleteFolder = "DeleteFolder"
@@ -634,6 +686,7 @@ const opDeleteFolder = "DeleteFolder"
 type DeleteFolderRequest struct {
 	*aws.Request
 	Input *DeleteFolderInput
+	Copy  func(*DeleteFolderInput) DeleteFolderRequest
 }
 
 // Send marshals and sends the DeleteFolder API request.
@@ -670,10 +723,13 @@ func (c *WorkDocs) DeleteFolderRequest(input *DeleteFolderInput) DeleteFolderReq
 		input = &DeleteFolderInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteFolderOutput{})
+	output := &DeleteFolderOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteFolderRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteFolderRequest{Request: req, Input: input, Copy: c.DeleteFolderRequest}
 }
 
 const opDeleteFolderContents = "DeleteFolderContents"
@@ -682,6 +738,7 @@ const opDeleteFolderContents = "DeleteFolderContents"
 type DeleteFolderContentsRequest struct {
 	*aws.Request
 	Input *DeleteFolderContentsInput
+	Copy  func(*DeleteFolderContentsInput) DeleteFolderContentsRequest
 }
 
 // Send marshals and sends the DeleteFolderContents API request.
@@ -718,10 +775,13 @@ func (c *WorkDocs) DeleteFolderContentsRequest(input *DeleteFolderContentsInput)
 		input = &DeleteFolderContentsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteFolderContentsOutput{})
+	output := &DeleteFolderContentsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteFolderContentsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteFolderContentsRequest{Request: req, Input: input, Copy: c.DeleteFolderContentsRequest}
 }
 
 const opDeleteLabels = "DeleteLabels"
@@ -730,6 +790,7 @@ const opDeleteLabels = "DeleteLabels"
 type DeleteLabelsRequest struct {
 	*aws.Request
 	Input *DeleteLabelsInput
+	Copy  func(*DeleteLabelsInput) DeleteLabelsRequest
 }
 
 // Send marshals and sends the DeleteLabels API request.
@@ -766,8 +827,11 @@ func (c *WorkDocs) DeleteLabelsRequest(input *DeleteLabelsInput) DeleteLabelsReq
 		input = &DeleteLabelsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLabelsOutput{})
-	return DeleteLabelsRequest{Request: req, Input: input}
+	output := &DeleteLabelsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLabelsRequest{Request: req, Input: input, Copy: c.DeleteLabelsRequest}
 }
 
 const opDeleteNotificationSubscription = "DeleteNotificationSubscription"
@@ -776,6 +840,7 @@ const opDeleteNotificationSubscription = "DeleteNotificationSubscription"
 type DeleteNotificationSubscriptionRequest struct {
 	*aws.Request
 	Input *DeleteNotificationSubscriptionInput
+	Copy  func(*DeleteNotificationSubscriptionInput) DeleteNotificationSubscriptionRequest
 }
 
 // Send marshals and sends the DeleteNotificationSubscription API request.
@@ -812,10 +877,13 @@ func (c *WorkDocs) DeleteNotificationSubscriptionRequest(input *DeleteNotificati
 		input = &DeleteNotificationSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteNotificationSubscriptionOutput{})
+	output := &DeleteNotificationSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteNotificationSubscriptionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteNotificationSubscriptionRequest{Request: req, Input: input, Copy: c.DeleteNotificationSubscriptionRequest}
 }
 
 const opDeleteUser = "DeleteUser"
@@ -824,6 +892,7 @@ const opDeleteUser = "DeleteUser"
 type DeleteUserRequest struct {
 	*aws.Request
 	Input *DeleteUserInput
+	Copy  func(*DeleteUserInput) DeleteUserRequest
 }
 
 // Send marshals and sends the DeleteUser API request.
@@ -860,10 +929,13 @@ func (c *WorkDocs) DeleteUserRequest(input *DeleteUserInput) DeleteUserRequest {
 		input = &DeleteUserInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteUserOutput{})
+	output := &DeleteUserOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteUserRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteUserRequest{Request: req, Input: input, Copy: c.DeleteUserRequest}
 }
 
 const opDescribeActivities = "DescribeActivities"
@@ -872,6 +944,7 @@ const opDescribeActivities = "DescribeActivities"
 type DescribeActivitiesRequest struct {
 	*aws.Request
 	Input *DescribeActivitiesInput
+	Copy  func(*DescribeActivitiesInput) DescribeActivitiesRequest
 }
 
 // Send marshals and sends the DescribeActivities API request.
@@ -908,8 +981,11 @@ func (c *WorkDocs) DescribeActivitiesRequest(input *DescribeActivitiesInput) Des
 		input = &DescribeActivitiesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeActivitiesOutput{})
-	return DescribeActivitiesRequest{Request: req, Input: input}
+	output := &DescribeActivitiesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeActivitiesRequest{Request: req, Input: input, Copy: c.DescribeActivitiesRequest}
 }
 
 const opDescribeComments = "DescribeComments"
@@ -918,6 +994,7 @@ const opDescribeComments = "DescribeComments"
 type DescribeCommentsRequest struct {
 	*aws.Request
 	Input *DescribeCommentsInput
+	Copy  func(*DescribeCommentsInput) DescribeCommentsRequest
 }
 
 // Send marshals and sends the DescribeComments API request.
@@ -954,8 +1031,11 @@ func (c *WorkDocs) DescribeCommentsRequest(input *DescribeCommentsInput) Describ
 		input = &DescribeCommentsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeCommentsOutput{})
-	return DescribeCommentsRequest{Request: req, Input: input}
+	output := &DescribeCommentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeCommentsRequest{Request: req, Input: input, Copy: c.DescribeCommentsRequest}
 }
 
 const opDescribeDocumentVersions = "DescribeDocumentVersions"
@@ -964,6 +1044,7 @@ const opDescribeDocumentVersions = "DescribeDocumentVersions"
 type DescribeDocumentVersionsRequest struct {
 	*aws.Request
 	Input *DescribeDocumentVersionsInput
+	Copy  func(*DescribeDocumentVersionsInput) DescribeDocumentVersionsRequest
 }
 
 // Send marshals and sends the DescribeDocumentVersions API request.
@@ -1008,58 +1089,57 @@ func (c *WorkDocs) DescribeDocumentVersionsRequest(input *DescribeDocumentVersio
 		input = &DescribeDocumentVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDocumentVersionsOutput{})
-	return DescribeDocumentVersionsRequest{Request: req, Input: input}
+	output := &DescribeDocumentVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDocumentVersionsRequest{Request: req, Input: input, Copy: c.DescribeDocumentVersionsRequest}
 }
 
-// DescribeDocumentVersionsPages iterates over the pages of a DescribeDocumentVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeDocumentVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeDocumentVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeDocumentVersions operation.
-//    pageNum := 0
-//    err := client.DescribeDocumentVersionsPages(params,
-//        func(page *DescribeDocumentVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeDocumentVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *WorkDocs) DescribeDocumentVersionsPages(input *DescribeDocumentVersionsInput, fn func(*DescribeDocumentVersionsOutput, bool) bool) error {
-	return c.DescribeDocumentVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeDocumentVersionsRequest) Paginate(opts ...aws.Option) DescribeDocumentVersionsPager {
+	return DescribeDocumentVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeDocumentVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeDocumentVersionsPagesWithContext same as DescribeDocumentVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *WorkDocs) DescribeDocumentVersionsPagesWithContext(ctx aws.Context, input *DescribeDocumentVersionsInput, fn func(*DescribeDocumentVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeDocumentVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeDocumentVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeDocumentVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeDocumentVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeDocumentVersionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeDocumentVersionsPager) CurrentPage() *DescribeDocumentVersionsOutput {
+	return p.Pager.CurrentPage().(*DescribeDocumentVersionsOutput)
 }
 
 const opDescribeFolderContents = "DescribeFolderContents"
@@ -1068,6 +1148,7 @@ const opDescribeFolderContents = "DescribeFolderContents"
 type DescribeFolderContentsRequest struct {
 	*aws.Request
 	Input *DescribeFolderContentsInput
+	Copy  func(*DescribeFolderContentsInput) DescribeFolderContentsRequest
 }
 
 // Send marshals and sends the DescribeFolderContents API request.
@@ -1116,58 +1197,107 @@ func (c *WorkDocs) DescribeFolderContentsRequest(input *DescribeFolderContentsIn
 		input = &DescribeFolderContentsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeFolderContentsOutput{})
-	return DescribeFolderContentsRequest{Request: req, Input: input}
+	output := &DescribeFolderContentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeFolderContentsRequest{Request: req, Input: input, Copy: c.DescribeFolderContentsRequest}
 }
 
-// DescribeFolderContentsPages iterates over the pages of a DescribeFolderContents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeFolderContents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeFolderContentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeFolderContents operation.
-//    pageNum := 0
-//    err := client.DescribeFolderContentsPages(params,
-//        func(page *DescribeFolderContentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeFolderContentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *WorkDocs) DescribeFolderContentsPages(input *DescribeFolderContentsInput, fn func(*DescribeFolderContentsOutput, bool) bool) error {
-	return c.DescribeFolderContentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeFolderContentsRequest) Paginate(opts ...aws.Option) DescribeFolderContentsPager {
+	return DescribeFolderContentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeFolderContentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeFolderContentsPagesWithContext same as DescribeFolderContentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *WorkDocs) DescribeFolderContentsPagesWithContext(ctx aws.Context, input *DescribeFolderContentsInput, fn func(*DescribeFolderContentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeFolderContentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeFolderContentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeFolderContentsOutput), !p.HasNextPage())
+// DescribeFolderContentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeFolderContentsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeFolderContentsPager) CurrentPage() *DescribeFolderContentsOutput {
+	return p.Pager.CurrentPage().(*DescribeFolderContentsOutput)
+}
+
+const opDescribeGroups = "DescribeGroups"
+
+// DescribeGroupsRequest is a API request type for the DescribeGroups API operation.
+type DescribeGroupsRequest struct {
+	*aws.Request
+	Input *DescribeGroupsInput
+	Copy  func(*DescribeGroupsInput) DescribeGroupsRequest
+}
+
+// Send marshals and sends the DescribeGroups API request.
+func (r DescribeGroupsRequest) Send() (*DescribeGroupsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
 	}
-	return p.Err()
+
+	return r.Request.Data.(*DescribeGroupsOutput), nil
+}
+
+// DescribeGroupsRequest returns a request value for making API operation for
+// Amazon WorkDocs.
+//
+// Describes the groups specified by query.
+//
+//    // Example sending a request using the DescribeGroupsRequest method.
+//    req := client.DescribeGroupsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeGroups
+func (c *WorkDocs) DescribeGroupsRequest(input *DescribeGroupsInput) DescribeGroupsRequest {
+	op := &aws.Operation{
+		Name:       opDescribeGroups,
+		HTTPMethod: "GET",
+		HTTPPath:   "/api/v1/groups",
+	}
+
+	if input == nil {
+		input = &DescribeGroupsInput{}
+	}
+
+	output := &DescribeGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeGroupsRequest{Request: req, Input: input, Copy: c.DescribeGroupsRequest}
 }
 
 const opDescribeNotificationSubscriptions = "DescribeNotificationSubscriptions"
@@ -1176,6 +1306,7 @@ const opDescribeNotificationSubscriptions = "DescribeNotificationSubscriptions"
 type DescribeNotificationSubscriptionsRequest struct {
 	*aws.Request
 	Input *DescribeNotificationSubscriptionsInput
+	Copy  func(*DescribeNotificationSubscriptionsInput) DescribeNotificationSubscriptionsRequest
 }
 
 // Send marshals and sends the DescribeNotificationSubscriptions API request.
@@ -1212,8 +1343,11 @@ func (c *WorkDocs) DescribeNotificationSubscriptionsRequest(input *DescribeNotif
 		input = &DescribeNotificationSubscriptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeNotificationSubscriptionsOutput{})
-	return DescribeNotificationSubscriptionsRequest{Request: req, Input: input}
+	output := &DescribeNotificationSubscriptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeNotificationSubscriptionsRequest{Request: req, Input: input, Copy: c.DescribeNotificationSubscriptionsRequest}
 }
 
 const opDescribeResourcePermissions = "DescribeResourcePermissions"
@@ -1222,6 +1356,7 @@ const opDescribeResourcePermissions = "DescribeResourcePermissions"
 type DescribeResourcePermissionsRequest struct {
 	*aws.Request
 	Input *DescribeResourcePermissionsInput
+	Copy  func(*DescribeResourcePermissionsInput) DescribeResourcePermissionsRequest
 }
 
 // Send marshals and sends the DescribeResourcePermissions API request.
@@ -1258,8 +1393,11 @@ func (c *WorkDocs) DescribeResourcePermissionsRequest(input *DescribeResourcePer
 		input = &DescribeResourcePermissionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeResourcePermissionsOutput{})
-	return DescribeResourcePermissionsRequest{Request: req, Input: input}
+	output := &DescribeResourcePermissionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeResourcePermissionsRequest{Request: req, Input: input, Copy: c.DescribeResourcePermissionsRequest}
 }
 
 const opDescribeRootFolders = "DescribeRootFolders"
@@ -1268,6 +1406,7 @@ const opDescribeRootFolders = "DescribeRootFolders"
 type DescribeRootFoldersRequest struct {
 	*aws.Request
 	Input *DescribeRootFoldersInput
+	Copy  func(*DescribeRootFoldersInput) DescribeRootFoldersRequest
 }
 
 // Send marshals and sends the DescribeRootFolders API request.
@@ -1283,10 +1422,10 @@ func (r DescribeRootFoldersRequest) Send() (*DescribeRootFoldersOutput, error) {
 // DescribeRootFoldersRequest returns a request value for making API operation for
 // Amazon WorkDocs.
 //
-// Describes the current user's special folders; the RootFolder and the RecyleBin.
-// RootFolder is the root of user's files and folders and RecyleBin is the root
-// of recycled items. This is not a valid action for SigV4 (administrative API)
-// clients.
+// Describes the current user's special folders; the RootFolder and the RecycleBin.
+// RootFolder is the root of user's files and folders and RecycleBin is the
+// root of recycled items. This is not a valid action for SigV4 (administrative
+// API) clients.
 //
 //    // Example sending a request using the DescribeRootFoldersRequest method.
 //    req := client.DescribeRootFoldersRequest(params)
@@ -1307,8 +1446,11 @@ func (c *WorkDocs) DescribeRootFoldersRequest(input *DescribeRootFoldersInput) D
 		input = &DescribeRootFoldersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeRootFoldersOutput{})
-	return DescribeRootFoldersRequest{Request: req, Input: input}
+	output := &DescribeRootFoldersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeRootFoldersRequest{Request: req, Input: input, Copy: c.DescribeRootFoldersRequest}
 }
 
 const opDescribeUsers = "DescribeUsers"
@@ -1317,6 +1459,7 @@ const opDescribeUsers = "DescribeUsers"
 type DescribeUsersRequest struct {
 	*aws.Request
 	Input *DescribeUsersInput
+	Copy  func(*DescribeUsersInput) DescribeUsersRequest
 }
 
 // Send marshals and sends the DescribeUsers API request.
@@ -1364,58 +1507,57 @@ func (c *WorkDocs) DescribeUsersRequest(input *DescribeUsersInput) DescribeUsers
 		input = &DescribeUsersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeUsersOutput{})
-	return DescribeUsersRequest{Request: req, Input: input}
+	output := &DescribeUsersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeUsersRequest{Request: req, Input: input, Copy: c.DescribeUsersRequest}
 }
 
-// DescribeUsersPages iterates over the pages of a DescribeUsers operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeUsers method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeUsersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeUsers operation.
-//    pageNum := 0
-//    err := client.DescribeUsersPages(params,
-//        func(page *DescribeUsersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeUsersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *WorkDocs) DescribeUsersPages(input *DescribeUsersInput, fn func(*DescribeUsersOutput, bool) bool) error {
-	return c.DescribeUsersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeUsersRequest) Paginate(opts ...aws.Option) DescribeUsersPager {
+	return DescribeUsersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeUsersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeUsersPagesWithContext same as DescribeUsersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *WorkDocs) DescribeUsersPagesWithContext(ctx aws.Context, input *DescribeUsersInput, fn func(*DescribeUsersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeUsersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeUsersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeUsersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeUsersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeUsersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeUsersPager) CurrentPage() *DescribeUsersOutput {
+	return p.Pager.CurrentPage().(*DescribeUsersOutput)
 }
 
 const opGetCurrentUser = "GetCurrentUser"
@@ -1424,6 +1566,7 @@ const opGetCurrentUser = "GetCurrentUser"
 type GetCurrentUserRequest struct {
 	*aws.Request
 	Input *GetCurrentUserInput
+	Copy  func(*GetCurrentUserInput) GetCurrentUserRequest
 }
 
 // Send marshals and sends the GetCurrentUser API request.
@@ -1461,8 +1604,11 @@ func (c *WorkDocs) GetCurrentUserRequest(input *GetCurrentUserInput) GetCurrentU
 		input = &GetCurrentUserInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCurrentUserOutput{})
-	return GetCurrentUserRequest{Request: req, Input: input}
+	output := &GetCurrentUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCurrentUserRequest{Request: req, Input: input, Copy: c.GetCurrentUserRequest}
 }
 
 const opGetDocument = "GetDocument"
@@ -1471,6 +1617,7 @@ const opGetDocument = "GetDocument"
 type GetDocumentRequest struct {
 	*aws.Request
 	Input *GetDocumentInput
+	Copy  func(*GetDocumentInput) GetDocumentRequest
 }
 
 // Send marshals and sends the GetDocument API request.
@@ -1507,8 +1654,11 @@ func (c *WorkDocs) GetDocumentRequest(input *GetDocumentInput) GetDocumentReques
 		input = &GetDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDocumentOutput{})
-	return GetDocumentRequest{Request: req, Input: input}
+	output := &GetDocumentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDocumentRequest{Request: req, Input: input, Copy: c.GetDocumentRequest}
 }
 
 const opGetDocumentPath = "GetDocumentPath"
@@ -1517,6 +1667,7 @@ const opGetDocumentPath = "GetDocumentPath"
 type GetDocumentPathRequest struct {
 	*aws.Request
 	Input *GetDocumentPathInput
+	Copy  func(*GetDocumentPathInput) GetDocumentPathRequest
 }
 
 // Send marshals and sends the GetDocumentPath API request.
@@ -1559,8 +1710,11 @@ func (c *WorkDocs) GetDocumentPathRequest(input *GetDocumentPathInput) GetDocume
 		input = &GetDocumentPathInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDocumentPathOutput{})
-	return GetDocumentPathRequest{Request: req, Input: input}
+	output := &GetDocumentPathOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDocumentPathRequest{Request: req, Input: input, Copy: c.GetDocumentPathRequest}
 }
 
 const opGetDocumentVersion = "GetDocumentVersion"
@@ -1569,6 +1723,7 @@ const opGetDocumentVersion = "GetDocumentVersion"
 type GetDocumentVersionRequest struct {
 	*aws.Request
 	Input *GetDocumentVersionInput
+	Copy  func(*GetDocumentVersionInput) GetDocumentVersionRequest
 }
 
 // Send marshals and sends the GetDocumentVersion API request.
@@ -1605,8 +1760,11 @@ func (c *WorkDocs) GetDocumentVersionRequest(input *GetDocumentVersionInput) Get
 		input = &GetDocumentVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDocumentVersionOutput{})
-	return GetDocumentVersionRequest{Request: req, Input: input}
+	output := &GetDocumentVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDocumentVersionRequest{Request: req, Input: input, Copy: c.GetDocumentVersionRequest}
 }
 
 const opGetFolder = "GetFolder"
@@ -1615,6 +1773,7 @@ const opGetFolder = "GetFolder"
 type GetFolderRequest struct {
 	*aws.Request
 	Input *GetFolderInput
+	Copy  func(*GetFolderInput) GetFolderRequest
 }
 
 // Send marshals and sends the GetFolder API request.
@@ -1651,8 +1810,11 @@ func (c *WorkDocs) GetFolderRequest(input *GetFolderInput) GetFolderRequest {
 		input = &GetFolderInput{}
 	}
 
-	req := c.newRequest(op, input, &GetFolderOutput{})
-	return GetFolderRequest{Request: req, Input: input}
+	output := &GetFolderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFolderRequest{Request: req, Input: input, Copy: c.GetFolderRequest}
 }
 
 const opGetFolderPath = "GetFolderPath"
@@ -1661,6 +1823,7 @@ const opGetFolderPath = "GetFolderPath"
 type GetFolderPathRequest struct {
 	*aws.Request
 	Input *GetFolderPathInput
+	Copy  func(*GetFolderPathInput) GetFolderPathRequest
 }
 
 // Send marshals and sends the GetFolderPath API request.
@@ -1703,8 +1866,11 @@ func (c *WorkDocs) GetFolderPathRequest(input *GetFolderPathInput) GetFolderPath
 		input = &GetFolderPathInput{}
 	}
 
-	req := c.newRequest(op, input, &GetFolderPathOutput{})
-	return GetFolderPathRequest{Request: req, Input: input}
+	output := &GetFolderPathOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFolderPathRequest{Request: req, Input: input, Copy: c.GetFolderPathRequest}
 }
 
 const opInitiateDocumentVersionUpload = "InitiateDocumentVersionUpload"
@@ -1713,6 +1879,7 @@ const opInitiateDocumentVersionUpload = "InitiateDocumentVersionUpload"
 type InitiateDocumentVersionUploadRequest struct {
 	*aws.Request
 	Input *InitiateDocumentVersionUploadInput
+	Copy  func(*InitiateDocumentVersionUploadInput) InitiateDocumentVersionUploadRequest
 }
 
 // Send marshals and sends the InitiateDocumentVersionUpload API request.
@@ -1756,8 +1923,11 @@ func (c *WorkDocs) InitiateDocumentVersionUploadRequest(input *InitiateDocumentV
 		input = &InitiateDocumentVersionUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &InitiateDocumentVersionUploadOutput{})
-	return InitiateDocumentVersionUploadRequest{Request: req, Input: input}
+	output := &InitiateDocumentVersionUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InitiateDocumentVersionUploadRequest{Request: req, Input: input, Copy: c.InitiateDocumentVersionUploadRequest}
 }
 
 const opRemoveAllResourcePermissions = "RemoveAllResourcePermissions"
@@ -1766,6 +1936,7 @@ const opRemoveAllResourcePermissions = "RemoveAllResourcePermissions"
 type RemoveAllResourcePermissionsRequest struct {
 	*aws.Request
 	Input *RemoveAllResourcePermissionsInput
+	Copy  func(*RemoveAllResourcePermissionsInput) RemoveAllResourcePermissionsRequest
 }
 
 // Send marshals and sends the RemoveAllResourcePermissions API request.
@@ -1802,10 +1973,13 @@ func (c *WorkDocs) RemoveAllResourcePermissionsRequest(input *RemoveAllResourceP
 		input = &RemoveAllResourcePermissionsInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveAllResourcePermissionsOutput{})
+	output := &RemoveAllResourcePermissionsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveAllResourcePermissionsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveAllResourcePermissionsRequest{Request: req, Input: input, Copy: c.RemoveAllResourcePermissionsRequest}
 }
 
 const opRemoveResourcePermission = "RemoveResourcePermission"
@@ -1814,6 +1988,7 @@ const opRemoveResourcePermission = "RemoveResourcePermission"
 type RemoveResourcePermissionRequest struct {
 	*aws.Request
 	Input *RemoveResourcePermissionInput
+	Copy  func(*RemoveResourcePermissionInput) RemoveResourcePermissionRequest
 }
 
 // Send marshals and sends the RemoveResourcePermission API request.
@@ -1850,10 +2025,13 @@ func (c *WorkDocs) RemoveResourcePermissionRequest(input *RemoveResourcePermissi
 		input = &RemoveResourcePermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveResourcePermissionOutput{})
+	output := &RemoveResourcePermissionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveResourcePermissionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveResourcePermissionRequest{Request: req, Input: input, Copy: c.RemoveResourcePermissionRequest}
 }
 
 const opUpdateDocument = "UpdateDocument"
@@ -1862,6 +2040,7 @@ const opUpdateDocument = "UpdateDocument"
 type UpdateDocumentRequest struct {
 	*aws.Request
 	Input *UpdateDocumentInput
+	Copy  func(*UpdateDocumentInput) UpdateDocumentRequest
 }
 
 // Send marshals and sends the UpdateDocument API request.
@@ -1899,10 +2078,13 @@ func (c *WorkDocs) UpdateDocumentRequest(input *UpdateDocumentInput) UpdateDocum
 		input = &UpdateDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDocumentOutput{})
+	output := &UpdateDocumentOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateDocumentRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDocumentRequest{Request: req, Input: input, Copy: c.UpdateDocumentRequest}
 }
 
 const opUpdateDocumentVersion = "UpdateDocumentVersion"
@@ -1911,6 +2093,7 @@ const opUpdateDocumentVersion = "UpdateDocumentVersion"
 type UpdateDocumentVersionRequest struct {
 	*aws.Request
 	Input *UpdateDocumentVersionInput
+	Copy  func(*UpdateDocumentVersionInput) UpdateDocumentVersionRequest
 }
 
 // Send marshals and sends the UpdateDocumentVersion API request.
@@ -1951,10 +2134,13 @@ func (c *WorkDocs) UpdateDocumentVersionRequest(input *UpdateDocumentVersionInpu
 		input = &UpdateDocumentVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDocumentVersionOutput{})
+	output := &UpdateDocumentVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateDocumentVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDocumentVersionRequest{Request: req, Input: input, Copy: c.UpdateDocumentVersionRequest}
 }
 
 const opUpdateFolder = "UpdateFolder"
@@ -1963,6 +2149,7 @@ const opUpdateFolder = "UpdateFolder"
 type UpdateFolderRequest struct {
 	*aws.Request
 	Input *UpdateFolderInput
+	Copy  func(*UpdateFolderInput) UpdateFolderRequest
 }
 
 // Send marshals and sends the UpdateFolder API request.
@@ -2000,10 +2187,13 @@ func (c *WorkDocs) UpdateFolderRequest(input *UpdateFolderInput) UpdateFolderReq
 		input = &UpdateFolderInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFolderOutput{})
+	output := &UpdateFolderOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateFolderRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateFolderRequest{Request: req, Input: input, Copy: c.UpdateFolderRequest}
 }
 
 const opUpdateUser = "UpdateUser"
@@ -2012,6 +2202,7 @@ const opUpdateUser = "UpdateUser"
 type UpdateUserRequest struct {
 	*aws.Request
 	Input *UpdateUserInput
+	Copy  func(*UpdateUserInput) UpdateUserRequest
 }
 
 // Send marshals and sends the UpdateUser API request.
@@ -2049,16 +2240,19 @@ func (c *WorkDocs) UpdateUserRequest(input *UpdateUserInput) UpdateUserRequest {
 		input = &UpdateUserInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateUserOutput{})
-	return UpdateUserRequest{Request: req, Input: input}
+	output := &UpdateUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateUserRequest{Request: req, Input: input, Copy: c.UpdateUserRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/AbortDocumentVersionUploadRequest
 type AbortDocumentVersionUploadInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -2109,27 +2303,36 @@ func (s *AbortDocumentVersionUploadInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *AbortDocumentVersionUploadInput) SetAuthenticationToken(v string) *AbortDocumentVersionUploadInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AbortDocumentVersionUploadInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *AbortDocumentVersionUploadInput) SetDocumentId(v string) *AbortDocumentVersionUploadInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetVersionId sets the VersionId field's value.
-func (s *AbortDocumentVersionUploadInput) SetVersionId(v string) *AbortDocumentVersionUploadInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/AbortDocumentVersionUploadOutput
 type AbortDocumentVersionUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2142,12 +2345,22 @@ func (s AbortDocumentVersionUploadOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AbortDocumentVersionUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AbortDocumentVersionUploadOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/ActivateUserRequest
 type ActivateUserInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the user.
@@ -2186,21 +2399,30 @@ func (s *ActivateUserInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *ActivateUserInput) SetAuthenticationToken(v string) *ActivateUserInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ActivateUserInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetUserId sets the UserId field's value.
-func (s *ActivateUserInput) SetUserId(v string) *ActivateUserInput {
-	s.UserId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UserId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/ActivateUserResponse
 type ActivateUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The user information.
 	User *User `type:"structure"`
@@ -2216,10 +2438,20 @@ func (s ActivateUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetUser sets the User field's value.
-func (s *ActivateUserOutput) SetUser(v *User) *ActivateUserOutput {
-	s.User = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ActivateUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ActivateUserOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Describes the activity information.
@@ -2253,7 +2485,7 @@ type Activity struct {
 	TimeStamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The activity type.
-	Type ActivityType `type:"string"`
+	Type ActivityType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2266,66 +2498,74 @@ func (s Activity) GoString() string {
 	return s.String()
 }
 
-// SetCommentMetadata sets the CommentMetadata field's value.
-func (s *Activity) SetCommentMetadata(v *CommentMetadata) *Activity {
-	s.CommentMetadata = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Activity) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CommentMetadata != nil {
+		v := s.CommentMetadata
 
-// SetInitiator sets the Initiator field's value.
-func (s *Activity) SetInitiator(v *UserMetadata) *Activity {
-	s.Initiator = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CommentMetadata", v, metadata)
+	}
+	if s.Initiator != nil {
+		v := s.Initiator
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *Activity) SetOrganizationId(v string) *Activity {
-	s.OrganizationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Initiator", v, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
 
-// SetOriginalParent sets the OriginalParent field's value.
-func (s *Activity) SetOriginalParent(v *ResourceMetadata) *Activity {
-	s.OriginalParent = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OrganizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.OriginalParent != nil {
+		v := s.OriginalParent
 
-// SetParticipants sets the Participants field's value.
-func (s *Activity) SetParticipants(v *Participants) *Activity {
-	s.Participants = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "OriginalParent", v, metadata)
+	}
+	if s.Participants != nil {
+		v := s.Participants
 
-// SetResourceMetadata sets the ResourceMetadata field's value.
-func (s *Activity) SetResourceMetadata(v *ResourceMetadata) *Activity {
-	s.ResourceMetadata = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Participants", v, metadata)
+	}
+	if s.ResourceMetadata != nil {
+		v := s.ResourceMetadata
 
-// SetTimeStamp sets the TimeStamp field's value.
-func (s *Activity) SetTimeStamp(v time.Time) *Activity {
-	s.TimeStamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ResourceMetadata", v, metadata)
+	}
+	if s.TimeStamp != nil {
+		v := *s.TimeStamp
 
-// SetType sets the Type field's value.
-func (s *Activity) SetType(v ActivityType) *Activity {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeStamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/AddResourcePermissionsRequest
 type AddResourcePermissionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
+
+	// The notification options.
+	NotificationOptions *NotificationOptions `type:"structure"`
 
 	// The users, groups, or organization being granted permission.
 	//
 	// Principals is a required field
-	Principals []*SharePrincipal `type:"list" required:"true"`
+	Principals []SharePrincipal `type:"list" required:"true"`
 
 	// The ID of the resource.
 	//
@@ -2362,9 +2602,6 @@ func (s *AddResourcePermissionsInput) Validate() error {
 	}
 	if s.Principals != nil {
 		for i, v := range s.Principals {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Principals", i), err.(aws.ErrInvalidParams))
 			}
@@ -2377,30 +2614,51 @@ func (s *AddResourcePermissionsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *AddResourcePermissionsInput) SetAuthenticationToken(v string) *AddResourcePermissionsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddResourcePermissionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPrincipals sets the Principals field's value.
-func (s *AddResourcePermissionsInput) SetPrincipals(v []*SharePrincipal) *AddResourcePermissionsInput {
-	s.Principals = v
-	return s
-}
+	if s.NotificationOptions != nil {
+		v := s.NotificationOptions
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddResourcePermissionsInput) SetResourceId(v string) *AddResourcePermissionsInput {
-	s.ResourceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "NotificationOptions", v, metadata)
+	}
+	if len(s.Principals) > 0 {
+		v := s.Principals
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Principals", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/AddResourcePermissionsResponse
 type AddResourcePermissionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The share results.
-	ShareResults []*ShareResult `type:"list"`
+	ShareResults []ShareResult `type:"list"`
 }
 
 // String returns the string representation
@@ -2413,10 +2671,26 @@ func (s AddResourcePermissionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetShareResults sets the ShareResults field's value.
-func (s *AddResourcePermissionsOutput) SetShareResults(v []*ShareResult) *AddResourcePermissionsOutput {
-	s.ShareResults = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddResourcePermissionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddResourcePermissionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ShareResults) > 0 {
+		v := s.ShareResults
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ShareResults", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Describes a comment.
@@ -2443,7 +2717,7 @@ type Comment struct {
 	RecipientId *string `min:"1" type:"string"`
 
 	// The status of the comment.
-	Status CommentStatusType `type:"string"`
+	Status CommentStatusType `type:"string" enum:"true"`
 
 	// The text of the comment.
 	Text *string `min:"1" type:"string"`
@@ -2454,7 +2728,7 @@ type Comment struct {
 	// The visibility of the comment. Options are either PRIVATE, where the comment
 	// is visible only to the comment author and document owner and co-owners, or
 	// PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
-	Visibility CommentVisibilityType `type:"string"`
+	Visibility CommentVisibilityType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2467,58 +2741,63 @@ func (s Comment) GoString() string {
 	return s.String()
 }
 
-// SetCommentId sets the CommentId field's value.
-func (s *Comment) SetCommentId(v string) *Comment {
-	s.CommentId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Comment) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CommentId != nil {
+		v := *s.CommentId
 
-// SetContributor sets the Contributor field's value.
-func (s *Comment) SetContributor(v *User) *Comment {
-	s.Contributor = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CommentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Contributor != nil {
+		v := s.Contributor
 
-// SetCreatedTimestamp sets the CreatedTimestamp field's value.
-func (s *Comment) SetCreatedTimestamp(v time.Time) *Comment {
-	s.CreatedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Contributor", v, metadata)
+	}
+	if s.CreatedTimestamp != nil {
+		v := *s.CreatedTimestamp
 
-// SetParentId sets the ParentId field's value.
-func (s *Comment) SetParentId(v string) *Comment {
-	s.ParentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ParentId != nil {
+		v := *s.ParentId
 
-// SetRecipientId sets the RecipientId field's value.
-func (s *Comment) SetRecipientId(v string) *Comment {
-	s.RecipientId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RecipientId != nil {
+		v := *s.RecipientId
 
-// SetStatus sets the Status field's value.
-func (s *Comment) SetStatus(v CommentStatusType) *Comment {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecipientId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
 
-// SetText sets the Text field's value.
-func (s *Comment) SetText(v string) *Comment {
-	s.Text = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Text != nil {
+		v := *s.Text
 
-// SetThreadId sets the ThreadId field's value.
-func (s *Comment) SetThreadId(v string) *Comment {
-	s.ThreadId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Text", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ThreadId != nil {
+		v := *s.ThreadId
 
-// SetVisibility sets the Visibility field's value.
-func (s *Comment) SetVisibility(v CommentVisibilityType) *Comment {
-	s.Visibility = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ThreadId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Visibility) > 0 {
+		v := s.Visibility
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Visibility", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Describes the metadata of a comment.
@@ -2529,11 +2808,13 @@ type CommentMetadata struct {
 	// The ID of the comment.
 	CommentId *string `min:"1" type:"string"`
 
-	CommentStatus CommentStatusType `type:"string"`
+	// The status of the comment.
+	CommentStatus CommentStatusType `type:"string" enum:"true"`
 
 	// The user who made the comment.
 	Contributor *User `type:"structure"`
 
+	// The timestamp that the comment was created.
 	CreatedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The ID of the user being replied to.
@@ -2550,42 +2831,47 @@ func (s CommentMetadata) GoString() string {
 	return s.String()
 }
 
-// SetCommentId sets the CommentId field's value.
-func (s *CommentMetadata) SetCommentId(v string) *CommentMetadata {
-	s.CommentId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CommentMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CommentId != nil {
+		v := *s.CommentId
 
-// SetCommentStatus sets the CommentStatus field's value.
-func (s *CommentMetadata) SetCommentStatus(v CommentStatusType) *CommentMetadata {
-	s.CommentStatus = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CommentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.CommentStatus) > 0 {
+		v := s.CommentStatus
 
-// SetContributor sets the Contributor field's value.
-func (s *CommentMetadata) SetContributor(v *User) *CommentMetadata {
-	s.Contributor = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CommentStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Contributor != nil {
+		v := s.Contributor
 
-// SetCreatedTimestamp sets the CreatedTimestamp field's value.
-func (s *CommentMetadata) SetCreatedTimestamp(v time.Time) *CommentMetadata {
-	s.CreatedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Contributor", v, metadata)
+	}
+	if s.CreatedTimestamp != nil {
+		v := *s.CreatedTimestamp
 
-// SetRecipientId sets the RecipientId field's value.
-func (s *CommentMetadata) SetRecipientId(v string) *CommentMetadata {
-	s.RecipientId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.RecipientId != nil {
+		v := *s.RecipientId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecipientId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateCommentRequest
 type CreateCommentInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -2616,7 +2902,7 @@ type CreateCommentInput struct {
 	// The visibility of the comment. Options are either PRIVATE, where the comment
 	// is visible only to the comment author and document owner and co-owners, or
 	// PUBLIC, where the comment is visible to document owners, co-owners, and contributors.
-	Visibility CommentVisibilityType `type:"string"`
+	Visibility CommentVisibilityType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2669,57 +2955,66 @@ func (s *CreateCommentInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *CreateCommentInput) SetAuthenticationToken(v string) *CreateCommentInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateCommentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *CreateCommentInput) SetDocumentId(v string) *CreateCommentInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.NotifyCollaborators != nil {
+		v := *s.NotifyCollaborators
 
-// SetNotifyCollaborators sets the NotifyCollaborators field's value.
-func (s *CreateCommentInput) SetNotifyCollaborators(v bool) *CreateCommentInput {
-	s.NotifyCollaborators = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NotifyCollaborators", protocol.BoolValue(v), metadata)
+	}
+	if s.ParentId != nil {
+		v := *s.ParentId
 
-// SetParentId sets the ParentId field's value.
-func (s *CreateCommentInput) SetParentId(v string) *CreateCommentInput {
-	s.ParentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Text != nil {
+		v := *s.Text
 
-// SetText sets the Text field's value.
-func (s *CreateCommentInput) SetText(v string) *CreateCommentInput {
-	s.Text = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Text", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ThreadId != nil {
+		v := *s.ThreadId
 
-// SetThreadId sets the ThreadId field's value.
-func (s *CreateCommentInput) SetThreadId(v string) *CreateCommentInput {
-	s.ThreadId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ThreadId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Visibility) > 0 {
+		v := s.Visibility
 
-// SetVersionId sets the VersionId field's value.
-func (s *CreateCommentInput) SetVersionId(v string) *CreateCommentInput {
-	s.VersionId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Visibility", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetVisibility sets the Visibility field's value.
-func (s *CreateCommentInput) SetVisibility(v CommentVisibilityType) *CreateCommentInput {
-	s.Visibility = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateCommentResponse
 type CreateCommentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The comment that has been created.
 	Comment *Comment `type:"structure"`
@@ -2735,24 +3030,34 @@ func (s CreateCommentOutput) GoString() string {
 	return s.String()
 }
 
-// SetComment sets the Comment field's value.
-func (s *CreateCommentOutput) SetComment(v *Comment) *CreateCommentOutput {
-	s.Comment = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateCommentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateCommentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Comment != nil {
+		v := s.Comment
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Comment", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateCustomMetadataRequest
 type CreateCustomMetadataInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// Custom metadata in the form of name-value pairs.
 	//
 	// CustomMetadata is a required field
-	CustomMetadata map[string]*string `min:"1" type:"map" required:"true"`
+	CustomMetadata map[string]string `min:"1" type:"map" required:"true"`
 
 	// The ID of the resource.
 	//
@@ -2804,33 +3109,48 @@ func (s *CreateCustomMetadataInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *CreateCustomMetadataInput) SetAuthenticationToken(v string) *CreateCustomMetadataInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateCustomMetadataInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCustomMetadata sets the CustomMetadata field's value.
-func (s *CreateCustomMetadataInput) SetCustomMetadata(v map[string]*string) *CreateCustomMetadataInput {
-	s.CustomMetadata = v
-	return s
-}
+	if len(s.CustomMetadata) > 0 {
+		v := s.CustomMetadata
 
-// SetResourceId sets the ResourceId field's value.
-func (s *CreateCustomMetadataInput) SetResourceId(v string) *CreateCustomMetadataInput {
-	s.ResourceId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "CustomMetadata", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetVersionId sets the VersionId field's value.
-func (s *CreateCustomMetadataInput) SetVersionId(v string) *CreateCustomMetadataInput {
-	s.VersionId = &v
-	return s
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionid", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateCustomMetadataResponse
 type CreateCustomMetadataOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2843,12 +3163,22 @@ func (s CreateCustomMetadataOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateCustomMetadataOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateCustomMetadataOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateFolderRequest
 type CreateFolderInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The name of the new folder.
@@ -2893,27 +3223,36 @@ func (s *CreateFolderInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *CreateFolderInput) SetAuthenticationToken(v string) *CreateFolderInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateFolderInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *CreateFolderInput) SetName(v string) *CreateFolderInput {
-	s.Name = &v
-	return s
-}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetParentFolderId sets the ParentFolderId field's value.
-func (s *CreateFolderInput) SetParentFolderId(v string) *CreateFolderInput {
-	s.ParentFolderId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentFolderId != nil {
+		v := *s.ParentFolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateFolderResponse
 type CreateFolderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The metadata of the folder.
 	Metadata *FolderMetadata `type:"structure"`
@@ -2929,24 +3268,34 @@ func (s CreateFolderOutput) GoString() string {
 	return s.String()
 }
 
-// SetMetadata sets the Metadata field's value.
-func (s *CreateFolderOutput) SetMetadata(v *FolderMetadata) *CreateFolderOutput {
-	s.Metadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateFolderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateFolderOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Metadata != nil {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Metadata", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateLabelsRequest
 type CreateLabelsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// List of labels to add to the resource.
 	//
 	// Labels is a required field
-	Labels []*string `type:"list" required:"true"`
+	Labels []string `type:"list" required:"true"`
 
 	// The ID of the resource.
 	//
@@ -2988,27 +3337,42 @@ func (s *CreateLabelsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *CreateLabelsInput) SetAuthenticationToken(v string) *CreateLabelsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateLabelsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetLabels sets the Labels field's value.
-func (s *CreateLabelsInput) SetLabels(v []*string) *CreateLabelsInput {
-	s.Labels = v
-	return s
-}
+	if len(s.Labels) > 0 {
+		v := s.Labels
 
-// SetResourceId sets the ResourceId field's value.
-func (s *CreateLabelsInput) SetResourceId(v string) *CreateLabelsInput {
-	s.ResourceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Labels", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateLabelsResponse
 type CreateLabelsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3019,6 +3383,16 @@ func (s CreateLabelsOutput) String() string {
 // GoString returns the string representation
 func (s CreateLabelsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLabelsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateLabelsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateNotificationSubscriptionRequest
@@ -3037,15 +3411,15 @@ type CreateNotificationSubscriptionInput struct {
 	OrganizationId *string `location:"uri" locationName:"OrganizationId" min:"1" type:"string" required:"true"`
 
 	// The protocol to use. The supported value is https, which delivers JSON-encoded
-	// messasges using HTTPS POST.
+	// messages using HTTPS POST.
 	//
 	// Protocol is a required field
-	Protocol SubscriptionProtocolType `type:"string" required:"true"`
+	Protocol SubscriptionProtocolType `type:"string" required:"true" enum:"true"`
 
 	// The notification type.
 	//
 	// SubscriptionType is a required field
-	SubscriptionType SubscriptionType `type:"string" required:"true"`
+	SubscriptionType SubscriptionType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3088,33 +3462,42 @@ func (s *CreateNotificationSubscriptionInput) Validate() error {
 	return nil
 }
 
-// SetEndpoint sets the Endpoint field's value.
-func (s *CreateNotificationSubscriptionInput) SetEndpoint(v string) *CreateNotificationSubscriptionInput {
-	s.Endpoint = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateNotificationSubscriptionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *CreateNotificationSubscriptionInput) SetOrganizationId(v string) *CreateNotificationSubscriptionInput {
-	s.OrganizationId = &v
-	return s
-}
+	if s.Endpoint != nil {
+		v := *s.Endpoint
 
-// SetProtocol sets the Protocol field's value.
-func (s *CreateNotificationSubscriptionInput) SetProtocol(v SubscriptionProtocolType) *CreateNotificationSubscriptionInput {
-	s.Protocol = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Endpoint", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Protocol) > 0 {
+		v := s.Protocol
 
-// SetSubscriptionType sets the SubscriptionType field's value.
-func (s *CreateNotificationSubscriptionInput) SetSubscriptionType(v SubscriptionType) *CreateNotificationSubscriptionInput {
-	s.SubscriptionType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Protocol", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.SubscriptionType) > 0 {
+		v := s.SubscriptionType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SubscriptionType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "OrganizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateNotificationSubscriptionResponse
 type CreateNotificationSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The subscription.
 	Subscription *Subscription `type:"structure"`
@@ -3130,18 +3513,28 @@ func (s CreateNotificationSubscriptionOutput) GoString() string {
 	return s.String()
 }
 
-// SetSubscription sets the Subscription field's value.
-func (s *CreateNotificationSubscriptionOutput) SetSubscription(v *Subscription) *CreateNotificationSubscriptionOutput {
-	s.Subscription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateNotificationSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateNotificationSubscriptionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Subscription != nil {
+		v := s.Subscription
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Subscription", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateUserRequest
 type CreateUserInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The email address of the user.
@@ -3237,63 +3630,72 @@ func (s *CreateUserInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *CreateUserInput) SetAuthenticationToken(v string) *CreateUserInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateUserInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetEmailAddress sets the EmailAddress field's value.
-func (s *CreateUserInput) SetEmailAddress(v string) *CreateUserInput {
-	s.EmailAddress = &v
-	return s
-}
+	if s.EmailAddress != nil {
+		v := *s.EmailAddress
 
-// SetGivenName sets the GivenName field's value.
-func (s *CreateUserInput) SetGivenName(v string) *CreateUserInput {
-	s.GivenName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EmailAddress", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.GivenName != nil {
+		v := *s.GivenName
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *CreateUserInput) SetOrganizationId(v string) *CreateUserInput {
-	s.OrganizationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "GivenName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
 
-// SetPassword sets the Password field's value.
-func (s *CreateUserInput) SetPassword(v string) *CreateUserInput {
-	s.Password = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OrganizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Password != nil {
+		v := *s.Password
 
-// SetStorageRule sets the StorageRule field's value.
-func (s *CreateUserInput) SetStorageRule(v *StorageRuleType) *CreateUserInput {
-	s.StorageRule = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Password", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StorageRule != nil {
+		v := s.StorageRule
 
-// SetSurname sets the Surname field's value.
-func (s *CreateUserInput) SetSurname(v string) *CreateUserInput {
-	s.Surname = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "StorageRule", v, metadata)
+	}
+	if s.Surname != nil {
+		v := *s.Surname
 
-// SetTimeZoneId sets the TimeZoneId field's value.
-func (s *CreateUserInput) SetTimeZoneId(v string) *CreateUserInput {
-	s.TimeZoneId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Surname", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TimeZoneId != nil {
+		v := *s.TimeZoneId
 
-// SetUsername sets the Username field's value.
-func (s *CreateUserInput) SetUsername(v string) *CreateUserInput {
-	s.Username = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeZoneId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Username != nil {
+		v := *s.Username
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Username", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/CreateUserResponse
 type CreateUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The user information.
 	User *User `type:"structure"`
@@ -3309,18 +3711,28 @@ func (s CreateUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetUser sets the User field's value.
-func (s *CreateUserOutput) SetUser(v *User) *CreateUserOutput {
-	s.User = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateUserOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeactivateUserRequest
 type DeactivateUserInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the user.
@@ -3359,21 +3771,30 @@ func (s *DeactivateUserInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeactivateUserInput) SetAuthenticationToken(v string) *DeactivateUserInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeactivateUserInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetUserId sets the UserId field's value.
-func (s *DeactivateUserInput) SetUserId(v string) *DeactivateUserInput {
-	s.UserId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UserId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeactivateUserOutput
 type DeactivateUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3386,12 +3807,22 @@ func (s DeactivateUserOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeactivateUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeactivateUserOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteCommentRequest
 type DeleteCommentInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the comment.
@@ -3454,33 +3885,42 @@ func (s *DeleteCommentInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteCommentInput) SetAuthenticationToken(v string) *DeleteCommentInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteCommentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCommentId sets the CommentId field's value.
-func (s *DeleteCommentInput) SetCommentId(v string) *DeleteCommentInput {
-	s.CommentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *DeleteCommentInput) SetDocumentId(v string) *DeleteCommentInput {
-	s.DocumentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CommentId != nil {
+		v := *s.CommentId
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteCommentInput) SetVersionId(v string) *DeleteCommentInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "CommentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteCommentOutput
 type DeleteCommentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3493,12 +3933,22 @@ func (s DeleteCommentOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteCommentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteCommentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteCustomMetadataRequest
 type DeleteCustomMetadataInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// Flag to indicate removal of all custom metadata properties from the specified
@@ -3506,7 +3956,7 @@ type DeleteCustomMetadataInput struct {
 	DeleteAll *bool `location:"querystring" locationName:"deleteAll" type:"boolean"`
 
 	// List of properties to remove.
-	Keys []*string `location:"querystring" locationName:"keys" type:"list"`
+	Keys []string `location:"querystring" locationName:"keys" type:"list"`
 
 	// The ID of the resource, either a document or folder.
 	//
@@ -3551,39 +4001,54 @@ func (s *DeleteCustomMetadataInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteCustomMetadataInput) SetAuthenticationToken(v string) *DeleteCustomMetadataInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteCustomMetadataInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDeleteAll sets the DeleteAll field's value.
-func (s *DeleteCustomMetadataInput) SetDeleteAll(v bool) *DeleteCustomMetadataInput {
-	s.DeleteAll = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetKeys sets the Keys field's value.
-func (s *DeleteCustomMetadataInput) SetKeys(v []*string) *DeleteCustomMetadataInput {
-	s.Keys = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DeleteCustomMetadataInput) SetResourceId(v string) *DeleteCustomMetadataInput {
-	s.ResourceId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DeleteAll != nil {
+		v := *s.DeleteAll
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteCustomMetadataInput) SetVersionId(v string) *DeleteCustomMetadataInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "deleteAll", protocol.BoolValue(v), metadata)
+	}
+	if len(s.Keys) > 0 {
+		v := s.Keys
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.QueryTarget, "keys", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteCustomMetadataResponse
 type DeleteCustomMetadataOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3596,12 +4061,22 @@ func (s DeleteCustomMetadataOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteCustomMetadataOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteCustomMetadataOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteDocumentRequest
 type DeleteDocumentInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -3640,21 +4115,30 @@ func (s *DeleteDocumentInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteDocumentInput) SetAuthenticationToken(v string) *DeleteDocumentInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteDocumentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *DeleteDocumentInput) SetDocumentId(v string) *DeleteDocumentInput {
-	s.DocumentId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteDocumentOutput
 type DeleteDocumentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3667,12 +4151,22 @@ func (s DeleteDocumentOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteDocumentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteFolderContentsRequest
 type DeleteFolderContentsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the folder.
@@ -3711,21 +4205,30 @@ func (s *DeleteFolderContentsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteFolderContentsInput) SetAuthenticationToken(v string) *DeleteFolderContentsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFolderContentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFolderId sets the FolderId field's value.
-func (s *DeleteFolderContentsInput) SetFolderId(v string) *DeleteFolderContentsInput {
-	s.FolderId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FolderId != nil {
+		v := *s.FolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteFolderContentsOutput
 type DeleteFolderContentsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3738,12 +4241,22 @@ func (s DeleteFolderContentsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteFolderContentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFolderContentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteFolderRequest
 type DeleteFolderInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the folder.
@@ -3782,21 +4295,30 @@ func (s *DeleteFolderInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteFolderInput) SetAuthenticationToken(v string) *DeleteFolderInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFolderInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFolderId sets the FolderId field's value.
-func (s *DeleteFolderInput) SetFolderId(v string) *DeleteFolderInput {
-	s.FolderId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FolderId != nil {
+		v := *s.FolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteFolderOutput
 type DeleteFolderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3809,19 +4331,29 @@ func (s DeleteFolderOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteFolderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFolderOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteLabelsRequest
 type DeleteLabelsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// Flag to request removal of all labels from the specified resource.
 	DeleteAll *bool `location:"querystring" locationName:"deleteAll" type:"boolean"`
 
 	// List of labels to delete from the resource.
-	Labels []*string `location:"querystring" locationName:"labels" type:"list"`
+	Labels []string `location:"querystring" locationName:"labels" type:"list"`
 
 	// The ID of the resource.
 	//
@@ -3859,33 +4391,48 @@ func (s *DeleteLabelsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteLabelsInput) SetAuthenticationToken(v string) *DeleteLabelsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteLabelsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDeleteAll sets the DeleteAll field's value.
-func (s *DeleteLabelsInput) SetDeleteAll(v bool) *DeleteLabelsInput {
-	s.DeleteAll = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetLabels sets the Labels field's value.
-func (s *DeleteLabelsInput) SetLabels(v []*string) *DeleteLabelsInput {
-	s.Labels = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DeleteLabelsInput) SetResourceId(v string) *DeleteLabelsInput {
-	s.ResourceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DeleteAll != nil {
+		v := *s.DeleteAll
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "deleteAll", protocol.BoolValue(v), metadata)
+	}
+	if len(s.Labels) > 0 {
+		v := s.Labels
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.QueryTarget, "labels", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteLabelsResponse
 type DeleteLabelsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3896,6 +4443,16 @@ func (s DeleteLabelsOutput) String() string {
 // GoString returns the string representation
 func (s DeleteLabelsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLabelsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteLabelsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteNotificationSubscriptionRequest
@@ -3947,21 +4504,30 @@ func (s *DeleteNotificationSubscriptionInput) Validate() error {
 	return nil
 }
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *DeleteNotificationSubscriptionInput) SetOrganizationId(v string) *DeleteNotificationSubscriptionInput {
-	s.OrganizationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteNotificationSubscriptionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSubscriptionId sets the SubscriptionId field's value.
-func (s *DeleteNotificationSubscriptionInput) SetSubscriptionId(v string) *DeleteNotificationSubscriptionInput {
-	s.SubscriptionId = &v
-	return s
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "OrganizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SubscriptionId != nil {
+		v := *s.SubscriptionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "SubscriptionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteNotificationSubscriptionOutput
 type DeleteNotificationSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3974,12 +4540,22 @@ func (s DeleteNotificationSubscriptionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteNotificationSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteNotificationSubscriptionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteUserRequest
 type DeleteUserInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the user.
@@ -4018,21 +4594,30 @@ func (s *DeleteUserInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DeleteUserInput) SetAuthenticationToken(v string) *DeleteUserInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteUserInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetUserId sets the UserId field's value.
-func (s *DeleteUserInput) SetUserId(v string) *DeleteUserInput {
-	s.UserId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UserId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DeleteUserOutput
 type DeleteUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4045,30 +4630,39 @@ func (s DeleteUserOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteUserOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeActivitiesRequest
 type DescribeActivitiesInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
-	// The timestamp that determines the end time of the activities; the response
+	// The timestamp that determines the end time of the activities. The response
 	// includes the activities performed before the specified timestamp.
 	EndTime *time.Time `location:"querystring" locationName:"endTime" type:"timestamp" timestampFormat:"unix"`
 
 	// The maximum number of items to return.
 	Limit *int64 `location:"querystring" locationName:"limit" min:"1" type:"integer"`
 
-	// The marker for the next set of results. (You received this marker from a
-	// previous call.)
+	// The marker for the next set of results.
 	Marker *string `location:"querystring" locationName:"marker" min:"1" type:"string"`
 
 	// The ID of the organization. This is a mandatory parameter when using administrative
 	// API (SigV4) requests.
 	OrganizationId *string `location:"querystring" locationName:"organizationId" min:"1" type:"string"`
 
-	// The timestamp that determines the starting time of the activities; the response
+	// The timestamp that determines the starting time of the activities. The response
 	// includes the activities performed after the specified timestamp.
 	StartTime *time.Time `location:"querystring" locationName:"startTime" type:"timestamp" timestampFormat:"unix"`
 
@@ -4113,57 +4707,66 @@ func (s *DescribeActivitiesInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeActivitiesInput) SetAuthenticationToken(v string) *DescribeActivitiesInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeActivitiesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetEndTime sets the EndTime field's value.
-func (s *DescribeActivitiesInput) SetEndTime(v time.Time) *DescribeActivitiesInput {
-	s.EndTime = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeActivitiesInput) SetLimit(v int64) *DescribeActivitiesInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeActivitiesInput) SetMarker(v string) *DescribeActivitiesInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "endTime", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *DescribeActivitiesInput) SetOrganizationId(v string) *DescribeActivitiesInput {
-	s.OrganizationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
 
-// SetStartTime sets the StartTime field's value.
-func (s *DescribeActivitiesInput) SetStartTime(v time.Time) *DescribeActivitiesInput {
-	s.StartTime = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
 
-// SetUserId sets the UserId field's value.
-func (s *DescribeActivitiesInput) SetUserId(v string) *DescribeActivitiesInput {
-	s.UserId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "organizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "startTime", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "userId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeActivitiesResponse
 type DescribeActivitiesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The marker for the next set of results.
 	Marker *string `min:"1" type:"string"`
 
 	// The list of activities for the specified user and time period.
-	UserActivities []*Activity `type:"list"`
+	UserActivities []Activity `type:"list"`
 }
 
 // String returns the string representation
@@ -4176,24 +4779,40 @@ func (s DescribeActivitiesOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeActivitiesOutput) SetMarker(v string) *DescribeActivitiesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeActivitiesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetUserActivities sets the UserActivities field's value.
-func (s *DescribeActivitiesOutput) SetUserActivities(v []*Activity) *DescribeActivitiesOutput {
-	s.UserActivities = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeActivitiesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.UserActivities) > 0 {
+		v := s.UserActivities
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "UserActivities", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeCommentsRequest
 type DescribeCommentsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -4257,42 +4876,51 @@ func (s *DescribeCommentsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeCommentsInput) SetAuthenticationToken(v string) *DescribeCommentsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeCommentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *DescribeCommentsInput) SetDocumentId(v string) *DescribeCommentsInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeCommentsInput) SetLimit(v int64) *DescribeCommentsInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeCommentsInput) SetMarker(v string) *DescribeCommentsInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
 
-// SetVersionId sets the VersionId field's value.
-func (s *DescribeCommentsInput) SetVersionId(v string) *DescribeCommentsInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeCommentsResponse
 type DescribeCommentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of comments for the specified document version.
-	Comments []*Comment `type:"list"`
+	Comments []Comment `type:"list"`
 
 	// The marker for the next set of results. This marker was received from a previous
 	// call.
@@ -4309,24 +4937,40 @@ func (s DescribeCommentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetComments sets the Comments field's value.
-func (s *DescribeCommentsOutput) SetComments(v []*Comment) *DescribeCommentsOutput {
-	s.Comments = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeCommentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeCommentsOutput) SetMarker(v string) *DescribeCommentsOutput {
-	s.Marker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeCommentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Comments) > 0 {
+		v := s.Comments
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Comments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeDocumentVersionsRequest
 type DescribeDocumentVersionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -4392,48 +5036,57 @@ func (s *DescribeDocumentVersionsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeDocumentVersionsInput) SetAuthenticationToken(v string) *DescribeDocumentVersionsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeDocumentVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *DescribeDocumentVersionsInput) SetDocumentId(v string) *DescribeDocumentVersionsInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetFields sets the Fields field's value.
-func (s *DescribeDocumentVersionsInput) SetFields(v string) *DescribeDocumentVersionsInput {
-	s.Fields = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
 
-// SetInclude sets the Include field's value.
-func (s *DescribeDocumentVersionsInput) SetInclude(v string) *DescribeDocumentVersionsInput {
-	s.Include = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Fields != nil {
+		v := *s.Fields
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeDocumentVersionsInput) SetLimit(v int64) *DescribeDocumentVersionsInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "fields", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Include != nil {
+		v := *s.Include
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeDocumentVersionsInput) SetMarker(v string) *DescribeDocumentVersionsInput {
-	s.Marker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "include", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeDocumentVersionsResponse
 type DescribeDocumentVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The document versions.
-	DocumentVersions []*DocumentVersionMetadata `type:"list"`
+	DocumentVersions []DocumentVersionMetadata `type:"list"`
 
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
@@ -4450,24 +5103,40 @@ func (s DescribeDocumentVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocumentVersions sets the DocumentVersions field's value.
-func (s *DescribeDocumentVersionsOutput) SetDocumentVersions(v []*DocumentVersionMetadata) *DescribeDocumentVersionsOutput {
-	s.DocumentVersions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDocumentVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeDocumentVersionsOutput) SetMarker(v string) *DescribeDocumentVersionsOutput {
-	s.Marker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeDocumentVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DocumentVersions) > 0 {
+		v := s.DocumentVersions
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "DocumentVersions", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeFolderContentsRequest
 type DescribeFolderContentsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the folder.
@@ -4486,13 +5155,13 @@ type DescribeFolderContentsInput struct {
 	Marker *string `location:"querystring" locationName:"marker" min:"1" type:"string"`
 
 	// The order for the contents of the folder.
-	Order OrderType `location:"querystring" locationName:"order" type:"string"`
+	Order OrderType `location:"querystring" locationName:"order" type:"string" enum:"true"`
 
 	// The sorting criteria.
-	Sort ResourceSortType `location:"querystring" locationName:"sort" type:"string"`
+	Sort ResourceSortType `location:"querystring" locationName:"sort" type:"string" enum:"true"`
 
 	// The type of items.
-	Type FolderContentType `location:"querystring" locationName:"type" type:"string"`
+	Type FolderContentType `location:"querystring" locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4534,63 +5203,72 @@ func (s *DescribeFolderContentsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeFolderContentsInput) SetAuthenticationToken(v string) *DescribeFolderContentsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeFolderContentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFolderId sets the FolderId field's value.
-func (s *DescribeFolderContentsInput) SetFolderId(v string) *DescribeFolderContentsInput {
-	s.FolderId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetInclude sets the Include field's value.
-func (s *DescribeFolderContentsInput) SetInclude(v string) *DescribeFolderContentsInput {
-	s.Include = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FolderId != nil {
+		v := *s.FolderId
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeFolderContentsInput) SetLimit(v int64) *DescribeFolderContentsInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Include != nil {
+		v := *s.Include
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeFolderContentsInput) SetMarker(v string) *DescribeFolderContentsInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "include", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
 
-// SetOrder sets the Order field's value.
-func (s *DescribeFolderContentsInput) SetOrder(v OrderType) *DescribeFolderContentsInput {
-	s.Order = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
 
-// SetSort sets the Sort field's value.
-func (s *DescribeFolderContentsInput) SetSort(v ResourceSortType) *DescribeFolderContentsInput {
-	s.Sort = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Order) > 0 {
+		v := s.Order
 
-// SetType sets the Type field's value.
-func (s *DescribeFolderContentsInput) SetType(v FolderContentType) *DescribeFolderContentsInput {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "order", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Sort) > 0 {
+		v := s.Sort
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "sort", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeFolderContentsResponse
 type DescribeFolderContentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The documents in the specified folder.
-	Documents []*DocumentMetadata `type:"list"`
+	Documents []DocumentMetadata `type:"list"`
 
 	// The subfolders in the specified folder.
-	Folders []*FolderMetadata `type:"list"`
+	Folders []FolderMetadata `type:"list"`
 
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
@@ -4607,22 +5285,196 @@ func (s DescribeFolderContentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocuments sets the Documents field's value.
-func (s *DescribeFolderContentsOutput) SetDocuments(v []*DocumentMetadata) *DescribeFolderContentsOutput {
-	s.Documents = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeFolderContentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetFolders sets the Folders field's value.
-func (s *DescribeFolderContentsOutput) SetFolders(v []*FolderMetadata) *DescribeFolderContentsOutput {
-	s.Folders = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeFolderContentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Documents) > 0 {
+		v := s.Documents
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Documents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.Folders) > 0 {
+		v := s.Folders
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Folders", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeFolderContentsOutput) SetMarker(v string) *DescribeFolderContentsOutput {
-	s.Marker = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeGroupsRequest
+type DescribeGroupsInput struct {
+	_ struct{} `type:"structure"`
+
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
+	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
+
+	// The maximum number of items to return with this call.
+	Limit *int64 `location:"querystring" locationName:"limit" min:"1" type:"integer"`
+
+	// The marker for the next set of results. (You received this marker from a
+	// previous call.)
+	Marker *string `location:"querystring" locationName:"marker" min:"1" type:"string"`
+
+	// The ID of the organization.
+	OrganizationId *string `location:"querystring" locationName:"organizationId" min:"1" type:"string"`
+
+	// A query to describe groups by group name.
+	//
+	// SearchQuery is a required field
+	SearchQuery *string `location:"querystring" locationName:"searchQuery" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DescribeGroupsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeGroupsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeGroupsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DescribeGroupsInput"}
+	if s.AuthenticationToken != nil && len(*s.AuthenticationToken) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("AuthenticationToken", 1))
+	}
+	if s.Limit != nil && *s.Limit < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("Limit", 1))
+	}
+	if s.Marker != nil && len(*s.Marker) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Marker", 1))
+	}
+	if s.OrganizationId != nil && len(*s.OrganizationId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("OrganizationId", 1))
+	}
+
+	if s.SearchQuery == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SearchQuery"))
+	}
+	if s.SearchQuery != nil && len(*s.SearchQuery) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("SearchQuery", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeGroupsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "organizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SearchQuery != nil {
+		v := *s.SearchQuery
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "searchQuery", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeGroupsResponse
+type DescribeGroupsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The list of groups.
+	Groups []GroupMetadata `type:"list"`
+
+	// The marker to use when requesting the next set of results. If there are no
+	// additional results, the string is empty.
+	Marker *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeGroupsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeGroupsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeGroupsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Groups) > 0 {
+		v := s.Groups
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Groups", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeNotificationSubscriptionsRequest
@@ -4675,34 +5527,43 @@ func (s *DescribeNotificationSubscriptionsInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeNotificationSubscriptionsInput) SetLimit(v int64) *DescribeNotificationSubscriptionsInput {
-	s.Limit = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeNotificationSubscriptionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeNotificationSubscriptionsInput) SetMarker(v string) *DescribeNotificationSubscriptionsInput {
-	s.Marker = &v
-	return s
-}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *DescribeNotificationSubscriptionsInput) SetOrganizationId(v string) *DescribeNotificationSubscriptionsInput {
-	s.OrganizationId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "OrganizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeNotificationSubscriptionsResponse
 type DescribeNotificationSubscriptionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
 	Marker *string `min:"1" type:"string"`
 
 	// The subscriptions.
-	Subscriptions []*Subscription `type:"list"`
+	Subscriptions []Subscription `type:"list"`
 }
 
 // String returns the string representation
@@ -4715,24 +5576,40 @@ func (s DescribeNotificationSubscriptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeNotificationSubscriptionsOutput) SetMarker(v string) *DescribeNotificationSubscriptionsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeNotificationSubscriptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSubscriptions sets the Subscriptions field's value.
-func (s *DescribeNotificationSubscriptionsOutput) SetSubscriptions(v []*Subscription) *DescribeNotificationSubscriptionsOutput {
-	s.Subscriptions = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeNotificationSubscriptionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Subscriptions) > 0 {
+		v := s.Subscriptions
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Subscriptions", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeResourcePermissionsRequest
 type DescribeResourcePermissionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The maximum number of items to return with this call.
@@ -4741,6 +5618,9 @@ type DescribeResourcePermissionsInput struct {
 	// The marker for the next set of results. (You received this marker from a
 	// previous call)
 	Marker *string `location:"querystring" locationName:"marker" min:"1" type:"string"`
+
+	// The ID of the principal to filter permissions by.
+	PrincipalId *string `location:"querystring" locationName:"principalId" min:"1" type:"string"`
 
 	// The ID of the resource.
 	//
@@ -4770,6 +5650,9 @@ func (s *DescribeResourcePermissionsInput) Validate() error {
 	if s.Marker != nil && len(*s.Marker) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("Marker", 1))
 	}
+	if s.PrincipalId != nil && len(*s.PrincipalId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("PrincipalId", 1))
+	}
 
 	if s.ResourceId == nil {
 		invalidParams.Add(aws.NewErrParamRequired("ResourceId"))
@@ -4784,40 +5667,55 @@ func (s *DescribeResourcePermissionsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeResourcePermissionsInput) SetAuthenticationToken(v string) *DescribeResourcePermissionsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeResourcePermissionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeResourcePermissionsInput) SetLimit(v int64) *DescribeResourcePermissionsInput {
-	s.Limit = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeResourcePermissionsInput) SetMarker(v string) *DescribeResourcePermissionsInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DescribeResourcePermissionsInput) SetResourceId(v string) *DescribeResourcePermissionsInput {
-	s.ResourceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PrincipalId != nil {
+		v := *s.PrincipalId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "principalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeResourcePermissionsResponse
 type DescribeResourcePermissionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
 	Marker *string `min:"1" type:"string"`
 
 	// The principals.
-	Principals []*Principal `type:"list"`
+	Principals []Principal `type:"list"`
 }
 
 // String returns the string representation
@@ -4830,24 +5728,40 @@ func (s DescribeResourcePermissionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeResourcePermissionsOutput) SetMarker(v string) *DescribeResourcePermissionsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeResourcePermissionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetPrincipals sets the Principals field's value.
-func (s *DescribeResourcePermissionsOutput) SetPrincipals(v []*Principal) *DescribeResourcePermissionsOutput {
-	s.Principals = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeResourcePermissionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Principals) > 0 {
+		v := s.Principals
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Principals", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeRootFoldersRequest
 type DescribeRootFoldersInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	//
 	// AuthenticationToken is a required field
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string" required:"true"`
@@ -4893,30 +5807,39 @@ func (s *DescribeRootFoldersInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeRootFoldersInput) SetAuthenticationToken(v string) *DescribeRootFoldersInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeRootFoldersInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeRootFoldersInput) SetLimit(v int64) *DescribeRootFoldersInput {
-	s.Limit = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeRootFoldersInput) SetMarker(v string) *DescribeRootFoldersInput {
-	s.Marker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeRootFoldersResponse
 type DescribeRootFoldersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The user's special folders.
-	Folders []*FolderMetadata `type:"list"`
+	Folders []FolderMetadata `type:"list"`
 
 	// The marker for the next set of results.
 	Marker *string `min:"1" type:"string"`
@@ -4932,24 +5855,40 @@ func (s DescribeRootFoldersOutput) GoString() string {
 	return s.String()
 }
 
-// SetFolders sets the Folders field's value.
-func (s *DescribeRootFoldersOutput) SetFolders(v []*FolderMetadata) *DescribeRootFoldersOutput {
-	s.Folders = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeRootFoldersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeRootFoldersOutput) SetMarker(v string) *DescribeRootFoldersOutput {
-	s.Marker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeRootFoldersOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Folders) > 0 {
+		v := s.Folders
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Folders", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeUsersRequest
 type DescribeUsersInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// A comma-separated list of values. Specify "STORAGE_METADATA" to include the
@@ -4957,7 +5896,7 @@ type DescribeUsersInput struct {
 	Fields *string `location:"querystring" locationName:"fields" min:"1" type:"string"`
 
 	// The state of the users. Specify "ALL" to include inactive users.
-	Include UserFilterType `location:"querystring" locationName:"include" type:"string"`
+	Include UserFilterType `location:"querystring" locationName:"include" type:"string" enum:"true"`
 
 	// The maximum number of items to return.
 	Limit *int64 `location:"querystring" locationName:"limit" min:"1" type:"integer"`
@@ -4967,7 +5906,7 @@ type DescribeUsersInput struct {
 	Marker *string `location:"querystring" locationName:"marker" min:"1" type:"string"`
 
 	// The order for the results.
-	Order OrderType `location:"querystring" locationName:"order" type:"string"`
+	Order OrderType `location:"querystring" locationName:"order" type:"string" enum:"true"`
 
 	// The ID of the organization.
 	OrganizationId *string `location:"querystring" locationName:"organizationId" min:"1" type:"string"`
@@ -4976,7 +5915,7 @@ type DescribeUsersInput struct {
 	Query *string `location:"querystring" locationName:"query" min:"1" type:"string"`
 
 	// The sorting criteria.
-	Sort UserSortType `location:"querystring" locationName:"sort" type:"string"`
+	Sort UserSortType `location:"querystring" locationName:"sort" type:"string" enum:"true"`
 
 	// The IDs of the users.
 	UserIds *string `location:"querystring" locationName:"userIds" min:"1" type:"string"`
@@ -5023,79 +5962,88 @@ func (s *DescribeUsersInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *DescribeUsersInput) SetAuthenticationToken(v string) *DescribeUsersInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeUsersInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFields sets the Fields field's value.
-func (s *DescribeUsersInput) SetFields(v string) *DescribeUsersInput {
-	s.Fields = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetInclude sets the Include field's value.
-func (s *DescribeUsersInput) SetInclude(v UserFilterType) *DescribeUsersInput {
-	s.Include = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Fields != nil {
+		v := *s.Fields
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeUsersInput) SetLimit(v int64) *DescribeUsersInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "fields", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Include) > 0 {
+		v := s.Include
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeUsersInput) SetMarker(v string) *DescribeUsersInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "include", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
 
-// SetOrder sets the Order field's value.
-func (s *DescribeUsersInput) SetOrder(v OrderType) *DescribeUsersInput {
-	s.Order = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *DescribeUsersInput) SetOrganizationId(v string) *DescribeUsersInput {
-	s.OrganizationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Order) > 0 {
+		v := s.Order
 
-// SetQuery sets the Query field's value.
-func (s *DescribeUsersInput) SetQuery(v string) *DescribeUsersInput {
-	s.Query = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "order", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
 
-// SetSort sets the Sort field's value.
-func (s *DescribeUsersInput) SetSort(v UserSortType) *DescribeUsersInput {
-	s.Sort = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "organizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Query != nil {
+		v := *s.Query
 
-// SetUserIds sets the UserIds field's value.
-func (s *DescribeUsersInput) SetUserIds(v string) *DescribeUsersInput {
-	s.UserIds = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "query", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Sort) > 0 {
+		v := s.Sort
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "sort", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.UserIds != nil {
+		v := *s.UserIds
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "userIds", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/DescribeUsersResponse
 type DescribeUsersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
 	Marker *string `min:"1" type:"string"`
 
 	// The total number of users included in the results.
-	TotalNumberOfUsers *int64 `type:"long"`
+	TotalNumberOfUsers *int64 `deprecated:"true" type:"long"`
 
 	// The users.
-	Users []*User `type:"list"`
+	Users []User `type:"list"`
 }
 
 // String returns the string representation
@@ -5108,22 +6056,38 @@ func (s DescribeUsersOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeUsersOutput) SetMarker(v string) *DescribeUsersOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeUsersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetTotalNumberOfUsers sets the TotalNumberOfUsers field's value.
-func (s *DescribeUsersOutput) SetTotalNumberOfUsers(v int64) *DescribeUsersOutput {
-	s.TotalNumberOfUsers = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeUsersOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Marker != nil {
+		v := *s.Marker
 
-// SetUsers sets the Users field's value.
-func (s *DescribeUsersOutput) SetUsers(v []*User) *DescribeUsersOutput {
-	s.Users = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TotalNumberOfUsers != nil {
+		v := *s.TotalNumberOfUsers
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalNumberOfUsers", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Users) > 0 {
+		v := s.Users
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Users", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Describes the document.
@@ -5141,7 +6105,7 @@ type DocumentMetadata struct {
 	Id *string `min:"1" type:"string"`
 
 	// List of labels on the document.
-	Labels []*string `type:"list"`
+	Labels []string `type:"list"`
 
 	// The latest version of the document.
 	LatestVersionMetadata *DocumentVersionMetadata `type:"structure"`
@@ -5153,7 +6117,7 @@ type DocumentMetadata struct {
 	ParentFolderId *string `min:"1" type:"string"`
 
 	// The resource state.
-	ResourceState ResourceStateType `type:"string"`
+	ResourceState ResourceStateType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -5166,52 +6130,63 @@ func (s DocumentMetadata) GoString() string {
 	return s.String()
 }
 
-// SetCreatedTimestamp sets the CreatedTimestamp field's value.
-func (s *DocumentMetadata) SetCreatedTimestamp(v time.Time) *DocumentMetadata {
-	s.CreatedTimestamp = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DocumentMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedTimestamp != nil {
+		v := *s.CreatedTimestamp
 
-// SetCreatorId sets the CreatorId field's value.
-func (s *DocumentMetadata) SetCreatorId(v string) *DocumentMetadata {
-	s.CreatorId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.CreatorId != nil {
+		v := *s.CreatorId
 
-// SetId sets the Id field's value.
-func (s *DocumentMetadata) SetId(v string) *DocumentMetadata {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatorId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLabels sets the Labels field's value.
-func (s *DocumentMetadata) SetLabels(v []*string) *DocumentMetadata {
-	s.Labels = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Labels) > 0 {
+		v := s.Labels
 
-// SetLatestVersionMetadata sets the LatestVersionMetadata field's value.
-func (s *DocumentMetadata) SetLatestVersionMetadata(v *DocumentVersionMetadata) *DocumentMetadata {
-	s.LatestVersionMetadata = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Labels", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetModifiedTimestamp sets the ModifiedTimestamp field's value.
-func (s *DocumentMetadata) SetModifiedTimestamp(v time.Time) *DocumentMetadata {
-	s.ModifiedTimestamp = &v
-	return s
-}
+	}
+	if s.LatestVersionMetadata != nil {
+		v := s.LatestVersionMetadata
 
-// SetParentFolderId sets the ParentFolderId field's value.
-func (s *DocumentMetadata) SetParentFolderId(v string) *DocumentMetadata {
-	s.ParentFolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LatestVersionMetadata", v, metadata)
+	}
+	if s.ModifiedTimestamp != nil {
+		v := *s.ModifiedTimestamp
 
-// SetResourceState sets the ResourceState field's value.
-func (s *DocumentMetadata) SetResourceState(v ResourceStateType) *DocumentMetadata {
-	s.ResourceState = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ModifiedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ParentFolderId != nil {
+		v := *s.ParentFolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceState) > 0 {
+		v := s.ResourceState
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceState", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Describes a version of a document.
@@ -5219,16 +6194,16 @@ func (s *DocumentMetadata) SetResourceState(v ResourceStateType) *DocumentMetada
 type DocumentVersionMetadata struct {
 	_ struct{} `type:"structure"`
 
-	// The time stamp when the content of the document was originally created.
+	// The timestamp when the content of the document was originally created.
 	ContentCreatedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
-	// The time stamp when the content of the document was modified.
+	// The timestamp when the content of the document was modified.
 	ContentModifiedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The content type of the document.
 	ContentType *string `min:"1" type:"string"`
 
-	// The time stamp when the document was first uploaded.
+	// The timestamp when the document was first uploaded.
 	CreatedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The ID of the creator.
@@ -5237,7 +6212,7 @@ type DocumentVersionMetadata struct {
 	// The ID of the version.
 	Id *string `min:"1" type:"string"`
 
-	// The time stamp when the document was last uploaded.
+	// The timestamp when the document was last uploaded.
 	ModifiedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The name of the version.
@@ -5250,13 +6225,13 @@ type DocumentVersionMetadata struct {
 	Size *int64 `type:"long"`
 
 	// The source of the document.
-	Source map[string]*string `type:"map"`
+	Source map[string]string `type:"map"`
 
 	// The status of the document.
-	Status DocumentStatusType `type:"string"`
+	Status DocumentStatusType `type:"string" enum:"true"`
 
 	// The thumbnail of the document.
-	Thumbnail map[string]*string `type:"map"`
+	Thumbnail map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -5269,82 +6244,99 @@ func (s DocumentVersionMetadata) GoString() string {
 	return s.String()
 }
 
-// SetContentCreatedTimestamp sets the ContentCreatedTimestamp field's value.
-func (s *DocumentVersionMetadata) SetContentCreatedTimestamp(v time.Time) *DocumentVersionMetadata {
-	s.ContentCreatedTimestamp = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DocumentVersionMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContentCreatedTimestamp != nil {
+		v := *s.ContentCreatedTimestamp
 
-// SetContentModifiedTimestamp sets the ContentModifiedTimestamp field's value.
-func (s *DocumentVersionMetadata) SetContentModifiedTimestamp(v time.Time) *DocumentVersionMetadata {
-	s.ContentModifiedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContentCreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ContentModifiedTimestamp != nil {
+		v := *s.ContentModifiedTimestamp
 
-// SetContentType sets the ContentType field's value.
-func (s *DocumentVersionMetadata) SetContentType(v string) *DocumentVersionMetadata {
-	s.ContentType = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContentModifiedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetCreatedTimestamp sets the CreatedTimestamp field's value.
-func (s *DocumentVersionMetadata) SetCreatedTimestamp(v time.Time) *DocumentVersionMetadata {
-	s.CreatedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContentType", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedTimestamp != nil {
+		v := *s.CreatedTimestamp
 
-// SetCreatorId sets the CreatorId field's value.
-func (s *DocumentVersionMetadata) SetCreatorId(v string) *DocumentVersionMetadata {
-	s.CreatorId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.CreatorId != nil {
+		v := *s.CreatorId
 
-// SetId sets the Id field's value.
-func (s *DocumentVersionMetadata) SetId(v string) *DocumentVersionMetadata {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatorId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetModifiedTimestamp sets the ModifiedTimestamp field's value.
-func (s *DocumentVersionMetadata) SetModifiedTimestamp(v time.Time) *DocumentVersionMetadata {
-	s.ModifiedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ModifiedTimestamp != nil {
+		v := *s.ModifiedTimestamp
 
-// SetName sets the Name field's value.
-func (s *DocumentVersionMetadata) SetName(v string) *DocumentVersionMetadata {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ModifiedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSignature sets the Signature field's value.
-func (s *DocumentVersionMetadata) SetSignature(v string) *DocumentVersionMetadata {
-	s.Signature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Signature != nil {
+		v := *s.Signature
 
-// SetSize sets the Size field's value.
-func (s *DocumentVersionMetadata) SetSize(v int64) *DocumentVersionMetadata {
-	s.Size = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Signature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
 
-// SetSource sets the Source field's value.
-func (s *DocumentVersionMetadata) SetSource(v map[string]*string) *DocumentVersionMetadata {
-	s.Source = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Source) > 0 {
+		v := s.Source
 
-// SetStatus sets the Status field's value.
-func (s *DocumentVersionMetadata) SetStatus(v DocumentStatusType) *DocumentVersionMetadata {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Source", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetThumbnail sets the Thumbnail field's value.
-func (s *DocumentVersionMetadata) SetThumbnail(v map[string]*string) *DocumentVersionMetadata {
-	s.Thumbnail = v
-	return s
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Thumbnail) > 0 {
+		v := s.Thumbnail
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Thumbnail", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Describes a folder.
@@ -5362,7 +6354,7 @@ type FolderMetadata struct {
 	Id *string `min:"1" type:"string"`
 
 	// List of labels on the folder.
-	Labels []*string `type:"list"`
+	Labels []string `type:"list"`
 
 	// The size of the latest version of the folder metadata.
 	LatestVersionSize *int64 `type:"long"`
@@ -5377,7 +6369,7 @@ type FolderMetadata struct {
 	ParentFolderId *string `min:"1" type:"string"`
 
 	// The resource state of the folder.
-	ResourceState ResourceStateType `type:"string"`
+	ResourceState ResourceStateType `type:"string" enum:"true"`
 
 	// The unique identifier created from the subfolders and documents of the folder.
 	Signature *string `type:"string"`
@@ -5396,77 +6388,89 @@ func (s FolderMetadata) GoString() string {
 	return s.String()
 }
 
-// SetCreatedTimestamp sets the CreatedTimestamp field's value.
-func (s *FolderMetadata) SetCreatedTimestamp(v time.Time) *FolderMetadata {
-	s.CreatedTimestamp = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FolderMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedTimestamp != nil {
+		v := *s.CreatedTimestamp
 
-// SetCreatorId sets the CreatorId field's value.
-func (s *FolderMetadata) SetCreatorId(v string) *FolderMetadata {
-	s.CreatorId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.CreatorId != nil {
+		v := *s.CreatorId
 
-// SetId sets the Id field's value.
-func (s *FolderMetadata) SetId(v string) *FolderMetadata {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatorId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLabels sets the Labels field's value.
-func (s *FolderMetadata) SetLabels(v []*string) *FolderMetadata {
-	s.Labels = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Labels) > 0 {
+		v := s.Labels
 
-// SetLatestVersionSize sets the LatestVersionSize field's value.
-func (s *FolderMetadata) SetLatestVersionSize(v int64) *FolderMetadata {
-	s.LatestVersionSize = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Labels", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetModifiedTimestamp sets the ModifiedTimestamp field's value.
-func (s *FolderMetadata) SetModifiedTimestamp(v time.Time) *FolderMetadata {
-	s.ModifiedTimestamp = &v
-	return s
-}
+	}
+	if s.LatestVersionSize != nil {
+		v := *s.LatestVersionSize
 
-// SetName sets the Name field's value.
-func (s *FolderMetadata) SetName(v string) *FolderMetadata {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LatestVersionSize", protocol.Int64Value(v), metadata)
+	}
+	if s.ModifiedTimestamp != nil {
+		v := *s.ModifiedTimestamp
 
-// SetParentFolderId sets the ParentFolderId field's value.
-func (s *FolderMetadata) SetParentFolderId(v string) *FolderMetadata {
-	s.ParentFolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ModifiedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetResourceState sets the ResourceState field's value.
-func (s *FolderMetadata) SetResourceState(v ResourceStateType) *FolderMetadata {
-	s.ResourceState = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentFolderId != nil {
+		v := *s.ParentFolderId
 
-// SetSignature sets the Signature field's value.
-func (s *FolderMetadata) SetSignature(v string) *FolderMetadata {
-	s.Signature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceState) > 0 {
+		v := s.ResourceState
 
-// SetSize sets the Size field's value.
-func (s *FolderMetadata) SetSize(v int64) *FolderMetadata {
-	s.Size = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceState", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Signature != nil {
+		v := *s.Signature
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Signature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetCurrentUserRequest
 type GetCurrentUserInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	//
 	// AuthenticationToken is a required field
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string" required:"true"`
@@ -5499,15 +6503,24 @@ func (s *GetCurrentUserInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *GetCurrentUserInput) SetAuthenticationToken(v string) *GetCurrentUserInput {
-	s.AuthenticationToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCurrentUserInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetCurrentUserResponse
 type GetCurrentUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Metadata of the user.
 	User *User `type:"structure"`
@@ -5523,18 +6536,28 @@ func (s GetCurrentUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetUser sets the User field's value.
-func (s *GetCurrentUserOutput) SetUser(v *User) *GetCurrentUserOutput {
-	s.User = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCurrentUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCurrentUserOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetDocumentRequest
 type GetDocumentInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -5576,30 +6599,39 @@ func (s *GetDocumentInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *GetDocumentInput) SetAuthenticationToken(v string) *GetDocumentInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDocumentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *GetDocumentInput) SetDocumentId(v string) *GetDocumentInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetIncludeCustomMetadata sets the IncludeCustomMetadata field's value.
-func (s *GetDocumentInput) SetIncludeCustomMetadata(v bool) *GetDocumentInput {
-	s.IncludeCustomMetadata = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IncludeCustomMetadata != nil {
+		v := *s.IncludeCustomMetadata
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "includeCustomMetadata", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetDocumentResponse
 type GetDocumentOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The custom metadata on the document.
-	CustomMetadata map[string]*string `min:"1" type:"map"`
+	CustomMetadata map[string]string `min:"1" type:"map"`
 
 	// The metadata details of the document.
 	Metadata *DocumentMetadata `type:"structure"`
@@ -5615,24 +6647,40 @@ func (s GetDocumentOutput) GoString() string {
 	return s.String()
 }
 
-// SetCustomMetadata sets the CustomMetadata field's value.
-func (s *GetDocumentOutput) SetCustomMetadata(v map[string]*string) *GetDocumentOutput {
-	s.CustomMetadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetMetadata sets the Metadata field's value.
-func (s *GetDocumentOutput) SetMetadata(v *DocumentMetadata) *GetDocumentOutput {
-	s.Metadata = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDocumentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CustomMetadata) > 0 {
+		v := s.CustomMetadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "CustomMetadata", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.Metadata != nil {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Metadata", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetDocumentPathRequest
 type GetDocumentPathInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -5690,39 +6738,48 @@ func (s *GetDocumentPathInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *GetDocumentPathInput) SetAuthenticationToken(v string) *GetDocumentPathInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDocumentPathInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *GetDocumentPathInput) SetDocumentId(v string) *GetDocumentPathInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetFields sets the Fields field's value.
-func (s *GetDocumentPathInput) SetFields(v string) *GetDocumentPathInput {
-	s.Fields = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
 
-// SetLimit sets the Limit field's value.
-func (s *GetDocumentPathInput) SetLimit(v int64) *GetDocumentPathInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Fields != nil {
+		v := *s.Fields
 
-// SetMarker sets the Marker field's value.
-func (s *GetDocumentPathInput) SetMarker(v string) *GetDocumentPathInput {
-	s.Marker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "fields", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetDocumentPathResponse
 type GetDocumentPathOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The path information.
 	Path *ResourcePath `type:"structure"`
@@ -5738,18 +6795,28 @@ func (s GetDocumentPathOutput) GoString() string {
 	return s.String()
 }
 
-// SetPath sets the Path field's value.
-func (s *GetDocumentPathOutput) SetPath(v *ResourcePath) *GetDocumentPathOutput {
-	s.Path = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDocumentPathOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDocumentPathOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Path != nil {
+		v := s.Path
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Path", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetDocumentVersionRequest
 type GetDocumentVersionInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -5810,42 +6877,51 @@ func (s *GetDocumentVersionInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *GetDocumentVersionInput) SetAuthenticationToken(v string) *GetDocumentVersionInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDocumentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *GetDocumentVersionInput) SetDocumentId(v string) *GetDocumentVersionInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetFields sets the Fields field's value.
-func (s *GetDocumentVersionInput) SetFields(v string) *GetDocumentVersionInput {
-	s.Fields = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
 
-// SetIncludeCustomMetadata sets the IncludeCustomMetadata field's value.
-func (s *GetDocumentVersionInput) SetIncludeCustomMetadata(v bool) *GetDocumentVersionInput {
-	s.IncludeCustomMetadata = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
 
-// SetVersionId sets the VersionId field's value.
-func (s *GetDocumentVersionInput) SetVersionId(v string) *GetDocumentVersionInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Fields != nil {
+		v := *s.Fields
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "fields", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IncludeCustomMetadata != nil {
+		v := *s.IncludeCustomMetadata
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "includeCustomMetadata", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetDocumentVersionResponse
 type GetDocumentVersionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The custom metadata on the document version.
-	CustomMetadata map[string]*string `min:"1" type:"map"`
+	CustomMetadata map[string]string `min:"1" type:"map"`
 
 	// The version metadata.
 	Metadata *DocumentVersionMetadata `type:"structure"`
@@ -5861,24 +6937,40 @@ func (s GetDocumentVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetCustomMetadata sets the CustomMetadata field's value.
-func (s *GetDocumentVersionOutput) SetCustomMetadata(v map[string]*string) *GetDocumentVersionOutput {
-	s.CustomMetadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDocumentVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetMetadata sets the Metadata field's value.
-func (s *GetDocumentVersionOutput) SetMetadata(v *DocumentVersionMetadata) *GetDocumentVersionOutput {
-	s.Metadata = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDocumentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CustomMetadata) > 0 {
+		v := s.CustomMetadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "CustomMetadata", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.Metadata != nil {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Metadata", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetFolderRequest
 type GetFolderInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the folder.
@@ -5920,30 +7012,39 @@ func (s *GetFolderInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *GetFolderInput) SetAuthenticationToken(v string) *GetFolderInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFolderInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFolderId sets the FolderId field's value.
-func (s *GetFolderInput) SetFolderId(v string) *GetFolderInput {
-	s.FolderId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetIncludeCustomMetadata sets the IncludeCustomMetadata field's value.
-func (s *GetFolderInput) SetIncludeCustomMetadata(v bool) *GetFolderInput {
-	s.IncludeCustomMetadata = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FolderId != nil {
+		v := *s.FolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IncludeCustomMetadata != nil {
+		v := *s.IncludeCustomMetadata
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "includeCustomMetadata", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetFolderResponse
 type GetFolderOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The custom metadata on the folder.
-	CustomMetadata map[string]*string `min:"1" type:"map"`
+	CustomMetadata map[string]string `min:"1" type:"map"`
 
 	// The metadata of the folder.
 	Metadata *FolderMetadata `type:"structure"`
@@ -5959,24 +7060,40 @@ func (s GetFolderOutput) GoString() string {
 	return s.String()
 }
 
-// SetCustomMetadata sets the CustomMetadata field's value.
-func (s *GetFolderOutput) SetCustomMetadata(v map[string]*string) *GetFolderOutput {
-	s.CustomMetadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetFolderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetMetadata sets the Metadata field's value.
-func (s *GetFolderOutput) SetMetadata(v *FolderMetadata) *GetFolderOutput {
-	s.Metadata = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFolderOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CustomMetadata) > 0 {
+		v := s.CustomMetadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "CustomMetadata", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.Metadata != nil {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Metadata", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetFolderPathRequest
 type GetFolderPathInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// A comma-separated list of values. Specify "NAME" to include the names of
@@ -6034,39 +7151,48 @@ func (s *GetFolderPathInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *GetFolderPathInput) SetAuthenticationToken(v string) *GetFolderPathInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFolderPathInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFields sets the Fields field's value.
-func (s *GetFolderPathInput) SetFields(v string) *GetFolderPathInput {
-	s.Fields = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetFolderId sets the FolderId field's value.
-func (s *GetFolderPathInput) SetFolderId(v string) *GetFolderPathInput {
-	s.FolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FolderId != nil {
+		v := *s.FolderId
 
-// SetLimit sets the Limit field's value.
-func (s *GetFolderPathInput) SetLimit(v int64) *GetFolderPathInput {
-	s.Limit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Fields != nil {
+		v := *s.Fields
 
-// SetMarker sets the Marker field's value.
-func (s *GetFolderPathInput) SetMarker(v string) *GetFolderPathInput {
-	s.Marker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "fields", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limit != nil {
+		v := *s.Limit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "limit", protocol.Int64Value(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/GetFolderPathResponse
 type GetFolderPathOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The path information.
 	Path *ResourcePath `type:"structure"`
@@ -6082,10 +7208,20 @@ func (s GetFolderPathOutput) GoString() string {
 	return s.String()
 }
 
-// SetPath sets the Path field's value.
-func (s *GetFolderPathOutput) SetPath(v *ResourcePath) *GetFolderPathOutput {
-	s.Path = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetFolderPathOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFolderPathOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Path != nil {
+		v := s.Path
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Path", v, metadata)
+	}
+	return nil
 }
 
 // Describes the metadata of a user group.
@@ -6110,30 +7246,35 @@ func (s GroupMetadata) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *GroupMetadata) SetId(v string) *GroupMetadata {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GroupMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetName sets the Name field's value.
-func (s *GroupMetadata) SetName(v string) *GroupMetadata {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/InitiateDocumentVersionUploadRequest
 type InitiateDocumentVersionUploadInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
-	// The time stamp when the content of the document was originally created.
+	// The timestamp when the content of the document was originally created.
 	ContentCreatedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
-	// The time stamp when the content of the document was modified.
+	// The timestamp when the content of the document was modified.
 	ContentModifiedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The content type of the document.
@@ -6193,57 +7334,66 @@ func (s *InitiateDocumentVersionUploadInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *InitiateDocumentVersionUploadInput) SetAuthenticationToken(v string) *InitiateDocumentVersionUploadInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InitiateDocumentVersionUploadInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetContentCreatedTimestamp sets the ContentCreatedTimestamp field's value.
-func (s *InitiateDocumentVersionUploadInput) SetContentCreatedTimestamp(v time.Time) *InitiateDocumentVersionUploadInput {
-	s.ContentCreatedTimestamp = &v
-	return s
-}
+	if s.ContentCreatedTimestamp != nil {
+		v := *s.ContentCreatedTimestamp
 
-// SetContentModifiedTimestamp sets the ContentModifiedTimestamp field's value.
-func (s *InitiateDocumentVersionUploadInput) SetContentModifiedTimestamp(v time.Time) *InitiateDocumentVersionUploadInput {
-	s.ContentModifiedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContentCreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ContentModifiedTimestamp != nil {
+		v := *s.ContentModifiedTimestamp
 
-// SetContentType sets the ContentType field's value.
-func (s *InitiateDocumentVersionUploadInput) SetContentType(v string) *InitiateDocumentVersionUploadInput {
-	s.ContentType = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContentModifiedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetDocumentSizeInBytes sets the DocumentSizeInBytes field's value.
-func (s *InitiateDocumentVersionUploadInput) SetDocumentSizeInBytes(v int64) *InitiateDocumentVersionUploadInput {
-	s.DocumentSizeInBytes = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContentType", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentSizeInBytes != nil {
+		v := *s.DocumentSizeInBytes
 
-// SetId sets the Id field's value.
-func (s *InitiateDocumentVersionUploadInput) SetId(v string) *InitiateDocumentVersionUploadInput {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DocumentSizeInBytes", protocol.Int64Value(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetName sets the Name field's value.
-func (s *InitiateDocumentVersionUploadInput) SetName(v string) *InitiateDocumentVersionUploadInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetParentFolderId sets the ParentFolderId field's value.
-func (s *InitiateDocumentVersionUploadInput) SetParentFolderId(v string) *InitiateDocumentVersionUploadInput {
-	s.ParentFolderId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentFolderId != nil {
+		v := *s.ParentFolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/InitiateDocumentVersionUploadResponse
 type InitiateDocumentVersionUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The document metadata.
 	Metadata *DocumentMetadata `type:"structure"`
@@ -6262,28 +7412,77 @@ func (s InitiateDocumentVersionUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetMetadata sets the Metadata field's value.
-func (s *InitiateDocumentVersionUploadOutput) SetMetadata(v *DocumentMetadata) *InitiateDocumentVersionUploadOutput {
-	s.Metadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InitiateDocumentVersionUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetUploadMetadata sets the UploadMetadata field's value.
-func (s *InitiateDocumentVersionUploadOutput) SetUploadMetadata(v *UploadMetadata) *InitiateDocumentVersionUploadOutput {
-	s.UploadMetadata = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InitiateDocumentVersionUploadOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Metadata != nil {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Metadata", v, metadata)
+	}
+	if s.UploadMetadata != nil {
+		v := s.UploadMetadata
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "UploadMetadata", v, metadata)
+	}
+	return nil
 }
 
-// Describes the users and/or user groups.
+// Set of options which defines notification preferences of given action.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/NotificationOptions
+type NotificationOptions struct {
+	_ struct{} `type:"structure"`
+
+	// Text value to be included in the email body.
+	EmailMessage *string `type:"string"`
+
+	// Boolean value to indicate an email notification should be sent to the receipients.
+	SendEmail *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s NotificationOptions) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s NotificationOptions) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s NotificationOptions) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailMessage != nil {
+		v := *s.EmailMessage
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EmailMessage", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SendEmail != nil {
+		v := *s.SendEmail
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SendEmail", protocol.BoolValue(v), metadata)
+	}
+	return nil
+}
+
+// Describes the users or user groups.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/Participants
 type Participants struct {
 	_ struct{} `type:"structure"`
 
 	// The list of user groups.
-	Groups []*GroupMetadata `type:"list"`
+	Groups []GroupMetadata `type:"list"`
 
 	// The list of users.
-	Users []*UserMetadata `type:"list"`
+	Users []UserMetadata `type:"list"`
 }
 
 // String returns the string representation
@@ -6296,16 +7495,33 @@ func (s Participants) GoString() string {
 	return s.String()
 }
 
-// SetGroups sets the Groups field's value.
-func (s *Participants) SetGroups(v []*GroupMetadata) *Participants {
-	s.Groups = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Participants) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Groups) > 0 {
+		v := s.Groups
 
-// SetUsers sets the Users field's value.
-func (s *Participants) SetUsers(v []*UserMetadata) *Participants {
-	s.Users = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Groups", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.Users) > 0 {
+		v := s.Users
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Users", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Describes the permissions.
@@ -6314,10 +7530,10 @@ type PermissionInfo struct {
 	_ struct{} `type:"structure"`
 
 	// The role of the user.
-	Role RoleType `type:"string"`
+	Role RoleType `type:"string" enum:"true"`
 
 	// The type of permissions.
-	Type RolePermissionType `type:"string"`
+	Type RolePermissionType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6330,16 +7546,21 @@ func (s PermissionInfo) GoString() string {
 	return s.String()
 }
 
-// SetRole sets the Role field's value.
-func (s *PermissionInfo) SetRole(v RoleType) *PermissionInfo {
-	s.Role = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PermissionInfo) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Role) > 0 {
+		v := s.Role
 
-// SetType sets the Type field's value.
-func (s *PermissionInfo) SetType(v RolePermissionType) *PermissionInfo {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Describes a resource.
@@ -6351,10 +7572,10 @@ type Principal struct {
 	Id *string `min:"1" type:"string"`
 
 	// The permission information for the resource.
-	Roles []*PermissionInfo `type:"list"`
+	Roles []PermissionInfo `type:"list"`
 
 	// The type of resource.
-	Type PrincipalType `type:"string"`
+	Type PrincipalType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6367,30 +7588,41 @@ func (s Principal) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *Principal) SetId(v string) *Principal {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Principal) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetRoles sets the Roles field's value.
-func (s *Principal) SetRoles(v []*PermissionInfo) *Principal {
-	s.Roles = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Roles) > 0 {
+		v := s.Roles
 
-// SetType sets the Type field's value.
-func (s *Principal) SetType(v PrincipalType) *Principal {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Roles", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/RemoveAllResourcePermissionsRequest
 type RemoveAllResourcePermissionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the resource.
@@ -6429,21 +7661,30 @@ func (s *RemoveAllResourcePermissionsInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *RemoveAllResourcePermissionsInput) SetAuthenticationToken(v string) *RemoveAllResourcePermissionsInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveAllResourcePermissionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetResourceId sets the ResourceId field's value.
-func (s *RemoveAllResourcePermissionsInput) SetResourceId(v string) *RemoveAllResourcePermissionsInput {
-	s.ResourceId = &v
-	return s
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/RemoveAllResourcePermissionsOutput
 type RemoveAllResourcePermissionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6456,12 +7697,22 @@ func (s RemoveAllResourcePermissionsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveAllResourcePermissionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveAllResourcePermissionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/RemoveResourcePermissionRequest
 type RemoveResourcePermissionInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The principal ID of the resource.
@@ -6470,7 +7721,7 @@ type RemoveResourcePermissionInput struct {
 	PrincipalId *string `location:"uri" locationName:"PrincipalId" min:"1" type:"string" required:"true"`
 
 	// The principal type of the resource.
-	PrincipalType PrincipalType `location:"querystring" locationName:"type" type:"string"`
+	PrincipalType PrincipalType `location:"querystring" locationName:"type" type:"string" enum:"true"`
 
 	// The ID of the resource.
 	//
@@ -6515,33 +7766,42 @@ func (s *RemoveResourcePermissionInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *RemoveResourcePermissionInput) SetAuthenticationToken(v string) *RemoveResourcePermissionInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveResourcePermissionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPrincipalId sets the PrincipalId field's value.
-func (s *RemoveResourcePermissionInput) SetPrincipalId(v string) *RemoveResourcePermissionInput {
-	s.PrincipalId = &v
-	return s
-}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetPrincipalType sets the PrincipalType field's value.
-func (s *RemoveResourcePermissionInput) SetPrincipalType(v PrincipalType) *RemoveResourcePermissionInput {
-	s.PrincipalType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PrincipalId != nil {
+		v := *s.PrincipalId
 
-// SetResourceId sets the ResourceId field's value.
-func (s *RemoveResourcePermissionInput) SetResourceId(v string) *RemoveResourcePermissionInput {
-	s.ResourceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "PrincipalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceId != nil {
+		v := *s.ResourceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ResourceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.PrincipalType) > 0 {
+		v := s.PrincipalType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/RemoveResourcePermissionOutput
 type RemoveResourcePermissionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6552,6 +7812,16 @@ func (s RemoveResourcePermissionOutput) String() string {
 // GoString returns the string representation
 func (s RemoveResourcePermissionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveResourcePermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveResourcePermissionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Describes the metadata of a resource.
@@ -6565,7 +7835,7 @@ type ResourceMetadata struct {
 	// The name of the resource.
 	Name *string `min:"1" type:"string"`
 
-	// The original name of the resource prior to a rename operation.
+	// The original name of the resource before a rename operation.
 	OriginalName *string `min:"1" type:"string"`
 
 	// The owner of the resource.
@@ -6575,7 +7845,7 @@ type ResourceMetadata struct {
 	ParentId *string `min:"1" type:"string"`
 
 	// The type of resource.
-	Type ResourceType `type:"string"`
+	Type ResourceType `type:"string" enum:"true"`
 
 	// The version ID of the resource. This is an optional field and is filled for
 	// action on document version.
@@ -6592,46 +7862,51 @@ func (s ResourceMetadata) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *ResourceMetadata) SetId(v string) *ResourceMetadata {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ResourceMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetName sets the Name field's value.
-func (s *ResourceMetadata) SetName(v string) *ResourceMetadata {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetOriginalName sets the OriginalName field's value.
-func (s *ResourceMetadata) SetOriginalName(v string) *ResourceMetadata {
-	s.OriginalName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.OriginalName != nil {
+		v := *s.OriginalName
 
-// SetOwner sets the Owner field's value.
-func (s *ResourceMetadata) SetOwner(v *UserMetadata) *ResourceMetadata {
-	s.Owner = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OriginalName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Owner != nil {
+		v := s.Owner
 
-// SetParentId sets the ParentId field's value.
-func (s *ResourceMetadata) SetParentId(v string) *ResourceMetadata {
-	s.ParentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if s.ParentId != nil {
+		v := *s.ParentId
 
-// SetType sets the Type field's value.
-func (s *ResourceMetadata) SetType(v ResourceType) *ResourceMetadata {
-	s.Type = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
 
-// SetVersionId sets the VersionId field's value.
-func (s *ResourceMetadata) SetVersionId(v string) *ResourceMetadata {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes the path information of a resource.
@@ -6640,7 +7915,7 @@ type ResourcePath struct {
 	_ struct{} `type:"structure"`
 
 	// The components of the resource path.
-	Components []*ResourcePathComponent `type:"list"`
+	Components []ResourcePathComponent `type:"list"`
 }
 
 // String returns the string representation
@@ -6653,10 +7928,21 @@ func (s ResourcePath) GoString() string {
 	return s.String()
 }
 
-// SetComponents sets the Components field's value.
-func (s *ResourcePath) SetComponents(v []*ResourcePathComponent) *ResourcePath {
-	s.Components = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ResourcePath) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Components) > 0 {
+		v := s.Components
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Components", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Describes the resource path.
@@ -6681,16 +7967,21 @@ func (s ResourcePathComponent) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *ResourcePathComponent) SetId(v string) *ResourcePathComponent {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ResourcePathComponent) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetName sets the Name field's value.
-func (s *ResourcePathComponent) SetName(v string) *ResourcePathComponent {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes the recipient type and ID, if available.
@@ -6706,12 +7997,12 @@ type SharePrincipal struct {
 	// The role of the recipient.
 	//
 	// Role is a required field
-	Role RoleType `type:"string" required:"true"`
+	Role RoleType `type:"string" required:"true" enum:"true"`
 
 	// The type of the recipient.
 	//
 	// Type is a required field
-	Type PrincipalType `type:"string" required:"true"`
+	Type PrincipalType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -6747,22 +8038,27 @@ func (s *SharePrincipal) Validate() error {
 	return nil
 }
 
-// SetId sets the Id field's value.
-func (s *SharePrincipal) SetId(v string) *SharePrincipal {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SharePrincipal) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetRole sets the Role field's value.
-func (s *SharePrincipal) SetRole(v RoleType) *SharePrincipal {
-	s.Role = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Role) > 0 {
+		v := s.Role
 
-// SetType sets the Type field's value.
-func (s *SharePrincipal) SetType(v PrincipalType) *SharePrincipal {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Describes the share results of a resource.
@@ -6774,13 +8070,13 @@ type ShareResult struct {
 	PrincipalId *string `min:"1" type:"string"`
 
 	// The role.
-	Role RoleType `type:"string"`
+	Role RoleType `type:"string" enum:"true"`
 
 	// The ID of the resource that was shared.
 	ShareId *string `min:"1" type:"string"`
 
 	// The status.
-	Status ShareStatusType `type:"string"`
+	Status ShareStatusType `type:"string" enum:"true"`
 
 	// The status message.
 	StatusMessage *string `type:"string"`
@@ -6796,34 +8092,39 @@ func (s ShareResult) GoString() string {
 	return s.String()
 }
 
-// SetPrincipalId sets the PrincipalId field's value.
-func (s *ShareResult) SetPrincipalId(v string) *ShareResult {
-	s.PrincipalId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ShareResult) MarshalFields(e protocol.FieldEncoder) error {
+	if s.PrincipalId != nil {
+		v := *s.PrincipalId
 
-// SetRole sets the Role field's value.
-func (s *ShareResult) SetRole(v RoleType) *ShareResult {
-	s.Role = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PrincipalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Role) > 0 {
+		v := s.Role
 
-// SetShareId sets the ShareId field's value.
-func (s *ShareResult) SetShareId(v string) *ShareResult {
-	s.ShareId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.ShareId != nil {
+		v := *s.ShareId
 
-// SetStatus sets the Status field's value.
-func (s *ShareResult) SetStatus(v ShareStatusType) *ShareResult {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ShareId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
 
-// SetStatusMessage sets the StatusMessage field's value.
-func (s *ShareResult) SetStatusMessage(v string) *ShareResult {
-	s.StatusMessage = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.StatusMessage != nil {
+		v := *s.StatusMessage
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StatusMessage", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes the storage for a user.
@@ -6835,7 +8136,7 @@ type StorageRuleType struct {
 	StorageAllocatedInBytes *int64 `type:"long"`
 
 	// The type of storage.
-	StorageType StorageType `type:"string"`
+	StorageType StorageType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6848,16 +8149,21 @@ func (s StorageRuleType) GoString() string {
 	return s.String()
 }
 
-// SetStorageAllocatedInBytes sets the StorageAllocatedInBytes field's value.
-func (s *StorageRuleType) SetStorageAllocatedInBytes(v int64) *StorageRuleType {
-	s.StorageAllocatedInBytes = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StorageRuleType) MarshalFields(e protocol.FieldEncoder) error {
+	if s.StorageAllocatedInBytes != nil {
+		v := *s.StorageAllocatedInBytes
 
-// SetStorageType sets the StorageType field's value.
-func (s *StorageRuleType) SetStorageType(v StorageType) *StorageRuleType {
-	s.StorageType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageAllocatedInBytes", protocol.Int64Value(v), metadata)
+	}
+	if len(s.StorageType) > 0 {
+		v := s.StorageType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Describes a subscription.
@@ -6869,7 +8175,7 @@ type Subscription struct {
 	EndPoint *string `min:"1" type:"string"`
 
 	// The protocol of the subscription.
-	Protocol SubscriptionProtocolType `type:"string"`
+	Protocol SubscriptionProtocolType `type:"string" enum:"true"`
 
 	// The ID of the subscription.
 	SubscriptionId *string `min:"1" type:"string"`
@@ -6885,30 +8191,35 @@ func (s Subscription) GoString() string {
 	return s.String()
 }
 
-// SetEndPoint sets the EndPoint field's value.
-func (s *Subscription) SetEndPoint(v string) *Subscription {
-	s.EndPoint = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Subscription) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndPoint != nil {
+		v := *s.EndPoint
 
-// SetProtocol sets the Protocol field's value.
-func (s *Subscription) SetProtocol(v SubscriptionProtocolType) *Subscription {
-	s.Protocol = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndPoint", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Protocol) > 0 {
+		v := s.Protocol
 
-// SetSubscriptionId sets the SubscriptionId field's value.
-func (s *Subscription) SetSubscriptionId(v string) *Subscription {
-	s.SubscriptionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Protocol", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SubscriptionId != nil {
+		v := *s.SubscriptionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SubscriptionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateDocumentRequest
 type UpdateDocumentInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -6922,9 +8233,8 @@ type UpdateDocumentInput struct {
 	// The ID of the parent folder.
 	ParentFolderId *string `min:"1" type:"string"`
 
-	// The resource state of the document. Note that only ACTIVE and RECYCLED are
-	// supported.
-	ResourceState ResourceStateType `type:"string"`
+	// The resource state of the document. Only ACTIVE and RECYCLED are supported.
+	ResourceState ResourceStateType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6963,39 +8273,48 @@ func (s *UpdateDocumentInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *UpdateDocumentInput) SetAuthenticationToken(v string) *UpdateDocumentInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateDocumentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *UpdateDocumentInput) SetDocumentId(v string) *UpdateDocumentInput {
-	s.DocumentId = &v
-	return s
-}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetName sets the Name field's value.
-func (s *UpdateDocumentInput) SetName(v string) *UpdateDocumentInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentFolderId != nil {
+		v := *s.ParentFolderId
 
-// SetParentFolderId sets the ParentFolderId field's value.
-func (s *UpdateDocumentInput) SetParentFolderId(v string) *UpdateDocumentInput {
-	s.ParentFolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceState) > 0 {
+		v := s.ResourceState
 
-// SetResourceState sets the ResourceState field's value.
-func (s *UpdateDocumentInput) SetResourceState(v ResourceStateType) *UpdateDocumentInput {
-	s.ResourceState = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceState", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateDocumentOutput
 type UpdateDocumentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7008,12 +8327,22 @@ func (s UpdateDocumentOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateDocumentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateDocumentVersionRequest
 type UpdateDocumentVersionInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the document.
@@ -7027,7 +8356,7 @@ type UpdateDocumentVersionInput struct {
 	VersionId *string `location:"uri" locationName:"VersionId" min:"1" type:"string" required:"true"`
 
 	// The status of the version.
-	VersionStatus DocumentVersionStatus `type:"string"`
+	VersionStatus DocumentVersionStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7067,33 +8396,42 @@ func (s *UpdateDocumentVersionInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *UpdateDocumentVersionInput) SetAuthenticationToken(v string) *UpdateDocumentVersionInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateDocumentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDocumentId sets the DocumentId field's value.
-func (s *UpdateDocumentVersionInput) SetDocumentId(v string) *UpdateDocumentVersionInput {
-	s.DocumentId = &v
-	return s
-}
+	if len(s.VersionStatus) > 0 {
+		v := s.VersionStatus
 
-// SetVersionId sets the VersionId field's value.
-func (s *UpdateDocumentVersionInput) SetVersionId(v string) *UpdateDocumentVersionInput {
-	s.VersionId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
 
-// SetVersionStatus sets the VersionStatus field's value.
-func (s *UpdateDocumentVersionInput) SetVersionStatus(v DocumentVersionStatus) *UpdateDocumentVersionInput {
-	s.VersionStatus = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DocumentId != nil {
+		v := *s.DocumentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DocumentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "VersionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateDocumentVersionOutput
 type UpdateDocumentVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7106,12 +8444,22 @@ func (s UpdateDocumentVersionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDocumentVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateDocumentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateFolderRequest
 type UpdateFolderInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The ID of the folder.
@@ -7125,9 +8473,9 @@ type UpdateFolderInput struct {
 	// The ID of the parent folder.
 	ParentFolderId *string `min:"1" type:"string"`
 
-	// The resource state of the folder. Note that only ACTIVE and RECYCLED are
-	// accepted values from the API.
-	ResourceState ResourceStateType `type:"string"`
+	// The resource state of the folder. Only ACTIVE and RECYCLED are accepted values
+	// from the API.
+	ResourceState ResourceStateType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7166,39 +8514,48 @@ func (s *UpdateFolderInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *UpdateFolderInput) SetAuthenticationToken(v string) *UpdateFolderInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFolderInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetFolderId sets the FolderId field's value.
-func (s *UpdateFolderInput) SetFolderId(v string) *UpdateFolderInput {
-	s.FolderId = &v
-	return s
-}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetName sets the Name field's value.
-func (s *UpdateFolderInput) SetName(v string) *UpdateFolderInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentFolderId != nil {
+		v := *s.ParentFolderId
 
-// SetParentFolderId sets the ParentFolderId field's value.
-func (s *UpdateFolderInput) SetParentFolderId(v string) *UpdateFolderInput {
-	s.ParentFolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ParentFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceState) > 0 {
+		v := s.ResourceState
 
-// SetResourceState sets the ResourceState field's value.
-func (s *UpdateFolderInput) SetResourceState(v ResourceStateType) *UpdateFolderInput {
-	s.ResourceState = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceState", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FolderId != nil {
+		v := *s.FolderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateFolderOutput
 type UpdateFolderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7211,19 +8568,32 @@ func (s UpdateFolderOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateFolderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFolderOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateUserRequest
 type UpdateUserInput struct {
 	_ struct{} `type:"structure"`
 
-	// Amazon WorkDocs authentication token. This field should not be set when using
-	// administrative API actions, as in accessing the API using AWS credentials.
+	// Amazon WorkDocs authentication token. Do not set this field when using administrative
+	// API actions, as in accessing the API using AWS credentials.
 	AuthenticationToken *string `location:"header" locationName:"Authentication" min:"1" type:"string"`
 
 	// The given name of the user.
 	GivenName *string `min:"1" type:"string"`
 
+	// Boolean value to determine whether the user is granted Poweruser privileges.
+	GrantPoweruserPrivileges BooleanEnumType `type:"string" enum:"true"`
+
 	// The locale of the user.
-	Locale LocaleType `type:"string"`
+	Locale LocaleType `type:"string" enum:"true"`
 
 	// The amount of storage for the user.
 	StorageRule *StorageRuleType `type:"structure"`
@@ -7235,7 +8605,7 @@ type UpdateUserInput struct {
 	TimeZoneId *string `min:"1" type:"string"`
 
 	// The type of the user.
-	Type UserType `type:"string"`
+	Type UserType `type:"string" enum:"true"`
 
 	// The ID of the user.
 	//
@@ -7282,57 +8652,72 @@ func (s *UpdateUserInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationToken sets the AuthenticationToken field's value.
-func (s *UpdateUserInput) SetAuthenticationToken(v string) *UpdateUserInput {
-	s.AuthenticationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateUserInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetGivenName sets the GivenName field's value.
-func (s *UpdateUserInput) SetGivenName(v string) *UpdateUserInput {
-	s.GivenName = &v
-	return s
-}
+	if s.GivenName != nil {
+		v := *s.GivenName
 
-// SetLocale sets the Locale field's value.
-func (s *UpdateUserInput) SetLocale(v LocaleType) *UpdateUserInput {
-	s.Locale = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "GivenName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.GrantPoweruserPrivileges) > 0 {
+		v := s.GrantPoweruserPrivileges
 
-// SetStorageRule sets the StorageRule field's value.
-func (s *UpdateUserInput) SetStorageRule(v *StorageRuleType) *UpdateUserInput {
-	s.StorageRule = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "GrantPoweruserPrivileges", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetSurname sets the Surname field's value.
-func (s *UpdateUserInput) SetSurname(v string) *UpdateUserInput {
-	s.Surname = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.StorageRule != nil {
+		v := s.StorageRule
 
-// SetTimeZoneId sets the TimeZoneId field's value.
-func (s *UpdateUserInput) SetTimeZoneId(v string) *UpdateUserInput {
-	s.TimeZoneId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "StorageRule", v, metadata)
+	}
+	if s.Surname != nil {
+		v := *s.Surname
 
-// SetType sets the Type field's value.
-func (s *UpdateUserInput) SetType(v UserType) *UpdateUserInput {
-	s.Type = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Surname", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TimeZoneId != nil {
+		v := *s.TimeZoneId
 
-// SetUserId sets the UserId field's value.
-func (s *UpdateUserInput) SetUserId(v string) *UpdateUserInput {
-	s.UserId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeZoneId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.AuthenticationToken != nil {
+		v := *s.AuthenticationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Authentication", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UserId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/workdocs-2016-05-01/UpdateUserResponse
 type UpdateUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The user information.
 	User *User `type:"structure"`
@@ -7348,10 +8733,20 @@ func (s UpdateUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetUser sets the User field's value.
-func (s *UpdateUserOutput) SetUser(v *User) *UpdateUserOutput {
-	s.User = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateUserOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Describes the upload.
@@ -7360,7 +8755,7 @@ type UploadMetadata struct {
 	_ struct{} `type:"structure"`
 
 	// The signed headers.
-	SignedHeaders map[string]*string `type:"map"`
+	SignedHeaders map[string]string `type:"map"`
 
 	// The URL of the upload.
 	UploadUrl *string `min:"1" type:"string"`
@@ -7376,16 +8771,27 @@ func (s UploadMetadata) GoString() string {
 	return s.String()
 }
 
-// SetSignedHeaders sets the SignedHeaders field's value.
-func (s *UploadMetadata) SetSignedHeaders(v map[string]*string) *UploadMetadata {
-	s.SignedHeaders = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UploadMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SignedHeaders) > 0 {
+		v := s.SignedHeaders
 
-// SetUploadUrl sets the UploadUrl field's value.
-func (s *UploadMetadata) SetUploadUrl(v string) *UploadMetadata {
-	s.UploadUrl = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "SignedHeaders", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.UploadUrl != nil {
+		v := *s.UploadUrl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UploadUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes a user.
@@ -7406,7 +8812,7 @@ type User struct {
 	Id *string `min:"1" type:"string"`
 
 	// The locale of the user.
-	Locale LocaleType `type:"string"`
+	Locale LocaleType `type:"string" enum:"true"`
 
 	// The time when the user was modified.
 	ModifiedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -7421,7 +8827,7 @@ type User struct {
 	RootFolderId *string `min:"1" type:"string"`
 
 	// The status of the user.
-	Status UserStatusType `type:"string"`
+	Status UserStatusType `type:"string" enum:"true"`
 
 	// The storage for the user.
 	Storage *UserStorageMetadata `type:"structure"`
@@ -7433,7 +8839,7 @@ type User struct {
 	TimeZoneId *string `min:"1" type:"string"`
 
 	// The type of user.
-	Type UserType `type:"string"`
+	Type UserType `type:"string" enum:"true"`
 
 	// The login name of the user.
 	Username *string `min:"1" type:"string"`
@@ -7449,94 +8855,99 @@ func (s User) GoString() string {
 	return s.String()
 }
 
-// SetCreatedTimestamp sets the CreatedTimestamp field's value.
-func (s *User) SetCreatedTimestamp(v time.Time) *User {
-	s.CreatedTimestamp = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s User) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedTimestamp != nil {
+		v := *s.CreatedTimestamp
 
-// SetEmailAddress sets the EmailAddress field's value.
-func (s *User) SetEmailAddress(v string) *User {
-	s.EmailAddress = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreatedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.EmailAddress != nil {
+		v := *s.EmailAddress
 
-// SetGivenName sets the GivenName field's value.
-func (s *User) SetGivenName(v string) *User {
-	s.GivenName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EmailAddress", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.GivenName != nil {
+		v := *s.GivenName
 
-// SetId sets the Id field's value.
-func (s *User) SetId(v string) *User {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "GivenName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLocale sets the Locale field's value.
-func (s *User) SetLocale(v LocaleType) *User {
-	s.Locale = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetModifiedTimestamp sets the ModifiedTimestamp field's value.
-func (s *User) SetModifiedTimestamp(v time.Time) *User {
-	s.ModifiedTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.ModifiedTimestamp != nil {
+		v := *s.ModifiedTimestamp
 
-// SetOrganizationId sets the OrganizationId field's value.
-func (s *User) SetOrganizationId(v string) *User {
-	s.OrganizationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ModifiedTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.OrganizationId != nil {
+		v := *s.OrganizationId
 
-// SetRecycleBinFolderId sets the RecycleBinFolderId field's value.
-func (s *User) SetRecycleBinFolderId(v string) *User {
-	s.RecycleBinFolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OrganizationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RecycleBinFolderId != nil {
+		v := *s.RecycleBinFolderId
 
-// SetRootFolderId sets the RootFolderId field's value.
-func (s *User) SetRootFolderId(v string) *User {
-	s.RootFolderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecycleBinFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RootFolderId != nil {
+		v := *s.RootFolderId
 
-// SetStatus sets the Status field's value.
-func (s *User) SetStatus(v UserStatusType) *User {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RootFolderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
 
-// SetStorage sets the Storage field's value.
-func (s *User) SetStorage(v *UserStorageMetadata) *User {
-	s.Storage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Storage != nil {
+		v := s.Storage
 
-// SetSurname sets the Surname field's value.
-func (s *User) SetSurname(v string) *User {
-	s.Surname = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Storage", v, metadata)
+	}
+	if s.Surname != nil {
+		v := *s.Surname
 
-// SetTimeZoneId sets the TimeZoneId field's value.
-func (s *User) SetTimeZoneId(v string) *User {
-	s.TimeZoneId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Surname", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TimeZoneId != nil {
+		v := *s.TimeZoneId
 
-// SetType sets the Type field's value.
-func (s *User) SetType(v UserType) *User {
-	s.Type = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeZoneId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
 
-// SetUsername sets the Username field's value.
-func (s *User) SetUsername(v string) *User {
-	s.Username = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Username != nil {
+		v := *s.Username
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Username", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes the metadata of the user.
@@ -7556,7 +8967,7 @@ type UserMetadata struct {
 	// The surname of the user.
 	Surname *string `min:"1" type:"string"`
 
-	// The username of the user.
+	// The name of the user.
 	Username *string `min:"1" type:"string"`
 }
 
@@ -7570,34 +8981,39 @@ func (s UserMetadata) GoString() string {
 	return s.String()
 }
 
-// SetEmailAddress sets the EmailAddress field's value.
-func (s *UserMetadata) SetEmailAddress(v string) *UserMetadata {
-	s.EmailAddress = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UserMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailAddress != nil {
+		v := *s.EmailAddress
 
-// SetGivenName sets the GivenName field's value.
-func (s *UserMetadata) SetGivenName(v string) *UserMetadata {
-	s.GivenName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EmailAddress", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.GivenName != nil {
+		v := *s.GivenName
 
-// SetId sets the Id field's value.
-func (s *UserMetadata) SetId(v string) *UserMetadata {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "GivenName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetSurname sets the Surname field's value.
-func (s *UserMetadata) SetSurname(v string) *UserMetadata {
-	s.Surname = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Surname != nil {
+		v := *s.Surname
 
-// SetUsername sets the Username field's value.
-func (s *UserMetadata) SetUsername(v string) *UserMetadata {
-	s.Username = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Surname", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Username != nil {
+		v := *s.Username
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Username", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes the storage for a user.
@@ -7608,7 +9024,7 @@ type UserStorageMetadata struct {
 	// The storage for a user.
 	StorageRule *StorageRuleType `type:"structure"`
 
-	// The amount of storage utilized, in bytes.
+	// The amount of storage used, in bytes.
 	StorageUtilizedInBytes *int64 `type:"long"`
 }
 
@@ -7622,16 +9038,21 @@ func (s UserStorageMetadata) GoString() string {
 	return s.String()
 }
 
-// SetStorageRule sets the StorageRule field's value.
-func (s *UserStorageMetadata) SetStorageRule(v *StorageRuleType) *UserStorageMetadata {
-	s.StorageRule = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UserStorageMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.StorageRule != nil {
+		v := s.StorageRule
 
-// SetStorageUtilizedInBytes sets the StorageUtilizedInBytes field's value.
-func (s *UserStorageMetadata) SetStorageUtilizedInBytes(v int64) *UserStorageMetadata {
-	s.StorageUtilizedInBytes = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "StorageRule", v, metadata)
+	}
+	if s.StorageUtilizedInBytes != nil {
+		v := *s.StorageUtilizedInBytes
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageUtilizedInBytes", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 type ActivityType string
@@ -7671,6 +9092,32 @@ const (
 	ActivityTypeFolderMoved                            ActivityType = "FOLDER_MOVED"
 )
 
+func (enum ActivityType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActivityType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type BooleanEnumType string
+
+// Enum values for BooleanEnumType
+const (
+	BooleanEnumTypeTrue  BooleanEnumType = "TRUE"
+	BooleanEnumTypeFalse BooleanEnumType = "FALSE"
+)
+
+func (enum BooleanEnumType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BooleanEnumType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type CommentStatusType string
 
 // Enum values for CommentStatusType
@@ -7680,6 +9127,15 @@ const (
 	CommentStatusTypeDeleted   CommentStatusType = "DELETED"
 )
 
+func (enum CommentStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CommentStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type CommentVisibilityType string
 
 // Enum values for CommentVisibilityType
@@ -7687,6 +9143,15 @@ const (
 	CommentVisibilityTypePublic  CommentVisibilityType = "PUBLIC"
 	CommentVisibilityTypePrivate CommentVisibilityType = "PRIVATE"
 )
+
+func (enum CommentVisibilityType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CommentVisibilityType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DocumentSourceType string
 
@@ -7696,6 +9161,15 @@ const (
 	DocumentSourceTypeWithComments DocumentSourceType = "WITH_COMMENTS"
 )
 
+func (enum DocumentSourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentSourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DocumentStatusType string
 
 // Enum values for DocumentStatusType
@@ -7703,6 +9177,15 @@ const (
 	DocumentStatusTypeInitialized DocumentStatusType = "INITIALIZED"
 	DocumentStatusTypeActive      DocumentStatusType = "ACTIVE"
 )
+
+func (enum DocumentStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DocumentThumbnailType string
 
@@ -7713,12 +9196,30 @@ const (
 	DocumentThumbnailTypeLarge   DocumentThumbnailType = "LARGE"
 )
 
+func (enum DocumentThumbnailType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentThumbnailType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DocumentVersionStatus string
 
 // Enum values for DocumentVersionStatus
 const (
 	DocumentVersionStatusActive DocumentVersionStatus = "ACTIVE"
 )
+
+func (enum DocumentVersionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentVersionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type FolderContentType string
 
@@ -7728,6 +9229,15 @@ const (
 	FolderContentTypeDocument FolderContentType = "DOCUMENT"
 	FolderContentTypeFolder   FolderContentType = "FOLDER"
 )
+
+func (enum FolderContentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FolderContentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type LocaleType string
 
@@ -7746,6 +9256,15 @@ const (
 	LocaleTypeDefault LocaleType = "default"
 )
 
+func (enum LocaleType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LocaleType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type OrderType string
 
 // Enum values for OrderType
@@ -7753,6 +9272,15 @@ const (
 	OrderTypeAscending  OrderType = "ASCENDING"
 	OrderTypeDescending OrderType = "DESCENDING"
 )
+
+func (enum OrderType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OrderType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PrincipalType string
 
@@ -7765,6 +9293,15 @@ const (
 	PrincipalTypeOrganization PrincipalType = "ORGANIZATION"
 )
 
+func (enum PrincipalType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PrincipalType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ResourceSortType string
 
 // Enum values for ResourceSortType
@@ -7772,6 +9309,15 @@ const (
 	ResourceSortTypeDate ResourceSortType = "DATE"
 	ResourceSortTypeName ResourceSortType = "NAME"
 )
+
+func (enum ResourceSortType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceSortType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ResourceStateType string
 
@@ -7783,6 +9329,15 @@ const (
 	ResourceStateTypeRecycled  ResourceStateType = "RECYCLED"
 )
 
+func (enum ResourceStateType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceStateType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ResourceType string
 
 // Enum values for ResourceType
@@ -7791,6 +9346,15 @@ const (
 	ResourceTypeDocument ResourceType = "DOCUMENT"
 )
 
+func (enum ResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type RolePermissionType string
 
 // Enum values for RolePermissionType
@@ -7798,6 +9362,15 @@ const (
 	RolePermissionTypeDirect    RolePermissionType = "DIRECT"
 	RolePermissionTypeInherited RolePermissionType = "INHERITED"
 )
+
+func (enum RolePermissionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RolePermissionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RoleType string
 
@@ -7809,6 +9382,15 @@ const (
 	RoleTypeCoowner     RoleType = "COOWNER"
 )
 
+func (enum RoleType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RoleType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ShareStatusType string
 
 // Enum values for ShareStatusType
@@ -7816,6 +9398,15 @@ const (
 	ShareStatusTypeSuccess ShareStatusType = "SUCCESS"
 	ShareStatusTypeFailure ShareStatusType = "FAILURE"
 )
+
+func (enum ShareStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ShareStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type StorageType string
 
@@ -7825,12 +9416,30 @@ const (
 	StorageTypeQuota     StorageType = "QUOTA"
 )
 
+func (enum StorageType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StorageType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SubscriptionProtocolType string
 
 // Enum values for SubscriptionProtocolType
 const (
 	SubscriptionProtocolTypeHttps SubscriptionProtocolType = "HTTPS"
 )
+
+func (enum SubscriptionProtocolType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SubscriptionProtocolType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SubscriptionType string
 
@@ -7839,6 +9448,15 @@ const (
 	SubscriptionTypeAll SubscriptionType = "ALL"
 )
 
+func (enum SubscriptionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SubscriptionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type UserFilterType string
 
 // Enum values for UserFilterType
@@ -7846,6 +9464,15 @@ const (
 	UserFilterTypeAll           UserFilterType = "ALL"
 	UserFilterTypeActivePending UserFilterType = "ACTIVE_PENDING"
 )
+
+func (enum UserFilterType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UserFilterType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type UserSortType string
 
@@ -7858,6 +9485,15 @@ const (
 	UserSortTypeStorageUsed  UserSortType = "STORAGE_USED"
 )
 
+func (enum UserSortType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UserSortType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type UserStatusType string
 
 // Enum values for UserStatusType
@@ -7867,10 +9503,31 @@ const (
 	UserStatusTypePending  UserStatusType = "PENDING"
 )
 
+func (enum UserStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UserStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type UserType string
 
 // Enum values for UserType
 const (
-	UserTypeUser  UserType = "USER"
-	UserTypeAdmin UserType = "ADMIN"
+	UserTypeUser           UserType = "USER"
+	UserTypeAdmin          UserType = "ADMIN"
+	UserTypePoweruser      UserType = "POWERUSER"
+	UserTypeMinimaluser    UserType = "MINIMALUSER"
+	UserTypeWorkspacesuser UserType = "WORKSPACESUSER"
 )
+
+func (enum UserType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UserType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

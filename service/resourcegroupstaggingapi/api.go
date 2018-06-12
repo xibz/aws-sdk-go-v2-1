@@ -15,6 +15,7 @@ const opGetResources = "GetResources"
 type GetResourcesRequest struct {
 	*aws.Request
 	Input *GetResourcesInput
+	Copy  func(*GetResourcesInput) GetResourcesRequest
 }
 
 // Send marshals and sends the GetResources API request.
@@ -62,58 +63,57 @@ func (c *ResourceGroupsTaggingAPI) GetResourcesRequest(input *GetResourcesInput)
 		input = &GetResourcesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetResourcesOutput{})
-	return GetResourcesRequest{Request: req, Input: input}
+	output := &GetResourcesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetResourcesRequest{Request: req, Input: input, Copy: c.GetResourcesRequest}
 }
 
-// GetResourcesPages iterates over the pages of a GetResources operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetResources method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetResourcesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetResources operation.
-//    pageNum := 0
-//    err := client.GetResourcesPages(params,
-//        func(page *GetResourcesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetResourcesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ResourceGroupsTaggingAPI) GetResourcesPages(input *GetResourcesInput, fn func(*GetResourcesOutput, bool) bool) error {
-	return c.GetResourcesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetResourcesRequest) Paginate(opts ...aws.Option) GetResourcesPager {
+	return GetResourcesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetResourcesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetResourcesPagesWithContext same as GetResourcesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ResourceGroupsTaggingAPI) GetResourcesPagesWithContext(ctx aws.Context, input *GetResourcesInput, fn func(*GetResourcesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetResourcesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetResourcesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetResourcesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetResourcesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetResourcesPager struct {
+	aws.Pager
+}
+
+func (p *GetResourcesPager) CurrentPage() *GetResourcesOutput {
+	return p.Pager.CurrentPage().(*GetResourcesOutput)
 }
 
 const opGetTagKeys = "GetTagKeys"
@@ -122,6 +122,7 @@ const opGetTagKeys = "GetTagKeys"
 type GetTagKeysRequest struct {
 	*aws.Request
 	Input *GetTagKeysInput
+	Copy  func(*GetTagKeysInput) GetTagKeysRequest
 }
 
 // Send marshals and sends the GetTagKeys API request.
@@ -164,58 +165,57 @@ func (c *ResourceGroupsTaggingAPI) GetTagKeysRequest(input *GetTagKeysInput) Get
 		input = &GetTagKeysInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTagKeysOutput{})
-	return GetTagKeysRequest{Request: req, Input: input}
+	output := &GetTagKeysOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTagKeysRequest{Request: req, Input: input, Copy: c.GetTagKeysRequest}
 }
 
-// GetTagKeysPages iterates over the pages of a GetTagKeys operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetTagKeys method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetTagKeysRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetTagKeys operation.
-//    pageNum := 0
-//    err := client.GetTagKeysPages(params,
-//        func(page *GetTagKeysOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetTagKeysRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ResourceGroupsTaggingAPI) GetTagKeysPages(input *GetTagKeysInput, fn func(*GetTagKeysOutput, bool) bool) error {
-	return c.GetTagKeysPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetTagKeysRequest) Paginate(opts ...aws.Option) GetTagKeysPager {
+	return GetTagKeysPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetTagKeysInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetTagKeysPagesWithContext same as GetTagKeysPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ResourceGroupsTaggingAPI) GetTagKeysPagesWithContext(ctx aws.Context, input *GetTagKeysInput, fn func(*GetTagKeysOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetTagKeysInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetTagKeysRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetTagKeysOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetTagKeysPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetTagKeysPager struct {
+	aws.Pager
+}
+
+func (p *GetTagKeysPager) CurrentPage() *GetTagKeysOutput {
+	return p.Pager.CurrentPage().(*GetTagKeysOutput)
 }
 
 const opGetTagValues = "GetTagValues"
@@ -224,6 +224,7 @@ const opGetTagValues = "GetTagValues"
 type GetTagValuesRequest struct {
 	*aws.Request
 	Input *GetTagValuesInput
+	Copy  func(*GetTagValuesInput) GetTagValuesRequest
 }
 
 // Send marshals and sends the GetTagValues API request.
@@ -267,58 +268,57 @@ func (c *ResourceGroupsTaggingAPI) GetTagValuesRequest(input *GetTagValuesInput)
 		input = &GetTagValuesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTagValuesOutput{})
-	return GetTagValuesRequest{Request: req, Input: input}
+	output := &GetTagValuesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTagValuesRequest{Request: req, Input: input, Copy: c.GetTagValuesRequest}
 }
 
-// GetTagValuesPages iterates over the pages of a GetTagValues operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetTagValues method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetTagValuesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetTagValues operation.
-//    pageNum := 0
-//    err := client.GetTagValuesPages(params,
-//        func(page *GetTagValuesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetTagValuesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ResourceGroupsTaggingAPI) GetTagValuesPages(input *GetTagValuesInput, fn func(*GetTagValuesOutput, bool) bool) error {
-	return c.GetTagValuesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetTagValuesRequest) Paginate(opts ...aws.Option) GetTagValuesPager {
+	return GetTagValuesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetTagValuesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetTagValuesPagesWithContext same as GetTagValuesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ResourceGroupsTaggingAPI) GetTagValuesPagesWithContext(ctx aws.Context, input *GetTagValuesInput, fn func(*GetTagValuesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetTagValuesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetTagValuesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetTagValuesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetTagValuesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetTagValuesPager struct {
+	aws.Pager
+}
+
+func (p *GetTagValuesPager) CurrentPage() *GetTagValuesOutput {
+	return p.Pager.CurrentPage().(*GetTagValuesOutput)
 }
 
 const opTagResources = "TagResources"
@@ -327,6 +327,7 @@ const opTagResources = "TagResources"
 type TagResourcesRequest struct {
 	*aws.Request
 	Input *TagResourcesInput
+	Copy  func(*TagResourcesInput) TagResourcesRequest
 }
 
 // Send marshals and sends the TagResources API request.
@@ -379,8 +380,11 @@ func (c *ResourceGroupsTaggingAPI) TagResourcesRequest(input *TagResourcesInput)
 		input = &TagResourcesInput{}
 	}
 
-	req := c.newRequest(op, input, &TagResourcesOutput{})
-	return TagResourcesRequest{Request: req, Input: input}
+	output := &TagResourcesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TagResourcesRequest{Request: req, Input: input, Copy: c.TagResourcesRequest}
 }
 
 const opUntagResources = "UntagResources"
@@ -389,6 +393,7 @@ const opUntagResources = "UntagResources"
 type UntagResourcesRequest struct {
 	*aws.Request
 	Input *UntagResourcesInput
+	Copy  func(*UntagResourcesInput) UntagResourcesRequest
 }
 
 // Send marshals and sends the UntagResources API request.
@@ -436,8 +441,11 @@ func (c *ResourceGroupsTaggingAPI) UntagResourcesRequest(input *UntagResourcesIn
 		input = &UntagResourcesInput{}
 	}
 
-	req := c.newRequest(op, input, &UntagResourcesOutput{})
-	return UntagResourcesRequest{Request: req, Input: input}
+	output := &UntagResourcesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UntagResourcesRequest{Request: req, Input: input, Copy: c.UntagResourcesRequest}
 }
 
 // Details of the common errors that all actions return.
@@ -448,7 +456,7 @@ type FailureInfo struct {
 	// The code of the common error. Valid values include InternalServiceException,
 	// InvalidParameterException, and any valid error code returned by the AWS service
 	// that hosts the resource that you want to tag.
-	ErrorCode ErrorCode `type:"string"`
+	ErrorCode ErrorCode `type:"string" enum:"true"`
 
 	// The message of the common error.
 	ErrorMessage *string `type:"string"`
@@ -465,24 +473,6 @@ func (s FailureInfo) String() string {
 // GoString returns the string representation
 func (s FailureInfo) GoString() string {
 	return s.String()
-}
-
-// SetErrorCode sets the ErrorCode field's value.
-func (s *FailureInfo) SetErrorCode(v ErrorCode) *FailureInfo {
-	s.ErrorCode = v
-	return s
-}
-
-// SetErrorMessage sets the ErrorMessage field's value.
-func (s *FailureInfo) SetErrorMessage(v string) *FailureInfo {
-	s.ErrorMessage = &v
-	return s
-}
-
-// SetStatusCode sets the StatusCode field's value.
-func (s *FailureInfo) SetStatusCode(v int64) *FailureInfo {
-	s.StatusCode = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetResourcesInput
@@ -510,7 +500,7 @@ type GetResourcesInput struct {
 	//
 	//    * For more information about ARNs, see Amazon Resource Names (ARNs) and
 	//    AWS Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html).
-	ResourceTypeFilters []*string `type:"list"`
+	ResourceTypeFilters []string `type:"list"`
 
 	// A limit that restricts the number of resources returned by GetResources in
 	// paginated output. You can set ResourcesPerPage to a minimum of 1 item and
@@ -527,7 +517,7 @@ type GetResourcesInput struct {
 	// If you specify multiple filters connected by an OR operator in a single request,
 	// the response returns all resources that are associated with at least one
 	// or possibly more of the specified filters.
-	TagFilters []*TagFilter `type:"list"`
+	TagFilters []TagFilter `type:"list"`
 
 	// A limit that restricts the number of tags (key and value pairs) returned
 	// by GetResources in paginated output. A resource with no tags is counted as
@@ -563,9 +553,6 @@ func (s *GetResourcesInput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "GetResourcesInput"}
 	if s.TagFilters != nil {
 		for i, v := range s.TagFilters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagFilters", i), err.(aws.ErrInvalidParams))
 			}
@@ -578,39 +565,11 @@ func (s *GetResourcesInput) Validate() error {
 	return nil
 }
 
-// SetPaginationToken sets the PaginationToken field's value.
-func (s *GetResourcesInput) SetPaginationToken(v string) *GetResourcesInput {
-	s.PaginationToken = &v
-	return s
-}
-
-// SetResourceTypeFilters sets the ResourceTypeFilters field's value.
-func (s *GetResourcesInput) SetResourceTypeFilters(v []*string) *GetResourcesInput {
-	s.ResourceTypeFilters = v
-	return s
-}
-
-// SetResourcesPerPage sets the ResourcesPerPage field's value.
-func (s *GetResourcesInput) SetResourcesPerPage(v int64) *GetResourcesInput {
-	s.ResourcesPerPage = &v
-	return s
-}
-
-// SetTagFilters sets the TagFilters field's value.
-func (s *GetResourcesInput) SetTagFilters(v []*TagFilter) *GetResourcesInput {
-	s.TagFilters = v
-	return s
-}
-
-// SetTagsPerPage sets the TagsPerPage field's value.
-func (s *GetResourcesInput) SetTagsPerPage(v int64) *GetResourcesInput {
-	s.TagsPerPage = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetResourcesOutput
 type GetResourcesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A string that indicates that the response contains more data than can be
 	// returned in a single response. To receive additional data, specify this string
@@ -618,7 +577,7 @@ type GetResourcesOutput struct {
 	PaginationToken *string `type:"string"`
 
 	// A list of resource ARNs and the tags (keys and values) associated with each.
-	ResourceTagMappingList []*ResourceTagMapping `type:"list"`
+	ResourceTagMappingList []ResourceTagMapping `type:"list"`
 }
 
 // String returns the string representation
@@ -631,16 +590,9 @@ func (s GetResourcesOutput) GoString() string {
 	return s.String()
 }
 
-// SetPaginationToken sets the PaginationToken field's value.
-func (s *GetResourcesOutput) SetPaginationToken(v string) *GetResourcesOutput {
-	s.PaginationToken = &v
-	return s
-}
-
-// SetResourceTagMappingList sets the ResourceTagMappingList field's value.
-func (s *GetResourcesOutput) SetResourceTagMappingList(v []*ResourceTagMapping) *GetResourcesOutput {
-	s.ResourceTagMappingList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetResourcesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetTagKeysInput
@@ -663,15 +615,11 @@ func (s GetTagKeysInput) GoString() string {
 	return s.String()
 }
 
-// SetPaginationToken sets the PaginationToken field's value.
-func (s *GetTagKeysInput) SetPaginationToken(v string) *GetTagKeysInput {
-	s.PaginationToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetTagKeysOutput
 type GetTagKeysOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A string that indicates that the response contains more data than can be
 	// returned in a single response. To receive additional data, specify this string
@@ -679,7 +627,7 @@ type GetTagKeysOutput struct {
 	PaginationToken *string `type:"string"`
 
 	// A list of all tag keys in the AWS account.
-	TagKeys []*string `type:"list"`
+	TagKeys []string `type:"list"`
 }
 
 // String returns the string representation
@@ -692,16 +640,9 @@ func (s GetTagKeysOutput) GoString() string {
 	return s.String()
 }
 
-// SetPaginationToken sets the PaginationToken field's value.
-func (s *GetTagKeysOutput) SetPaginationToken(v string) *GetTagKeysOutput {
-	s.PaginationToken = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *GetTagKeysOutput) SetTagKeys(v []*string) *GetTagKeysOutput {
-	s.TagKeys = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTagKeysOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetTagValuesInput
@@ -747,21 +688,11 @@ func (s *GetTagValuesInput) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *GetTagValuesInput) SetKey(v string) *GetTagValuesInput {
-	s.Key = &v
-	return s
-}
-
-// SetPaginationToken sets the PaginationToken field's value.
-func (s *GetTagValuesInput) SetPaginationToken(v string) *GetTagValuesInput {
-	s.PaginationToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/GetTagValuesOutput
 type GetTagValuesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A string that indicates that the response contains more data than can be
 	// returned in a single response. To receive additional data, specify this string
@@ -769,7 +700,7 @@ type GetTagValuesOutput struct {
 	PaginationToken *string `type:"string"`
 
 	// A list of all tag values for the specified key in the AWS account.
-	TagValues []*string `type:"list"`
+	TagValues []string `type:"list"`
 }
 
 // String returns the string representation
@@ -782,16 +713,9 @@ func (s GetTagValuesOutput) GoString() string {
 	return s.String()
 }
 
-// SetPaginationToken sets the PaginationToken field's value.
-func (s *GetTagValuesOutput) SetPaginationToken(v string) *GetTagValuesOutput {
-	s.PaginationToken = &v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *GetTagValuesOutput) SetTagValues(v []*string) *GetTagValuesOutput {
-	s.TagValues = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTagValuesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A list of resource ARNs and the tags (keys and values) that are associated
@@ -804,7 +728,7 @@ type ResourceTagMapping struct {
 	ResourceARN *string `min:"1" type:"string"`
 
 	// The tags that have been applied to one or more AWS resources.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -815,18 +739,6 @@ func (s ResourceTagMapping) String() string {
 // GoString returns the string representation
 func (s ResourceTagMapping) GoString() string {
 	return s.String()
-}
-
-// SetResourceARN sets the ResourceARN field's value.
-func (s *ResourceTagMapping) SetResourceARN(v string) *ResourceTagMapping {
-	s.ResourceARN = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *ResourceTagMapping) SetTags(v []*Tag) *ResourceTagMapping {
-	s.Tags = v
-	return s
 }
 
 // The metadata that you apply to AWS resources to help you categorize and organize
@@ -860,18 +772,6 @@ func (s Tag) GoString() string {
 	return s.String()
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // A list of tags (keys and values) that are used to specify the associated
 // resources.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/TagFilter
@@ -884,7 +784,7 @@ type TagFilter struct {
 
 	// The optional part of a key-value pair that make up a tag. A value acts as
 	// a descriptor within a tag category (key).
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -910,18 +810,6 @@ func (s *TagFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *TagFilter) SetKey(v string) *TagFilter {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *TagFilter) SetValues(v []*string) *TagFilter {
-	s.Values = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/TagResourcesInput
 type TagResourcesInput struct {
 	_ struct{} `type:"structure"`
@@ -933,13 +821,13 @@ type TagResourcesInput struct {
 	// in the AWS General Reference.
 	//
 	// ResourceARNList is a required field
-	ResourceARNList []*string `min:"1" type:"list" required:"true"`
+	ResourceARNList []string `min:"1" type:"list" required:"true"`
 
 	// The tags that you want to add to the specified resources. A tag consists
 	// of a key and a value that you define.
 	//
 	// Tags is a required field
-	Tags map[string]*string `min:"1" type:"map" required:"true"`
+	Tags map[string]string `min:"1" type:"map" required:"true"`
 }
 
 // String returns the string representation
@@ -976,25 +864,15 @@ func (s *TagResourcesInput) Validate() error {
 	return nil
 }
 
-// SetResourceARNList sets the ResourceARNList field's value.
-func (s *TagResourcesInput) SetResourceARNList(v []*string) *TagResourcesInput {
-	s.ResourceARNList = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *TagResourcesInput) SetTags(v map[string]*string) *TagResourcesInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/TagResourcesOutput
 type TagResourcesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Details of resources that could not be tagged. An error code, status code,
 	// and error message are returned for each failed item.
-	FailedResourcesMap map[string]*FailureInfo `type:"map"`
+	FailedResourcesMap map[string]FailureInfo `type:"map"`
 }
 
 // String returns the string representation
@@ -1007,10 +885,9 @@ func (s TagResourcesOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailedResourcesMap sets the FailedResourcesMap field's value.
-func (s *TagResourcesOutput) SetFailedResourcesMap(v map[string]*FailureInfo) *TagResourcesOutput {
-	s.FailedResourcesMap = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TagResourcesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/UntagResourcesInput
@@ -1024,12 +901,12 @@ type UntagResourcesInput struct {
 	// in the AWS General Reference.
 	//
 	// ResourceARNList is a required field
-	ResourceARNList []*string `min:"1" type:"list" required:"true"`
+	ResourceARNList []string `min:"1" type:"list" required:"true"`
 
 	// A list of the tag keys that you want to remove from the specified resources.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `min:"1" type:"list" required:"true"`
+	TagKeys []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1066,25 +943,15 @@ func (s *UntagResourcesInput) Validate() error {
 	return nil
 }
 
-// SetResourceARNList sets the ResourceARNList field's value.
-func (s *UntagResourcesInput) SetResourceARNList(v []*string) *UntagResourcesInput {
-	s.ResourceARNList = v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *UntagResourcesInput) SetTagKeys(v []*string) *UntagResourcesInput {
-	s.TagKeys = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/resourcegroupstaggingapi-2017-01-26/UntagResourcesOutput
 type UntagResourcesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Details of resources that could not be untagged. An error code, status code,
 	// and error message are returned for each failed item.
-	FailedResourcesMap map[string]*FailureInfo `type:"map"`
+	FailedResourcesMap map[string]FailureInfo `type:"map"`
 }
 
 // String returns the string representation
@@ -1097,10 +964,9 @@ func (s UntagResourcesOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailedResourcesMap sets the FailedResourcesMap field's value.
-func (s *UntagResourcesOutput) SetFailedResourcesMap(v map[string]*FailureInfo) *UntagResourcesOutput {
-	s.FailedResourcesMap = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UntagResourcesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type ErrorCode string
@@ -1110,3 +976,12 @@ const (
 	ErrorCodeInternalServiceException  ErrorCode = "InternalServiceException"
 	ErrorCodeInvalidParameterException ErrorCode = "InvalidParameterException"
 )
+
+func (enum ErrorCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ErrorCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

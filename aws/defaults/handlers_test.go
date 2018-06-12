@@ -145,7 +145,7 @@ func TestAfterRetryWithContextCanceled(t *testing.T) {
 
 	aerr := req.Error.(awserr.Error)
 
-	if e, a := aws.CanceledErrorCode, aerr.Code(); e != a {
+	if e, a := aws.ErrCodeRequestCanceled, aerr.Code(); e != a {
 		t.Errorf("expect %q, error code got %q", e, a)
 	}
 }
@@ -199,7 +199,7 @@ func TestSendWithContextCanceled(t *testing.T) {
 
 	aerr := req.Error.(awserr.Error)
 
-	if e, a := aws.CanceledErrorCode, aerr.Code(); e != a {
+	if e, a := aws.ErrCodeRequestCanceled, aerr.Code(); e != a {
 		t.Errorf("expect %q, error code got %q", e, a)
 	}
 }
@@ -348,9 +348,9 @@ func TestBuildContentLength_ZeroBody(t *testing.T) {
 
 	cfg := unit.Config()
 	cfg.EndpointResolver = aws.ResolveWithEndpointURL(server.URL)
-	cfg.S3ForcePathStyle = true
 
 	svc := s3.New(cfg)
+	svc.ForcePathStyle = true
 	req := svc.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String("bucketname"),
 		Key:    aws.String("keyname"),
@@ -366,9 +366,9 @@ func TestBuildContentLength_NegativeBody(t *testing.T) {
 
 	cfg := unit.Config()
 	cfg.EndpointResolver = aws.ResolveWithEndpointURL(server.URL)
-	cfg.S3ForcePathStyle = true
 
 	svc := s3.New(cfg)
+	svc.ForcePathStyle = true
 	req := svc.GetObjectRequest(&s3.GetObjectInput{
 		Bucket: aws.String("bucketname"),
 		Key:    aws.String("keyname"),
@@ -386,9 +386,9 @@ func TestBuildContentLength_WithBody(t *testing.T) {
 
 	cfg := unit.Config()
 	cfg.EndpointResolver = aws.ResolveWithEndpointURL(server.URL)
-	cfg.S3ForcePathStyle = true
 
 	svc := s3.New(cfg)
+	svc.ForcePathStyle = true
 	req := svc.PutObjectRequest(&s3.PutObjectInput{
 		Bucket: aws.String("bucketname"),
 		Key:    aws.String("keyname"),

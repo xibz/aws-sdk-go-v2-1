@@ -9,7 +9,6 @@
 package elasticbeanstalkiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk"
 )
 
@@ -93,6 +92,8 @@ type ElasticBeanstalkAPI interface {
 
 	DeletePlatformVersionRequest(*elasticbeanstalk.DeletePlatformVersionInput) elasticbeanstalk.DeletePlatformVersionRequest
 
+	DescribeAccountAttributesRequest(*elasticbeanstalk.DescribeAccountAttributesInput) elasticbeanstalk.DescribeAccountAttributesRequest
+
 	DescribeApplicationVersionsRequest(*elasticbeanstalk.DescribeApplicationVersionsInput) elasticbeanstalk.DescribeApplicationVersionsRequest
 
 	DescribeApplicationsRequest(*elasticbeanstalk.DescribeApplicationsInput) elasticbeanstalk.DescribeApplicationsRequest
@@ -113,9 +114,6 @@ type ElasticBeanstalkAPI interface {
 
 	DescribeEventsRequest(*elasticbeanstalk.DescribeEventsInput) elasticbeanstalk.DescribeEventsRequest
 
-	DescribeEventsPages(*elasticbeanstalk.DescribeEventsInput, func(*elasticbeanstalk.DescribeEventsOutput, bool) bool) error
-	DescribeEventsPagesWithContext(aws.Context, *elasticbeanstalk.DescribeEventsInput, func(*elasticbeanstalk.DescribeEventsOutput, bool) bool, ...aws.Option) error
-
 	DescribeInstancesHealthRequest(*elasticbeanstalk.DescribeInstancesHealthInput) elasticbeanstalk.DescribeInstancesHealthRequest
 
 	DescribePlatformVersionRequest(*elasticbeanstalk.DescribePlatformVersionInput) elasticbeanstalk.DescribePlatformVersionRequest
@@ -123,6 +121,8 @@ type ElasticBeanstalkAPI interface {
 	ListAvailableSolutionStacksRequest(*elasticbeanstalk.ListAvailableSolutionStacksInput) elasticbeanstalk.ListAvailableSolutionStacksRequest
 
 	ListPlatformVersionsRequest(*elasticbeanstalk.ListPlatformVersionsInput) elasticbeanstalk.ListPlatformVersionsRequest
+
+	ListTagsForResourceRequest(*elasticbeanstalk.ListTagsForResourceInput) elasticbeanstalk.ListTagsForResourceRequest
 
 	RebuildEnvironmentRequest(*elasticbeanstalk.RebuildEnvironmentInput) elasticbeanstalk.RebuildEnvironmentRequest
 
@@ -145,6 +145,8 @@ type ElasticBeanstalkAPI interface {
 	UpdateConfigurationTemplateRequest(*elasticbeanstalk.UpdateConfigurationTemplateInput) elasticbeanstalk.UpdateConfigurationTemplateRequest
 
 	UpdateEnvironmentRequest(*elasticbeanstalk.UpdateEnvironmentInput) elasticbeanstalk.UpdateEnvironmentRequest
+
+	UpdateTagsForResourceRequest(*elasticbeanstalk.UpdateTagsForResourceInput) elasticbeanstalk.UpdateTagsForResourceRequest
 
 	ValidateConfigurationSettingsRequest(*elasticbeanstalk.ValidateConfigurationSettingsInput) elasticbeanstalk.ValidateConfigurationSettingsRequest
 }

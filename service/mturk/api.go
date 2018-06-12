@@ -16,6 +16,7 @@ const opAcceptQualificationRequest = "AcceptQualificationRequest"
 type AcceptQualificationRequestRequest struct {
 	*aws.Request
 	Input *AcceptQualificationRequestInput
+	Copy  func(*AcceptQualificationRequestInput) AcceptQualificationRequestRequest
 }
 
 // Send marshals and sends the AcceptQualificationRequest API request.
@@ -59,8 +60,11 @@ func (c *MTurk) AcceptQualificationRequestRequest(input *AcceptQualificationRequ
 		input = &AcceptQualificationRequestInput{}
 	}
 
-	req := c.newRequest(op, input, &AcceptQualificationRequestOutput{})
-	return AcceptQualificationRequestRequest{Request: req, Input: input}
+	output := &AcceptQualificationRequestOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AcceptQualificationRequestRequest{Request: req, Input: input, Copy: c.AcceptQualificationRequestRequest}
 }
 
 const opApproveAssignment = "ApproveAssignment"
@@ -69,6 +73,7 @@ const opApproveAssignment = "ApproveAssignment"
 type ApproveAssignmentRequest struct {
 	*aws.Request
 	Input *ApproveAssignmentInput
+	Copy  func(*ApproveAssignmentInput) ApproveAssignmentRequest
 }
 
 // Send marshals and sends the ApproveAssignment API request.
@@ -123,8 +128,11 @@ func (c *MTurk) ApproveAssignmentRequest(input *ApproveAssignmentInput) ApproveA
 		input = &ApproveAssignmentInput{}
 	}
 
-	req := c.newRequest(op, input, &ApproveAssignmentOutput{})
-	return ApproveAssignmentRequest{Request: req, Input: input}
+	output := &ApproveAssignmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ApproveAssignmentRequest{Request: req, Input: input, Copy: c.ApproveAssignmentRequest}
 }
 
 const opAssociateQualificationWithWorker = "AssociateQualificationWithWorker"
@@ -133,6 +141,7 @@ const opAssociateQualificationWithWorker = "AssociateQualificationWithWorker"
 type AssociateQualificationWithWorkerRequest struct {
 	*aws.Request
 	Input *AssociateQualificationWithWorkerInput
+	Copy  func(*AssociateQualificationWithWorkerInput) AssociateQualificationWithWorkerRequest
 }
 
 // Send marshals and sends the AssociateQualificationWithWorker API request.
@@ -181,8 +190,11 @@ func (c *MTurk) AssociateQualificationWithWorkerRequest(input *AssociateQualific
 		input = &AssociateQualificationWithWorkerInput{}
 	}
 
-	req := c.newRequest(op, input, &AssociateQualificationWithWorkerOutput{})
-	return AssociateQualificationWithWorkerRequest{Request: req, Input: input}
+	output := &AssociateQualificationWithWorkerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateQualificationWithWorkerRequest{Request: req, Input: input, Copy: c.AssociateQualificationWithWorkerRequest}
 }
 
 const opCreateAdditionalAssignmentsForHIT = "CreateAdditionalAssignmentsForHIT"
@@ -191,6 +203,7 @@ const opCreateAdditionalAssignmentsForHIT = "CreateAdditionalAssignmentsForHIT"
 type CreateAdditionalAssignmentsForHITRequest struct {
 	*aws.Request
 	Input *CreateAdditionalAssignmentsForHITInput
+	Copy  func(*CreateAdditionalAssignmentsForHITInput) CreateAdditionalAssignmentsForHITRequest
 }
 
 // Send marshals and sends the CreateAdditionalAssignmentsForHIT API request.
@@ -241,8 +254,11 @@ func (c *MTurk) CreateAdditionalAssignmentsForHITRequest(input *CreateAdditional
 		input = &CreateAdditionalAssignmentsForHITInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAdditionalAssignmentsForHITOutput{})
-	return CreateAdditionalAssignmentsForHITRequest{Request: req, Input: input}
+	output := &CreateAdditionalAssignmentsForHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAdditionalAssignmentsForHITRequest{Request: req, Input: input, Copy: c.CreateAdditionalAssignmentsForHITRequest}
 }
 
 const opCreateHIT = "CreateHIT"
@@ -251,6 +267,7 @@ const opCreateHIT = "CreateHIT"
 type CreateHITRequest struct {
 	*aws.Request
 	Input *CreateHITInput
+	Copy  func(*CreateHITInput) CreateHITRequest
 }
 
 // Send marshals and sends the CreateHIT API request.
@@ -308,8 +325,11 @@ func (c *MTurk) CreateHITRequest(input *CreateHITInput) CreateHITRequest {
 		input = &CreateHITInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHITOutput{})
-	return CreateHITRequest{Request: req, Input: input}
+	output := &CreateHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHITRequest{Request: req, Input: input, Copy: c.CreateHITRequest}
 }
 
 const opCreateHITType = "CreateHITType"
@@ -318,6 +338,7 @@ const opCreateHITType = "CreateHITType"
 type CreateHITTypeRequest struct {
 	*aws.Request
 	Input *CreateHITTypeInput
+	Copy  func(*CreateHITTypeInput) CreateHITTypeRequest
 }
 
 // Send marshals and sends the CreateHITType API request.
@@ -357,8 +378,11 @@ func (c *MTurk) CreateHITTypeRequest(input *CreateHITTypeInput) CreateHITTypeReq
 		input = &CreateHITTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHITTypeOutput{})
-	return CreateHITTypeRequest{Request: req, Input: input}
+	output := &CreateHITTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHITTypeRequest{Request: req, Input: input, Copy: c.CreateHITTypeRequest}
 }
 
 const opCreateHITWithHITType = "CreateHITWithHITType"
@@ -367,6 +391,7 @@ const opCreateHITWithHITType = "CreateHITWithHITType"
 type CreateHITWithHITTypeRequest struct {
 	*aws.Request
 	Input *CreateHITWithHITTypeInput
+	Copy  func(*CreateHITWithHITTypeInput) CreateHITWithHITTypeRequest
 }
 
 // Send marshals and sends the CreateHITWithHITType API request.
@@ -415,8 +440,11 @@ func (c *MTurk) CreateHITWithHITTypeRequest(input *CreateHITWithHITTypeInput) Cr
 		input = &CreateHITWithHITTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHITWithHITTypeOutput{})
-	return CreateHITWithHITTypeRequest{Request: req, Input: input}
+	output := &CreateHITWithHITTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHITWithHITTypeRequest{Request: req, Input: input, Copy: c.CreateHITWithHITTypeRequest}
 }
 
 const opCreateQualificationType = "CreateQualificationType"
@@ -425,6 +453,7 @@ const opCreateQualificationType = "CreateQualificationType"
 type CreateQualificationTypeRequest struct {
 	*aws.Request
 	Input *CreateQualificationTypeInput
+	Copy  func(*CreateQualificationTypeInput) CreateQualificationTypeRequest
 }
 
 // Send marshals and sends the CreateQualificationType API request.
@@ -462,8 +491,11 @@ func (c *MTurk) CreateQualificationTypeRequest(input *CreateQualificationTypeInp
 		input = &CreateQualificationTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateQualificationTypeOutput{})
-	return CreateQualificationTypeRequest{Request: req, Input: input}
+	output := &CreateQualificationTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateQualificationTypeRequest{Request: req, Input: input, Copy: c.CreateQualificationTypeRequest}
 }
 
 const opCreateWorkerBlock = "CreateWorkerBlock"
@@ -472,6 +504,7 @@ const opCreateWorkerBlock = "CreateWorkerBlock"
 type CreateWorkerBlockRequest struct {
 	*aws.Request
 	Input *CreateWorkerBlockInput
+	Copy  func(*CreateWorkerBlockInput) CreateWorkerBlockRequest
 }
 
 // Send marshals and sends the CreateWorkerBlock API request.
@@ -510,8 +543,11 @@ func (c *MTurk) CreateWorkerBlockRequest(input *CreateWorkerBlockInput) CreateWo
 		input = &CreateWorkerBlockInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateWorkerBlockOutput{})
-	return CreateWorkerBlockRequest{Request: req, Input: input}
+	output := &CreateWorkerBlockOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateWorkerBlockRequest{Request: req, Input: input, Copy: c.CreateWorkerBlockRequest}
 }
 
 const opDeleteHIT = "DeleteHIT"
@@ -520,6 +556,7 @@ const opDeleteHIT = "DeleteHIT"
 type DeleteHITRequest struct {
 	*aws.Request
 	Input *DeleteHITInput
+	Copy  func(*DeleteHITInput) DeleteHITRequest
 }
 
 // Send marshals and sends the DeleteHIT API request.
@@ -574,8 +611,11 @@ func (c *MTurk) DeleteHITRequest(input *DeleteHITInput) DeleteHITRequest {
 		input = &DeleteHITInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteHITOutput{})
-	return DeleteHITRequest{Request: req, Input: input}
+	output := &DeleteHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteHITRequest{Request: req, Input: input, Copy: c.DeleteHITRequest}
 }
 
 const opDeleteQualificationType = "DeleteQualificationType"
@@ -584,6 +624,7 @@ const opDeleteQualificationType = "DeleteQualificationType"
 type DeleteQualificationTypeRequest struct {
 	*aws.Request
 	Input *DeleteQualificationTypeInput
+	Copy  func(*DeleteQualificationTypeInput) DeleteQualificationTypeRequest
 }
 
 // Send marshals and sends the DeleteQualificationType API request.
@@ -632,8 +673,11 @@ func (c *MTurk) DeleteQualificationTypeRequest(input *DeleteQualificationTypeInp
 		input = &DeleteQualificationTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteQualificationTypeOutput{})
-	return DeleteQualificationTypeRequest{Request: req, Input: input}
+	output := &DeleteQualificationTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteQualificationTypeRequest{Request: req, Input: input, Copy: c.DeleteQualificationTypeRequest}
 }
 
 const opDeleteWorkerBlock = "DeleteWorkerBlock"
@@ -642,6 +686,7 @@ const opDeleteWorkerBlock = "DeleteWorkerBlock"
 type DeleteWorkerBlockRequest struct {
 	*aws.Request
 	Input *DeleteWorkerBlockInput
+	Copy  func(*DeleteWorkerBlockInput) DeleteWorkerBlockRequest
 }
 
 // Send marshals and sends the DeleteWorkerBlock API request.
@@ -683,8 +728,11 @@ func (c *MTurk) DeleteWorkerBlockRequest(input *DeleteWorkerBlockInput) DeleteWo
 		input = &DeleteWorkerBlockInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteWorkerBlockOutput{})
-	return DeleteWorkerBlockRequest{Request: req, Input: input}
+	output := &DeleteWorkerBlockOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteWorkerBlockRequest{Request: req, Input: input, Copy: c.DeleteWorkerBlockRequest}
 }
 
 const opDisassociateQualificationFromWorker = "DisassociateQualificationFromWorker"
@@ -693,6 +741,7 @@ const opDisassociateQualificationFromWorker = "DisassociateQualificationFromWork
 type DisassociateQualificationFromWorkerRequest struct {
 	*aws.Request
 	Input *DisassociateQualificationFromWorkerInput
+	Copy  func(*DisassociateQualificationFromWorkerInput) DisassociateQualificationFromWorkerRequest
 }
 
 // Send marshals and sends the DisassociateQualificationFromWorker API request.
@@ -733,8 +782,11 @@ func (c *MTurk) DisassociateQualificationFromWorkerRequest(input *DisassociateQu
 		input = &DisassociateQualificationFromWorkerInput{}
 	}
 
-	req := c.newRequest(op, input, &DisassociateQualificationFromWorkerOutput{})
-	return DisassociateQualificationFromWorkerRequest{Request: req, Input: input}
+	output := &DisassociateQualificationFromWorkerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateQualificationFromWorkerRequest{Request: req, Input: input, Copy: c.DisassociateQualificationFromWorkerRequest}
 }
 
 const opGetAccountBalance = "GetAccountBalance"
@@ -743,6 +795,7 @@ const opGetAccountBalance = "GetAccountBalance"
 type GetAccountBalanceRequest struct {
 	*aws.Request
 	Input *GetAccountBalanceInput
+	Copy  func(*GetAccountBalanceInput) GetAccountBalanceRequest
 }
 
 // Send marshals and sends the GetAccountBalance API request.
@@ -780,8 +833,11 @@ func (c *MTurk) GetAccountBalanceRequest(input *GetAccountBalanceInput) GetAccou
 		input = &GetAccountBalanceInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccountBalanceOutput{})
-	return GetAccountBalanceRequest{Request: req, Input: input}
+	output := &GetAccountBalanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccountBalanceRequest{Request: req, Input: input, Copy: c.GetAccountBalanceRequest}
 }
 
 const opGetAssignment = "GetAssignment"
@@ -790,6 +846,7 @@ const opGetAssignment = "GetAssignment"
 type GetAssignmentRequest struct {
 	*aws.Request
 	Input *GetAssignmentInput
+	Copy  func(*GetAssignmentInput) GetAssignmentRequest
 }
 
 // Send marshals and sends the GetAssignment API request.
@@ -826,8 +883,11 @@ func (c *MTurk) GetAssignmentRequest(input *GetAssignmentInput) GetAssignmentReq
 		input = &GetAssignmentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAssignmentOutput{})
-	return GetAssignmentRequest{Request: req, Input: input}
+	output := &GetAssignmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAssignmentRequest{Request: req, Input: input, Copy: c.GetAssignmentRequest}
 }
 
 const opGetFileUploadURL = "GetFileUploadURL"
@@ -836,6 +896,7 @@ const opGetFileUploadURL = "GetFileUploadURL"
 type GetFileUploadURLRequest struct {
 	*aws.Request
 	Input *GetFileUploadURLInput
+	Copy  func(*GetFileUploadURLInput) GetFileUploadURLRequest
 }
 
 // Send marshals and sends the GetFileUploadURL API request.
@@ -857,7 +918,11 @@ func (r GetFileUploadURLRequest) Send() (*GetFileUploadURLOutput, error) {
 // the instant the GetFileUploadURL operation is called, and is valid for 60
 // seconds. You can get a temporary file upload URL any time until the HIT is
 // disposed. After the HIT is disposed, any uploaded files are deleted, and
-// cannot be retrieved.
+// cannot be retrieved. Pending Deprecation on December 12, 2017. The Answer
+// Specification structure will no longer support the FileUploadAnswer element
+// to be used for the QuestionForm data structure. Instead, we recommend that
+// Requesters who want to create HITs asking Workers to upload files to use
+// Amazon S3.
 //
 //    // Example sending a request using the GetFileUploadURLRequest method.
 //    req := client.GetFileUploadURLRequest(params)
@@ -878,8 +943,11 @@ func (c *MTurk) GetFileUploadURLRequest(input *GetFileUploadURLInput) GetFileUpl
 		input = &GetFileUploadURLInput{}
 	}
 
-	req := c.newRequest(op, input, &GetFileUploadURLOutput{})
-	return GetFileUploadURLRequest{Request: req, Input: input}
+	output := &GetFileUploadURLOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFileUploadURLRequest{Request: req, Input: input, Copy: c.GetFileUploadURLRequest}
 }
 
 const opGetHIT = "GetHIT"
@@ -888,6 +956,7 @@ const opGetHIT = "GetHIT"
 type GetHITRequest struct {
 	*aws.Request
 	Input *GetHITInput
+	Copy  func(*GetHITInput) GetHITRequest
 }
 
 // Send marshals and sends the GetHIT API request.
@@ -924,8 +993,11 @@ func (c *MTurk) GetHITRequest(input *GetHITInput) GetHITRequest {
 		input = &GetHITInput{}
 	}
 
-	req := c.newRequest(op, input, &GetHITOutput{})
-	return GetHITRequest{Request: req, Input: input}
+	output := &GetHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetHITRequest{Request: req, Input: input, Copy: c.GetHITRequest}
 }
 
 const opGetQualificationScore = "GetQualificationScore"
@@ -934,6 +1006,7 @@ const opGetQualificationScore = "GetQualificationScore"
 type GetQualificationScoreRequest struct {
 	*aws.Request
 	Input *GetQualificationScoreInput
+	Copy  func(*GetQualificationScoreInput) GetQualificationScoreRequest
 }
 
 // Send marshals and sends the GetQualificationScore API request.
@@ -978,8 +1051,11 @@ func (c *MTurk) GetQualificationScoreRequest(input *GetQualificationScoreInput) 
 		input = &GetQualificationScoreInput{}
 	}
 
-	req := c.newRequest(op, input, &GetQualificationScoreOutput{})
-	return GetQualificationScoreRequest{Request: req, Input: input}
+	output := &GetQualificationScoreOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetQualificationScoreRequest{Request: req, Input: input, Copy: c.GetQualificationScoreRequest}
 }
 
 const opGetQualificationType = "GetQualificationType"
@@ -988,6 +1064,7 @@ const opGetQualificationType = "GetQualificationType"
 type GetQualificationTypeRequest struct {
 	*aws.Request
 	Input *GetQualificationTypeInput
+	Copy  func(*GetQualificationTypeInput) GetQualificationTypeRequest
 }
 
 // Send marshals and sends the GetQualificationType API request.
@@ -1025,8 +1102,11 @@ func (c *MTurk) GetQualificationTypeRequest(input *GetQualificationTypeInput) Ge
 		input = &GetQualificationTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &GetQualificationTypeOutput{})
-	return GetQualificationTypeRequest{Request: req, Input: input}
+	output := &GetQualificationTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetQualificationTypeRequest{Request: req, Input: input, Copy: c.GetQualificationTypeRequest}
 }
 
 const opListAssignmentsForHIT = "ListAssignmentsForHIT"
@@ -1035,6 +1115,7 @@ const opListAssignmentsForHIT = "ListAssignmentsForHIT"
 type ListAssignmentsForHITRequest struct {
 	*aws.Request
 	Input *ListAssignmentsForHITInput
+	Copy  func(*ListAssignmentsForHITInput) ListAssignmentsForHITRequest
 }
 
 // Send marshals and sends the ListAssignmentsForHIT API request.
@@ -1097,58 +1178,57 @@ func (c *MTurk) ListAssignmentsForHITRequest(input *ListAssignmentsForHITInput) 
 		input = &ListAssignmentsForHITInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAssignmentsForHITOutput{})
-	return ListAssignmentsForHITRequest{Request: req, Input: input}
+	output := &ListAssignmentsForHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAssignmentsForHITRequest{Request: req, Input: input, Copy: c.ListAssignmentsForHITRequest}
 }
 
-// ListAssignmentsForHITPages iterates over the pages of a ListAssignmentsForHIT operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAssignmentsForHIT method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAssignmentsForHITRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAssignmentsForHIT operation.
-//    pageNum := 0
-//    err := client.ListAssignmentsForHITPages(params,
-//        func(page *ListAssignmentsForHITOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAssignmentsForHITRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListAssignmentsForHITPages(input *ListAssignmentsForHITInput, fn func(*ListAssignmentsForHITOutput, bool) bool) error {
-	return c.ListAssignmentsForHITPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAssignmentsForHITRequest) Paginate(opts ...aws.Option) ListAssignmentsForHITPager {
+	return ListAssignmentsForHITPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAssignmentsForHITInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAssignmentsForHITPagesWithContext same as ListAssignmentsForHITPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListAssignmentsForHITPagesWithContext(ctx aws.Context, input *ListAssignmentsForHITInput, fn func(*ListAssignmentsForHITOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAssignmentsForHITInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAssignmentsForHITRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAssignmentsForHITOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAssignmentsForHITPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAssignmentsForHITPager struct {
+	aws.Pager
+}
+
+func (p *ListAssignmentsForHITPager) CurrentPage() *ListAssignmentsForHITOutput {
+	return p.Pager.CurrentPage().(*ListAssignmentsForHITOutput)
 }
 
 const opListBonusPayments = "ListBonusPayments"
@@ -1157,6 +1237,7 @@ const opListBonusPayments = "ListBonusPayments"
 type ListBonusPaymentsRequest struct {
 	*aws.Request
 	Input *ListBonusPaymentsInput
+	Copy  func(*ListBonusPaymentsInput) ListBonusPaymentsRequest
 }
 
 // Send marshals and sends the ListBonusPayments API request.
@@ -1200,58 +1281,57 @@ func (c *MTurk) ListBonusPaymentsRequest(input *ListBonusPaymentsInput) ListBonu
 		input = &ListBonusPaymentsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBonusPaymentsOutput{})
-	return ListBonusPaymentsRequest{Request: req, Input: input}
+	output := &ListBonusPaymentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBonusPaymentsRequest{Request: req, Input: input, Copy: c.ListBonusPaymentsRequest}
 }
 
-// ListBonusPaymentsPages iterates over the pages of a ListBonusPayments operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListBonusPayments method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListBonusPaymentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListBonusPayments operation.
-//    pageNum := 0
-//    err := client.ListBonusPaymentsPages(params,
-//        func(page *ListBonusPaymentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListBonusPaymentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListBonusPaymentsPages(input *ListBonusPaymentsInput, fn func(*ListBonusPaymentsOutput, bool) bool) error {
-	return c.ListBonusPaymentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListBonusPaymentsRequest) Paginate(opts ...aws.Option) ListBonusPaymentsPager {
+	return ListBonusPaymentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListBonusPaymentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListBonusPaymentsPagesWithContext same as ListBonusPaymentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListBonusPaymentsPagesWithContext(ctx aws.Context, input *ListBonusPaymentsInput, fn func(*ListBonusPaymentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListBonusPaymentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListBonusPaymentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListBonusPaymentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListBonusPaymentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListBonusPaymentsPager struct {
+	aws.Pager
+}
+
+func (p *ListBonusPaymentsPager) CurrentPage() *ListBonusPaymentsOutput {
+	return p.Pager.CurrentPage().(*ListBonusPaymentsOutput)
 }
 
 const opListHITs = "ListHITs"
@@ -1260,6 +1340,7 @@ const opListHITs = "ListHITs"
 type ListHITsRequest struct {
 	*aws.Request
 	Input *ListHITsInput
+	Copy  func(*ListHITsInput) ListHITsRequest
 }
 
 // Send marshals and sends the ListHITs API request.
@@ -1304,58 +1385,57 @@ func (c *MTurk) ListHITsRequest(input *ListHITsInput) ListHITsRequest {
 		input = &ListHITsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListHITsOutput{})
-	return ListHITsRequest{Request: req, Input: input}
+	output := &ListHITsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListHITsRequest{Request: req, Input: input, Copy: c.ListHITsRequest}
 }
 
-// ListHITsPages iterates over the pages of a ListHITs operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListHITs method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListHITsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListHITs operation.
-//    pageNum := 0
-//    err := client.ListHITsPages(params,
-//        func(page *ListHITsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListHITsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListHITsPages(input *ListHITsInput, fn func(*ListHITsOutput, bool) bool) error {
-	return c.ListHITsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListHITsRequest) Paginate(opts ...aws.Option) ListHITsPager {
+	return ListHITsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListHITsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListHITsPagesWithContext same as ListHITsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListHITsPagesWithContext(ctx aws.Context, input *ListHITsInput, fn func(*ListHITsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListHITsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListHITsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListHITsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListHITsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListHITsPager struct {
+	aws.Pager
+}
+
+func (p *ListHITsPager) CurrentPage() *ListHITsOutput {
+	return p.Pager.CurrentPage().(*ListHITsOutput)
 }
 
 const opListHITsForQualificationType = "ListHITsForQualificationType"
@@ -1364,6 +1444,7 @@ const opListHITsForQualificationType = "ListHITsForQualificationType"
 type ListHITsForQualificationTypeRequest struct {
 	*aws.Request
 	Input *ListHITsForQualificationTypeInput
+	Copy  func(*ListHITsForQualificationTypeInput) ListHITsForQualificationTypeRequest
 }
 
 // Send marshals and sends the ListHITsForQualificationType API request.
@@ -1409,58 +1490,57 @@ func (c *MTurk) ListHITsForQualificationTypeRequest(input *ListHITsForQualificat
 		input = &ListHITsForQualificationTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &ListHITsForQualificationTypeOutput{})
-	return ListHITsForQualificationTypeRequest{Request: req, Input: input}
+	output := &ListHITsForQualificationTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListHITsForQualificationTypeRequest{Request: req, Input: input, Copy: c.ListHITsForQualificationTypeRequest}
 }
 
-// ListHITsForQualificationTypePages iterates over the pages of a ListHITsForQualificationType operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListHITsForQualificationType method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListHITsForQualificationTypeRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListHITsForQualificationType operation.
-//    pageNum := 0
-//    err := client.ListHITsForQualificationTypePages(params,
-//        func(page *ListHITsForQualificationTypeOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListHITsForQualificationTypeRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListHITsForQualificationTypePages(input *ListHITsForQualificationTypeInput, fn func(*ListHITsForQualificationTypeOutput, bool) bool) error {
-	return c.ListHITsForQualificationTypePagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListHITsForQualificationTypeRequest) Paginate(opts ...aws.Option) ListHITsForQualificationTypePager {
+	return ListHITsForQualificationTypePager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListHITsForQualificationTypeInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListHITsForQualificationTypePagesWithContext same as ListHITsForQualificationTypePages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListHITsForQualificationTypePagesWithContext(ctx aws.Context, input *ListHITsForQualificationTypeInput, fn func(*ListHITsForQualificationTypeOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListHITsForQualificationTypeInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListHITsForQualificationTypeRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListHITsForQualificationTypeOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListHITsForQualificationTypePager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListHITsForQualificationTypePager struct {
+	aws.Pager
+}
+
+func (p *ListHITsForQualificationTypePager) CurrentPage() *ListHITsForQualificationTypeOutput {
+	return p.Pager.CurrentPage().(*ListHITsForQualificationTypeOutput)
 }
 
 const opListQualificationRequests = "ListQualificationRequests"
@@ -1469,6 +1549,7 @@ const opListQualificationRequests = "ListQualificationRequests"
 type ListQualificationRequestsRequest struct {
 	*aws.Request
 	Input *ListQualificationRequestsInput
+	Copy  func(*ListQualificationRequestsInput) ListQualificationRequestsRequest
 }
 
 // Send marshals and sends the ListQualificationRequests API request.
@@ -1514,58 +1595,57 @@ func (c *MTurk) ListQualificationRequestsRequest(input *ListQualificationRequest
 		input = &ListQualificationRequestsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListQualificationRequestsOutput{})
-	return ListQualificationRequestsRequest{Request: req, Input: input}
+	output := &ListQualificationRequestsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListQualificationRequestsRequest{Request: req, Input: input, Copy: c.ListQualificationRequestsRequest}
 }
 
-// ListQualificationRequestsPages iterates over the pages of a ListQualificationRequests operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListQualificationRequests method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListQualificationRequestsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListQualificationRequests operation.
-//    pageNum := 0
-//    err := client.ListQualificationRequestsPages(params,
-//        func(page *ListQualificationRequestsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListQualificationRequestsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListQualificationRequestsPages(input *ListQualificationRequestsInput, fn func(*ListQualificationRequestsOutput, bool) bool) error {
-	return c.ListQualificationRequestsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListQualificationRequestsRequest) Paginate(opts ...aws.Option) ListQualificationRequestsPager {
+	return ListQualificationRequestsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListQualificationRequestsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListQualificationRequestsPagesWithContext same as ListQualificationRequestsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListQualificationRequestsPagesWithContext(ctx aws.Context, input *ListQualificationRequestsInput, fn func(*ListQualificationRequestsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListQualificationRequestsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListQualificationRequestsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListQualificationRequestsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListQualificationRequestsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListQualificationRequestsPager struct {
+	aws.Pager
+}
+
+func (p *ListQualificationRequestsPager) CurrentPage() *ListQualificationRequestsOutput {
+	return p.Pager.CurrentPage().(*ListQualificationRequestsOutput)
 }
 
 const opListQualificationTypes = "ListQualificationTypes"
@@ -1574,6 +1654,7 @@ const opListQualificationTypes = "ListQualificationTypes"
 type ListQualificationTypesRequest struct {
 	*aws.Request
 	Input *ListQualificationTypesInput
+	Copy  func(*ListQualificationTypesInput) ListQualificationTypesRequest
 }
 
 // Send marshals and sends the ListQualificationTypes API request.
@@ -1589,10 +1670,8 @@ func (r ListQualificationTypesRequest) Send() (*ListQualificationTypesOutput, er
 // ListQualificationTypesRequest returns a request value for making API operation for
 // Amazon Mechanical Turk.
 //
-// The ListQualificationRequests operation retrieves requests for Qualifications
-// of a particular Qualification type. The owner of the Qualification type calls
-// this operation to poll for pending requests, and accepts them using the AcceptQualification
-// operation.
+// The ListQualificationTypes operation returns a list of Qualification types,
+// filtered by an optional search term.
 //
 //    // Example sending a request using the ListQualificationTypesRequest method.
 //    req := client.ListQualificationTypesRequest(params)
@@ -1619,58 +1698,57 @@ func (c *MTurk) ListQualificationTypesRequest(input *ListQualificationTypesInput
 		input = &ListQualificationTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListQualificationTypesOutput{})
-	return ListQualificationTypesRequest{Request: req, Input: input}
+	output := &ListQualificationTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListQualificationTypesRequest{Request: req, Input: input, Copy: c.ListQualificationTypesRequest}
 }
 
-// ListQualificationTypesPages iterates over the pages of a ListQualificationTypes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListQualificationTypes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListQualificationTypesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListQualificationTypes operation.
-//    pageNum := 0
-//    err := client.ListQualificationTypesPages(params,
-//        func(page *ListQualificationTypesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListQualificationTypesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListQualificationTypesPages(input *ListQualificationTypesInput, fn func(*ListQualificationTypesOutput, bool) bool) error {
-	return c.ListQualificationTypesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListQualificationTypesRequest) Paginate(opts ...aws.Option) ListQualificationTypesPager {
+	return ListQualificationTypesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListQualificationTypesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListQualificationTypesPagesWithContext same as ListQualificationTypesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListQualificationTypesPagesWithContext(ctx aws.Context, input *ListQualificationTypesInput, fn func(*ListQualificationTypesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListQualificationTypesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListQualificationTypesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListQualificationTypesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListQualificationTypesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListQualificationTypesPager struct {
+	aws.Pager
+}
+
+func (p *ListQualificationTypesPager) CurrentPage() *ListQualificationTypesOutput {
+	return p.Pager.CurrentPage().(*ListQualificationTypesOutput)
 }
 
 const opListReviewPolicyResultsForHIT = "ListReviewPolicyResultsForHIT"
@@ -1679,6 +1757,7 @@ const opListReviewPolicyResultsForHIT = "ListReviewPolicyResultsForHIT"
 type ListReviewPolicyResultsForHITRequest struct {
 	*aws.Request
 	Input *ListReviewPolicyResultsForHITInput
+	Copy  func(*ListReviewPolicyResultsForHITInput) ListReviewPolicyResultsForHITRequest
 }
 
 // Send marshals and sends the ListReviewPolicyResultsForHIT API request.
@@ -1725,58 +1804,57 @@ func (c *MTurk) ListReviewPolicyResultsForHITRequest(input *ListReviewPolicyResu
 		input = &ListReviewPolicyResultsForHITInput{}
 	}
 
-	req := c.newRequest(op, input, &ListReviewPolicyResultsForHITOutput{})
-	return ListReviewPolicyResultsForHITRequest{Request: req, Input: input}
+	output := &ListReviewPolicyResultsForHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListReviewPolicyResultsForHITRequest{Request: req, Input: input, Copy: c.ListReviewPolicyResultsForHITRequest}
 }
 
-// ListReviewPolicyResultsForHITPages iterates over the pages of a ListReviewPolicyResultsForHIT operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListReviewPolicyResultsForHIT method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListReviewPolicyResultsForHITRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListReviewPolicyResultsForHIT operation.
-//    pageNum := 0
-//    err := client.ListReviewPolicyResultsForHITPages(params,
-//        func(page *ListReviewPolicyResultsForHITOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListReviewPolicyResultsForHITRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListReviewPolicyResultsForHITPages(input *ListReviewPolicyResultsForHITInput, fn func(*ListReviewPolicyResultsForHITOutput, bool) bool) error {
-	return c.ListReviewPolicyResultsForHITPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListReviewPolicyResultsForHITRequest) Paginate(opts ...aws.Option) ListReviewPolicyResultsForHITPager {
+	return ListReviewPolicyResultsForHITPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListReviewPolicyResultsForHITInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListReviewPolicyResultsForHITPagesWithContext same as ListReviewPolicyResultsForHITPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListReviewPolicyResultsForHITPagesWithContext(ctx aws.Context, input *ListReviewPolicyResultsForHITInput, fn func(*ListReviewPolicyResultsForHITOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListReviewPolicyResultsForHITInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListReviewPolicyResultsForHITRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListReviewPolicyResultsForHITOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListReviewPolicyResultsForHITPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListReviewPolicyResultsForHITPager struct {
+	aws.Pager
+}
+
+func (p *ListReviewPolicyResultsForHITPager) CurrentPage() *ListReviewPolicyResultsForHITOutput {
+	return p.Pager.CurrentPage().(*ListReviewPolicyResultsForHITOutput)
 }
 
 const opListReviewableHITs = "ListReviewableHITs"
@@ -1785,6 +1863,7 @@ const opListReviewableHITs = "ListReviewableHITs"
 type ListReviewableHITsRequest struct {
 	*aws.Request
 	Input *ListReviewableHITsInput
+	Copy  func(*ListReviewableHITsInput) ListReviewableHITsRequest
 }
 
 // Send marshals and sends the ListReviewableHITs API request.
@@ -1829,58 +1908,57 @@ func (c *MTurk) ListReviewableHITsRequest(input *ListReviewableHITsInput) ListRe
 		input = &ListReviewableHITsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListReviewableHITsOutput{})
-	return ListReviewableHITsRequest{Request: req, Input: input}
+	output := &ListReviewableHITsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListReviewableHITsRequest{Request: req, Input: input, Copy: c.ListReviewableHITsRequest}
 }
 
-// ListReviewableHITsPages iterates over the pages of a ListReviewableHITs operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListReviewableHITs method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListReviewableHITsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListReviewableHITs operation.
-//    pageNum := 0
-//    err := client.ListReviewableHITsPages(params,
-//        func(page *ListReviewableHITsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListReviewableHITsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListReviewableHITsPages(input *ListReviewableHITsInput, fn func(*ListReviewableHITsOutput, bool) bool) error {
-	return c.ListReviewableHITsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListReviewableHITsRequest) Paginate(opts ...aws.Option) ListReviewableHITsPager {
+	return ListReviewableHITsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListReviewableHITsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListReviewableHITsPagesWithContext same as ListReviewableHITsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListReviewableHITsPagesWithContext(ctx aws.Context, input *ListReviewableHITsInput, fn func(*ListReviewableHITsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListReviewableHITsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListReviewableHITsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListReviewableHITsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListReviewableHITsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListReviewableHITsPager struct {
+	aws.Pager
+}
+
+func (p *ListReviewableHITsPager) CurrentPage() *ListReviewableHITsOutput {
+	return p.Pager.CurrentPage().(*ListReviewableHITsOutput)
 }
 
 const opListWorkerBlocks = "ListWorkerBlocks"
@@ -1889,6 +1967,7 @@ const opListWorkerBlocks = "ListWorkerBlocks"
 type ListWorkerBlocksRequest struct {
 	*aws.Request
 	Input *ListWorkerBlocksInput
+	Copy  func(*ListWorkerBlocksInput) ListWorkerBlocksRequest
 }
 
 // Send marshals and sends the ListWorkerBlocks API request.
@@ -1932,58 +2011,57 @@ func (c *MTurk) ListWorkerBlocksRequest(input *ListWorkerBlocksInput) ListWorker
 		input = &ListWorkerBlocksInput{}
 	}
 
-	req := c.newRequest(op, input, &ListWorkerBlocksOutput{})
-	return ListWorkerBlocksRequest{Request: req, Input: input}
+	output := &ListWorkerBlocksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListWorkerBlocksRequest{Request: req, Input: input, Copy: c.ListWorkerBlocksRequest}
 }
 
-// ListWorkerBlocksPages iterates over the pages of a ListWorkerBlocks operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListWorkerBlocks method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListWorkerBlocksRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListWorkerBlocks operation.
-//    pageNum := 0
-//    err := client.ListWorkerBlocksPages(params,
-//        func(page *ListWorkerBlocksOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListWorkerBlocksRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListWorkerBlocksPages(input *ListWorkerBlocksInput, fn func(*ListWorkerBlocksOutput, bool) bool) error {
-	return c.ListWorkerBlocksPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListWorkerBlocksRequest) Paginate(opts ...aws.Option) ListWorkerBlocksPager {
+	return ListWorkerBlocksPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListWorkerBlocksInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListWorkerBlocksPagesWithContext same as ListWorkerBlocksPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListWorkerBlocksPagesWithContext(ctx aws.Context, input *ListWorkerBlocksInput, fn func(*ListWorkerBlocksOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListWorkerBlocksInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListWorkerBlocksRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListWorkerBlocksOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListWorkerBlocksPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListWorkerBlocksPager struct {
+	aws.Pager
+}
+
+func (p *ListWorkerBlocksPager) CurrentPage() *ListWorkerBlocksOutput {
+	return p.Pager.CurrentPage().(*ListWorkerBlocksOutput)
 }
 
 const opListWorkersWithQualificationType = "ListWorkersWithQualificationType"
@@ -1992,6 +2070,7 @@ const opListWorkersWithQualificationType = "ListWorkersWithQualificationType"
 type ListWorkersWithQualificationTypeRequest struct {
 	*aws.Request
 	Input *ListWorkersWithQualificationTypeInput
+	Copy  func(*ListWorkersWithQualificationTypeInput) ListWorkersWithQualificationTypeRequest
 }
 
 // Send marshals and sends the ListWorkersWithQualificationType API request.
@@ -2035,58 +2114,57 @@ func (c *MTurk) ListWorkersWithQualificationTypeRequest(input *ListWorkersWithQu
 		input = &ListWorkersWithQualificationTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &ListWorkersWithQualificationTypeOutput{})
-	return ListWorkersWithQualificationTypeRequest{Request: req, Input: input}
+	output := &ListWorkersWithQualificationTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListWorkersWithQualificationTypeRequest{Request: req, Input: input, Copy: c.ListWorkersWithQualificationTypeRequest}
 }
 
-// ListWorkersWithQualificationTypePages iterates over the pages of a ListWorkersWithQualificationType operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListWorkersWithQualificationType method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListWorkersWithQualificationTypeRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListWorkersWithQualificationType operation.
-//    pageNum := 0
-//    err := client.ListWorkersWithQualificationTypePages(params,
-//        func(page *ListWorkersWithQualificationTypeOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListWorkersWithQualificationTypeRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MTurk) ListWorkersWithQualificationTypePages(input *ListWorkersWithQualificationTypeInput, fn func(*ListWorkersWithQualificationTypeOutput, bool) bool) error {
-	return c.ListWorkersWithQualificationTypePagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListWorkersWithQualificationTypeRequest) Paginate(opts ...aws.Option) ListWorkersWithQualificationTypePager {
+	return ListWorkersWithQualificationTypePager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListWorkersWithQualificationTypeInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListWorkersWithQualificationTypePagesWithContext same as ListWorkersWithQualificationTypePages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MTurk) ListWorkersWithQualificationTypePagesWithContext(ctx aws.Context, input *ListWorkersWithQualificationTypeInput, fn func(*ListWorkersWithQualificationTypeOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListWorkersWithQualificationTypeInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListWorkersWithQualificationTypeRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListWorkersWithQualificationTypeOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListWorkersWithQualificationTypePager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListWorkersWithQualificationTypePager struct {
+	aws.Pager
+}
+
+func (p *ListWorkersWithQualificationTypePager) CurrentPage() *ListWorkersWithQualificationTypeOutput {
+	return p.Pager.CurrentPage().(*ListWorkersWithQualificationTypeOutput)
 }
 
 const opNotifyWorkers = "NotifyWorkers"
@@ -2095,6 +2173,7 @@ const opNotifyWorkers = "NotifyWorkers"
 type NotifyWorkersRequest struct {
 	*aws.Request
 	Input *NotifyWorkersInput
+	Copy  func(*NotifyWorkersInput) NotifyWorkersRequest
 }
 
 // Send marshals and sends the NotifyWorkers API request.
@@ -2135,8 +2214,11 @@ func (c *MTurk) NotifyWorkersRequest(input *NotifyWorkersInput) NotifyWorkersReq
 		input = &NotifyWorkersInput{}
 	}
 
-	req := c.newRequest(op, input, &NotifyWorkersOutput{})
-	return NotifyWorkersRequest{Request: req, Input: input}
+	output := &NotifyWorkersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return NotifyWorkersRequest{Request: req, Input: input, Copy: c.NotifyWorkersRequest}
 }
 
 const opRejectAssignment = "RejectAssignment"
@@ -2145,6 +2227,7 @@ const opRejectAssignment = "RejectAssignment"
 type RejectAssignmentRequest struct {
 	*aws.Request
 	Input *RejectAssignmentInput
+	Copy  func(*RejectAssignmentInput) RejectAssignmentRequest
 }
 
 // Send marshals and sends the RejectAssignment API request.
@@ -2189,8 +2272,11 @@ func (c *MTurk) RejectAssignmentRequest(input *RejectAssignmentInput) RejectAssi
 		input = &RejectAssignmentInput{}
 	}
 
-	req := c.newRequest(op, input, &RejectAssignmentOutput{})
-	return RejectAssignmentRequest{Request: req, Input: input}
+	output := &RejectAssignmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RejectAssignmentRequest{Request: req, Input: input, Copy: c.RejectAssignmentRequest}
 }
 
 const opRejectQualificationRequest = "RejectQualificationRequest"
@@ -2199,6 +2285,7 @@ const opRejectQualificationRequest = "RejectQualificationRequest"
 type RejectQualificationRequestRequest struct {
 	*aws.Request
 	Input *RejectQualificationRequestInput
+	Copy  func(*RejectQualificationRequestInput) RejectQualificationRequestRequest
 }
 
 // Send marshals and sends the RejectQualificationRequest API request.
@@ -2238,8 +2325,11 @@ func (c *MTurk) RejectQualificationRequestRequest(input *RejectQualificationRequ
 		input = &RejectQualificationRequestInput{}
 	}
 
-	req := c.newRequest(op, input, &RejectQualificationRequestOutput{})
-	return RejectQualificationRequestRequest{Request: req, Input: input}
+	output := &RejectQualificationRequestOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RejectQualificationRequestRequest{Request: req, Input: input, Copy: c.RejectQualificationRequestRequest}
 }
 
 const opSendBonus = "SendBonus"
@@ -2248,6 +2338,7 @@ const opSendBonus = "SendBonus"
 type SendBonusRequest struct {
 	*aws.Request
 	Input *SendBonusInput
+	Copy  func(*SendBonusInput) SendBonusRequest
 }
 
 // Send marshals and sends the SendBonus API request.
@@ -2292,8 +2383,11 @@ func (c *MTurk) SendBonusRequest(input *SendBonusInput) SendBonusRequest {
 		input = &SendBonusInput{}
 	}
 
-	req := c.newRequest(op, input, &SendBonusOutput{})
-	return SendBonusRequest{Request: req, Input: input}
+	output := &SendBonusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendBonusRequest{Request: req, Input: input, Copy: c.SendBonusRequest}
 }
 
 const opSendTestEventNotification = "SendTestEventNotification"
@@ -2302,6 +2396,7 @@ const opSendTestEventNotification = "SendTestEventNotification"
 type SendTestEventNotificationRequest struct {
 	*aws.Request
 	Input *SendTestEventNotificationInput
+	Copy  func(*SendTestEventNotificationInput) SendTestEventNotificationRequest
 }
 
 // Send marshals and sends the SendTestEventNotification API request.
@@ -2343,8 +2438,11 @@ func (c *MTurk) SendTestEventNotificationRequest(input *SendTestEventNotificatio
 		input = &SendTestEventNotificationInput{}
 	}
 
-	req := c.newRequest(op, input, &SendTestEventNotificationOutput{})
-	return SendTestEventNotificationRequest{Request: req, Input: input}
+	output := &SendTestEventNotificationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendTestEventNotificationRequest{Request: req, Input: input, Copy: c.SendTestEventNotificationRequest}
 }
 
 const opUpdateExpirationForHIT = "UpdateExpirationForHIT"
@@ -2353,6 +2451,7 @@ const opUpdateExpirationForHIT = "UpdateExpirationForHIT"
 type UpdateExpirationForHITRequest struct {
 	*aws.Request
 	Input *UpdateExpirationForHITInput
+	Copy  func(*UpdateExpirationForHITInput) UpdateExpirationForHITRequest
 }
 
 // Send marshals and sends the UpdateExpirationForHIT API request.
@@ -2391,8 +2490,11 @@ func (c *MTurk) UpdateExpirationForHITRequest(input *UpdateExpirationForHITInput
 		input = &UpdateExpirationForHITInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateExpirationForHITOutput{})
-	return UpdateExpirationForHITRequest{Request: req, Input: input}
+	output := &UpdateExpirationForHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateExpirationForHITRequest{Request: req, Input: input, Copy: c.UpdateExpirationForHITRequest}
 }
 
 const opUpdateHITReviewStatus = "UpdateHITReviewStatus"
@@ -2401,6 +2503,7 @@ const opUpdateHITReviewStatus = "UpdateHITReviewStatus"
 type UpdateHITReviewStatusRequest struct {
 	*aws.Request
 	Input *UpdateHITReviewStatusInput
+	Copy  func(*UpdateHITReviewStatusInput) UpdateHITReviewStatusRequest
 }
 
 // Send marshals and sends the UpdateHITReviewStatus API request.
@@ -2439,8 +2542,11 @@ func (c *MTurk) UpdateHITReviewStatusRequest(input *UpdateHITReviewStatusInput) 
 		input = &UpdateHITReviewStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateHITReviewStatusOutput{})
-	return UpdateHITReviewStatusRequest{Request: req, Input: input}
+	output := &UpdateHITReviewStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateHITReviewStatusRequest{Request: req, Input: input, Copy: c.UpdateHITReviewStatusRequest}
 }
 
 const opUpdateHITTypeOfHIT = "UpdateHITTypeOfHIT"
@@ -2449,6 +2555,7 @@ const opUpdateHITTypeOfHIT = "UpdateHITTypeOfHIT"
 type UpdateHITTypeOfHITRequest struct {
 	*aws.Request
 	Input *UpdateHITTypeOfHITInput
+	Copy  func(*UpdateHITTypeOfHITInput) UpdateHITTypeOfHITRequest
 }
 
 // Send marshals and sends the UpdateHITTypeOfHIT API request.
@@ -2488,8 +2595,11 @@ func (c *MTurk) UpdateHITTypeOfHITRequest(input *UpdateHITTypeOfHITInput) Update
 		input = &UpdateHITTypeOfHITInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateHITTypeOfHITOutput{})
-	return UpdateHITTypeOfHITRequest{Request: req, Input: input}
+	output := &UpdateHITTypeOfHITOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateHITTypeOfHITRequest{Request: req, Input: input, Copy: c.UpdateHITTypeOfHITRequest}
 }
 
 const opUpdateNotificationSettings = "UpdateNotificationSettings"
@@ -2498,6 +2608,7 @@ const opUpdateNotificationSettings = "UpdateNotificationSettings"
 type UpdateNotificationSettingsRequest struct {
 	*aws.Request
 	Input *UpdateNotificationSettingsInput
+	Copy  func(*UpdateNotificationSettingsInput) UpdateNotificationSettingsRequest
 }
 
 // Send marshals and sends the UpdateNotificationSettings API request.
@@ -2543,8 +2654,11 @@ func (c *MTurk) UpdateNotificationSettingsRequest(input *UpdateNotificationSetti
 		input = &UpdateNotificationSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateNotificationSettingsOutput{})
-	return UpdateNotificationSettingsRequest{Request: req, Input: input}
+	output := &UpdateNotificationSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateNotificationSettingsRequest{Request: req, Input: input, Copy: c.UpdateNotificationSettingsRequest}
 }
 
 const opUpdateQualificationType = "UpdateQualificationType"
@@ -2553,6 +2667,7 @@ const opUpdateQualificationType = "UpdateQualificationType"
 type UpdateQualificationTypeRequest struct {
 	*aws.Request
 	Input *UpdateQualificationTypeInput
+	Copy  func(*UpdateQualificationTypeInput) UpdateQualificationTypeRequest
 }
 
 // Send marshals and sends the UpdateQualificationType API request.
@@ -2619,8 +2734,11 @@ func (c *MTurk) UpdateQualificationTypeRequest(input *UpdateQualificationTypeInp
 		input = &UpdateQualificationTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateQualificationTypeOutput{})
-	return UpdateQualificationTypeRequest{Request: req, Input: input}
+	output := &UpdateQualificationTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateQualificationTypeRequest{Request: req, Input: input, Copy: c.UpdateQualificationTypeRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/AcceptQualificationRequestRequest
@@ -2662,21 +2780,11 @@ func (s *AcceptQualificationRequestInput) Validate() error {
 	return nil
 }
 
-// SetIntegerValue sets the IntegerValue field's value.
-func (s *AcceptQualificationRequestInput) SetIntegerValue(v int64) *AcceptQualificationRequestInput {
-	s.IntegerValue = &v
-	return s
-}
-
-// SetQualificationRequestId sets the QualificationRequestId field's value.
-func (s *AcceptQualificationRequestInput) SetQualificationRequestId(v string) *AcceptQualificationRequestInput {
-	s.QualificationRequestId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/AcceptQualificationRequestResponse
 type AcceptQualificationRequestOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2687,6 +2795,11 @@ func (s AcceptQualificationRequestOutput) String() string {
 // GoString returns the string representation
 func (s AcceptQualificationRequestOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AcceptQualificationRequestOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ApproveAssignmentRequest
@@ -2735,27 +2848,11 @@ func (s *ApproveAssignmentInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *ApproveAssignmentInput) SetAssignmentId(v string) *ApproveAssignmentInput {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetOverrideRejection sets the OverrideRejection field's value.
-func (s *ApproveAssignmentInput) SetOverrideRejection(v bool) *ApproveAssignmentInput {
-	s.OverrideRejection = &v
-	return s
-}
-
-// SetRequesterFeedback sets the RequesterFeedback field's value.
-func (s *ApproveAssignmentInput) SetRequesterFeedback(v string) *ApproveAssignmentInput {
-	s.RequesterFeedback = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ApproveAssignmentResponse
 type ApproveAssignmentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2766,6 +2863,11 @@ func (s ApproveAssignmentOutput) String() string {
 // GoString returns the string representation
 func (s ApproveAssignmentOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ApproveAssignmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The Assignment data structure represents a single assignment of a HIT to
@@ -2794,7 +2896,7 @@ type Assignment struct {
 	AssignmentId *string `min:"1" type:"string"`
 
 	// The status of the assignment.
-	AssignmentStatus AssignmentStatus `type:"string"`
+	AssignmentStatus AssignmentStatus `type:"string" enum:"true"`
 
 	// If results have been submitted, AutoApprovalTime is the date and time the
 	// results of the assignment results are considered Approved automatically if
@@ -2838,78 +2940,6 @@ func (s Assignment) String() string {
 // GoString returns the string representation
 func (s Assignment) GoString() string {
 	return s.String()
-}
-
-// SetAcceptTime sets the AcceptTime field's value.
-func (s *Assignment) SetAcceptTime(v time.Time) *Assignment {
-	s.AcceptTime = &v
-	return s
-}
-
-// SetAnswer sets the Answer field's value.
-func (s *Assignment) SetAnswer(v string) *Assignment {
-	s.Answer = &v
-	return s
-}
-
-// SetApprovalTime sets the ApprovalTime field's value.
-func (s *Assignment) SetApprovalTime(v time.Time) *Assignment {
-	s.ApprovalTime = &v
-	return s
-}
-
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *Assignment) SetAssignmentId(v string) *Assignment {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetAssignmentStatus sets the AssignmentStatus field's value.
-func (s *Assignment) SetAssignmentStatus(v AssignmentStatus) *Assignment {
-	s.AssignmentStatus = v
-	return s
-}
-
-// SetAutoApprovalTime sets the AutoApprovalTime field's value.
-func (s *Assignment) SetAutoApprovalTime(v time.Time) *Assignment {
-	s.AutoApprovalTime = &v
-	return s
-}
-
-// SetDeadline sets the Deadline field's value.
-func (s *Assignment) SetDeadline(v time.Time) *Assignment {
-	s.Deadline = &v
-	return s
-}
-
-// SetHITId sets the HITId field's value.
-func (s *Assignment) SetHITId(v string) *Assignment {
-	s.HITId = &v
-	return s
-}
-
-// SetRejectionTime sets the RejectionTime field's value.
-func (s *Assignment) SetRejectionTime(v time.Time) *Assignment {
-	s.RejectionTime = &v
-	return s
-}
-
-// SetRequesterFeedback sets the RequesterFeedback field's value.
-func (s *Assignment) SetRequesterFeedback(v string) *Assignment {
-	s.RequesterFeedback = &v
-	return s
-}
-
-// SetSubmitTime sets the SubmitTime field's value.
-func (s *Assignment) SetSubmitTime(v time.Time) *Assignment {
-	s.SubmitTime = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *Assignment) SetWorkerId(v string) *Assignment {
-	s.WorkerId = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/AssociateQualificationWithWorkerRequest
@@ -2970,33 +3000,11 @@ func (s *AssociateQualificationWithWorkerInput) Validate() error {
 	return nil
 }
 
-// SetIntegerValue sets the IntegerValue field's value.
-func (s *AssociateQualificationWithWorkerInput) SetIntegerValue(v int64) *AssociateQualificationWithWorkerInput {
-	s.IntegerValue = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *AssociateQualificationWithWorkerInput) SetQualificationTypeId(v string) *AssociateQualificationWithWorkerInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetSendNotification sets the SendNotification field's value.
-func (s *AssociateQualificationWithWorkerInput) SetSendNotification(v bool) *AssociateQualificationWithWorkerInput {
-	s.SendNotification = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *AssociateQualificationWithWorkerInput) SetWorkerId(v string) *AssociateQualificationWithWorkerInput {
-	s.WorkerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/AssociateQualificationWithWorkerResponse
 type AssociateQualificationWithWorkerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3007,6 +3015,11 @@ func (s AssociateQualificationWithWorkerOutput) String() string {
 // GoString returns the string representation
 func (s AssociateQualificationWithWorkerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateQualificationWithWorkerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An object representing a Bonus payment paid to a Worker.
@@ -3038,36 +3051,6 @@ func (s BonusPayment) String() string {
 // GoString returns the string representation
 func (s BonusPayment) GoString() string {
 	return s.String()
-}
-
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *BonusPayment) SetAssignmentId(v string) *BonusPayment {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetBonusAmount sets the BonusAmount field's value.
-func (s *BonusPayment) SetBonusAmount(v string) *BonusPayment {
-	s.BonusAmount = &v
-	return s
-}
-
-// SetGrantTime sets the GrantTime field's value.
-func (s *BonusPayment) SetGrantTime(v time.Time) *BonusPayment {
-	s.GrantTime = &v
-	return s
-}
-
-// SetReason sets the Reason field's value.
-func (s *BonusPayment) SetReason(v string) *BonusPayment {
-	s.Reason = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *BonusPayment) SetWorkerId(v string) *BonusPayment {
-	s.WorkerId = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateAdditionalAssignmentsForHITRequest
@@ -3127,27 +3110,11 @@ func (s *CreateAdditionalAssignmentsForHITInput) Validate() error {
 	return nil
 }
 
-// SetHITId sets the HITId field's value.
-func (s *CreateAdditionalAssignmentsForHITInput) SetHITId(v string) *CreateAdditionalAssignmentsForHITInput {
-	s.HITId = &v
-	return s
-}
-
-// SetNumberOfAdditionalAssignments sets the NumberOfAdditionalAssignments field's value.
-func (s *CreateAdditionalAssignmentsForHITInput) SetNumberOfAdditionalAssignments(v int64) *CreateAdditionalAssignmentsForHITInput {
-	s.NumberOfAdditionalAssignments = &v
-	return s
-}
-
-// SetUniqueRequestToken sets the UniqueRequestToken field's value.
-func (s *CreateAdditionalAssignmentsForHITInput) SetUniqueRequestToken(v string) *CreateAdditionalAssignmentsForHITInput {
-	s.UniqueRequestToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateAdditionalAssignmentsForHITResponse
 type CreateAdditionalAssignmentsForHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3158,6 +3125,11 @@ func (s CreateAdditionalAssignmentsForHITOutput) String() string {
 // GoString returns the string representation
 func (s CreateAdditionalAssignmentsForHITOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAdditionalAssignmentsForHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateHITRequest
@@ -3202,7 +3174,7 @@ type CreateHITInput struct {
 	// If the HITLayoutId is provided, any placeholder values must be filled in
 	// with values using the HITLayoutParameter structure. For more information,
 	// see HITLayout.
-	HITLayoutParameters []*HITLayoutParameter `type:"list"`
+	HITLayoutParameters []HITLayoutParameter `type:"list"`
 
 	// The HIT-level Review Policy applies to the HIT. You can specify for Mechanical
 	// Turk to take various actions based on the policy.
@@ -3224,9 +3196,12 @@ type CreateHITInput struct {
 	// becomes unavailable.
 	MaxAssignments *int64 `type:"integer"`
 
-	// A condition that a Worker's Qualifications must meet before the Worker is
-	// allowed to accept and complete the HIT.
-	QualificationRequirements []*QualificationRequirement `type:"list"`
+	// Conditions that a Worker's Qualifications must meet in order to accept the
+	// HIT. A HIT can have between zero and ten Qualification requirements. All
+	// requirements must be met in order for a Worker to accept the HIT. Additionally,
+	// other actions can be restricted using the ActionsGuarded field on each QualificationRequirement
+	// structure.
+	QualificationRequirements []QualificationRequirement `type:"list"`
 
 	// The data the person completing the HIT uses to produce the results.
 	//
@@ -3321,9 +3296,6 @@ func (s *CreateHITInput) Validate() error {
 	}
 	if s.HITLayoutParameters != nil {
 		for i, v := range s.HITLayoutParameters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "HITLayoutParameters", i), err.(aws.ErrInvalidParams))
 			}
@@ -3336,9 +3308,6 @@ func (s *CreateHITInput) Validate() error {
 	}
 	if s.QualificationRequirements != nil {
 		for i, v := range s.QualificationRequirements {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "QualificationRequirements", i), err.(aws.ErrInvalidParams))
 			}
@@ -3351,105 +3320,11 @@ func (s *CreateHITInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentDurationInSeconds sets the AssignmentDurationInSeconds field's value.
-func (s *CreateHITInput) SetAssignmentDurationInSeconds(v int64) *CreateHITInput {
-	s.AssignmentDurationInSeconds = &v
-	return s
-}
-
-// SetAssignmentReviewPolicy sets the AssignmentReviewPolicy field's value.
-func (s *CreateHITInput) SetAssignmentReviewPolicy(v *ReviewPolicy) *CreateHITInput {
-	s.AssignmentReviewPolicy = v
-	return s
-}
-
-// SetAutoApprovalDelayInSeconds sets the AutoApprovalDelayInSeconds field's value.
-func (s *CreateHITInput) SetAutoApprovalDelayInSeconds(v int64) *CreateHITInput {
-	s.AutoApprovalDelayInSeconds = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateHITInput) SetDescription(v string) *CreateHITInput {
-	s.Description = &v
-	return s
-}
-
-// SetHITLayoutId sets the HITLayoutId field's value.
-func (s *CreateHITInput) SetHITLayoutId(v string) *CreateHITInput {
-	s.HITLayoutId = &v
-	return s
-}
-
-// SetHITLayoutParameters sets the HITLayoutParameters field's value.
-func (s *CreateHITInput) SetHITLayoutParameters(v []*HITLayoutParameter) *CreateHITInput {
-	s.HITLayoutParameters = v
-	return s
-}
-
-// SetHITReviewPolicy sets the HITReviewPolicy field's value.
-func (s *CreateHITInput) SetHITReviewPolicy(v *ReviewPolicy) *CreateHITInput {
-	s.HITReviewPolicy = v
-	return s
-}
-
-// SetKeywords sets the Keywords field's value.
-func (s *CreateHITInput) SetKeywords(v string) *CreateHITInput {
-	s.Keywords = &v
-	return s
-}
-
-// SetLifetimeInSeconds sets the LifetimeInSeconds field's value.
-func (s *CreateHITInput) SetLifetimeInSeconds(v int64) *CreateHITInput {
-	s.LifetimeInSeconds = &v
-	return s
-}
-
-// SetMaxAssignments sets the MaxAssignments field's value.
-func (s *CreateHITInput) SetMaxAssignments(v int64) *CreateHITInput {
-	s.MaxAssignments = &v
-	return s
-}
-
-// SetQualificationRequirements sets the QualificationRequirements field's value.
-func (s *CreateHITInput) SetQualificationRequirements(v []*QualificationRequirement) *CreateHITInput {
-	s.QualificationRequirements = v
-	return s
-}
-
-// SetQuestion sets the Question field's value.
-func (s *CreateHITInput) SetQuestion(v string) *CreateHITInput {
-	s.Question = &v
-	return s
-}
-
-// SetRequesterAnnotation sets the RequesterAnnotation field's value.
-func (s *CreateHITInput) SetRequesterAnnotation(v string) *CreateHITInput {
-	s.RequesterAnnotation = &v
-	return s
-}
-
-// SetReward sets the Reward field's value.
-func (s *CreateHITInput) SetReward(v string) *CreateHITInput {
-	s.Reward = &v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *CreateHITInput) SetTitle(v string) *CreateHITInput {
-	s.Title = &v
-	return s
-}
-
-// SetUniqueRequestToken sets the UniqueRequestToken field's value.
-func (s *CreateHITInput) SetUniqueRequestToken(v string) *CreateHITInput {
-	s.UniqueRequestToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateHITResponse
 type CreateHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains the newly created HIT data. For a description of the HIT data structure
 	// as it appears in responses, see the HIT Data Structure documentation.
@@ -3466,10 +3341,9 @@ func (s CreateHITOutput) GoString() string {
 	return s.String()
 }
 
-// SetHIT sets the HIT field's value.
-func (s *CreateHITOutput) SetHIT(v *HIT) *CreateHITOutput {
-	s.HIT = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateHITTypeRequest
@@ -3503,9 +3377,12 @@ type CreateHITTypeInput struct {
 	// These words are used in searches to find HITs.
 	Keywords *string `type:"string"`
 
-	// A condition that a Worker's Qualifications must meet before the Worker is
-	// allowed to accept and complete the HIT.
-	QualificationRequirements []*QualificationRequirement `type:"list"`
+	// Conditions that a Worker's Qualifications must meet in order to accept the
+	// HIT. A HIT can have between zero and ten Qualification requirements. All
+	// requirements must be met in order for a Worker to accept the HIT. Additionally,
+	// other actions can be restricted using the ActionsGuarded field on each QualificationRequirement
+	// structure.
+	QualificationRequirements []QualificationRequirement `type:"list"`
 
 	// The amount of money the Requester will pay a Worker for successfully completing
 	// the HIT.
@@ -3552,9 +3429,6 @@ func (s *CreateHITTypeInput) Validate() error {
 	}
 	if s.QualificationRequirements != nil {
 		for i, v := range s.QualificationRequirements {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "QualificationRequirements", i), err.(aws.ErrInvalidParams))
 			}
@@ -3567,51 +3441,11 @@ func (s *CreateHITTypeInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentDurationInSeconds sets the AssignmentDurationInSeconds field's value.
-func (s *CreateHITTypeInput) SetAssignmentDurationInSeconds(v int64) *CreateHITTypeInput {
-	s.AssignmentDurationInSeconds = &v
-	return s
-}
-
-// SetAutoApprovalDelayInSeconds sets the AutoApprovalDelayInSeconds field's value.
-func (s *CreateHITTypeInput) SetAutoApprovalDelayInSeconds(v int64) *CreateHITTypeInput {
-	s.AutoApprovalDelayInSeconds = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateHITTypeInput) SetDescription(v string) *CreateHITTypeInput {
-	s.Description = &v
-	return s
-}
-
-// SetKeywords sets the Keywords field's value.
-func (s *CreateHITTypeInput) SetKeywords(v string) *CreateHITTypeInput {
-	s.Keywords = &v
-	return s
-}
-
-// SetQualificationRequirements sets the QualificationRequirements field's value.
-func (s *CreateHITTypeInput) SetQualificationRequirements(v []*QualificationRequirement) *CreateHITTypeInput {
-	s.QualificationRequirements = v
-	return s
-}
-
-// SetReward sets the Reward field's value.
-func (s *CreateHITTypeInput) SetReward(v string) *CreateHITTypeInput {
-	s.Reward = &v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *CreateHITTypeInput) SetTitle(v string) *CreateHITTypeInput {
-	s.Title = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateHITTypeResponse
 type CreateHITTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the newly registered HIT type.
 	HITTypeId *string `min:"1" type:"string"`
@@ -3627,10 +3461,9 @@ func (s CreateHITTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHITTypeId sets the HITTypeId field's value.
-func (s *CreateHITTypeOutput) SetHITTypeId(v string) *CreateHITTypeOutput {
-	s.HITTypeId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHITTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateHITWithHITTypeRequest
@@ -3652,7 +3485,7 @@ type CreateHITWithHITTypeInput struct {
 	// If the HITLayoutId is provided, any placeholder values must be filled in
 	// with values using the HITLayoutParameter structure. For more information,
 	// see HITLayout.
-	HITLayoutParameters []*HITLayoutParameter `type:"list"`
+	HITLayoutParameters []HITLayoutParameter `type:"list"`
 
 	// The HIT-level Review Policy applies to the HIT. You can specify for Mechanical
 	// Turk to take various actions based on the policy.
@@ -3746,9 +3579,6 @@ func (s *CreateHITWithHITTypeInput) Validate() error {
 	}
 	if s.HITLayoutParameters != nil {
 		for i, v := range s.HITLayoutParameters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "HITLayoutParameters", i), err.(aws.ErrInvalidParams))
 			}
@@ -3766,69 +3596,11 @@ func (s *CreateHITWithHITTypeInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentReviewPolicy sets the AssignmentReviewPolicy field's value.
-func (s *CreateHITWithHITTypeInput) SetAssignmentReviewPolicy(v *ReviewPolicy) *CreateHITWithHITTypeInput {
-	s.AssignmentReviewPolicy = v
-	return s
-}
-
-// SetHITLayoutId sets the HITLayoutId field's value.
-func (s *CreateHITWithHITTypeInput) SetHITLayoutId(v string) *CreateHITWithHITTypeInput {
-	s.HITLayoutId = &v
-	return s
-}
-
-// SetHITLayoutParameters sets the HITLayoutParameters field's value.
-func (s *CreateHITWithHITTypeInput) SetHITLayoutParameters(v []*HITLayoutParameter) *CreateHITWithHITTypeInput {
-	s.HITLayoutParameters = v
-	return s
-}
-
-// SetHITReviewPolicy sets the HITReviewPolicy field's value.
-func (s *CreateHITWithHITTypeInput) SetHITReviewPolicy(v *ReviewPolicy) *CreateHITWithHITTypeInput {
-	s.HITReviewPolicy = v
-	return s
-}
-
-// SetHITTypeId sets the HITTypeId field's value.
-func (s *CreateHITWithHITTypeInput) SetHITTypeId(v string) *CreateHITWithHITTypeInput {
-	s.HITTypeId = &v
-	return s
-}
-
-// SetLifetimeInSeconds sets the LifetimeInSeconds field's value.
-func (s *CreateHITWithHITTypeInput) SetLifetimeInSeconds(v int64) *CreateHITWithHITTypeInput {
-	s.LifetimeInSeconds = &v
-	return s
-}
-
-// SetMaxAssignments sets the MaxAssignments field's value.
-func (s *CreateHITWithHITTypeInput) SetMaxAssignments(v int64) *CreateHITWithHITTypeInput {
-	s.MaxAssignments = &v
-	return s
-}
-
-// SetQuestion sets the Question field's value.
-func (s *CreateHITWithHITTypeInput) SetQuestion(v string) *CreateHITWithHITTypeInput {
-	s.Question = &v
-	return s
-}
-
-// SetRequesterAnnotation sets the RequesterAnnotation field's value.
-func (s *CreateHITWithHITTypeInput) SetRequesterAnnotation(v string) *CreateHITWithHITTypeInput {
-	s.RequesterAnnotation = &v
-	return s
-}
-
-// SetUniqueRequestToken sets the UniqueRequestToken field's value.
-func (s *CreateHITWithHITTypeInput) SetUniqueRequestToken(v string) *CreateHITWithHITTypeInput {
-	s.UniqueRequestToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateHITWithHITTypeResponse
 type CreateHITWithHITTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains the newly created HIT data. For a description of the HIT data structure
 	// as it appears in responses, see the HIT Data Structure documentation.
@@ -3845,10 +3617,9 @@ func (s CreateHITWithHITTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHIT sets the HIT field's value.
-func (s *CreateHITWithHITTypeOutput) SetHIT(v *HIT) *CreateHITWithHITTypeOutput {
-	s.HIT = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHITWithHITTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateQualificationTypeRequest
@@ -3898,7 +3669,7 @@ type CreateQualificationTypeInput struct {
 	// Constraints: Valid values are: Active | Inactive
 	//
 	// QualificationTypeStatus is a required field
-	QualificationTypeStatus QualificationTypeStatus `type:"string" required:"true"`
+	QualificationTypeStatus QualificationTypeStatus `type:"string" required:"true" enum:"true"`
 
 	// The number of seconds that a Worker must wait after requesting a Qualification
 	// of the Qualification type before the worker can retry the Qualification request.
@@ -3958,69 +3729,11 @@ func (s *CreateQualificationTypeInput) Validate() error {
 	return nil
 }
 
-// SetAnswerKey sets the AnswerKey field's value.
-func (s *CreateQualificationTypeInput) SetAnswerKey(v string) *CreateQualificationTypeInput {
-	s.AnswerKey = &v
-	return s
-}
-
-// SetAutoGranted sets the AutoGranted field's value.
-func (s *CreateQualificationTypeInput) SetAutoGranted(v bool) *CreateQualificationTypeInput {
-	s.AutoGranted = &v
-	return s
-}
-
-// SetAutoGrantedValue sets the AutoGrantedValue field's value.
-func (s *CreateQualificationTypeInput) SetAutoGrantedValue(v int64) *CreateQualificationTypeInput {
-	s.AutoGrantedValue = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateQualificationTypeInput) SetDescription(v string) *CreateQualificationTypeInput {
-	s.Description = &v
-	return s
-}
-
-// SetKeywords sets the Keywords field's value.
-func (s *CreateQualificationTypeInput) SetKeywords(v string) *CreateQualificationTypeInput {
-	s.Keywords = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateQualificationTypeInput) SetName(v string) *CreateQualificationTypeInput {
-	s.Name = &v
-	return s
-}
-
-// SetQualificationTypeStatus sets the QualificationTypeStatus field's value.
-func (s *CreateQualificationTypeInput) SetQualificationTypeStatus(v QualificationTypeStatus) *CreateQualificationTypeInput {
-	s.QualificationTypeStatus = v
-	return s
-}
-
-// SetRetryDelayInSeconds sets the RetryDelayInSeconds field's value.
-func (s *CreateQualificationTypeInput) SetRetryDelayInSeconds(v int64) *CreateQualificationTypeInput {
-	s.RetryDelayInSeconds = &v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *CreateQualificationTypeInput) SetTest(v string) *CreateQualificationTypeInput {
-	s.Test = &v
-	return s
-}
-
-// SetTestDurationInSeconds sets the TestDurationInSeconds field's value.
-func (s *CreateQualificationTypeInput) SetTestDurationInSeconds(v int64) *CreateQualificationTypeInput {
-	s.TestDurationInSeconds = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateQualificationTypeResponse
 type CreateQualificationTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The created Qualification type, returned as a QualificationType data structure.
 	QualificationType *QualificationType `type:"structure"`
@@ -4036,10 +3749,9 @@ func (s CreateQualificationTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetQualificationType sets the QualificationType field's value.
-func (s *CreateQualificationTypeOutput) SetQualificationType(v *QualificationType) *CreateQualificationTypeOutput {
-	s.QualificationType = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateQualificationTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateWorkerBlockRequest
@@ -4089,21 +3801,11 @@ func (s *CreateWorkerBlockInput) Validate() error {
 	return nil
 }
 
-// SetReason sets the Reason field's value.
-func (s *CreateWorkerBlockInput) SetReason(v string) *CreateWorkerBlockInput {
-	s.Reason = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *CreateWorkerBlockInput) SetWorkerId(v string) *CreateWorkerBlockInput {
-	s.WorkerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/CreateWorkerBlockResponse
 type CreateWorkerBlockOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4114,6 +3816,11 @@ func (s CreateWorkerBlockOutput) String() string {
 // GoString returns the string representation
 func (s CreateWorkerBlockOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateWorkerBlockOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DeleteHITRequest
@@ -4153,15 +3860,11 @@ func (s *DeleteHITInput) Validate() error {
 	return nil
 }
 
-// SetHITId sets the HITId field's value.
-func (s *DeleteHITInput) SetHITId(v string) *DeleteHITInput {
-	s.HITId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DeleteHITResponse
 type DeleteHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4172,6 +3875,11 @@ func (s DeleteHITOutput) String() string {
 // GoString returns the string representation
 func (s DeleteHITOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DeleteQualificationTypeRequest
@@ -4211,15 +3919,11 @@ func (s *DeleteQualificationTypeInput) Validate() error {
 	return nil
 }
 
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *DeleteQualificationTypeInput) SetQualificationTypeId(v string) *DeleteQualificationTypeInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DeleteQualificationTypeResponse
 type DeleteQualificationTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4230,6 +3934,11 @@ func (s DeleteQualificationTypeOutput) String() string {
 // GoString returns the string representation
 func (s DeleteQualificationTypeOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteQualificationTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DeleteWorkerBlockRequest
@@ -4273,21 +3982,11 @@ func (s *DeleteWorkerBlockInput) Validate() error {
 	return nil
 }
 
-// SetReason sets the Reason field's value.
-func (s *DeleteWorkerBlockInput) SetReason(v string) *DeleteWorkerBlockInput {
-	s.Reason = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *DeleteWorkerBlockInput) SetWorkerId(v string) *DeleteWorkerBlockInput {
-	s.WorkerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DeleteWorkerBlockResponse
 type DeleteWorkerBlockOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4298,6 +3997,11 @@ func (s DeleteWorkerBlockOutput) String() string {
 // GoString returns the string representation
 func (s DeleteWorkerBlockOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteWorkerBlockOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DisassociateQualificationFromWorkerRequest
@@ -4353,27 +4057,11 @@ func (s *DisassociateQualificationFromWorkerInput) Validate() error {
 	return nil
 }
 
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *DisassociateQualificationFromWorkerInput) SetQualificationTypeId(v string) *DisassociateQualificationFromWorkerInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetReason sets the Reason field's value.
-func (s *DisassociateQualificationFromWorkerInput) SetReason(v string) *DisassociateQualificationFromWorkerInput {
-	s.Reason = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *DisassociateQualificationFromWorkerInput) SetWorkerId(v string) *DisassociateQualificationFromWorkerInput {
-	s.WorkerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/DisassociateQualificationFromWorkerResponse
 type DisassociateQualificationFromWorkerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4384,6 +4072,11 @@ func (s DisassociateQualificationFromWorkerOutput) String() string {
 // GoString returns the string representation
 func (s DisassociateQualificationFromWorkerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateQualificationFromWorkerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetAccountBalanceRequest
@@ -4405,6 +4098,8 @@ func (s GetAccountBalanceInput) GoString() string {
 type GetAccountBalanceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A string representing a currency amount.
 	AvailableBalance *string `type:"string"`
 
@@ -4422,16 +4117,9 @@ func (s GetAccountBalanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailableBalance sets the AvailableBalance field's value.
-func (s *GetAccountBalanceOutput) SetAvailableBalance(v string) *GetAccountBalanceOutput {
-	s.AvailableBalance = &v
-	return s
-}
-
-// SetOnHoldBalance sets the OnHoldBalance field's value.
-func (s *GetAccountBalanceOutput) SetOnHoldBalance(v string) *GetAccountBalanceOutput {
-	s.OnHoldBalance = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccountBalanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetAssignmentRequest
@@ -4471,15 +4159,11 @@ func (s *GetAssignmentInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *GetAssignmentInput) SetAssignmentId(v string) *GetAssignmentInput {
-	s.AssignmentId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetAssignmentResponse
 type GetAssignmentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The assignment. The response includes one Assignment element.
 	Assignment *Assignment `type:"structure"`
@@ -4498,16 +4182,9 @@ func (s GetAssignmentOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssignment sets the Assignment field's value.
-func (s *GetAssignmentOutput) SetAssignment(v *Assignment) *GetAssignmentOutput {
-	s.Assignment = v
-	return s
-}
-
-// SetHIT sets the HIT field's value.
-func (s *GetAssignmentOutput) SetHIT(v *HIT) *GetAssignmentOutput {
-	s.HIT = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAssignmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetFileUploadURLRequest
@@ -4557,21 +4234,11 @@ func (s *GetFileUploadURLInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *GetFileUploadURLInput) SetAssignmentId(v string) *GetFileUploadURLInput {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetQuestionIdentifier sets the QuestionIdentifier field's value.
-func (s *GetFileUploadURLInput) SetQuestionIdentifier(v string) *GetFileUploadURLInput {
-	s.QuestionIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetFileUploadURLResponse
 type GetFileUploadURLOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A temporary URL for the file that the Worker uploaded for the answer.
 	FileUploadURL *string `type:"string"`
@@ -4587,10 +4254,9 @@ func (s GetFileUploadURLOutput) GoString() string {
 	return s.String()
 }
 
-// SetFileUploadURL sets the FileUploadURL field's value.
-func (s *GetFileUploadURLOutput) SetFileUploadURL(v string) *GetFileUploadURLOutput {
-	s.FileUploadURL = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetFileUploadURLOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetHITRequest
@@ -4630,15 +4296,11 @@ func (s *GetHITInput) Validate() error {
 	return nil
 }
 
-// SetHITId sets the HITId field's value.
-func (s *GetHITInput) SetHITId(v string) *GetHITInput {
-	s.HITId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetHITResponse
 type GetHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains the requested HIT data.
 	HIT *HIT `type:"structure"`
@@ -4654,10 +4316,9 @@ func (s GetHITOutput) GoString() string {
 	return s.String()
 }
 
-// SetHIT sets the HIT field's value.
-func (s *GetHITOutput) SetHIT(v *HIT) *GetHITOutput {
-	s.HIT = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetQualificationScoreRequest
@@ -4709,21 +4370,11 @@ func (s *GetQualificationScoreInput) Validate() error {
 	return nil
 }
 
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *GetQualificationScoreInput) SetQualificationTypeId(v string) *GetQualificationScoreInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *GetQualificationScoreInput) SetWorkerId(v string) *GetQualificationScoreInput {
-	s.WorkerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetQualificationScoreResponse
 type GetQualificationScoreOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Qualification data structure of the Qualification assigned to a user,
 	// including the Qualification type and the value (score).
@@ -4740,10 +4391,9 @@ func (s GetQualificationScoreOutput) GoString() string {
 	return s.String()
 }
 
-// SetQualification sets the Qualification field's value.
-func (s *GetQualificationScoreOutput) SetQualification(v *Qualification) *GetQualificationScoreOutput {
-	s.Qualification = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetQualificationScoreOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetQualificationTypeRequest
@@ -4783,15 +4433,11 @@ func (s *GetQualificationTypeInput) Validate() error {
 	return nil
 }
 
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *GetQualificationTypeInput) SetQualificationTypeId(v string) *GetQualificationTypeInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/GetQualificationTypeResponse
 type GetQualificationTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The returned Qualification Type
 	QualificationType *QualificationType `type:"structure"`
@@ -4807,10 +4453,9 @@ func (s GetQualificationTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetQualificationType sets the QualificationType field's value.
-func (s *GetQualificationTypeOutput) SetQualificationType(v *QualificationType) *GetQualificationTypeOutput {
-	s.QualificationType = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetQualificationTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The HIT data structure represents a single HIT, including all the information
@@ -4850,11 +4495,11 @@ type HIT struct {
 
 	// Indicates the review status of the HIT. Valid Values are NotReviewed | MarkedForReview
 	// | ReviewedAppropriate | ReviewedInappropriate.
-	HITReviewStatus HITReviewStatus `type:"string"`
+	HITReviewStatus HITReviewStatus `type:"string" enum:"true"`
 
 	// The status of the HIT and its assignments. Valid Values are Assignable |
 	// Unassignable | Reviewable | Reviewing | Disposed.
-	HITStatus HITStatus `type:"string"`
+	HITStatus HITStatus `type:"string" enum:"true"`
 
 	// The ID of the HIT type of this HIT
 	HITTypeId *string `min:"1" type:"string"`
@@ -4879,11 +4524,12 @@ type HIT struct {
 	// accepted by Workers, but have not yet been submitted, returned, or abandoned.
 	NumberOfAssignmentsPending *int64 `type:"integer"`
 
-	// A condition that a Worker's Qualifications must meet in order to accept the
+	// Conditions that a Worker's Qualifications must meet in order to accept the
 	// HIT. A HIT can have between zero and ten Qualification requirements. All
-	// requirements must be met by a Worker's Qualifications for the Worker to accept
-	// the HIT.
-	QualificationRequirements []*QualificationRequirement `type:"list"`
+	// requirements must be met in order for a Worker to accept the HIT. Additionally,
+	// other actions can be restricted using the ActionsGuarded field on each QualificationRequirement
+	// structure.
+	QualificationRequirements []QualificationRequirement `type:"list"`
 
 	// The data the Worker completing the HIT uses produce the results. This is
 	// either either a QuestionForm, HTMLQuestion or an ExternalQuestion data structure.
@@ -4908,132 +4554,6 @@ func (s HIT) String() string {
 // GoString returns the string representation
 func (s HIT) GoString() string {
 	return s.String()
-}
-
-// SetAssignmentDurationInSeconds sets the AssignmentDurationInSeconds field's value.
-func (s *HIT) SetAssignmentDurationInSeconds(v int64) *HIT {
-	s.AssignmentDurationInSeconds = &v
-	return s
-}
-
-// SetAutoApprovalDelayInSeconds sets the AutoApprovalDelayInSeconds field's value.
-func (s *HIT) SetAutoApprovalDelayInSeconds(v int64) *HIT {
-	s.AutoApprovalDelayInSeconds = &v
-	return s
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *HIT) SetCreationTime(v time.Time) *HIT {
-	s.CreationTime = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *HIT) SetDescription(v string) *HIT {
-	s.Description = &v
-	return s
-}
-
-// SetExpiration sets the Expiration field's value.
-func (s *HIT) SetExpiration(v time.Time) *HIT {
-	s.Expiration = &v
-	return s
-}
-
-// SetHITGroupId sets the HITGroupId field's value.
-func (s *HIT) SetHITGroupId(v string) *HIT {
-	s.HITGroupId = &v
-	return s
-}
-
-// SetHITId sets the HITId field's value.
-func (s *HIT) SetHITId(v string) *HIT {
-	s.HITId = &v
-	return s
-}
-
-// SetHITLayoutId sets the HITLayoutId field's value.
-func (s *HIT) SetHITLayoutId(v string) *HIT {
-	s.HITLayoutId = &v
-	return s
-}
-
-// SetHITReviewStatus sets the HITReviewStatus field's value.
-func (s *HIT) SetHITReviewStatus(v HITReviewStatus) *HIT {
-	s.HITReviewStatus = v
-	return s
-}
-
-// SetHITStatus sets the HITStatus field's value.
-func (s *HIT) SetHITStatus(v HITStatus) *HIT {
-	s.HITStatus = v
-	return s
-}
-
-// SetHITTypeId sets the HITTypeId field's value.
-func (s *HIT) SetHITTypeId(v string) *HIT {
-	s.HITTypeId = &v
-	return s
-}
-
-// SetKeywords sets the Keywords field's value.
-func (s *HIT) SetKeywords(v string) *HIT {
-	s.Keywords = &v
-	return s
-}
-
-// SetMaxAssignments sets the MaxAssignments field's value.
-func (s *HIT) SetMaxAssignments(v int64) *HIT {
-	s.MaxAssignments = &v
-	return s
-}
-
-// SetNumberOfAssignmentsAvailable sets the NumberOfAssignmentsAvailable field's value.
-func (s *HIT) SetNumberOfAssignmentsAvailable(v int64) *HIT {
-	s.NumberOfAssignmentsAvailable = &v
-	return s
-}
-
-// SetNumberOfAssignmentsCompleted sets the NumberOfAssignmentsCompleted field's value.
-func (s *HIT) SetNumberOfAssignmentsCompleted(v int64) *HIT {
-	s.NumberOfAssignmentsCompleted = &v
-	return s
-}
-
-// SetNumberOfAssignmentsPending sets the NumberOfAssignmentsPending field's value.
-func (s *HIT) SetNumberOfAssignmentsPending(v int64) *HIT {
-	s.NumberOfAssignmentsPending = &v
-	return s
-}
-
-// SetQualificationRequirements sets the QualificationRequirements field's value.
-func (s *HIT) SetQualificationRequirements(v []*QualificationRequirement) *HIT {
-	s.QualificationRequirements = v
-	return s
-}
-
-// SetQuestion sets the Question field's value.
-func (s *HIT) SetQuestion(v string) *HIT {
-	s.Question = &v
-	return s
-}
-
-// SetRequesterAnnotation sets the RequesterAnnotation field's value.
-func (s *HIT) SetRequesterAnnotation(v string) *HIT {
-	s.RequesterAnnotation = &v
-	return s
-}
-
-// SetReward sets the Reward field's value.
-func (s *HIT) SetReward(v string) *HIT {
-	s.Reward = &v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *HIT) SetTitle(v string) *HIT {
-	s.Title = &v
-	return s
 }
 
 // The HITLayoutParameter data structure defines parameter values used with
@@ -5080,18 +4600,6 @@ func (s *HITLayoutParameter) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetName sets the Name field's value.
-func (s *HITLayoutParameter) SetName(v string) *HITLayoutParameter {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *HITLayoutParameter) SetValue(v string) *HITLayoutParameter {
-	s.Value = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListAssignmentsForHITRequest
@@ -5145,36 +4653,14 @@ func (s *ListAssignmentsForHITInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentStatuses sets the AssignmentStatuses field's value.
-func (s *ListAssignmentsForHITInput) SetAssignmentStatuses(v []AssignmentStatus) *ListAssignmentsForHITInput {
-	s.AssignmentStatuses = v
-	return s
-}
-
-// SetHITId sets the HITId field's value.
-func (s *ListAssignmentsForHITInput) SetHITId(v string) *ListAssignmentsForHITInput {
-	s.HITId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAssignmentsForHITInput) SetMaxResults(v int64) *ListAssignmentsForHITInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAssignmentsForHITInput) SetNextToken(v string) *ListAssignmentsForHITInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListAssignmentsForHITResponse
 type ListAssignmentsForHITOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The collection of Assignment data structures returned by this call.
-	Assignments []*Assignment `type:"list"`
+	Assignments []Assignment `type:"list"`
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -5196,22 +4682,9 @@ func (s ListAssignmentsForHITOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssignments sets the Assignments field's value.
-func (s *ListAssignmentsForHITOutput) SetAssignments(v []*Assignment) *ListAssignmentsForHITOutput {
-	s.Assignments = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAssignmentsForHITOutput) SetNextToken(v string) *ListAssignmentsForHITOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListAssignmentsForHITOutput) SetNumResults(v int64) *ListAssignmentsForHITOutput {
-	s.NumResults = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAssignmentsForHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListBonusPaymentsRequest
@@ -5266,37 +4739,15 @@ func (s *ListBonusPaymentsInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *ListBonusPaymentsInput) SetAssignmentId(v string) *ListBonusPaymentsInput {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetHITId sets the HITId field's value.
-func (s *ListBonusPaymentsInput) SetHITId(v string) *ListBonusPaymentsInput {
-	s.HITId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListBonusPaymentsInput) SetMaxResults(v int64) *ListBonusPaymentsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListBonusPaymentsInput) SetNextToken(v string) *ListBonusPaymentsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListBonusPaymentsResponse
 type ListBonusPaymentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A successful request to the ListBonusPayments operation returns a list of
 	// BonusPayment objects.
-	BonusPayments []*BonusPayment `type:"list"`
+	BonusPayments []BonusPayment `type:"list"`
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -5318,22 +4769,9 @@ func (s ListBonusPaymentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBonusPayments sets the BonusPayments field's value.
-func (s *ListBonusPaymentsOutput) SetBonusPayments(v []*BonusPayment) *ListBonusPaymentsOutput {
-	s.BonusPayments = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListBonusPaymentsOutput) SetNextToken(v string) *ListBonusPaymentsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListBonusPaymentsOutput) SetNumResults(v int64) *ListBonusPaymentsOutput {
-	s.NumResults = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBonusPaymentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListHITsForQualificationTypeRequest
@@ -5385,30 +4823,14 @@ func (s *ListHITsForQualificationTypeInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListHITsForQualificationTypeInput) SetMaxResults(v int64) *ListHITsForQualificationTypeInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHITsForQualificationTypeInput) SetNextToken(v string) *ListHITsForQualificationTypeInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *ListHITsForQualificationTypeInput) SetQualificationTypeId(v string) *ListHITsForQualificationTypeInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListHITsForQualificationTypeResponse
 type ListHITsForQualificationTypeOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of HIT elements returned by the query.
-	HITs []*HIT `type:"list"`
+	HITs []HIT `type:"list"`
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -5430,22 +4852,9 @@ func (s ListHITsForQualificationTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHITs sets the HITs field's value.
-func (s *ListHITsForQualificationTypeOutput) SetHITs(v []*HIT) *ListHITsForQualificationTypeOutput {
-	s.HITs = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHITsForQualificationTypeOutput) SetNextToken(v string) *ListHITsForQualificationTypeOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListHITsForQualificationTypeOutput) SetNumResults(v int64) *ListHITsForQualificationTypeOutput {
-	s.NumResults = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListHITsForQualificationTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListHITsRequest
@@ -5484,24 +4893,14 @@ func (s *ListHITsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListHITsInput) SetMaxResults(v int64) *ListHITsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHITsInput) SetNextToken(v string) *ListHITsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListHITsResponse
 type ListHITsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of HIT elements returned by the query.
-	HITs []*HIT `type:"list"`
+	HITs []HIT `type:"list"`
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -5523,22 +4922,9 @@ func (s ListHITsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHITs sets the HITs field's value.
-func (s *ListHITsOutput) SetHITs(v []*HIT) *ListHITsOutput {
-	s.HITs = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHITsOutput) SetNextToken(v string) *ListHITsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListHITsOutput) SetNumResults(v int64) *ListHITsOutput {
-	s.NumResults = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListHITsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListQualificationRequestsRequest
@@ -5586,27 +4972,11 @@ func (s *ListQualificationRequestsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListQualificationRequestsInput) SetMaxResults(v int64) *ListQualificationRequestsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListQualificationRequestsInput) SetNextToken(v string) *ListQualificationRequestsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *ListQualificationRequestsInput) SetQualificationTypeId(v string) *ListQualificationRequestsInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListQualificationRequestsResponse
 type ListQualificationRequestsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -5620,7 +4990,7 @@ type ListQualificationRequestsOutput struct {
 
 	// The Qualification request. The response includes one QualificationRequest
 	// element for each Qualification request returned by the query.
-	QualificationRequests []*QualificationRequest `type:"list"`
+	QualificationRequests []QualificationRequest `type:"list"`
 }
 
 // String returns the string representation
@@ -5633,22 +5003,9 @@ func (s ListQualificationRequestsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListQualificationRequestsOutput) SetNextToken(v string) *ListQualificationRequestsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListQualificationRequestsOutput) SetNumResults(v int64) *ListQualificationRequestsOutput {
-	s.NumResults = &v
-	return s
-}
-
-// SetQualificationRequests sets the QualificationRequests field's value.
-func (s *ListQualificationRequestsOutput) SetQualificationRequests(v []*QualificationRequest) *ListQualificationRequestsOutput {
-	s.QualificationRequests = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListQualificationRequestsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListQualificationTypesRequest
@@ -5711,39 +5068,11 @@ func (s *ListQualificationTypesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListQualificationTypesInput) SetMaxResults(v int64) *ListQualificationTypesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetMustBeOwnedByCaller sets the MustBeOwnedByCaller field's value.
-func (s *ListQualificationTypesInput) SetMustBeOwnedByCaller(v bool) *ListQualificationTypesInput {
-	s.MustBeOwnedByCaller = &v
-	return s
-}
-
-// SetMustBeRequestable sets the MustBeRequestable field's value.
-func (s *ListQualificationTypesInput) SetMustBeRequestable(v bool) *ListQualificationTypesInput {
-	s.MustBeRequestable = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListQualificationTypesInput) SetNextToken(v string) *ListQualificationTypesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetQuery sets the Query field's value.
-func (s *ListQualificationTypesInput) SetQuery(v string) *ListQualificationTypesInput {
-	s.Query = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListQualificationTypesResponse
 type ListQualificationTypesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -5755,7 +5084,7 @@ type ListQualificationTypesOutput struct {
 	NumResults *int64 `type:"integer"`
 
 	// The list of QualificationType elements returned by the query.
-	QualificationTypes []*QualificationType `type:"list"`
+	QualificationTypes []QualificationType `type:"list"`
 }
 
 // String returns the string representation
@@ -5768,22 +5097,9 @@ func (s ListQualificationTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListQualificationTypesOutput) SetNextToken(v string) *ListQualificationTypesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListQualificationTypesOutput) SetNumResults(v int64) *ListQualificationTypesOutput {
-	s.NumResults = &v
-	return s
-}
-
-// SetQualificationTypes sets the QualificationTypes field's value.
-func (s *ListQualificationTypesOutput) SetQualificationTypes(v []*QualificationType) *ListQualificationTypesOutput {
-	s.QualificationTypes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListQualificationTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListReviewPolicyResultsForHITRequest
@@ -5848,45 +5164,11 @@ func (s *ListReviewPolicyResultsForHITInput) Validate() error {
 	return nil
 }
 
-// SetHITId sets the HITId field's value.
-func (s *ListReviewPolicyResultsForHITInput) SetHITId(v string) *ListReviewPolicyResultsForHITInput {
-	s.HITId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListReviewPolicyResultsForHITInput) SetMaxResults(v int64) *ListReviewPolicyResultsForHITInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListReviewPolicyResultsForHITInput) SetNextToken(v string) *ListReviewPolicyResultsForHITInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPolicyLevels sets the PolicyLevels field's value.
-func (s *ListReviewPolicyResultsForHITInput) SetPolicyLevels(v []ReviewPolicyLevel) *ListReviewPolicyResultsForHITInput {
-	s.PolicyLevels = v
-	return s
-}
-
-// SetRetrieveActions sets the RetrieveActions field's value.
-func (s *ListReviewPolicyResultsForHITInput) SetRetrieveActions(v bool) *ListReviewPolicyResultsForHITInput {
-	s.RetrieveActions = &v
-	return s
-}
-
-// SetRetrieveResults sets the RetrieveResults field's value.
-func (s *ListReviewPolicyResultsForHITInput) SetRetrieveResults(v bool) *ListReviewPolicyResultsForHITInput {
-	s.RetrieveResults = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListReviewPolicyResultsForHITResponse
 type ListReviewPolicyResultsForHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the Assignment-level Review Policy. This contains only the PolicyName
 	// element.
@@ -5921,40 +5203,9 @@ func (s ListReviewPolicyResultsForHITOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssignmentReviewPolicy sets the AssignmentReviewPolicy field's value.
-func (s *ListReviewPolicyResultsForHITOutput) SetAssignmentReviewPolicy(v *ReviewPolicy) *ListReviewPolicyResultsForHITOutput {
-	s.AssignmentReviewPolicy = v
-	return s
-}
-
-// SetAssignmentReviewReport sets the AssignmentReviewReport field's value.
-func (s *ListReviewPolicyResultsForHITOutput) SetAssignmentReviewReport(v *ReviewReport) *ListReviewPolicyResultsForHITOutput {
-	s.AssignmentReviewReport = v
-	return s
-}
-
-// SetHITId sets the HITId field's value.
-func (s *ListReviewPolicyResultsForHITOutput) SetHITId(v string) *ListReviewPolicyResultsForHITOutput {
-	s.HITId = &v
-	return s
-}
-
-// SetHITReviewPolicy sets the HITReviewPolicy field's value.
-func (s *ListReviewPolicyResultsForHITOutput) SetHITReviewPolicy(v *ReviewPolicy) *ListReviewPolicyResultsForHITOutput {
-	s.HITReviewPolicy = v
-	return s
-}
-
-// SetHITReviewReport sets the HITReviewReport field's value.
-func (s *ListReviewPolicyResultsForHITOutput) SetHITReviewReport(v *ReviewReport) *ListReviewPolicyResultsForHITOutput {
-	s.HITReviewReport = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListReviewPolicyResultsForHITOutput) SetNextToken(v string) *ListReviewPolicyResultsForHITOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListReviewPolicyResultsForHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListReviewableHITsRequest
@@ -5972,7 +5223,7 @@ type ListReviewableHITsInput struct {
 	NextToken *string `min:"1" type:"string"`
 
 	// Can be either Reviewable or Reviewing. Reviewable is the default value.
-	Status ReviewableHITStatus `type:"string"`
+	Status ReviewableHITStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6004,36 +5255,14 @@ func (s *ListReviewableHITsInput) Validate() error {
 	return nil
 }
 
-// SetHITTypeId sets the HITTypeId field's value.
-func (s *ListReviewableHITsInput) SetHITTypeId(v string) *ListReviewableHITsInput {
-	s.HITTypeId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListReviewableHITsInput) SetMaxResults(v int64) *ListReviewableHITsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListReviewableHITsInput) SetNextToken(v string) *ListReviewableHITsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ListReviewableHITsInput) SetStatus(v ReviewableHITStatus) *ListReviewableHITsInput {
-	s.Status = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListReviewableHITsResponse
 type ListReviewableHITsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of HIT elements returned by the query.
-	HITs []*HIT `type:"list"`
+	HITs []HIT `type:"list"`
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -6055,22 +5284,9 @@ func (s ListReviewableHITsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHITs sets the HITs field's value.
-func (s *ListReviewableHITsOutput) SetHITs(v []*HIT) *ListReviewableHITsOutput {
-	s.HITs = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListReviewableHITsOutput) SetNextToken(v string) *ListReviewableHITsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListReviewableHITsOutput) SetNumResults(v int64) *ListReviewableHITsOutput {
-	s.NumResults = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListReviewableHITsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListWorkerBlocksRequest
@@ -6109,21 +5325,11 @@ func (s *ListWorkerBlocksInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListWorkerBlocksInput) SetMaxResults(v int64) *ListWorkerBlocksInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListWorkerBlocksInput) SetNextToken(v string) *ListWorkerBlocksInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListWorkerBlocksResponse
 type ListWorkerBlocksOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -6136,7 +5342,7 @@ type ListWorkerBlocksOutput struct {
 
 	// The list of WorkerBlocks, containing the collection of Worker IDs and reasons
 	// for blocking.
-	WorkerBlocks []*WorkerBlock `type:"list"`
+	WorkerBlocks []WorkerBlock `type:"list"`
 }
 
 // String returns the string representation
@@ -6149,22 +5355,9 @@ func (s ListWorkerBlocksOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListWorkerBlocksOutput) SetNextToken(v string) *ListWorkerBlocksOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListWorkerBlocksOutput) SetNumResults(v int64) *ListWorkerBlocksOutput {
-	s.NumResults = &v
-	return s
-}
-
-// SetWorkerBlocks sets the WorkerBlocks field's value.
-func (s *ListWorkerBlocksOutput) SetWorkerBlocks(v []*WorkerBlock) *ListWorkerBlocksOutput {
-	s.WorkerBlocks = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListWorkerBlocksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListWorkersWithQualificationTypeRequest
@@ -6183,7 +5376,7 @@ type ListWorkersWithQualificationTypeInput struct {
 	QualificationTypeId *string `min:"1" type:"string" required:"true"`
 
 	// The status of the Qualifications to return. Can be Granted | Revoked.
-	Status QualificationStatus `type:"string"`
+	Status QualificationStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6219,33 +5412,11 @@ func (s *ListWorkersWithQualificationTypeInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListWorkersWithQualificationTypeInput) SetMaxResults(v int64) *ListWorkersWithQualificationTypeInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListWorkersWithQualificationTypeInput) SetNextToken(v string) *ListWorkersWithQualificationTypeInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *ListWorkersWithQualificationTypeInput) SetQualificationTypeId(v string) *ListWorkersWithQualificationTypeInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ListWorkersWithQualificationTypeInput) SetStatus(v QualificationStatus) *ListWorkersWithQualificationTypeInput {
-	s.Status = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ListWorkersWithQualificationTypeResponse
 type ListWorkersWithQualificationTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the previous response was incomplete (because there is more data to retrieve),
 	// Amazon Mechanical Turk returns a pagination token in the response. You can
@@ -6257,7 +5428,7 @@ type ListWorkersWithQualificationTypeOutput struct {
 	NumResults *int64 `type:"integer"`
 
 	// The list of Qualification elements returned by this call.
-	Qualifications []*Qualification `type:"list"`
+	Qualifications []Qualification `type:"list"`
 }
 
 // String returns the string representation
@@ -6270,22 +5441,9 @@ func (s ListWorkersWithQualificationTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListWorkersWithQualificationTypeOutput) SetNextToken(v string) *ListWorkersWithQualificationTypeOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNumResults sets the NumResults field's value.
-func (s *ListWorkersWithQualificationTypeOutput) SetNumResults(v int64) *ListWorkersWithQualificationTypeOutput {
-	s.NumResults = &v
-	return s
-}
-
-// SetQualifications sets the Qualifications field's value.
-func (s *ListWorkersWithQualificationTypeOutput) SetQualifications(v []*Qualification) *ListWorkersWithQualificationTypeOutput {
-	s.Qualifications = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListWorkersWithQualificationTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The Locale data structure represents a geographical region or location.
@@ -6334,18 +5492,6 @@ func (s *Locale) Validate() error {
 	return nil
 }
 
-// SetCountry sets the Country field's value.
-func (s *Locale) SetCountry(v string) *Locale {
-	s.Country = &v
-	return s
-}
-
-// SetSubdivision sets the Subdivision field's value.
-func (s *Locale) SetSubdivision(v string) *Locale {
-	s.Subdivision = &v
-	return s
-}
-
 // The NotificationSpecification data structure describes a HIT event notification
 // for a HIT type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/NotificationSpecification
@@ -6377,7 +5523,7 @@ type NotificationSpecification struct {
 	// Email | SQS | SNS.
 	//
 	// Transport is a required field
-	Transport NotificationTransport `type:"string" required:"true"`
+	Transport NotificationTransport `type:"string" required:"true" enum:"true"`
 
 	// The version of the Notification API to use. Valid value is 2006-05-05.
 	//
@@ -6420,30 +5566,6 @@ func (s *NotificationSpecification) Validate() error {
 	return nil
 }
 
-// SetDestination sets the Destination field's value.
-func (s *NotificationSpecification) SetDestination(v string) *NotificationSpecification {
-	s.Destination = &v
-	return s
-}
-
-// SetEventTypes sets the EventTypes field's value.
-func (s *NotificationSpecification) SetEventTypes(v []EventType) *NotificationSpecification {
-	s.EventTypes = v
-	return s
-}
-
-// SetTransport sets the Transport field's value.
-func (s *NotificationSpecification) SetTransport(v NotificationTransport) *NotificationSpecification {
-	s.Transport = v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *NotificationSpecification) SetVersion(v string) *NotificationSpecification {
-	s.Version = &v
-	return s
-}
-
 // When MTurk encounters an issue with notifying the Workers you specified,
 // it returns back this object with failure details.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/NotifyWorkersFailureStatus
@@ -6451,7 +5573,7 @@ type NotifyWorkersFailureStatus struct {
 	_ struct{} `type:"structure"`
 
 	// Encoded value for the failure type.
-	NotifyWorkersFailureCode NotifyWorkersFailureCode `type:"string"`
+	NotifyWorkersFailureCode NotifyWorkersFailureCode `type:"string" enum:"true"`
 
 	// A message detailing the reason the Worker could not be notified.
 	NotifyWorkersFailureMessage *string `type:"string"`
@@ -6468,24 +5590,6 @@ func (s NotifyWorkersFailureStatus) String() string {
 // GoString returns the string representation
 func (s NotifyWorkersFailureStatus) GoString() string {
 	return s.String()
-}
-
-// SetNotifyWorkersFailureCode sets the NotifyWorkersFailureCode field's value.
-func (s *NotifyWorkersFailureStatus) SetNotifyWorkersFailureCode(v NotifyWorkersFailureCode) *NotifyWorkersFailureStatus {
-	s.NotifyWorkersFailureCode = v
-	return s
-}
-
-// SetNotifyWorkersFailureMessage sets the NotifyWorkersFailureMessage field's value.
-func (s *NotifyWorkersFailureStatus) SetNotifyWorkersFailureMessage(v string) *NotifyWorkersFailureStatus {
-	s.NotifyWorkersFailureMessage = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *NotifyWorkersFailureStatus) SetWorkerId(v string) *NotifyWorkersFailureStatus {
-	s.WorkerId = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/NotifyWorkersRequest
@@ -6506,7 +5610,7 @@ type NotifyWorkersInput struct {
 	// at a time.
 	//
 	// WorkerIds is a required field
-	WorkerIds []*string `type:"list" required:"true"`
+	WorkerIds []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6541,31 +5645,15 @@ func (s *NotifyWorkersInput) Validate() error {
 	return nil
 }
 
-// SetMessageText sets the MessageText field's value.
-func (s *NotifyWorkersInput) SetMessageText(v string) *NotifyWorkersInput {
-	s.MessageText = &v
-	return s
-}
-
-// SetSubject sets the Subject field's value.
-func (s *NotifyWorkersInput) SetSubject(v string) *NotifyWorkersInput {
-	s.Subject = &v
-	return s
-}
-
-// SetWorkerIds sets the WorkerIds field's value.
-func (s *NotifyWorkersInput) SetWorkerIds(v []*string) *NotifyWorkersInput {
-	s.WorkerIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/NotifyWorkersResponse
 type NotifyWorkersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// When MTurk sends notifications to the list of Workers, it returns back any
 	// failures it encounters in this list of NotifyWorkersFailureStatus objects.
-	NotifyWorkersFailureStatuses []*NotifyWorkersFailureStatus `type:"list"`
+	NotifyWorkersFailureStatuses []NotifyWorkersFailureStatus `type:"list"`
 }
 
 // String returns the string representation
@@ -6578,10 +5666,9 @@ func (s NotifyWorkersOutput) GoString() string {
 	return s.String()
 }
 
-// SetNotifyWorkersFailureStatuses sets the NotifyWorkersFailureStatuses field's value.
-func (s *NotifyWorkersOutput) SetNotifyWorkersFailureStatuses(v []*NotifyWorkersFailureStatus) *NotifyWorkersOutput {
-	s.NotifyWorkersFailureStatuses = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s NotifyWorkersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This data structure is the data type for the AnswerKey parameter of the ScoreMyKnownAnswers/2011-09-01
@@ -6597,7 +5684,7 @@ type ParameterMapEntry struct {
 
 	// The list of answers to the question specified in the MapEntry Key element.
 	// The Worker must match all values in order for the answer to be scored correctly.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6610,18 +5697,6 @@ func (s ParameterMapEntry) GoString() string {
 	return s.String()
 }
 
-// SetKey sets the Key field's value.
-func (s *ParameterMapEntry) SetKey(v string) *ParameterMapEntry {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *ParameterMapEntry) SetValues(v []*string) *ParameterMapEntry {
-	s.Values = v
-	return s
-}
-
 // Name of the parameter from the Review policy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/PolicyParameter
 type PolicyParameter struct {
@@ -6631,10 +5706,10 @@ type PolicyParameter struct {
 	Key *string `type:"string"`
 
 	// List of ParameterMapEntry objects.
-	MapEntries []*ParameterMapEntry `type:"list"`
+	MapEntries []ParameterMapEntry `type:"list"`
 
 	// The list of values of the Parameter
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6645,24 +5720,6 @@ func (s PolicyParameter) String() string {
 // GoString returns the string representation
 func (s PolicyParameter) GoString() string {
 	return s.String()
-}
-
-// SetKey sets the Key field's value.
-func (s *PolicyParameter) SetKey(v string) *PolicyParameter {
-	s.Key = &v
-	return s
-}
-
-// SetMapEntries sets the MapEntries field's value.
-func (s *PolicyParameter) SetMapEntries(v []*ParameterMapEntry) *PolicyParameter {
-	s.MapEntries = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *PolicyParameter) SetValues(v []*string) *PolicyParameter {
-	s.Values = v
-	return s
 }
 
 // The Qualification data structure represents a Qualification assigned to a
@@ -6688,7 +5745,7 @@ type Qualification struct {
 	QualificationTypeId *string `min:"1" type:"string"`
 
 	// The status of the Qualification. Valid values are Granted | Revoked.
-	Status QualificationStatus `type:"string"`
+	Status QualificationStatus `type:"string" enum:"true"`
 
 	// The ID of the Worker who possesses the Qualification.
 	WorkerId *string `min:"1" type:"string"`
@@ -6702,42 +5759,6 @@ func (s Qualification) String() string {
 // GoString returns the string representation
 func (s Qualification) GoString() string {
 	return s.String()
-}
-
-// SetGrantTime sets the GrantTime field's value.
-func (s *Qualification) SetGrantTime(v time.Time) *Qualification {
-	s.GrantTime = &v
-	return s
-}
-
-// SetIntegerValue sets the IntegerValue field's value.
-func (s *Qualification) SetIntegerValue(v int64) *Qualification {
-	s.IntegerValue = &v
-	return s
-}
-
-// SetLocaleValue sets the LocaleValue field's value.
-func (s *Qualification) SetLocaleValue(v *Locale) *Qualification {
-	s.LocaleValue = v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *Qualification) SetQualificationTypeId(v string) *Qualification {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Qualification) SetStatus(v QualificationStatus) *Qualification {
-	s.Status = v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *Qualification) SetWorkerId(v string) *Qualification {
-	s.WorkerId = &v
-	return s
 }
 
 // The QualificationRequest data structure represents a request a Worker has
@@ -6785,49 +5806,32 @@ func (s QualificationRequest) GoString() string {
 	return s.String()
 }
 
-// SetAnswer sets the Answer field's value.
-func (s *QualificationRequest) SetAnswer(v string) *QualificationRequest {
-	s.Answer = &v
-	return s
-}
-
-// SetQualificationRequestId sets the QualificationRequestId field's value.
-func (s *QualificationRequest) SetQualificationRequestId(v string) *QualificationRequest {
-	s.QualificationRequestId = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *QualificationRequest) SetQualificationTypeId(v string) *QualificationRequest {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetSubmitTime sets the SubmitTime field's value.
-func (s *QualificationRequest) SetSubmitTime(v time.Time) *QualificationRequest {
-	s.SubmitTime = &v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *QualificationRequest) SetTest(v string) *QualificationRequest {
-	s.Test = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *QualificationRequest) SetWorkerId(v string) *QualificationRequest {
-	s.WorkerId = &v
-	return s
-}
-
 // The QualificationRequirement data structure describes a Qualification that
 // a Worker must have before the Worker is allowed to accept a HIT. A requirement
 // may optionally state that a Worker must have the Qualification in order to
-// preview the HIT.
+// preview the HIT, or see the HIT in search results.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/QualificationRequirement
 type QualificationRequirement struct {
 	_ struct{} `type:"structure"`
+
+	// Setting this attribute prevents Workers whose Qualifications do not meet
+	// this QualificationRequirement from taking the specified action. Valid arguments
+	// include "Accept" (Worker cannot accept the HIT, but can preview the HIT and
+	// see it in their search results), "PreviewAndAccept" (Worker cannot accept
+	// or preview the HIT, but can see the HIT in their search results), and "DiscoverPreviewAndAccept"
+	// (Worker cannot accept, preview, or see the HIT in their search results).
+	// It's possible for you to create a HIT with multiple QualificationRequirements
+	// (which can have different values for the ActionGuarded attribute). In this
+	// case, the Worker is only permitted to perform an action when they have met
+	// all QualificationRequirements guarding the action. The actions in the order
+	// of least restrictive to most restrictive are Discover, Preview and Accept.
+	// For example, if a Worker meets all QualificationRequirements that are set
+	// to DiscoverPreviewAndAccept, but do not meet all requirements that are set
+	// with PreviewAndAccept, then the Worker will be able to Discover, i.e. see
+	// the HIT in their search result, but will not be able to Preview or Accept
+	// the HIT. ActionsGuarded should not be used in combination with the RequiredToPreview
+	// field.
+	ActionsGuarded HITAccessActions `type:"string" enum:"true"`
 
 	// The kind of comparison to make against a Qualification's value. You can compare
 	// a Qualification's value to an IntegerValue to see if it is LessThan, LessThanOrEqualTo,
@@ -6839,7 +5843,7 @@ type QualificationRequirement struct {
 	// regardless of its value.
 	//
 	// Comparator is a required field
-	Comparator Comparator `type:"string" required:"true"`
+	Comparator Comparator `type:"string" required:"true" enum:"true"`
 
 	// The integer value to compare against the Qualification's value. IntegerValue
 	// must not be present if Comparator is Exists or DoesNotExist. IntegerValue
@@ -6847,7 +5851,7 @@ type QualificationRequirement struct {
 	// be used with the Worker_Locale QualificationType ID. When performing a set
 	// comparison by using the In or the NotIn comparator, you can use up to 15
 	// IntegerValue elements in a QualificationRequirement data structure.
-	IntegerValues []*int64 `type:"list"`
+	IntegerValues []int64 `type:"list"`
 
 	// The locale value to compare against the Qualification's value. The local
 	// value must be a valid ISO 3166 country code or supports ISO 3166-2 subdivisions.
@@ -6857,22 +5861,24 @@ type QualificationRequirement struct {
 	// NotEqualTo comparators. When performing a set comparison by using the In
 	// or the NotIn comparator, you can use up to 30 LocaleValue elements in a QualificationRequirement
 	// data structure.
-	LocaleValues []*Locale `type:"list"`
+	LocaleValues []Locale `type:"list"`
 
 	// The ID of the Qualification type for the requirement.
 	//
 	// QualificationTypeId is a required field
 	QualificationTypeId *string `type:"string" required:"true"`
 
-	// If true, the question data for the HIT will not be shown when a Worker whose
+	// DEPRECATED: Use the ActionsGuarded field instead. If RequiredToPreview is
+	// true, the question data for the HIT will not be shown when a Worker whose
 	// Qualifications do not meet this requirement tries to preview the HIT. That
 	// is, a Worker's Qualifications must meet all of the requirements for which
 	// RequiredToPreview is true in order to preview the HIT. If a Worker meets
 	// all of the requirements where RequiredToPreview is true (or if there are
 	// no such requirements), but does not meet all of the requirements for the
 	// HIT, the Worker will be allowed to preview the HIT's question data, but will
-	// not be allowed to accept and complete the HIT. The default is false.
-	RequiredToPreview *bool `type:"boolean"`
+	// not be allowed to accept and complete the HIT. The default is false. This
+	// should not be used in combination with the ActionsGuarded field.
+	RequiredToPreview *bool `deprecated:"true" type:"boolean"`
 }
 
 // String returns the string representation
@@ -6897,9 +5903,6 @@ func (s *QualificationRequirement) Validate() error {
 	}
 	if s.LocaleValues != nil {
 		for i, v := range s.LocaleValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "LocaleValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -6910,36 +5913,6 @@ func (s *QualificationRequirement) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetComparator sets the Comparator field's value.
-func (s *QualificationRequirement) SetComparator(v Comparator) *QualificationRequirement {
-	s.Comparator = v
-	return s
-}
-
-// SetIntegerValues sets the IntegerValues field's value.
-func (s *QualificationRequirement) SetIntegerValues(v []*int64) *QualificationRequirement {
-	s.IntegerValues = v
-	return s
-}
-
-// SetLocaleValues sets the LocaleValues field's value.
-func (s *QualificationRequirement) SetLocaleValues(v []*Locale) *QualificationRequirement {
-	s.LocaleValues = v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *QualificationRequirement) SetQualificationTypeId(v string) *QualificationRequirement {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetRequiredToPreview sets the RequiredToPreview field's value.
-func (s *QualificationRequirement) SetRequiredToPreview(v bool) *QualificationRequirement {
-	s.RequiredToPreview = &v
-	return s
 }
 
 // The QualificationType data structure represents a Qualification type, a description
@@ -6991,7 +5964,7 @@ type QualificationType struct {
 	// if users can apply to receive a Qualification of this type, and if HITs can
 	// be created with requirements based on this type. Valid values are Active
 	// | Inactive.
-	QualificationTypeStatus QualificationTypeStatus `type:"string"`
+	QualificationTypeStatus QualificationTypeStatus `type:"string" enum:"true"`
 
 	// The amount of time, in seconds, Workers must wait after taking the Qualification
 	// test before they can take it again. Workers can take a Qualification test
@@ -7020,84 +5993,6 @@ func (s QualificationType) String() string {
 // GoString returns the string representation
 func (s QualificationType) GoString() string {
 	return s.String()
-}
-
-// SetAnswerKey sets the AnswerKey field's value.
-func (s *QualificationType) SetAnswerKey(v string) *QualificationType {
-	s.AnswerKey = &v
-	return s
-}
-
-// SetAutoGranted sets the AutoGranted field's value.
-func (s *QualificationType) SetAutoGranted(v bool) *QualificationType {
-	s.AutoGranted = &v
-	return s
-}
-
-// SetAutoGrantedValue sets the AutoGrantedValue field's value.
-func (s *QualificationType) SetAutoGrantedValue(v int64) *QualificationType {
-	s.AutoGrantedValue = &v
-	return s
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *QualificationType) SetCreationTime(v time.Time) *QualificationType {
-	s.CreationTime = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *QualificationType) SetDescription(v string) *QualificationType {
-	s.Description = &v
-	return s
-}
-
-// SetIsRequestable sets the IsRequestable field's value.
-func (s *QualificationType) SetIsRequestable(v bool) *QualificationType {
-	s.IsRequestable = &v
-	return s
-}
-
-// SetKeywords sets the Keywords field's value.
-func (s *QualificationType) SetKeywords(v string) *QualificationType {
-	s.Keywords = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *QualificationType) SetName(v string) *QualificationType {
-	s.Name = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *QualificationType) SetQualificationTypeId(v string) *QualificationType {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetQualificationTypeStatus sets the QualificationTypeStatus field's value.
-func (s *QualificationType) SetQualificationTypeStatus(v QualificationTypeStatus) *QualificationType {
-	s.QualificationTypeStatus = v
-	return s
-}
-
-// SetRetryDelayInSeconds sets the RetryDelayInSeconds field's value.
-func (s *QualificationType) SetRetryDelayInSeconds(v int64) *QualificationType {
-	s.RetryDelayInSeconds = &v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *QualificationType) SetTest(v string) *QualificationType {
-	s.Test = &v
-	return s
-}
-
-// SetTestDurationInSeconds sets the TestDurationInSeconds field's value.
-func (s *QualificationType) SetTestDurationInSeconds(v int64) *QualificationType {
-	s.TestDurationInSeconds = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/RejectAssignmentRequest
@@ -7148,21 +6043,11 @@ func (s *RejectAssignmentInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *RejectAssignmentInput) SetAssignmentId(v string) *RejectAssignmentInput {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetRequesterFeedback sets the RequesterFeedback field's value.
-func (s *RejectAssignmentInput) SetRequesterFeedback(v string) *RejectAssignmentInput {
-	s.RequesterFeedback = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/RejectAssignmentResponse
 type RejectAssignmentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7173,6 +6058,11 @@ func (s RejectAssignmentOutput) String() string {
 // GoString returns the string representation
 func (s RejectAssignmentOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RejectAssignmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/RejectQualificationRequestRequest
@@ -7214,21 +6104,11 @@ func (s *RejectQualificationRequestInput) Validate() error {
 	return nil
 }
 
-// SetQualificationRequestId sets the QualificationRequestId field's value.
-func (s *RejectQualificationRequestInput) SetQualificationRequestId(v string) *RejectQualificationRequestInput {
-	s.QualificationRequestId = &v
-	return s
-}
-
-// SetReason sets the Reason field's value.
-func (s *RejectQualificationRequestInput) SetReason(v string) *RejectQualificationRequestInput {
-	s.Reason = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/RejectQualificationRequestResponse
 type RejectQualificationRequestOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7239,6 +6119,11 @@ func (s RejectQualificationRequestOutput) String() string {
 // GoString returns the string representation
 func (s RejectQualificationRequestOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RejectQualificationRequestOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Both the AssignmentReviewReport and the HITReviewReport elements contains
@@ -7266,7 +6151,7 @@ type ReviewActionDetail struct {
 	Result *string `type:"string"`
 
 	// The current disposition of the action: INTENDED, SUCCEEDED, FAILED, or CANCELLED.
-	Status ReviewActionStatus `type:"string"`
+	Status ReviewActionStatus `type:"string" enum:"true"`
 
 	// The specific HITId or AssignmentID targeted by the action.
 	TargetId *string `min:"1" type:"string"`
@@ -7285,54 +6170,6 @@ func (s ReviewActionDetail) GoString() string {
 	return s.String()
 }
 
-// SetActionId sets the ActionId field's value.
-func (s *ReviewActionDetail) SetActionId(v string) *ReviewActionDetail {
-	s.ActionId = &v
-	return s
-}
-
-// SetActionName sets the ActionName field's value.
-func (s *ReviewActionDetail) SetActionName(v string) *ReviewActionDetail {
-	s.ActionName = &v
-	return s
-}
-
-// SetCompleteTime sets the CompleteTime field's value.
-func (s *ReviewActionDetail) SetCompleteTime(v time.Time) *ReviewActionDetail {
-	s.CompleteTime = &v
-	return s
-}
-
-// SetErrorCode sets the ErrorCode field's value.
-func (s *ReviewActionDetail) SetErrorCode(v string) *ReviewActionDetail {
-	s.ErrorCode = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *ReviewActionDetail) SetResult(v string) *ReviewActionDetail {
-	s.Result = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ReviewActionDetail) SetStatus(v ReviewActionStatus) *ReviewActionDetail {
-	s.Status = v
-	return s
-}
-
-// SetTargetId sets the TargetId field's value.
-func (s *ReviewActionDetail) SetTargetId(v string) *ReviewActionDetail {
-	s.TargetId = &v
-	return s
-}
-
-// SetTargetType sets the TargetType field's value.
-func (s *ReviewActionDetail) SetTargetType(v string) *ReviewActionDetail {
-	s.TargetType = &v
-	return s
-}
-
 // HIT Review Policy data structures represent HIT review policies, which you
 // specify when you create a HIT.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ReviewPolicy
@@ -7340,7 +6177,7 @@ type ReviewPolicy struct {
 	_ struct{} `type:"structure"`
 
 	// Name of the parameter from the Review policy.
-	Parameters []*PolicyParameter `type:"list"`
+	Parameters []PolicyParameter `type:"list"`
 
 	// Name of a Review Policy: SimplePlurality/2011-09-01 or ScoreMyKnownAnswers/2011-09-01
 	//
@@ -7372,28 +6209,16 @@ func (s *ReviewPolicy) Validate() error {
 	return nil
 }
 
-// SetParameters sets the Parameters field's value.
-func (s *ReviewPolicy) SetParameters(v []*PolicyParameter) *ReviewPolicy {
-	s.Parameters = v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *ReviewPolicy) SetPolicyName(v string) *ReviewPolicy {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains both ReviewResult and ReviewAction elements for a particular HIT.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/ReviewReport
 type ReviewReport struct {
 	_ struct{} `type:"structure"`
 
 	// A list of ReviewAction objects for each action specified in the Review Policy.
-	ReviewActions []*ReviewActionDetail `type:"list"`
+	ReviewActions []ReviewActionDetail `type:"list"`
 
 	// A list of ReviewResults objects for each action specified in the Review Policy.
-	ReviewResults []*ReviewResultDetail `type:"list"`
+	ReviewResults []ReviewResultDetail `type:"list"`
 }
 
 // String returns the string representation
@@ -7404,18 +6229,6 @@ func (s ReviewReport) String() string {
 // GoString returns the string representation
 func (s ReviewReport) GoString() string {
 	return s.String()
-}
-
-// SetReviewActions sets the ReviewActions field's value.
-func (s *ReviewReport) SetReviewActions(v []*ReviewActionDetail) *ReviewReport {
-	s.ReviewActions = v
-	return s
-}
-
-// SetReviewResults sets the ReviewResults field's value.
-func (s *ReviewReport) SetReviewResults(v []*ReviewResultDetail) *ReviewReport {
-	s.ReviewResults = v
-	return s
 }
 
 // This data structure is returned multiple times for each result specified
@@ -7459,42 +6272,6 @@ func (s ReviewResultDetail) String() string {
 // GoString returns the string representation
 func (s ReviewResultDetail) GoString() string {
 	return s.String()
-}
-
-// SetActionId sets the ActionId field's value.
-func (s *ReviewResultDetail) SetActionId(v string) *ReviewResultDetail {
-	s.ActionId = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *ReviewResultDetail) SetKey(v string) *ReviewResultDetail {
-	s.Key = &v
-	return s
-}
-
-// SetQuestionId sets the QuestionId field's value.
-func (s *ReviewResultDetail) SetQuestionId(v string) *ReviewResultDetail {
-	s.QuestionId = &v
-	return s
-}
-
-// SetSubjectId sets the SubjectId field's value.
-func (s *ReviewResultDetail) SetSubjectId(v string) *ReviewResultDetail {
-	s.SubjectId = &v
-	return s
-}
-
-// SetSubjectType sets the SubjectType field's value.
-func (s *ReviewResultDetail) SetSubjectType(v string) *ReviewResultDetail {
-	s.SubjectType = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *ReviewResultDetail) SetValue(v string) *ReviewResultDetail {
-	s.Value = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/SendBonusRequest
@@ -7578,39 +6355,11 @@ func (s *SendBonusInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentId sets the AssignmentId field's value.
-func (s *SendBonusInput) SetAssignmentId(v string) *SendBonusInput {
-	s.AssignmentId = &v
-	return s
-}
-
-// SetBonusAmount sets the BonusAmount field's value.
-func (s *SendBonusInput) SetBonusAmount(v string) *SendBonusInput {
-	s.BonusAmount = &v
-	return s
-}
-
-// SetReason sets the Reason field's value.
-func (s *SendBonusInput) SetReason(v string) *SendBonusInput {
-	s.Reason = &v
-	return s
-}
-
-// SetUniqueRequestToken sets the UniqueRequestToken field's value.
-func (s *SendBonusInput) SetUniqueRequestToken(v string) *SendBonusInput {
-	s.UniqueRequestToken = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *SendBonusInput) SetWorkerId(v string) *SendBonusInput {
-	s.WorkerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/SendBonusResponse
 type SendBonusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7621,6 +6370,11 @@ func (s SendBonusOutput) String() string {
 // GoString returns the string representation
 func (s SendBonusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendBonusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/SendTestEventNotificationRequest
@@ -7640,7 +6394,7 @@ type SendTestEventNotificationInput struct {
 	// out the test event.
 	//
 	// TestEventType is a required field
-	TestEventType EventType `type:"string" required:"true"`
+	TestEventType EventType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -7675,21 +6429,11 @@ func (s *SendTestEventNotificationInput) Validate() error {
 	return nil
 }
 
-// SetNotification sets the Notification field's value.
-func (s *SendTestEventNotificationInput) SetNotification(v *NotificationSpecification) *SendTestEventNotificationInput {
-	s.Notification = v
-	return s
-}
-
-// SetTestEventType sets the TestEventType field's value.
-func (s *SendTestEventNotificationInput) SetTestEventType(v EventType) *SendTestEventNotificationInput {
-	s.TestEventType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/SendTestEventNotificationResponse
 type SendTestEventNotificationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7700,6 +6444,11 @@ func (s SendTestEventNotificationOutput) String() string {
 // GoString returns the string representation
 func (s SendTestEventNotificationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendTestEventNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateExpirationForHITRequest
@@ -7748,21 +6497,11 @@ func (s *UpdateExpirationForHITInput) Validate() error {
 	return nil
 }
 
-// SetExpireAt sets the ExpireAt field's value.
-func (s *UpdateExpirationForHITInput) SetExpireAt(v time.Time) *UpdateExpirationForHITInput {
-	s.ExpireAt = &v
-	return s
-}
-
-// SetHITId sets the HITId field's value.
-func (s *UpdateExpirationForHITInput) SetHITId(v string) *UpdateExpirationForHITInput {
-	s.HITId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateExpirationForHITResponse
 type UpdateExpirationForHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7773,6 +6512,11 @@ func (s UpdateExpirationForHITOutput) String() string {
 // GoString returns the string representation
 func (s UpdateExpirationForHITOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateExpirationForHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateHITReviewStatusRequest
@@ -7820,21 +6564,11 @@ func (s *UpdateHITReviewStatusInput) Validate() error {
 	return nil
 }
 
-// SetHITId sets the HITId field's value.
-func (s *UpdateHITReviewStatusInput) SetHITId(v string) *UpdateHITReviewStatusInput {
-	s.HITId = &v
-	return s
-}
-
-// SetRevert sets the Revert field's value.
-func (s *UpdateHITReviewStatusInput) SetRevert(v bool) *UpdateHITReviewStatusInput {
-	s.Revert = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateHITReviewStatusResponse
 type UpdateHITReviewStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7845,6 +6579,11 @@ func (s UpdateHITReviewStatusOutput) String() string {
 // GoString returns the string representation
 func (s UpdateHITReviewStatusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateHITReviewStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateHITTypeOfHITRequest
@@ -7896,21 +6635,11 @@ func (s *UpdateHITTypeOfHITInput) Validate() error {
 	return nil
 }
 
-// SetHITId sets the HITId field's value.
-func (s *UpdateHITTypeOfHITInput) SetHITId(v string) *UpdateHITTypeOfHITInput {
-	s.HITId = &v
-	return s
-}
-
-// SetHITTypeId sets the HITTypeId field's value.
-func (s *UpdateHITTypeOfHITInput) SetHITTypeId(v string) *UpdateHITTypeOfHITInput {
-	s.HITTypeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateHITTypeOfHITResponse
 type UpdateHITTypeOfHITOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7921,6 +6650,11 @@ func (s UpdateHITTypeOfHITOutput) String() string {
 // GoString returns the string representation
 func (s UpdateHITTypeOfHITOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateHITTypeOfHITOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateNotificationSettingsRequest
@@ -7974,27 +6708,11 @@ func (s *UpdateNotificationSettingsInput) Validate() error {
 	return nil
 }
 
-// SetActive sets the Active field's value.
-func (s *UpdateNotificationSettingsInput) SetActive(v bool) *UpdateNotificationSettingsInput {
-	s.Active = &v
-	return s
-}
-
-// SetHITTypeId sets the HITTypeId field's value.
-func (s *UpdateNotificationSettingsInput) SetHITTypeId(v string) *UpdateNotificationSettingsInput {
-	s.HITTypeId = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *UpdateNotificationSettingsInput) SetNotification(v *NotificationSpecification) *UpdateNotificationSettingsInput {
-	s.Notification = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateNotificationSettingsResponse
 type UpdateNotificationSettingsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8005,6 +6723,11 @@ func (s UpdateNotificationSettingsOutput) String() string {
 // GoString returns the string representation
 func (s UpdateNotificationSettingsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateNotificationSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateQualificationTypeRequest
@@ -8035,7 +6758,7 @@ type UpdateQualificationTypeInput struct {
 	QualificationTypeId *string `min:"1" type:"string" required:"true"`
 
 	// The new status of the Qualification type - Active | Inactive
-	QualificationTypeStatus QualificationTypeStatus `type:"string"`
+	QualificationTypeStatus QualificationTypeStatus `type:"string" enum:"true"`
 
 	// The amount of time, in seconds, that Workers must wait after requesting a
 	// Qualification of the specified Qualification type before they can retry the
@@ -8089,63 +6812,11 @@ func (s *UpdateQualificationTypeInput) Validate() error {
 	return nil
 }
 
-// SetAnswerKey sets the AnswerKey field's value.
-func (s *UpdateQualificationTypeInput) SetAnswerKey(v string) *UpdateQualificationTypeInput {
-	s.AnswerKey = &v
-	return s
-}
-
-// SetAutoGranted sets the AutoGranted field's value.
-func (s *UpdateQualificationTypeInput) SetAutoGranted(v bool) *UpdateQualificationTypeInput {
-	s.AutoGranted = &v
-	return s
-}
-
-// SetAutoGrantedValue sets the AutoGrantedValue field's value.
-func (s *UpdateQualificationTypeInput) SetAutoGrantedValue(v int64) *UpdateQualificationTypeInput {
-	s.AutoGrantedValue = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateQualificationTypeInput) SetDescription(v string) *UpdateQualificationTypeInput {
-	s.Description = &v
-	return s
-}
-
-// SetQualificationTypeId sets the QualificationTypeId field's value.
-func (s *UpdateQualificationTypeInput) SetQualificationTypeId(v string) *UpdateQualificationTypeInput {
-	s.QualificationTypeId = &v
-	return s
-}
-
-// SetQualificationTypeStatus sets the QualificationTypeStatus field's value.
-func (s *UpdateQualificationTypeInput) SetQualificationTypeStatus(v QualificationTypeStatus) *UpdateQualificationTypeInput {
-	s.QualificationTypeStatus = v
-	return s
-}
-
-// SetRetryDelayInSeconds sets the RetryDelayInSeconds field's value.
-func (s *UpdateQualificationTypeInput) SetRetryDelayInSeconds(v int64) *UpdateQualificationTypeInput {
-	s.RetryDelayInSeconds = &v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *UpdateQualificationTypeInput) SetTest(v string) *UpdateQualificationTypeInput {
-	s.Test = &v
-	return s
-}
-
-// SetTestDurationInSeconds sets the TestDurationInSeconds field's value.
-func (s *UpdateQualificationTypeInput) SetTestDurationInSeconds(v int64) *UpdateQualificationTypeInput {
-	s.TestDurationInSeconds = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mturk-requester-2017-01-17/UpdateQualificationTypeResponse
 type UpdateQualificationTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains a QualificationType data structure.
 	QualificationType *QualificationType `type:"structure"`
@@ -8161,10 +6832,9 @@ func (s UpdateQualificationTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetQualificationType sets the QualificationType field's value.
-func (s *UpdateQualificationTypeOutput) SetQualificationType(v *QualificationType) *UpdateQualificationTypeOutput {
-	s.QualificationType = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateQualificationTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The WorkerBlock data structure represents a Worker who has been blocked.
@@ -8190,18 +6860,6 @@ func (s WorkerBlock) GoString() string {
 	return s.String()
 }
 
-// SetReason sets the Reason field's value.
-func (s *WorkerBlock) SetReason(v string) *WorkerBlock {
-	s.Reason = &v
-	return s
-}
-
-// SetWorkerId sets the WorkerId field's value.
-func (s *WorkerBlock) SetWorkerId(v string) *WorkerBlock {
-	s.WorkerId = &v
-	return s
-}
-
 type AssignmentStatus string
 
 // Enum values for AssignmentStatus
@@ -8210,6 +6868,15 @@ const (
 	AssignmentStatusApproved  AssignmentStatus = "Approved"
 	AssignmentStatusRejected  AssignmentStatus = "Rejected"
 )
+
+func (enum AssignmentStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AssignmentStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Comparator string
 
@@ -8226,6 +6893,15 @@ const (
 	ComparatorIn                   Comparator = "In"
 	ComparatorNotIn                Comparator = "NotIn"
 )
+
+func (enum Comparator) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Comparator) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EventType string
 
@@ -8245,6 +6921,33 @@ const (
 	EventTypePing                EventType = "Ping"
 )
 
+func (enum EventType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EventType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type HITAccessActions string
+
+// Enum values for HITAccessActions
+const (
+	HITAccessActionsAccept                   HITAccessActions = "Accept"
+	HITAccessActionsPreviewAndAccept         HITAccessActions = "PreviewAndAccept"
+	HITAccessActionsDiscoverPreviewAndAccept HITAccessActions = "DiscoverPreviewAndAccept"
+)
+
+func (enum HITAccessActions) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HITAccessActions) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type HITReviewStatus string
 
 // Enum values for HITReviewStatus
@@ -8254,6 +6957,15 @@ const (
 	HITReviewStatusReviewedAppropriate   HITReviewStatus = "ReviewedAppropriate"
 	HITReviewStatusReviewedInappropriate HITReviewStatus = "ReviewedInappropriate"
 )
+
+func (enum HITReviewStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HITReviewStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type HITStatus string
 
@@ -8266,6 +6978,15 @@ const (
 	HITStatusDisposed     HITStatus = "Disposed"
 )
 
+func (enum HITStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HITStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type NotificationTransport string
 
 // Enum values for NotificationTransport
@@ -8275,6 +6996,15 @@ const (
 	NotificationTransportSns   NotificationTransport = "SNS"
 )
 
+func (enum NotificationTransport) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NotificationTransport) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type NotifyWorkersFailureCode string
 
 // Enum values for NotifyWorkersFailureCode
@@ -8282,6 +7012,15 @@ const (
 	NotifyWorkersFailureCodeSoftFailure NotifyWorkersFailureCode = "SoftFailure"
 	NotifyWorkersFailureCodeHardFailure NotifyWorkersFailureCode = "HardFailure"
 )
+
+func (enum NotifyWorkersFailureCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NotifyWorkersFailureCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type QualificationStatus string
 
@@ -8291,6 +7030,15 @@ const (
 	QualificationStatusRevoked QualificationStatus = "Revoked"
 )
 
+func (enum QualificationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum QualificationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type QualificationTypeStatus string
 
 // Enum values for QualificationTypeStatus
@@ -8298,6 +7046,15 @@ const (
 	QualificationTypeStatusActive   QualificationTypeStatus = "Active"
 	QualificationTypeStatusInactive QualificationTypeStatus = "Inactive"
 )
+
+func (enum QualificationTypeStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum QualificationTypeStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ReviewActionStatus string
 
@@ -8309,6 +7066,15 @@ const (
 	ReviewActionStatusCancelled ReviewActionStatus = "Cancelled"
 )
 
+func (enum ReviewActionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReviewActionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ReviewPolicyLevel string
 
 // Enum values for ReviewPolicyLevel
@@ -8317,6 +7083,15 @@ const (
 	ReviewPolicyLevelHit        ReviewPolicyLevel = "HIT"
 )
 
+func (enum ReviewPolicyLevel) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReviewPolicyLevel) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ReviewableHITStatus string
 
 // Enum values for ReviewableHITStatus
@@ -8324,3 +7099,12 @@ const (
 	ReviewableHITStatusReviewable ReviewableHITStatus = "Reviewable"
 	ReviewableHITStatusReviewing  ReviewableHITStatus = "Reviewing"
 )
+
+func (enum ReviewableHITStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReviewableHITStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

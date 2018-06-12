@@ -5,6 +5,7 @@ package pinpoint
 import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/internal/awsutil"
+	"github.com/aws/aws-sdk-go-v2/private/protocol"
 )
 
 const opCreateApp = "CreateApp"
@@ -13,6 +14,7 @@ const opCreateApp = "CreateApp"
 type CreateAppRequest struct {
 	*aws.Request
 	Input *CreateAppInput
+	Copy  func(*CreateAppInput) CreateAppRequest
 }
 
 // Send marshals and sends the CreateApp API request.
@@ -49,8 +51,11 @@ func (c *Pinpoint) CreateAppRequest(input *CreateAppInput) CreateAppRequest {
 		input = &CreateAppInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAppOutput{})
-	return CreateAppRequest{Request: req, Input: input}
+	output := &CreateAppOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAppRequest{Request: req, Input: input, Copy: c.CreateAppRequest}
 }
 
 const opCreateCampaign = "CreateCampaign"
@@ -59,6 +64,7 @@ const opCreateCampaign = "CreateCampaign"
 type CreateCampaignRequest struct {
 	*aws.Request
 	Input *CreateCampaignInput
+	Copy  func(*CreateCampaignInput) CreateCampaignRequest
 }
 
 // Send marshals and sends the CreateCampaign API request.
@@ -95,8 +101,61 @@ func (c *Pinpoint) CreateCampaignRequest(input *CreateCampaignInput) CreateCampa
 		input = &CreateCampaignInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateCampaignOutput{})
-	return CreateCampaignRequest{Request: req, Input: input}
+	output := &CreateCampaignOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateCampaignRequest{Request: req, Input: input, Copy: c.CreateCampaignRequest}
+}
+
+const opCreateExportJob = "CreateExportJob"
+
+// CreateExportJobRequest is a API request type for the CreateExportJob API operation.
+type CreateExportJobRequest struct {
+	*aws.Request
+	Input *CreateExportJobInput
+	Copy  func(*CreateExportJobInput) CreateExportJobRequest
+}
+
+// Send marshals and sends the CreateExportJob API request.
+func (r CreateExportJobRequest) Send() (*CreateExportJobOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateExportJobOutput), nil
+}
+
+// CreateExportJobRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Creates an export job.
+//
+//    // Example sending a request using the CreateExportJobRequest method.
+//    req := client.CreateExportJobRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateExportJob
+func (c *Pinpoint) CreateExportJobRequest(input *CreateExportJobInput) CreateExportJobRequest {
+	op := &aws.Operation{
+		Name:       opCreateExportJob,
+		HTTPMethod: "POST",
+		HTTPPath:   "/v1/apps/{application-id}/jobs/export",
+	}
+
+	if input == nil {
+		input = &CreateExportJobInput{}
+	}
+
+	output := &CreateExportJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateExportJobRequest{Request: req, Input: input, Copy: c.CreateExportJobRequest}
 }
 
 const opCreateImportJob = "CreateImportJob"
@@ -105,6 +164,7 @@ const opCreateImportJob = "CreateImportJob"
 type CreateImportJobRequest struct {
 	*aws.Request
 	Input *CreateImportJobInput
+	Copy  func(*CreateImportJobInput) CreateImportJobRequest
 }
 
 // Send marshals and sends the CreateImportJob API request.
@@ -141,8 +201,11 @@ func (c *Pinpoint) CreateImportJobRequest(input *CreateImportJobInput) CreateImp
 		input = &CreateImportJobInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateImportJobOutput{})
-	return CreateImportJobRequest{Request: req, Input: input}
+	output := &CreateImportJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateImportJobRequest{Request: req, Input: input, Copy: c.CreateImportJobRequest}
 }
 
 const opCreateSegment = "CreateSegment"
@@ -151,6 +214,7 @@ const opCreateSegment = "CreateSegment"
 type CreateSegmentRequest struct {
 	*aws.Request
 	Input *CreateSegmentInput
+	Copy  func(*CreateSegmentInput) CreateSegmentRequest
 }
 
 // Send marshals and sends the CreateSegment API request.
@@ -187,8 +251,11 @@ func (c *Pinpoint) CreateSegmentRequest(input *CreateSegmentInput) CreateSegment
 		input = &CreateSegmentInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSegmentOutput{})
-	return CreateSegmentRequest{Request: req, Input: input}
+	output := &CreateSegmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSegmentRequest{Request: req, Input: input, Copy: c.CreateSegmentRequest}
 }
 
 const opDeleteAdmChannel = "DeleteAdmChannel"
@@ -197,6 +264,7 @@ const opDeleteAdmChannel = "DeleteAdmChannel"
 type DeleteAdmChannelRequest struct {
 	*aws.Request
 	Input *DeleteAdmChannelInput
+	Copy  func(*DeleteAdmChannelInput) DeleteAdmChannelRequest
 }
 
 // Send marshals and sends the DeleteAdmChannel API request.
@@ -233,8 +301,11 @@ func (c *Pinpoint) DeleteAdmChannelRequest(input *DeleteAdmChannelInput) DeleteA
 		input = &DeleteAdmChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAdmChannelOutput{})
-	return DeleteAdmChannelRequest{Request: req, Input: input}
+	output := &DeleteAdmChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAdmChannelRequest{Request: req, Input: input, Copy: c.DeleteAdmChannelRequest}
 }
 
 const opDeleteApnsChannel = "DeleteApnsChannel"
@@ -243,6 +314,7 @@ const opDeleteApnsChannel = "DeleteApnsChannel"
 type DeleteApnsChannelRequest struct {
 	*aws.Request
 	Input *DeleteApnsChannelInput
+	Copy  func(*DeleteApnsChannelInput) DeleteApnsChannelRequest
 }
 
 // Send marshals and sends the DeleteApnsChannel API request.
@@ -279,8 +351,11 @@ func (c *Pinpoint) DeleteApnsChannelRequest(input *DeleteApnsChannelInput) Delet
 		input = &DeleteApnsChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteApnsChannelOutput{})
-	return DeleteApnsChannelRequest{Request: req, Input: input}
+	output := &DeleteApnsChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteApnsChannelRequest{Request: req, Input: input, Copy: c.DeleteApnsChannelRequest}
 }
 
 const opDeleteApnsSandboxChannel = "DeleteApnsSandboxChannel"
@@ -289,6 +364,7 @@ const opDeleteApnsSandboxChannel = "DeleteApnsSandboxChannel"
 type DeleteApnsSandboxChannelRequest struct {
 	*aws.Request
 	Input *DeleteApnsSandboxChannelInput
+	Copy  func(*DeleteApnsSandboxChannelInput) DeleteApnsSandboxChannelRequest
 }
 
 // Send marshals and sends the DeleteApnsSandboxChannel API request.
@@ -325,8 +401,111 @@ func (c *Pinpoint) DeleteApnsSandboxChannelRequest(input *DeleteApnsSandboxChann
 		input = &DeleteApnsSandboxChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteApnsSandboxChannelOutput{})
-	return DeleteApnsSandboxChannelRequest{Request: req, Input: input}
+	output := &DeleteApnsSandboxChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteApnsSandboxChannelRequest{Request: req, Input: input, Copy: c.DeleteApnsSandboxChannelRequest}
+}
+
+const opDeleteApnsVoipChannel = "DeleteApnsVoipChannel"
+
+// DeleteApnsVoipChannelRequest is a API request type for the DeleteApnsVoipChannel API operation.
+type DeleteApnsVoipChannelRequest struct {
+	*aws.Request
+	Input *DeleteApnsVoipChannelInput
+	Copy  func(*DeleteApnsVoipChannelInput) DeleteApnsVoipChannelRequest
+}
+
+// Send marshals and sends the DeleteApnsVoipChannel API request.
+func (r DeleteApnsVoipChannelRequest) Send() (*DeleteApnsVoipChannelOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteApnsVoipChannelOutput), nil
+}
+
+// DeleteApnsVoipChannelRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Delete an APNS VoIP channel
+//
+//    // Example sending a request using the DeleteApnsVoipChannelRequest method.
+//    req := client.DeleteApnsVoipChannelRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsVoipChannel
+func (c *Pinpoint) DeleteApnsVoipChannelRequest(input *DeleteApnsVoipChannelInput) DeleteApnsVoipChannelRequest {
+	op := &aws.Operation{
+		Name:       opDeleteApnsVoipChannel,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/v1/apps/{application-id}/channels/apns_voip",
+	}
+
+	if input == nil {
+		input = &DeleteApnsVoipChannelInput{}
+	}
+
+	output := &DeleteApnsVoipChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteApnsVoipChannelRequest{Request: req, Input: input, Copy: c.DeleteApnsVoipChannelRequest}
+}
+
+const opDeleteApnsVoipSandboxChannel = "DeleteApnsVoipSandboxChannel"
+
+// DeleteApnsVoipSandboxChannelRequest is a API request type for the DeleteApnsVoipSandboxChannel API operation.
+type DeleteApnsVoipSandboxChannelRequest struct {
+	*aws.Request
+	Input *DeleteApnsVoipSandboxChannelInput
+	Copy  func(*DeleteApnsVoipSandboxChannelInput) DeleteApnsVoipSandboxChannelRequest
+}
+
+// Send marshals and sends the DeleteApnsVoipSandboxChannel API request.
+func (r DeleteApnsVoipSandboxChannelRequest) Send() (*DeleteApnsVoipSandboxChannelOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteApnsVoipSandboxChannelOutput), nil
+}
+
+// DeleteApnsVoipSandboxChannelRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Delete an APNS VoIP sandbox channel
+//
+//    // Example sending a request using the DeleteApnsVoipSandboxChannelRequest method.
+//    req := client.DeleteApnsVoipSandboxChannelRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsVoipSandboxChannel
+func (c *Pinpoint) DeleteApnsVoipSandboxChannelRequest(input *DeleteApnsVoipSandboxChannelInput) DeleteApnsVoipSandboxChannelRequest {
+	op := &aws.Operation{
+		Name:       opDeleteApnsVoipSandboxChannel,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/v1/apps/{application-id}/channels/apns_voip_sandbox",
+	}
+
+	if input == nil {
+		input = &DeleteApnsVoipSandboxChannelInput{}
+	}
+
+	output := &DeleteApnsVoipSandboxChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteApnsVoipSandboxChannelRequest{Request: req, Input: input, Copy: c.DeleteApnsVoipSandboxChannelRequest}
 }
 
 const opDeleteApp = "DeleteApp"
@@ -335,6 +514,7 @@ const opDeleteApp = "DeleteApp"
 type DeleteAppRequest struct {
 	*aws.Request
 	Input *DeleteAppInput
+	Copy  func(*DeleteAppInput) DeleteAppRequest
 }
 
 // Send marshals and sends the DeleteApp API request.
@@ -371,8 +551,11 @@ func (c *Pinpoint) DeleteAppRequest(input *DeleteAppInput) DeleteAppRequest {
 		input = &DeleteAppInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAppOutput{})
-	return DeleteAppRequest{Request: req, Input: input}
+	output := &DeleteAppOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAppRequest{Request: req, Input: input, Copy: c.DeleteAppRequest}
 }
 
 const opDeleteBaiduChannel = "DeleteBaiduChannel"
@@ -381,6 +564,7 @@ const opDeleteBaiduChannel = "DeleteBaiduChannel"
 type DeleteBaiduChannelRequest struct {
 	*aws.Request
 	Input *DeleteBaiduChannelInput
+	Copy  func(*DeleteBaiduChannelInput) DeleteBaiduChannelRequest
 }
 
 // Send marshals and sends the DeleteBaiduChannel API request.
@@ -417,8 +601,11 @@ func (c *Pinpoint) DeleteBaiduChannelRequest(input *DeleteBaiduChannelInput) Del
 		input = &DeleteBaiduChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBaiduChannelOutput{})
-	return DeleteBaiduChannelRequest{Request: req, Input: input}
+	output := &DeleteBaiduChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBaiduChannelRequest{Request: req, Input: input, Copy: c.DeleteBaiduChannelRequest}
 }
 
 const opDeleteCampaign = "DeleteCampaign"
@@ -427,6 +614,7 @@ const opDeleteCampaign = "DeleteCampaign"
 type DeleteCampaignRequest struct {
 	*aws.Request
 	Input *DeleteCampaignInput
+	Copy  func(*DeleteCampaignInput) DeleteCampaignRequest
 }
 
 // Send marshals and sends the DeleteCampaign API request.
@@ -463,8 +651,11 @@ func (c *Pinpoint) DeleteCampaignRequest(input *DeleteCampaignInput) DeleteCampa
 		input = &DeleteCampaignInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteCampaignOutput{})
-	return DeleteCampaignRequest{Request: req, Input: input}
+	output := &DeleteCampaignOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteCampaignRequest{Request: req, Input: input, Copy: c.DeleteCampaignRequest}
 }
 
 const opDeleteEmailChannel = "DeleteEmailChannel"
@@ -473,6 +664,7 @@ const opDeleteEmailChannel = "DeleteEmailChannel"
 type DeleteEmailChannelRequest struct {
 	*aws.Request
 	Input *DeleteEmailChannelInput
+	Copy  func(*DeleteEmailChannelInput) DeleteEmailChannelRequest
 }
 
 // Send marshals and sends the DeleteEmailChannel API request.
@@ -509,8 +701,61 @@ func (c *Pinpoint) DeleteEmailChannelRequest(input *DeleteEmailChannelInput) Del
 		input = &DeleteEmailChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteEmailChannelOutput{})
-	return DeleteEmailChannelRequest{Request: req, Input: input}
+	output := &DeleteEmailChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEmailChannelRequest{Request: req, Input: input, Copy: c.DeleteEmailChannelRequest}
+}
+
+const opDeleteEndpoint = "DeleteEndpoint"
+
+// DeleteEndpointRequest is a API request type for the DeleteEndpoint API operation.
+type DeleteEndpointRequest struct {
+	*aws.Request
+	Input *DeleteEndpointInput
+	Copy  func(*DeleteEndpointInput) DeleteEndpointRequest
+}
+
+// Send marshals and sends the DeleteEndpoint API request.
+func (r DeleteEndpointRequest) Send() (*DeleteEndpointOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteEndpointOutput), nil
+}
+
+// DeleteEndpointRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Deletes an endpoint.
+//
+//    // Example sending a request using the DeleteEndpointRequest method.
+//    req := client.DeleteEndpointRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEndpoint
+func (c *Pinpoint) DeleteEndpointRequest(input *DeleteEndpointInput) DeleteEndpointRequest {
+	op := &aws.Operation{
+		Name:       opDeleteEndpoint,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/v1/apps/{application-id}/endpoints/{endpoint-id}",
+	}
+
+	if input == nil {
+		input = &DeleteEndpointInput{}
+	}
+
+	output := &DeleteEndpointOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEndpointRequest{Request: req, Input: input, Copy: c.DeleteEndpointRequest}
 }
 
 const opDeleteEventStream = "DeleteEventStream"
@@ -519,6 +764,7 @@ const opDeleteEventStream = "DeleteEventStream"
 type DeleteEventStreamRequest struct {
 	*aws.Request
 	Input *DeleteEventStreamInput
+	Copy  func(*DeleteEventStreamInput) DeleteEventStreamRequest
 }
 
 // Send marshals and sends the DeleteEventStream API request.
@@ -555,8 +801,11 @@ func (c *Pinpoint) DeleteEventStreamRequest(input *DeleteEventStreamInput) Delet
 		input = &DeleteEventStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteEventStreamOutput{})
-	return DeleteEventStreamRequest{Request: req, Input: input}
+	output := &DeleteEventStreamOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEventStreamRequest{Request: req, Input: input, Copy: c.DeleteEventStreamRequest}
 }
 
 const opDeleteGcmChannel = "DeleteGcmChannel"
@@ -565,6 +814,7 @@ const opDeleteGcmChannel = "DeleteGcmChannel"
 type DeleteGcmChannelRequest struct {
 	*aws.Request
 	Input *DeleteGcmChannelInput
+	Copy  func(*DeleteGcmChannelInput) DeleteGcmChannelRequest
 }
 
 // Send marshals and sends the DeleteGcmChannel API request.
@@ -601,8 +851,11 @@ func (c *Pinpoint) DeleteGcmChannelRequest(input *DeleteGcmChannelInput) DeleteG
 		input = &DeleteGcmChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteGcmChannelOutput{})
-	return DeleteGcmChannelRequest{Request: req, Input: input}
+	output := &DeleteGcmChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteGcmChannelRequest{Request: req, Input: input, Copy: c.DeleteGcmChannelRequest}
 }
 
 const opDeleteSegment = "DeleteSegment"
@@ -611,6 +864,7 @@ const opDeleteSegment = "DeleteSegment"
 type DeleteSegmentRequest struct {
 	*aws.Request
 	Input *DeleteSegmentInput
+	Copy  func(*DeleteSegmentInput) DeleteSegmentRequest
 }
 
 // Send marshals and sends the DeleteSegment API request.
@@ -647,8 +901,11 @@ func (c *Pinpoint) DeleteSegmentRequest(input *DeleteSegmentInput) DeleteSegment
 		input = &DeleteSegmentInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSegmentOutput{})
-	return DeleteSegmentRequest{Request: req, Input: input}
+	output := &DeleteSegmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSegmentRequest{Request: req, Input: input, Copy: c.DeleteSegmentRequest}
 }
 
 const opDeleteSmsChannel = "DeleteSmsChannel"
@@ -657,6 +914,7 @@ const opDeleteSmsChannel = "DeleteSmsChannel"
 type DeleteSmsChannelRequest struct {
 	*aws.Request
 	Input *DeleteSmsChannelInput
+	Copy  func(*DeleteSmsChannelInput) DeleteSmsChannelRequest
 }
 
 // Send marshals and sends the DeleteSmsChannel API request.
@@ -693,8 +951,11 @@ func (c *Pinpoint) DeleteSmsChannelRequest(input *DeleteSmsChannelInput) DeleteS
 		input = &DeleteSmsChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSmsChannelOutput{})
-	return DeleteSmsChannelRequest{Request: req, Input: input}
+	output := &DeleteSmsChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSmsChannelRequest{Request: req, Input: input, Copy: c.DeleteSmsChannelRequest}
 }
 
 const opGetAdmChannel = "GetAdmChannel"
@@ -703,6 +964,7 @@ const opGetAdmChannel = "GetAdmChannel"
 type GetAdmChannelRequest struct {
 	*aws.Request
 	Input *GetAdmChannelInput
+	Copy  func(*GetAdmChannelInput) GetAdmChannelRequest
 }
 
 // Send marshals and sends the GetAdmChannel API request.
@@ -739,8 +1001,11 @@ func (c *Pinpoint) GetAdmChannelRequest(input *GetAdmChannelInput) GetAdmChannel
 		input = &GetAdmChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAdmChannelOutput{})
-	return GetAdmChannelRequest{Request: req, Input: input}
+	output := &GetAdmChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAdmChannelRequest{Request: req, Input: input, Copy: c.GetAdmChannelRequest}
 }
 
 const opGetApnsChannel = "GetApnsChannel"
@@ -749,6 +1014,7 @@ const opGetApnsChannel = "GetApnsChannel"
 type GetApnsChannelRequest struct {
 	*aws.Request
 	Input *GetApnsChannelInput
+	Copy  func(*GetApnsChannelInput) GetApnsChannelRequest
 }
 
 // Send marshals and sends the GetApnsChannel API request.
@@ -785,8 +1051,11 @@ func (c *Pinpoint) GetApnsChannelRequest(input *GetApnsChannelInput) GetApnsChan
 		input = &GetApnsChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetApnsChannelOutput{})
-	return GetApnsChannelRequest{Request: req, Input: input}
+	output := &GetApnsChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetApnsChannelRequest{Request: req, Input: input, Copy: c.GetApnsChannelRequest}
 }
 
 const opGetApnsSandboxChannel = "GetApnsSandboxChannel"
@@ -795,6 +1064,7 @@ const opGetApnsSandboxChannel = "GetApnsSandboxChannel"
 type GetApnsSandboxChannelRequest struct {
 	*aws.Request
 	Input *GetApnsSandboxChannelInput
+	Copy  func(*GetApnsSandboxChannelInput) GetApnsSandboxChannelRequest
 }
 
 // Send marshals and sends the GetApnsSandboxChannel API request.
@@ -831,8 +1101,111 @@ func (c *Pinpoint) GetApnsSandboxChannelRequest(input *GetApnsSandboxChannelInpu
 		input = &GetApnsSandboxChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetApnsSandboxChannelOutput{})
-	return GetApnsSandboxChannelRequest{Request: req, Input: input}
+	output := &GetApnsSandboxChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetApnsSandboxChannelRequest{Request: req, Input: input, Copy: c.GetApnsSandboxChannelRequest}
+}
+
+const opGetApnsVoipChannel = "GetApnsVoipChannel"
+
+// GetApnsVoipChannelRequest is a API request type for the GetApnsVoipChannel API operation.
+type GetApnsVoipChannelRequest struct {
+	*aws.Request
+	Input *GetApnsVoipChannelInput
+	Copy  func(*GetApnsVoipChannelInput) GetApnsVoipChannelRequest
+}
+
+// Send marshals and sends the GetApnsVoipChannel API request.
+func (r GetApnsVoipChannelRequest) Send() (*GetApnsVoipChannelOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetApnsVoipChannelOutput), nil
+}
+
+// GetApnsVoipChannelRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Get an APNS VoIP channel
+//
+//    // Example sending a request using the GetApnsVoipChannelRequest method.
+//    req := client.GetApnsVoipChannelRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsVoipChannel
+func (c *Pinpoint) GetApnsVoipChannelRequest(input *GetApnsVoipChannelInput) GetApnsVoipChannelRequest {
+	op := &aws.Operation{
+		Name:       opGetApnsVoipChannel,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps/{application-id}/channels/apns_voip",
+	}
+
+	if input == nil {
+		input = &GetApnsVoipChannelInput{}
+	}
+
+	output := &GetApnsVoipChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetApnsVoipChannelRequest{Request: req, Input: input, Copy: c.GetApnsVoipChannelRequest}
+}
+
+const opGetApnsVoipSandboxChannel = "GetApnsVoipSandboxChannel"
+
+// GetApnsVoipSandboxChannelRequest is a API request type for the GetApnsVoipSandboxChannel API operation.
+type GetApnsVoipSandboxChannelRequest struct {
+	*aws.Request
+	Input *GetApnsVoipSandboxChannelInput
+	Copy  func(*GetApnsVoipSandboxChannelInput) GetApnsVoipSandboxChannelRequest
+}
+
+// Send marshals and sends the GetApnsVoipSandboxChannel API request.
+func (r GetApnsVoipSandboxChannelRequest) Send() (*GetApnsVoipSandboxChannelOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetApnsVoipSandboxChannelOutput), nil
+}
+
+// GetApnsVoipSandboxChannelRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Get an APNS VoIPSandbox channel
+//
+//    // Example sending a request using the GetApnsVoipSandboxChannelRequest method.
+//    req := client.GetApnsVoipSandboxChannelRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsVoipSandboxChannel
+func (c *Pinpoint) GetApnsVoipSandboxChannelRequest(input *GetApnsVoipSandboxChannelInput) GetApnsVoipSandboxChannelRequest {
+	op := &aws.Operation{
+		Name:       opGetApnsVoipSandboxChannel,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps/{application-id}/channels/apns_voip_sandbox",
+	}
+
+	if input == nil {
+		input = &GetApnsVoipSandboxChannelInput{}
+	}
+
+	output := &GetApnsVoipSandboxChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetApnsVoipSandboxChannelRequest{Request: req, Input: input, Copy: c.GetApnsVoipSandboxChannelRequest}
 }
 
 const opGetApp = "GetApp"
@@ -841,6 +1214,7 @@ const opGetApp = "GetApp"
 type GetAppRequest struct {
 	*aws.Request
 	Input *GetAppInput
+	Copy  func(*GetAppInput) GetAppRequest
 }
 
 // Send marshals and sends the GetApp API request.
@@ -877,8 +1251,11 @@ func (c *Pinpoint) GetAppRequest(input *GetAppInput) GetAppRequest {
 		input = &GetAppInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAppOutput{})
-	return GetAppRequest{Request: req, Input: input}
+	output := &GetAppOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAppRequest{Request: req, Input: input, Copy: c.GetAppRequest}
 }
 
 const opGetApplicationSettings = "GetApplicationSettings"
@@ -887,6 +1264,7 @@ const opGetApplicationSettings = "GetApplicationSettings"
 type GetApplicationSettingsRequest struct {
 	*aws.Request
 	Input *GetApplicationSettingsInput
+	Copy  func(*GetApplicationSettingsInput) GetApplicationSettingsRequest
 }
 
 // Send marshals and sends the GetApplicationSettings API request.
@@ -923,8 +1301,11 @@ func (c *Pinpoint) GetApplicationSettingsRequest(input *GetApplicationSettingsIn
 		input = &GetApplicationSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetApplicationSettingsOutput{})
-	return GetApplicationSettingsRequest{Request: req, Input: input}
+	output := &GetApplicationSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetApplicationSettingsRequest{Request: req, Input: input, Copy: c.GetApplicationSettingsRequest}
 }
 
 const opGetApps = "GetApps"
@@ -933,6 +1314,7 @@ const opGetApps = "GetApps"
 type GetAppsRequest struct {
 	*aws.Request
 	Input *GetAppsInput
+	Copy  func(*GetAppsInput) GetAppsRequest
 }
 
 // Send marshals and sends the GetApps API request.
@@ -969,8 +1351,11 @@ func (c *Pinpoint) GetAppsRequest(input *GetAppsInput) GetAppsRequest {
 		input = &GetAppsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAppsOutput{})
-	return GetAppsRequest{Request: req, Input: input}
+	output := &GetAppsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAppsRequest{Request: req, Input: input, Copy: c.GetAppsRequest}
 }
 
 const opGetBaiduChannel = "GetBaiduChannel"
@@ -979,6 +1364,7 @@ const opGetBaiduChannel = "GetBaiduChannel"
 type GetBaiduChannelRequest struct {
 	*aws.Request
 	Input *GetBaiduChannelInput
+	Copy  func(*GetBaiduChannelInput) GetBaiduChannelRequest
 }
 
 // Send marshals and sends the GetBaiduChannel API request.
@@ -1015,8 +1401,11 @@ func (c *Pinpoint) GetBaiduChannelRequest(input *GetBaiduChannelInput) GetBaiduC
 		input = &GetBaiduChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBaiduChannelOutput{})
-	return GetBaiduChannelRequest{Request: req, Input: input}
+	output := &GetBaiduChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBaiduChannelRequest{Request: req, Input: input, Copy: c.GetBaiduChannelRequest}
 }
 
 const opGetCampaign = "GetCampaign"
@@ -1025,6 +1414,7 @@ const opGetCampaign = "GetCampaign"
 type GetCampaignRequest struct {
 	*aws.Request
 	Input *GetCampaignInput
+	Copy  func(*GetCampaignInput) GetCampaignRequest
 }
 
 // Send marshals and sends the GetCampaign API request.
@@ -1061,8 +1451,11 @@ func (c *Pinpoint) GetCampaignRequest(input *GetCampaignInput) GetCampaignReques
 		input = &GetCampaignInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCampaignOutput{})
-	return GetCampaignRequest{Request: req, Input: input}
+	output := &GetCampaignOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCampaignRequest{Request: req, Input: input, Copy: c.GetCampaignRequest}
 }
 
 const opGetCampaignActivities = "GetCampaignActivities"
@@ -1071,6 +1464,7 @@ const opGetCampaignActivities = "GetCampaignActivities"
 type GetCampaignActivitiesRequest struct {
 	*aws.Request
 	Input *GetCampaignActivitiesInput
+	Copy  func(*GetCampaignActivitiesInput) GetCampaignActivitiesRequest
 }
 
 // Send marshals and sends the GetCampaignActivities API request.
@@ -1107,8 +1501,11 @@ func (c *Pinpoint) GetCampaignActivitiesRequest(input *GetCampaignActivitiesInpu
 		input = &GetCampaignActivitiesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCampaignActivitiesOutput{})
-	return GetCampaignActivitiesRequest{Request: req, Input: input}
+	output := &GetCampaignActivitiesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCampaignActivitiesRequest{Request: req, Input: input, Copy: c.GetCampaignActivitiesRequest}
 }
 
 const opGetCampaignVersion = "GetCampaignVersion"
@@ -1117,6 +1514,7 @@ const opGetCampaignVersion = "GetCampaignVersion"
 type GetCampaignVersionRequest struct {
 	*aws.Request
 	Input *GetCampaignVersionInput
+	Copy  func(*GetCampaignVersionInput) GetCampaignVersionRequest
 }
 
 // Send marshals and sends the GetCampaignVersion API request.
@@ -1153,8 +1551,11 @@ func (c *Pinpoint) GetCampaignVersionRequest(input *GetCampaignVersionInput) Get
 		input = &GetCampaignVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCampaignVersionOutput{})
-	return GetCampaignVersionRequest{Request: req, Input: input}
+	output := &GetCampaignVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCampaignVersionRequest{Request: req, Input: input, Copy: c.GetCampaignVersionRequest}
 }
 
 const opGetCampaignVersions = "GetCampaignVersions"
@@ -1163,6 +1564,7 @@ const opGetCampaignVersions = "GetCampaignVersions"
 type GetCampaignVersionsRequest struct {
 	*aws.Request
 	Input *GetCampaignVersionsInput
+	Copy  func(*GetCampaignVersionsInput) GetCampaignVersionsRequest
 }
 
 // Send marshals and sends the GetCampaignVersions API request.
@@ -1199,8 +1601,11 @@ func (c *Pinpoint) GetCampaignVersionsRequest(input *GetCampaignVersionsInput) G
 		input = &GetCampaignVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCampaignVersionsOutput{})
-	return GetCampaignVersionsRequest{Request: req, Input: input}
+	output := &GetCampaignVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCampaignVersionsRequest{Request: req, Input: input, Copy: c.GetCampaignVersionsRequest}
 }
 
 const opGetCampaigns = "GetCampaigns"
@@ -1209,6 +1614,7 @@ const opGetCampaigns = "GetCampaigns"
 type GetCampaignsRequest struct {
 	*aws.Request
 	Input *GetCampaignsInput
+	Copy  func(*GetCampaignsInput) GetCampaignsRequest
 }
 
 // Send marshals and sends the GetCampaigns API request.
@@ -1245,8 +1651,11 @@ func (c *Pinpoint) GetCampaignsRequest(input *GetCampaignsInput) GetCampaignsReq
 		input = &GetCampaignsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCampaignsOutput{})
-	return GetCampaignsRequest{Request: req, Input: input}
+	output := &GetCampaignsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCampaignsRequest{Request: req, Input: input, Copy: c.GetCampaignsRequest}
 }
 
 const opGetEmailChannel = "GetEmailChannel"
@@ -1255,6 +1664,7 @@ const opGetEmailChannel = "GetEmailChannel"
 type GetEmailChannelRequest struct {
 	*aws.Request
 	Input *GetEmailChannelInput
+	Copy  func(*GetEmailChannelInput) GetEmailChannelRequest
 }
 
 // Send marshals and sends the GetEmailChannel API request.
@@ -1291,8 +1701,11 @@ func (c *Pinpoint) GetEmailChannelRequest(input *GetEmailChannelInput) GetEmailC
 		input = &GetEmailChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEmailChannelOutput{})
-	return GetEmailChannelRequest{Request: req, Input: input}
+	output := &GetEmailChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEmailChannelRequest{Request: req, Input: input, Copy: c.GetEmailChannelRequest}
 }
 
 const opGetEndpoint = "GetEndpoint"
@@ -1301,6 +1714,7 @@ const opGetEndpoint = "GetEndpoint"
 type GetEndpointRequest struct {
 	*aws.Request
 	Input *GetEndpointInput
+	Copy  func(*GetEndpointInput) GetEndpointRequest
 }
 
 // Send marshals and sends the GetEndpoint API request.
@@ -1337,8 +1751,11 @@ func (c *Pinpoint) GetEndpointRequest(input *GetEndpointInput) GetEndpointReques
 		input = &GetEndpointInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEndpointOutput{})
-	return GetEndpointRequest{Request: req, Input: input}
+	output := &GetEndpointOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEndpointRequest{Request: req, Input: input, Copy: c.GetEndpointRequest}
 }
 
 const opGetEventStream = "GetEventStream"
@@ -1347,6 +1764,7 @@ const opGetEventStream = "GetEventStream"
 type GetEventStreamRequest struct {
 	*aws.Request
 	Input *GetEventStreamInput
+	Copy  func(*GetEventStreamInput) GetEventStreamRequest
 }
 
 // Send marshals and sends the GetEventStream API request.
@@ -1383,8 +1801,111 @@ func (c *Pinpoint) GetEventStreamRequest(input *GetEventStreamInput) GetEventStr
 		input = &GetEventStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEventStreamOutput{})
-	return GetEventStreamRequest{Request: req, Input: input}
+	output := &GetEventStreamOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEventStreamRequest{Request: req, Input: input, Copy: c.GetEventStreamRequest}
+}
+
+const opGetExportJob = "GetExportJob"
+
+// GetExportJobRequest is a API request type for the GetExportJob API operation.
+type GetExportJobRequest struct {
+	*aws.Request
+	Input *GetExportJobInput
+	Copy  func(*GetExportJobInput) GetExportJobRequest
+}
+
+// Send marshals and sends the GetExportJob API request.
+func (r GetExportJobRequest) Send() (*GetExportJobOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetExportJobOutput), nil
+}
+
+// GetExportJobRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Returns information about an export job.
+//
+//    // Example sending a request using the GetExportJobRequest method.
+//    req := client.GetExportJobRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetExportJob
+func (c *Pinpoint) GetExportJobRequest(input *GetExportJobInput) GetExportJobRequest {
+	op := &aws.Operation{
+		Name:       opGetExportJob,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps/{application-id}/jobs/export/{job-id}",
+	}
+
+	if input == nil {
+		input = &GetExportJobInput{}
+	}
+
+	output := &GetExportJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetExportJobRequest{Request: req, Input: input, Copy: c.GetExportJobRequest}
+}
+
+const opGetExportJobs = "GetExportJobs"
+
+// GetExportJobsRequest is a API request type for the GetExportJobs API operation.
+type GetExportJobsRequest struct {
+	*aws.Request
+	Input *GetExportJobsInput
+	Copy  func(*GetExportJobsInput) GetExportJobsRequest
+}
+
+// Send marshals and sends the GetExportJobs API request.
+func (r GetExportJobsRequest) Send() (*GetExportJobsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetExportJobsOutput), nil
+}
+
+// GetExportJobsRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Returns information about your export jobs.
+//
+//    // Example sending a request using the GetExportJobsRequest method.
+//    req := client.GetExportJobsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetExportJobs
+func (c *Pinpoint) GetExportJobsRequest(input *GetExportJobsInput) GetExportJobsRequest {
+	op := &aws.Operation{
+		Name:       opGetExportJobs,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps/{application-id}/jobs/export",
+	}
+
+	if input == nil {
+		input = &GetExportJobsInput{}
+	}
+
+	output := &GetExportJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetExportJobsRequest{Request: req, Input: input, Copy: c.GetExportJobsRequest}
 }
 
 const opGetGcmChannel = "GetGcmChannel"
@@ -1393,6 +1914,7 @@ const opGetGcmChannel = "GetGcmChannel"
 type GetGcmChannelRequest struct {
 	*aws.Request
 	Input *GetGcmChannelInput
+	Copy  func(*GetGcmChannelInput) GetGcmChannelRequest
 }
 
 // Send marshals and sends the GetGcmChannel API request.
@@ -1429,8 +1951,11 @@ func (c *Pinpoint) GetGcmChannelRequest(input *GetGcmChannelInput) GetGcmChannel
 		input = &GetGcmChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetGcmChannelOutput{})
-	return GetGcmChannelRequest{Request: req, Input: input}
+	output := &GetGcmChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetGcmChannelRequest{Request: req, Input: input, Copy: c.GetGcmChannelRequest}
 }
 
 const opGetImportJob = "GetImportJob"
@@ -1439,6 +1964,7 @@ const opGetImportJob = "GetImportJob"
 type GetImportJobRequest struct {
 	*aws.Request
 	Input *GetImportJobInput
+	Copy  func(*GetImportJobInput) GetImportJobRequest
 }
 
 // Send marshals and sends the GetImportJob API request.
@@ -1475,8 +2001,11 @@ func (c *Pinpoint) GetImportJobRequest(input *GetImportJobInput) GetImportJobReq
 		input = &GetImportJobInput{}
 	}
 
-	req := c.newRequest(op, input, &GetImportJobOutput{})
-	return GetImportJobRequest{Request: req, Input: input}
+	output := &GetImportJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetImportJobRequest{Request: req, Input: input, Copy: c.GetImportJobRequest}
 }
 
 const opGetImportJobs = "GetImportJobs"
@@ -1485,6 +2014,7 @@ const opGetImportJobs = "GetImportJobs"
 type GetImportJobsRequest struct {
 	*aws.Request
 	Input *GetImportJobsInput
+	Copy  func(*GetImportJobsInput) GetImportJobsRequest
 }
 
 // Send marshals and sends the GetImportJobs API request.
@@ -1521,8 +2051,11 @@ func (c *Pinpoint) GetImportJobsRequest(input *GetImportJobsInput) GetImportJobs
 		input = &GetImportJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetImportJobsOutput{})
-	return GetImportJobsRequest{Request: req, Input: input}
+	output := &GetImportJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetImportJobsRequest{Request: req, Input: input, Copy: c.GetImportJobsRequest}
 }
 
 const opGetSegment = "GetSegment"
@@ -1531,6 +2064,7 @@ const opGetSegment = "GetSegment"
 type GetSegmentRequest struct {
 	*aws.Request
 	Input *GetSegmentInput
+	Copy  func(*GetSegmentInput) GetSegmentRequest
 }
 
 // Send marshals and sends the GetSegment API request.
@@ -1567,8 +2101,61 @@ func (c *Pinpoint) GetSegmentRequest(input *GetSegmentInput) GetSegmentRequest {
 		input = &GetSegmentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSegmentOutput{})
-	return GetSegmentRequest{Request: req, Input: input}
+	output := &GetSegmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSegmentRequest{Request: req, Input: input, Copy: c.GetSegmentRequest}
+}
+
+const opGetSegmentExportJobs = "GetSegmentExportJobs"
+
+// GetSegmentExportJobsRequest is a API request type for the GetSegmentExportJobs API operation.
+type GetSegmentExportJobsRequest struct {
+	*aws.Request
+	Input *GetSegmentExportJobsInput
+	Copy  func(*GetSegmentExportJobsInput) GetSegmentExportJobsRequest
+}
+
+// Send marshals and sends the GetSegmentExportJobs API request.
+func (r GetSegmentExportJobsRequest) Send() (*GetSegmentExportJobsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetSegmentExportJobsOutput), nil
+}
+
+// GetSegmentExportJobsRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Returns a list of export jobs for a specific segment.
+//
+//    // Example sending a request using the GetSegmentExportJobsRequest method.
+//    req := client.GetSegmentExportJobsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentExportJobs
+func (c *Pinpoint) GetSegmentExportJobsRequest(input *GetSegmentExportJobsInput) GetSegmentExportJobsRequest {
+	op := &aws.Operation{
+		Name:       opGetSegmentExportJobs,
+		HTTPMethod: "GET",
+		HTTPPath:   "/v1/apps/{application-id}/segments/{segment-id}/jobs/export",
+	}
+
+	if input == nil {
+		input = &GetSegmentExportJobsInput{}
+	}
+
+	output := &GetSegmentExportJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSegmentExportJobsRequest{Request: req, Input: input, Copy: c.GetSegmentExportJobsRequest}
 }
 
 const opGetSegmentImportJobs = "GetSegmentImportJobs"
@@ -1577,6 +2164,7 @@ const opGetSegmentImportJobs = "GetSegmentImportJobs"
 type GetSegmentImportJobsRequest struct {
 	*aws.Request
 	Input *GetSegmentImportJobsInput
+	Copy  func(*GetSegmentImportJobsInput) GetSegmentImportJobsRequest
 }
 
 // Send marshals and sends the GetSegmentImportJobs API request.
@@ -1613,8 +2201,11 @@ func (c *Pinpoint) GetSegmentImportJobsRequest(input *GetSegmentImportJobsInput)
 		input = &GetSegmentImportJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSegmentImportJobsOutput{})
-	return GetSegmentImportJobsRequest{Request: req, Input: input}
+	output := &GetSegmentImportJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSegmentImportJobsRequest{Request: req, Input: input, Copy: c.GetSegmentImportJobsRequest}
 }
 
 const opGetSegmentVersion = "GetSegmentVersion"
@@ -1623,6 +2214,7 @@ const opGetSegmentVersion = "GetSegmentVersion"
 type GetSegmentVersionRequest struct {
 	*aws.Request
 	Input *GetSegmentVersionInput
+	Copy  func(*GetSegmentVersionInput) GetSegmentVersionRequest
 }
 
 // Send marshals and sends the GetSegmentVersion API request.
@@ -1659,8 +2251,11 @@ func (c *Pinpoint) GetSegmentVersionRequest(input *GetSegmentVersionInput) GetSe
 		input = &GetSegmentVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSegmentVersionOutput{})
-	return GetSegmentVersionRequest{Request: req, Input: input}
+	output := &GetSegmentVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSegmentVersionRequest{Request: req, Input: input, Copy: c.GetSegmentVersionRequest}
 }
 
 const opGetSegmentVersions = "GetSegmentVersions"
@@ -1669,6 +2264,7 @@ const opGetSegmentVersions = "GetSegmentVersions"
 type GetSegmentVersionsRequest struct {
 	*aws.Request
 	Input *GetSegmentVersionsInput
+	Copy  func(*GetSegmentVersionsInput) GetSegmentVersionsRequest
 }
 
 // Send marshals and sends the GetSegmentVersions API request.
@@ -1705,8 +2301,11 @@ func (c *Pinpoint) GetSegmentVersionsRequest(input *GetSegmentVersionsInput) Get
 		input = &GetSegmentVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSegmentVersionsOutput{})
-	return GetSegmentVersionsRequest{Request: req, Input: input}
+	output := &GetSegmentVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSegmentVersionsRequest{Request: req, Input: input, Copy: c.GetSegmentVersionsRequest}
 }
 
 const opGetSegments = "GetSegments"
@@ -1715,6 +2314,7 @@ const opGetSegments = "GetSegments"
 type GetSegmentsRequest struct {
 	*aws.Request
 	Input *GetSegmentsInput
+	Copy  func(*GetSegmentsInput) GetSegmentsRequest
 }
 
 // Send marshals and sends the GetSegments API request.
@@ -1751,8 +2351,11 @@ func (c *Pinpoint) GetSegmentsRequest(input *GetSegmentsInput) GetSegmentsReques
 		input = &GetSegmentsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSegmentsOutput{})
-	return GetSegmentsRequest{Request: req, Input: input}
+	output := &GetSegmentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSegmentsRequest{Request: req, Input: input, Copy: c.GetSegmentsRequest}
 }
 
 const opGetSmsChannel = "GetSmsChannel"
@@ -1761,6 +2364,7 @@ const opGetSmsChannel = "GetSmsChannel"
 type GetSmsChannelRequest struct {
 	*aws.Request
 	Input *GetSmsChannelInput
+	Copy  func(*GetSmsChannelInput) GetSmsChannelRequest
 }
 
 // Send marshals and sends the GetSmsChannel API request.
@@ -1797,8 +2401,11 @@ func (c *Pinpoint) GetSmsChannelRequest(input *GetSmsChannelInput) GetSmsChannel
 		input = &GetSmsChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSmsChannelOutput{})
-	return GetSmsChannelRequest{Request: req, Input: input}
+	output := &GetSmsChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSmsChannelRequest{Request: req, Input: input, Copy: c.GetSmsChannelRequest}
 }
 
 const opPutEventStream = "PutEventStream"
@@ -1807,6 +2414,7 @@ const opPutEventStream = "PutEventStream"
 type PutEventStreamRequest struct {
 	*aws.Request
 	Input *PutEventStreamInput
+	Copy  func(*PutEventStreamInput) PutEventStreamRequest
 }
 
 // Send marshals and sends the PutEventStream API request.
@@ -1843,8 +2451,11 @@ func (c *Pinpoint) PutEventStreamRequest(input *PutEventStreamInput) PutEventStr
 		input = &PutEventStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &PutEventStreamOutput{})
-	return PutEventStreamRequest{Request: req, Input: input}
+	output := &PutEventStreamOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutEventStreamRequest{Request: req, Input: input, Copy: c.PutEventStreamRequest}
 }
 
 const opSendMessages = "SendMessages"
@@ -1853,6 +2464,7 @@ const opSendMessages = "SendMessages"
 type SendMessagesRequest struct {
 	*aws.Request
 	Input *SendMessagesInput
+	Copy  func(*SendMessagesInput) SendMessagesRequest
 }
 
 // Send marshals and sends the SendMessages API request.
@@ -1889,8 +2501,11 @@ func (c *Pinpoint) SendMessagesRequest(input *SendMessagesInput) SendMessagesReq
 		input = &SendMessagesInput{}
 	}
 
-	req := c.newRequest(op, input, &SendMessagesOutput{})
-	return SendMessagesRequest{Request: req, Input: input}
+	output := &SendMessagesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendMessagesRequest{Request: req, Input: input, Copy: c.SendMessagesRequest}
 }
 
 const opSendUsersMessages = "SendUsersMessages"
@@ -1899,6 +2514,7 @@ const opSendUsersMessages = "SendUsersMessages"
 type SendUsersMessagesRequest struct {
 	*aws.Request
 	Input *SendUsersMessagesInput
+	Copy  func(*SendUsersMessagesInput) SendUsersMessagesRequest
 }
 
 // Send marshals and sends the SendUsersMessages API request.
@@ -1935,8 +2551,11 @@ func (c *Pinpoint) SendUsersMessagesRequest(input *SendUsersMessagesInput) SendU
 		input = &SendUsersMessagesInput{}
 	}
 
-	req := c.newRequest(op, input, &SendUsersMessagesOutput{})
-	return SendUsersMessagesRequest{Request: req, Input: input}
+	output := &SendUsersMessagesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendUsersMessagesRequest{Request: req, Input: input, Copy: c.SendUsersMessagesRequest}
 }
 
 const opUpdateAdmChannel = "UpdateAdmChannel"
@@ -1945,6 +2564,7 @@ const opUpdateAdmChannel = "UpdateAdmChannel"
 type UpdateAdmChannelRequest struct {
 	*aws.Request
 	Input *UpdateAdmChannelInput
+	Copy  func(*UpdateAdmChannelInput) UpdateAdmChannelRequest
 }
 
 // Send marshals and sends the UpdateAdmChannel API request.
@@ -1981,8 +2601,11 @@ func (c *Pinpoint) UpdateAdmChannelRequest(input *UpdateAdmChannelInput) UpdateA
 		input = &UpdateAdmChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAdmChannelOutput{})
-	return UpdateAdmChannelRequest{Request: req, Input: input}
+	output := &UpdateAdmChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAdmChannelRequest{Request: req, Input: input, Copy: c.UpdateAdmChannelRequest}
 }
 
 const opUpdateApnsChannel = "UpdateApnsChannel"
@@ -1991,6 +2614,7 @@ const opUpdateApnsChannel = "UpdateApnsChannel"
 type UpdateApnsChannelRequest struct {
 	*aws.Request
 	Input *UpdateApnsChannelInput
+	Copy  func(*UpdateApnsChannelInput) UpdateApnsChannelRequest
 }
 
 // Send marshals and sends the UpdateApnsChannel API request.
@@ -2027,8 +2651,11 @@ func (c *Pinpoint) UpdateApnsChannelRequest(input *UpdateApnsChannelInput) Updat
 		input = &UpdateApnsChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApnsChannelOutput{})
-	return UpdateApnsChannelRequest{Request: req, Input: input}
+	output := &UpdateApnsChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApnsChannelRequest{Request: req, Input: input, Copy: c.UpdateApnsChannelRequest}
 }
 
 const opUpdateApnsSandboxChannel = "UpdateApnsSandboxChannel"
@@ -2037,6 +2664,7 @@ const opUpdateApnsSandboxChannel = "UpdateApnsSandboxChannel"
 type UpdateApnsSandboxChannelRequest struct {
 	*aws.Request
 	Input *UpdateApnsSandboxChannelInput
+	Copy  func(*UpdateApnsSandboxChannelInput) UpdateApnsSandboxChannelRequest
 }
 
 // Send marshals and sends the UpdateApnsSandboxChannel API request.
@@ -2073,8 +2701,111 @@ func (c *Pinpoint) UpdateApnsSandboxChannelRequest(input *UpdateApnsSandboxChann
 		input = &UpdateApnsSandboxChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApnsSandboxChannelOutput{})
-	return UpdateApnsSandboxChannelRequest{Request: req, Input: input}
+	output := &UpdateApnsSandboxChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApnsSandboxChannelRequest{Request: req, Input: input, Copy: c.UpdateApnsSandboxChannelRequest}
+}
+
+const opUpdateApnsVoipChannel = "UpdateApnsVoipChannel"
+
+// UpdateApnsVoipChannelRequest is a API request type for the UpdateApnsVoipChannel API operation.
+type UpdateApnsVoipChannelRequest struct {
+	*aws.Request
+	Input *UpdateApnsVoipChannelInput
+	Copy  func(*UpdateApnsVoipChannelInput) UpdateApnsVoipChannelRequest
+}
+
+// Send marshals and sends the UpdateApnsVoipChannel API request.
+func (r UpdateApnsVoipChannelRequest) Send() (*UpdateApnsVoipChannelOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateApnsVoipChannelOutput), nil
+}
+
+// UpdateApnsVoipChannelRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Update an APNS VoIP channel
+//
+//    // Example sending a request using the UpdateApnsVoipChannelRequest method.
+//    req := client.UpdateApnsVoipChannelRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsVoipChannel
+func (c *Pinpoint) UpdateApnsVoipChannelRequest(input *UpdateApnsVoipChannelInput) UpdateApnsVoipChannelRequest {
+	op := &aws.Operation{
+		Name:       opUpdateApnsVoipChannel,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/v1/apps/{application-id}/channels/apns_voip",
+	}
+
+	if input == nil {
+		input = &UpdateApnsVoipChannelInput{}
+	}
+
+	output := &UpdateApnsVoipChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApnsVoipChannelRequest{Request: req, Input: input, Copy: c.UpdateApnsVoipChannelRequest}
+}
+
+const opUpdateApnsVoipSandboxChannel = "UpdateApnsVoipSandboxChannel"
+
+// UpdateApnsVoipSandboxChannelRequest is a API request type for the UpdateApnsVoipSandboxChannel API operation.
+type UpdateApnsVoipSandboxChannelRequest struct {
+	*aws.Request
+	Input *UpdateApnsVoipSandboxChannelInput
+	Copy  func(*UpdateApnsVoipSandboxChannelInput) UpdateApnsVoipSandboxChannelRequest
+}
+
+// Send marshals and sends the UpdateApnsVoipSandboxChannel API request.
+func (r UpdateApnsVoipSandboxChannelRequest) Send() (*UpdateApnsVoipSandboxChannelOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateApnsVoipSandboxChannelOutput), nil
+}
+
+// UpdateApnsVoipSandboxChannelRequest returns a request value for making API operation for
+// Amazon Pinpoint.
+//
+// Update an APNS VoIP sandbox channel
+//
+//    // Example sending a request using the UpdateApnsVoipSandboxChannelRequest method.
+//    req := client.UpdateApnsVoipSandboxChannelRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsVoipSandboxChannel
+func (c *Pinpoint) UpdateApnsVoipSandboxChannelRequest(input *UpdateApnsVoipSandboxChannelInput) UpdateApnsVoipSandboxChannelRequest {
+	op := &aws.Operation{
+		Name:       opUpdateApnsVoipSandboxChannel,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/v1/apps/{application-id}/channels/apns_voip_sandbox",
+	}
+
+	if input == nil {
+		input = &UpdateApnsVoipSandboxChannelInput{}
+	}
+
+	output := &UpdateApnsVoipSandboxChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApnsVoipSandboxChannelRequest{Request: req, Input: input, Copy: c.UpdateApnsVoipSandboxChannelRequest}
 }
 
 const opUpdateApplicationSettings = "UpdateApplicationSettings"
@@ -2083,6 +2814,7 @@ const opUpdateApplicationSettings = "UpdateApplicationSettings"
 type UpdateApplicationSettingsRequest struct {
 	*aws.Request
 	Input *UpdateApplicationSettingsInput
+	Copy  func(*UpdateApplicationSettingsInput) UpdateApplicationSettingsRequest
 }
 
 // Send marshals and sends the UpdateApplicationSettings API request.
@@ -2119,8 +2851,11 @@ func (c *Pinpoint) UpdateApplicationSettingsRequest(input *UpdateApplicationSett
 		input = &UpdateApplicationSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApplicationSettingsOutput{})
-	return UpdateApplicationSettingsRequest{Request: req, Input: input}
+	output := &UpdateApplicationSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApplicationSettingsRequest{Request: req, Input: input, Copy: c.UpdateApplicationSettingsRequest}
 }
 
 const opUpdateBaiduChannel = "UpdateBaiduChannel"
@@ -2129,6 +2864,7 @@ const opUpdateBaiduChannel = "UpdateBaiduChannel"
 type UpdateBaiduChannelRequest struct {
 	*aws.Request
 	Input *UpdateBaiduChannelInput
+	Copy  func(*UpdateBaiduChannelInput) UpdateBaiduChannelRequest
 }
 
 // Send marshals and sends the UpdateBaiduChannel API request.
@@ -2165,8 +2901,11 @@ func (c *Pinpoint) UpdateBaiduChannelRequest(input *UpdateBaiduChannelInput) Upd
 		input = &UpdateBaiduChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateBaiduChannelOutput{})
-	return UpdateBaiduChannelRequest{Request: req, Input: input}
+	output := &UpdateBaiduChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateBaiduChannelRequest{Request: req, Input: input, Copy: c.UpdateBaiduChannelRequest}
 }
 
 const opUpdateCampaign = "UpdateCampaign"
@@ -2175,6 +2914,7 @@ const opUpdateCampaign = "UpdateCampaign"
 type UpdateCampaignRequest struct {
 	*aws.Request
 	Input *UpdateCampaignInput
+	Copy  func(*UpdateCampaignInput) UpdateCampaignRequest
 }
 
 // Send marshals and sends the UpdateCampaign API request.
@@ -2211,8 +2951,11 @@ func (c *Pinpoint) UpdateCampaignRequest(input *UpdateCampaignInput) UpdateCampa
 		input = &UpdateCampaignInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateCampaignOutput{})
-	return UpdateCampaignRequest{Request: req, Input: input}
+	output := &UpdateCampaignOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateCampaignRequest{Request: req, Input: input, Copy: c.UpdateCampaignRequest}
 }
 
 const opUpdateEmailChannel = "UpdateEmailChannel"
@@ -2221,6 +2964,7 @@ const opUpdateEmailChannel = "UpdateEmailChannel"
 type UpdateEmailChannelRequest struct {
 	*aws.Request
 	Input *UpdateEmailChannelInput
+	Copy  func(*UpdateEmailChannelInput) UpdateEmailChannelRequest
 }
 
 // Send marshals and sends the UpdateEmailChannel API request.
@@ -2257,8 +3001,11 @@ func (c *Pinpoint) UpdateEmailChannelRequest(input *UpdateEmailChannelInput) Upd
 		input = &UpdateEmailChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEmailChannelOutput{})
-	return UpdateEmailChannelRequest{Request: req, Input: input}
+	output := &UpdateEmailChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEmailChannelRequest{Request: req, Input: input, Copy: c.UpdateEmailChannelRequest}
 }
 
 const opUpdateEndpoint = "UpdateEndpoint"
@@ -2267,6 +3014,7 @@ const opUpdateEndpoint = "UpdateEndpoint"
 type UpdateEndpointRequest struct {
 	*aws.Request
 	Input *UpdateEndpointInput
+	Copy  func(*UpdateEndpointInput) UpdateEndpointRequest
 }
 
 // Send marshals and sends the UpdateEndpoint API request.
@@ -2303,8 +3051,11 @@ func (c *Pinpoint) UpdateEndpointRequest(input *UpdateEndpointInput) UpdateEndpo
 		input = &UpdateEndpointInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEndpointOutput{})
-	return UpdateEndpointRequest{Request: req, Input: input}
+	output := &UpdateEndpointOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEndpointRequest{Request: req, Input: input, Copy: c.UpdateEndpointRequest}
 }
 
 const opUpdateEndpointsBatch = "UpdateEndpointsBatch"
@@ -2313,6 +3064,7 @@ const opUpdateEndpointsBatch = "UpdateEndpointsBatch"
 type UpdateEndpointsBatchRequest struct {
 	*aws.Request
 	Input *UpdateEndpointsBatchInput
+	Copy  func(*UpdateEndpointsBatchInput) UpdateEndpointsBatchRequest
 }
 
 // Send marshals and sends the UpdateEndpointsBatch API request.
@@ -2349,8 +3101,11 @@ func (c *Pinpoint) UpdateEndpointsBatchRequest(input *UpdateEndpointsBatchInput)
 		input = &UpdateEndpointsBatchInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEndpointsBatchOutput{})
-	return UpdateEndpointsBatchRequest{Request: req, Input: input}
+	output := &UpdateEndpointsBatchOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEndpointsBatchRequest{Request: req, Input: input, Copy: c.UpdateEndpointsBatchRequest}
 }
 
 const opUpdateGcmChannel = "UpdateGcmChannel"
@@ -2359,6 +3114,7 @@ const opUpdateGcmChannel = "UpdateGcmChannel"
 type UpdateGcmChannelRequest struct {
 	*aws.Request
 	Input *UpdateGcmChannelInput
+	Copy  func(*UpdateGcmChannelInput) UpdateGcmChannelRequest
 }
 
 // Send marshals and sends the UpdateGcmChannel API request.
@@ -2395,8 +3151,11 @@ func (c *Pinpoint) UpdateGcmChannelRequest(input *UpdateGcmChannelInput) UpdateG
 		input = &UpdateGcmChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateGcmChannelOutput{})
-	return UpdateGcmChannelRequest{Request: req, Input: input}
+	output := &UpdateGcmChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateGcmChannelRequest{Request: req, Input: input, Copy: c.UpdateGcmChannelRequest}
 }
 
 const opUpdateSegment = "UpdateSegment"
@@ -2405,6 +3164,7 @@ const opUpdateSegment = "UpdateSegment"
 type UpdateSegmentRequest struct {
 	*aws.Request
 	Input *UpdateSegmentInput
+	Copy  func(*UpdateSegmentInput) UpdateSegmentRequest
 }
 
 // Send marshals and sends the UpdateSegment API request.
@@ -2441,8 +3201,11 @@ func (c *Pinpoint) UpdateSegmentRequest(input *UpdateSegmentInput) UpdateSegment
 		input = &UpdateSegmentInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSegmentOutput{})
-	return UpdateSegmentRequest{Request: req, Input: input}
+	output := &UpdateSegmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSegmentRequest{Request: req, Input: input, Copy: c.UpdateSegmentRequest}
 }
 
 const opUpdateSmsChannel = "UpdateSmsChannel"
@@ -2451,6 +3214,7 @@ const opUpdateSmsChannel = "UpdateSmsChannel"
 type UpdateSmsChannelRequest struct {
 	*aws.Request
 	Input *UpdateSmsChannelInput
+	Copy  func(*UpdateSmsChannelInput) UpdateSmsChannelRequest
 }
 
 // Send marshals and sends the UpdateSmsChannel API request.
@@ -2487,8 +3251,11 @@ func (c *Pinpoint) UpdateSmsChannelRequest(input *UpdateSmsChannelInput) UpdateS
 		input = &UpdateSmsChannelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSmsChannelOutput{})
-	return UpdateSmsChannelRequest{Request: req, Input: input}
+	output := &UpdateSmsChannelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSmsChannelRequest{Request: req, Input: input, Copy: c.UpdateSmsChannelRequest}
 }
 
 // Amazon Device Messaging channel definition.
@@ -2516,22 +3283,27 @@ func (s ADMChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetClientId sets the ClientId field's value.
-func (s *ADMChannelRequest) SetClientId(v string) *ADMChannelRequest {
-	s.ClientId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ADMChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ClientId != nil {
+		v := *s.ClientId
 
-// SetClientSecret sets the ClientSecret field's value.
-func (s *ADMChannelRequest) SetClientSecret(v string) *ADMChannelRequest {
-	s.ClientSecret = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ClientId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ClientSecret != nil {
+		v := *s.ClientSecret
 
-// SetEnabled sets the Enabled field's value.
-func (s *ADMChannelRequest) SetEnabled(v bool) *ADMChannelRequest {
-	s.Enabled = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ClientSecret", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Amazon Device Messaging channel definition.
@@ -2539,7 +3311,7 @@ func (s *ADMChannelRequest) SetEnabled(v bool) *ADMChannelRequest {
 type ADMChannelResponse struct {
 	_ struct{} `type:"structure"`
 
-	// Application id
+	// The ID of the application to which the channel applies.
 	ApplicationId *string `type:"string"`
 
 	// When was this segment created
@@ -2547,6 +3319,11 @@ type ADMChannelResponse struct {
 
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with ADM credentials. Amazon
+	// Pinpoint uses your credentials to authenticate push notifications with ADM.
+	// Provide your credentials by setting the ClientId and ClientSecret attributes.
+	HasCredential *bool `type:"boolean"`
 
 	// Channel ID. Not used, only for backwards compatibility.
 	Id *string `type:"string"`
@@ -2577,58 +3354,69 @@ func (s ADMChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *ADMChannelResponse) SetApplicationId(v string) *ADMChannelResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ADMChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *ADMChannelResponse) SetCreationDate(v string) *ADMChannelResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetEnabled sets the Enabled field's value.
-func (s *ADMChannelResponse) SetEnabled(v bool) *ADMChannelResponse {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetId sets the Id field's value.
-func (s *ADMChannelResponse) SetId(v string) *ADMChannelResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *ADMChannelResponse) SetIsArchived(v bool) *ADMChannelResponse {
-	s.IsArchived = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *ADMChannelResponse) SetLastModifiedBy(v string) *ADMChannelResponse {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *ADMChannelResponse) SetLastModifiedDate(v string) *ADMChannelResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetPlatform sets the Platform field's value.
-func (s *ADMChannelResponse) SetPlatform(v string) *ADMChannelResponse {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetVersion sets the Version field's value.
-func (s *ADMChannelResponse) SetVersion(v int64) *ADMChannelResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // ADM Message.
@@ -2643,7 +3431,7 @@ type ADMMessage struct {
 	// a designated user interface within the app. URL - The default mobile browser
 	// on the user's device launches and opens a web page at the URL you specify.
 	// Possible values include: OPEN_APP | DEEP_LINK | URL
-	Action Action `type:"string"`
+	Action Action `type:"string" enum:"true"`
 
 	// The message body of the notification, the email body or the text message.
 	Body *string `type:"string"`
@@ -2653,7 +3441,9 @@ type ADMMessage struct {
 	// favor of this one.
 	ConsolidationKey *string `type:"string"`
 
-	Data map[string]*string `type:"map"`
+	// The data payload used for a silent push. This payload is added to the notifications'
+	// data.pinpoint.jsonBody' object
+	Data map[string]string `type:"map"`
 
 	// Optional. Number of seconds ADM should retain the message if the device is
 	// offline
@@ -2668,10 +3458,6 @@ type ADMMessage struct {
 
 	// The URL that points to an image used in the push notification.
 	ImageUrl *string `type:"string"`
-
-	// The data payload used for a silent push. This payload is added to the notifications'
-	// data.pinpoint.jsonBody' object
-	JsonData *string `type:"string"`
 
 	// Optional. Base-64-encoded MD5 checksum of the data parameter. Used to verify
 	// data integrity
@@ -2695,7 +3481,7 @@ type ADMMessage struct {
 	// sound files must reside in /res/raw/
 	Sound *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 
 	// The message title that displays above the message on the user's device.
 	Title *string `type:"string"`
@@ -2715,106 +3501,122 @@ func (s ADMMessage) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *ADMMessage) SetAction(v Action) *ADMMessage {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ADMMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetBody sets the Body field's value.
-func (s *ADMMessage) SetBody(v string) *ADMMessage {
-	s.Body = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Body != nil {
+		v := *s.Body
 
-// SetConsolidationKey sets the ConsolidationKey field's value.
-func (s *ADMMessage) SetConsolidationKey(v string) *ADMMessage {
-	s.ConsolidationKey = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ConsolidationKey != nil {
+		v := *s.ConsolidationKey
 
-// SetData sets the Data field's value.
-func (s *ADMMessage) SetData(v map[string]*string) *ADMMessage {
-	s.Data = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ConsolidationKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
 
-// SetExpiresAfter sets the ExpiresAfter field's value.
-func (s *ADMMessage) SetExpiresAfter(v string) *ADMMessage {
-	s.ExpiresAfter = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Data", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetIconReference sets the IconReference field's value.
-func (s *ADMMessage) SetIconReference(v string) *ADMMessage {
-	s.IconReference = &v
-	return s
-}
+	}
+	if s.ExpiresAfter != nil {
+		v := *s.ExpiresAfter
 
-// SetImageIconUrl sets the ImageIconUrl field's value.
-func (s *ADMMessage) SetImageIconUrl(v string) *ADMMessage {
-	s.ImageIconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExpiresAfter", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IconReference != nil {
+		v := *s.IconReference
 
-// SetImageUrl sets the ImageUrl field's value.
-func (s *ADMMessage) SetImageUrl(v string) *ADMMessage {
-	s.ImageUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IconReference", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageIconUrl != nil {
+		v := *s.ImageIconUrl
 
-// SetJsonData sets the JsonData field's value.
-func (s *ADMMessage) SetJsonData(v string) *ADMMessage {
-	s.JsonData = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
 
-// SetMD5 sets the MD5 field's value.
-func (s *ADMMessage) SetMD5(v string) *ADMMessage {
-	s.MD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MD5 != nil {
+		v := *s.MD5
 
-// SetRawContent sets the RawContent field's value.
-func (s *ADMMessage) SetRawContent(v string) *ADMMessage {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MD5", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetSilentPush sets the SilentPush field's value.
-func (s *ADMMessage) SetSilentPush(v bool) *ADMMessage {
-	s.SilentPush = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
 
-// SetSmallImageIconUrl sets the SmallImageIconUrl field's value.
-func (s *ADMMessage) SetSmallImageIconUrl(v string) *ADMMessage {
-	s.SmallImageIconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), metadata)
+	}
+	if s.SmallImageIconUrl != nil {
+		v := *s.SmallImageIconUrl
 
-// SetSound sets the Sound field's value.
-func (s *ADMMessage) SetSound(v string) *ADMMessage {
-	s.Sound = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SmallImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Sound != nil {
+		v := *s.Sound
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *ADMMessage) SetSubstitutions(v map[string][]*string) *ADMMessage {
-	s.Substitutions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Sound", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
 
-// SetTitle sets the Title field's value.
-func (s *ADMMessage) SetTitle(v string) *ADMMessage {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetUrl sets the Url field's value.
-func (s *ADMMessage) SetUrl(v string) *ADMMessage {
-	s.Url = &v
-	return s
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Apple Push Notification Service channel definition.
@@ -2857,52 +3659,57 @@ func (s APNSChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetBundleId sets the BundleId field's value.
-func (s *APNSChannelRequest) SetBundleId(v string) *APNSChannelRequest {
-	s.BundleId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BundleId != nil {
+		v := *s.BundleId
 
-// SetCertificate sets the Certificate field's value.
-func (s *APNSChannelRequest) SetCertificate(v string) *APNSChannelRequest {
-	s.Certificate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Certificate != nil {
+		v := *s.Certificate
 
-// SetDefaultAuthenticationMethod sets the DefaultAuthenticationMethod field's value.
-func (s *APNSChannelRequest) SetDefaultAuthenticationMethod(v string) *APNSChannelRequest {
-	s.DefaultAuthenticationMethod = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Certificate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
 
-// SetEnabled sets the Enabled field's value.
-func (s *APNSChannelRequest) SetEnabled(v bool) *APNSChannelRequest {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetPrivateKey sets the PrivateKey field's value.
-func (s *APNSChannelRequest) SetPrivateKey(v string) *APNSChannelRequest {
-	s.PrivateKey = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.PrivateKey != nil {
+		v := *s.PrivateKey
 
-// SetTeamId sets the TeamId field's value.
-func (s *APNSChannelRequest) SetTeamId(v string) *APNSChannelRequest {
-	s.TeamId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PrivateKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TeamId != nil {
+		v := *s.TeamId
 
-// SetTokenKey sets the TokenKey field's value.
-func (s *APNSChannelRequest) SetTokenKey(v string) *APNSChannelRequest {
-	s.TokenKey = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TeamId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKey != nil {
+		v := *s.TokenKey
 
-// SetTokenKeyId sets the TokenKeyId field's value.
-func (s *APNSChannelRequest) SetTokenKeyId(v string) *APNSChannelRequest {
-	s.TokenKeyId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKeyId != nil {
+		v := *s.TokenKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Apple Distribution Push Notification Service channel definition.
@@ -2916,8 +3723,22 @@ type APNSChannelResponse struct {
 	// When was this segment created
 	CreationDate *string `type:"string"`
 
+	// The default authentication method used for APNs.
+	DefaultAuthenticationMethod *string `type:"string"`
+
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with APNs credentials. Amazon
+	// Pinpoint uses your credentials to authenticate push notifications with APNs.
+	// To use APNs token authentication, set the BundleId, TeamId, TokenKey, and
+	// TokenKeyId attributes. To use certificate authentication, set the Certificate
+	// and PrivateKey attributes.
+	HasCredential *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with a key for APNs token authentication.
+	// Provide a token key by setting the TokenKey attribute.
+	HasTokenKey *bool `type:"boolean"`
 
 	// Channel ID. Not used. Present only for backwards compatibility.
 	Id *string `type:"string"`
@@ -2948,58 +3769,81 @@ func (s APNSChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *APNSChannelResponse) SetApplicationId(v string) *APNSChannelResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *APNSChannelResponse) SetCreationDate(v string) *APNSChannelResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetEnabled sets the Enabled field's value.
-func (s *APNSChannelResponse) SetEnabled(v bool) *APNSChannelResponse {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
 
-// SetId sets the Id field's value.
-func (s *APNSChannelResponse) SetId(v string) *APNSChannelResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *APNSChannelResponse) SetIsArchived(v bool) *APNSChannelResponse {
-	s.IsArchived = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *APNSChannelResponse) SetLastModifiedBy(v string) *APNSChannelResponse {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.HasTokenKey != nil {
+		v := *s.HasTokenKey
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *APNSChannelResponse) SetLastModifiedDate(v string) *APNSChannelResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasTokenKey", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetPlatform sets the Platform field's value.
-func (s *APNSChannelResponse) SetPlatform(v string) *APNSChannelResponse {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
 
-// SetVersion sets the Version field's value.
-func (s *APNSChannelResponse) SetVersion(v int64) *APNSChannelResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // APNS Message.
@@ -3014,7 +3858,7 @@ type APNSMessage struct {
 	// a designated user interface within the app. URL - The default mobile browser
 	// on the user's device launches and opens a web page at the URL you specify.
 	// Possible values include: OPEN_APP | DEEP_LINK | URL
-	Action Action `type:"string"`
+	Action Action `type:"string" enum:"true"`
 
 	// Include this key when you want the system to modify the badge of your app
 	// icon. If this key is not included in the dictionary, the badge is not changed.
@@ -3029,17 +3873,33 @@ type APNSMessage struct {
 	// your app's registered categories.
 	Category *string `type:"string"`
 
-	Data map[string]*string `type:"map"`
+	// An ID that, if assigned to multiple messages, causes APNs to coalesce the
+	// messages into a single push notification instead of delivering each message
+	// individually. The value must not exceed 64 bytes. Amazon Pinpoint uses this
+	// value to set the apns-collapse-id request header when it sends the message
+	// to APNs.
+	CollapseId *string `type:"string"`
 
 	// The data payload used for a silent push. This payload is added to the notifications'
 	// data.pinpoint.jsonBody' object
-	JsonData *string `type:"string"`
+	Data map[string]string `type:"map"`
 
 	// The URL that points to a video used in the push notification.
 	MediaUrl *string `type:"string"`
 
 	// The preferred authentication method, either "CERTIFICATE" or "TOKEN"
 	PreferredAuthenticationMethod *string `type:"string"`
+
+	// The message priority. Amazon Pinpoint uses this value to set the apns-priority
+	// request header when it sends the message to APNs. Accepts the following values:"5"
+	// - Low priority. Messages might be delayed, delivered in groups, and throttled."10"
+	// - High priority. Messages are sent immediately. High priority messages must
+	// cause an alert, sound, or badge on the receiving device.The default value
+	// is "10".The equivalent values for FCM or GCM messages are "normal" and "high".
+	// Amazon Pinpoint accepts these values for APNs messages and converts them.For
+	// more information about the apns-priority parameter, see Communicating with
+	// APNs in the APNs Local and Remote Notification Programming Guide.
+	Priority *string `type:"string"`
 
 	// The Raw JSON formatted string to be used as the payload. This value overrides
 	// the message.
@@ -3055,12 +3915,18 @@ type APNSMessage struct {
 	// if you specify defaultfor the value, the system plays the default alert sound.
 	Sound *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 
 	// Provide this key with a string value that represents the app-specific identifier
 	// for grouping notifications. If you provide a Notification Content app extension,
 	// you can use this value to group your notifications together.
 	ThreadId *string `type:"string"`
+
+	// The length of time (in seconds) that APNs stores and attempts to deliver
+	// the message. If the value is 0, APNs does not store the message or attempt
+	// to deliver it more than once. Amazon Pinpoint uses this value to set the
+	// apns-expiration request header when it sends the message to APNs.
+	TimeToLive *int64 `type:"integer"`
 
 	// The message title that displays above the message on the user's device.
 	Title *string `type:"string"`
@@ -3080,94 +3946,128 @@ func (s APNSMessage) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *APNSMessage) SetAction(v Action) *APNSMessage {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetBadge sets the Badge field's value.
-func (s *APNSMessage) SetBadge(v int64) *APNSMessage {
-	s.Badge = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Badge != nil {
+		v := *s.Badge
 
-// SetBody sets the Body field's value.
-func (s *APNSMessage) SetBody(v string) *APNSMessage {
-	s.Body = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Badge", protocol.Int64Value(v), metadata)
+	}
+	if s.Body != nil {
+		v := *s.Body
 
-// SetCategory sets the Category field's value.
-func (s *APNSMessage) SetCategory(v string) *APNSMessage {
-	s.Category = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Category != nil {
+		v := *s.Category
 
-// SetData sets the Data field's value.
-func (s *APNSMessage) SetData(v map[string]*string) *APNSMessage {
-	s.Data = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Category", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CollapseId != nil {
+		v := *s.CollapseId
 
-// SetJsonData sets the JsonData field's value.
-func (s *APNSMessage) SetJsonData(v string) *APNSMessage {
-	s.JsonData = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CollapseId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
 
-// SetMediaUrl sets the MediaUrl field's value.
-func (s *APNSMessage) SetMediaUrl(v string) *APNSMessage {
-	s.MediaUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Data", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetPreferredAuthenticationMethod sets the PreferredAuthenticationMethod field's value.
-func (s *APNSMessage) SetPreferredAuthenticationMethod(v string) *APNSMessage {
-	s.PreferredAuthenticationMethod = &v
-	return s
-}
+	}
+	if s.MediaUrl != nil {
+		v := *s.MediaUrl
 
-// SetRawContent sets the RawContent field's value.
-func (s *APNSMessage) SetRawContent(v string) *APNSMessage {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MediaUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PreferredAuthenticationMethod != nil {
+		v := *s.PreferredAuthenticationMethod
 
-// SetSilentPush sets the SilentPush field's value.
-func (s *APNSMessage) SetSilentPush(v bool) *APNSMessage {
-	s.SilentPush = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PreferredAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Priority != nil {
+		v := *s.Priority
 
-// SetSound sets the Sound field's value.
-func (s *APNSMessage) SetSound(v string) *APNSMessage {
-	s.Sound = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Priority", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *APNSMessage) SetSubstitutions(v map[string][]*string) *APNSMessage {
-	s.Substitutions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
 
-// SetThreadId sets the ThreadId field's value.
-func (s *APNSMessage) SetThreadId(v string) *APNSMessage {
-	s.ThreadId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), metadata)
+	}
+	if s.Sound != nil {
+		v := *s.Sound
 
-// SetTitle sets the Title field's value.
-func (s *APNSMessage) SetTitle(v string) *APNSMessage {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Sound", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
 
-// SetUrl sets the Url field's value.
-func (s *APNSMessage) SetUrl(v string) *APNSMessage {
-	s.Url = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	if s.ThreadId != nil {
+		v := *s.ThreadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ThreadId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TimeToLive != nil {
+		v := *s.TimeToLive
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeToLive", protocol.Int64Value(v), metadata)
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Apple Development Push Notification Service channel definition.
@@ -3210,52 +4110,57 @@ func (s APNSSandboxChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetBundleId sets the BundleId field's value.
-func (s *APNSSandboxChannelRequest) SetBundleId(v string) *APNSSandboxChannelRequest {
-	s.BundleId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSSandboxChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BundleId != nil {
+		v := *s.BundleId
 
-// SetCertificate sets the Certificate field's value.
-func (s *APNSSandboxChannelRequest) SetCertificate(v string) *APNSSandboxChannelRequest {
-	s.Certificate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Certificate != nil {
+		v := *s.Certificate
 
-// SetDefaultAuthenticationMethod sets the DefaultAuthenticationMethod field's value.
-func (s *APNSSandboxChannelRequest) SetDefaultAuthenticationMethod(v string) *APNSSandboxChannelRequest {
-	s.DefaultAuthenticationMethod = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Certificate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
 
-// SetEnabled sets the Enabled field's value.
-func (s *APNSSandboxChannelRequest) SetEnabled(v bool) *APNSSandboxChannelRequest {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetPrivateKey sets the PrivateKey field's value.
-func (s *APNSSandboxChannelRequest) SetPrivateKey(v string) *APNSSandboxChannelRequest {
-	s.PrivateKey = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.PrivateKey != nil {
+		v := *s.PrivateKey
 
-// SetTeamId sets the TeamId field's value.
-func (s *APNSSandboxChannelRequest) SetTeamId(v string) *APNSSandboxChannelRequest {
-	s.TeamId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PrivateKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TeamId != nil {
+		v := *s.TeamId
 
-// SetTokenKey sets the TokenKey field's value.
-func (s *APNSSandboxChannelRequest) SetTokenKey(v string) *APNSSandboxChannelRequest {
-	s.TokenKey = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TeamId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKey != nil {
+		v := *s.TokenKey
 
-// SetTokenKeyId sets the TokenKeyId field's value.
-func (s *APNSSandboxChannelRequest) SetTokenKeyId(v string) *APNSSandboxChannelRequest {
-	s.TokenKeyId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKeyId != nil {
+		v := *s.TokenKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Apple Development Push Notification Service channel definition.
@@ -3263,14 +4168,28 @@ func (s *APNSSandboxChannelRequest) SetTokenKeyId(v string) *APNSSandboxChannelR
 type APNSSandboxChannelResponse struct {
 	_ struct{} `type:"structure"`
 
-	// Application id
+	// The ID of the application to which the channel applies.
 	ApplicationId *string `type:"string"`
 
 	// When was this segment created
 	CreationDate *string `type:"string"`
 
+	// The default authentication method used for APNs.
+	DefaultAuthenticationMethod *string `type:"string"`
+
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with APNs credentials. Amazon
+	// Pinpoint uses your credentials to authenticate push notifications with APNs.
+	// To use APNs token authentication, set the BundleId, TeamId, TokenKey, and
+	// TokenKeyId attributes. To use certificate authentication, set the Certificate
+	// and PrivateKey attributes.
+	HasCredential *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with a key for APNs token authentication.
+	// Provide a token key by setting the TokenKey attribute.
+	HasTokenKey *bool `type:"boolean"`
 
 	// Channel ID. Not used, only for backwards compatibility.
 	Id *string `type:"string"`
@@ -3301,58 +4220,525 @@ func (s APNSSandboxChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *APNSSandboxChannelResponse) SetApplicationId(v string) *APNSSandboxChannelResponse {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSSandboxChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.HasTokenKey != nil {
+		v := *s.HasTokenKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasTokenKey", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *APNSSandboxChannelResponse) SetCreationDate(v string) *APNSSandboxChannelResponse {
-	s.CreationDate = &v
-	return s
+// Apple VoIP Push Notification Service channel definition.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/APNSVoipChannelRequest
+type APNSVoipChannelRequest struct {
+	_ struct{} `type:"structure"`
+
+	// The bundle id used for APNs Tokens.
+	BundleId *string `type:"string"`
+
+	// The distribution certificate from Apple.
+	Certificate *string `type:"string"`
+
+	// The default authentication method used for APNs.
+	DefaultAuthenticationMethod *string `type:"string"`
+
+	// If the channel is enabled for sending messages.
+	Enabled *bool `type:"boolean"`
+
+	// The certificate private key.
+	PrivateKey *string `type:"string"`
+
+	// The team id used for APNs Tokens.
+	TeamId *string `type:"string"`
+
+	// The token key used for APNs Tokens.
+	TokenKey *string `type:"string"`
+
+	// The token key used for APNs Tokens.
+	TokenKeyId *string `type:"string"`
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *APNSSandboxChannelResponse) SetEnabled(v bool) *APNSSandboxChannelResponse {
-	s.Enabled = &v
-	return s
+// String returns the string representation
+func (s APNSVoipChannelRequest) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetId sets the Id field's value.
-func (s *APNSSandboxChannelResponse) SetId(v string) *APNSSandboxChannelResponse {
-	s.Id = &v
-	return s
+// GoString returns the string representation
+func (s APNSVoipChannelRequest) GoString() string {
+	return s.String()
 }
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *APNSSandboxChannelResponse) SetIsArchived(v bool) *APNSSandboxChannelResponse {
-	s.IsArchived = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSVoipChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BundleId != nil {
+		v := *s.BundleId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Certificate != nil {
+		v := *s.Certificate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Certificate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.PrivateKey != nil {
+		v := *s.PrivateKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PrivateKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TeamId != nil {
+		v := *s.TeamId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TeamId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKey != nil {
+		v := *s.TokenKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKeyId != nil {
+		v := *s.TokenKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *APNSSandboxChannelResponse) SetLastModifiedBy(v string) *APNSSandboxChannelResponse {
-	s.LastModifiedBy = &v
-	return s
+// Apple VoIP Push Notification Service channel definition.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/APNSVoipChannelResponse
+type APNSVoipChannelResponse struct {
+	_ struct{} `type:"structure"`
+
+	// Application id
+	ApplicationId *string `type:"string"`
+
+	// When was this segment created
+	CreationDate *string `type:"string"`
+
+	// The default authentication method used for APNs.
+	DefaultAuthenticationMethod *string `type:"string"`
+
+	// If the channel is enabled for sending messages.
+	Enabled *bool `type:"boolean"`
+
+	// If the channel is registered with a credential for authentication.
+	HasCredential *bool `type:"boolean"`
+
+	// If the channel is registered with a token key for authentication.
+	HasTokenKey *bool `type:"boolean"`
+
+	// Channel ID. Not used, only for backwards compatibility.
+	Id *string `type:"string"`
+
+	// Is this channel archived
+	IsArchived *bool `type:"boolean"`
+
+	// Who made the last change
+	LastModifiedBy *string `type:"string"`
+
+	// Last date this was updated
+	LastModifiedDate *string `type:"string"`
+
+	// The platform type. Will be APNS.
+	Platform *string `type:"string"`
+
+	// Version of channel
+	Version *int64 `type:"integer"`
 }
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *APNSSandboxChannelResponse) SetLastModifiedDate(v string) *APNSSandboxChannelResponse {
-	s.LastModifiedDate = &v
-	return s
+// String returns the string representation
+func (s APNSVoipChannelResponse) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetPlatform sets the Platform field's value.
-func (s *APNSSandboxChannelResponse) SetPlatform(v string) *APNSSandboxChannelResponse {
-	s.Platform = &v
-	return s
+// GoString returns the string representation
+func (s APNSVoipChannelResponse) GoString() string {
+	return s.String()
 }
 
-// SetVersion sets the Version field's value.
-func (s *APNSSandboxChannelResponse) SetVersion(v int64) *APNSSandboxChannelResponse {
-	s.Version = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSVoipChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.HasTokenKey != nil {
+		v := *s.HasTokenKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasTokenKey", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
+}
+
+// Apple VoIP Developer Push Notification Service channel definition.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/APNSVoipSandboxChannelRequest
+type APNSVoipSandboxChannelRequest struct {
+	_ struct{} `type:"structure"`
+
+	// The bundle id used for APNs Tokens.
+	BundleId *string `type:"string"`
+
+	// The distribution certificate from Apple.
+	Certificate *string `type:"string"`
+
+	// The default authentication method used for APNs.
+	DefaultAuthenticationMethod *string `type:"string"`
+
+	// If the channel is enabled for sending messages.
+	Enabled *bool `type:"boolean"`
+
+	// The certificate private key.
+	PrivateKey *string `type:"string"`
+
+	// The team id used for APNs Tokens.
+	TeamId *string `type:"string"`
+
+	// The token key used for APNs Tokens.
+	TokenKey *string `type:"string"`
+
+	// The token key used for APNs Tokens.
+	TokenKeyId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s APNSVoipSandboxChannelRequest) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s APNSVoipSandboxChannelRequest) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSVoipSandboxChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BundleId != nil {
+		v := *s.BundleId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Certificate != nil {
+		v := *s.Certificate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Certificate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.PrivateKey != nil {
+		v := *s.PrivateKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PrivateKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TeamId != nil {
+		v := *s.TeamId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TeamId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKey != nil {
+		v := *s.TokenKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TokenKeyId != nil {
+		v := *s.TokenKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TokenKeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Apple VoIP Developer Push Notification Service channel definition.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/APNSVoipSandboxChannelResponse
+type APNSVoipSandboxChannelResponse struct {
+	_ struct{} `type:"structure"`
+
+	// Application id
+	ApplicationId *string `type:"string"`
+
+	// When was this segment created
+	CreationDate *string `type:"string"`
+
+	// The default authentication method used for APNs.
+	DefaultAuthenticationMethod *string `type:"string"`
+
+	// If the channel is enabled for sending messages.
+	Enabled *bool `type:"boolean"`
+
+	// If the channel is registered with a credential for authentication.
+	HasCredential *bool `type:"boolean"`
+
+	// If the channel is registered with a token key for authentication.
+	HasTokenKey *bool `type:"boolean"`
+
+	// Channel ID. Not used, only for backwards compatibility.
+	Id *string `type:"string"`
+
+	// Is this channel archived
+	IsArchived *bool `type:"boolean"`
+
+	// Who made the last change
+	LastModifiedBy *string `type:"string"`
+
+	// Last date this was updated
+	LastModifiedDate *string `type:"string"`
+
+	// The platform type. Will be APNS.
+	Platform *string `type:"string"`
+
+	// Version of channel
+	Version *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s APNSVoipSandboxChannelResponse) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s APNSVoipSandboxChannelResponse) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s APNSVoipSandboxChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultAuthenticationMethod != nil {
+		v := *s.DefaultAuthenticationMethod
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefaultAuthenticationMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.HasTokenKey != nil {
+		v := *s.HasTokenKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasTokenKey", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Activities for campaign.
@@ -3361,7 +4747,7 @@ type ActivitiesResponse struct {
 	_ struct{} `type:"structure"`
 
 	// List of campaign activities
-	Item []*ActivityResponse `type:"list"`
+	Item []ActivityResponse `type:"list"`
 }
 
 // String returns the string representation
@@ -3374,10 +4760,21 @@ func (s ActivitiesResponse) GoString() string {
 	return s.String()
 }
 
-// SetItem sets the Item field's value.
-func (s *ActivitiesResponse) SetItem(v []*ActivityResponse) *ActivitiesResponse {
-	s.Item = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ActivitiesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Activity definition
@@ -3438,82 +4835,87 @@ func (s ActivityResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *ActivityResponse) SetApplicationId(v string) *ActivityResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ActivityResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *ActivityResponse) SetCampaignId(v string) *ActivityResponse {
-	s.CampaignId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
 
-// SetEnd sets the End field's value.
-func (s *ActivityResponse) SetEnd(v string) *ActivityResponse {
-	s.End = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CampaignId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.End != nil {
+		v := *s.End
 
-// SetId sets the Id field's value.
-func (s *ActivityResponse) SetId(v string) *ActivityResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "End", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetResult sets the Result field's value.
-func (s *ActivityResponse) SetResult(v string) *ActivityResponse {
-	s.Result = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Result != nil {
+		v := *s.Result
 
-// SetScheduledStart sets the ScheduledStart field's value.
-func (s *ActivityResponse) SetScheduledStart(v string) *ActivityResponse {
-	s.ScheduledStart = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Result", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ScheduledStart != nil {
+		v := *s.ScheduledStart
 
-// SetStart sets the Start field's value.
-func (s *ActivityResponse) SetStart(v string) *ActivityResponse {
-	s.Start = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ScheduledStart", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Start != nil {
+		v := *s.Start
 
-// SetState sets the State field's value.
-func (s *ActivityResponse) SetState(v string) *ActivityResponse {
-	s.State = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Start", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.State != nil {
+		v := *s.State
 
-// SetSuccessfulEndpointCount sets the SuccessfulEndpointCount field's value.
-func (s *ActivityResponse) SetSuccessfulEndpointCount(v int64) *ActivityResponse {
-	s.SuccessfulEndpointCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "State", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SuccessfulEndpointCount != nil {
+		v := *s.SuccessfulEndpointCount
 
-// SetTimezonesCompletedCount sets the TimezonesCompletedCount field's value.
-func (s *ActivityResponse) SetTimezonesCompletedCount(v int64) *ActivityResponse {
-	s.TimezonesCompletedCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SuccessfulEndpointCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TimezonesCompletedCount != nil {
+		v := *s.TimezonesCompletedCount
 
-// SetTimezonesTotalCount sets the TimezonesTotalCount field's value.
-func (s *ActivityResponse) SetTimezonesTotalCount(v int64) *ActivityResponse {
-	s.TimezonesTotalCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimezonesCompletedCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TimezonesTotalCount != nil {
+		v := *s.TimezonesTotalCount
 
-// SetTotalEndpointCount sets the TotalEndpointCount field's value.
-func (s *ActivityResponse) SetTotalEndpointCount(v int64) *ActivityResponse {
-	s.TotalEndpointCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimezonesTotalCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalEndpointCount != nil {
+		v := *s.TotalEndpointCount
 
-// SetTreatmentId sets the TreatmentId field's value.
-func (s *ActivityResponse) SetTreatmentId(v string) *ActivityResponse {
-	s.TreatmentId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalEndpointCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TreatmentId != nil {
+		v := *s.TreatmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Address configuration.
@@ -3524,16 +4926,20 @@ type AddressConfiguration struct {
 	// Body override. If specified will override default body.
 	BodyOverride *string `type:"string"`
 
-	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
-	ChannelType ChannelType `type:"string"`
+	// The channel type.Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX
+	// | ADM | SMS | EMAIL | BAIDU
+	ChannelType ChannelType `type:"string" enum:"true"`
 
-	Context map[string]*string `type:"map"`
+	// A map of custom attributes to attributes to be attached to the message for
+	// this address. This payload is added to the push notification's 'data.pinpoint'
+	// object or added to the email/sms delivery receipt event attributes.
+	Context map[string]string `type:"map"`
 
 	// The Raw JSON formatted string to be used as the payload. This value overrides
 	// the message.
 	RawContent *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 
 	// Title override. If specified will override default title if applicable.
 	TitleOverride *string `type:"string"`
@@ -3549,40 +4955,62 @@ func (s AddressConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetBodyOverride sets the BodyOverride field's value.
-func (s *AddressConfiguration) SetBodyOverride(v string) *AddressConfiguration {
-	s.BodyOverride = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddressConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BodyOverride != nil {
+		v := *s.BodyOverride
 
-// SetChannelType sets the ChannelType field's value.
-func (s *AddressConfiguration) SetChannelType(v ChannelType) *AddressConfiguration {
-	s.ChannelType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BodyOverride", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ChannelType) > 0 {
+		v := s.ChannelType
 
-// SetContext sets the Context field's value.
-func (s *AddressConfiguration) SetContext(v map[string]*string) *AddressConfiguration {
-	s.Context = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Context) > 0 {
+		v := s.Context
 
-// SetRawContent sets the RawContent field's value.
-func (s *AddressConfiguration) SetRawContent(v string) *AddressConfiguration {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Context", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *AddressConfiguration) SetSubstitutions(v map[string][]*string) *AddressConfiguration {
-	s.Substitutions = v
-	return s
-}
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetTitleOverride sets the TitleOverride field's value.
-func (s *AddressConfiguration) SetTitleOverride(v string) *AddressConfiguration {
-	s.TitleOverride = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	if s.TitleOverride != nil {
+		v := *s.TitleOverride
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TitleOverride", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Application Response.
@@ -3607,16 +5035,21 @@ func (s ApplicationResponse) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *ApplicationResponse) SetId(v string) *ApplicationResponse {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ApplicationResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetName sets the Name field's value.
-func (s *ApplicationResponse) SetName(v string) *ApplicationResponse {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Application settings.
@@ -3626,6 +5059,9 @@ type ApplicationSettingsResource struct {
 
 	// The unique ID for the application.
 	ApplicationId *string `type:"string"`
+
+	// Default campaign hook.
+	CampaignHook *CampaignHook `type:"structure"`
 
 	// The date that the settings were last updated in ISO 8601 format.
 	LastModifiedDate *string `type:"string"`
@@ -3651,28 +5087,39 @@ func (s ApplicationSettingsResource) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *ApplicationSettingsResource) SetApplicationId(v string) *ApplicationSettingsResource {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ApplicationSettingsResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *ApplicationSettingsResource) SetLastModifiedDate(v string) *ApplicationSettingsResource {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignHook != nil {
+		v := s.CampaignHook
 
-// SetLimits sets the Limits field's value.
-func (s *ApplicationSettingsResource) SetLimits(v *CampaignLimits) *ApplicationSettingsResource {
-	s.Limits = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CampaignHook", v, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetQuietTime sets the QuietTime field's value.
-func (s *ApplicationSettingsResource) SetQuietTime(v *QuietTime) *ApplicationSettingsResource {
-	s.QuietTime = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limits != nil {
+		v := s.Limits
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Limits", v, metadata)
+	}
+	if s.QuietTime != nil {
+		v := s.QuietTime
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "QuietTime", v, metadata)
+	}
+	return nil
 }
 
 // Get Applications Result.
@@ -3681,7 +5128,7 @@ type ApplicationsResponse struct {
 	_ struct{} `type:"structure"`
 
 	// List of applications returned in this page.
-	Item []*ApplicationResponse `type:"list"`
+	Item []ApplicationResponse `type:"list"`
 
 	// The string that you use in a subsequent request to get the next page of results
 	// in a paginated response.
@@ -3698,16 +5145,27 @@ func (s ApplicationsResponse) GoString() string {
 	return s.String()
 }
 
-// SetItem sets the Item field's value.
-func (s *ApplicationsResponse) SetItem(v []*ApplicationResponse) *ApplicationsResponse {
-	s.Item = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ApplicationsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
 
-// SetNextToken sets the NextToken field's value.
-func (s *ApplicationsResponse) SetNextToken(v string) *ApplicationsResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Custom attibute dimension
@@ -3718,9 +5176,9 @@ type AttributeDimension struct {
 	// The type of dimension:INCLUSIVE - Endpoints that match the criteria are included
 	// in the segment.EXCLUSIVE - Endpoints that match the criteria are excluded
 	// from the segment.
-	AttributeType AttributeType `type:"string"`
+	AttributeType AttributeType `type:"string" enum:"true"`
 
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3733,16 +5191,27 @@ func (s AttributeDimension) GoString() string {
 	return s.String()
 }
 
-// SetAttributeType sets the AttributeType field's value.
-func (s *AttributeDimension) SetAttributeType(v AttributeType) *AttributeDimension {
-	s.AttributeType = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttributeDimension) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AttributeType) > 0 {
+		v := s.AttributeType
 
-// SetValues sets the Values field's value.
-func (s *AttributeDimension) SetValues(v []*string) *AttributeDimension {
-	s.Values = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AttributeType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Values) > 0 {
+		v := s.Values
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Values", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Baidu Cloud Push credentials
@@ -3770,22 +5239,27 @@ func (s BaiduChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetApiKey sets the ApiKey field's value.
-func (s *BaiduChannelRequest) SetApiKey(v string) *BaiduChannelRequest {
-	s.ApiKey = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BaiduChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApiKey != nil {
+		v := *s.ApiKey
 
-// SetEnabled sets the Enabled field's value.
-func (s *BaiduChannelRequest) SetEnabled(v bool) *BaiduChannelRequest {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApiKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetSecretKey sets the SecretKey field's value.
-func (s *BaiduChannelRequest) SetSecretKey(v string) *BaiduChannelRequest {
-	s.SecretKey = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.SecretKey != nil {
+		v := *s.SecretKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SecretKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Baidu Cloud Messaging channel definition
@@ -3804,6 +5278,12 @@ type BaiduChannelResponse struct {
 
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with Baidu Cloud Push credentials.
+	// Amazon Pinpoint uses your credentials to authenticate push notifications
+	// with Baidu Cloud Push. Provide your credentials by setting the ApiKey and
+	// SecretKey attributes.
+	HasCredential *bool `type:"boolean"`
 
 	// Channel ID. Not used, only for backwards compatibility.
 	Id *string `type:"string"`
@@ -3834,64 +5314,75 @@ func (s BaiduChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *BaiduChannelResponse) SetApplicationId(v string) *BaiduChannelResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BaiduChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *BaiduChannelResponse) SetCreationDate(v string) *BaiduChannelResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetCredential sets the Credential field's value.
-func (s *BaiduChannelResponse) SetCredential(v string) *BaiduChannelResponse {
-	s.Credential = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Credential != nil {
+		v := *s.Credential
 
-// SetEnabled sets the Enabled field's value.
-func (s *BaiduChannelResponse) SetEnabled(v bool) *BaiduChannelResponse {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Credential", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetId sets the Id field's value.
-func (s *BaiduChannelResponse) SetId(v string) *BaiduChannelResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *BaiduChannelResponse) SetIsArchived(v bool) *BaiduChannelResponse {
-	s.IsArchived = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *BaiduChannelResponse) SetLastModifiedBy(v string) *BaiduChannelResponse {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *BaiduChannelResponse) SetLastModifiedDate(v string) *BaiduChannelResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetPlatform sets the Platform field's value.
-func (s *BaiduChannelResponse) SetPlatform(v string) *BaiduChannelResponse {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetVersion sets the Version field's value.
-func (s *BaiduChannelResponse) SetVersion(v int64) *BaiduChannelResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Baidu Message.
@@ -3906,12 +5397,14 @@ type BaiduMessage struct {
 	// a designated user interface within the app. URL - The default mobile browser
 	// on the user's device launches and opens a web page at the URL you specify.
 	// Possible values include: OPEN_APP | DEEP_LINK | URL
-	Action Action `type:"string"`
+	Action Action `type:"string" enum:"true"`
 
 	// The message body of the notification, the email body or the text message.
 	Body *string `type:"string"`
 
-	Data map[string]*string `type:"map"`
+	// The data payload used for a silent push. This payload is added to the notifications'
+	// data.pinpoint.jsonBody' object
+	Data map[string]string `type:"map"`
 
 	// The icon image name of the asset saved in your application.
 	IconReference *string `type:"string"`
@@ -3922,10 +5415,6 @@ type BaiduMessage struct {
 
 	// The URL that points to an image used in the push notification.
 	ImageUrl *string `type:"string"`
-
-	// The data payload used for a silent push. This payload is added to the notifications'
-	// data.pinpoint.jsonBody' object
-	JsonData *string `type:"string"`
 
 	// The Raw JSON formatted string to be used as the payload. This value overrides
 	// the message.
@@ -3945,7 +5434,7 @@ type BaiduMessage struct {
 	// sound files must reside in /res/raw/
 	Sound *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 
 	// The message title that displays above the message on the user's device.
 	Title *string `type:"string"`
@@ -3965,88 +5454,104 @@ func (s BaiduMessage) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *BaiduMessage) SetAction(v Action) *BaiduMessage {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BaiduMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetBody sets the Body field's value.
-func (s *BaiduMessage) SetBody(v string) *BaiduMessage {
-	s.Body = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Body != nil {
+		v := *s.Body
 
-// SetData sets the Data field's value.
-func (s *BaiduMessage) SetData(v map[string]*string) *BaiduMessage {
-	s.Data = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
 
-// SetIconReference sets the IconReference field's value.
-func (s *BaiduMessage) SetIconReference(v string) *BaiduMessage {
-	s.IconReference = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Data", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetImageIconUrl sets the ImageIconUrl field's value.
-func (s *BaiduMessage) SetImageIconUrl(v string) *BaiduMessage {
-	s.ImageIconUrl = &v
-	return s
-}
+	}
+	if s.IconReference != nil {
+		v := *s.IconReference
 
-// SetImageUrl sets the ImageUrl field's value.
-func (s *BaiduMessage) SetImageUrl(v string) *BaiduMessage {
-	s.ImageUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IconReference", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageIconUrl != nil {
+		v := *s.ImageIconUrl
 
-// SetJsonData sets the JsonData field's value.
-func (s *BaiduMessage) SetJsonData(v string) *BaiduMessage {
-	s.JsonData = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
 
-// SetRawContent sets the RawContent field's value.
-func (s *BaiduMessage) SetRawContent(v string) *BaiduMessage {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetSilentPush sets the SilentPush field's value.
-func (s *BaiduMessage) SetSilentPush(v bool) *BaiduMessage {
-	s.SilentPush = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
 
-// SetSmallImageIconUrl sets the SmallImageIconUrl field's value.
-func (s *BaiduMessage) SetSmallImageIconUrl(v string) *BaiduMessage {
-	s.SmallImageIconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), metadata)
+	}
+	if s.SmallImageIconUrl != nil {
+		v := *s.SmallImageIconUrl
 
-// SetSound sets the Sound field's value.
-func (s *BaiduMessage) SetSound(v string) *BaiduMessage {
-	s.Sound = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SmallImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Sound != nil {
+		v := *s.Sound
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *BaiduMessage) SetSubstitutions(v map[string][]*string) *BaiduMessage {
-	s.Substitutions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Sound", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
 
-// SetTitle sets the Title field's value.
-func (s *BaiduMessage) SetTitle(v string) *BaiduMessage {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetUrl sets the Url field's value.
-func (s *BaiduMessage) SetUrl(v string) *BaiduMessage {
-	s.Url = &v
-	return s
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The email message configuration.
@@ -4078,28 +5583,81 @@ func (s CampaignEmailMessage) GoString() string {
 	return s.String()
 }
 
-// SetBody sets the Body field's value.
-func (s *CampaignEmailMessage) SetBody(v string) *CampaignEmailMessage {
-	s.Body = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignEmailMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FromAddress != nil {
+		v := *s.FromAddress
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FromAddress", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.HtmlBody != nil {
+		v := *s.HtmlBody
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HtmlBody", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetFromAddress sets the FromAddress field's value.
-func (s *CampaignEmailMessage) SetFromAddress(v string) *CampaignEmailMessage {
-	s.FromAddress = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CampaignHook
+type CampaignHook struct {
+	_ struct{} `type:"structure"`
+
+	// Lambda function name or arn to be called for delivery
+	LambdaFunctionName *string `type:"string"`
+
+	// What mode Lambda should be invoked in.
+	Mode Mode `type:"string" enum:"true"`
+
+	// Web URL to call for hook. If the URL has authentication specified it will
+	// be added as authentication to the request
+	WebUrl *string `type:"string"`
 }
 
-// SetHtmlBody sets the HtmlBody field's value.
-func (s *CampaignEmailMessage) SetHtmlBody(v string) *CampaignEmailMessage {
-	s.HtmlBody = &v
-	return s
+// String returns the string representation
+func (s CampaignHook) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetTitle sets the Title field's value.
-func (s *CampaignEmailMessage) SetTitle(v string) *CampaignEmailMessage {
-	s.Title = &v
-	return s
+// GoString returns the string representation
+func (s CampaignHook) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignHook) MarshalFields(e protocol.FieldEncoder) error {
+	if s.LambdaFunctionName != nil {
+		v := *s.LambdaFunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LambdaFunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Mode) > 0 {
+		v := s.Mode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Mode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.WebUrl != nil {
+		v := *s.WebUrl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "WebUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Campaign Limits are used to limit the number of messages that can be sent
@@ -4111,12 +5669,13 @@ type CampaignLimits struct {
 	// The maximum number of messages that the campaign can send daily.
 	Daily *int64 `type:"integer"`
 
-	// The maximum duration of a campaign from the scheduled start. Must be a minimum
-	// of 60 seconds.
+	// The length of time (in seconds) that the campaign can run before it ends
+	// and message deliveries stop. This duration begins at the scheduled start
+	// time for the campaign. The minimum value is 60.
 	MaximumDuration *int64 `type:"integer"`
 
-	// The maximum number of messages per second that the campaign will send. This
-	// is a best effort maximum cap and can go as high as 20000 and as low as 50
+	// The number of messages that the campaign can send per second. The minimum
+	// value is 50, and the maximum is 20000.
 	MessagesPerSecond *int64 `type:"integer"`
 
 	// The maximum total number of messages that the campaign can send.
@@ -4133,28 +5692,33 @@ func (s CampaignLimits) GoString() string {
 	return s.String()
 }
 
-// SetDaily sets the Daily field's value.
-func (s *CampaignLimits) SetDaily(v int64) *CampaignLimits {
-	s.Daily = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignLimits) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Daily != nil {
+		v := *s.Daily
 
-// SetMaximumDuration sets the MaximumDuration field's value.
-func (s *CampaignLimits) SetMaximumDuration(v int64) *CampaignLimits {
-	s.MaximumDuration = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Daily", protocol.Int64Value(v), metadata)
+	}
+	if s.MaximumDuration != nil {
+		v := *s.MaximumDuration
 
-// SetMessagesPerSecond sets the MessagesPerSecond field's value.
-func (s *CampaignLimits) SetMessagesPerSecond(v int64) *CampaignLimits {
-	s.MessagesPerSecond = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaximumDuration", protocol.Int64Value(v), metadata)
+	}
+	if s.MessagesPerSecond != nil {
+		v := *s.MessagesPerSecond
 
-// SetTotal sets the Total field's value.
-func (s *CampaignLimits) SetTotal(v int64) *CampaignLimits {
-	s.Total = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MessagesPerSecond", protocol.Int64Value(v), metadata)
+	}
+	if s.Total != nil {
+		v := *s.Total
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Total", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Campaign definition
@@ -4163,7 +5727,7 @@ type CampaignResponse struct {
 	_ struct{} `type:"structure"`
 
 	// Treatments that are defined in addition to the default treatment.
-	AdditionalTreatments []*TreatmentResource `type:"list"`
+	AdditionalTreatments []TreatmentResource `type:"list"`
 
 	// The ID of the application to which the campaign applies.
 	ApplicationId *string `type:"string"`
@@ -4181,6 +5745,9 @@ type CampaignResponse struct {
 	// The allocated percentage of end users who will not receive messages from
 	// this campaign.
 	HoldoutPercent *int64 `type:"integer"`
+
+	// Campaign hook information.
+	Hook *CampaignHook `type:"structure"`
 
 	// The unique campaign ID.
 	Id *string `type:"string"`
@@ -4234,118 +5801,135 @@ func (s CampaignResponse) GoString() string {
 	return s.String()
 }
 
-// SetAdditionalTreatments sets the AdditionalTreatments field's value.
-func (s *CampaignResponse) SetAdditionalTreatments(v []*TreatmentResource) *CampaignResponse {
-	s.AdditionalTreatments = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AdditionalTreatments) > 0 {
+		v := s.AdditionalTreatments
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *CampaignResponse) SetApplicationId(v string) *CampaignResponse {
-	s.ApplicationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AdditionalTreatments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *CampaignResponse) SetCreationDate(v string) *CampaignResponse {
-	s.CreationDate = &v
-	return s
-}
+	}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetDefaultState sets the DefaultState field's value.
-func (s *CampaignResponse) SetDefaultState(v *CampaignState) *CampaignResponse {
-	s.DefaultState = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetDescription sets the Description field's value.
-func (s *CampaignResponse) SetDescription(v string) *CampaignResponse {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DefaultState != nil {
+		v := s.DefaultState
 
-// SetHoldoutPercent sets the HoldoutPercent field's value.
-func (s *CampaignResponse) SetHoldoutPercent(v int64) *CampaignResponse {
-	s.HoldoutPercent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DefaultState", v, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetId sets the Id field's value.
-func (s *CampaignResponse) SetId(v string) *CampaignResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.HoldoutPercent != nil {
+		v := *s.HoldoutPercent
 
-// SetIsPaused sets the IsPaused field's value.
-func (s *CampaignResponse) SetIsPaused(v bool) *CampaignResponse {
-	s.IsPaused = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HoldoutPercent", protocol.Int64Value(v), metadata)
+	}
+	if s.Hook != nil {
+		v := s.Hook
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *CampaignResponse) SetLastModifiedDate(v string) *CampaignResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Hook", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLimits sets the Limits field's value.
-func (s *CampaignResponse) SetLimits(v *CampaignLimits) *CampaignResponse {
-	s.Limits = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsPaused != nil {
+		v := *s.IsPaused
 
-// SetMessageConfiguration sets the MessageConfiguration field's value.
-func (s *CampaignResponse) SetMessageConfiguration(v *MessageConfiguration) *CampaignResponse {
-	s.MessageConfiguration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsPaused", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetName sets the Name field's value.
-func (s *CampaignResponse) SetName(v string) *CampaignResponse {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Limits != nil {
+		v := s.Limits
 
-// SetSchedule sets the Schedule field's value.
-func (s *CampaignResponse) SetSchedule(v *Schedule) *CampaignResponse {
-	s.Schedule = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Limits", v, metadata)
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *CampaignResponse) SetSegmentId(v string) *CampaignResponse {
-	s.SegmentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSegmentVersion sets the SegmentVersion field's value.
-func (s *CampaignResponse) SetSegmentVersion(v int64) *CampaignResponse {
-	s.SegmentVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
 
-// SetState sets the State field's value.
-func (s *CampaignResponse) SetState(v *CampaignState) *CampaignResponse {
-	s.State = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Schedule", v, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
 
-// SetTreatmentDescription sets the TreatmentDescription field's value.
-func (s *CampaignResponse) SetTreatmentDescription(v string) *CampaignResponse {
-	s.TreatmentDescription = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentVersion != nil {
+		v := *s.SegmentVersion
 
-// SetTreatmentName sets the TreatmentName field's value.
-func (s *CampaignResponse) SetTreatmentName(v string) *CampaignResponse {
-	s.TreatmentName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentVersion", protocol.Int64Value(v), metadata)
+	}
+	if s.State != nil {
+		v := s.State
 
-// SetVersion sets the Version field's value.
-func (s *CampaignResponse) SetVersion(v int64) *CampaignResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "State", v, metadata)
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // SMS message configuration.
@@ -4357,7 +5941,7 @@ type CampaignSmsMessage struct {
 	Body *string `type:"string"`
 
 	// Is this is a transactional SMS message, otherwise a promotional message.
-	MessageType MessageType `type:"string"`
+	MessageType MessageType `type:"string" enum:"true"`
 
 	// Sender ID of sent message.
 	SenderId *string `type:"string"`
@@ -4373,22 +5957,27 @@ func (s CampaignSmsMessage) GoString() string {
 	return s.String()
 }
 
-// SetBody sets the Body field's value.
-func (s *CampaignSmsMessage) SetBody(v string) *CampaignSmsMessage {
-	s.Body = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignSmsMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
 
-// SetMessageType sets the MessageType field's value.
-func (s *CampaignSmsMessage) SetMessageType(v MessageType) *CampaignSmsMessage {
-	s.MessageType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.MessageType) > 0 {
+		v := s.MessageType
 
-// SetSenderId sets the SenderId field's value.
-func (s *CampaignSmsMessage) SetSenderId(v string) *CampaignSmsMessage {
-	s.SenderId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MessageType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // State of the Campaign
@@ -4399,7 +5988,7 @@ type CampaignState struct {
 	// The status of the campaign, or the status of a treatment that belongs to
 	// an A/B test campaign.Valid values: SCHEDULED, EXECUTING, PENDING_NEXT_RUN,
 	// COMPLETED, PAUSED
-	CampaignStatus CampaignStatus `type:"string"`
+	CampaignStatus CampaignStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4412,10 +6001,15 @@ func (s CampaignState) GoString() string {
 	return s.String()
 }
 
-// SetCampaignStatus sets the CampaignStatus field's value.
-func (s *CampaignState) SetCampaignStatus(v CampaignStatus) *CampaignState {
-	s.CampaignStatus = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignState) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CampaignStatus) > 0 {
+		v := s.CampaignStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CampaignStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // List of available campaigns.
@@ -4424,7 +6018,7 @@ type CampaignsResponse struct {
 	_ struct{} `type:"structure"`
 
 	// A list of campaigns.
-	Item []*CampaignResponse `type:"list"`
+	Item []CampaignResponse `type:"list"`
 
 	// The string that you use in a subsequent request to get the next page of results
 	// in a paginated response.
@@ -4441,16 +6035,27 @@ func (s CampaignsResponse) GoString() string {
 	return s.String()
 }
 
-// SetItem sets the Item field's value.
-func (s *CampaignsResponse) SetItem(v []*CampaignResponse) *CampaignsResponse {
-	s.Item = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CampaignsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
 
-// SetNextToken sets the NextToken field's value.
-func (s *CampaignsResponse) SetNextToken(v string) *CampaignsResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateAppRequest
@@ -4487,15 +6092,24 @@ func (s *CreateAppInput) Validate() error {
 	return nil
 }
 
-// SetCreateApplicationRequest sets the CreateApplicationRequest field's value.
-func (s *CreateAppInput) SetCreateApplicationRequest(v *CreateApplicationRequest) *CreateAppInput {
-	s.CreateApplicationRequest = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateAppInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.CreateApplicationRequest != nil {
+		v := s.CreateApplicationRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CreateApplicationRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateAppResponse
 type CreateAppOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationResponse"`
+
+	responseMetadata aws.Response
 
 	// Application Response.
 	//
@@ -4513,10 +6127,20 @@ func (s CreateAppOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationResponse sets the ApplicationResponse field's value.
-func (s *CreateAppOutput) SetApplicationResponse(v *ApplicationResponse) *CreateAppOutput {
-	s.ApplicationResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAppOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateAppOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationResponse != nil {
+		v := s.ApplicationResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ApplicationResponse", v, metadata)
+	}
+	return nil
 }
 
 // Application Request.
@@ -4538,10 +6162,15 @@ func (s CreateApplicationRequest) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *CreateApplicationRequest) SetName(v string) *CreateApplicationRequest {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateApplicationRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateCampaignRequest
@@ -4585,21 +6214,30 @@ func (s *CreateCampaignInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *CreateCampaignInput) SetApplicationId(v string) *CreateCampaignInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetWriteCampaignRequest sets the WriteCampaignRequest field's value.
-func (s *CreateCampaignInput) SetWriteCampaignRequest(v *WriteCampaignRequest) *CreateCampaignInput {
-	s.WriteCampaignRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.WriteCampaignRequest != nil {
+		v := s.WriteCampaignRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "WriteCampaignRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateCampaignResponse
 type CreateCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
+
+	responseMetadata aws.Response
 
 	// Campaign definition
 	//
@@ -4617,10 +6255,114 @@ func (s CreateCampaignOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignResponse sets the CampaignResponse field's value.
-func (s *CreateCampaignOutput) SetCampaignResponse(v *CampaignResponse) *CreateCampaignOutput {
-	s.CampaignResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateCampaignOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateExportJobRequest
+type CreateExportJobInput struct {
+	_ struct{} `type:"structure" payload:"ExportJobRequest"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+
+	// ExportJobRequest is a required field
+	ExportJobRequest *ExportJobRequest `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateExportJobInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateExportJobInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateExportJobInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateExportJobInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if s.ExportJobRequest == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ExportJobRequest"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateExportJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ExportJobRequest != nil {
+		v := s.ExportJobRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ExportJobRequest", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateExportJobResponse
+type CreateExportJobOutput struct {
+	_ struct{} `type:"structure" payload:"ExportJobResponse"`
+
+	responseMetadata aws.Response
+
+	// ExportJobResponse is a required field
+	ExportJobResponse *ExportJobResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateExportJobOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateExportJobOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateExportJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateExportJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExportJobResponse != nil {
+		v := s.ExportJobResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ExportJobResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateImportJobRequest
@@ -4662,21 +6404,30 @@ func (s *CreateImportJobInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *CreateImportJobInput) SetApplicationId(v string) *CreateImportJobInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateImportJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetImportJobRequest sets the ImportJobRequest field's value.
-func (s *CreateImportJobInput) SetImportJobRequest(v *ImportJobRequest) *CreateImportJobInput {
-	s.ImportJobRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImportJobRequest != nil {
+		v := s.ImportJobRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ImportJobRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateImportJobResponse
 type CreateImportJobOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobResponse"`
+
+	responseMetadata aws.Response
 
 	// ImportJobResponse is a required field
 	ImportJobResponse *ImportJobResponse `type:"structure" required:"true"`
@@ -4692,10 +6443,20 @@ func (s CreateImportJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetImportJobResponse sets the ImportJobResponse field's value.
-func (s *CreateImportJobOutput) SetImportJobResponse(v *ImportJobResponse) *CreateImportJobOutput {
-	s.ImportJobResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateImportJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateImportJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobResponse != nil {
+		v := s.ImportJobResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ImportJobResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateSegmentRequest
@@ -4739,21 +6500,30 @@ func (s *CreateSegmentInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *CreateSegmentInput) SetApplicationId(v string) *CreateSegmentInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetWriteSegmentRequest sets the WriteSegmentRequest field's value.
-func (s *CreateSegmentInput) SetWriteSegmentRequest(v *WriteSegmentRequest) *CreateSegmentInput {
-	s.WriteSegmentRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.WriteSegmentRequest != nil {
+		v := s.WriteSegmentRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "WriteSegmentRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateSegmentResponse
 type CreateSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
+
+	responseMetadata aws.Response
 
 	// Segment definition.
 	//
@@ -4771,10 +6541,20 @@ func (s CreateSegmentOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentResponse sets the SegmentResponse field's value.
-func (s *CreateSegmentOutput) SetSegmentResponse(v *SegmentResponse) *CreateSegmentOutput {
-	s.SegmentResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSegmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, metadata)
+	}
+	return nil
 }
 
 // Default Message across push notification, email, and sms.
@@ -4785,7 +6565,7 @@ type DefaultMessage struct {
 	// The message body of the notification, the email body or the text message.
 	Body *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 }
 
 // String returns the string representation
@@ -4798,16 +6578,32 @@ func (s DefaultMessage) GoString() string {
 	return s.String()
 }
 
-// SetBody sets the Body field's value.
-func (s *DefaultMessage) SetBody(v string) *DefaultMessage {
-	s.Body = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DefaultMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *DefaultMessage) SetSubstitutions(v map[string][]*string) *DefaultMessage {
-	s.Substitutions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Default Push Notification Message.
@@ -4822,22 +6618,20 @@ type DefaultPushNotificationMessage struct {
 	// a designated user interface within the app. URL - The default mobile browser
 	// on the user's device launches and opens a web page at the URL you specify.
 	// Possible values include: OPEN_APP | DEEP_LINK | URL
-	Action Action `type:"string"`
+	Action Action `type:"string" enum:"true"`
 
 	// The message body of the notification, the email body or the text message.
 	Body *string `type:"string"`
 
-	Data map[string]*string `type:"map"`
-
 	// The data payload used for a silent push. This payload is added to the notifications'
 	// data.pinpoint.jsonBody' object
-	JsonData *string `type:"string"`
+	Data map[string]string `type:"map"`
 
 	// Indicates if the message should display on the users device. Silent pushes
 	// can be used for Remote Configuration and Phone Home use cases.
 	SilentPush *bool `type:"boolean"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 
 	// The message title that displays above the message on the user's device.
 	Title *string `type:"string"`
@@ -4857,52 +6651,68 @@ func (s DefaultPushNotificationMessage) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *DefaultPushNotificationMessage) SetAction(v Action) *DefaultPushNotificationMessage {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DefaultPushNotificationMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetBody sets the Body field's value.
-func (s *DefaultPushNotificationMessage) SetBody(v string) *DefaultPushNotificationMessage {
-	s.Body = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Body != nil {
+		v := *s.Body
 
-// SetData sets the Data field's value.
-func (s *DefaultPushNotificationMessage) SetData(v map[string]*string) *DefaultPushNotificationMessage {
-	s.Data = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
 
-// SetJsonData sets the JsonData field's value.
-func (s *DefaultPushNotificationMessage) SetJsonData(v string) *DefaultPushNotificationMessage {
-	s.JsonData = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Data", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetSilentPush sets the SilentPush field's value.
-func (s *DefaultPushNotificationMessage) SetSilentPush(v bool) *DefaultPushNotificationMessage {
-	s.SilentPush = &v
-	return s
-}
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *DefaultPushNotificationMessage) SetSubstitutions(v map[string][]*string) *DefaultPushNotificationMessage {
-	s.Substitutions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
 
-// SetTitle sets the Title field's value.
-func (s *DefaultPushNotificationMessage) SetTitle(v string) *DefaultPushNotificationMessage {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetUrl sets the Url field's value.
-func (s *DefaultPushNotificationMessage) SetUrl(v string) *DefaultPushNotificationMessage {
-	s.Url = &v
-	return s
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteAdmChannelRequest
@@ -4937,15 +6747,24 @@ func (s *DeleteAdmChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteAdmChannelInput) SetApplicationId(v string) *DeleteAdmChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteAdmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteAdmChannelResponse
 type DeleteAdmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"ADMChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Amazon Device Messaging channel definition.
 	//
@@ -4963,10 +6782,20 @@ func (s DeleteAdmChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetADMChannelResponse sets the ADMChannelResponse field's value.
-func (s *DeleteAdmChannelOutput) SetADMChannelResponse(v *ADMChannelResponse) *DeleteAdmChannelOutput {
-	s.ADMChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAdmChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteAdmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ADMChannelResponse != nil {
+		v := s.ADMChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ADMChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsChannelRequest
@@ -5001,15 +6830,24 @@ func (s *DeleteApnsChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteApnsChannelInput) SetApplicationId(v string) *DeleteApnsChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsChannelResponse
 type DeleteApnsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Apple Distribution Push Notification Service channel definition.
 	//
@@ -5027,10 +6865,20 @@ func (s DeleteApnsChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetAPNSChannelResponse sets the APNSChannelResponse field's value.
-func (s *DeleteApnsChannelOutput) SetAPNSChannelResponse(v *APNSChannelResponse) *DeleteApnsChannelOutput {
-	s.APNSChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteApnsChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelResponse != nil {
+		v := s.APNSChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsSandboxChannelRequest
@@ -5065,15 +6913,24 @@ func (s *DeleteApnsSandboxChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteApnsSandboxChannelInput) SetApplicationId(v string) *DeleteApnsSandboxChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsSandboxChannelResponse
 type DeleteApnsSandboxChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSSandboxChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Apple Development Push Notification Service channel definition.
 	//
@@ -5091,10 +6948,186 @@ func (s DeleteApnsSandboxChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetAPNSSandboxChannelResponse sets the APNSSandboxChannelResponse field's value.
-func (s *DeleteApnsSandboxChannelOutput) SetAPNSSandboxChannelResponse(v *APNSSandboxChannelResponse) *DeleteApnsSandboxChannelOutput {
-	s.APNSSandboxChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteApnsSandboxChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelResponse != nil {
+		v := s.APNSSandboxChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsVoipChannelRequest
+type DeleteApnsVoipChannelInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteApnsVoipChannelInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteApnsVoipChannelInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteApnsVoipChannelInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteApnsVoipChannelInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsVoipChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsVoipChannelResponse
+type DeleteApnsVoipChannelOutput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipChannelResponse"`
+
+	responseMetadata aws.Response
+
+	// Apple VoIP Push Notification Service channel definition.
+	//
+	// APNSVoipChannelResponse is a required field
+	APNSVoipChannelResponse *APNSVoipChannelResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteApnsVoipChannelOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteApnsVoipChannelOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteApnsVoipChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsVoipChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSVoipChannelResponse != nil {
+		v := s.APNSVoipChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsVoipSandboxChannelRequest
+type DeleteApnsVoipSandboxChannelInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteApnsVoipSandboxChannelInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteApnsVoipSandboxChannelInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteApnsVoipSandboxChannelInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteApnsVoipSandboxChannelInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsVoipSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteApnsVoipSandboxChannelResponse
+type DeleteApnsVoipSandboxChannelOutput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipSandboxChannelResponse"`
+
+	responseMetadata aws.Response
+
+	// Apple VoIP Developer Push Notification Service channel definition.
+	//
+	// APNSVoipSandboxChannelResponse is a required field
+	APNSVoipSandboxChannelResponse *APNSVoipSandboxChannelResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteApnsVoipSandboxChannelOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteApnsVoipSandboxChannelOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteApnsVoipSandboxChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteApnsVoipSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSVoipSandboxChannelResponse != nil {
+		v := s.APNSVoipSandboxChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipSandboxChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteAppRequest
@@ -5129,15 +7162,24 @@ func (s *DeleteAppInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteAppInput) SetApplicationId(v string) *DeleteAppInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteAppInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteAppResponse
 type DeleteAppOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationResponse"`
+
+	responseMetadata aws.Response
 
 	// Application Response.
 	//
@@ -5155,10 +7197,20 @@ func (s DeleteAppOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationResponse sets the ApplicationResponse field's value.
-func (s *DeleteAppOutput) SetApplicationResponse(v *ApplicationResponse) *DeleteAppOutput {
-	s.ApplicationResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAppOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteAppOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationResponse != nil {
+		v := s.ApplicationResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ApplicationResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteBaiduChannelRequest
@@ -5193,15 +7245,24 @@ func (s *DeleteBaiduChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteBaiduChannelInput) SetApplicationId(v string) *DeleteBaiduChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBaiduChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteBaiduChannelResponse
 type DeleteBaiduChannelOutput struct {
 	_ struct{} `type:"structure" payload:"BaiduChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Baidu Cloud Messaging channel definition
 	//
@@ -5219,10 +7280,20 @@ func (s DeleteBaiduChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaiduChannelResponse sets the BaiduChannelResponse field's value.
-func (s *DeleteBaiduChannelOutput) SetBaiduChannelResponse(v *BaiduChannelResponse) *DeleteBaiduChannelOutput {
-	s.BaiduChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBaiduChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBaiduChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BaiduChannelResponse != nil {
+		v := s.BaiduChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "BaiduChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteCampaignRequest
@@ -5264,21 +7335,30 @@ func (s *DeleteCampaignInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteCampaignInput) SetApplicationId(v string) *DeleteCampaignInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *DeleteCampaignInput) SetCampaignId(v string) *DeleteCampaignInput {
-	s.CampaignId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteCampaignResponse
 type DeleteCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
+
+	responseMetadata aws.Response
 
 	// Campaign definition
 	//
@@ -5296,10 +7376,20 @@ func (s DeleteCampaignOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignResponse sets the CampaignResponse field's value.
-func (s *DeleteCampaignOutput) SetCampaignResponse(v *CampaignResponse) *DeleteCampaignOutput {
-	s.CampaignResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteCampaignOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEmailChannelRequest
@@ -5334,15 +7424,24 @@ func (s *DeleteEmailChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteEmailChannelInput) SetApplicationId(v string) *DeleteEmailChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEmailChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEmailChannelResponse
 type DeleteEmailChannelOutput struct {
 	_ struct{} `type:"structure" payload:"EmailChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Email Channel Response.
 	//
@@ -5360,16 +7459,124 @@ func (s DeleteEmailChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetEmailChannelResponse sets the EmailChannelResponse field's value.
-func (s *DeleteEmailChannelOutput) SetEmailChannelResponse(v *EmailChannelResponse) *DeleteEmailChannelOutput {
-	s.EmailChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEmailChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEmailChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailChannelResponse != nil {
+		v := s.EmailChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EmailChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEndpointRequest
+type DeleteEndpointInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+
+	// EndpointId is a required field
+	EndpointId *string `location:"uri" locationName:"endpoint-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteEndpointInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteEndpointInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteEndpointInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteEndpointInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if s.EndpointId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("EndpointId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEndpointInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointId != nil {
+		v := *s.EndpointId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "endpoint-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEndpointResponse
+type DeleteEndpointOutput struct {
+	_ struct{} `type:"structure" payload:"EndpointResponse"`
+
+	responseMetadata aws.Response
+
+	// Endpoint response
+	//
+	// EndpointResponse is a required field
+	EndpointResponse *EndpointResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteEndpointOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteEndpointOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEndpointOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndpointResponse != nil {
+		v := s.EndpointResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EndpointResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEventStreamRequest
 type DeleteEventStreamInput struct {
 	_ struct{} `type:"structure"`
 
+	// Application Id.
+	//
 	// ApplicationId is a required field
 	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
 }
@@ -5398,15 +7605,24 @@ func (s *DeleteEventStreamInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteEventStreamInput) SetApplicationId(v string) *DeleteEventStreamInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEventStreamInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEventStreamResponse
 type DeleteEventStreamOutput struct {
 	_ struct{} `type:"structure" payload:"EventStream"`
+
+	responseMetadata aws.Response
 
 	// Model for an event publishing subscription export.
 	//
@@ -5424,10 +7640,20 @@ func (s DeleteEventStreamOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventStream sets the EventStream field's value.
-func (s *DeleteEventStreamOutput) SetEventStream(v *EventStream) *DeleteEventStreamOutput {
-	s.EventStream = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEventStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEventStreamOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventStream != nil {
+		v := s.EventStream
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EventStream", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteGcmChannelRequest
@@ -5462,15 +7688,24 @@ func (s *DeleteGcmChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteGcmChannelInput) SetApplicationId(v string) *DeleteGcmChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteGcmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteGcmChannelResponse
 type DeleteGcmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"GCMChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Google Cloud Messaging channel definition
 	//
@@ -5488,10 +7723,20 @@ func (s DeleteGcmChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetGCMChannelResponse sets the GCMChannelResponse field's value.
-func (s *DeleteGcmChannelOutput) SetGCMChannelResponse(v *GCMChannelResponse) *DeleteGcmChannelOutput {
-	s.GCMChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteGcmChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteGcmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GCMChannelResponse != nil {
+		v := s.GCMChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "GCMChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteSegmentRequest
@@ -5533,21 +7778,30 @@ func (s *DeleteSegmentInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteSegmentInput) SetApplicationId(v string) *DeleteSegmentInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *DeleteSegmentInput) SetSegmentId(v string) *DeleteSegmentInput {
-	s.SegmentId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteSegmentResponse
 type DeleteSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
+
+	responseMetadata aws.Response
 
 	// Segment definition.
 	//
@@ -5565,10 +7819,20 @@ func (s DeleteSegmentOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentResponse sets the SegmentResponse field's value.
-func (s *DeleteSegmentOutput) SetSegmentResponse(v *SegmentResponse) *DeleteSegmentOutput {
-	s.SegmentResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSegmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteSmsChannelRequest
@@ -5603,15 +7867,24 @@ func (s *DeleteSmsChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DeleteSmsChannelInput) SetApplicationId(v string) *DeleteSmsChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSmsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteSmsChannelResponse
 type DeleteSmsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"SMSChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// SMS Channel Response.
 	//
@@ -5629,10 +7902,20 @@ func (s DeleteSmsChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetSMSChannelResponse sets the SMSChannelResponse field's value.
-func (s *DeleteSmsChannelOutput) SetSMSChannelResponse(v *SMSChannelResponse) *DeleteSmsChannelOutput {
-	s.SMSChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSmsChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSmsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SMSChannelResponse != nil {
+		v := s.SMSChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SMSChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // The message configuration.
@@ -5656,9 +7939,6 @@ type DirectMessageConfiguration struct {
 	// The default push notification message for all push channels.
 	DefaultPushNotificationMessage *DefaultPushNotificationMessage `type:"structure"`
 
-	// The message to Email channels. Overrides the default message.
-	EmailMessage *EmailMessage `type:"structure"`
-
 	// The message to GCM channels. Overrides the default push notification message.
 	GCMMessage *GCMMessage `type:"structure"`
 
@@ -5676,52 +7956,51 @@ func (s DirectMessageConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetADMMessage sets the ADMMessage field's value.
-func (s *DirectMessageConfiguration) SetADMMessage(v *ADMMessage) *DirectMessageConfiguration {
-	s.ADMMessage = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DirectMessageConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ADMMessage != nil {
+		v := s.ADMMessage
 
-// SetAPNSMessage sets the APNSMessage field's value.
-func (s *DirectMessageConfiguration) SetAPNSMessage(v *APNSMessage) *DirectMessageConfiguration {
-	s.APNSMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ADMMessage", v, metadata)
+	}
+	if s.APNSMessage != nil {
+		v := s.APNSMessage
 
-// SetBaiduMessage sets the BaiduMessage field's value.
-func (s *DirectMessageConfiguration) SetBaiduMessage(v *BaiduMessage) *DirectMessageConfiguration {
-	s.BaiduMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "APNSMessage", v, metadata)
+	}
+	if s.BaiduMessage != nil {
+		v := s.BaiduMessage
 
-// SetDefaultMessage sets the DefaultMessage field's value.
-func (s *DirectMessageConfiguration) SetDefaultMessage(v *DefaultMessage) *DirectMessageConfiguration {
-	s.DefaultMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "BaiduMessage", v, metadata)
+	}
+	if s.DefaultMessage != nil {
+		v := s.DefaultMessage
 
-// SetDefaultPushNotificationMessage sets the DefaultPushNotificationMessage field's value.
-func (s *DirectMessageConfiguration) SetDefaultPushNotificationMessage(v *DefaultPushNotificationMessage) *DirectMessageConfiguration {
-	s.DefaultPushNotificationMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DefaultMessage", v, metadata)
+	}
+	if s.DefaultPushNotificationMessage != nil {
+		v := s.DefaultPushNotificationMessage
 
-// SetEmailMessage sets the EmailMessage field's value.
-func (s *DirectMessageConfiguration) SetEmailMessage(v *EmailMessage) *DirectMessageConfiguration {
-	s.EmailMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DefaultPushNotificationMessage", v, metadata)
+	}
+	if s.GCMMessage != nil {
+		v := s.GCMMessage
 
-// SetGCMMessage sets the GCMMessage field's value.
-func (s *DirectMessageConfiguration) SetGCMMessage(v *GCMMessage) *DirectMessageConfiguration {
-	s.GCMMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GCMMessage", v, metadata)
+	}
+	if s.SMSMessage != nil {
+		v := s.SMSMessage
 
-// SetSMSMessage sets the SMSMessage field's value.
-func (s *DirectMessageConfiguration) SetSMSMessage(v *SMSMessage) *DirectMessageConfiguration {
-	s.SMSMessage = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SMSMessage", v, metadata)
+	}
+	return nil
 }
 
 // Email Channel Request
@@ -5753,28 +8032,33 @@ func (s EmailChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *EmailChannelRequest) SetEnabled(v bool) *EmailChannelRequest {
-	s.Enabled = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EmailChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetFromAddress sets the FromAddress field's value.
-func (s *EmailChannelRequest) SetFromAddress(v string) *EmailChannelRequest {
-	s.FromAddress = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.FromAddress != nil {
+		v := *s.FromAddress
 
-// SetIdentity sets the Identity field's value.
-func (s *EmailChannelRequest) SetIdentity(v string) *EmailChannelRequest {
-	s.Identity = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FromAddress", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Identity != nil {
+		v := *s.Identity
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *EmailChannelRequest) SetRoleArn(v string) *EmailChannelRequest {
-	s.RoleArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Identity", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Email Channel Response.
@@ -5793,6 +8077,9 @@ type EmailChannelResponse struct {
 
 	// The email address used to send emails from.
 	FromAddress *string `type:"string"`
+
+	// If the channel is registered with a credential for authentication.
+	HasCredential *bool `type:"boolean"`
 
 	// Channel ID. Not used, only for backwards compatibility.
 	Id *string `type:"string"`
@@ -5830,146 +8117,87 @@ func (s EmailChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *EmailChannelResponse) SetApplicationId(v string) *EmailChannelResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EmailChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *EmailChannelResponse) SetCreationDate(v string) *EmailChannelResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetEnabled sets the Enabled field's value.
-func (s *EmailChannelResponse) SetEnabled(v bool) *EmailChannelResponse {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetFromAddress sets the FromAddress field's value.
-func (s *EmailChannelResponse) SetFromAddress(v string) *EmailChannelResponse {
-	s.FromAddress = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.FromAddress != nil {
+		v := *s.FromAddress
 
-// SetId sets the Id field's value.
-func (s *EmailChannelResponse) SetId(v string) *EmailChannelResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FromAddress", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
 
-// SetIdentity sets the Identity field's value.
-func (s *EmailChannelResponse) SetIdentity(v string) *EmailChannelResponse {
-	s.Identity = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *EmailChannelResponse) SetIsArchived(v bool) *EmailChannelResponse {
-	s.IsArchived = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Identity != nil {
+		v := *s.Identity
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *EmailChannelResponse) SetLastModifiedBy(v string) *EmailChannelResponse {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Identity", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *EmailChannelResponse) SetLastModifiedDate(v string) *EmailChannelResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetPlatform sets the Platform field's value.
-func (s *EmailChannelResponse) SetPlatform(v string) *EmailChannelResponse {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *EmailChannelResponse) SetRoleArn(v string) *EmailChannelResponse {
-	s.RoleArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
 
-// SetVersion sets the Version field's value.
-func (s *EmailChannelResponse) SetVersion(v int64) *EmailChannelResponse {
-	s.Version = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
 
-// Email Message.
-// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/EmailMessage
-type EmailMessage struct {
-	_ struct{} `type:"structure"`
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
 
-	// The message body of the notification, the email body or the text message.
-	Body *string `type:"string"`
-
-	// The email address used to send the email from. Defaults to use FromAddress
-	// specified in the Email Channel.
-	FromAddress *string `type:"string"`
-
-	// The HTML part of the email.
-	HtmlBody *string `type:"string"`
-
-	Substitutions map[string][]*string `type:"map"`
-
-	// The ARN of the template to use for the email.
-	TemplateArn *string `type:"string"`
-
-	// The subject of the email.
-	Title *string `type:"string"`
-}
-
-// String returns the string representation
-func (s EmailMessage) String() string {
-	return awsutil.Prettify(s)
-}
-
-// GoString returns the string representation
-func (s EmailMessage) GoString() string {
-	return s.String()
-}
-
-// SetBody sets the Body field's value.
-func (s *EmailMessage) SetBody(v string) *EmailMessage {
-	s.Body = &v
-	return s
-}
-
-// SetFromAddress sets the FromAddress field's value.
-func (s *EmailMessage) SetFromAddress(v string) *EmailMessage {
-	s.FromAddress = &v
-	return s
-}
-
-// SetHtmlBody sets the HtmlBody field's value.
-func (s *EmailMessage) SetHtmlBody(v string) *EmailMessage {
-	s.HtmlBody = &v
-	return s
-}
-
-// SetSubstitutions sets the Substitutions field's value.
-func (s *EmailMessage) SetSubstitutions(v map[string][]*string) *EmailMessage {
-	s.Substitutions = v
-	return s
-}
-
-// SetTemplateArn sets the TemplateArn field's value.
-func (s *EmailMessage) SetTemplateArn(v string) *EmailMessage {
-	s.TemplateArn = &v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *EmailMessage) SetTitle(v string) *EmailMessage {
-	s.Title = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Endpoint update request
@@ -5981,10 +8209,11 @@ type EndpointBatchItem struct {
 	// DeviceToken or RegistrationId).
 	Address *string `type:"string"`
 
-	Attributes map[string][]*string `type:"map"`
+	Attributes map[string][]string `type:"map"`
 
-	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
-	ChannelType ChannelType `type:"string"`
+	// The channel type.Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX
+	// | ADM | SMS | EMAIL | BAIDU
+	ChannelType ChannelType `type:"string" enum:"true"`
 
 	// The endpoint demographic attributes.
 	Demographic *EndpointDemographic `type:"structure"`
@@ -6002,7 +8231,8 @@ type EndpointBatchItem struct {
 	// The endpoint location attributes.
 	Location *EndpointLocation `type:"structure"`
 
-	Metrics map[string]*float64 `type:"map"`
+	// Custom metrics that your app reports to Amazon Pinpoint.
+	Metrics map[string]float64 `type:"map"`
 
 	// Indicates whether a user has opted out of receiving messages with one of
 	// the following values:ALL - User has opted out of all messages.NONE - Users
@@ -6026,76 +8256,98 @@ func (s EndpointBatchItem) GoString() string {
 	return s.String()
 }
 
-// SetAddress sets the Address field's value.
-func (s *EndpointBatchItem) SetAddress(v string) *EndpointBatchItem {
-	s.Address = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointBatchItem) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
 
-// SetAttributes sets the Attributes field's value.
-func (s *EndpointBatchItem) SetAttributes(v map[string][]*string) *EndpointBatchItem {
-	s.Attributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Address", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetChannelType sets the ChannelType field's value.
-func (s *EndpointBatchItem) SetChannelType(v ChannelType) *EndpointBatchItem {
-	s.ChannelType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Attributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetDemographic sets the Demographic field's value.
-func (s *EndpointBatchItem) SetDemographic(v *EndpointDemographic) *EndpointBatchItem {
-	s.Demographic = v
-	return s
-}
+	}
+	if len(s.ChannelType) > 0 {
+		v := s.ChannelType
 
-// SetEffectiveDate sets the EffectiveDate field's value.
-func (s *EndpointBatchItem) SetEffectiveDate(v string) *EndpointBatchItem {
-	s.EffectiveDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
 
-// SetEndpointStatus sets the EndpointStatus field's value.
-func (s *EndpointBatchItem) SetEndpointStatus(v string) *EndpointBatchItem {
-	s.EndpointStatus = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Demographic", v, metadata)
+	}
+	if s.EffectiveDate != nil {
+		v := *s.EffectiveDate
 
-// SetId sets the Id field's value.
-func (s *EndpointBatchItem) SetId(v string) *EndpointBatchItem {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EffectiveDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointStatus != nil {
+		v := *s.EndpointStatus
 
-// SetLocation sets the Location field's value.
-func (s *EndpointBatchItem) SetLocation(v *EndpointLocation) *EndpointBatchItem {
-	s.Location = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndpointStatus", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetMetrics sets the Metrics field's value.
-func (s *EndpointBatchItem) SetMetrics(v map[string]*float64) *EndpointBatchItem {
-	s.Metrics = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Location != nil {
+		v := s.Location
 
-// SetOptOut sets the OptOut field's value.
-func (s *EndpointBatchItem) SetOptOut(v string) *EndpointBatchItem {
-	s.OptOut = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Location", v, metadata)
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
 
-// SetRequestId sets the RequestId field's value.
-func (s *EndpointBatchItem) SetRequestId(v string) *EndpointBatchItem {
-	s.RequestId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Metrics", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.Float64Value(v1))
+		}
+		ms0.End()
 
-// SetUser sets the User field's value.
-func (s *EndpointBatchItem) SetUser(v *EndpointUser) *EndpointBatchItem {
-	s.User = v
-	return s
+	}
+	if s.OptOut != nil {
+		v := *s.OptOut
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OptOut", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Endpoint batch update request.
@@ -6104,7 +8356,7 @@ type EndpointBatchRequest struct {
 	_ struct{} `type:"structure"`
 
 	// List of items to update. Maximum 100 items
-	Item []*EndpointBatchItem `type:"list"`
+	Item []EndpointBatchItem `type:"list"`
 }
 
 // String returns the string representation
@@ -6117,10 +8369,21 @@ func (s EndpointBatchRequest) GoString() string {
 	return s.String()
 }
 
-// SetItem sets the Item field's value.
-func (s *EndpointBatchRequest) SetItem(v []*EndpointBatchItem) *EndpointBatchRequest {
-	s.Item = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointBatchRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Endpoint demographic data
@@ -6164,52 +8427,57 @@ func (s EndpointDemographic) GoString() string {
 	return s.String()
 }
 
-// SetAppVersion sets the AppVersion field's value.
-func (s *EndpointDemographic) SetAppVersion(v string) *EndpointDemographic {
-	s.AppVersion = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointDemographic) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppVersion != nil {
+		v := *s.AppVersion
 
-// SetLocale sets the Locale field's value.
-func (s *EndpointDemographic) SetLocale(v string) *EndpointDemographic {
-	s.Locale = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AppVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Locale != nil {
+		v := *s.Locale
 
-// SetMake sets the Make field's value.
-func (s *EndpointDemographic) SetMake(v string) *EndpointDemographic {
-	s.Make = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Locale", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Make != nil {
+		v := *s.Make
 
-// SetModel sets the Model field's value.
-func (s *EndpointDemographic) SetModel(v string) *EndpointDemographic {
-	s.Model = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Make", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Model != nil {
+		v := *s.Model
 
-// SetModelVersion sets the ModelVersion field's value.
-func (s *EndpointDemographic) SetModelVersion(v string) *EndpointDemographic {
-	s.ModelVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Model", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ModelVersion != nil {
+		v := *s.ModelVersion
 
-// SetPlatform sets the Platform field's value.
-func (s *EndpointDemographic) SetPlatform(v string) *EndpointDemographic {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ModelVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
 
-// SetPlatformVersion sets the PlatformVersion field's value.
-func (s *EndpointDemographic) SetPlatformVersion(v string) *EndpointDemographic {
-	s.PlatformVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PlatformVersion != nil {
+		v := *s.PlatformVersion
 
-// SetTimezone sets the Timezone field's value.
-func (s *EndpointDemographic) SetTimezone(v string) *EndpointDemographic {
-	s.Timezone = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PlatformVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Timezone != nil {
+		v := *s.Timezone
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Timezone", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Endpoint location data
@@ -6249,40 +8517,45 @@ func (s EndpointLocation) GoString() string {
 	return s.String()
 }
 
-// SetCity sets the City field's value.
-func (s *EndpointLocation) SetCity(v string) *EndpointLocation {
-	s.City = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.City != nil {
+		v := *s.City
 
-// SetCountry sets the Country field's value.
-func (s *EndpointLocation) SetCountry(v string) *EndpointLocation {
-	s.Country = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "City", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Country != nil {
+		v := *s.Country
 
-// SetLatitude sets the Latitude field's value.
-func (s *EndpointLocation) SetLatitude(v float64) *EndpointLocation {
-	s.Latitude = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Country", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Latitude != nil {
+		v := *s.Latitude
 
-// SetLongitude sets the Longitude field's value.
-func (s *EndpointLocation) SetLongitude(v float64) *EndpointLocation {
-	s.Longitude = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Latitude", protocol.Float64Value(v), metadata)
+	}
+	if s.Longitude != nil {
+		v := *s.Longitude
 
-// SetPostalCode sets the PostalCode field's value.
-func (s *EndpointLocation) SetPostalCode(v string) *EndpointLocation {
-	s.PostalCode = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Longitude", protocol.Float64Value(v), metadata)
+	}
+	if s.PostalCode != nil {
+		v := *s.PostalCode
 
-// SetRegion sets the Region field's value.
-func (s *EndpointLocation) SetRegion(v string) *EndpointLocation {
-	s.Region = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PostalCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Region != nil {
+		v := *s.Region
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Region", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The result from sending a message to an endpoint.
@@ -6294,7 +8567,7 @@ type EndpointMessageResult struct {
 	Address *string `type:"string"`
 
 	// Delivery status of message.
-	DeliveryStatus DeliveryStatus `type:"string"`
+	DeliveryStatus DeliveryStatus `type:"string" enum:"true"`
 
 	// Downstream service status code.
 	StatusCode *int64 `type:"integer"`
@@ -6316,34 +8589,39 @@ func (s EndpointMessageResult) GoString() string {
 	return s.String()
 }
 
-// SetAddress sets the Address field's value.
-func (s *EndpointMessageResult) SetAddress(v string) *EndpointMessageResult {
-	s.Address = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointMessageResult) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
 
-// SetDeliveryStatus sets the DeliveryStatus field's value.
-func (s *EndpointMessageResult) SetDeliveryStatus(v DeliveryStatus) *EndpointMessageResult {
-	s.DeliveryStatus = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Address", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.DeliveryStatus) > 0 {
+		v := s.DeliveryStatus
 
-// SetStatusCode sets the StatusCode field's value.
-func (s *EndpointMessageResult) SetStatusCode(v int64) *EndpointMessageResult {
-	s.StatusCode = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeliveryStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.StatusCode != nil {
+		v := *s.StatusCode
 
-// SetStatusMessage sets the StatusMessage field's value.
-func (s *EndpointMessageResult) SetStatusMessage(v string) *EndpointMessageResult {
-	s.StatusMessage = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StatusCode", protocol.Int64Value(v), metadata)
+	}
+	if s.StatusMessage != nil {
+		v := *s.StatusMessage
 
-// SetUpdatedToken sets the UpdatedToken field's value.
-func (s *EndpointMessageResult) SetUpdatedToken(v string) *EndpointMessageResult {
-	s.UpdatedToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StatusMessage", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UpdatedToken != nil {
+		v := *s.UpdatedToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UpdatedToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Endpoint update request
@@ -6355,10 +8633,11 @@ type EndpointRequest struct {
 	// DeviceToken or RegistrationId).
 	Address *string `type:"string"`
 
-	Attributes map[string][]*string `type:"map"`
+	Attributes map[string][]string `type:"map"`
 
-	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
-	ChannelType ChannelType `type:"string"`
+	// The channel type.Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX
+	// | ADM | SMS | EMAIL | BAIDU
+	ChannelType ChannelType `type:"string" enum:"true"`
 
 	// The endpoint demographic attributes.
 	Demographic *EndpointDemographic `type:"structure"`
@@ -6373,7 +8652,8 @@ type EndpointRequest struct {
 	// The endpoint location attributes.
 	Location *EndpointLocation `type:"structure"`
 
-	Metrics map[string]*float64 `type:"map"`
+	// Custom metrics that your app reports to Amazon Pinpoint.
+	Metrics map[string]float64 `type:"map"`
 
 	// Indicates whether a user has opted out of receiving messages with one of
 	// the following values:ALL - User has opted out of all messages.NONE - Users
@@ -6397,70 +8677,92 @@ func (s EndpointRequest) GoString() string {
 	return s.String()
 }
 
-// SetAddress sets the Address field's value.
-func (s *EndpointRequest) SetAddress(v string) *EndpointRequest {
-	s.Address = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
 
-// SetAttributes sets the Attributes field's value.
-func (s *EndpointRequest) SetAttributes(v map[string][]*string) *EndpointRequest {
-	s.Attributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Address", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetChannelType sets the ChannelType field's value.
-func (s *EndpointRequest) SetChannelType(v ChannelType) *EndpointRequest {
-	s.ChannelType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Attributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetDemographic sets the Demographic field's value.
-func (s *EndpointRequest) SetDemographic(v *EndpointDemographic) *EndpointRequest {
-	s.Demographic = v
-	return s
-}
+	}
+	if len(s.ChannelType) > 0 {
+		v := s.ChannelType
 
-// SetEffectiveDate sets the EffectiveDate field's value.
-func (s *EndpointRequest) SetEffectiveDate(v string) *EndpointRequest {
-	s.EffectiveDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
 
-// SetEndpointStatus sets the EndpointStatus field's value.
-func (s *EndpointRequest) SetEndpointStatus(v string) *EndpointRequest {
-	s.EndpointStatus = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Demographic", v, metadata)
+	}
+	if s.EffectiveDate != nil {
+		v := *s.EffectiveDate
 
-// SetLocation sets the Location field's value.
-func (s *EndpointRequest) SetLocation(v *EndpointLocation) *EndpointRequest {
-	s.Location = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EffectiveDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointStatus != nil {
+		v := *s.EndpointStatus
 
-// SetMetrics sets the Metrics field's value.
-func (s *EndpointRequest) SetMetrics(v map[string]*float64) *EndpointRequest {
-	s.Metrics = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndpointStatus", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Location != nil {
+		v := s.Location
 
-// SetOptOut sets the OptOut field's value.
-func (s *EndpointRequest) SetOptOut(v string) *EndpointRequest {
-	s.OptOut = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Location", v, metadata)
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
 
-// SetRequestId sets the RequestId field's value.
-func (s *EndpointRequest) SetRequestId(v string) *EndpointRequest {
-	s.RequestId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Metrics", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.Float64Value(v1))
+		}
+		ms0.End()
 
-// SetUser sets the User field's value.
-func (s *EndpointRequest) SetUser(v *EndpointUser) *EndpointRequest {
-	s.User = v
-	return s
+	}
+	if s.OptOut != nil {
+		v := *s.OptOut
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OptOut", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Endpoint response
@@ -6475,10 +8777,11 @@ type EndpointResponse struct {
 	// The ID of the application associated with the endpoint.
 	ApplicationId *string `type:"string"`
 
-	Attributes map[string][]*string `type:"map"`
+	Attributes map[string][]string `type:"map"`
 
-	// The channel type.Valid values: GCM | APNS | SMS | EMAIL
-	ChannelType ChannelType `type:"string"`
+	// The channel type.Valid values: GCM | APNS | APNS_SANDBOX | APNS_VOIP | APNS_VOIP_SANDBOX
+	// | ADM | SMS | EMAIL | BAIDU
+	ChannelType ChannelType `type:"string" enum:"true"`
 
 	// A number from 0 - 99 that represents the cohort the endpoint is assigned
 	// to. Endpoints are grouped into cohorts randomly, and each cohort contains
@@ -6507,7 +8810,8 @@ type EndpointResponse struct {
 	// The endpoint location attributes.
 	Location *EndpointLocation `type:"structure"`
 
-	Metrics map[string]*float64 `type:"map"`
+	// Custom metrics that your app reports to Amazon Pinpoint.
+	Metrics map[string]float64 `type:"map"`
 
 	// Indicates whether a user has opted out of receiving messages with one of
 	// the following values:ALL - User has opted out of all messages.NONE - Users
@@ -6516,9 +8820,6 @@ type EndpointResponse struct {
 
 	// The unique ID for the most recent request to update the endpoint.
 	RequestId *string `type:"string"`
-
-	// The ShardId of endpoint.
-	ShardId *string `type:"string"`
 
 	// Custom user-specific attributes that your app reports to Amazon Pinpoint.
 	User *EndpointUser `type:"structure"`
@@ -6534,100 +8835,116 @@ func (s EndpointResponse) GoString() string {
 	return s.String()
 }
 
-// SetAddress sets the Address field's value.
-func (s *EndpointResponse) SetAddress(v string) *EndpointResponse {
-	s.Address = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Address != nil {
+		v := *s.Address
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *EndpointResponse) SetApplicationId(v string) *EndpointResponse {
-	s.ApplicationId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Address", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetAttributes sets the Attributes field's value.
-func (s *EndpointResponse) SetAttributes(v map[string][]*string) *EndpointResponse {
-	s.Attributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetChannelType sets the ChannelType field's value.
-func (s *EndpointResponse) SetChannelType(v ChannelType) *EndpointResponse {
-	s.ChannelType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Attributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetCohortId sets the CohortId field's value.
-func (s *EndpointResponse) SetCohortId(v string) *EndpointResponse {
-	s.CohortId = &v
-	return s
-}
+	}
+	if len(s.ChannelType) > 0 {
+		v := s.ChannelType
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *EndpointResponse) SetCreationDate(v string) *EndpointResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ChannelType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.CohortId != nil {
+		v := *s.CohortId
 
-// SetDemographic sets the Demographic field's value.
-func (s *EndpointResponse) SetDemographic(v *EndpointDemographic) *EndpointResponse {
-	s.Demographic = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CohortId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetEffectiveDate sets the EffectiveDate field's value.
-func (s *EndpointResponse) SetEffectiveDate(v string) *EndpointResponse {
-	s.EffectiveDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
 
-// SetEndpointStatus sets the EndpointStatus field's value.
-func (s *EndpointResponse) SetEndpointStatus(v string) *EndpointResponse {
-	s.EndpointStatus = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Demographic", v, metadata)
+	}
+	if s.EffectiveDate != nil {
+		v := *s.EffectiveDate
 
-// SetId sets the Id field's value.
-func (s *EndpointResponse) SetId(v string) *EndpointResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EffectiveDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointStatus != nil {
+		v := *s.EndpointStatus
 
-// SetLocation sets the Location field's value.
-func (s *EndpointResponse) SetLocation(v *EndpointLocation) *EndpointResponse {
-	s.Location = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndpointStatus", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetMetrics sets the Metrics field's value.
-func (s *EndpointResponse) SetMetrics(v map[string]*float64) *EndpointResponse {
-	s.Metrics = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Location != nil {
+		v := s.Location
 
-// SetOptOut sets the OptOut field's value.
-func (s *EndpointResponse) SetOptOut(v string) *EndpointResponse {
-	s.OptOut = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Location", v, metadata)
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
 
-// SetRequestId sets the RequestId field's value.
-func (s *EndpointResponse) SetRequestId(v string) *EndpointResponse {
-	s.RequestId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Metrics", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.Float64Value(v1))
+		}
+		ms0.End()
 
-// SetShardId sets the ShardId field's value.
-func (s *EndpointResponse) SetShardId(v string) *EndpointResponse {
-	s.ShardId = &v
-	return s
-}
+	}
+	if s.OptOut != nil {
+		v := *s.OptOut
 
-// SetUser sets the User field's value.
-func (s *EndpointResponse) SetUser(v *EndpointUser) *EndpointResponse {
-	s.User = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OptOut", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.User != nil {
+		v := s.User
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "User", v, metadata)
+	}
+	return nil
 }
 
 // Endpoint send configuration.
@@ -6638,13 +8955,16 @@ type EndpointSendConfiguration struct {
 	// Body override. If specified will override default body.
 	BodyOverride *string `type:"string"`
 
-	Context map[string]*string `type:"map"`
+	// A map of custom attributes to attributes to be attached to the message for
+	// this address. This payload is added to the push notification's 'data.pinpoint'
+	// object or added to the email/sms delivery receipt event attributes.
+	Context map[string]string `type:"map"`
 
 	// The Raw JSON formatted string to be used as the payload. This value overrides
 	// the message.
 	RawContent *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 
 	// Title override. If specified will override default title if applicable.
 	TitleOverride *string `type:"string"`
@@ -6660,34 +8980,56 @@ func (s EndpointSendConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetBodyOverride sets the BodyOverride field's value.
-func (s *EndpointSendConfiguration) SetBodyOverride(v string) *EndpointSendConfiguration {
-	s.BodyOverride = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointSendConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BodyOverride != nil {
+		v := *s.BodyOverride
 
-// SetContext sets the Context field's value.
-func (s *EndpointSendConfiguration) SetContext(v map[string]*string) *EndpointSendConfiguration {
-	s.Context = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BodyOverride", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Context) > 0 {
+		v := s.Context
 
-// SetRawContent sets the RawContent field's value.
-func (s *EndpointSendConfiguration) SetRawContent(v string) *EndpointSendConfiguration {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Context", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *EndpointSendConfiguration) SetSubstitutions(v map[string][]*string) *EndpointSendConfiguration {
-	s.Substitutions = v
-	return s
-}
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetTitleOverride sets the TitleOverride field's value.
-func (s *EndpointSendConfiguration) SetTitleOverride(v string) *EndpointSendConfiguration {
-	s.TitleOverride = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	if s.TitleOverride != nil {
+		v := *s.TitleOverride
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TitleOverride", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Endpoint user specific custom userAttributes
@@ -6695,7 +9037,7 @@ func (s *EndpointSendConfiguration) SetTitleOverride(v string) *EndpointSendConf
 type EndpointUser struct {
 	_ struct{} `type:"structure"`
 
-	UserAttributes map[string][]*string `type:"map"`
+	UserAttributes map[string][]string `type:"map"`
 
 	// The unique ID of the user.
 	UserId *string `type:"string"`
@@ -6711,16 +9053,32 @@ func (s EndpointUser) GoString() string {
 	return s.String()
 }
 
-// SetUserAttributes sets the UserAttributes field's value.
-func (s *EndpointUser) SetUserAttributes(v map[string][]*string) *EndpointUser {
-	s.UserAttributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EndpointUser) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.UserAttributes) > 0 {
+		v := s.UserAttributes
 
-// SetUserId sets the UserId field's value.
-func (s *EndpointUser) SetUserId(v string) *EndpointUser {
-	s.UserId = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "UserAttributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UserId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Model for an event publishing subscription export.
@@ -6736,8 +9094,10 @@ type EventStream struct {
 	// Kinesis ARN: arn:aws:kinesis:REGION:ACCOUNT_ID:stream/STREAM_NAME
 	DestinationStreamArn *string `type:"string"`
 
-	// The external ID assigned the IAM role that authorizes Amazon Pinpoint to
-	// publish to the stream.
+	// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key
+	// in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This
+	// requirement is removed, and external IDs are not recommended for IAM roles
+	// assumed by Amazon Pinpoint.
 	ExternalId *string `type:"string"`
 
 	// The date the event stream was last updated in ISO 8601 format.
@@ -6761,40 +9121,342 @@ func (s EventStream) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *EventStream) SetApplicationId(v string) *EventStream {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EventStream) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DestinationStreamArn != nil {
+		v := *s.DestinationStreamArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DestinationStreamArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedBy != nil {
+		v := *s.LastUpdatedBy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastUpdatedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetDestinationStreamArn sets the DestinationStreamArn field's value.
-func (s *EventStream) SetDestinationStreamArn(v string) *EventStream {
-	s.DestinationStreamArn = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ExportJobRequest
+type ExportJobRequest struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint
+	// access to the Amazon S3 location that endpoints will be exported to.
+	RoleArn *string `type:"string"`
+
+	// A URL that points to the location within an Amazon S3 bucket that will receive
+	// the export. The location is typically a folder with multiple files.The URL
+	// should follow this format: s3://bucket-name/folder-name/Amazon Pinpoint will
+	// export endpoints to this location.
+	S3UrlPrefix *string `type:"string"`
+
+	// The ID of the segment to export endpoints from. If not present, all endpoints
+	// will be exported.
+	SegmentId *string `type:"string"`
 }
 
-// SetExternalId sets the ExternalId field's value.
-func (s *EventStream) SetExternalId(v string) *EventStream {
-	s.ExternalId = &v
-	return s
+// String returns the string representation
+func (s ExportJobRequest) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *EventStream) SetLastModifiedDate(v string) *EventStream {
-	s.LastModifiedDate = &v
-	return s
+// GoString returns the string representation
+func (s ExportJobRequest) GoString() string {
+	return s.String()
 }
 
-// SetLastUpdatedBy sets the LastUpdatedBy field's value.
-func (s *EventStream) SetLastUpdatedBy(v string) *EventStream {
-	s.LastUpdatedBy = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportJobRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3UrlPrefix != nil {
+		v := *s.S3UrlPrefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3UrlPrefix", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *EventStream) SetRoleArn(v string) *EventStream {
-	s.RoleArn = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ExportJobResource
+type ExportJobResource struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint
+	// access to the Amazon S3 location that endpoints will be exported to.
+	RoleArn *string `type:"string"`
+
+	// A URL that points to the location within an Amazon S3 bucket that will receive
+	// the export. The location is typically a folder with multiple files.The URL
+	// should follow this format: s3://bucket-name/folder-name/Amazon Pinpoint will
+	// export endpoints to this location.
+	S3UrlPrefix *string `type:"string"`
+
+	// The ID of the segment to export endpoints from. If not present all endpoints
+	// will be exported.
+	SegmentId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ExportJobResource) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ExportJobResource) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportJobResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3UrlPrefix != nil {
+		v := *s.S3UrlPrefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3UrlPrefix", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ExportJobResponse
+type ExportJobResponse struct {
+	_ struct{} `type:"structure"`
+
+	// The unique ID of the application to which the job applies.
+	ApplicationId *string `type:"string"`
+
+	// The number of pieces that have successfully completed as of the time of the
+	// request.
+	CompletedPieces *int64 `type:"integer"`
+
+	// The date the job completed in ISO 8601 format.
+	CompletionDate *string `type:"string"`
+
+	// The date the job was created in ISO 8601 format.
+	CreationDate *string `type:"string"`
+
+	// The export job settings.
+	Definition *ExportJobResource `type:"structure"`
+
+	// The number of pieces that failed to be processed as of the time of the request.
+	FailedPieces *int64 `type:"integer"`
+
+	Failures []string `type:"list"`
+
+	// The unique ID of the job.
+	Id *string `type:"string"`
+
+	// The status of the export job.Valid values: CREATED, INITIALIZING, PROCESSING,
+	// COMPLETING, COMPLETED, FAILING, FAILEDThe job status is FAILED if one or
+	// more pieces failed.
+	JobStatus JobStatus `type:"string" enum:"true"`
+
+	// The number of endpoints that were not processed; for example, because of
+	// syntax errors.
+	TotalFailures *int64 `type:"integer"`
+
+	// The total number of pieces that must be processed to finish the job. Each
+	// piece is an approximately equal portion of the endpoints.
+	TotalPieces *int64 `type:"integer"`
+
+	// The number of endpoints that were processed by the job.
+	TotalProcessed *int64 `type:"integer"`
+
+	// The job type. Will be 'EXPORT'.
+	Type *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ExportJobResponse) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ExportJobResponse) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportJobResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CompletedPieces != nil {
+		v := *s.CompletedPieces
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CompletedPieces", protocol.Int64Value(v), metadata)
+	}
+	if s.CompletionDate != nil {
+		v := *s.CompletionDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CompletionDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Definition != nil {
+		v := s.Definition
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Definition", v, metadata)
+	}
+	if s.FailedPieces != nil {
+		v := *s.FailedPieces
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FailedPieces", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Failures) > 0 {
+		v := s.Failures
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Failures", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.JobStatus) > 0 {
+		v := s.JobStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "JobStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.TotalFailures != nil {
+		v := *s.TotalFailures
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalFailures", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalPieces != nil {
+		v := *s.TotalPieces
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalPieces", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalProcessed != nil {
+		v := *s.TotalProcessed
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalProcessed", protocol.Int64Value(v), metadata)
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Export job list.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ExportJobsResponse
+type ExportJobsResponse struct {
+	_ struct{} `type:"structure"`
+
+	// A list of export jobs for the application.
+	Item []ExportJobResponse `type:"list"`
+
+	// The string that you use in a subsequent request to get the next page of results
+	// in a paginated response.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ExportJobsResponse) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ExportJobsResponse) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportJobsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Google Cloud Messaging credentials
@@ -6819,16 +9481,21 @@ func (s GCMChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetApiKey sets the ApiKey field's value.
-func (s *GCMChannelRequest) SetApiKey(v string) *GCMChannelRequest {
-	s.ApiKey = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GCMChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApiKey != nil {
+		v := *s.ApiKey
 
-// SetEnabled sets the Enabled field's value.
-func (s *GCMChannelRequest) SetEnabled(v bool) *GCMChannelRequest {
-	s.Enabled = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApiKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Google Cloud Messaging channel definition
@@ -6847,6 +9514,11 @@ type GCMChannelResponse struct {
 
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
+
+	// Indicates whether the channel is configured with FCM or GCM credentials.
+	// Amazon Pinpoint uses your credentials to authenticate push notifications
+	// with FCM or GCM. Provide your credentials by setting the ApiKey attribute.
+	HasCredential *bool `type:"boolean"`
 
 	// Channel ID. Not used. Present only for backwards compatibility.
 	Id *string `type:"string"`
@@ -6877,64 +9549,75 @@ func (s GCMChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GCMChannelResponse) SetApplicationId(v string) *GCMChannelResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GCMChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *GCMChannelResponse) SetCreationDate(v string) *GCMChannelResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetCredential sets the Credential field's value.
-func (s *GCMChannelResponse) SetCredential(v string) *GCMChannelResponse {
-	s.Credential = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Credential != nil {
+		v := *s.Credential
 
-// SetEnabled sets the Enabled field's value.
-func (s *GCMChannelResponse) SetEnabled(v bool) *GCMChannelResponse {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Credential", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetId sets the Id field's value.
-func (s *GCMChannelResponse) SetId(v string) *GCMChannelResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *GCMChannelResponse) SetIsArchived(v bool) *GCMChannelResponse {
-	s.IsArchived = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *GCMChannelResponse) SetLastModifiedBy(v string) *GCMChannelResponse {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *GCMChannelResponse) SetLastModifiedDate(v string) *GCMChannelResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetPlatform sets the Platform field's value.
-func (s *GCMChannelResponse) SetPlatform(v string) *GCMChannelResponse {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetVersion sets the Version field's value.
-func (s *GCMChannelResponse) SetVersion(v int64) *GCMChannelResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // GCM Message.
@@ -6949,7 +9632,7 @@ type GCMMessage struct {
 	// a designated user interface within the app. URL - The default mobile browser
 	// on the user's device launches and opens a web page at the URL you specify.
 	// Possible values include: OPEN_APP | DEEP_LINK | URL
-	Action Action `type:"string"`
+	Action Action `type:"string" enum:"true"`
 
 	// The message body of the notification, the email body or the text message.
 	Body *string `type:"string"`
@@ -6960,7 +9643,9 @@ type GCMMessage struct {
 	// of the same messages when the device comes back online or becomes active.
 	CollapseKey *string `type:"string"`
 
-	Data map[string]*string `type:"map"`
+	// The data payload used for a silent push. This payload is added to the notifications'
+	// data.pinpoint.jsonBody' object
+	Data map[string]string `type:"map"`
 
 	// The icon image name of the asset saved in your application.
 	IconReference *string `type:"string"`
@@ -6972,9 +9657,15 @@ type GCMMessage struct {
 	// The URL that points to an image used in the push notification.
 	ImageUrl *string `type:"string"`
 
-	// The data payload used for a silent push. This payload is added to the notifications'
-	// data.pinpoint.jsonBody' object
-	JsonData *string `type:"string"`
+	// The message priority. Amazon Pinpoint uses this value to set the FCM or GCM
+	// priority parameter when it sends the message. Accepts the following values:"Normal"
+	// - Messages might be delayed. Delivery is optimized for battery usage on the
+	// receiving device. Use normal priority unless immediate delivery is required."High"
+	// - Messages are sent immediately and might wake a sleeping device.The equivalent
+	// values for APNs messages are "5" and "10". Amazon Pinpoint accepts these
+	// values here and converts them.For more information, see About FCM Messages
+	// in the Firebase documentation.
+	Priority *string `type:"string"`
 
 	// The Raw JSON formatted string to be used as the payload. This value overrides
 	// the message.
@@ -6998,7 +9689,13 @@ type GCMMessage struct {
 	// sound files must reside in /res/raw/
 	Sound *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
+
+	// The length of time (in seconds) that FCM or GCM stores and attempts to deliver
+	// the message. If unspecified, the value defaults to the maximum, which is
+	// 2,419,200 seconds (28 days). Amazon Pinpoint uses this value to set the FCM
+	// or GCM time_to_live parameter.
+	TimeToLive *int64 `type:"integer"`
 
 	// The message title that displays above the message on the user's device.
 	Title *string `type:"string"`
@@ -7018,100 +9715,128 @@ func (s GCMMessage) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *GCMMessage) SetAction(v Action) *GCMMessage {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GCMMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetBody sets the Body field's value.
-func (s *GCMMessage) SetBody(v string) *GCMMessage {
-	s.Body = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Body != nil {
+		v := *s.Body
 
-// SetCollapseKey sets the CollapseKey field's value.
-func (s *GCMMessage) SetCollapseKey(v string) *GCMMessage {
-	s.CollapseKey = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CollapseKey != nil {
+		v := *s.CollapseKey
 
-// SetData sets the Data field's value.
-func (s *GCMMessage) SetData(v map[string]*string) *GCMMessage {
-	s.Data = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CollapseKey", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Data) > 0 {
+		v := s.Data
 
-// SetIconReference sets the IconReference field's value.
-func (s *GCMMessage) SetIconReference(v string) *GCMMessage {
-	s.IconReference = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Data", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetImageIconUrl sets the ImageIconUrl field's value.
-func (s *GCMMessage) SetImageIconUrl(v string) *GCMMessage {
-	s.ImageIconUrl = &v
-	return s
-}
+	}
+	if s.IconReference != nil {
+		v := *s.IconReference
 
-// SetImageUrl sets the ImageUrl field's value.
-func (s *GCMMessage) SetImageUrl(v string) *GCMMessage {
-	s.ImageUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IconReference", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageIconUrl != nil {
+		v := *s.ImageIconUrl
 
-// SetJsonData sets the JsonData field's value.
-func (s *GCMMessage) SetJsonData(v string) *GCMMessage {
-	s.JsonData = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
 
-// SetRawContent sets the RawContent field's value.
-func (s *GCMMessage) SetRawContent(v string) *GCMMessage {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Priority != nil {
+		v := *s.Priority
 
-// SetRestrictedPackageName sets the RestrictedPackageName field's value.
-func (s *GCMMessage) SetRestrictedPackageName(v string) *GCMMessage {
-	s.RestrictedPackageName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Priority", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetSilentPush sets the SilentPush field's value.
-func (s *GCMMessage) SetSilentPush(v bool) *GCMMessage {
-	s.SilentPush = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RestrictedPackageName != nil {
+		v := *s.RestrictedPackageName
 
-// SetSmallImageIconUrl sets the SmallImageIconUrl field's value.
-func (s *GCMMessage) SetSmallImageIconUrl(v string) *GCMMessage {
-	s.SmallImageIconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RestrictedPackageName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
 
-// SetSound sets the Sound field's value.
-func (s *GCMMessage) SetSound(v string) *GCMMessage {
-	s.Sound = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), metadata)
+	}
+	if s.SmallImageIconUrl != nil {
+		v := *s.SmallImageIconUrl
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *GCMMessage) SetSubstitutions(v map[string][]*string) *GCMMessage {
-	s.Substitutions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SmallImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Sound != nil {
+		v := *s.Sound
 
-// SetTitle sets the Title field's value.
-func (s *GCMMessage) SetTitle(v string) *GCMMessage {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Sound", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
 
-// SetUrl sets the Url field's value.
-func (s *GCMMessage) SetUrl(v string) *GCMMessage {
-	s.Url = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	if s.TimeToLive != nil {
+		v := *s.TimeToLive
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeToLive", protocol.Int64Value(v), metadata)
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetAdmChannelRequest
@@ -7146,15 +9871,24 @@ func (s *GetAdmChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetAdmChannelInput) SetApplicationId(v string) *GetAdmChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAdmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetAdmChannelResponse
 type GetAdmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"ADMChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Amazon Device Messaging channel definition.
 	//
@@ -7172,10 +9906,20 @@ func (s GetAdmChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetADMChannelResponse sets the ADMChannelResponse field's value.
-func (s *GetAdmChannelOutput) SetADMChannelResponse(v *ADMChannelResponse) *GetAdmChannelOutput {
-	s.ADMChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAdmChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAdmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ADMChannelResponse != nil {
+		v := s.ADMChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ADMChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsChannelRequest
@@ -7210,15 +9954,24 @@ func (s *GetApnsChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetApnsChannelInput) SetApplicationId(v string) *GetApnsChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsChannelResponse
 type GetApnsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Apple Distribution Push Notification Service channel definition.
 	//
@@ -7236,10 +9989,20 @@ func (s GetApnsChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetAPNSChannelResponse sets the APNSChannelResponse field's value.
-func (s *GetApnsChannelOutput) SetAPNSChannelResponse(v *APNSChannelResponse) *GetApnsChannelOutput {
-	s.APNSChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetApnsChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelResponse != nil {
+		v := s.APNSChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsSandboxChannelRequest
@@ -7274,15 +10037,24 @@ func (s *GetApnsSandboxChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetApnsSandboxChannelInput) SetApplicationId(v string) *GetApnsSandboxChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsSandboxChannelResponse
 type GetApnsSandboxChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSSandboxChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Apple Development Push Notification Service channel definition.
 	//
@@ -7300,10 +10072,186 @@ func (s GetApnsSandboxChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetAPNSSandboxChannelResponse sets the APNSSandboxChannelResponse field's value.
-func (s *GetApnsSandboxChannelOutput) SetAPNSSandboxChannelResponse(v *APNSSandboxChannelResponse) *GetApnsSandboxChannelOutput {
-	s.APNSSandboxChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetApnsSandboxChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelResponse != nil {
+		v := s.APNSSandboxChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsVoipChannelRequest
+type GetApnsVoipChannelInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetApnsVoipChannelInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetApnsVoipChannelInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetApnsVoipChannelInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetApnsVoipChannelInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsVoipChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsVoipChannelResponse
+type GetApnsVoipChannelOutput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipChannelResponse"`
+
+	responseMetadata aws.Response
+
+	// Apple VoIP Push Notification Service channel definition.
+	//
+	// APNSVoipChannelResponse is a required field
+	APNSVoipChannelResponse *APNSVoipChannelResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetApnsVoipChannelOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetApnsVoipChannelOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetApnsVoipChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsVoipChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSVoipChannelResponse != nil {
+		v := s.APNSVoipChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsVoipSandboxChannelRequest
+type GetApnsVoipSandboxChannelInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetApnsVoipSandboxChannelInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetApnsVoipSandboxChannelInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetApnsVoipSandboxChannelInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetApnsVoipSandboxChannelInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsVoipSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApnsVoipSandboxChannelResponse
+type GetApnsVoipSandboxChannelOutput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipSandboxChannelResponse"`
+
+	responseMetadata aws.Response
+
+	// Apple VoIP Developer Push Notification Service channel definition.
+	//
+	// APNSVoipSandboxChannelResponse is a required field
+	APNSVoipSandboxChannelResponse *APNSVoipSandboxChannelResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetApnsVoipSandboxChannelOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetApnsVoipSandboxChannelOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetApnsVoipSandboxChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApnsVoipSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSVoipSandboxChannelResponse != nil {
+		v := s.APNSVoipSandboxChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipSandboxChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetAppRequest
@@ -7338,15 +10286,24 @@ func (s *GetAppInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetAppInput) SetApplicationId(v string) *GetAppInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAppInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetAppResponse
 type GetAppOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationResponse"`
+
+	responseMetadata aws.Response
 
 	// Application Response.
 	//
@@ -7364,10 +10321,20 @@ func (s GetAppOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationResponse sets the ApplicationResponse field's value.
-func (s *GetAppOutput) SetApplicationResponse(v *ApplicationResponse) *GetAppOutput {
-	s.ApplicationResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAppOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAppOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationResponse != nil {
+		v := s.ApplicationResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ApplicationResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApplicationSettingsRequest
@@ -7402,15 +10369,24 @@ func (s *GetApplicationSettingsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetApplicationSettingsInput) SetApplicationId(v string) *GetApplicationSettingsInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApplicationSettingsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApplicationSettingsResponse
 type GetApplicationSettingsOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationSettingsResource"`
+
+	responseMetadata aws.Response
 
 	// Application settings.
 	//
@@ -7428,10 +10404,20 @@ func (s GetApplicationSettingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationSettingsResource sets the ApplicationSettingsResource field's value.
-func (s *GetApplicationSettingsOutput) SetApplicationSettingsResource(v *ApplicationSettingsResource) *GetApplicationSettingsOutput {
-	s.ApplicationSettingsResource = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetApplicationSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetApplicationSettingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationSettingsResource != nil {
+		v := s.ApplicationSettingsResource
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ApplicationSettingsResource", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetAppsRequest
@@ -7453,21 +10439,30 @@ func (s GetAppsInput) GoString() string {
 	return s.String()
 }
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetAppsInput) SetPageSize(v string) *GetAppsInput {
-	s.PageSize = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAppsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetToken sets the Token field's value.
-func (s *GetAppsInput) SetToken(v string) *GetAppsInput {
-	s.Token = &v
-	return s
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetAppsResponse
 type GetAppsOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationsResponse"`
+
+	responseMetadata aws.Response
 
 	// Get Applications Result.
 	//
@@ -7485,10 +10480,20 @@ func (s GetAppsOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationsResponse sets the ApplicationsResponse field's value.
-func (s *GetAppsOutput) SetApplicationsResponse(v *ApplicationsResponse) *GetAppsOutput {
-	s.ApplicationsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAppsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAppsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationsResponse != nil {
+		v := s.ApplicationsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ApplicationsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetBaiduChannelRequest
@@ -7523,15 +10528,24 @@ func (s *GetBaiduChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetBaiduChannelInput) SetApplicationId(v string) *GetBaiduChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBaiduChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetBaiduChannelResponse
 type GetBaiduChannelOutput struct {
 	_ struct{} `type:"structure" payload:"BaiduChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Baidu Cloud Messaging channel definition
 	//
@@ -7549,10 +10563,20 @@ func (s GetBaiduChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaiduChannelResponse sets the BaiduChannelResponse field's value.
-func (s *GetBaiduChannelOutput) SetBaiduChannelResponse(v *BaiduChannelResponse) *GetBaiduChannelOutput {
-	s.BaiduChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBaiduChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBaiduChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BaiduChannelResponse != nil {
+		v := s.BaiduChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "BaiduChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignActivitiesRequest
@@ -7598,33 +10622,42 @@ func (s *GetCampaignActivitiesInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetCampaignActivitiesInput) SetApplicationId(v string) *GetCampaignActivitiesInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignActivitiesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *GetCampaignActivitiesInput) SetCampaignId(v string) *GetCampaignActivitiesInput {
-	s.CampaignId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetCampaignActivitiesInput) SetPageSize(v string) *GetCampaignActivitiesInput {
-	s.PageSize = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
 
-// SetToken sets the Token field's value.
-func (s *GetCampaignActivitiesInput) SetToken(v string) *GetCampaignActivitiesInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignActivitiesResponse
 type GetCampaignActivitiesOutput struct {
 	_ struct{} `type:"structure" payload:"ActivitiesResponse"`
+
+	responseMetadata aws.Response
 
 	// Activities for campaign.
 	//
@@ -7642,10 +10675,20 @@ func (s GetCampaignActivitiesOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivitiesResponse sets the ActivitiesResponse field's value.
-func (s *GetCampaignActivitiesOutput) SetActivitiesResponse(v *ActivitiesResponse) *GetCampaignActivitiesOutput {
-	s.ActivitiesResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCampaignActivitiesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignActivitiesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ActivitiesResponse != nil {
+		v := s.ActivitiesResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ActivitiesResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignRequest
@@ -7687,21 +10730,30 @@ func (s *GetCampaignInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetCampaignInput) SetApplicationId(v string) *GetCampaignInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *GetCampaignInput) SetCampaignId(v string) *GetCampaignInput {
-	s.CampaignId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignResponse
 type GetCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
+
+	responseMetadata aws.Response
 
 	// Campaign definition
 	//
@@ -7719,10 +10771,20 @@ func (s GetCampaignOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignResponse sets the CampaignResponse field's value.
-func (s *GetCampaignOutput) SetCampaignResponse(v *CampaignResponse) *GetCampaignOutput {
-	s.CampaignResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCampaignOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignVersionRequest
@@ -7771,27 +10833,36 @@ func (s *GetCampaignVersionInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetCampaignVersionInput) SetApplicationId(v string) *GetCampaignVersionInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *GetCampaignVersionInput) SetCampaignId(v string) *GetCampaignVersionInput {
-	s.CampaignId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetVersion sets the Version field's value.
-func (s *GetCampaignVersionInput) SetVersion(v string) *GetCampaignVersionInput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignVersionResponse
 type GetCampaignVersionOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
+
+	responseMetadata aws.Response
 
 	// Campaign definition
 	//
@@ -7809,10 +10880,20 @@ func (s GetCampaignVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignResponse sets the CampaignResponse field's value.
-func (s *GetCampaignVersionOutput) SetCampaignResponse(v *CampaignResponse) *GetCampaignVersionOutput {
-	s.CampaignResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCampaignVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignVersionsRequest
@@ -7858,33 +10939,42 @@ func (s *GetCampaignVersionsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetCampaignVersionsInput) SetApplicationId(v string) *GetCampaignVersionsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *GetCampaignVersionsInput) SetCampaignId(v string) *GetCampaignVersionsInput {
-	s.CampaignId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetCampaignVersionsInput) SetPageSize(v string) *GetCampaignVersionsInput {
-	s.PageSize = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
 
-// SetToken sets the Token field's value.
-func (s *GetCampaignVersionsInput) SetToken(v string) *GetCampaignVersionsInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignVersionsResponse
 type GetCampaignVersionsOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignsResponse"`
+
+	responseMetadata aws.Response
 
 	// List of available campaigns.
 	//
@@ -7902,10 +10992,20 @@ func (s GetCampaignVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignsResponse sets the CampaignsResponse field's value.
-func (s *GetCampaignVersionsOutput) SetCampaignsResponse(v *CampaignsResponse) *GetCampaignVersionsOutput {
-	s.CampaignsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCampaignVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignsResponse != nil {
+		v := s.CampaignsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignsRequest
@@ -7944,27 +11044,36 @@ func (s *GetCampaignsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetCampaignsInput) SetApplicationId(v string) *GetCampaignsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetCampaignsInput) SetPageSize(v string) *GetCampaignsInput {
-	s.PageSize = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetToken sets the Token field's value.
-func (s *GetCampaignsInput) SetToken(v string) *GetCampaignsInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignsResponse
 type GetCampaignsOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignsResponse"`
+
+	responseMetadata aws.Response
 
 	// List of available campaigns.
 	//
@@ -7982,10 +11091,20 @@ func (s GetCampaignsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignsResponse sets the CampaignsResponse field's value.
-func (s *GetCampaignsOutput) SetCampaignsResponse(v *CampaignsResponse) *GetCampaignsOutput {
-	s.CampaignsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCampaignsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCampaignsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignsResponse != nil {
+		v := s.CampaignsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEmailChannelRequest
@@ -8020,15 +11139,24 @@ func (s *GetEmailChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetEmailChannelInput) SetApplicationId(v string) *GetEmailChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEmailChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEmailChannelResponse
 type GetEmailChannelOutput struct {
 	_ struct{} `type:"structure" payload:"EmailChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Email Channel Response.
 	//
@@ -8046,10 +11174,20 @@ func (s GetEmailChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetEmailChannelResponse sets the EmailChannelResponse field's value.
-func (s *GetEmailChannelOutput) SetEmailChannelResponse(v *EmailChannelResponse) *GetEmailChannelOutput {
-	s.EmailChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEmailChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEmailChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailChannelResponse != nil {
+		v := s.EmailChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EmailChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEndpointRequest
@@ -8091,21 +11229,30 @@ func (s *GetEndpointInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetEndpointInput) SetApplicationId(v string) *GetEndpointInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEndpointInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetEndpointId sets the EndpointId field's value.
-func (s *GetEndpointInput) SetEndpointId(v string) *GetEndpointInput {
-	s.EndpointId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointId != nil {
+		v := *s.EndpointId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "endpoint-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEndpointResponse
 type GetEndpointOutput struct {
 	_ struct{} `type:"structure" payload:"EndpointResponse"`
+
+	responseMetadata aws.Response
 
 	// Endpoint response
 	//
@@ -8123,16 +11270,28 @@ func (s GetEndpointOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndpointResponse sets the EndpointResponse field's value.
-func (s *GetEndpointOutput) SetEndpointResponse(v *EndpointResponse) *GetEndpointOutput {
-	s.EndpointResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEndpointOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndpointResponse != nil {
+		v := s.EndpointResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EndpointResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEventStreamRequest
 type GetEventStreamInput struct {
 	_ struct{} `type:"structure"`
 
+	// Application Id.
+	//
 	// ApplicationId is a required field
 	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
 }
@@ -8161,15 +11320,24 @@ func (s *GetEventStreamInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetEventStreamInput) SetApplicationId(v string) *GetEventStreamInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEventStreamInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEventStreamResponse
 type GetEventStreamOutput struct {
 	_ struct{} `type:"structure" payload:"EventStream"`
+
+	responseMetadata aws.Response
 
 	// Model for an event publishing subscription export.
 	//
@@ -8187,10 +11355,213 @@ func (s GetEventStreamOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventStream sets the EventStream field's value.
-func (s *GetEventStreamOutput) SetEventStream(v *EventStream) *GetEventStreamOutput {
-	s.EventStream = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEventStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEventStreamOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventStream != nil {
+		v := s.EventStream
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EventStream", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetExportJobRequest
+type GetExportJobInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+
+	// JobId is a required field
+	JobId *string `location:"uri" locationName:"job-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetExportJobInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetExportJobInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetExportJobInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetExportJobInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if s.JobId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("JobId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetExportJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.JobId != nil {
+		v := *s.JobId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "job-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetExportJobResponse
+type GetExportJobOutput struct {
+	_ struct{} `type:"structure" payload:"ExportJobResponse"`
+
+	responseMetadata aws.Response
+
+	// ExportJobResponse is a required field
+	ExportJobResponse *ExportJobResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetExportJobOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetExportJobOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetExportJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetExportJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExportJobResponse != nil {
+		v := s.ExportJobResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ExportJobResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetExportJobsRequest
+type GetExportJobsInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+
+	PageSize *string `location:"querystring" locationName:"page-size" type:"string"`
+
+	Token *string `location:"querystring" locationName:"token" type:"string"`
+}
+
+// String returns the string representation
+func (s GetExportJobsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetExportJobsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetExportJobsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetExportJobsInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetExportJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetExportJobsResponse
+type GetExportJobsOutput struct {
+	_ struct{} `type:"structure" payload:"ExportJobsResponse"`
+
+	responseMetadata aws.Response
+
+	// Export job list.
+	//
+	// ExportJobsResponse is a required field
+	ExportJobsResponse *ExportJobsResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetExportJobsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetExportJobsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetExportJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetExportJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExportJobsResponse != nil {
+		v := s.ExportJobsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ExportJobsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetGcmChannelRequest
@@ -8225,15 +11596,24 @@ func (s *GetGcmChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetGcmChannelInput) SetApplicationId(v string) *GetGcmChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetGcmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetGcmChannelResponse
 type GetGcmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"GCMChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Google Cloud Messaging channel definition
 	//
@@ -8251,10 +11631,20 @@ func (s GetGcmChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetGCMChannelResponse sets the GCMChannelResponse field's value.
-func (s *GetGcmChannelOutput) SetGCMChannelResponse(v *GCMChannelResponse) *GetGcmChannelOutput {
-	s.GCMChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetGcmChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetGcmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GCMChannelResponse != nil {
+		v := s.GCMChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "GCMChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetImportJobRequest
@@ -8296,21 +11686,30 @@ func (s *GetImportJobInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetImportJobInput) SetApplicationId(v string) *GetImportJobInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetImportJobInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetJobId sets the JobId field's value.
-func (s *GetImportJobInput) SetJobId(v string) *GetImportJobInput {
-	s.JobId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.JobId != nil {
+		v := *s.JobId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "job-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetImportJobResponse
 type GetImportJobOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobResponse"`
+
+	responseMetadata aws.Response
 
 	// ImportJobResponse is a required field
 	ImportJobResponse *ImportJobResponse `type:"structure" required:"true"`
@@ -8326,10 +11725,20 @@ func (s GetImportJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetImportJobResponse sets the ImportJobResponse field's value.
-func (s *GetImportJobOutput) SetImportJobResponse(v *ImportJobResponse) *GetImportJobOutput {
-	s.ImportJobResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetImportJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetImportJobOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobResponse != nil {
+		v := s.ImportJobResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ImportJobResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetImportJobsRequest
@@ -8368,27 +11777,36 @@ func (s *GetImportJobsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetImportJobsInput) SetApplicationId(v string) *GetImportJobsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetImportJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetImportJobsInput) SetPageSize(v string) *GetImportJobsInput {
-	s.PageSize = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetToken sets the Token field's value.
-func (s *GetImportJobsInput) SetToken(v string) *GetImportJobsInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetImportJobsResponse
 type GetImportJobsOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobsResponse"`
+
+	responseMetadata aws.Response
 
 	// Import job list.
 	//
@@ -8406,10 +11824,132 @@ func (s GetImportJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetImportJobsResponse sets the ImportJobsResponse field's value.
-func (s *GetImportJobsOutput) SetImportJobsResponse(v *ImportJobsResponse) *GetImportJobsOutput {
-	s.ImportJobsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetImportJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetImportJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobsResponse != nil {
+		v := s.ImportJobsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ImportJobsResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentExportJobsRequest
+type GetSegmentExportJobsInput struct {
+	_ struct{} `type:"structure"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+
+	PageSize *string `location:"querystring" locationName:"page-size" type:"string"`
+
+	// SegmentId is a required field
+	SegmentId *string `location:"uri" locationName:"segment-id" type:"string" required:"true"`
+
+	Token *string `location:"querystring" locationName:"token" type:"string"`
+}
+
+// String returns the string representation
+func (s GetSegmentExportJobsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetSegmentExportJobsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetSegmentExportJobsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetSegmentExportJobsInput"}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if s.SegmentId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SegmentId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentExportJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentExportJobsResponse
+type GetSegmentExportJobsOutput struct {
+	_ struct{} `type:"structure" payload:"ExportJobsResponse"`
+
+	responseMetadata aws.Response
+
+	// Export job list.
+	//
+	// ExportJobsResponse is a required field
+	ExportJobsResponse *ExportJobsResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetSegmentExportJobsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetSegmentExportJobsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSegmentExportJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentExportJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExportJobsResponse != nil {
+		v := s.ExportJobsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ExportJobsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentImportJobsRequest
@@ -8455,33 +11995,42 @@ func (s *GetSegmentImportJobsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetSegmentImportJobsInput) SetApplicationId(v string) *GetSegmentImportJobsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentImportJobsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetSegmentImportJobsInput) SetPageSize(v string) *GetSegmentImportJobsInput {
-	s.PageSize = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *GetSegmentImportJobsInput) SetSegmentId(v string) *GetSegmentImportJobsInput {
-	s.SegmentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
 
-// SetToken sets the Token field's value.
-func (s *GetSegmentImportJobsInput) SetToken(v string) *GetSegmentImportJobsInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentImportJobsResponse
 type GetSegmentImportJobsOutput struct {
 	_ struct{} `type:"structure" payload:"ImportJobsResponse"`
+
+	responseMetadata aws.Response
 
 	// Import job list.
 	//
@@ -8499,10 +12048,20 @@ func (s GetSegmentImportJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetImportJobsResponse sets the ImportJobsResponse field's value.
-func (s *GetSegmentImportJobsOutput) SetImportJobsResponse(v *ImportJobsResponse) *GetSegmentImportJobsOutput {
-	s.ImportJobsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSegmentImportJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentImportJobsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ImportJobsResponse != nil {
+		v := s.ImportJobsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ImportJobsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentRequest
@@ -8544,21 +12103,30 @@ func (s *GetSegmentInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetSegmentInput) SetApplicationId(v string) *GetSegmentInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *GetSegmentInput) SetSegmentId(v string) *GetSegmentInput {
-	s.SegmentId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentResponse
 type GetSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
+
+	responseMetadata aws.Response
 
 	// Segment definition.
 	//
@@ -8576,10 +12144,20 @@ func (s GetSegmentOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentResponse sets the SegmentResponse field's value.
-func (s *GetSegmentOutput) SetSegmentResponse(v *SegmentResponse) *GetSegmentOutput {
-	s.SegmentResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSegmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentVersionRequest
@@ -8628,27 +12206,36 @@ func (s *GetSegmentVersionInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetSegmentVersionInput) SetApplicationId(v string) *GetSegmentVersionInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *GetSegmentVersionInput) SetSegmentId(v string) *GetSegmentVersionInput {
-	s.SegmentId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetVersion sets the Version field's value.
-func (s *GetSegmentVersionInput) SetVersion(v string) *GetSegmentVersionInput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentVersionResponse
 type GetSegmentVersionOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
+
+	responseMetadata aws.Response
 
 	// Segment definition.
 	//
@@ -8666,10 +12253,20 @@ func (s GetSegmentVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentResponse sets the SegmentResponse field's value.
-func (s *GetSegmentVersionOutput) SetSegmentResponse(v *SegmentResponse) *GetSegmentVersionOutput {
-	s.SegmentResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSegmentVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentVersionsRequest
@@ -8715,33 +12312,42 @@ func (s *GetSegmentVersionsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetSegmentVersionsInput) SetApplicationId(v string) *GetSegmentVersionsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetSegmentVersionsInput) SetPageSize(v string) *GetSegmentVersionsInput {
-	s.PageSize = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *GetSegmentVersionsInput) SetSegmentId(v string) *GetSegmentVersionsInput {
-	s.SegmentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
 
-// SetToken sets the Token field's value.
-func (s *GetSegmentVersionsInput) SetToken(v string) *GetSegmentVersionsInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentVersionsResponse
 type GetSegmentVersionsOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentsResponse"`
+
+	responseMetadata aws.Response
 
 	// Segments in your account.
 	//
@@ -8759,10 +12365,20 @@ func (s GetSegmentVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentsResponse sets the SegmentsResponse field's value.
-func (s *GetSegmentVersionsOutput) SetSegmentsResponse(v *SegmentsResponse) *GetSegmentVersionsOutput {
-	s.SegmentsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSegmentVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentsResponse != nil {
+		v := s.SegmentsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentsRequest
@@ -8801,27 +12417,36 @@ func (s *GetSegmentsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetSegmentsInput) SetApplicationId(v string) *GetSegmentsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPageSize sets the PageSize field's value.
-func (s *GetSegmentsInput) SetPageSize(v string) *GetSegmentsInput {
-	s.PageSize = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetToken sets the Token field's value.
-func (s *GetSegmentsInput) SetToken(v string) *GetSegmentsInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PageSize != nil {
+		v := *s.PageSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "page-size", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSegmentsResponse
 type GetSegmentsOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentsResponse"`
+
+	responseMetadata aws.Response
 
 	// Segments in your account.
 	//
@@ -8839,10 +12464,20 @@ func (s GetSegmentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentsResponse sets the SegmentsResponse field's value.
-func (s *GetSegmentsOutput) SetSegmentsResponse(v *SegmentsResponse) *GetSegmentsOutput {
-	s.SegmentsResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSegmentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSegmentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentsResponse != nil {
+		v := s.SegmentsResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentsResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSmsChannelRequest
@@ -8877,15 +12512,24 @@ func (s *GetSmsChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *GetSmsChannelInput) SetApplicationId(v string) *GetSmsChannelInput {
-	s.ApplicationId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSmsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetSmsChannelResponse
 type GetSmsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"SMSChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// SMS Channel Response.
 	//
@@ -8903,10 +12547,20 @@ func (s GetSmsChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetSMSChannelResponse sets the SMSChannelResponse field's value.
-func (s *GetSmsChannelOutput) SetSMSChannelResponse(v *SMSChannelResponse) *GetSmsChannelOutput {
-	s.SMSChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSmsChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSmsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SMSChannelResponse != nil {
+		v := s.SMSChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SMSChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ImportJobRequest
@@ -8916,13 +12570,15 @@ type ImportJobRequest struct {
 	// Sets whether the endpoints create a segment when they are imported.
 	DefineSegment *bool `type:"boolean"`
 
-	// A unique, custom ID assigned to the IAM role that restricts who can assume
-	// the role.
+	// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key
+	// in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This
+	// requirement is removed, and external IDs are not recommended for IAM roles
+	// assumed by Amazon Pinpoint.
 	ExternalId *string `type:"string"`
 
 	// The format of the files that contain the endpoint definitions.Valid values:
 	// CSV, JSON
-	Format Format `type:"string"`
+	Format Format `type:"string" enum:"true"`
 
 	// Sets whether the endpoints are registered with Amazon Pinpoint when they
 	// are imported.
@@ -8957,52 +12613,57 @@ func (s ImportJobRequest) GoString() string {
 	return s.String()
 }
 
-// SetDefineSegment sets the DefineSegment field's value.
-func (s *ImportJobRequest) SetDefineSegment(v bool) *ImportJobRequest {
-	s.DefineSegment = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ImportJobRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DefineSegment != nil {
+		v := *s.DefineSegment
 
-// SetExternalId sets the ExternalId field's value.
-func (s *ImportJobRequest) SetExternalId(v string) *ImportJobRequest {
-	s.ExternalId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefineSegment", protocol.BoolValue(v), metadata)
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
 
-// SetFormat sets the Format field's value.
-func (s *ImportJobRequest) SetFormat(v Format) *ImportJobRequest {
-	s.Format = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Format) > 0 {
+		v := s.Format
 
-// SetRegisterEndpoints sets the RegisterEndpoints field's value.
-func (s *ImportJobRequest) SetRegisterEndpoints(v bool) *ImportJobRequest {
-	s.RegisterEndpoints = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Format", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.RegisterEndpoints != nil {
+		v := *s.RegisterEndpoints
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *ImportJobRequest) SetRoleArn(v string) *ImportJobRequest {
-	s.RoleArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RegisterEndpoints", protocol.BoolValue(v), metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
 
-// SetS3Url sets the S3Url field's value.
-func (s *ImportJobRequest) SetS3Url(v string) *ImportJobRequest {
-	s.S3Url = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3Url != nil {
+		v := *s.S3Url
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *ImportJobRequest) SetSegmentId(v string) *ImportJobRequest {
-	s.SegmentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
 
-// SetSegmentName sets the SegmentName field's value.
-func (s *ImportJobRequest) SetSegmentName(v string) *ImportJobRequest {
-	s.SegmentName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentName != nil {
+		v := *s.SegmentName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ImportJobResource
@@ -9012,13 +12673,15 @@ type ImportJobResource struct {
 	// Sets whether the endpoints create a segment when they are imported.
 	DefineSegment *bool `type:"boolean"`
 
-	// A unique, custom ID assigned to the IAM role that restricts who can assume
-	// the role.
+	// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key
+	// in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This
+	// requirement is removed, and external IDs are not recommended for IAM roles
+	// assumed by Amazon Pinpoint.
 	ExternalId *string `type:"string"`
 
 	// The format of the files that contain the endpoint definitions.Valid values:
 	// CSV, JSON
-	Format Format `type:"string"`
+	Format Format `type:"string" enum:"true"`
 
 	// Sets whether the endpoints are registered with Amazon Pinpoint when they
 	// are imported.
@@ -9053,52 +12716,57 @@ func (s ImportJobResource) GoString() string {
 	return s.String()
 }
 
-// SetDefineSegment sets the DefineSegment field's value.
-func (s *ImportJobResource) SetDefineSegment(v bool) *ImportJobResource {
-	s.DefineSegment = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ImportJobResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DefineSegment != nil {
+		v := *s.DefineSegment
 
-// SetExternalId sets the ExternalId field's value.
-func (s *ImportJobResource) SetExternalId(v string) *ImportJobResource {
-	s.ExternalId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DefineSegment", protocol.BoolValue(v), metadata)
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
 
-// SetFormat sets the Format field's value.
-func (s *ImportJobResource) SetFormat(v Format) *ImportJobResource {
-	s.Format = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Format) > 0 {
+		v := s.Format
 
-// SetRegisterEndpoints sets the RegisterEndpoints field's value.
-func (s *ImportJobResource) SetRegisterEndpoints(v bool) *ImportJobResource {
-	s.RegisterEndpoints = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Format", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.RegisterEndpoints != nil {
+		v := *s.RegisterEndpoints
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *ImportJobResource) SetRoleArn(v string) *ImportJobResource {
-	s.RoleArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RegisterEndpoints", protocol.BoolValue(v), metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
 
-// SetS3Url sets the S3Url field's value.
-func (s *ImportJobResource) SetS3Url(v string) *ImportJobResource {
-	s.S3Url = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3Url != nil {
+		v := *s.S3Url
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *ImportJobResource) SetSegmentId(v string) *ImportJobResource {
-	s.SegmentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
 
-// SetSegmentName sets the SegmentName field's value.
-func (s *ImportJobResource) SetSegmentName(v string) *ImportJobResource {
-	s.SegmentName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentName != nil {
+		v := *s.SegmentName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ImportJobResponse
@@ -9124,7 +12792,7 @@ type ImportJobResponse struct {
 	// The number of pieces that have failed to import as of the time of the request.
 	FailedPieces *int64 `type:"integer"`
 
-	Failures []*string `type:"list"`
+	Failures []string `type:"list"`
 
 	// The unique ID of the import job.
 	Id *string `type:"string"`
@@ -9132,7 +12800,7 @@ type ImportJobResponse struct {
 	// The status of the import job.Valid values: CREATED, INITIALIZING, PROCESSING,
 	// COMPLETING, COMPLETED, FAILING, FAILEDThe job status is FAILED if one or
 	// more pieces failed to import.
-	JobStatus JobStatus `type:"string"`
+	JobStatus JobStatus `type:"string" enum:"true"`
 
 	// The number of endpoints that failed to import; for example, because of syntax
 	// errors.
@@ -9159,82 +12827,93 @@ func (s ImportJobResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *ImportJobResponse) SetApplicationId(v string) *ImportJobResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ImportJobResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCompletedPieces sets the CompletedPieces field's value.
-func (s *ImportJobResponse) SetCompletedPieces(v int64) *ImportJobResponse {
-	s.CompletedPieces = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CompletedPieces != nil {
+		v := *s.CompletedPieces
 
-// SetCompletionDate sets the CompletionDate field's value.
-func (s *ImportJobResponse) SetCompletionDate(v string) *ImportJobResponse {
-	s.CompletionDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CompletedPieces", protocol.Int64Value(v), metadata)
+	}
+	if s.CompletionDate != nil {
+		v := *s.CompletionDate
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *ImportJobResponse) SetCreationDate(v string) *ImportJobResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CompletionDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetDefinition sets the Definition field's value.
-func (s *ImportJobResponse) SetDefinition(v *ImportJobResource) *ImportJobResponse {
-	s.Definition = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Definition != nil {
+		v := s.Definition
 
-// SetFailedPieces sets the FailedPieces field's value.
-func (s *ImportJobResponse) SetFailedPieces(v int64) *ImportJobResponse {
-	s.FailedPieces = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Definition", v, metadata)
+	}
+	if s.FailedPieces != nil {
+		v := *s.FailedPieces
 
-// SetFailures sets the Failures field's value.
-func (s *ImportJobResponse) SetFailures(v []*string) *ImportJobResponse {
-	s.Failures = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FailedPieces", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Failures) > 0 {
+		v := s.Failures
 
-// SetId sets the Id field's value.
-func (s *ImportJobResponse) SetId(v string) *ImportJobResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Failures", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetJobStatus sets the JobStatus field's value.
-func (s *ImportJobResponse) SetJobStatus(v JobStatus) *ImportJobResponse {
-	s.JobStatus = v
-	return s
-}
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetTotalFailures sets the TotalFailures field's value.
-func (s *ImportJobResponse) SetTotalFailures(v int64) *ImportJobResponse {
-	s.TotalFailures = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.JobStatus) > 0 {
+		v := s.JobStatus
 
-// SetTotalPieces sets the TotalPieces field's value.
-func (s *ImportJobResponse) SetTotalPieces(v int64) *ImportJobResponse {
-	s.TotalPieces = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "JobStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.TotalFailures != nil {
+		v := *s.TotalFailures
 
-// SetTotalProcessed sets the TotalProcessed field's value.
-func (s *ImportJobResponse) SetTotalProcessed(v int64) *ImportJobResponse {
-	s.TotalProcessed = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalFailures", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalPieces != nil {
+		v := *s.TotalPieces
 
-// SetType sets the Type field's value.
-func (s *ImportJobResponse) SetType(v string) *ImportJobResponse {
-	s.Type = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalPieces", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalProcessed != nil {
+		v := *s.TotalProcessed
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalProcessed", protocol.Int64Value(v), metadata)
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Import job list.
@@ -9243,7 +12922,7 @@ type ImportJobsResponse struct {
 	_ struct{} `type:"structure"`
 
 	// A list of import jobs for the application.
-	Item []*ImportJobResponse `type:"list"`
+	Item []ImportJobResponse `type:"list"`
 
 	// The string that you use in a subsequent request to get the next page of results
 	// in a paginated response.
@@ -9260,16 +12939,27 @@ func (s ImportJobsResponse) GoString() string {
 	return s.String()
 }
 
-// SetItem sets the Item field's value.
-func (s *ImportJobsResponse) SetItem(v []*ImportJobResponse) *ImportJobsResponse {
-	s.Item = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ImportJobsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
 
-// SetNextToken sets the NextToken field's value.
-func (s *ImportJobsResponse) SetNextToken(v string) *ImportJobsResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/Message
@@ -9282,7 +12972,7 @@ type Message struct {
 	// - Uses deep linking features in iOS and Android to open your app and display
 	// a designated user interface within the app.URL - The default mobile browser
 	// on the user's device launches and opens a web page at the URL you specify.
-	Action Action `type:"string"`
+	Action Action `type:"string" enum:"true"`
 
 	// The message body. Can include up to 140 characters.
 	Body *string `type:"string"`
@@ -9330,70 +13020,75 @@ func (s Message) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *Message) SetAction(v Action) *Message {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Message) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetBody sets the Body field's value.
-func (s *Message) SetBody(v string) *Message {
-	s.Body = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Body != nil {
+		v := *s.Body
 
-// SetImageIconUrl sets the ImageIconUrl field's value.
-func (s *Message) SetImageIconUrl(v string) *Message {
-	s.ImageIconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageIconUrl != nil {
+		v := *s.ImageIconUrl
 
-// SetImageSmallIconUrl sets the ImageSmallIconUrl field's value.
-func (s *Message) SetImageSmallIconUrl(v string) *Message {
-	s.ImageSmallIconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageSmallIconUrl != nil {
+		v := *s.ImageSmallIconUrl
 
-// SetImageUrl sets the ImageUrl field's value.
-func (s *Message) SetImageUrl(v string) *Message {
-	s.ImageUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageSmallIconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
 
-// SetJsonBody sets the JsonBody field's value.
-func (s *Message) SetJsonBody(v string) *Message {
-	s.JsonBody = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ImageUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.JsonBody != nil {
+		v := *s.JsonBody
 
-// SetMediaUrl sets the MediaUrl field's value.
-func (s *Message) SetMediaUrl(v string) *Message {
-	s.MediaUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "JsonBody", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MediaUrl != nil {
+		v := *s.MediaUrl
 
-// SetRawContent sets the RawContent field's value.
-func (s *Message) SetRawContent(v string) *Message {
-	s.RawContent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MediaUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RawContent != nil {
+		v := *s.RawContent
 
-// SetSilentPush sets the SilentPush field's value.
-func (s *Message) SetSilentPush(v bool) *Message {
-	s.SilentPush = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RawContent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SilentPush != nil {
+		v := *s.SilentPush
 
-// SetTitle sets the Title field's value.
-func (s *Message) SetTitle(v string) *Message {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SilentPush", protocol.BoolValue(v), metadata)
+	}
+	if s.Title != nil {
+		v := *s.Title
 
-// SetUrl sets the Url field's value.
-func (s *Message) SetUrl(v string) *Message {
-	s.Url = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Simple message object.
@@ -9418,16 +13113,21 @@ func (s MessageBody) GoString() string {
 	return s.String()
 }
 
-// SetMessage sets the Message field's value.
-func (s *MessageBody) SetMessage(v string) *MessageBody {
-	s.Message = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MessageBody) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Message != nil {
+		v := *s.Message
 
-// SetRequestID sets the RequestID field's value.
-func (s *MessageBody) SetRequestID(v string) *MessageBody {
-	s.RequestID = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Message", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestID != nil {
+		v := *s.RequestID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequestID", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Message configuration for a campaign.
@@ -9435,9 +13135,17 @@ func (s *MessageBody) SetRequestID(v string) *MessageBody {
 type MessageConfiguration struct {
 	_ struct{} `type:"structure"`
 
+	// The message that the campaign delivers to ADM channels. Overrides the default
+	// message.
+	ADMMessage *Message `type:"structure"`
+
 	// The message that the campaign delivers to APNS channels. Overrides the default
 	// message.
 	APNSMessage *Message `type:"structure"`
+
+	// The message that the campaign delivers to Baidu channels. Overrides the default
+	// message.
+	BaiduMessage *Message `type:"structure"`
 
 	// The default message for all channels.
 	DefaultMessage *Message `type:"structure"`
@@ -9463,34 +13171,51 @@ func (s MessageConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetAPNSMessage sets the APNSMessage field's value.
-func (s *MessageConfiguration) SetAPNSMessage(v *Message) *MessageConfiguration {
-	s.APNSMessage = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MessageConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ADMMessage != nil {
+		v := s.ADMMessage
 
-// SetDefaultMessage sets the DefaultMessage field's value.
-func (s *MessageConfiguration) SetDefaultMessage(v *Message) *MessageConfiguration {
-	s.DefaultMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ADMMessage", v, metadata)
+	}
+	if s.APNSMessage != nil {
+		v := s.APNSMessage
 
-// SetEmailMessage sets the EmailMessage field's value.
-func (s *MessageConfiguration) SetEmailMessage(v *CampaignEmailMessage) *MessageConfiguration {
-	s.EmailMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "APNSMessage", v, metadata)
+	}
+	if s.BaiduMessage != nil {
+		v := s.BaiduMessage
 
-// SetGCMMessage sets the GCMMessage field's value.
-func (s *MessageConfiguration) SetGCMMessage(v *Message) *MessageConfiguration {
-	s.GCMMessage = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "BaiduMessage", v, metadata)
+	}
+	if s.DefaultMessage != nil {
+		v := s.DefaultMessage
 
-// SetSMSMessage sets the SMSMessage field's value.
-func (s *MessageConfiguration) SetSMSMessage(v *CampaignSmsMessage) *MessageConfiguration {
-	s.SMSMessage = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DefaultMessage", v, metadata)
+	}
+	if s.EmailMessage != nil {
+		v := s.EmailMessage
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EmailMessage", v, metadata)
+	}
+	if s.GCMMessage != nil {
+		v := s.GCMMessage
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GCMMessage", v, metadata)
+	}
+	if s.SMSMessage != nil {
+		v := s.SMSMessage
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SMSMessage", v, metadata)
+	}
+	return nil
 }
 
 // Send message request.
@@ -9500,21 +13225,19 @@ type MessageRequest struct {
 
 	// A map of destination addresses, with the address as the key(Email address,
 	// phone number or push token) and the Address Configuration as the value.
-	Addresses map[string]*AddressConfiguration `type:"map"`
+	Addresses map[string]AddressConfiguration `type:"map"`
 
-	Campaign map[string]*string `type:"map"`
-
-	Context map[string]*string `type:"map"`
+	// A map of custom attributes to attributes to be attached to the message. This
+	// payload is added to the push notification's 'data.pinpoint' object or added
+	// to the email/sms delivery receipt event attributes.
+	Context map[string]string `type:"map"`
 
 	// A map of destination addresses, with the address as the key(Email address,
 	// phone number or push token) and the Address Configuration as the value.
-	Endpoints map[string]*EndpointSendConfiguration `type:"map"`
+	Endpoints map[string]EndpointSendConfiguration `type:"map"`
 
 	// Message configuration.
 	MessageConfiguration *DirectMessageConfiguration `type:"structure"`
-
-	// Original request Id for which this message is delivered.
-	RequestId *string `type:"string"`
 }
 
 // String returns the string representation
@@ -9527,40 +13250,51 @@ func (s MessageRequest) GoString() string {
 	return s.String()
 }
 
-// SetAddresses sets the Addresses field's value.
-func (s *MessageRequest) SetAddresses(v map[string]*AddressConfiguration) *MessageRequest {
-	s.Addresses = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MessageRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Addresses) > 0 {
+		v := s.Addresses
 
-// SetCampaign sets the Campaign field's value.
-func (s *MessageRequest) SetCampaign(v map[string]*string) *MessageRequest {
-	s.Campaign = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Addresses", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
 
-// SetContext sets the Context field's value.
-func (s *MessageRequest) SetContext(v map[string]*string) *MessageRequest {
-	s.Context = v
-	return s
-}
+	}
+	if len(s.Context) > 0 {
+		v := s.Context
 
-// SetEndpoints sets the Endpoints field's value.
-func (s *MessageRequest) SetEndpoints(v map[string]*EndpointSendConfiguration) *MessageRequest {
-	s.Endpoints = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Context", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetMessageConfiguration sets the MessageConfiguration field's value.
-func (s *MessageRequest) SetMessageConfiguration(v *DirectMessageConfiguration) *MessageRequest {
-	s.MessageConfiguration = v
-	return s
-}
+	}
+	if len(s.Endpoints) > 0 {
+		v := s.Endpoints
 
-// SetRequestId sets the RequestId field's value.
-func (s *MessageRequest) SetRequestId(v string) *MessageRequest {
-	s.RequestId = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Endpoints", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Send message response.
@@ -9573,7 +13307,7 @@ type MessageResponse struct {
 
 	// A map containing a multi part response for each address, with the endpointId
 	// as the key and the result as the value.
-	EndpointResult map[string]*EndpointMessageResult `type:"map"`
+	EndpointResult map[string]EndpointMessageResult `type:"map"`
 
 	// Original request Id for which this message was delivered.
 	RequestId *string `type:"string"`
@@ -9581,7 +13315,7 @@ type MessageResponse struct {
 	// A map containing a multi part response for each address, with the address
 	// as the key(Email address, phone number or push token) and the result as the
 	// value.
-	Result map[string]*MessageResult `type:"map"`
+	Result map[string]MessageResult `type:"map"`
 }
 
 // String returns the string representation
@@ -9594,28 +13328,45 @@ func (s MessageResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *MessageResponse) SetApplicationId(v string) *MessageResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MessageResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetEndpointResult sets the EndpointResult field's value.
-func (s *MessageResponse) SetEndpointResult(v map[string]*EndpointMessageResult) *MessageResponse {
-	s.EndpointResult = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.EndpointResult) > 0 {
+		v := s.EndpointResult
 
-// SetRequestId sets the RequestId field's value.
-func (s *MessageResponse) SetRequestId(v string) *MessageResponse {
-	s.RequestId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "EndpointResult", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
 
-// SetResult sets the Result field's value.
-func (s *MessageResponse) SetResult(v map[string]*MessageResult) *MessageResponse {
-	s.Result = v
-	return s
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Result) > 0 {
+		v := s.Result
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Result", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // The result from sending a message to an address.
@@ -9624,7 +13375,7 @@ type MessageResult struct {
 	_ struct{} `type:"structure"`
 
 	// Delivery status of message.
-	DeliveryStatus DeliveryStatus `type:"string"`
+	DeliveryStatus DeliveryStatus `type:"string" enum:"true"`
 
 	// Downstream service status code.
 	StatusCode *int64 `type:"integer"`
@@ -9646,38 +13397,45 @@ func (s MessageResult) GoString() string {
 	return s.String()
 }
 
-// SetDeliveryStatus sets the DeliveryStatus field's value.
-func (s *MessageResult) SetDeliveryStatus(v DeliveryStatus) *MessageResult {
-	s.DeliveryStatus = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MessageResult) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DeliveryStatus) > 0 {
+		v := s.DeliveryStatus
 
-// SetStatusCode sets the StatusCode field's value.
-func (s *MessageResult) SetStatusCode(v int64) *MessageResult {
-	s.StatusCode = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeliveryStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.StatusCode != nil {
+		v := *s.StatusCode
 
-// SetStatusMessage sets the StatusMessage field's value.
-func (s *MessageResult) SetStatusMessage(v string) *MessageResult {
-	s.StatusMessage = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StatusCode", protocol.Int64Value(v), metadata)
+	}
+	if s.StatusMessage != nil {
+		v := *s.StatusMessage
 
-// SetUpdatedToken sets the UpdatedToken field's value.
-func (s *MessageResult) SetUpdatedToken(v string) *MessageResult {
-	s.UpdatedToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StatusMessage", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UpdatedToken != nil {
+		v := *s.UpdatedToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UpdatedToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/PutEventStreamRequest
 type PutEventStreamInput struct {
 	_ struct{} `type:"structure" payload:"WriteEventStream"`
 
+	// Application Id.
+	//
 	// ApplicationId is a required field
 	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
 
-	// Request to save an EventStream.
+	// Write event stream wrapper.
 	//
 	// WriteEventStream is a required field
 	WriteEventStream *WriteEventStream `type:"structure" required:"true"`
@@ -9711,21 +13469,30 @@ func (s *PutEventStreamInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *PutEventStreamInput) SetApplicationId(v string) *PutEventStreamInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutEventStreamInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetWriteEventStream sets the WriteEventStream field's value.
-func (s *PutEventStreamInput) SetWriteEventStream(v *WriteEventStream) *PutEventStreamInput {
-	s.WriteEventStream = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.WriteEventStream != nil {
+		v := s.WriteEventStream
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "WriteEventStream", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/PutEventStreamResponse
 type PutEventStreamOutput struct {
 	_ struct{} `type:"structure" payload:"EventStream"`
+
+	responseMetadata aws.Response
 
 	// Model for an event publishing subscription export.
 	//
@@ -9743,10 +13510,20 @@ func (s PutEventStreamOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventStream sets the EventStream field's value.
-func (s *PutEventStreamOutput) SetEventStream(v *EventStream) *PutEventStreamOutput {
-	s.EventStream = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutEventStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutEventStreamOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EventStream != nil {
+		v := s.EventStream
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EventStream", v, metadata)
+	}
+	return nil
 }
 
 // Quiet Time
@@ -9771,16 +13548,21 @@ func (s QuietTime) GoString() string {
 	return s.String()
 }
 
-// SetEnd sets the End field's value.
-func (s *QuietTime) SetEnd(v string) *QuietTime {
-	s.End = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s QuietTime) MarshalFields(e protocol.FieldEncoder) error {
+	if s.End != nil {
+		v := *s.End
 
-// SetStart sets the Start field's value.
-func (s *QuietTime) SetStart(v string) *QuietTime {
-	s.Start = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "End", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Start != nil {
+		v := *s.Start
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Start", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Define how a segment based on recency of use.
@@ -9790,12 +13572,12 @@ type RecencyDimension struct {
 
 	// The length of time during which users have been active or inactive with your
 	// app.Valid values: HR_24, DAY_7, DAY_14, DAY_30
-	Duration Duration `type:"string"`
+	Duration Duration `type:"string" enum:"true"`
 
 	// The recency dimension type:ACTIVE - Users who have used your app within the
 	// specified duration are included in the segment.INACTIVE - Users who have
 	// not used your app within the specified duration are included in the segment.
-	RecencyType RecencyType `type:"string"`
+	RecencyType RecencyType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9808,16 +13590,21 @@ func (s RecencyDimension) GoString() string {
 	return s.String()
 }
 
-// SetDuration sets the Duration field's value.
-func (s *RecencyDimension) SetDuration(v Duration) *RecencyDimension {
-	s.Duration = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RecencyDimension) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Duration) > 0 {
+		v := s.Duration
 
-// SetRecencyType sets the RecencyType field's value.
-func (s *RecencyDimension) SetRecencyType(v RecencyType) *RecencyDimension {
-	s.RecencyType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Duration", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.RecencyType) > 0 {
+		v := s.RecencyType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecencyType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // SMS Channel Request
@@ -9845,22 +13632,27 @@ func (s SMSChannelRequest) GoString() string {
 	return s.String()
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *SMSChannelRequest) SetEnabled(v bool) *SMSChannelRequest {
-	s.Enabled = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SMSChannelRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetSenderId sets the SenderId field's value.
-func (s *SMSChannelRequest) SetSenderId(v string) *SMSChannelRequest {
-	s.SenderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
 
-// SetShortCode sets the ShortCode field's value.
-func (s *SMSChannelRequest) SetShortCode(v string) *SMSChannelRequest {
-	s.ShortCode = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ShortCode != nil {
+		v := *s.ShortCode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ShortCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // SMS Channel Response.
@@ -9876,6 +13668,9 @@ type SMSChannelResponse struct {
 
 	// If the channel is enabled for sending messages.
 	Enabled *bool `type:"boolean"`
+
+	// If the channel is registered with a credential for authentication.
+	HasCredential *bool `type:"boolean"`
 
 	// Channel ID. Not used, only for backwards compatibility.
 	Id *string `type:"string"`
@@ -9912,70 +13707,81 @@ func (s SMSChannelResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *SMSChannelResponse) SetApplicationId(v string) *SMSChannelResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SMSChannelResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *SMSChannelResponse) SetCreationDate(v string) *SMSChannelResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetEnabled sets the Enabled field's value.
-func (s *SMSChannelResponse) SetEnabled(v bool) *SMSChannelResponse {
-	s.Enabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetId sets the Id field's value.
-func (s *SMSChannelResponse) SetId(v string) *SMSChannelResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.HasCredential != nil {
+		v := *s.HasCredential
 
-// SetIsArchived sets the IsArchived field's value.
-func (s *SMSChannelResponse) SetIsArchived(v bool) *SMSChannelResponse {
-	s.IsArchived = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasCredential", protocol.BoolValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *SMSChannelResponse) SetLastModifiedBy(v string) *SMSChannelResponse {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsArchived != nil {
+		v := *s.IsArchived
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *SMSChannelResponse) SetLastModifiedDate(v string) *SMSChannelResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsArchived", protocol.BoolValue(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetPlatform sets the Platform field's value.
-func (s *SMSChannelResponse) SetPlatform(v string) *SMSChannelResponse {
-	s.Platform = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetSenderId sets the SenderId field's value.
-func (s *SMSChannelResponse) SetSenderId(v string) *SMSChannelResponse {
-	s.SenderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Platform != nil {
+		v := *s.Platform
 
-// SetShortCode sets the ShortCode field's value.
-func (s *SMSChannelResponse) SetShortCode(v string) *SMSChannelResponse {
-	s.ShortCode = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
 
-// SetVersion sets the Version field's value.
-func (s *SMSChannelResponse) SetVersion(v int64) *SMSChannelResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ShortCode != nil {
+		v := *s.ShortCode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ShortCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // SMS Message.
@@ -9987,12 +13793,19 @@ type SMSMessage struct {
 	Body *string `type:"string"`
 
 	// Is this a transaction priority message or lower priority.
-	MessageType MessageType `type:"string"`
+	MessageType MessageType `type:"string" enum:"true"`
 
-	// Sender ID of sent message.
+	// The phone number that the SMS message originates from. Specify one of the
+	// dedicated long codes or short codes that you requested from AWS Support and
+	// that is assigned to your account. If this attribute is not specified, Amazon
+	// Pinpoint randomly assigns a long code.
+	OriginationNumber *string `type:"string"`
+
+	// The sender ID that is shown as the message sender on the recipient's device.
+	// Support for sender IDs varies by country or region.
 	SenderId *string `type:"string"`
 
-	Substitutions map[string][]*string `type:"map"`
+	Substitutions map[string][]string `type:"map"`
 }
 
 // String returns the string representation
@@ -10005,28 +13818,50 @@ func (s SMSMessage) GoString() string {
 	return s.String()
 }
 
-// SetBody sets the Body field's value.
-func (s *SMSMessage) SetBody(v string) *SMSMessage {
-	s.Body = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SMSMessage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Body != nil {
+		v := *s.Body
 
-// SetMessageType sets the MessageType field's value.
-func (s *SMSMessage) SetMessageType(v MessageType) *SMSMessage {
-	s.MessageType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Body", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.MessageType) > 0 {
+		v := s.MessageType
 
-// SetSenderId sets the SenderId field's value.
-func (s *SMSMessage) SetSenderId(v string) *SMSMessage {
-	s.SenderId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MessageType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.OriginationNumber != nil {
+		v := *s.OriginationNumber
 
-// SetSubstitutions sets the Substitutions field's value.
-func (s *SMSMessage) SetSubstitutions(v map[string][]*string) *SMSMessage {
-	s.Substitutions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OriginationNumber", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SenderId != nil {
+		v := *s.SenderId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SenderId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Substitutions) > 0 {
+		v := s.Substitutions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Substitutions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v2)})
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Shcedule that defines when a campaign is run.
@@ -10039,7 +13874,7 @@ type Schedule struct {
 
 	// How often the campaign delivers messages.Valid values: ONCE, HOURLY, DAILY,
 	// WEEKLY, MONTHLY
-	Frequency Frequency `type:"string"`
+	Frequency Frequency `type:"string" enum:"true"`
 
 	// Indicates whether the campaign schedule takes effect according to each user's
 	// local time.
@@ -10066,40 +13901,45 @@ func (s Schedule) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *Schedule) SetEndTime(v string) *Schedule {
-	s.EndTime = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Schedule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetFrequency sets the Frequency field's value.
-func (s *Schedule) SetFrequency(v Frequency) *Schedule {
-	s.Frequency = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Frequency) > 0 {
+		v := s.Frequency
 
-// SetIsLocalTime sets the IsLocalTime field's value.
-func (s *Schedule) SetIsLocalTime(v bool) *Schedule {
-	s.IsLocalTime = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Frequency", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.IsLocalTime != nil {
+		v := *s.IsLocalTime
 
-// SetQuietTime sets the QuietTime field's value.
-func (s *Schedule) SetQuietTime(v *QuietTime) *Schedule {
-	s.QuietTime = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsLocalTime", protocol.BoolValue(v), metadata)
+	}
+	if s.QuietTime != nil {
+		v := s.QuietTime
 
-// SetStartTime sets the StartTime field's value.
-func (s *Schedule) SetStartTime(v string) *Schedule {
-	s.StartTime = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "QuietTime", v, metadata)
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
 
-// SetTimezone sets the Timezone field's value.
-func (s *Schedule) SetTimezone(v string) *Schedule {
-	s.Timezone = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Timezone != nil {
+		v := *s.Timezone
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Timezone", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Segment behavior dimensions
@@ -10121,10 +13961,15 @@ func (s SegmentBehaviors) GoString() string {
 	return s.String()
 }
 
-// SetRecency sets the Recency field's value.
-func (s *SegmentBehaviors) SetRecency(v *RecencyDimension) *SegmentBehaviors {
-	s.Recency = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentBehaviors) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Recency != nil {
+		v := s.Recency
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Recency", v, metadata)
+	}
+	return nil
 }
 
 // Segment demographic dimensions
@@ -10161,40 +14006,45 @@ func (s SegmentDemographics) GoString() string {
 	return s.String()
 }
 
-// SetAppVersion sets the AppVersion field's value.
-func (s *SegmentDemographics) SetAppVersion(v *SetDimension) *SegmentDemographics {
-	s.AppVersion = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentDemographics) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppVersion != nil {
+		v := s.AppVersion
 
-// SetChannel sets the Channel field's value.
-func (s *SegmentDemographics) SetChannel(v *SetDimension) *SegmentDemographics {
-	s.Channel = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AppVersion", v, metadata)
+	}
+	if s.Channel != nil {
+		v := s.Channel
 
-// SetDeviceType sets the DeviceType field's value.
-func (s *SegmentDemographics) SetDeviceType(v *SetDimension) *SegmentDemographics {
-	s.DeviceType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Channel", v, metadata)
+	}
+	if s.DeviceType != nil {
+		v := s.DeviceType
 
-// SetMake sets the Make field's value.
-func (s *SegmentDemographics) SetMake(v *SetDimension) *SegmentDemographics {
-	s.Make = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DeviceType", v, metadata)
+	}
+	if s.Make != nil {
+		v := s.Make
 
-// SetModel sets the Model field's value.
-func (s *SegmentDemographics) SetModel(v *SetDimension) *SegmentDemographics {
-	s.Model = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Make", v, metadata)
+	}
+	if s.Model != nil {
+		v := s.Model
 
-// SetPlatform sets the Platform field's value.
-func (s *SegmentDemographics) SetPlatform(v *SetDimension) *SegmentDemographics {
-	s.Platform = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Model", v, metadata)
+	}
+	if s.Platform != nil {
+		v := s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Platform", v, metadata)
+	}
+	return nil
 }
 
 // Segment dimensions
@@ -10203,7 +14053,7 @@ type SegmentDimensions struct {
 	_ struct{} `type:"structure"`
 
 	// Custom segment attributes.
-	Attributes map[string]*AttributeDimension `type:"map"`
+	Attributes map[string]AttributeDimension `type:"map"`
 
 	// The segment behaviors attributes.
 	Behavior *SegmentBehaviors `type:"structure"`
@@ -10215,7 +14065,7 @@ type SegmentDimensions struct {
 	Location *SegmentLocation `type:"structure"`
 
 	// Custom segment user attributes.
-	UserAttributes map[string]*AttributeDimension `type:"map"`
+	UserAttributes map[string]AttributeDimension `type:"map"`
 }
 
 // String returns the string representation
@@ -10228,34 +14078,51 @@ func (s SegmentDimensions) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *SegmentDimensions) SetAttributes(v map[string]*AttributeDimension) *SegmentDimensions {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentDimensions) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetBehavior sets the Behavior field's value.
-func (s *SegmentDimensions) SetBehavior(v *SegmentBehaviors) *SegmentDimensions {
-	s.Behavior = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Attributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
 
-// SetDemographic sets the Demographic field's value.
-func (s *SegmentDimensions) SetDemographic(v *SegmentDemographics) *SegmentDimensions {
-	s.Demographic = v
-	return s
-}
+	}
+	if s.Behavior != nil {
+		v := s.Behavior
 
-// SetLocation sets the Location field's value.
-func (s *SegmentDimensions) SetLocation(v *SegmentLocation) *SegmentDimensions {
-	s.Location = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Behavior", v, metadata)
+	}
+	if s.Demographic != nil {
+		v := s.Demographic
 
-// SetUserAttributes sets the UserAttributes field's value.
-func (s *SegmentDimensions) SetUserAttributes(v map[string]*AttributeDimension) *SegmentDimensions {
-	s.UserAttributes = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Demographic", v, metadata)
+	}
+	if s.Location != nil {
+		v := s.Location
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Location", v, metadata)
+	}
+	if len(s.UserAttributes) > 0 {
+		v := s.UserAttributes
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "UserAttributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Segment import definition.
@@ -10263,15 +14130,18 @@ func (s *SegmentDimensions) SetUserAttributes(v map[string]*AttributeDimension) 
 type SegmentImportResource struct {
 	_ struct{} `type:"structure"`
 
-	ChannelCounts map[string]*int64 `type:"map"`
+	// Channel type counts
+	ChannelCounts map[string]int64 `type:"map"`
 
-	// A unique, custom ID assigned to the IAM role that restricts who can assume
-	// the role.
+	// DEPRECATED. Your AWS account ID, which you assigned to the ExternalID key
+	// in an IAM trust policy. Used by Amazon Pinpoint to assume an IAM role. This
+	// requirement is removed, and external IDs are not recommended for IAM roles
+	// assumed by Amazon Pinpoint.
 	ExternalId *string `type:"string"`
 
 	// The format of the endpoint files that were imported to create this segment.Valid
 	// values: CSV, JSON
-	Format Format `type:"string"`
+	Format Format `type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) of an IAM role that grants Amazon Pinpoint
 	// access to the endpoints in Amazon S3.
@@ -10295,40 +14165,51 @@ func (s SegmentImportResource) GoString() string {
 	return s.String()
 }
 
-// SetChannelCounts sets the ChannelCounts field's value.
-func (s *SegmentImportResource) SetChannelCounts(v map[string]*int64) *SegmentImportResource {
-	s.ChannelCounts = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentImportResource) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ChannelCounts) > 0 {
+		v := s.ChannelCounts
 
-// SetExternalId sets the ExternalId field's value.
-func (s *SegmentImportResource) SetExternalId(v string) *SegmentImportResource {
-	s.ExternalId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "ChannelCounts", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.Int64Value(v1))
+		}
+		ms0.End()
 
-// SetFormat sets the Format field's value.
-func (s *SegmentImportResource) SetFormat(v Format) *SegmentImportResource {
-	s.Format = v
-	return s
-}
+	}
+	if s.ExternalId != nil {
+		v := *s.ExternalId
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *SegmentImportResource) SetRoleArn(v string) *SegmentImportResource {
-	s.RoleArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExternalId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Format) > 0 {
+		v := s.Format
 
-// SetS3Url sets the S3Url field's value.
-func (s *SegmentImportResource) SetS3Url(v string) *SegmentImportResource {
-	s.S3Url = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Format", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
 
-// SetSize sets the Size field's value.
-func (s *SegmentImportResource) SetSize(v int64) *SegmentImportResource {
-	s.Size = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3Url != nil {
+		v := *s.S3Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Segment location dimensions
@@ -10350,10 +14231,15 @@ func (s SegmentLocation) GoString() string {
 	return s.String()
 }
 
-// SetCountry sets the Country field's value.
-func (s *SegmentLocation) SetCountry(v *SetDimension) *SegmentLocation {
-	s.Country = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Country != nil {
+		v := s.Country
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Country", v, metadata)
+	}
+	return nil
 }
 
 // Segment definition.
@@ -10389,7 +14275,7 @@ type SegmentResponse struct {
 	// an imported set of endpoint definitions. You create this type of segment
 	// by importing a segment in the Amazon Pinpoint console or by making a POST
 	// request to the jobs/import resource.
-	SegmentType SegmentType `type:"string"`
+	SegmentType SegmentType `type:"string" enum:"true"`
 
 	// The segment version number.
 	Version *int64 `type:"integer"`
@@ -10405,58 +14291,63 @@ func (s SegmentResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *SegmentResponse) SetApplicationId(v string) *SegmentResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *SegmentResponse) SetCreationDate(v string) *SegmentResponse {
-	s.CreationDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetDimensions sets the Dimensions field's value.
-func (s *SegmentResponse) SetDimensions(v *SegmentDimensions) *SegmentResponse {
-	s.Dimensions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Dimensions != nil {
+		v := s.Dimensions
 
-// SetId sets the Id field's value.
-func (s *SegmentResponse) SetId(v string) *SegmentResponse {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Dimensions", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetImportDefinition sets the ImportDefinition field's value.
-func (s *SegmentResponse) SetImportDefinition(v *SegmentImportResource) *SegmentResponse {
-	s.ImportDefinition = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ImportDefinition != nil {
+		v := s.ImportDefinition
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *SegmentResponse) SetLastModifiedDate(v string) *SegmentResponse {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ImportDefinition", v, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetName sets the Name field's value.
-func (s *SegmentResponse) SetName(v string) *SegmentResponse {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSegmentType sets the SegmentType field's value.
-func (s *SegmentResponse) SetSegmentType(v SegmentType) *SegmentResponse {
-	s.SegmentType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SegmentType) > 0 {
+		v := s.SegmentType
 
-// SetVersion sets the Version field's value.
-func (s *SegmentResponse) SetVersion(v int64) *SegmentResponse {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Segments in your account.
@@ -10465,7 +14356,7 @@ type SegmentsResponse struct {
 	_ struct{} `type:"structure"`
 
 	// The list of segments.
-	Item []*SegmentResponse `type:"list"`
+	Item []SegmentResponse `type:"list"`
 
 	// An identifier used to retrieve the next page of results. The token is null
 	// if no additional pages exist.
@@ -10482,16 +14373,27 @@ func (s SegmentsResponse) GoString() string {
 	return s.String()
 }
 
-// SetItem sets the Item field's value.
-func (s *SegmentsResponse) SetItem(v []*SegmentResponse) *SegmentsResponse {
-	s.Item = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SegmentsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Item) > 0 {
+		v := s.Item
 
-// SetNextToken sets the NextToken field's value.
-func (s *SegmentsResponse) SetNextToken(v string) *SegmentsResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/SendMessagesRequest
@@ -10535,21 +14437,30 @@ func (s *SendMessagesInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *SendMessagesInput) SetApplicationId(v string) *SendMessagesInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SendMessagesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetMessageRequest sets the MessageRequest field's value.
-func (s *SendMessagesInput) SetMessageRequest(v *MessageRequest) *SendMessagesInput {
-	s.MessageRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MessageRequest != nil {
+		v := s.MessageRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "MessageRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/SendMessagesResponse
 type SendMessagesOutput struct {
 	_ struct{} `type:"structure" payload:"MessageResponse"`
+
+	responseMetadata aws.Response
 
 	// Send message response.
 	//
@@ -10567,10 +14478,20 @@ func (s SendMessagesOutput) GoString() string {
 	return s.String()
 }
 
-// SetMessageResponse sets the MessageResponse field's value.
-func (s *SendMessagesOutput) SetMessageResponse(v *MessageResponse) *SendMessagesOutput {
-	s.MessageResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendMessagesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SendMessagesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageResponse != nil {
+		v := s.MessageResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "MessageResponse", v, metadata)
+	}
+	return nil
 }
 
 // Send message request.
@@ -10578,17 +14499,17 @@ func (s *SendMessagesOutput) SetMessageResponse(v *MessageResponse) *SendMessage
 type SendUsersMessageRequest struct {
 	_ struct{} `type:"structure"`
 
-	Context map[string]*string `type:"map"`
+	// A map of custom attributes to attributes to be attached to the message. This
+	// payload is added to the push notification's 'data.pinpoint' object or added
+	// to the email/sms delivery receipt event attributes.
+	Context map[string]string `type:"map"`
 
 	// Message configuration.
 	MessageConfiguration *DirectMessageConfiguration `type:"structure"`
 
-	// Original request Id for which this message is delivered.
-	RequestId *string `type:"string"`
-
 	// A map of destination endpoints, with the EndpointId as the key Endpoint Message
 	// Configuration as the value.
-	Users map[string]*EndpointSendConfiguration `type:"map"`
+	Users map[string]EndpointSendConfiguration `type:"map"`
 }
 
 // String returns the string representation
@@ -10601,28 +14522,39 @@ func (s SendUsersMessageRequest) GoString() string {
 	return s.String()
 }
 
-// SetContext sets the Context field's value.
-func (s *SendUsersMessageRequest) SetContext(v map[string]*string) *SendUsersMessageRequest {
-	s.Context = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SendUsersMessageRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Context) > 0 {
+		v := s.Context
 
-// SetMessageConfiguration sets the MessageConfiguration field's value.
-func (s *SendUsersMessageRequest) SetMessageConfiguration(v *DirectMessageConfiguration) *SendUsersMessageRequest {
-	s.MessageConfiguration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Context", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetRequestId sets the RequestId field's value.
-func (s *SendUsersMessageRequest) SetRequestId(v string) *SendUsersMessageRequest {
-	s.RequestId = &v
-	return s
-}
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
 
-// SetUsers sets the Users field's value.
-func (s *SendUsersMessageRequest) SetUsers(v map[string]*EndpointSendConfiguration) *SendUsersMessageRequest {
-	s.Users = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, metadata)
+	}
+	if len(s.Users) > 0 {
+		v := s.Users
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Users", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // User send message response.
@@ -10637,7 +14569,7 @@ type SendUsersMessageResponse struct {
 	RequestId *string `type:"string"`
 
 	// A map containing of UserId to Map of EndpointId to Endpoint Message Result.
-	Result map[string]map[string]*EndpointMessageResult `type:"map"`
+	Result map[string]map[string]EndpointMessageResult `type:"map"`
 }
 
 // String returns the string representation
@@ -10650,22 +14582,38 @@ func (s SendUsersMessageResponse) GoString() string {
 	return s.String()
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *SendUsersMessageResponse) SetApplicationId(v string) *SendUsersMessageResponse {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SendUsersMessageResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetRequestId sets the RequestId field's value.
-func (s *SendUsersMessageResponse) SetRequestId(v string) *SendUsersMessageResponse {
-	s.RequestId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApplicationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestId != nil {
+		v := *s.RequestId
 
-// SetResult sets the Result field's value.
-func (s *SendUsersMessageResponse) SetResult(v map[string]map[string]*EndpointMessageResult) *SendUsersMessageResponse {
-	s.Result = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequestId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Result) > 0 {
+		v := s.Result
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Result", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms1 := ms0.Map(k1)
+			ms1.Start()
+			for k2, v2 := range v1 {
+				ms1.MapSetFields(k2, v2)
+			}
+			ms1.End()
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/SendUsersMessagesRequest
@@ -10709,21 +14657,30 @@ func (s *SendUsersMessagesInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *SendUsersMessagesInput) SetApplicationId(v string) *SendUsersMessagesInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SendUsersMessagesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSendUsersMessageRequest sets the SendUsersMessageRequest field's value.
-func (s *SendUsersMessagesInput) SetSendUsersMessageRequest(v *SendUsersMessageRequest) *SendUsersMessagesInput {
-	s.SendUsersMessageRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SendUsersMessageRequest != nil {
+		v := s.SendUsersMessageRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SendUsersMessageRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/SendUsersMessagesResponse
 type SendUsersMessagesOutput struct {
 	_ struct{} `type:"structure" payload:"SendUsersMessageResponse"`
+
+	responseMetadata aws.Response
 
 	// User send message response.
 	//
@@ -10741,10 +14698,20 @@ func (s SendUsersMessagesOutput) GoString() string {
 	return s.String()
 }
 
-// SetSendUsersMessageResponse sets the SendUsersMessageResponse field's value.
-func (s *SendUsersMessagesOutput) SetSendUsersMessageResponse(v *SendUsersMessageResponse) *SendUsersMessagesOutput {
-	s.SendUsersMessageResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendUsersMessagesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SendUsersMessagesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SendUsersMessageResponse != nil {
+		v := s.SendUsersMessageResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SendUsersMessageResponse", v, metadata)
+	}
+	return nil
 }
 
 // Dimension specification of a segment.
@@ -10755,9 +14722,9 @@ type SetDimension struct {
 	// The type of dimension:INCLUSIVE - Endpoints that match the criteria are included
 	// in the segment.EXCLUSIVE - Endpoints that match the criteria are excluded
 	// from the segment.
-	DimensionType DimensionType `type:"string"`
+	DimensionType DimensionType `type:"string" enum:"true"`
 
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -10770,16 +14737,27 @@ func (s SetDimension) GoString() string {
 	return s.String()
 }
 
-// SetDimensionType sets the DimensionType field's value.
-func (s *SetDimension) SetDimensionType(v DimensionType) *SetDimension {
-	s.DimensionType = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SetDimension) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DimensionType) > 0 {
+		v := s.DimensionType
 
-// SetValues sets the Values field's value.
-func (s *SetDimension) SetValues(v []*string) *SetDimension {
-	s.Values = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DimensionType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Values) > 0 {
+		v := s.Values
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Values", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Treatment resource
@@ -10819,46 +14797,51 @@ func (s TreatmentResource) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *TreatmentResource) SetId(v string) *TreatmentResource {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TreatmentResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Id != nil {
+		v := *s.Id
 
-// SetMessageConfiguration sets the MessageConfiguration field's value.
-func (s *TreatmentResource) SetMessageConfiguration(v *MessageConfiguration) *TreatmentResource {
-	s.MessageConfiguration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
 
-// SetSchedule sets the Schedule field's value.
-func (s *TreatmentResource) SetSchedule(v *Schedule) *TreatmentResource {
-	s.Schedule = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, metadata)
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
 
-// SetSizePercent sets the SizePercent field's value.
-func (s *TreatmentResource) SetSizePercent(v int64) *TreatmentResource {
-	s.SizePercent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Schedule", v, metadata)
+	}
+	if s.SizePercent != nil {
+		v := *s.SizePercent
 
-// SetState sets the State field's value.
-func (s *TreatmentResource) SetState(v *CampaignState) *TreatmentResource {
-	s.State = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SizePercent", protocol.Int64Value(v), metadata)
+	}
+	if s.State != nil {
+		v := s.State
 
-// SetTreatmentDescription sets the TreatmentDescription field's value.
-func (s *TreatmentResource) SetTreatmentDescription(v string) *TreatmentResource {
-	s.TreatmentDescription = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "State", v, metadata)
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
 
-// SetTreatmentName sets the TreatmentName field's value.
-func (s *TreatmentResource) SetTreatmentName(v string) *TreatmentResource {
-	s.TreatmentName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateAdmChannelRequest
@@ -10902,21 +14885,30 @@ func (s *UpdateAdmChannelInput) Validate() error {
 	return nil
 }
 
-// SetADMChannelRequest sets the ADMChannelRequest field's value.
-func (s *UpdateAdmChannelInput) SetADMChannelRequest(v *ADMChannelRequest) *UpdateAdmChannelInput {
-	s.ADMChannelRequest = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateAdmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateAdmChannelInput) SetApplicationId(v string) *UpdateAdmChannelInput {
-	s.ApplicationId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ADMChannelRequest != nil {
+		v := s.ADMChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ADMChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateAdmChannelResponse
 type UpdateAdmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"ADMChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Amazon Device Messaging channel definition.
 	//
@@ -10934,10 +14926,20 @@ func (s UpdateAdmChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetADMChannelResponse sets the ADMChannelResponse field's value.
-func (s *UpdateAdmChannelOutput) SetADMChannelResponse(v *ADMChannelResponse) *UpdateAdmChannelOutput {
-	s.ADMChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAdmChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateAdmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ADMChannelResponse != nil {
+		v := s.ADMChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ADMChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsChannelRequest
@@ -10981,21 +14983,30 @@ func (s *UpdateApnsChannelInput) Validate() error {
 	return nil
 }
 
-// SetAPNSChannelRequest sets the APNSChannelRequest field's value.
-func (s *UpdateApnsChannelInput) SetAPNSChannelRequest(v *APNSChannelRequest) *UpdateApnsChannelInput {
-	s.APNSChannelRequest = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateApnsChannelInput) SetApplicationId(v string) *UpdateApnsChannelInput {
-	s.ApplicationId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.APNSChannelRequest != nil {
+		v := s.APNSChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsChannelResponse
 type UpdateApnsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Apple Distribution Push Notification Service channel definition.
 	//
@@ -11013,10 +15024,20 @@ func (s UpdateApnsChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetAPNSChannelResponse sets the APNSChannelResponse field's value.
-func (s *UpdateApnsChannelOutput) SetAPNSChannelResponse(v *APNSChannelResponse) *UpdateApnsChannelOutput {
-	s.APNSChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApnsChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSChannelResponse != nil {
+		v := s.APNSChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsSandboxChannelRequest
@@ -11060,21 +15081,30 @@ func (s *UpdateApnsSandboxChannelInput) Validate() error {
 	return nil
 }
 
-// SetAPNSSandboxChannelRequest sets the APNSSandboxChannelRequest field's value.
-func (s *UpdateApnsSandboxChannelInput) SetAPNSSandboxChannelRequest(v *APNSSandboxChannelRequest) *UpdateApnsSandboxChannelInput {
-	s.APNSSandboxChannelRequest = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateApnsSandboxChannelInput) SetApplicationId(v string) *UpdateApnsSandboxChannelInput {
-	s.ApplicationId = &v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.APNSSandboxChannelRequest != nil {
+		v := s.APNSSandboxChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsSandboxChannelResponse
 type UpdateApnsSandboxChannelOutput struct {
 	_ struct{} `type:"structure" payload:"APNSSandboxChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Apple Development Push Notification Service channel definition.
 	//
@@ -11092,10 +15122,216 @@ func (s UpdateApnsSandboxChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetAPNSSandboxChannelResponse sets the APNSSandboxChannelResponse field's value.
-func (s *UpdateApnsSandboxChannelOutput) SetAPNSSandboxChannelResponse(v *APNSSandboxChannelResponse) *UpdateApnsSandboxChannelOutput {
-	s.APNSSandboxChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApnsSandboxChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSSandboxChannelResponse != nil {
+		v := s.APNSSandboxChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSSandboxChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsVoipChannelRequest
+type UpdateApnsVoipChannelInput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipChannelRequest"`
+
+	// Apple VoIP Push Notification Service channel definition.
+	//
+	// APNSVoipChannelRequest is a required field
+	APNSVoipChannelRequest *APNSVoipChannelRequest `type:"structure" required:"true"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateApnsVoipChannelInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateApnsVoipChannelInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateApnsVoipChannelInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateApnsVoipChannelInput"}
+
+	if s.APNSVoipChannelRequest == nil {
+		invalidParams.Add(aws.NewErrParamRequired("APNSVoipChannelRequest"))
+	}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsVoipChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.APNSVoipChannelRequest != nil {
+		v := s.APNSVoipChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipChannelRequest", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsVoipChannelResponse
+type UpdateApnsVoipChannelOutput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipChannelResponse"`
+
+	responseMetadata aws.Response
+
+	// Apple VoIP Push Notification Service channel definition.
+	//
+	// APNSVoipChannelResponse is a required field
+	APNSVoipChannelResponse *APNSVoipChannelResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateApnsVoipChannelOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateApnsVoipChannelOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApnsVoipChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsVoipChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSVoipChannelResponse != nil {
+		v := s.APNSVoipChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipChannelResponse", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsVoipSandboxChannelRequest
+type UpdateApnsVoipSandboxChannelInput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipSandboxChannelRequest"`
+
+	// Apple VoIP Developer Push Notification Service channel definition.
+	//
+	// APNSVoipSandboxChannelRequest is a required field
+	APNSVoipSandboxChannelRequest *APNSVoipSandboxChannelRequest `type:"structure" required:"true"`
+
+	// ApplicationId is a required field
+	ApplicationId *string `location:"uri" locationName:"application-id" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateApnsVoipSandboxChannelInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateApnsVoipSandboxChannelInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateApnsVoipSandboxChannelInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateApnsVoipSandboxChannelInput"}
+
+	if s.APNSVoipSandboxChannelRequest == nil {
+		invalidParams.Add(aws.NewErrParamRequired("APNSVoipSandboxChannelRequest"))
+	}
+
+	if s.ApplicationId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ApplicationId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsVoipSandboxChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.APNSVoipSandboxChannelRequest != nil {
+		v := s.APNSVoipSandboxChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipSandboxChannelRequest", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApnsVoipSandboxChannelResponse
+type UpdateApnsVoipSandboxChannelOutput struct {
+	_ struct{} `type:"structure" payload:"APNSVoipSandboxChannelResponse"`
+
+	responseMetadata aws.Response
+
+	// Apple VoIP Developer Push Notification Service channel definition.
+	//
+	// APNSVoipSandboxChannelResponse is a required field
+	APNSVoipSandboxChannelResponse *APNSVoipSandboxChannelResponse `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateApnsVoipSandboxChannelOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateApnsVoipSandboxChannelOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApnsVoipSandboxChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApnsVoipSandboxChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.APNSVoipSandboxChannelResponse != nil {
+		v := s.APNSVoipSandboxChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "APNSVoipSandboxChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApplicationSettingsRequest
@@ -11139,21 +15375,30 @@ func (s *UpdateApplicationSettingsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateApplicationSettingsInput) SetApplicationId(v string) *UpdateApplicationSettingsInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApplicationSettingsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetWriteApplicationSettingsRequest sets the WriteApplicationSettingsRequest field's value.
-func (s *UpdateApplicationSettingsInput) SetWriteApplicationSettingsRequest(v *WriteApplicationSettingsRequest) *UpdateApplicationSettingsInput {
-	s.WriteApplicationSettingsRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.WriteApplicationSettingsRequest != nil {
+		v := s.WriteApplicationSettingsRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "WriteApplicationSettingsRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApplicationSettingsResponse
 type UpdateApplicationSettingsOutput struct {
 	_ struct{} `type:"structure" payload:"ApplicationSettingsResource"`
+
+	responseMetadata aws.Response
 
 	// Application settings.
 	//
@@ -11171,10 +15416,20 @@ func (s UpdateApplicationSettingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationSettingsResource sets the ApplicationSettingsResource field's value.
-func (s *UpdateApplicationSettingsOutput) SetApplicationSettingsResource(v *ApplicationSettingsResource) *UpdateApplicationSettingsOutput {
-	s.ApplicationSettingsResource = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApplicationSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateApplicationSettingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplicationSettingsResource != nil {
+		v := s.ApplicationSettingsResource
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ApplicationSettingsResource", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateBaiduChannelRequest
@@ -11218,21 +15473,30 @@ func (s *UpdateBaiduChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateBaiduChannelInput) SetApplicationId(v string) *UpdateBaiduChannelInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateBaiduChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBaiduChannelRequest sets the BaiduChannelRequest field's value.
-func (s *UpdateBaiduChannelInput) SetBaiduChannelRequest(v *BaiduChannelRequest) *UpdateBaiduChannelInput {
-	s.BaiduChannelRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BaiduChannelRequest != nil {
+		v := s.BaiduChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "BaiduChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateBaiduChannelResponse
 type UpdateBaiduChannelOutput struct {
 	_ struct{} `type:"structure" payload:"BaiduChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Baidu Cloud Messaging channel definition
 	//
@@ -11250,10 +15514,20 @@ func (s UpdateBaiduChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaiduChannelResponse sets the BaiduChannelResponse field's value.
-func (s *UpdateBaiduChannelOutput) SetBaiduChannelResponse(v *BaiduChannelResponse) *UpdateBaiduChannelOutput {
-	s.BaiduChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateBaiduChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateBaiduChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BaiduChannelResponse != nil {
+		v := s.BaiduChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "BaiduChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateCampaignRequest
@@ -11304,27 +15578,36 @@ func (s *UpdateCampaignInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateCampaignInput) SetApplicationId(v string) *UpdateCampaignInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateCampaignInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetCampaignId sets the CampaignId field's value.
-func (s *UpdateCampaignInput) SetCampaignId(v string) *UpdateCampaignInput {
-	s.CampaignId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetWriteCampaignRequest sets the WriteCampaignRequest field's value.
-func (s *UpdateCampaignInput) SetWriteCampaignRequest(v *WriteCampaignRequest) *UpdateCampaignInput {
-	s.WriteCampaignRequest = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CampaignId != nil {
+		v := *s.CampaignId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "campaign-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.WriteCampaignRequest != nil {
+		v := s.WriteCampaignRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "WriteCampaignRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateCampaignResponse
 type UpdateCampaignOutput struct {
 	_ struct{} `type:"structure" payload:"CampaignResponse"`
+
+	responseMetadata aws.Response
 
 	// Campaign definition
 	//
@@ -11342,10 +15625,20 @@ func (s UpdateCampaignOutput) GoString() string {
 	return s.String()
 }
 
-// SetCampaignResponse sets the CampaignResponse field's value.
-func (s *UpdateCampaignOutput) SetCampaignResponse(v *CampaignResponse) *UpdateCampaignOutput {
-	s.CampaignResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateCampaignOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateCampaignOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignResponse != nil {
+		v := s.CampaignResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CampaignResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEmailChannelRequest
@@ -11389,21 +15682,30 @@ func (s *UpdateEmailChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateEmailChannelInput) SetApplicationId(v string) *UpdateEmailChannelInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEmailChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetEmailChannelRequest sets the EmailChannelRequest field's value.
-func (s *UpdateEmailChannelInput) SetEmailChannelRequest(v *EmailChannelRequest) *UpdateEmailChannelInput {
-	s.EmailChannelRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EmailChannelRequest != nil {
+		v := s.EmailChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EmailChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEmailChannelResponse
 type UpdateEmailChannelOutput struct {
 	_ struct{} `type:"structure" payload:"EmailChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Email Channel Response.
 	//
@@ -11421,10 +15723,20 @@ func (s UpdateEmailChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetEmailChannelResponse sets the EmailChannelResponse field's value.
-func (s *UpdateEmailChannelOutput) SetEmailChannelResponse(v *EmailChannelResponse) *UpdateEmailChannelOutput {
-	s.EmailChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEmailChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEmailChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailChannelResponse != nil {
+		v := s.EmailChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EmailChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEndpointRequest
@@ -11475,27 +15787,36 @@ func (s *UpdateEndpointInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateEndpointInput) SetApplicationId(v string) *UpdateEndpointInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEndpointInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetEndpointId sets the EndpointId field's value.
-func (s *UpdateEndpointInput) SetEndpointId(v string) *UpdateEndpointInput {
-	s.EndpointId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetEndpointRequest sets the EndpointRequest field's value.
-func (s *UpdateEndpointInput) SetEndpointRequest(v *EndpointRequest) *UpdateEndpointInput {
-	s.EndpointRequest = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointId != nil {
+		v := *s.EndpointId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "endpoint-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointRequest != nil {
+		v := s.EndpointRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EndpointRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEndpointResponse
 type UpdateEndpointOutput struct {
 	_ struct{} `type:"structure" payload:"MessageBody"`
+
+	responseMetadata aws.Response
 
 	// Simple message object.
 	//
@@ -11513,10 +15834,20 @@ func (s UpdateEndpointOutput) GoString() string {
 	return s.String()
 }
 
-// SetMessageBody sets the MessageBody field's value.
-func (s *UpdateEndpointOutput) SetMessageBody(v *MessageBody) *UpdateEndpointOutput {
-	s.MessageBody = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEndpointOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageBody != nil {
+		v := s.MessageBody
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "MessageBody", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEndpointsBatchRequest
@@ -11560,21 +15891,30 @@ func (s *UpdateEndpointsBatchInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateEndpointsBatchInput) SetApplicationId(v string) *UpdateEndpointsBatchInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEndpointsBatchInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetEndpointBatchRequest sets the EndpointBatchRequest field's value.
-func (s *UpdateEndpointsBatchInput) SetEndpointBatchRequest(v *EndpointBatchRequest) *UpdateEndpointsBatchInput {
-	s.EndpointBatchRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EndpointBatchRequest != nil {
+		v := s.EndpointBatchRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "EndpointBatchRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEndpointsBatchResponse
 type UpdateEndpointsBatchOutput struct {
 	_ struct{} `type:"structure" payload:"MessageBody"`
+
+	responseMetadata aws.Response
 
 	// Simple message object.
 	//
@@ -11592,10 +15932,20 @@ func (s UpdateEndpointsBatchOutput) GoString() string {
 	return s.String()
 }
 
-// SetMessageBody sets the MessageBody field's value.
-func (s *UpdateEndpointsBatchOutput) SetMessageBody(v *MessageBody) *UpdateEndpointsBatchOutput {
-	s.MessageBody = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEndpointsBatchOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEndpointsBatchOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageBody != nil {
+		v := s.MessageBody
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "MessageBody", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateGcmChannelRequest
@@ -11639,21 +15989,30 @@ func (s *UpdateGcmChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateGcmChannelInput) SetApplicationId(v string) *UpdateGcmChannelInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateGcmChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetGCMChannelRequest sets the GCMChannelRequest field's value.
-func (s *UpdateGcmChannelInput) SetGCMChannelRequest(v *GCMChannelRequest) *UpdateGcmChannelInput {
-	s.GCMChannelRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.GCMChannelRequest != nil {
+		v := s.GCMChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "GCMChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateGcmChannelResponse
 type UpdateGcmChannelOutput struct {
 	_ struct{} `type:"structure" payload:"GCMChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// Google Cloud Messaging channel definition
 	//
@@ -11671,10 +16030,20 @@ func (s UpdateGcmChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetGCMChannelResponse sets the GCMChannelResponse field's value.
-func (s *UpdateGcmChannelOutput) SetGCMChannelResponse(v *GCMChannelResponse) *UpdateGcmChannelOutput {
-	s.GCMChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateGcmChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateGcmChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GCMChannelResponse != nil {
+		v := s.GCMChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "GCMChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateSegmentRequest
@@ -11725,27 +16094,36 @@ func (s *UpdateSegmentInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateSegmentInput) SetApplicationId(v string) *UpdateSegmentInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateSegmentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *UpdateSegmentInput) SetSegmentId(v string) *UpdateSegmentInput {
-	s.SegmentId = &v
-	return s
-}
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
 
-// SetWriteSegmentRequest sets the WriteSegmentRequest field's value.
-func (s *UpdateSegmentInput) SetWriteSegmentRequest(v *WriteSegmentRequest) *UpdateSegmentInput {
-	s.WriteSegmentRequest = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "segment-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.WriteSegmentRequest != nil {
+		v := s.WriteSegmentRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "WriteSegmentRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateSegmentResponse
 type UpdateSegmentOutput struct {
 	_ struct{} `type:"structure" payload:"SegmentResponse"`
+
+	responseMetadata aws.Response
 
 	// Segment definition.
 	//
@@ -11763,10 +16141,20 @@ func (s UpdateSegmentOutput) GoString() string {
 	return s.String()
 }
 
-// SetSegmentResponse sets the SegmentResponse field's value.
-func (s *UpdateSegmentOutput) SetSegmentResponse(v *SegmentResponse) *UpdateSegmentOutput {
-	s.SegmentResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSegmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateSegmentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SegmentResponse != nil {
+		v := s.SegmentResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SegmentResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateSmsChannelRequest
@@ -11810,21 +16198,30 @@ func (s *UpdateSmsChannelInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *UpdateSmsChannelInput) SetApplicationId(v string) *UpdateSmsChannelInput {
-	s.ApplicationId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateSmsChannelInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSMSChannelRequest sets the SMSChannelRequest field's value.
-func (s *UpdateSmsChannelInput) SetSMSChannelRequest(v *SMSChannelRequest) *UpdateSmsChannelInput {
-	s.SMSChannelRequest = v
-	return s
+	if s.ApplicationId != nil {
+		v := *s.ApplicationId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "application-id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SMSChannelRequest != nil {
+		v := s.SMSChannelRequest
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SMSChannelRequest", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateSmsChannelResponse
 type UpdateSmsChannelOutput struct {
 	_ struct{} `type:"structure" payload:"SMSChannelResponse"`
+
+	responseMetadata aws.Response
 
 	// SMS Channel Response.
 	//
@@ -11842,16 +16239,29 @@ func (s UpdateSmsChannelOutput) GoString() string {
 	return s.String()
 }
 
-// SetSMSChannelResponse sets the SMSChannelResponse field's value.
-func (s *UpdateSmsChannelOutput) SetSMSChannelResponse(v *SMSChannelResponse) *UpdateSmsChannelOutput {
-	s.SMSChannelResponse = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSmsChannelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateSmsChannelOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SMSChannelResponse != nil {
+		v := s.SMSChannelResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "SMSChannelResponse", v, metadata)
+	}
+	return nil
 }
 
 // Creating application setting request
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/WriteApplicationSettingsRequest
 type WriteApplicationSettingsRequest struct {
 	_ struct{} `type:"structure"`
+
+	// Default campaign hook information.
+	CampaignHook *CampaignHook `type:"structure"`
 
 	// The default campaign limits for the app. These limits apply to each campaign
 	// for the app, unless the campaign overrides the default with limits of its
@@ -11874,16 +16284,27 @@ func (s WriteApplicationSettingsRequest) GoString() string {
 	return s.String()
 }
 
-// SetLimits sets the Limits field's value.
-func (s *WriteApplicationSettingsRequest) SetLimits(v *CampaignLimits) *WriteApplicationSettingsRequest {
-	s.Limits = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s WriteApplicationSettingsRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CampaignHook != nil {
+		v := s.CampaignHook
 
-// SetQuietTime sets the QuietTime field's value.
-func (s *WriteApplicationSettingsRequest) SetQuietTime(v *QuietTime) *WriteApplicationSettingsRequest {
-	s.QuietTime = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CampaignHook", v, metadata)
+	}
+	if s.Limits != nil {
+		v := s.Limits
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Limits", v, metadata)
+	}
+	if s.QuietTime != nil {
+		v := s.QuietTime
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "QuietTime", v, metadata)
+	}
+	return nil
 }
 
 // Used to create a campaign.
@@ -11892,7 +16313,7 @@ type WriteCampaignRequest struct {
 	_ struct{} `type:"structure"`
 
 	// Treatments that are defined in addition to the default treatment.
-	AdditionalTreatments []*WriteTreatmentResource `type:"list"`
+	AdditionalTreatments []WriteTreatmentResource `type:"list"`
 
 	// A description of the campaign.
 	Description *string `type:"string"`
@@ -11900,6 +16321,9 @@ type WriteCampaignRequest struct {
 	// The allocated percentage of end users who will not receive messages from
 	// this campaign.
 	HoldoutPercent *int64 `type:"integer"`
+
+	// Campaign hook information.
+	Hook *CampaignHook `type:"structure"`
 
 	// Indicates whether the campaign is paused. A paused campaign does not send
 	// messages unless you resume it by setting IsPaused to false.
@@ -11923,9 +16347,6 @@ type WriteCampaignRequest struct {
 	// The version of the segment to which the campaign sends messages.
 	SegmentVersion *int64 `type:"integer"`
 
-	// Whether or not to enable trace logging for the campaign. Undocumented
-	Trace *bool `type:"boolean"`
-
 	// A custom description for the treatment.
 	TreatmentDescription *string `type:"string"`
 
@@ -11943,82 +16364,93 @@ func (s WriteCampaignRequest) GoString() string {
 	return s.String()
 }
 
-// SetAdditionalTreatments sets the AdditionalTreatments field's value.
-func (s *WriteCampaignRequest) SetAdditionalTreatments(v []*WriteTreatmentResource) *WriteCampaignRequest {
-	s.AdditionalTreatments = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s WriteCampaignRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AdditionalTreatments) > 0 {
+		v := s.AdditionalTreatments
 
-// SetDescription sets the Description field's value.
-func (s *WriteCampaignRequest) SetDescription(v string) *WriteCampaignRequest {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AdditionalTreatments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetHoldoutPercent sets the HoldoutPercent field's value.
-func (s *WriteCampaignRequest) SetHoldoutPercent(v int64) *WriteCampaignRequest {
-	s.HoldoutPercent = &v
-	return s
-}
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetIsPaused sets the IsPaused field's value.
-func (s *WriteCampaignRequest) SetIsPaused(v bool) *WriteCampaignRequest {
-	s.IsPaused = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.HoldoutPercent != nil {
+		v := *s.HoldoutPercent
 
-// SetLimits sets the Limits field's value.
-func (s *WriteCampaignRequest) SetLimits(v *CampaignLimits) *WriteCampaignRequest {
-	s.Limits = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HoldoutPercent", protocol.Int64Value(v), metadata)
+	}
+	if s.Hook != nil {
+		v := s.Hook
 
-// SetMessageConfiguration sets the MessageConfiguration field's value.
-func (s *WriteCampaignRequest) SetMessageConfiguration(v *MessageConfiguration) *WriteCampaignRequest {
-	s.MessageConfiguration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Hook", v, metadata)
+	}
+	if s.IsPaused != nil {
+		v := *s.IsPaused
 
-// SetName sets the Name field's value.
-func (s *WriteCampaignRequest) SetName(v string) *WriteCampaignRequest {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsPaused", protocol.BoolValue(v), metadata)
+	}
+	if s.Limits != nil {
+		v := s.Limits
 
-// SetSchedule sets the Schedule field's value.
-func (s *WriteCampaignRequest) SetSchedule(v *Schedule) *WriteCampaignRequest {
-	s.Schedule = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Limits", v, metadata)
+	}
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
 
-// SetSegmentId sets the SegmentId field's value.
-func (s *WriteCampaignRequest) SetSegmentId(v string) *WriteCampaignRequest {
-	s.SegmentId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSegmentVersion sets the SegmentVersion field's value.
-func (s *WriteCampaignRequest) SetSegmentVersion(v int64) *WriteCampaignRequest {
-	s.SegmentVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
 
-// SetTrace sets the Trace field's value.
-func (s *WriteCampaignRequest) SetTrace(v bool) *WriteCampaignRequest {
-	s.Trace = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Schedule", v, metadata)
+	}
+	if s.SegmentId != nil {
+		v := *s.SegmentId
 
-// SetTreatmentDescription sets the TreatmentDescription field's value.
-func (s *WriteCampaignRequest) SetTreatmentDescription(v string) *WriteCampaignRequest {
-	s.TreatmentDescription = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SegmentVersion != nil {
+		v := *s.SegmentVersion
 
-// SetTreatmentName sets the TreatmentName field's value.
-func (s *WriteCampaignRequest) SetTreatmentName(v string) *WriteCampaignRequest {
-	s.TreatmentName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentVersion", protocol.Int64Value(v), metadata)
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Request to save an EventStream.
@@ -12030,10 +16462,6 @@ type WriteEventStream struct {
 	// stream to which you want to publish events. Firehose ARN: arn:aws:firehose:REGION:ACCOUNT_ID:deliverystream/STREAM_NAME
 	// Kinesis ARN: arn:aws:kinesis:REGION:ACCOUNT_ID:stream/STREAM_NAME
 	DestinationStreamArn *string `type:"string"`
-
-	// The external ID assigned the IAM role that authorizes Amazon Pinpoint to
-	// publish to the stream.
-	ExternalId *string `type:"string"`
 
 	// The IAM role that authorizes Amazon Pinpoint to publish events to the stream
 	// in your account.
@@ -12050,22 +16478,21 @@ func (s WriteEventStream) GoString() string {
 	return s.String()
 }
 
-// SetDestinationStreamArn sets the DestinationStreamArn field's value.
-func (s *WriteEventStream) SetDestinationStreamArn(v string) *WriteEventStream {
-	s.DestinationStreamArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s WriteEventStream) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DestinationStreamArn != nil {
+		v := *s.DestinationStreamArn
 
-// SetExternalId sets the ExternalId field's value.
-func (s *WriteEventStream) SetExternalId(v string) *WriteEventStream {
-	s.ExternalId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DestinationStreamArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *WriteEventStream) SetRoleArn(v string) *WriteEventStream {
-	s.RoleArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Segment definition.
@@ -12090,16 +16517,21 @@ func (s WriteSegmentRequest) GoString() string {
 	return s.String()
 }
 
-// SetDimensions sets the Dimensions field's value.
-func (s *WriteSegmentRequest) SetDimensions(v *SegmentDimensions) *WriteSegmentRequest {
-	s.Dimensions = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s WriteSegmentRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Dimensions != nil {
+		v := s.Dimensions
 
-// SetName sets the Name field's value.
-func (s *WriteSegmentRequest) SetName(v string) *WriteSegmentRequest {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Dimensions", v, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Used to create a campaign treatment.
@@ -12133,34 +16565,39 @@ func (s WriteTreatmentResource) GoString() string {
 	return s.String()
 }
 
-// SetMessageConfiguration sets the MessageConfiguration field's value.
-func (s *WriteTreatmentResource) SetMessageConfiguration(v *MessageConfiguration) *WriteTreatmentResource {
-	s.MessageConfiguration = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s WriteTreatmentResource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageConfiguration != nil {
+		v := s.MessageConfiguration
 
-// SetSchedule sets the Schedule field's value.
-func (s *WriteTreatmentResource) SetSchedule(v *Schedule) *WriteTreatmentResource {
-	s.Schedule = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "MessageConfiguration", v, metadata)
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
 
-// SetSizePercent sets the SizePercent field's value.
-func (s *WriteTreatmentResource) SetSizePercent(v int64) *WriteTreatmentResource {
-	s.SizePercent = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Schedule", v, metadata)
+	}
+	if s.SizePercent != nil {
+		v := *s.SizePercent
 
-// SetTreatmentDescription sets the TreatmentDescription field's value.
-func (s *WriteTreatmentResource) SetTreatmentDescription(v string) *WriteTreatmentResource {
-	s.TreatmentDescription = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SizePercent", protocol.Int64Value(v), metadata)
+	}
+	if s.TreatmentDescription != nil {
+		v := *s.TreatmentDescription
 
-// SetTreatmentName sets the TreatmentName field's value.
-func (s *WriteTreatmentResource) SetTreatmentName(v string) *WriteTreatmentResource {
-	s.TreatmentName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentDescription", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TreatmentName != nil {
+		v := *s.TreatmentName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TreatmentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 type Action string
@@ -12172,6 +16609,15 @@ const (
 	ActionUrl      Action = "URL"
 )
 
+func (enum Action) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Action) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AttributeType string
 
 // Enum values for AttributeType
@@ -12179,6 +16625,15 @@ const (
 	AttributeTypeInclusive AttributeType = "INCLUSIVE"
 	AttributeTypeExclusive AttributeType = "EXCLUSIVE"
 )
+
+func (enum AttributeType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AttributeType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CampaignStatus string
 
@@ -12191,18 +16646,39 @@ const (
 	CampaignStatusPaused         CampaignStatus = "PAUSED"
 )
 
+func (enum CampaignStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CampaignStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ChannelType string
 
 // Enum values for ChannelType
 const (
-	ChannelTypeGcm         ChannelType = "GCM"
-	ChannelTypeApns        ChannelType = "APNS"
-	ChannelTypeApnsSandbox ChannelType = "APNS_SANDBOX"
-	ChannelTypeAdm         ChannelType = "ADM"
-	ChannelTypeSms         ChannelType = "SMS"
-	ChannelTypeEmail       ChannelType = "EMAIL"
-	ChannelTypeBaidu       ChannelType = "BAIDU"
+	ChannelTypeGcm             ChannelType = "GCM"
+	ChannelTypeApns            ChannelType = "APNS"
+	ChannelTypeApnsSandbox     ChannelType = "APNS_SANDBOX"
+	ChannelTypeApnsVoip        ChannelType = "APNS_VOIP"
+	ChannelTypeApnsVoipSandbox ChannelType = "APNS_VOIP_SANDBOX"
+	ChannelTypeAdm             ChannelType = "ADM"
+	ChannelTypeSms             ChannelType = "SMS"
+	ChannelTypeEmail           ChannelType = "EMAIL"
+	ChannelTypeBaidu           ChannelType = "BAIDU"
+	ChannelTypeCustom          ChannelType = "CUSTOM"
 )
+
+func (enum ChannelType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ChannelType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DeliveryStatus string
 
@@ -12217,6 +16693,15 @@ const (
 	DeliveryStatusDuplicate        DeliveryStatus = "DUPLICATE"
 )
 
+func (enum DeliveryStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DeliveryStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DimensionType string
 
 // Enum values for DimensionType
@@ -12224,6 +16709,15 @@ const (
 	DimensionTypeInclusive DimensionType = "INCLUSIVE"
 	DimensionTypeExclusive DimensionType = "EXCLUSIVE"
 )
+
+func (enum DimensionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DimensionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Duration string
 
@@ -12235,6 +16729,15 @@ const (
 	DurationDay30 Duration = "DAY_30"
 )
 
+func (enum Duration) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Duration) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Format string
 
 // Enum values for Format
@@ -12242,6 +16745,15 @@ const (
 	FormatCsv  Format = "CSV"
 	FormatJson Format = "JSON"
 )
+
+func (enum Format) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Format) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Frequency string
 
@@ -12253,6 +16765,15 @@ const (
 	FrequencyWeekly  Frequency = "WEEKLY"
 	FrequencyMonthly Frequency = "MONTHLY"
 )
+
+func (enum Frequency) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Frequency) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type JobStatus string
 
@@ -12267,6 +16788,15 @@ const (
 	JobStatusFailed       JobStatus = "FAILED"
 )
 
+func (enum JobStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum JobStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MessageType string
 
 // Enum values for MessageType
@@ -12274,6 +16804,32 @@ const (
 	MessageTypeTransactional MessageType = "TRANSACTIONAL"
 	MessageTypePromotional   MessageType = "PROMOTIONAL"
 )
+
+func (enum MessageType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MessageType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type Mode string
+
+// Enum values for Mode
+const (
+	ModeDelivery Mode = "DELIVERY"
+	ModeFilter   Mode = "FILTER"
+)
+
+func (enum Mode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Mode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RecencyType string
 
@@ -12283,6 +16839,15 @@ const (
 	RecencyTypeInactive RecencyType = "INACTIVE"
 )
 
+func (enum RecencyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RecencyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SegmentType string
 
 // Enum values for SegmentType
@@ -12290,3 +16855,12 @@ const (
 	SegmentTypeDimensional SegmentType = "DIMENSIONAL"
 	SegmentTypeImport      SegmentType = "IMPORT"
 )
+
+func (enum SegmentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SegmentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

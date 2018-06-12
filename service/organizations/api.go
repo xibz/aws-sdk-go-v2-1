@@ -17,6 +17,7 @@ const opAcceptHandshake = "AcceptHandshake"
 type AcceptHandshakeRequest struct {
 	*aws.Request
 	Input *AcceptHandshakeInput
+	Copy  func(*AcceptHandshakeInput) AcceptHandshakeRequest
 }
 
 // Send marshals and sends the AcceptHandshake API request.
@@ -40,6 +41,13 @@ func (r AcceptHandshakeRequest) Send() (*AcceptHandshakeOutput, error) {
 //
 //    * Invitation to join or Approve all features request handshakes: only
 //    a principal from the member account.
+//
+// The user who calls the API for an invitation to join must have the organizations:AcceptHandshake
+//    permission. If you enabled all features in the organization, then the
+//    user must also have the iam:CreateServiceLinkedRole permission so that
+//    Organizations can create the required service-linked role named OrgsServiceLinkedRoleName.
+//    For more information, see AWS Organizations and Service-Linked Roles (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles)
+//    in the AWS Organizations User Guide.
 //
 //    * Enable all features final confirmation handshake: only a principal from
 //    the master account.
@@ -73,8 +81,11 @@ func (c *Organizations) AcceptHandshakeRequest(input *AcceptHandshakeInput) Acce
 		input = &AcceptHandshakeInput{}
 	}
 
-	req := c.newRequest(op, input, &AcceptHandshakeOutput{})
-	return AcceptHandshakeRequest{Request: req, Input: input}
+	output := &AcceptHandshakeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AcceptHandshakeRequest{Request: req, Input: input, Copy: c.AcceptHandshakeRequest}
 }
 
 const opAttachPolicy = "AttachPolicy"
@@ -83,6 +94,7 @@ const opAttachPolicy = "AttachPolicy"
 type AttachPolicyRequest struct {
 	*aws.Request
 	Input *AttachPolicyInput
+	Copy  func(*AttachPolicyInput) AttachPolicyRequest
 }
 
 // Send marshals and sends the AttachPolicy API request.
@@ -98,8 +110,8 @@ func (r AttachPolicyRequest) Send() (*AttachPolicyOutput, error) {
 // AttachPolicyRequest returns a request value for making API operation for
 // AWS Organizations.
 //
-// Attaches a policy to a root, an organizational unit, or an individual account.
-// How the policy affects accounts depends on the type of policy:
+// Attaches a policy to a root, an organizational unit (OU), or an individual
+// account. How the policy affects accounts depends on the type of policy:
 //
 //    * Service control policy (SCP) - An SCP specifies what permissions can
 //    be delegated to users in affected member accounts. The scope of influence
@@ -157,10 +169,13 @@ func (c *Organizations) AttachPolicyRequest(input *AttachPolicyInput) AttachPoli
 		input = &AttachPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachPolicyOutput{})
+	output := &AttachPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AttachPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachPolicyRequest{Request: req, Input: input, Copy: c.AttachPolicyRequest}
 }
 
 const opCancelHandshake = "CancelHandshake"
@@ -169,6 +184,7 @@ const opCancelHandshake = "CancelHandshake"
 type CancelHandshakeRequest struct {
 	*aws.Request
 	Input *CancelHandshakeInput
+	Copy  func(*CancelHandshakeInput) CancelHandshakeRequest
 }
 
 // Send marshals and sends the CancelHandshake API request.
@@ -213,8 +229,11 @@ func (c *Organizations) CancelHandshakeRequest(input *CancelHandshakeInput) Canc
 		input = &CancelHandshakeInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelHandshakeOutput{})
-	return CancelHandshakeRequest{Request: req, Input: input}
+	output := &CancelHandshakeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelHandshakeRequest{Request: req, Input: input, Copy: c.CancelHandshakeRequest}
 }
 
 const opCreateAccount = "CreateAccount"
@@ -223,6 +242,7 @@ const opCreateAccount = "CreateAccount"
 type CreateAccountRequest struct {
 	*aws.Request
 	Input *CreateAccountInput
+	Copy  func(*CreateAccountInput) CreateAccountRequest
 }
 
 // Send marshals and sends the CreateAccount API request.
@@ -244,11 +264,22 @@ func (r CreateAccountRequest) Send() (*CreateAccountOutput, error) {
 // later, you need the OperationId response element from this operation to provide
 // as a parameter to the DescribeCreateAccountStatus operation.
 //
-// AWS Organizations preconfigures the new member account with a role (named
-// OrganizationAccountAccessRole by default) that grants administrator permissions
-// to the new account. Principals in the master account can assume the role.
-// AWS Organizations clones the company name and address information for the
-// new account from the organization's master account.
+// The user who calls the API for an invitation to join must have the organizations:CreateAccount
+// permission. If you enabled all features in the organization, then the user
+// must also have the iam:CreateServiceLinkedRole permission so that Organizations
+// can create the required service-linked role named OrgsServiceLinkedRoleName.
+// For more information, see AWS Organizations and Service-Linked Roles (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integration_services.html#orgs_integration_service-linked-roles)
+// in the AWS Organizations User Guide.
+//
+// The user in the master account who calls this API must also have the iam:CreateRole
+// permission because AWS Organizations preconfigures the new member account
+// with a role (named OrganizationAccountAccessRole by default) that grants
+// users in the master account administrator permissions in the new member account.
+// Principals in the master account can assume the role. AWS Organizations clones
+// the company name and address information for the new account from the organization's
+// master account.
+//
+// This operation can be called only from the organization's master account.
 //
 // For more information about creating accounts, see Creating an AWS Account
 // in Your Organization (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_create.html)
@@ -263,6 +294,16 @@ func (r CreateAccountRequest) Send() (*CreateAccountOutput, error) {
 // when all required account information has not yet been provided (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info)
 // in the AWS Organizations User Guide.
 //
+// If you get an exception that indicates that you exceeded your account limits
+// for the organization or that the operation failed because your organization
+// is still initializing, wait one hour and then try again. If the error persists
+// after an hour, then contact AWS Customer Support (https://console.aws.amazon.com/support/home#/).
+//
+// Because CreateAccount operates asynchronously, it can return a successful
+// completion message even though account initialization might still be in progress.
+// You might need to wait a few minutes before you can successfully access the
+// account.
+//
 // When you create a member account with this operation, you can choose whether
 // to create the account with the IAM User and Role Access to Billing Information
 // switch enabled. If you enable it, IAM users and roles that have appropriate
@@ -270,12 +311,6 @@ func (r CreateAccountRequest) Send() (*CreateAccountOutput, error) {
 // this, then only the account root user can access billing information. For
 // information about how to disable this for an account, see Granting Access
 // to Your Billing Information and Tools (http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html).
-//
-// This operation can be called only from the organization's master account.
-//
-// If you get an exception that indicates that you exceeded your account limits
-// for the organization or that you can"t add an account because your organization
-// is still initializing, please contact  AWS Customer Support (https://console.aws.amazon.com/support/home#/).
 //
 //    // Example sending a request using the CreateAccountRequest method.
 //    req := client.CreateAccountRequest(params)
@@ -296,8 +331,11 @@ func (c *Organizations) CreateAccountRequest(input *CreateAccountInput) CreateAc
 		input = &CreateAccountInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAccountOutput{})
-	return CreateAccountRequest{Request: req, Input: input}
+	output := &CreateAccountOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAccountRequest{Request: req, Input: input, Copy: c.CreateAccountRequest}
 }
 
 const opCreateOrganization = "CreateOrganization"
@@ -306,6 +344,7 @@ const opCreateOrganization = "CreateOrganization"
 type CreateOrganizationRequest struct {
 	*aws.Request
 	Input *CreateOrganizationInput
+	Copy  func(*CreateOrganizationInput) CreateOrganizationRequest
 }
 
 // Send marshals and sends the CreateOrganization API request.
@@ -355,8 +394,11 @@ func (c *Organizations) CreateOrganizationRequest(input *CreateOrganizationInput
 		input = &CreateOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateOrganizationOutput{})
-	return CreateOrganizationRequest{Request: req, Input: input}
+	output := &CreateOrganizationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateOrganizationRequest{Request: req, Input: input, Copy: c.CreateOrganizationRequest}
 }
 
 const opCreateOrganizationalUnit = "CreateOrganizationalUnit"
@@ -365,6 +407,7 @@ const opCreateOrganizationalUnit = "CreateOrganizationalUnit"
 type CreateOrganizationalUnitRequest struct {
 	*aws.Request
 	Input *CreateOrganizationalUnitInput
+	Copy  func(*CreateOrganizationalUnitInput) CreateOrganizationalUnitRequest
 }
 
 // Send marshals and sends the CreateOrganizationalUnit API request.
@@ -410,8 +453,11 @@ func (c *Organizations) CreateOrganizationalUnitRequest(input *CreateOrganizatio
 		input = &CreateOrganizationalUnitInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateOrganizationalUnitOutput{})
-	return CreateOrganizationalUnitRequest{Request: req, Input: input}
+	output := &CreateOrganizationalUnitOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateOrganizationalUnitRequest{Request: req, Input: input, Copy: c.CreateOrganizationalUnitRequest}
 }
 
 const opCreatePolicy = "CreatePolicy"
@@ -420,6 +466,7 @@ const opCreatePolicy = "CreatePolicy"
 type CreatePolicyRequest struct {
 	*aws.Request
 	Input *CreatePolicyInput
+	Copy  func(*CreatePolicyInput) CreatePolicyRequest
 }
 
 // Send marshals and sends the CreatePolicy API request.
@@ -462,8 +509,11 @@ func (c *Organizations) CreatePolicyRequest(input *CreatePolicyInput) CreatePoli
 		input = &CreatePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePolicyOutput{})
-	return CreatePolicyRequest{Request: req, Input: input}
+	output := &CreatePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePolicyRequest{Request: req, Input: input, Copy: c.CreatePolicyRequest}
 }
 
 const opDeclineHandshake = "DeclineHandshake"
@@ -472,6 +522,7 @@ const opDeclineHandshake = "DeclineHandshake"
 type DeclineHandshakeRequest struct {
 	*aws.Request
 	Input *DeclineHandshakeInput
+	Copy  func(*DeclineHandshakeInput) DeclineHandshakeRequest
 }
 
 // Send marshals and sends the DeclineHandshake API request.
@@ -517,8 +568,11 @@ func (c *Organizations) DeclineHandshakeRequest(input *DeclineHandshakeInput) De
 		input = &DeclineHandshakeInput{}
 	}
 
-	req := c.newRequest(op, input, &DeclineHandshakeOutput{})
-	return DeclineHandshakeRequest{Request: req, Input: input}
+	output := &DeclineHandshakeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeclineHandshakeRequest{Request: req, Input: input, Copy: c.DeclineHandshakeRequest}
 }
 
 const opDeleteOrganization = "DeleteOrganization"
@@ -527,6 +581,7 @@ const opDeleteOrganization = "DeleteOrganization"
 type DeleteOrganizationRequest struct {
 	*aws.Request
 	Input *DeleteOrganizationInput
+	Copy  func(*DeleteOrganizationInput) DeleteOrganizationRequest
 }
 
 // Send marshals and sends the DeleteOrganization API request.
@@ -544,7 +599,7 @@ func (r DeleteOrganizationRequest) Send() (*DeleteOrganizationOutput, error) {
 //
 // Deletes the organization. You can delete an organization only by using credentials
 // from the master account. The organization must be empty of member accounts,
-// OUs, and policies.
+// organizational units (OUs), and policies.
 //
 //    // Example sending a request using the DeleteOrganizationRequest method.
 //    req := client.DeleteOrganizationRequest(params)
@@ -565,10 +620,13 @@ func (c *Organizations) DeleteOrganizationRequest(input *DeleteOrganizationInput
 		input = &DeleteOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteOrganizationOutput{})
+	output := &DeleteOrganizationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteOrganizationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteOrganizationRequest{Request: req, Input: input, Copy: c.DeleteOrganizationRequest}
 }
 
 const opDeleteOrganizationalUnit = "DeleteOrganizationalUnit"
@@ -577,6 +635,7 @@ const opDeleteOrganizationalUnit = "DeleteOrganizationalUnit"
 type DeleteOrganizationalUnitRequest struct {
 	*aws.Request
 	Input *DeleteOrganizationalUnitInput
+	Copy  func(*DeleteOrganizationalUnitInput) DeleteOrganizationalUnitRequest
 }
 
 // Send marshals and sends the DeleteOrganizationalUnit API request.
@@ -592,7 +651,7 @@ func (r DeleteOrganizationalUnitRequest) Send() (*DeleteOrganizationalUnitOutput
 // DeleteOrganizationalUnitRequest returns a request value for making API operation for
 // AWS Organizations.
 //
-// Deletes an organizational unit from a root or another OU. You must first
+// Deletes an organizational unit (OU) from a root or another OU. You must first
 // remove all accounts and child OUs from the OU that you want to delete.
 //
 // This operation can be called only from the organization's master account.
@@ -616,10 +675,13 @@ func (c *Organizations) DeleteOrganizationalUnitRequest(input *DeleteOrganizatio
 		input = &DeleteOrganizationalUnitInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteOrganizationalUnitOutput{})
+	output := &DeleteOrganizationalUnitOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteOrganizationalUnitRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteOrganizationalUnitRequest{Request: req, Input: input, Copy: c.DeleteOrganizationalUnitRequest}
 }
 
 const opDeletePolicy = "DeletePolicy"
@@ -628,6 +690,7 @@ const opDeletePolicy = "DeletePolicy"
 type DeletePolicyRequest struct {
 	*aws.Request
 	Input *DeletePolicyInput
+	Copy  func(*DeletePolicyInput) DeletePolicyRequest
 }
 
 // Send marshals and sends the DeletePolicy API request.
@@ -644,7 +707,8 @@ func (r DeletePolicyRequest) Send() (*DeletePolicyOutput, error) {
 // AWS Organizations.
 //
 // Deletes the specified policy from your organization. Before you perform this
-// operation, you must first detach the policy from all OUs, roots, and accounts.
+// operation, you must first detach the policy from all organizational units
+// (OUs), roots, and accounts.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -667,10 +731,13 @@ func (c *Organizations) DeletePolicyRequest(input *DeletePolicyInput) DeletePoli
 		input = &DeletePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePolicyOutput{})
+	output := &DeletePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePolicyRequest{Request: req, Input: input, Copy: c.DeletePolicyRequest}
 }
 
 const opDescribeAccount = "DescribeAccount"
@@ -679,6 +746,7 @@ const opDescribeAccount = "DescribeAccount"
 type DescribeAccountRequest struct {
 	*aws.Request
 	Input *DescribeAccountInput
+	Copy  func(*DescribeAccountInput) DescribeAccountRequest
 }
 
 // Send marshals and sends the DescribeAccount API request.
@@ -717,8 +785,11 @@ func (c *Organizations) DescribeAccountRequest(input *DescribeAccountInput) Desc
 		input = &DescribeAccountInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAccountOutput{})
-	return DescribeAccountRequest{Request: req, Input: input}
+	output := &DescribeAccountOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAccountRequest{Request: req, Input: input, Copy: c.DescribeAccountRequest}
 }
 
 const opDescribeCreateAccountStatus = "DescribeCreateAccountStatus"
@@ -727,6 +798,7 @@ const opDescribeCreateAccountStatus = "DescribeCreateAccountStatus"
 type DescribeCreateAccountStatusRequest struct {
 	*aws.Request
 	Input *DescribeCreateAccountStatusInput
+	Copy  func(*DescribeCreateAccountStatusInput) DescribeCreateAccountStatusRequest
 }
 
 // Send marshals and sends the DescribeCreateAccountStatus API request.
@@ -765,8 +837,11 @@ func (c *Organizations) DescribeCreateAccountStatusRequest(input *DescribeCreate
 		input = &DescribeCreateAccountStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeCreateAccountStatusOutput{})
-	return DescribeCreateAccountStatusRequest{Request: req, Input: input}
+	output := &DescribeCreateAccountStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeCreateAccountStatusRequest{Request: req, Input: input, Copy: c.DescribeCreateAccountStatusRequest}
 }
 
 const opDescribeHandshake = "DescribeHandshake"
@@ -775,6 +850,7 @@ const opDescribeHandshake = "DescribeHandshake"
 type DescribeHandshakeRequest struct {
 	*aws.Request
 	Input *DescribeHandshakeInput
+	Copy  func(*DescribeHandshakeInput) DescribeHandshakeRequest
 }
 
 // Send marshals and sends the DescribeHandshake API request.
@@ -819,8 +895,11 @@ func (c *Organizations) DescribeHandshakeRequest(input *DescribeHandshakeInput) 
 		input = &DescribeHandshakeInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeHandshakeOutput{})
-	return DescribeHandshakeRequest{Request: req, Input: input}
+	output := &DescribeHandshakeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeHandshakeRequest{Request: req, Input: input, Copy: c.DescribeHandshakeRequest}
 }
 
 const opDescribeOrganization = "DescribeOrganization"
@@ -829,6 +908,7 @@ const opDescribeOrganization = "DescribeOrganization"
 type DescribeOrganizationRequest struct {
 	*aws.Request
 	Input *DescribeOrganizationInput
+	Copy  func(*DescribeOrganizationInput) DescribeOrganizationRequest
 }
 
 // Send marshals and sends the DescribeOrganization API request.
@@ -849,6 +929,10 @@ func (r DescribeOrganizationRequest) Send() (*DescribeOrganizationOutput, error)
 //
 // This operation can be called from any account in the organization.
 //
+// Even if a policy type is shown as available in the organization, it can be
+// disabled separately at the root level with DisablePolicyType. Use ListRoots
+// to see the status of policy types for a specified root.
+//
 //    // Example sending a request using the DescribeOrganizationRequest method.
 //    req := client.DescribeOrganizationRequest(params)
 //    resp, err := req.Send()
@@ -868,8 +952,11 @@ func (c *Organizations) DescribeOrganizationRequest(input *DescribeOrganizationI
 		input = &DescribeOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeOrganizationOutput{})
-	return DescribeOrganizationRequest{Request: req, Input: input}
+	output := &DescribeOrganizationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeOrganizationRequest{Request: req, Input: input, Copy: c.DescribeOrganizationRequest}
 }
 
 const opDescribeOrganizationalUnit = "DescribeOrganizationalUnit"
@@ -878,6 +965,7 @@ const opDescribeOrganizationalUnit = "DescribeOrganizationalUnit"
 type DescribeOrganizationalUnitRequest struct {
 	*aws.Request
 	Input *DescribeOrganizationalUnitInput
+	Copy  func(*DescribeOrganizationalUnitInput) DescribeOrganizationalUnitRequest
 }
 
 // Send marshals and sends the DescribeOrganizationalUnit API request.
@@ -916,8 +1004,11 @@ func (c *Organizations) DescribeOrganizationalUnitRequest(input *DescribeOrganiz
 		input = &DescribeOrganizationalUnitInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeOrganizationalUnitOutput{})
-	return DescribeOrganizationalUnitRequest{Request: req, Input: input}
+	output := &DescribeOrganizationalUnitOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeOrganizationalUnitRequest{Request: req, Input: input, Copy: c.DescribeOrganizationalUnitRequest}
 }
 
 const opDescribePolicy = "DescribePolicy"
@@ -926,6 +1017,7 @@ const opDescribePolicy = "DescribePolicy"
 type DescribePolicyRequest struct {
 	*aws.Request
 	Input *DescribePolicyInput
+	Copy  func(*DescribePolicyInput) DescribePolicyRequest
 }
 
 // Send marshals and sends the DescribePolicy API request.
@@ -964,8 +1056,11 @@ func (c *Organizations) DescribePolicyRequest(input *DescribePolicyInput) Descri
 		input = &DescribePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePolicyOutput{})
-	return DescribePolicyRequest{Request: req, Input: input}
+	output := &DescribePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePolicyRequest{Request: req, Input: input, Copy: c.DescribePolicyRequest}
 }
 
 const opDetachPolicy = "DetachPolicy"
@@ -974,6 +1069,7 @@ const opDetachPolicy = "DetachPolicy"
 type DetachPolicyRequest struct {
 	*aws.Request
 	Input *DetachPolicyInput
+	Copy  func(*DetachPolicyInput) DetachPolicyRequest
 }
 
 // Send marshals and sends the DetachPolicy API request.
@@ -989,8 +1085,8 @@ func (r DetachPolicyRequest) Send() (*DetachPolicyOutput, error) {
 // DetachPolicyRequest returns a request value for making API operation for
 // AWS Organizations.
 //
-// Detaches a policy from a target root, organizational unit, or account. If
-// the policy being detached is a service control policy (SCP), the changes
+// Detaches a policy from a target root, organizational unit (OU), or account.
+// If the policy being detached is a service control policy (SCP), the changes
 // to permissions for IAM users and roles in affected accounts are immediate.
 //
 // Note: Every root, OU, and account must have at least one SCP attached. If
@@ -1024,10 +1120,87 @@ func (c *Organizations) DetachPolicyRequest(input *DetachPolicyInput) DetachPoli
 		input = &DetachPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachPolicyOutput{})
+	output := &DetachPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DetachPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachPolicyRequest{Request: req, Input: input, Copy: c.DetachPolicyRequest}
+}
+
+const opDisableAWSServiceAccess = "DisableAWSServiceAccess"
+
+// DisableAWSServiceAccessRequest is a API request type for the DisableAWSServiceAccess API operation.
+type DisableAWSServiceAccessRequest struct {
+	*aws.Request
+	Input *DisableAWSServiceAccessInput
+	Copy  func(*DisableAWSServiceAccessInput) DisableAWSServiceAccessRequest
+}
+
+// Send marshals and sends the DisableAWSServiceAccess API request.
+func (r DisableAWSServiceAccessRequest) Send() (*DisableAWSServiceAccessOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DisableAWSServiceAccessOutput), nil
+}
+
+// DisableAWSServiceAccessRequest returns a request value for making API operation for
+// AWS Organizations.
+//
+// Disables the integration of an AWS service (the service that is specified
+// by ServicePrincipal) with AWS Organizations. When you disable integration,
+// the specified service no longer can create a service-linked role (http://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html)
+// in new accounts in your organization. This means the service can't perform
+// operations on your behalf on any new accounts in your organization. The service
+// can still perform operations in older accounts until the service completes
+// its clean-up from AWS Organizations.
+//
+// We recommend that you disable integration between AWS Organizations and the
+// specified AWS service by using the console or commands that are provided
+// by the specified service. Doing so ensures that the other service is aware
+// that it can clean up any resources that are required only for the integration.
+// How the service cleans up its resources in the organization's accounts depends
+// on that service. For more information, see the documentation for the other
+// AWS service.
+//
+// After you perform the DisableAWSServiceAccessoperation, the specified service can no longer perform operations in your
+// organization's accounts unless the operations are explicitly permitted by
+// the IAM policies that are attached to your roles.
+//
+// For more information about integrating other services with AWS Organizations,
+// including the list of services that work with Organizations, see Integrating
+// AWS Organizations with Other AWS Services (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)in the AWS Organizations User Guide
+//
+//    // Example sending a request using the DisableAWSServiceAccessRequest method.
+//    req := client.DisableAWSServiceAccessRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisableAWSServiceAccess
+func (c *Organizations) DisableAWSServiceAccessRequest(input *DisableAWSServiceAccessInput) DisableAWSServiceAccessRequest {
+	op := &aws.Operation{
+		Name:       opDisableAWSServiceAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DisableAWSServiceAccessInput{}
+	}
+
+	output := &DisableAWSServiceAccessOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableAWSServiceAccessRequest{Request: req, Input: input, Copy: c.DisableAWSServiceAccessRequest}
 }
 
 const opDisablePolicyType = "DisablePolicyType"
@@ -1036,6 +1209,7 @@ const opDisablePolicyType = "DisablePolicyType"
 type DisablePolicyTypeRequest struct {
 	*aws.Request
 	Input *DisablePolicyTypeInput
+	Copy  func(*DisablePolicyTypeInput) DisablePolicyTypeRequest
 }
 
 // Send marshals and sends the DisablePolicyType API request.
@@ -1054,10 +1228,15 @@ func (r DisablePolicyTypeRequest) Send() (*DisablePolicyTypeOutput, error) {
 // Disables an organizational control policy type in a root. A policy of a certain
 // type can be attached to entities in a root only if that type is enabled in
 // the root. After you perform this operation, you no longer can attach policies
-// of the specified type to that root or to any OU or account in that root.
-// You can undo this by using the EnablePolicyType operation.
+// of the specified type to that root or to any organizational unit (OU) or
+// account in that root. You can undo this by using the EnablePolicyType operation.
 //
 // This operation can be called only from the organization's master account.
+//
+// If you disable a policy type for a root, it still shows as enabled for the
+// organization if all features are enabled in that organization. Use ListRoots
+// to see the status of policy types for a specified root. Use DescribeOrganization
+// to see the status of policy types in the organization.
 //
 //    // Example sending a request using the DisablePolicyTypeRequest method.
 //    req := client.DisablePolicyTypeRequest(params)
@@ -1078,8 +1257,82 @@ func (c *Organizations) DisablePolicyTypeRequest(input *DisablePolicyTypeInput) 
 		input = &DisablePolicyTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &DisablePolicyTypeOutput{})
-	return DisablePolicyTypeRequest{Request: req, Input: input}
+	output := &DisablePolicyTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisablePolicyTypeRequest{Request: req, Input: input, Copy: c.DisablePolicyTypeRequest}
+}
+
+const opEnableAWSServiceAccess = "EnableAWSServiceAccess"
+
+// EnableAWSServiceAccessRequest is a API request type for the EnableAWSServiceAccess API operation.
+type EnableAWSServiceAccessRequest struct {
+	*aws.Request
+	Input *EnableAWSServiceAccessInput
+	Copy  func(*EnableAWSServiceAccessInput) EnableAWSServiceAccessRequest
+}
+
+// Send marshals and sends the EnableAWSServiceAccess API request.
+func (r EnableAWSServiceAccessRequest) Send() (*EnableAWSServiceAccessOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*EnableAWSServiceAccessOutput), nil
+}
+
+// EnableAWSServiceAccessRequest returns a request value for making API operation for
+// AWS Organizations.
+//
+// Enables the integration of an AWS service (the service that is specified
+// by ServicePrincipal) with AWS Organizations. When you enable integration,
+// you allow the specified service to create a service-linked role (http://docs.aws.amazon.com/IAM/latest/UserGuide/using-service-linked-roles.html)
+// in all the accounts in your organization. This allows the service to perform
+// operations on your behalf in your organization and its accounts.
+//
+// We recommend that you enable integration between AWS Organizations and the
+// specified AWS service by using the console or commands that are provided
+// by the specified service. Doing so ensures that the service is aware that
+// it can create the resources that are required for the integration. How the
+// service creates those resources in the organization's accounts depends on
+// that service. For more information, see the documentation for the other AWS
+// service.
+//
+// For more information about enabling services to integrate with AWS Organizations,
+// see Integrating AWS Organizations with Other AWS Services (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+// in the AWS Organizations User Guide.
+//
+// This operation can be called only from the organization's master account
+// and only if the organization has enabled all features (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html).
+//
+//    // Example sending a request using the EnableAWSServiceAccessRequest method.
+//    req := client.EnableAWSServiceAccessRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnableAWSServiceAccess
+func (c *Organizations) EnableAWSServiceAccessRequest(input *EnableAWSServiceAccessInput) EnableAWSServiceAccessRequest {
+	op := &aws.Operation{
+		Name:       opEnableAWSServiceAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &EnableAWSServiceAccessInput{}
+	}
+
+	output := &EnableAWSServiceAccessOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableAWSServiceAccessRequest{Request: req, Input: input, Copy: c.EnableAWSServiceAccessRequest}
 }
 
 const opEnableAllFeatures = "EnableAllFeatures"
@@ -1088,6 +1341,7 @@ const opEnableAllFeatures = "EnableAllFeatures"
 type EnableAllFeaturesRequest struct {
 	*aws.Request
 	Input *EnableAllFeaturesInput
+	Copy  func(*EnableAllFeaturesInput) EnableAllFeaturesRequest
 }
 
 // Send marshals and sends the EnableAllFeatures API request.
@@ -1112,12 +1366,15 @@ func (r EnableAllFeaturesRequest) Send() (*EnableAllFeaturesOutput, error) {
 // in the AWS Organizations User Guide.
 //
 // This operation is required only for organizations that were created explicitly
-// with only the consolidated billing features enabled, or that were migrated
-// from a Consolidated Billing account family to Organizations. Calling this
-// operation sends a handshake to every invited account in the organization.
-// The feature set change can be finalized and the additional features enabled
-// only after all administrators in the invited accounts approve the change
-// by accepting the handshake.
+// with only the consolidated billing features enabled. Calling this operation
+// sends a handshake to every invited account in the organization. The feature
+// set change can be finalized and the additional features enabled only after
+// all administrators in the invited accounts approve the change by accepting
+// the handshake.
+//
+// After you enable all features, you can separately enable or disable individual
+// policy types in a root using EnablePolicyType and DisablePolicyType. To see
+// the status of policy types in a root, use ListRoots.
 //
 // After all invited member accounts accept the handshake, you finalize the
 // feature set change by accepting the handshake that contains "Action": "ENABLE_ALL_FEATURES".
@@ -1150,8 +1407,11 @@ func (c *Organizations) EnableAllFeaturesRequest(input *EnableAllFeaturesInput) 
 		input = &EnableAllFeaturesInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableAllFeaturesOutput{})
-	return EnableAllFeaturesRequest{Request: req, Input: input}
+	output := &EnableAllFeaturesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableAllFeaturesRequest{Request: req, Input: input, Copy: c.EnableAllFeaturesRequest}
 }
 
 const opEnablePolicyType = "EnablePolicyType"
@@ -1160,6 +1420,7 @@ const opEnablePolicyType = "EnablePolicyType"
 type EnablePolicyTypeRequest struct {
 	*aws.Request
 	Input *EnablePolicyTypeInput
+	Copy  func(*EnablePolicyTypeInput) EnablePolicyTypeRequest
 }
 
 // Send marshals and sends the EnablePolicyType API request.
@@ -1176,10 +1437,17 @@ func (r EnablePolicyTypeRequest) Send() (*EnablePolicyTypeOutput, error) {
 // AWS Organizations.
 //
 // Enables a policy type in a root. After you enable a policy type in a root,
-// you can attach policies of that type to the root, any OU, or account in that
-// root. You can undo this by using the DisablePolicyType operation.
+// you can attach policies of that type to the root, any organizational unit
+// (OU), or account in that root. You can undo this by using the DisablePolicyType
+// operation.
 //
 // This operation can be called only from the organization's master account.
+//
+// You can enable a policy type in a root only if that policy type is available
+// in the organization. Use DescribeOrganization to view the status of available
+// policy types in the organization.
+//
+// To view the status of policy type in a root, use ListRoots.
 //
 //    // Example sending a request using the EnablePolicyTypeRequest method.
 //    req := client.EnablePolicyTypeRequest(params)
@@ -1200,8 +1468,11 @@ func (c *Organizations) EnablePolicyTypeRequest(input *EnablePolicyTypeInput) En
 		input = &EnablePolicyTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &EnablePolicyTypeOutput{})
-	return EnablePolicyTypeRequest{Request: req, Input: input}
+	output := &EnablePolicyTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnablePolicyTypeRequest{Request: req, Input: input, Copy: c.EnablePolicyTypeRequest}
 }
 
 const opInviteAccountToOrganization = "InviteAccountToOrganization"
@@ -1210,6 +1481,7 @@ const opInviteAccountToOrganization = "InviteAccountToOrganization"
 type InviteAccountToOrganizationRequest struct {
 	*aws.Request
 	Input *InviteAccountToOrganizationInput
+	Copy  func(*InviteAccountToOrganizationInput) InviteAccountToOrganizationRequest
 }
 
 // Send marshals and sends the InviteAccountToOrganization API request.
@@ -1237,11 +1509,12 @@ func (r InviteAccountToOrganizationRequest) Send() (*InviteAccountToOrganization
 // accounts from AISPL and AWS, or any other AWS seller. For more information,
 // see Consolidated Billing in India (http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/useconsolidatedbilliing-India.html).
 //
-// This operation can be called only from the organization's master account.
+// If you receive an exception that indicates that you exceeded your account
+// limits for the organization or that the operation failed because your organization
+// is still initializing, wait one hour and then try again. If the error persists
+// after an hour, then contact AWS Customer Support (https://console.aws.amazon.com/support/home#/).
 //
-// If you get an exception that indicates that you exceeded your account limits
-// for the organization or that you can"t add an account because your organization
-// is still initializing, please contact  AWS Customer Support (https://console.aws.amazon.com/support/home#/).
+// This operation can be called only from the organization's master account.
 //
 //    // Example sending a request using the InviteAccountToOrganizationRequest method.
 //    req := client.InviteAccountToOrganizationRequest(params)
@@ -1262,8 +1535,11 @@ func (c *Organizations) InviteAccountToOrganizationRequest(input *InviteAccountT
 		input = &InviteAccountToOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &InviteAccountToOrganizationOutput{})
-	return InviteAccountToOrganizationRequest{Request: req, Input: input}
+	output := &InviteAccountToOrganizationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InviteAccountToOrganizationRequest{Request: req, Input: input, Copy: c.InviteAccountToOrganizationRequest}
 }
 
 const opLeaveOrganization = "LeaveOrganization"
@@ -1272,6 +1548,7 @@ const opLeaveOrganization = "LeaveOrganization"
 type LeaveOrganizationRequest struct {
 	*aws.Request
 	Input *LeaveOrganizationInput
+	Copy  func(*LeaveOrganizationInput) LeaveOrganizationRequest
 }
 
 // Send marshals and sends the LeaveOrganization API request.
@@ -1336,10 +1613,125 @@ func (c *Organizations) LeaveOrganizationRequest(input *LeaveOrganizationInput) 
 		input = &LeaveOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &LeaveOrganizationOutput{})
+	output := &LeaveOrganizationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return LeaveOrganizationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return LeaveOrganizationRequest{Request: req, Input: input, Copy: c.LeaveOrganizationRequest}
+}
+
+const opListAWSServiceAccessForOrganization = "ListAWSServiceAccessForOrganization"
+
+// ListAWSServiceAccessForOrganizationRequest is a API request type for the ListAWSServiceAccessForOrganization API operation.
+type ListAWSServiceAccessForOrganizationRequest struct {
+	*aws.Request
+	Input *ListAWSServiceAccessForOrganizationInput
+	Copy  func(*ListAWSServiceAccessForOrganizationInput) ListAWSServiceAccessForOrganizationRequest
+}
+
+// Send marshals and sends the ListAWSServiceAccessForOrganization API request.
+func (r ListAWSServiceAccessForOrganizationRequest) Send() (*ListAWSServiceAccessForOrganizationOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*ListAWSServiceAccessForOrganizationOutput), nil
+}
+
+// ListAWSServiceAccessForOrganizationRequest returns a request value for making API operation for
+// AWS Organizations.
+//
+// Returns a list of the AWS services that you enabled to integrate with your
+// organization. After a service on this list creates the resources that it
+// requires for the integration, it can perform operations on your organization
+// and its accounts.
+//
+// For more information about integrating other services with AWS Organizations,
+// including the list of services that currently work with Organizations, see
+// Integrating AWS Organizations with Other AWS Services (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_integrate_services.html)
+// in the AWS Organizations User Guide.
+//
+// This operation can be called only from the organization's master account.
+//
+//    // Example sending a request using the ListAWSServiceAccessForOrganizationRequest method.
+//    req := client.ListAWSServiceAccessForOrganizationRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAWSServiceAccessForOrganization
+func (c *Organizations) ListAWSServiceAccessForOrganizationRequest(input *ListAWSServiceAccessForOrganizationInput) ListAWSServiceAccessForOrganizationRequest {
+	op := &aws.Operation{
+		Name:       opListAWSServiceAccessForOrganization,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &ListAWSServiceAccessForOrganizationInput{}
+	}
+
+	output := &ListAWSServiceAccessForOrganizationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAWSServiceAccessForOrganizationRequest{Request: req, Input: input, Copy: c.ListAWSServiceAccessForOrganizationRequest}
+}
+
+// Paginate pages iterates over the pages of a ListAWSServiceAccessForOrganizationRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a ListAWSServiceAccessForOrganization operation.
+//		req := client.ListAWSServiceAccessForOrganizationRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAWSServiceAccessForOrganizationRequest) Paginate(opts ...aws.Option) ListAWSServiceAccessForOrganizationPager {
+	return ListAWSServiceAccessForOrganizationPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAWSServiceAccessForOrganizationInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// ListAWSServiceAccessForOrganizationPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAWSServiceAccessForOrganizationPager struct {
+	aws.Pager
+}
+
+func (p *ListAWSServiceAccessForOrganizationPager) CurrentPage() *ListAWSServiceAccessForOrganizationOutput {
+	return p.Pager.CurrentPage().(*ListAWSServiceAccessForOrganizationOutput)
 }
 
 const opListAccounts = "ListAccounts"
@@ -1348,6 +1740,7 @@ const opListAccounts = "ListAccounts"
 type ListAccountsRequest struct {
 	*aws.Request
 	Input *ListAccountsInput
+	Copy  func(*ListAccountsInput) ListAccountsRequest
 }
 
 // Send marshals and sends the ListAccounts API request.
@@ -1364,7 +1757,13 @@ func (r ListAccountsRequest) Send() (*ListAccountsOutput, error) {
 // AWS Organizations.
 //
 // Lists all the accounts in the organization. To request only the accounts
-// in a root or OU, use the ListAccountsForParent operation instead.
+// in a specified root or organizational unit (OU), use the ListAccountsForParent
+// operation instead.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -1393,58 +1792,57 @@ func (c *Organizations) ListAccountsRequest(input *ListAccountsInput) ListAccoun
 		input = &ListAccountsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAccountsOutput{})
-	return ListAccountsRequest{Request: req, Input: input}
+	output := &ListAccountsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAccountsRequest{Request: req, Input: input, Copy: c.ListAccountsRequest}
 }
 
-// ListAccountsPages iterates over the pages of a ListAccounts operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAccounts method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAccountsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAccounts operation.
-//    pageNum := 0
-//    err := client.ListAccountsPages(params,
-//        func(page *ListAccountsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAccountsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListAccountsPages(input *ListAccountsInput, fn func(*ListAccountsOutput, bool) bool) error {
-	return c.ListAccountsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAccountsRequest) Paginate(opts ...aws.Option) ListAccountsPager {
+	return ListAccountsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAccountsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAccountsPagesWithContext same as ListAccountsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListAccountsPagesWithContext(ctx aws.Context, input *ListAccountsInput, fn func(*ListAccountsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAccountsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAccountsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAccountsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAccountsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAccountsPager struct {
+	aws.Pager
+}
+
+func (p *ListAccountsPager) CurrentPage() *ListAccountsOutput {
+	return p.Pager.CurrentPage().(*ListAccountsOutput)
 }
 
 const opListAccountsForParent = "ListAccountsForParent"
@@ -1453,6 +1851,7 @@ const opListAccountsForParent = "ListAccountsForParent"
 type ListAccountsForParentRequest struct {
 	*aws.Request
 	Input *ListAccountsForParentInput
+	Copy  func(*ListAccountsForParentInput) ListAccountsForParentRequest
 }
 
 // Send marshals and sends the ListAccountsForParent API request.
@@ -1474,6 +1873,13 @@ func (r ListAccountsForParentRequest) Send() (*ListAccountsForParentOutput, erro
 // you get a list of all the accounts in only that OU, and not in any child
 // OUs. To get a list of all accounts in the organization, use the ListAccounts
 // operation.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
+//
+// This operation can be called only from the organization's master account.
 //
 //    // Example sending a request using the ListAccountsForParentRequest method.
 //    req := client.ListAccountsForParentRequest(params)
@@ -1500,58 +1906,57 @@ func (c *Organizations) ListAccountsForParentRequest(input *ListAccountsForParen
 		input = &ListAccountsForParentInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAccountsForParentOutput{})
-	return ListAccountsForParentRequest{Request: req, Input: input}
+	output := &ListAccountsForParentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAccountsForParentRequest{Request: req, Input: input, Copy: c.ListAccountsForParentRequest}
 }
 
-// ListAccountsForParentPages iterates over the pages of a ListAccountsForParent operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAccountsForParent method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAccountsForParentRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAccountsForParent operation.
-//    pageNum := 0
-//    err := client.ListAccountsForParentPages(params,
-//        func(page *ListAccountsForParentOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAccountsForParentRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListAccountsForParentPages(input *ListAccountsForParentInput, fn func(*ListAccountsForParentOutput, bool) bool) error {
-	return c.ListAccountsForParentPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAccountsForParentRequest) Paginate(opts ...aws.Option) ListAccountsForParentPager {
+	return ListAccountsForParentPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAccountsForParentInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAccountsForParentPagesWithContext same as ListAccountsForParentPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListAccountsForParentPagesWithContext(ctx aws.Context, input *ListAccountsForParentInput, fn func(*ListAccountsForParentOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAccountsForParentInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAccountsForParentRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAccountsForParentOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAccountsForParentPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAccountsForParentPager struct {
+	aws.Pager
+}
+
+func (p *ListAccountsForParentPager) CurrentPage() *ListAccountsForParentOutput {
+	return p.Pager.CurrentPage().(*ListAccountsForParentOutput)
 }
 
 const opListChildren = "ListChildren"
@@ -1560,6 +1965,7 @@ const opListChildren = "ListChildren"
 type ListChildrenRequest struct {
 	*aws.Request
 	Input *ListChildrenInput
+	Copy  func(*ListChildrenInput) ListChildrenRequest
 }
 
 // Send marshals and sends the ListChildren API request.
@@ -1575,9 +1981,16 @@ func (r ListChildrenRequest) Send() (*ListChildrenOutput, error) {
 // ListChildrenRequest returns a request value for making API operation for
 // AWS Organizations.
 //
-// Lists all of the OUs or accounts that are contained in the specified parent
-// OU or root. This operation, along with ListParents enables you to traverse
-// the tree structure that makes up this root.
+// Lists all of the organizational units (OUs) or accounts that are contained
+// in the specified parent OU or root. This operation, along with ListParents
+// enables you to traverse the tree structure that makes up this root.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
+//
+// This operation can be called only from the organization's master account.
 //
 //    // Example sending a request using the ListChildrenRequest method.
 //    req := client.ListChildrenRequest(params)
@@ -1604,58 +2017,57 @@ func (c *Organizations) ListChildrenRequest(input *ListChildrenInput) ListChildr
 		input = &ListChildrenInput{}
 	}
 
-	req := c.newRequest(op, input, &ListChildrenOutput{})
-	return ListChildrenRequest{Request: req, Input: input}
+	output := &ListChildrenOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListChildrenRequest{Request: req, Input: input, Copy: c.ListChildrenRequest}
 }
 
-// ListChildrenPages iterates over the pages of a ListChildren operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListChildren method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListChildrenRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListChildren operation.
-//    pageNum := 0
-//    err := client.ListChildrenPages(params,
-//        func(page *ListChildrenOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListChildrenRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListChildrenPages(input *ListChildrenInput, fn func(*ListChildrenOutput, bool) bool) error {
-	return c.ListChildrenPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListChildrenRequest) Paginate(opts ...aws.Option) ListChildrenPager {
+	return ListChildrenPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListChildrenInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListChildrenPagesWithContext same as ListChildrenPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListChildrenPagesWithContext(ctx aws.Context, input *ListChildrenInput, fn func(*ListChildrenOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListChildrenInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListChildrenRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListChildrenOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListChildrenPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListChildrenPager struct {
+	aws.Pager
+}
+
+func (p *ListChildrenPager) CurrentPage() *ListChildrenOutput {
+	return p.Pager.CurrentPage().(*ListChildrenOutput)
 }
 
 const opListCreateAccountStatus = "ListCreateAccountStatus"
@@ -1664,6 +2076,7 @@ const opListCreateAccountStatus = "ListCreateAccountStatus"
 type ListCreateAccountStatusRequest struct {
 	*aws.Request
 	Input *ListCreateAccountStatusInput
+	Copy  func(*ListCreateAccountStatusInput) ListCreateAccountStatusRequest
 }
 
 // Send marshals and sends the ListCreateAccountStatus API request.
@@ -1681,6 +2094,11 @@ func (r ListCreateAccountStatusRequest) Send() (*ListCreateAccountStatusOutput, 
 //
 // Lists the account creation requests that match the specified status that
 // is currently being tracked for the organization.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -1709,58 +2127,57 @@ func (c *Organizations) ListCreateAccountStatusRequest(input *ListCreateAccountS
 		input = &ListCreateAccountStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &ListCreateAccountStatusOutput{})
-	return ListCreateAccountStatusRequest{Request: req, Input: input}
+	output := &ListCreateAccountStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListCreateAccountStatusRequest{Request: req, Input: input, Copy: c.ListCreateAccountStatusRequest}
 }
 
-// ListCreateAccountStatusPages iterates over the pages of a ListCreateAccountStatus operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListCreateAccountStatus method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListCreateAccountStatusRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListCreateAccountStatus operation.
-//    pageNum := 0
-//    err := client.ListCreateAccountStatusPages(params,
-//        func(page *ListCreateAccountStatusOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListCreateAccountStatusRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListCreateAccountStatusPages(input *ListCreateAccountStatusInput, fn func(*ListCreateAccountStatusOutput, bool) bool) error {
-	return c.ListCreateAccountStatusPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListCreateAccountStatusRequest) Paginate(opts ...aws.Option) ListCreateAccountStatusPager {
+	return ListCreateAccountStatusPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListCreateAccountStatusInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListCreateAccountStatusPagesWithContext same as ListCreateAccountStatusPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListCreateAccountStatusPagesWithContext(ctx aws.Context, input *ListCreateAccountStatusInput, fn func(*ListCreateAccountStatusOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListCreateAccountStatusInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListCreateAccountStatusRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListCreateAccountStatusOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListCreateAccountStatusPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListCreateAccountStatusPager struct {
+	aws.Pager
+}
+
+func (p *ListCreateAccountStatusPager) CurrentPage() *ListCreateAccountStatusOutput {
+	return p.Pager.CurrentPage().(*ListCreateAccountStatusOutput)
 }
 
 const opListHandshakesForAccount = "ListHandshakesForAccount"
@@ -1769,6 +2186,7 @@ const opListHandshakesForAccount = "ListHandshakesForAccount"
 type ListHandshakesForAccountRequest struct {
 	*aws.Request
 	Input *ListHandshakesForAccountInput
+	Copy  func(*ListHandshakesForAccountInput) ListHandshakesForAccountRequest
 }
 
 // Send marshals and sends the ListHandshakesForAccount API request.
@@ -1790,6 +2208,11 @@ func (r ListHandshakesForAccountRequest) Send() (*ListHandshakesForAccountOutput
 // Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results
 // of this API for only 30 days after changing to that state. After that they
 // are deleted and no longer accessible.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called from any account in the organization.
 //
@@ -1818,58 +2241,57 @@ func (c *Organizations) ListHandshakesForAccountRequest(input *ListHandshakesFor
 		input = &ListHandshakesForAccountInput{}
 	}
 
-	req := c.newRequest(op, input, &ListHandshakesForAccountOutput{})
-	return ListHandshakesForAccountRequest{Request: req, Input: input}
+	output := &ListHandshakesForAccountOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListHandshakesForAccountRequest{Request: req, Input: input, Copy: c.ListHandshakesForAccountRequest}
 }
 
-// ListHandshakesForAccountPages iterates over the pages of a ListHandshakesForAccount operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListHandshakesForAccount method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListHandshakesForAccountRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListHandshakesForAccount operation.
-//    pageNum := 0
-//    err := client.ListHandshakesForAccountPages(params,
-//        func(page *ListHandshakesForAccountOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListHandshakesForAccountRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListHandshakesForAccountPages(input *ListHandshakesForAccountInput, fn func(*ListHandshakesForAccountOutput, bool) bool) error {
-	return c.ListHandshakesForAccountPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListHandshakesForAccountRequest) Paginate(opts ...aws.Option) ListHandshakesForAccountPager {
+	return ListHandshakesForAccountPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListHandshakesForAccountInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListHandshakesForAccountPagesWithContext same as ListHandshakesForAccountPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListHandshakesForAccountPagesWithContext(ctx aws.Context, input *ListHandshakesForAccountInput, fn func(*ListHandshakesForAccountOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListHandshakesForAccountInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListHandshakesForAccountRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListHandshakesForAccountOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListHandshakesForAccountPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListHandshakesForAccountPager struct {
+	aws.Pager
+}
+
+func (p *ListHandshakesForAccountPager) CurrentPage() *ListHandshakesForAccountOutput {
+	return p.Pager.CurrentPage().(*ListHandshakesForAccountOutput)
 }
 
 const opListHandshakesForOrganization = "ListHandshakesForOrganization"
@@ -1878,6 +2300,7 @@ const opListHandshakesForOrganization = "ListHandshakesForOrganization"
 type ListHandshakesForOrganizationRequest struct {
 	*aws.Request
 	Input *ListHandshakesForOrganizationInput
+	Copy  func(*ListHandshakesForOrganizationInput) ListHandshakesForOrganizationRequest
 }
 
 // Send marshals and sends the ListHandshakesForOrganization API request.
@@ -1901,6 +2324,11 @@ func (r ListHandshakesForOrganizationRequest) Send() (*ListHandshakesForOrganiza
 // Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results
 // of this API for only 30 days after changing to that state. After that they
 // are deleted and no longer accessible.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -1929,58 +2357,57 @@ func (c *Organizations) ListHandshakesForOrganizationRequest(input *ListHandshak
 		input = &ListHandshakesForOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &ListHandshakesForOrganizationOutput{})
-	return ListHandshakesForOrganizationRequest{Request: req, Input: input}
+	output := &ListHandshakesForOrganizationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListHandshakesForOrganizationRequest{Request: req, Input: input, Copy: c.ListHandshakesForOrganizationRequest}
 }
 
-// ListHandshakesForOrganizationPages iterates over the pages of a ListHandshakesForOrganization operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListHandshakesForOrganization method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListHandshakesForOrganizationRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListHandshakesForOrganization operation.
-//    pageNum := 0
-//    err := client.ListHandshakesForOrganizationPages(params,
-//        func(page *ListHandshakesForOrganizationOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListHandshakesForOrganizationRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListHandshakesForOrganizationPages(input *ListHandshakesForOrganizationInput, fn func(*ListHandshakesForOrganizationOutput, bool) bool) error {
-	return c.ListHandshakesForOrganizationPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListHandshakesForOrganizationRequest) Paginate(opts ...aws.Option) ListHandshakesForOrganizationPager {
+	return ListHandshakesForOrganizationPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListHandshakesForOrganizationInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListHandshakesForOrganizationPagesWithContext same as ListHandshakesForOrganizationPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListHandshakesForOrganizationPagesWithContext(ctx aws.Context, input *ListHandshakesForOrganizationInput, fn func(*ListHandshakesForOrganizationOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListHandshakesForOrganizationInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListHandshakesForOrganizationRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListHandshakesForOrganizationOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListHandshakesForOrganizationPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListHandshakesForOrganizationPager struct {
+	aws.Pager
+}
+
+func (p *ListHandshakesForOrganizationPager) CurrentPage() *ListHandshakesForOrganizationOutput {
+	return p.Pager.CurrentPage().(*ListHandshakesForOrganizationOutput)
 }
 
 const opListOrganizationalUnitsForParent = "ListOrganizationalUnitsForParent"
@@ -1989,6 +2416,7 @@ const opListOrganizationalUnitsForParent = "ListOrganizationalUnitsForParent"
 type ListOrganizationalUnitsForParentRequest struct {
 	*aws.Request
 	Input *ListOrganizationalUnitsForParentInput
+	Copy  func(*ListOrganizationalUnitsForParentInput) ListOrganizationalUnitsForParentRequest
 }
 
 // Send marshals and sends the ListOrganizationalUnitsForParent API request.
@@ -2005,6 +2433,11 @@ func (r ListOrganizationalUnitsForParentRequest) Send() (*ListOrganizationalUnit
 // AWS Organizations.
 //
 // Lists the organizational units (OUs) in a parent organizational unit or root.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -2033,58 +2466,57 @@ func (c *Organizations) ListOrganizationalUnitsForParentRequest(input *ListOrgan
 		input = &ListOrganizationalUnitsForParentInput{}
 	}
 
-	req := c.newRequest(op, input, &ListOrganizationalUnitsForParentOutput{})
-	return ListOrganizationalUnitsForParentRequest{Request: req, Input: input}
+	output := &ListOrganizationalUnitsForParentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListOrganizationalUnitsForParentRequest{Request: req, Input: input, Copy: c.ListOrganizationalUnitsForParentRequest}
 }
 
-// ListOrganizationalUnitsForParentPages iterates over the pages of a ListOrganizationalUnitsForParent operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListOrganizationalUnitsForParent method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListOrganizationalUnitsForParentRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListOrganizationalUnitsForParent operation.
-//    pageNum := 0
-//    err := client.ListOrganizationalUnitsForParentPages(params,
-//        func(page *ListOrganizationalUnitsForParentOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListOrganizationalUnitsForParentRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListOrganizationalUnitsForParentPages(input *ListOrganizationalUnitsForParentInput, fn func(*ListOrganizationalUnitsForParentOutput, bool) bool) error {
-	return c.ListOrganizationalUnitsForParentPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListOrganizationalUnitsForParentRequest) Paginate(opts ...aws.Option) ListOrganizationalUnitsForParentPager {
+	return ListOrganizationalUnitsForParentPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListOrganizationalUnitsForParentInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListOrganizationalUnitsForParentPagesWithContext same as ListOrganizationalUnitsForParentPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListOrganizationalUnitsForParentPagesWithContext(ctx aws.Context, input *ListOrganizationalUnitsForParentInput, fn func(*ListOrganizationalUnitsForParentOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListOrganizationalUnitsForParentInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListOrganizationalUnitsForParentRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListOrganizationalUnitsForParentOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListOrganizationalUnitsForParentPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListOrganizationalUnitsForParentPager struct {
+	aws.Pager
+}
+
+func (p *ListOrganizationalUnitsForParentPager) CurrentPage() *ListOrganizationalUnitsForParentOutput {
+	return p.Pager.CurrentPage().(*ListOrganizationalUnitsForParentOutput)
 }
 
 const opListParents = "ListParents"
@@ -2093,6 +2525,7 @@ const opListParents = "ListParents"
 type ListParentsRequest struct {
 	*aws.Request
 	Input *ListParentsInput
+	Copy  func(*ListParentsInput) ListParentsRequest
 }
 
 // Send marshals and sends the ListParents API request.
@@ -2111,6 +2544,11 @@ func (r ListParentsRequest) Send() (*ListParentsOutput, error) {
 // Lists the root or organizational units (OUs) that serve as the immediate
 // parent of the specified child OU or account. This operation, along with ListChildren
 // enables you to traverse the tree structure that makes up this root.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -2141,58 +2579,57 @@ func (c *Organizations) ListParentsRequest(input *ListParentsInput) ListParentsR
 		input = &ListParentsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListParentsOutput{})
-	return ListParentsRequest{Request: req, Input: input}
+	output := &ListParentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListParentsRequest{Request: req, Input: input, Copy: c.ListParentsRequest}
 }
 
-// ListParentsPages iterates over the pages of a ListParents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListParents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListParentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListParents operation.
-//    pageNum := 0
-//    err := client.ListParentsPages(params,
-//        func(page *ListParentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListParentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListParentsPages(input *ListParentsInput, fn func(*ListParentsOutput, bool) bool) error {
-	return c.ListParentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListParentsRequest) Paginate(opts ...aws.Option) ListParentsPager {
+	return ListParentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListParentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListParentsPagesWithContext same as ListParentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListParentsPagesWithContext(ctx aws.Context, input *ListParentsInput, fn func(*ListParentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListParentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListParentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListParentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListParentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListParentsPager struct {
+	aws.Pager
+}
+
+func (p *ListParentsPager) CurrentPage() *ListParentsOutput {
+	return p.Pager.CurrentPage().(*ListParentsOutput)
 }
 
 const opListPolicies = "ListPolicies"
@@ -2201,6 +2638,7 @@ const opListPolicies = "ListPolicies"
 type ListPoliciesRequest struct {
 	*aws.Request
 	Input *ListPoliciesInput
+	Copy  func(*ListPoliciesInput) ListPoliciesRequest
 }
 
 // Send marshals and sends the ListPolicies API request.
@@ -2217,6 +2655,11 @@ func (r ListPoliciesRequest) Send() (*ListPoliciesOutput, error) {
 // AWS Organizations.
 //
 // Retrieves the list of all policies in an organization of a specified type.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -2245,58 +2688,57 @@ func (c *Organizations) ListPoliciesRequest(input *ListPoliciesInput) ListPolici
 		input = &ListPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPoliciesOutput{})
-	return ListPoliciesRequest{Request: req, Input: input}
+	output := &ListPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPoliciesRequest{Request: req, Input: input, Copy: c.ListPoliciesRequest}
 }
 
-// ListPoliciesPages iterates over the pages of a ListPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPolicies operation.
-//    pageNum := 0
-//    err := client.ListPoliciesPages(params,
-//        func(page *ListPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListPoliciesPages(input *ListPoliciesInput, fn func(*ListPoliciesOutput, bool) bool) error {
-	return c.ListPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPoliciesRequest) Paginate(opts ...aws.Option) ListPoliciesPager {
+	return ListPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPoliciesPagesWithContext same as ListPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListPoliciesPagesWithContext(ctx aws.Context, input *ListPoliciesInput, fn func(*ListPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListPoliciesPager) CurrentPage() *ListPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListPoliciesOutput)
 }
 
 const opListPoliciesForTarget = "ListPoliciesForTarget"
@@ -2305,6 +2747,7 @@ const opListPoliciesForTarget = "ListPoliciesForTarget"
 type ListPoliciesForTargetRequest struct {
 	*aws.Request
 	Input *ListPoliciesForTargetInput
+	Copy  func(*ListPoliciesForTargetInput) ListPoliciesForTargetRequest
 }
 
 // Send marshals and sends the ListPoliciesForTarget API request.
@@ -2323,6 +2766,11 @@ func (r ListPoliciesForTargetRequest) Send() (*ListPoliciesForTargetOutput, erro
 // Lists the policies that are directly attached to the specified target root,
 // organizational unit (OU), or account. You must specify the policy type that
 // you want included in the returned list.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -2351,58 +2799,57 @@ func (c *Organizations) ListPoliciesForTargetRequest(input *ListPoliciesForTarge
 		input = &ListPoliciesForTargetInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPoliciesForTargetOutput{})
-	return ListPoliciesForTargetRequest{Request: req, Input: input}
+	output := &ListPoliciesForTargetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPoliciesForTargetRequest{Request: req, Input: input, Copy: c.ListPoliciesForTargetRequest}
 }
 
-// ListPoliciesForTargetPages iterates over the pages of a ListPoliciesForTarget operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPoliciesForTarget method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPoliciesForTargetRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPoliciesForTarget operation.
-//    pageNum := 0
-//    err := client.ListPoliciesForTargetPages(params,
-//        func(page *ListPoliciesForTargetOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPoliciesForTargetRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListPoliciesForTargetPages(input *ListPoliciesForTargetInput, fn func(*ListPoliciesForTargetOutput, bool) bool) error {
-	return c.ListPoliciesForTargetPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPoliciesForTargetRequest) Paginate(opts ...aws.Option) ListPoliciesForTargetPager {
+	return ListPoliciesForTargetPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPoliciesForTargetInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPoliciesForTargetPagesWithContext same as ListPoliciesForTargetPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListPoliciesForTargetPagesWithContext(ctx aws.Context, input *ListPoliciesForTargetInput, fn func(*ListPoliciesForTargetOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPoliciesForTargetInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPoliciesForTargetRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPoliciesForTargetOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPoliciesForTargetPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPoliciesForTargetPager struct {
+	aws.Pager
+}
+
+func (p *ListPoliciesForTargetPager) CurrentPage() *ListPoliciesForTargetOutput {
+	return p.Pager.CurrentPage().(*ListPoliciesForTargetOutput)
 }
 
 const opListRoots = "ListRoots"
@@ -2411,6 +2858,7 @@ const opListRoots = "ListRoots"
 type ListRootsRequest struct {
 	*aws.Request
 	Input *ListRootsInput
+	Copy  func(*ListRootsInput) ListRootsRequest
 }
 
 // Send marshals and sends the ListRoots API request.
@@ -2428,7 +2876,18 @@ func (r ListRootsRequest) Send() (*ListRootsOutput, error) {
 //
 // Lists the roots that are defined in the current organization.
 //
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
+//
 // This operation can be called only from the organization's master account.
+//
+// Policy types can be enabled and disabled in roots. This is distinct from
+// whether they are available in the organization. When you enable all features,
+// you make policy types available for use in that organization. Individual
+// policy types can then be enabled and disabled in a root. To see the availability
+// of a policy type in an organization, use DescribeOrganization.
 //
 //    // Example sending a request using the ListRootsRequest method.
 //    req := client.ListRootsRequest(params)
@@ -2455,58 +2914,57 @@ func (c *Organizations) ListRootsRequest(input *ListRootsInput) ListRootsRequest
 		input = &ListRootsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListRootsOutput{})
-	return ListRootsRequest{Request: req, Input: input}
+	output := &ListRootsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListRootsRequest{Request: req, Input: input, Copy: c.ListRootsRequest}
 }
 
-// ListRootsPages iterates over the pages of a ListRoots operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListRoots method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListRootsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListRoots operation.
-//    pageNum := 0
-//    err := client.ListRootsPages(params,
-//        func(page *ListRootsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListRootsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListRootsPages(input *ListRootsInput, fn func(*ListRootsOutput, bool) bool) error {
-	return c.ListRootsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListRootsRequest) Paginate(opts ...aws.Option) ListRootsPager {
+	return ListRootsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListRootsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListRootsPagesWithContext same as ListRootsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListRootsPagesWithContext(ctx aws.Context, input *ListRootsInput, fn func(*ListRootsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListRootsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListRootsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListRootsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListRootsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListRootsPager struct {
+	aws.Pager
+}
+
+func (p *ListRootsPager) CurrentPage() *ListRootsOutput {
+	return p.Pager.CurrentPage().(*ListRootsOutput)
 }
 
 const opListTargetsForPolicy = "ListTargetsForPolicy"
@@ -2515,6 +2973,7 @@ const opListTargetsForPolicy = "ListTargetsForPolicy"
 type ListTargetsForPolicyRequest struct {
 	*aws.Request
 	Input *ListTargetsForPolicyInput
+	Copy  func(*ListTargetsForPolicyInput) ListTargetsForPolicyRequest
 }
 
 // Send marshals and sends the ListTargetsForPolicy API request.
@@ -2530,7 +2989,13 @@ func (r ListTargetsForPolicyRequest) Send() (*ListTargetsForPolicyOutput, error)
 // ListTargetsForPolicyRequest returns a request value for making API operation for
 // AWS Organizations.
 //
-// Lists all the roots, OUs, and accounts to which the specified policy is attached.
+// Lists all the roots, organizaitonal units (OUs), and accounts to which the
+// specified policy is attached.
+//
+// Always check the NextToken response parameter for a null value when calling
+// a List* operation. These operations can occasionally return an empty set
+// of results even when there are more results available. The NextToken response
+// parameter value is nullonly when there are no more results to display.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -2559,58 +3024,57 @@ func (c *Organizations) ListTargetsForPolicyRequest(input *ListTargetsForPolicyI
 		input = &ListTargetsForPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTargetsForPolicyOutput{})
-	return ListTargetsForPolicyRequest{Request: req, Input: input}
+	output := &ListTargetsForPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTargetsForPolicyRequest{Request: req, Input: input, Copy: c.ListTargetsForPolicyRequest}
 }
 
-// ListTargetsForPolicyPages iterates over the pages of a ListTargetsForPolicy operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTargetsForPolicy method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTargetsForPolicyRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTargetsForPolicy operation.
-//    pageNum := 0
-//    err := client.ListTargetsForPolicyPages(params,
-//        func(page *ListTargetsForPolicyOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTargetsForPolicyRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Organizations) ListTargetsForPolicyPages(input *ListTargetsForPolicyInput, fn func(*ListTargetsForPolicyOutput, bool) bool) error {
-	return c.ListTargetsForPolicyPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTargetsForPolicyRequest) Paginate(opts ...aws.Option) ListTargetsForPolicyPager {
+	return ListTargetsForPolicyPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTargetsForPolicyInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTargetsForPolicyPagesWithContext same as ListTargetsForPolicyPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Organizations) ListTargetsForPolicyPagesWithContext(ctx aws.Context, input *ListTargetsForPolicyInput, fn func(*ListTargetsForPolicyOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTargetsForPolicyInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTargetsForPolicyRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTargetsForPolicyOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTargetsForPolicyPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTargetsForPolicyPager struct {
+	aws.Pager
+}
+
+func (p *ListTargetsForPolicyPager) CurrentPage() *ListTargetsForPolicyOutput {
+	return p.Pager.CurrentPage().(*ListTargetsForPolicyOutput)
 }
 
 const opMoveAccount = "MoveAccount"
@@ -2619,6 +3083,7 @@ const opMoveAccount = "MoveAccount"
 type MoveAccountRequest struct {
 	*aws.Request
 	Input *MoveAccountInput
+	Copy  func(*MoveAccountInput) MoveAccountRequest
 }
 
 // Send marshals and sends the MoveAccount API request.
@@ -2634,8 +3099,8 @@ func (r MoveAccountRequest) Send() (*MoveAccountOutput, error) {
 // MoveAccountRequest returns a request value for making API operation for
 // AWS Organizations.
 //
-// Moves an account from its current source parent root or OU to the specified
-// destination parent root or OU.
+// Moves an account from its current source parent root or organizational unit
+// (OU) to the specified destination parent root or OU.
 //
 // This operation can be called only from the organization's master account.
 //
@@ -2658,10 +3123,13 @@ func (c *Organizations) MoveAccountRequest(input *MoveAccountInput) MoveAccountR
 		input = &MoveAccountInput{}
 	}
 
-	req := c.newRequest(op, input, &MoveAccountOutput{})
+	output := &MoveAccountOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return MoveAccountRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return MoveAccountRequest{Request: req, Input: input, Copy: c.MoveAccountRequest}
 }
 
 const opRemoveAccountFromOrganization = "RemoveAccountFromOrganization"
@@ -2670,6 +3138,7 @@ const opRemoveAccountFromOrganization = "RemoveAccountFromOrganization"
 type RemoveAccountFromOrganizationRequest struct {
 	*aws.Request
 	Input *RemoveAccountFromOrganizationInput
+	Copy  func(*RemoveAccountFromOrganizationInput) RemoveAccountFromOrganizationRequest
 }
 
 // Send marshals and sends the RemoveAccountFromOrganization API request.
@@ -2711,11 +3180,6 @@ func (r RemoveAccountFromOrganizationRequest) Send() (*RemoveAccountFromOrganiza
 // (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info)
 // in the AWS Organizations User Guide.
 //
-// You can remove a member account only after you enable IAM user access to
-// billing in the member account. For more information, see Activating Access
-// to the Billing and Cost Management Console (http://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate)
-// in the AWS Billing and Cost Management User Guide.
-//
 //    // Example sending a request using the RemoveAccountFromOrganizationRequest method.
 //    req := client.RemoveAccountFromOrganizationRequest(params)
 //    resp, err := req.Send()
@@ -2735,10 +3199,13 @@ func (c *Organizations) RemoveAccountFromOrganizationRequest(input *RemoveAccoun
 		input = &RemoveAccountFromOrganizationInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveAccountFromOrganizationOutput{})
+	output := &RemoveAccountFromOrganizationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveAccountFromOrganizationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveAccountFromOrganizationRequest{Request: req, Input: input, Copy: c.RemoveAccountFromOrganizationRequest}
 }
 
 const opUpdateOrganizationalUnit = "UpdateOrganizationalUnit"
@@ -2747,6 +3214,7 @@ const opUpdateOrganizationalUnit = "UpdateOrganizationalUnit"
 type UpdateOrganizationalUnitRequest struct {
 	*aws.Request
 	Input *UpdateOrganizationalUnitInput
+	Copy  func(*UpdateOrganizationalUnitInput) UpdateOrganizationalUnitRequest
 }
 
 // Send marshals and sends the UpdateOrganizationalUnit API request.
@@ -2787,8 +3255,11 @@ func (c *Organizations) UpdateOrganizationalUnitRequest(input *UpdateOrganizatio
 		input = &UpdateOrganizationalUnitInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateOrganizationalUnitOutput{})
-	return UpdateOrganizationalUnitRequest{Request: req, Input: input}
+	output := &UpdateOrganizationalUnitOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateOrganizationalUnitRequest{Request: req, Input: input, Copy: c.UpdateOrganizationalUnitRequest}
 }
 
 const opUpdatePolicy = "UpdatePolicy"
@@ -2797,6 +3268,7 @@ const opUpdatePolicy = "UpdatePolicy"
 type UpdatePolicyRequest struct {
 	*aws.Request
 	Input *UpdatePolicyInput
+	Copy  func(*UpdatePolicyInput) UpdatePolicyRequest
 }
 
 // Send marshals and sends the UpdatePolicy API request.
@@ -2837,8 +3309,11 @@ func (c *Organizations) UpdatePolicyRequest(input *UpdatePolicyInput) UpdatePoli
 		input = &UpdatePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdatePolicyOutput{})
-	return UpdatePolicyRequest{Request: req, Input: input}
+	output := &UpdatePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdatePolicyRequest{Request: req, Input: input, Copy: c.UpdatePolicyRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/AcceptHandshakeRequest
@@ -2878,15 +3353,11 @@ func (s *AcceptHandshakeInput) Validate() error {
 	return nil
 }
 
-// SetHandshakeId sets the HandshakeId field's value.
-func (s *AcceptHandshakeInput) SetHandshakeId(v string) *AcceptHandshakeInput {
-	s.HandshakeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/AcceptHandshakeResponse
 type AcceptHandshakeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the accepted handshake.
 	Handshake *Handshake `type:"structure"`
@@ -2902,10 +3373,9 @@ func (s AcceptHandshakeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshake sets the Handshake field's value.
-func (s *AcceptHandshakeOutput) SetHandshake(v *Handshake) *AcceptHandshakeOutput {
-	s.Handshake = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AcceptHandshakeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about an AWS account that is a member of an organization.
@@ -2933,7 +3403,7 @@ type Account struct {
 	Id *string `type:"string"`
 
 	// The method by which the account joined the organization.
-	JoinedMethod AccountJoinedMethod `type:"string"`
+	JoinedMethod AccountJoinedMethod `type:"string" enum:"true"`
 
 	// The date the account became a part of the organization.
 	JoinedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -2946,7 +3416,7 @@ type Account struct {
 	Name *string `min:"1" type:"string"`
 
 	// The status of the account in the organization.
-	Status AccountStatus `type:"string"`
+	Status AccountStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2957,48 +3427,6 @@ func (s Account) String() string {
 // GoString returns the string representation
 func (s Account) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Account) SetArn(v string) *Account {
-	s.Arn = &v
-	return s
-}
-
-// SetEmail sets the Email field's value.
-func (s *Account) SetEmail(v string) *Account {
-	s.Email = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Account) SetId(v string) *Account {
-	s.Id = &v
-	return s
-}
-
-// SetJoinedMethod sets the JoinedMethod field's value.
-func (s *Account) SetJoinedMethod(v AccountJoinedMethod) *Account {
-	s.JoinedMethod = v
-	return s
-}
-
-// SetJoinedTimestamp sets the JoinedTimestamp field's value.
-func (s *Account) SetJoinedTimestamp(v time.Time) *Account {
-	s.JoinedTimestamp = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Account) SetName(v string) *Account {
-	s.Name = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Account) SetStatus(v AccountStatus) *Account {
-	s.Status = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/AttachPolicyRequest
@@ -3063,21 +3491,11 @@ func (s *AttachPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyId sets the PolicyId field's value.
-func (s *AttachPolicyInput) SetPolicyId(v string) *AttachPolicyInput {
-	s.PolicyId = &v
-	return s
-}
-
-// SetTargetId sets the TargetId field's value.
-func (s *AttachPolicyInput) SetTargetId(v string) *AttachPolicyInput {
-	s.TargetId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/AttachPolicyOutput
 type AttachPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3088,6 +3506,11 @@ func (s AttachPolicyOutput) String() string {
 // GoString returns the string representation
 func (s AttachPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CancelHandshakeRequest
@@ -3128,15 +3551,11 @@ func (s *CancelHandshakeInput) Validate() error {
 	return nil
 }
 
-// SetHandshakeId sets the HandshakeId field's value.
-func (s *CancelHandshakeInput) SetHandshakeId(v string) *CancelHandshakeInput {
-	s.HandshakeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CancelHandshakeResponse
 type CancelHandshakeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the handshake that you canceled.
 	Handshake *Handshake `type:"structure"`
@@ -3152,10 +3571,9 @@ func (s CancelHandshakeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshake sets the Handshake field's value.
-func (s *CancelHandshakeOutput) SetHandshake(v *Handshake) *CancelHandshakeOutput {
-	s.Handshake = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelHandshakeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains a list of child entities, either OUs or accounts.
@@ -3177,7 +3595,7 @@ type Child struct {
 	Id *string `type:"string"`
 
 	// The type of this child entity.
-	Type ChildType `type:"string"`
+	Type ChildType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3188,18 +3606,6 @@ func (s Child) String() string {
 // GoString returns the string representation
 func (s Child) GoString() string {
 	return s.String()
-}
-
-// SetId sets the Id field's value.
-func (s *Child) SetId(v string) *Child {
-	s.Id = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Child) SetType(v ChildType) *Child {
-	s.Type = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateAccountRequest
@@ -3230,7 +3636,7 @@ type CreateAccountInput struct {
 	// If you do not specify this parameter, the value defaults to ALLOW, and IAM
 	// users and roles with the required permissions can access billing information
 	// for the new account.
-	IamUserAccessToBilling IAMUserAccessToBilling `type:"string"`
+	IamUserAccessToBilling IAMUserAccessToBilling `type:"string" enum:"true"`
 
 	// (Optional)
 	//
@@ -3289,33 +3695,11 @@ func (s *CreateAccountInput) Validate() error {
 	return nil
 }
 
-// SetAccountName sets the AccountName field's value.
-func (s *CreateAccountInput) SetAccountName(v string) *CreateAccountInput {
-	s.AccountName = &v
-	return s
-}
-
-// SetEmail sets the Email field's value.
-func (s *CreateAccountInput) SetEmail(v string) *CreateAccountInput {
-	s.Email = &v
-	return s
-}
-
-// SetIamUserAccessToBilling sets the IamUserAccessToBilling field's value.
-func (s *CreateAccountInput) SetIamUserAccessToBilling(v IAMUserAccessToBilling) *CreateAccountInput {
-	s.IamUserAccessToBilling = v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *CreateAccountInput) SetRoleName(v string) *CreateAccountInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateAccountResponse
 type CreateAccountOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the request to create an account.
 	// This response structure might not be fully populated when you first receive
@@ -3335,10 +3719,9 @@ func (s CreateAccountOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreateAccountStatus sets the CreateAccountStatus field's value.
-func (s *CreateAccountOutput) SetCreateAccountStatus(v *CreateAccountStatus) *CreateAccountOutput {
-	s.CreateAccountStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAccountOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the status about a CreateAccount request to create an AWS account
@@ -3376,7 +3759,7 @@ type CreateAccountStatus struct {
 	//
 	//    * INTERNAL_FAILURE: The account could not be created because of an internal
 	//    failure. Try again later. If the problem persists, contact Customer Support.
-	FailureReason CreateAccountFailureReason `type:"string"`
+	FailureReason CreateAccountFailureReason `type:"string" enum:"true"`
 
 	// The unique identifier (ID) that references this request. You get this value
 	// from the response of the initial CreateAccount request to create the account.
@@ -3390,7 +3773,7 @@ type CreateAccountStatus struct {
 	RequestedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the request.
-	State CreateAccountState `type:"string"`
+	State CreateAccountState `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3401,48 +3784,6 @@ func (s CreateAccountStatus) String() string {
 // GoString returns the string representation
 func (s CreateAccountStatus) GoString() string {
 	return s.String()
-}
-
-// SetAccountId sets the AccountId field's value.
-func (s *CreateAccountStatus) SetAccountId(v string) *CreateAccountStatus {
-	s.AccountId = &v
-	return s
-}
-
-// SetAccountName sets the AccountName field's value.
-func (s *CreateAccountStatus) SetAccountName(v string) *CreateAccountStatus {
-	s.AccountName = &v
-	return s
-}
-
-// SetCompletedTimestamp sets the CompletedTimestamp field's value.
-func (s *CreateAccountStatus) SetCompletedTimestamp(v time.Time) *CreateAccountStatus {
-	s.CompletedTimestamp = &v
-	return s
-}
-
-// SetFailureReason sets the FailureReason field's value.
-func (s *CreateAccountStatus) SetFailureReason(v CreateAccountFailureReason) *CreateAccountStatus {
-	s.FailureReason = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *CreateAccountStatus) SetId(v string) *CreateAccountStatus {
-	s.Id = &v
-	return s
-}
-
-// SetRequestedTimestamp sets the RequestedTimestamp field's value.
-func (s *CreateAccountStatus) SetRequestedTimestamp(v time.Time) *CreateAccountStatus {
-	s.RequestedTimestamp = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *CreateAccountStatus) SetState(v CreateAccountState) *CreateAccountStatus {
-	s.State = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateOrganizationRequest
@@ -3462,7 +3803,7 @@ type CreateOrganizationInput struct {
 	//    member account in the organization. For more information, see All features
 	//    (http://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#feature-set-all)
 	//    in the AWS Organizations User Guide.
-	FeatureSet OrganizationFeatureSet `type:"string"`
+	FeatureSet OrganizationFeatureSet `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3475,15 +3816,11 @@ func (s CreateOrganizationInput) GoString() string {
 	return s.String()
 }
 
-// SetFeatureSet sets the FeatureSet field's value.
-func (s *CreateOrganizationInput) SetFeatureSet(v OrganizationFeatureSet) *CreateOrganizationInput {
-	s.FeatureSet = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateOrganizationResponse
 type CreateOrganizationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the newly created organization.
 	Organization *Organization `type:"structure"`
@@ -3499,10 +3836,9 @@ func (s CreateOrganizationOutput) GoString() string {
 	return s.String()
 }
 
-// SetOrganization sets the Organization field's value.
-func (s *CreateOrganizationOutput) SetOrganization(v *Organization) *CreateOrganizationOutput {
-	s.Organization = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateOrganizationalUnitRequest
@@ -3563,21 +3899,11 @@ func (s *CreateOrganizationalUnitInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateOrganizationalUnitInput) SetName(v string) *CreateOrganizationalUnitInput {
-	s.Name = &v
-	return s
-}
-
-// SetParentId sets the ParentId field's value.
-func (s *CreateOrganizationalUnitInput) SetParentId(v string) *CreateOrganizationalUnitInput {
-	s.ParentId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateOrganizationalUnitResponse
 type CreateOrganizationalUnitOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the newly created OU.
 	OrganizationalUnit *OrganizationalUnit `type:"structure"`
@@ -3593,10 +3919,9 @@ func (s CreateOrganizationalUnitOutput) GoString() string {
 	return s.String()
 }
 
-// SetOrganizationalUnit sets the OrganizationalUnit field's value.
-func (s *CreateOrganizationalUnitOutput) SetOrganizationalUnit(v *OrganizationalUnit) *CreateOrganizationalUnitOutput {
-	s.OrganizationalUnit = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateOrganizationalUnitOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreatePolicyRequest
@@ -3634,7 +3959,7 @@ type CreatePolicyInput struct {
 	// service control policy (SCP).
 	//
 	// Type is a required field
-	Type PolicyType `type:"string" required:"true"`
+	Type PolicyType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3678,33 +4003,11 @@ func (s *CreatePolicyInput) Validate() error {
 	return nil
 }
 
-// SetContent sets the Content field's value.
-func (s *CreatePolicyInput) SetContent(v string) *CreatePolicyInput {
-	s.Content = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreatePolicyInput) SetDescription(v string) *CreatePolicyInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreatePolicyInput) SetName(v string) *CreatePolicyInput {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *CreatePolicyInput) SetType(v PolicyType) *CreatePolicyInput {
-	s.Type = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreatePolicyResponse
 type CreatePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the newly created policy.
 	Policy *Policy `type:"structure"`
@@ -3720,10 +4023,9 @@ func (s CreatePolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *CreatePolicyOutput) SetPolicy(v *Policy) *CreatePolicyOutput {
-	s.Policy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeclineHandshakeRequest
@@ -3764,15 +4066,11 @@ func (s *DeclineHandshakeInput) Validate() error {
 	return nil
 }
 
-// SetHandshakeId sets the HandshakeId field's value.
-func (s *DeclineHandshakeInput) SetHandshakeId(v string) *DeclineHandshakeInput {
-	s.HandshakeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeclineHandshakeResponse
 type DeclineHandshakeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the declined handshake. The state
 	// is updated to show the value DECLINED.
@@ -3789,10 +4087,9 @@ func (s DeclineHandshakeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshake sets the Handshake field's value.
-func (s *DeclineHandshakeOutput) SetHandshake(v *Handshake) *DeclineHandshakeOutput {
-	s.Handshake = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeclineHandshakeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeleteOrganizationInput
@@ -3813,6 +4110,8 @@ func (s DeleteOrganizationInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeleteOrganizationOutput
 type DeleteOrganizationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3823,6 +4122,11 @@ func (s DeleteOrganizationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteOrganizationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeleteOrganizationalUnitRequest
@@ -3865,15 +4169,11 @@ func (s *DeleteOrganizationalUnitInput) Validate() error {
 	return nil
 }
 
-// SetOrganizationalUnitId sets the OrganizationalUnitId field's value.
-func (s *DeleteOrganizationalUnitInput) SetOrganizationalUnitId(v string) *DeleteOrganizationalUnitInput {
-	s.OrganizationalUnitId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeleteOrganizationalUnitOutput
 type DeleteOrganizationalUnitOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3884,6 +4184,11 @@ func (s DeleteOrganizationalUnitOutput) String() string {
 // GoString returns the string representation
 func (s DeleteOrganizationalUnitOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteOrganizationalUnitOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeletePolicyRequest
@@ -3924,15 +4229,11 @@ func (s *DeletePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyId sets the PolicyId field's value.
-func (s *DeletePolicyInput) SetPolicyId(v string) *DeletePolicyInput {
-	s.PolicyId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DeletePolicyOutput
 type DeletePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3943,6 +4244,11 @@ func (s DeletePolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeletePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeAccountRequest
@@ -3983,15 +4289,11 @@ func (s *DescribeAccountInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DescribeAccountInput) SetAccountId(v string) *DescribeAccountInput {
-	s.AccountId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeAccountResponse
 type DescribeAccountOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains information about the requested account.
 	Account *Account `type:"structure"`
@@ -4007,10 +4309,9 @@ func (s DescribeAccountOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccount sets the Account field's value.
-func (s *DescribeAccountOutput) SetAccount(v *Account) *DescribeAccountOutput {
-	s.Account = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAccountOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeCreateAccountStatusRequest
@@ -4053,15 +4354,11 @@ func (s *DescribeCreateAccountStatusInput) Validate() error {
 	return nil
 }
 
-// SetCreateAccountRequestId sets the CreateAccountRequestId field's value.
-func (s *DescribeCreateAccountStatusInput) SetCreateAccountRequestId(v string) *DescribeCreateAccountStatusInput {
-	s.CreateAccountRequestId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeCreateAccountStatusResponse
 type DescribeCreateAccountStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains the current status of an account creation request.
 	CreateAccountStatus *CreateAccountStatus `type:"structure"`
@@ -4077,10 +4374,9 @@ func (s DescribeCreateAccountStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreateAccountStatus sets the CreateAccountStatus field's value.
-func (s *DescribeCreateAccountStatusOutput) SetCreateAccountStatus(v *CreateAccountStatus) *DescribeCreateAccountStatusOutput {
-	s.CreateAccountStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeCreateAccountStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeHandshakeRequest
@@ -4122,15 +4418,11 @@ func (s *DescribeHandshakeInput) Validate() error {
 	return nil
 }
 
-// SetHandshakeId sets the HandshakeId field's value.
-func (s *DescribeHandshakeInput) SetHandshakeId(v string) *DescribeHandshakeInput {
-	s.HandshakeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeHandshakeResponse
 type DescribeHandshakeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains information about the specified handshake.
 	Handshake *Handshake `type:"structure"`
@@ -4146,10 +4438,9 @@ func (s DescribeHandshakeOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshake sets the Handshake field's value.
-func (s *DescribeHandshakeOutput) SetHandshake(v *Handshake) *DescribeHandshakeOutput {
-	s.Handshake = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeHandshakeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeOrganizationInput
@@ -4171,6 +4462,8 @@ func (s DescribeOrganizationInput) GoString() string {
 type DescribeOrganizationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A structure that contains information about the organization.
 	Organization *Organization `type:"structure"`
 }
@@ -4185,10 +4478,9 @@ func (s DescribeOrganizationOutput) GoString() string {
 	return s.String()
 }
 
-// SetOrganization sets the Organization field's value.
-func (s *DescribeOrganizationOutput) SetOrganization(v *Organization) *DescribeOrganizationOutput {
-	s.Organization = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeOrganizationalUnitRequest
@@ -4231,15 +4523,11 @@ func (s *DescribeOrganizationalUnitInput) Validate() error {
 	return nil
 }
 
-// SetOrganizationalUnitId sets the OrganizationalUnitId field's value.
-func (s *DescribeOrganizationalUnitInput) SetOrganizationalUnitId(v string) *DescribeOrganizationalUnitInput {
-	s.OrganizationalUnitId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribeOrganizationalUnitResponse
 type DescribeOrganizationalUnitOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the specified OU.
 	OrganizationalUnit *OrganizationalUnit `type:"structure"`
@@ -4255,10 +4543,9 @@ func (s DescribeOrganizationalUnitOutput) GoString() string {
 	return s.String()
 }
 
-// SetOrganizationalUnit sets the OrganizationalUnit field's value.
-func (s *DescribeOrganizationalUnitOutput) SetOrganizationalUnit(v *OrganizationalUnit) *DescribeOrganizationalUnitOutput {
-	s.OrganizationalUnit = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeOrganizationalUnitOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribePolicyRequest
@@ -4299,15 +4586,11 @@ func (s *DescribePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyId sets the PolicyId field's value.
-func (s *DescribePolicyInput) SetPolicyId(v string) *DescribePolicyInput {
-	s.PolicyId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DescribePolicyResponse
 type DescribePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the specified policy.
 	Policy *Policy `type:"structure"`
@@ -4323,10 +4606,9 @@ func (s DescribePolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *DescribePolicyOutput) SetPolicy(v *Policy) *DescribePolicyOutput {
-	s.Policy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DetachPolicyRequest
@@ -4391,21 +4673,11 @@ func (s *DetachPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyId sets the PolicyId field's value.
-func (s *DetachPolicyInput) SetPolicyId(v string) *DetachPolicyInput {
-	s.PolicyId = &v
-	return s
-}
-
-// SetTargetId sets the TargetId field's value.
-func (s *DetachPolicyInput) SetTargetId(v string) *DetachPolicyInput {
-	s.TargetId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DetachPolicyOutput
 type DetachPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4418,6 +4690,72 @@ func (s DetachPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisableAWSServiceAccessRequest
+type DisableAWSServiceAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The service principal name of the AWS service for which you want to disable
+	// integration with your organization. This is typically in the form of a URL,
+	// such as service-abbreviation.amazonaws.com.
+	//
+	// ServicePrincipal is a required field
+	ServicePrincipal *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DisableAWSServiceAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisableAWSServiceAccessInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DisableAWSServiceAccessInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DisableAWSServiceAccessInput"}
+
+	if s.ServicePrincipal == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ServicePrincipal"))
+	}
+	if s.ServicePrincipal != nil && len(*s.ServicePrincipal) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ServicePrincipal", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisableAWSServiceAccessOutput
+type DisableAWSServiceAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DisableAWSServiceAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisableAWSServiceAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableAWSServiceAccessOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisablePolicyTypeRequest
 type DisablePolicyTypeInput struct {
 	_ struct{} `type:"structure"`
@@ -4425,7 +4763,7 @@ type DisablePolicyTypeInput struct {
 	// The policy type that you want to disable in this root.
 	//
 	// PolicyType is a required field
-	PolicyType PolicyType `type:"string" required:"true"`
+	PolicyType PolicyType `type:"string" required:"true" enum:"true"`
 
 	// The unique identifier (ID) of the root in which you want to disable a policy
 	// type. You can get the ID from the ListRoots operation.
@@ -4464,21 +4802,11 @@ func (s *DisablePolicyTypeInput) Validate() error {
 	return nil
 }
 
-// SetPolicyType sets the PolicyType field's value.
-func (s *DisablePolicyTypeInput) SetPolicyType(v PolicyType) *DisablePolicyTypeInput {
-	s.PolicyType = v
-	return s
-}
-
-// SetRootId sets the RootId field's value.
-func (s *DisablePolicyTypeInput) SetRootId(v string) *DisablePolicyTypeInput {
-	s.RootId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisablePolicyTypeResponse
 type DisablePolicyTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that shows the root with the updated list of enabled policy types.
 	Root *Root `type:"structure"`
@@ -4494,10 +4822,70 @@ func (s DisablePolicyTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetRoot sets the Root field's value.
-func (s *DisablePolicyTypeOutput) SetRoot(v *Root) *DisablePolicyTypeOutput {
-	s.Root = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisablePolicyTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnableAWSServiceAccessRequest
+type EnableAWSServiceAccessInput struct {
+	_ struct{} `type:"structure"`
+
+	// The service principal name of the AWS service for which you want to enable
+	// integration with your organization. This is typically in the form of a URL,
+	// such as service-abbreviation.amazonaws.com.
+	//
+	// ServicePrincipal is a required field
+	ServicePrincipal *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s EnableAWSServiceAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnableAWSServiceAccessInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *EnableAWSServiceAccessInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "EnableAWSServiceAccessInput"}
+
+	if s.ServicePrincipal == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ServicePrincipal"))
+	}
+	if s.ServicePrincipal != nil && len(*s.ServicePrincipal) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ServicePrincipal", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnableAWSServiceAccessOutput
+type EnableAWSServiceAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s EnableAWSServiceAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnableAWSServiceAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableAWSServiceAccessOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnableAllFeaturesRequest
@@ -4519,6 +4907,8 @@ func (s EnableAllFeaturesInput) GoString() string {
 type EnableAllFeaturesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A structure that contains details about the handshake created to support
 	// this request to enable all features in the organization.
 	Handshake *Handshake `type:"structure"`
@@ -4534,10 +4924,9 @@ func (s EnableAllFeaturesOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshake sets the Handshake field's value.
-func (s *EnableAllFeaturesOutput) SetHandshake(v *Handshake) *EnableAllFeaturesOutput {
-	s.Handshake = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableAllFeaturesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnablePolicyTypeRequest
@@ -4547,7 +4936,7 @@ type EnablePolicyTypeInput struct {
 	// The policy type that you want to enable.
 	//
 	// PolicyType is a required field
-	PolicyType PolicyType `type:"string" required:"true"`
+	PolicyType PolicyType `type:"string" required:"true" enum:"true"`
 
 	// The unique identifier (ID) of the root in which you want to enable a policy
 	// type. You can get the ID from the ListRoots operation.
@@ -4586,21 +4975,11 @@ func (s *EnablePolicyTypeInput) Validate() error {
 	return nil
 }
 
-// SetPolicyType sets the PolicyType field's value.
-func (s *EnablePolicyTypeInput) SetPolicyType(v PolicyType) *EnablePolicyTypeInput {
-	s.PolicyType = v
-	return s
-}
-
-// SetRootId sets the RootId field's value.
-func (s *EnablePolicyTypeInput) SetRootId(v string) *EnablePolicyTypeInput {
-	s.RootId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnablePolicyTypeResponse
 type EnablePolicyTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that shows the root with the updated list of enabled policy types.
 	Root *Root `type:"structure"`
@@ -4616,10 +4995,34 @@ func (s EnablePolicyTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetRoot sets the Root field's value.
-func (s *EnablePolicyTypeOutput) SetRoot(v *Root) *EnablePolicyTypeOutput {
-	s.Root = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnablePolicyTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// A structure that contains details of a service principal that is enabled
+// to integrate with AWS Organizations.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnabledServicePrincipal
+type EnabledServicePrincipal struct {
+	_ struct{} `type:"structure"`
+
+	// The date that the service principal was enabled for integration with AWS
+	// Organizations.
+	DateEnabled *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// The name of the service principal. This is typically in the form of a URL,
+	// such as: servicename.amazonaws.com.
+	ServicePrincipal *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s EnabledServicePrincipal) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EnabledServicePrincipal) GoString() string {
+	return s.String()
 }
 
 // Contains information that must be exchanged to securely establish a relationship
@@ -4635,8 +5038,22 @@ type Handshake struct {
 	_ struct{} `type:"structure"`
 
 	// The type of handshake, indicating what action occurs when the recipient accepts
-	// the handshake.
-	Action ActionType `type:"string"`
+	// the handshake. The following handshake types are supported:
+	//
+	//    * INVITE: This type of handshake represents a request to join an organization.
+	//    It is always sent from the master account to only non-member accounts.
+	//
+	//    * ENABLE_ALL_FEATURES: This type of handshake represents a request to
+	//    enable all features in an organization. It is always sent from the master
+	//    account to only invited member accounts. Created accounts do not receive
+	//    this because those accounts were created by the organization's master
+	//    account and approval is inferred.
+	//
+	//    * APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations
+	//    service when all member accounts have approved the ENABLE_ALL_FEATURES
+	//    invitation. It is sent only to the master account and signals the master
+	//    that it can finalize the process to enable all features.
+	Action ActionType `type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) of a handshake.
 	//
@@ -4658,13 +5075,13 @@ type Handshake struct {
 	Id *string `type:"string"`
 
 	// Information about the two accounts that are participating in the handshake.
-	Parties []*HandshakeParty `type:"list"`
+	Parties []HandshakeParty `type:"list"`
 
 	// The date and time that the handshake request was made.
 	RequestedTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// Additional information that is needed to process the handshake.
-	Resources []*HandshakeResource `type:"list"`
+	Resources []HandshakeResource `type:"list"`
 
 	// The current state of the handshake. Use the state to trace the flow of the
 	// handshake through the process from its creation to its acceptance. The meaning
@@ -4690,7 +5107,7 @@ type Handshake struct {
 	//    * EXPIRED: This handshake is no longer active because the originator did
 	//    not receive a response of any kind from the recipient before the expiration
 	//    time (15 days).
-	State HandshakeState `type:"string"`
+	State HandshakeState `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4703,54 +5120,6 @@ func (s Handshake) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *Handshake) SetAction(v ActionType) *Handshake {
-	s.Action = v
-	return s
-}
-
-// SetArn sets the Arn field's value.
-func (s *Handshake) SetArn(v string) *Handshake {
-	s.Arn = &v
-	return s
-}
-
-// SetExpirationTimestamp sets the ExpirationTimestamp field's value.
-func (s *Handshake) SetExpirationTimestamp(v time.Time) *Handshake {
-	s.ExpirationTimestamp = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Handshake) SetId(v string) *Handshake {
-	s.Id = &v
-	return s
-}
-
-// SetParties sets the Parties field's value.
-func (s *Handshake) SetParties(v []*HandshakeParty) *Handshake {
-	s.Parties = v
-	return s
-}
-
-// SetRequestedTimestamp sets the RequestedTimestamp field's value.
-func (s *Handshake) SetRequestedTimestamp(v time.Time) *Handshake {
-	s.RequestedTimestamp = &v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *Handshake) SetResources(v []*HandshakeResource) *Handshake {
-	s.Resources = v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *Handshake) SetState(v HandshakeState) *Handshake {
-	s.State = v
-	return s
-}
-
 // Specifies the criteria that are used to select the handshakes for the operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/HandshakeFilter
 type HandshakeFilter struct {
@@ -4759,7 +5128,7 @@ type HandshakeFilter struct {
 	// Specifies the type of handshake action.
 	//
 	// If you specify ActionType, you cannot also specify ParentHandshakeId.
-	ActionType ActionType `type:"string"`
+	ActionType ActionType `type:"string" enum:"true"`
 
 	// Specifies the parent handshake. Only used for handshake types that are a
 	// child of another type.
@@ -4781,18 +5150,6 @@ func (s HandshakeFilter) GoString() string {
 	return s.String()
 }
 
-// SetActionType sets the ActionType field's value.
-func (s *HandshakeFilter) SetActionType(v ActionType) *HandshakeFilter {
-	s.ActionType = v
-	return s
-}
-
-// SetParentHandshakeId sets the ParentHandshakeId field's value.
-func (s *HandshakeFilter) SetParentHandshakeId(v string) *HandshakeFilter {
-	s.ParentHandshakeId = &v
-	return s
-}
-
 // Identifies a participant in a handshake.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/HandshakeParty
 type HandshakeParty struct {
@@ -4809,7 +5166,7 @@ type HandshakeParty struct {
 	// The type of party.
 	//
 	// Type is a required field
-	Type HandshakePartyType `type:"string" required:"true"`
+	Type HandshakePartyType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -4842,25 +5199,13 @@ func (s *HandshakeParty) Validate() error {
 	return nil
 }
 
-// SetId sets the Id field's value.
-func (s *HandshakeParty) SetId(v string) *HandshakeParty {
-	s.Id = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *HandshakeParty) SetType(v HandshakePartyType) *HandshakeParty {
-	s.Type = v
-	return s
-}
-
 // Contains additional data that is needed to process a handshake.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/HandshakeResource
 type HandshakeResource struct {
 	_ struct{} `type:"structure"`
 
 	// When needed, contains an additional array of HandshakeResource objects.
-	Resources []*HandshakeResource `type:"list"`
+	Resources []HandshakeResource `type:"list"`
 
 	// The type of information being passed, specifying how the value is to be interpreted
 	// by the other party:
@@ -4880,7 +5225,7 @@ type HandshakeResource struct {
 	//
 	//    * NOTES - Additional text provided by the handshake initiator and intended
 	//    for the recipient to read.
-	Type HandshakeResourceType `type:"string"`
+	Type HandshakeResourceType `type:"string" enum:"true"`
 
 	// The information that is passed to the other party in the handshake. The format
 	// of the value string must match the requirements of the specified type.
@@ -4895,24 +5240,6 @@ func (s HandshakeResource) String() string {
 // GoString returns the string representation
 func (s HandshakeResource) GoString() string {
 	return s.String()
-}
-
-// SetResources sets the Resources field's value.
-func (s *HandshakeResource) SetResources(v []*HandshakeResource) *HandshakeResource {
-	s.Resources = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *HandshakeResource) SetType(v HandshakeResourceType) *HandshakeResource {
-	s.Type = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *HandshakeResource) SetValue(v string) *HandshakeResource {
-	s.Value = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/InviteAccountToOrganizationRequest
@@ -4972,21 +5299,11 @@ func (s *InviteAccountToOrganizationInput) Validate() error {
 	return nil
 }
 
-// SetNotes sets the Notes field's value.
-func (s *InviteAccountToOrganizationInput) SetNotes(v string) *InviteAccountToOrganizationInput {
-	s.Notes = &v
-	return s
-}
-
-// SetTarget sets the Target field's value.
-func (s *InviteAccountToOrganizationInput) SetTarget(v *HandshakeParty) *InviteAccountToOrganizationInput {
-	s.Target = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/InviteAccountToOrganizationResponse
 type InviteAccountToOrganizationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the handshake that is created to
 	// support this invitation request.
@@ -5003,10 +5320,9 @@ func (s InviteAccountToOrganizationOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshake sets the Handshake field's value.
-func (s *InviteAccountToOrganizationOutput) SetHandshake(v *Handshake) *InviteAccountToOrganizationOutput {
-	s.Handshake = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InviteAccountToOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/LeaveOrganizationInput
@@ -5027,6 +5343,8 @@ func (s LeaveOrganizationInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/LeaveOrganizationOutput
 type LeaveOrganizationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5037,6 +5355,90 @@ func (s LeaveOrganizationOutput) String() string {
 // GoString returns the string representation
 func (s LeaveOrganizationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s LeaveOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAWSServiceAccessForOrganizationRequest
+type ListAWSServiceAccessForOrganizationInput struct {
+	_ struct{} `type:"structure"`
+
+	// (Optional) Use this to limit the number of results you want included in the
+	// response. If you do not include this parameter, it defaults to a value that
+	// is specific to the operation. If additional items exist beyond the maximum
+	// you specify, the NextToken response element is present and has a value (is
+	// not null). Include that value as the NextToken request parameter in the next
+	// call to the operation to get the next part of the results. Note that Organizations
+	// might return fewer results than the maximum even when there are more results
+	// available. You should check NextToken after every operation to ensure that
+	// you receive all of the results.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// Use this parameter if you receive a NextToken response in a previous request
+	// that indicates that there is more output available. Set it to the value of
+	// the previous call's NextToken response to indicate where the output should
+	// continue from.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ListAWSServiceAccessForOrganizationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListAWSServiceAccessForOrganizationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListAWSServiceAccessForOrganizationInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ListAWSServiceAccessForOrganizationInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAWSServiceAccessForOrganizationResponse
+type ListAWSServiceAccessForOrganizationOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// A list of the service principals for the services that are enabled to integrate
+	// with your organization. Each principal is a structure that includes the name
+	// and the date that it was enabled for integration with AWS Organizations.
+	EnabledServicePrincipals []EnabledServicePrincipal `type:"list"`
+
+	// If present, this value indicates that there is more output available than
+	// is included in the current response. Use this value in the NextToken request
+	// parameter in a subsequent call to the operation to get the next part of the
+	// output. You should repeat this until the NextToken response element comes
+	// back as null.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s ListAWSServiceAccessForOrganizationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListAWSServiceAccessForOrganizationOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAWSServiceAccessForOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAccountsForParentRequest
@@ -5094,30 +5496,14 @@ func (s *ListAccountsForParentInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAccountsForParentInput) SetMaxResults(v int64) *ListAccountsForParentInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAccountsForParentInput) SetNextToken(v string) *ListAccountsForParentInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParentId sets the ParentId field's value.
-func (s *ListAccountsForParentInput) SetParentId(v string) *ListAccountsForParentInput {
-	s.ParentId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAccountsForParentResponse
 type ListAccountsForParentOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the accounts in the specified root or OU.
-	Accounts []*Account `type:"list"`
+	Accounts []Account `type:"list"`
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5137,16 +5523,9 @@ func (s ListAccountsForParentOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccounts sets the Accounts field's value.
-func (s *ListAccountsForParentOutput) SetAccounts(v []*Account) *ListAccountsForParentOutput {
-	s.Accounts = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAccountsForParentOutput) SetNextToken(v string) *ListAccountsForParentOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAccountsForParentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAccountsRequest
@@ -5194,24 +5573,14 @@ func (s *ListAccountsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAccountsInput) SetMaxResults(v int64) *ListAccountsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAccountsInput) SetNextToken(v string) *ListAccountsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListAccountsResponse
 type ListAccountsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of objects in the organization.
-	Accounts []*Account `type:"list"`
+	Accounts []Account `type:"list"`
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5231,16 +5600,9 @@ func (s ListAccountsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccounts sets the Accounts field's value.
-func (s *ListAccountsOutput) SetAccounts(v []*Account) *ListAccountsOutput {
-	s.Accounts = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAccountsOutput) SetNextToken(v string) *ListAccountsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAccountsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListChildrenRequest
@@ -5250,7 +5612,7 @@ type ListChildrenInput struct {
 	// Filters the output to include only the specified child type.
 	//
 	// ChildType is a required field
-	ChildType ChildType `type:"string" required:"true"`
+	ChildType ChildType `type:"string" required:"true" enum:"true"`
 
 	// (Optional) Use this to limit the number of results you want included in the
 	// response. If you do not include this parameter, it defaults to a value that
@@ -5317,36 +5679,14 @@ func (s *ListChildrenInput) Validate() error {
 	return nil
 }
 
-// SetChildType sets the ChildType field's value.
-func (s *ListChildrenInput) SetChildType(v ChildType) *ListChildrenInput {
-	s.ChildType = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListChildrenInput) SetMaxResults(v int64) *ListChildrenInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListChildrenInput) SetNextToken(v string) *ListChildrenInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParentId sets the ParentId field's value.
-func (s *ListChildrenInput) SetParentId(v string) *ListChildrenInput {
-	s.ParentId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListChildrenResponse
 type ListChildrenOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of children of the specified parent container.
-	Children []*Child `type:"list"`
+	Children []Child `type:"list"`
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5366,16 +5706,9 @@ func (s ListChildrenOutput) GoString() string {
 	return s.String()
 }
 
-// SetChildren sets the Children field's value.
-func (s *ListChildrenOutput) SetChildren(v []*Child) *ListChildrenOutput {
-	s.Children = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListChildrenOutput) SetNextToken(v string) *ListChildrenOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListChildrenOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListCreateAccountStatusRequest
@@ -5427,32 +5760,16 @@ func (s *ListCreateAccountStatusInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListCreateAccountStatusInput) SetMaxResults(v int64) *ListCreateAccountStatusInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCreateAccountStatusInput) SetNextToken(v string) *ListCreateAccountStatusInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStates sets the States field's value.
-func (s *ListCreateAccountStatusInput) SetStates(v []CreateAccountState) *ListCreateAccountStatusInput {
-	s.States = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListCreateAccountStatusResponse
 type ListCreateAccountStatusOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of objects with details about the requests. Certain elements, such
 	// as the accountId number, are present in the output only after the account
 	// has been successfully created.
-	CreateAccountStatuses []*CreateAccountStatus `type:"list"`
+	CreateAccountStatuses []CreateAccountStatus `type:"list"`
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5472,16 +5789,9 @@ func (s ListCreateAccountStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreateAccountStatuses sets the CreateAccountStatuses field's value.
-func (s *ListCreateAccountStatusOutput) SetCreateAccountStatuses(v []*CreateAccountStatus) *ListCreateAccountStatusOutput {
-	s.CreateAccountStatuses = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCreateAccountStatusOutput) SetNextToken(v string) *ListCreateAccountStatusOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListCreateAccountStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListHandshakesForAccountRequest
@@ -5537,31 +5847,15 @@ func (s *ListHandshakesForAccountInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *ListHandshakesForAccountInput) SetFilter(v *HandshakeFilter) *ListHandshakesForAccountInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListHandshakesForAccountInput) SetMaxResults(v int64) *ListHandshakesForAccountInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHandshakesForAccountInput) SetNextToken(v string) *ListHandshakesForAccountInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListHandshakesForAccountResponse
 type ListHandshakesForAccountOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of Handshake objects with details about each of the handshakes that
 	// is associated with the specified account.
-	Handshakes []*Handshake `type:"list"`
+	Handshakes []Handshake `type:"list"`
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5581,16 +5875,9 @@ func (s ListHandshakesForAccountOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshakes sets the Handshakes field's value.
-func (s *ListHandshakesForAccountOutput) SetHandshakes(v []*Handshake) *ListHandshakesForAccountOutput {
-	s.Handshakes = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHandshakesForAccountOutput) SetNextToken(v string) *ListHandshakesForAccountOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListHandshakesForAccountOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListHandshakesForOrganizationRequest
@@ -5646,31 +5933,15 @@ func (s *ListHandshakesForOrganizationInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *ListHandshakesForOrganizationInput) SetFilter(v *HandshakeFilter) *ListHandshakesForOrganizationInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListHandshakesForOrganizationInput) SetMaxResults(v int64) *ListHandshakesForOrganizationInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHandshakesForOrganizationInput) SetNextToken(v string) *ListHandshakesForOrganizationInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListHandshakesForOrganizationResponse
 type ListHandshakesForOrganizationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of Handshake objects with details about each of the handshakes that
 	// are associated with an organization.
-	Handshakes []*Handshake `type:"list"`
+	Handshakes []Handshake `type:"list"`
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5690,16 +5961,9 @@ func (s ListHandshakesForOrganizationOutput) GoString() string {
 	return s.String()
 }
 
-// SetHandshakes sets the Handshakes field's value.
-func (s *ListHandshakesForOrganizationOutput) SetHandshakes(v []*Handshake) *ListHandshakesForOrganizationOutput {
-	s.Handshakes = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHandshakesForOrganizationOutput) SetNextToken(v string) *ListHandshakesForOrganizationOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListHandshakesForOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListOrganizationalUnitsForParentRequest
@@ -5768,27 +6032,11 @@ func (s *ListOrganizationalUnitsForParentInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListOrganizationalUnitsForParentInput) SetMaxResults(v int64) *ListOrganizationalUnitsForParentInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListOrganizationalUnitsForParentInput) SetNextToken(v string) *ListOrganizationalUnitsForParentInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParentId sets the ParentId field's value.
-func (s *ListOrganizationalUnitsForParentInput) SetParentId(v string) *ListOrganizationalUnitsForParentInput {
-	s.ParentId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListOrganizationalUnitsForParentResponse
 type ListOrganizationalUnitsForParentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5798,7 +6046,7 @@ type ListOrganizationalUnitsForParentOutput struct {
 	NextToken *string `type:"string"`
 
 	// A list of the OUs in the specified root or parent OU.
-	OrganizationalUnits []*OrganizationalUnit `type:"list"`
+	OrganizationalUnits []OrganizationalUnit `type:"list"`
 }
 
 // String returns the string representation
@@ -5811,16 +6059,9 @@ func (s ListOrganizationalUnitsForParentOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOrganizationalUnitsForParentOutput) SetNextToken(v string) *ListOrganizationalUnitsForParentOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetOrganizationalUnits sets the OrganizationalUnits field's value.
-func (s *ListOrganizationalUnitsForParentOutput) SetOrganizationalUnits(v []*OrganizationalUnit) *ListOrganizationalUnitsForParentOutput {
-	s.OrganizationalUnits = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListOrganizationalUnitsForParentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListParentsRequest
@@ -5888,27 +6129,11 @@ func (s *ListParentsInput) Validate() error {
 	return nil
 }
 
-// SetChildId sets the ChildId field's value.
-func (s *ListParentsInput) SetChildId(v string) *ListParentsInput {
-	s.ChildId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListParentsInput) SetMaxResults(v int64) *ListParentsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListParentsInput) SetNextToken(v string) *ListParentsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListParentsResponse
 type ListParentsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -5918,7 +6143,7 @@ type ListParentsOutput struct {
 	NextToken *string `type:"string"`
 
 	// A list of parents for the specified child account or OU.
-	Parents []*Parent `type:"list"`
+	Parents []Parent `type:"list"`
 }
 
 // String returns the string representation
@@ -5931,16 +6156,9 @@ func (s ListParentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListParentsOutput) SetNextToken(v string) *ListParentsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParents sets the Parents field's value.
-func (s *ListParentsOutput) SetParents(v []*Parent) *ListParentsOutput {
-	s.Parents = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListParentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListPoliciesForTargetRequest
@@ -5950,7 +6168,7 @@ type ListPoliciesForTargetInput struct {
 	// The type of policy that you want to include in the returned list.
 	//
 	// Filter is a required field
-	Filter PolicyType `type:"string" required:"true"`
+	Filter PolicyType `type:"string" required:"true" enum:"true"`
 
 	// (Optional) Use this to limit the number of results you want included in the
 	// response. If you do not include this parameter, it defaults to a value that
@@ -6019,33 +6237,11 @@ func (s *ListPoliciesForTargetInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *ListPoliciesForTargetInput) SetFilter(v PolicyType) *ListPoliciesForTargetInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListPoliciesForTargetInput) SetMaxResults(v int64) *ListPoliciesForTargetInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListPoliciesForTargetInput) SetNextToken(v string) *ListPoliciesForTargetInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTargetId sets the TargetId field's value.
-func (s *ListPoliciesForTargetInput) SetTargetId(v string) *ListPoliciesForTargetInput {
-	s.TargetId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListPoliciesForTargetResponse
 type ListPoliciesForTargetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -6055,7 +6251,7 @@ type ListPoliciesForTargetOutput struct {
 	NextToken *string `type:"string"`
 
 	// The list of policies that match the criteria in the request.
-	Policies []*PolicySummary `type:"list"`
+	Policies []PolicySummary `type:"list"`
 }
 
 // String returns the string representation
@@ -6068,16 +6264,9 @@ func (s ListPoliciesForTargetOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPoliciesForTargetOutput) SetNextToken(v string) *ListPoliciesForTargetOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPolicies sets the Policies field's value.
-func (s *ListPoliciesForTargetOutput) SetPolicies(v []*PolicySummary) *ListPoliciesForTargetOutput {
-	s.Policies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPoliciesForTargetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListPoliciesRequest
@@ -6087,7 +6276,7 @@ type ListPoliciesInput struct {
 	// Specifies the type of policy that you want to include in the response.
 	//
 	// Filter is a required field
-	Filter PolicyType `type:"string" required:"true"`
+	Filter PolicyType `type:"string" required:"true" enum:"true"`
 
 	// (Optional) Use this to limit the number of results you want included in the
 	// response. If you do not include this parameter, it defaults to a value that
@@ -6133,27 +6322,11 @@ func (s *ListPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *ListPoliciesInput) SetFilter(v PolicyType) *ListPoliciesInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListPoliciesInput) SetMaxResults(v int64) *ListPoliciesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListPoliciesInput) SetNextToken(v string) *ListPoliciesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListPoliciesResponse
 type ListPoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -6165,7 +6338,7 @@ type ListPoliciesOutput struct {
 	// A list of policies that match the filter criteria in the request. The output
 	// list does not include the policy contents. To see the content for a policy,
 	// see DescribePolicy.
-	Policies []*PolicySummary `type:"list"`
+	Policies []PolicySummary `type:"list"`
 }
 
 // String returns the string representation
@@ -6178,16 +6351,9 @@ func (s ListPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPoliciesOutput) SetNextToken(v string) *ListPoliciesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPolicies sets the Policies field's value.
-func (s *ListPoliciesOutput) SetPolicies(v []*PolicySummary) *ListPoliciesOutput {
-	s.Policies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListRootsRequest
@@ -6235,21 +6401,11 @@ func (s *ListRootsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListRootsInput) SetMaxResults(v int64) *ListRootsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListRootsInput) SetNextToken(v string) *ListRootsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListRootsResponse
 type ListRootsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -6259,7 +6415,7 @@ type ListRootsOutput struct {
 	NextToken *string `type:"string"`
 
 	// A list of roots that are defined in an organization.
-	Roots []*Root `type:"list"`
+	Roots []Root `type:"list"`
 }
 
 // String returns the string representation
@@ -6272,16 +6428,9 @@ func (s ListRootsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListRootsOutput) SetNextToken(v string) *ListRootsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRoots sets the Roots field's value.
-func (s *ListRootsOutput) SetRoots(v []*Root) *ListRootsOutput {
-	s.Roots = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListRootsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListTargetsForPolicyRequest
@@ -6341,27 +6490,11 @@ func (s *ListTargetsForPolicyInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListTargetsForPolicyInput) SetMaxResults(v int64) *ListTargetsForPolicyInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListTargetsForPolicyInput) SetNextToken(v string) *ListTargetsForPolicyInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPolicyId sets the PolicyId field's value.
-func (s *ListTargetsForPolicyInput) SetPolicyId(v string) *ListTargetsForPolicyInput {
-	s.PolicyId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/ListTargetsForPolicyResponse
 type ListTargetsForPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If present, this value indicates that there is more output available than
 	// is included in the current response. Use this value in the NextToken request
@@ -6372,7 +6505,7 @@ type ListTargetsForPolicyOutput struct {
 
 	// A list of structures, each of which contains details about one of the entities
 	// to which the specified policy is attached.
-	Targets []*PolicyTargetSummary `type:"list"`
+	Targets []PolicyTargetSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -6385,16 +6518,9 @@ func (s ListTargetsForPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTargetsForPolicyOutput) SetNextToken(v string) *ListTargetsForPolicyOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *ListTargetsForPolicyOutput) SetTargets(v []*PolicyTargetSummary) *ListTargetsForPolicyOutput {
-	s.Targets = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTargetsForPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/MoveAccountRequest
@@ -6476,27 +6602,11 @@ func (s *MoveAccountInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *MoveAccountInput) SetAccountId(v string) *MoveAccountInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetDestinationParentId sets the DestinationParentId field's value.
-func (s *MoveAccountInput) SetDestinationParentId(v string) *MoveAccountInput {
-	s.DestinationParentId = &v
-	return s
-}
-
-// SetSourceParentId sets the SourceParentId field's value.
-func (s *MoveAccountInput) SetSourceParentId(v string) *MoveAccountInput {
-	s.SourceParentId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/MoveAccountOutput
 type MoveAccountOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6507,6 +6617,11 @@ func (s MoveAccountOutput) String() string {
 // GoString returns the string representation
 func (s MoveAccountOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s MoveAccountOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains details about an organization. An organization is a collection of
@@ -6527,7 +6642,12 @@ type Organization struct {
 	// A list of policy types that are enabled for this organization. For example,
 	// if your organization has all features enabled, then service control policies
 	// (SCPs) are included in the list.
-	AvailablePolicyTypes []*PolicyTypeSummary `type:"list"`
+	//
+	// Even if a policy type is shown as available in the organization, you can
+	// separately enable and disable them at the root level by using EnablePolicyType
+	// and DisablePolicyType. Use ListRoots to see the status of a policy type in
+	// that root.
+	AvailablePolicyTypes []PolicyTypeSummary `type:"list"`
 
 	// Specifies the functionality that currently is available to the organization.
 	// If set to "ALL", then all features are enabled and policies can be applied
@@ -6535,7 +6655,7 @@ type Organization struct {
 	// consolidated billing functionality is available. For more information, see
 	// Enabling All Features in Your Organization (http://docs.aws.amazon.com/IAM/latest/UserGuide/orgs_manage_org_support-all-features.html)
 	// in the AWS Organizations User Guide.
-	FeatureSet OrganizationFeatureSet `type:"string"`
+	FeatureSet OrganizationFeatureSet `type:"string" enum:"true"`
 
 	// The unique identifier (ID) of an organization.
 	//
@@ -6570,48 +6690,6 @@ func (s Organization) String() string {
 // GoString returns the string representation
 func (s Organization) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Organization) SetArn(v string) *Organization {
-	s.Arn = &v
-	return s
-}
-
-// SetAvailablePolicyTypes sets the AvailablePolicyTypes field's value.
-func (s *Organization) SetAvailablePolicyTypes(v []*PolicyTypeSummary) *Organization {
-	s.AvailablePolicyTypes = v
-	return s
-}
-
-// SetFeatureSet sets the FeatureSet field's value.
-func (s *Organization) SetFeatureSet(v OrganizationFeatureSet) *Organization {
-	s.FeatureSet = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Organization) SetId(v string) *Organization {
-	s.Id = &v
-	return s
-}
-
-// SetMasterAccountArn sets the MasterAccountArn field's value.
-func (s *Organization) SetMasterAccountArn(v string) *Organization {
-	s.MasterAccountArn = &v
-	return s
-}
-
-// SetMasterAccountEmail sets the MasterAccountEmail field's value.
-func (s *Organization) SetMasterAccountEmail(v string) *Organization {
-	s.MasterAccountEmail = &v
-	return s
-}
-
-// SetMasterAccountId sets the MasterAccountId field's value.
-func (s *Organization) SetMasterAccountId(v string) *Organization {
-	s.MasterAccountId = &v
-	return s
 }
 
 // Contains details about an organizational unit (OU). An OU is a container
@@ -6654,24 +6732,6 @@ func (s OrganizationalUnit) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *OrganizationalUnit) SetArn(v string) *OrganizationalUnit {
-	s.Arn = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *OrganizationalUnit) SetId(v string) *OrganizationalUnit {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *OrganizationalUnit) SetName(v string) *OrganizationalUnit {
-	s.Name = &v
-	return s
-}
-
 // Contains information about either a root or an organizational unit (OU) that
 // can contain OUs or accounts in an organization.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/Parent
@@ -6693,7 +6753,7 @@ type Parent struct {
 	Id *string `type:"string"`
 
 	// The type of the parent entity.
-	Type ParentType `type:"string"`
+	Type ParentType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6704,18 +6764,6 @@ func (s Parent) String() string {
 // GoString returns the string representation
 func (s Parent) GoString() string {
 	return s.String()
-}
-
-// SetId sets the Id field's value.
-func (s *Parent) SetId(v string) *Parent {
-	s.Id = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Parent) SetType(v ParentType) *Parent {
-	s.Type = v
-	return s
 }
 
 // Contains rules to be applied to the affected accounts. Policies can be attached
@@ -6740,18 +6788,6 @@ func (s Policy) String() string {
 // GoString returns the string representation
 func (s Policy) GoString() string {
 	return s.String()
-}
-
-// SetContent sets the Content field's value.
-func (s *Policy) SetContent(v string) *Policy {
-	s.Content = &v
-	return s
-}
-
-// SetPolicySummary sets the PolicySummary field's value.
-func (s *Policy) SetPolicySummary(v *PolicySummary) *Policy {
-	s.PolicySummary = v
-	return s
 }
 
 // Contains information about a policy, but does not include the content. To
@@ -6789,7 +6825,7 @@ type PolicySummary struct {
 	Name *string `min:"1" type:"string"`
 
 	// The type of policy.
-	Type PolicyType `type:"string"`
+	Type PolicyType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6800,42 +6836,6 @@ func (s PolicySummary) String() string {
 // GoString returns the string representation
 func (s PolicySummary) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *PolicySummary) SetArn(v string) *PolicySummary {
-	s.Arn = &v
-	return s
-}
-
-// SetAwsManaged sets the AwsManaged field's value.
-func (s *PolicySummary) SetAwsManaged(v bool) *PolicySummary {
-	s.AwsManaged = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *PolicySummary) SetDescription(v string) *PolicySummary {
-	s.Description = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *PolicySummary) SetId(v string) *PolicySummary {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PolicySummary) SetName(v string) *PolicySummary {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *PolicySummary) SetType(v PolicyType) *PolicySummary {
-	s.Type = v
-	return s
 }
 
 // Contains information about a root, OU, or account that a policy is attached
@@ -6875,7 +6875,7 @@ type PolicyTargetSummary struct {
 	TargetId *string `type:"string"`
 
 	// The type of the policy target.
-	Type TargetType `type:"string"`
+	Type TargetType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6888,30 +6888,6 @@ func (s PolicyTargetSummary) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *PolicyTargetSummary) SetArn(v string) *PolicyTargetSummary {
-	s.Arn = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PolicyTargetSummary) SetName(v string) *PolicyTargetSummary {
-	s.Name = &v
-	return s
-}
-
-// SetTargetId sets the TargetId field's value.
-func (s *PolicyTargetSummary) SetTargetId(v string) *PolicyTargetSummary {
-	s.TargetId = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *PolicyTargetSummary) SetType(v TargetType) *PolicyTargetSummary {
-	s.Type = v
-	return s
-}
-
 // Contains information about a policy type and its status in the associated
 // root.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/PolicyTypeSummary
@@ -6921,10 +6897,10 @@ type PolicyTypeSummary struct {
 	// The status of the policy type as it relates to the associated root. To attach
 	// a policy of the specified type to a root or to an OU or account in that root,
 	// it must be available in the organization and enabled for that root.
-	Status PolicyTypeStatus `type:"string"`
+	Status PolicyTypeStatus `type:"string" enum:"true"`
 
 	// The name of the policy type.
-	Type PolicyType `type:"string"`
+	Type PolicyType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6935,18 +6911,6 @@ func (s PolicyTypeSummary) String() string {
 // GoString returns the string representation
 func (s PolicyTypeSummary) GoString() string {
 	return s.String()
-}
-
-// SetStatus sets the Status field's value.
-func (s *PolicyTypeSummary) SetStatus(v PolicyTypeStatus) *PolicyTypeSummary {
-	s.Status = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *PolicyTypeSummary) SetType(v PolicyType) *PolicyTypeSummary {
-	s.Type = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/RemoveAccountFromOrganizationRequest
@@ -6987,15 +6951,11 @@ func (s *RemoveAccountFromOrganizationInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *RemoveAccountFromOrganizationInput) SetAccountId(v string) *RemoveAccountFromOrganizationInput {
-	s.AccountId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/RemoveAccountFromOrganizationOutput
 type RemoveAccountFromOrganizationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7006,6 +6966,11 @@ func (s RemoveAccountFromOrganizationOutput) String() string {
 // GoString returns the string representation
 func (s RemoveAccountFromOrganizationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveAccountFromOrganizationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains details about a root. A root is a top-level parent node in the hierarchy
@@ -7039,7 +7004,12 @@ type Root struct {
 
 	// The types of policies that are currently enabled for the root and therefore
 	// can be attached to the root or to its OUs or accounts.
-	PolicyTypes []*PolicyTypeSummary `type:"list"`
+	//
+	// Even if a policy type is shown as available in the organization, you can
+	// separately enable and disable them at the root level by using EnablePolicyType
+	// and DisablePolicyType. Use DescribeOrganization to see the availability of
+	// the policy types in that organization.
+	PolicyTypes []PolicyTypeSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -7050,30 +7020,6 @@ func (s Root) String() string {
 // GoString returns the string representation
 func (s Root) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Root) SetArn(v string) *Root {
-	s.Arn = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Root) SetId(v string) *Root {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Root) SetName(v string) *Root {
-	s.Name = &v
-	return s
-}
-
-// SetPolicyTypes sets the PolicyTypes field's value.
-func (s *Root) SetPolicyTypes(v []*PolicyTypeSummary) *Root {
-	s.PolicyTypes = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdateOrganizationalUnitRequest
@@ -7126,21 +7072,11 @@ func (s *UpdateOrganizationalUnitInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *UpdateOrganizationalUnitInput) SetName(v string) *UpdateOrganizationalUnitInput {
-	s.Name = &v
-	return s
-}
-
-// SetOrganizationalUnitId sets the OrganizationalUnitId field's value.
-func (s *UpdateOrganizationalUnitInput) SetOrganizationalUnitId(v string) *UpdateOrganizationalUnitInput {
-	s.OrganizationalUnitId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdateOrganizationalUnitResponse
 type UpdateOrganizationalUnitOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains the details about the specified OU, including its
 	// new name.
@@ -7157,10 +7093,9 @@ func (s UpdateOrganizationalUnitOutput) GoString() string {
 	return s.String()
 }
 
-// SetOrganizationalUnit sets the OrganizationalUnit field's value.
-func (s *UpdateOrganizationalUnitOutput) SetOrganizationalUnit(v *OrganizationalUnit) *UpdateOrganizationalUnitOutput {
-	s.OrganizationalUnit = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateOrganizationalUnitOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdatePolicyRequest
@@ -7222,33 +7157,11 @@ func (s *UpdatePolicyInput) Validate() error {
 	return nil
 }
 
-// SetContent sets the Content field's value.
-func (s *UpdatePolicyInput) SetContent(v string) *UpdatePolicyInput {
-	s.Content = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdatePolicyInput) SetDescription(v string) *UpdatePolicyInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdatePolicyInput) SetName(v string) *UpdatePolicyInput {
-	s.Name = &v
-	return s
-}
-
-// SetPolicyId sets the PolicyId field's value.
-func (s *UpdatePolicyInput) SetPolicyId(v string) *UpdatePolicyInput {
-	s.PolicyId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdatePolicyResponse
 type UpdatePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the updated policy, showing the requested
 	// changes.
@@ -7265,10 +7178,25 @@ func (s UpdatePolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *UpdatePolicyOutput) SetPolicy(v *Policy) *UpdatePolicyOutput {
-	s.Policy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdatePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+type AccessDeniedForDependencyExceptionReason string
+
+// Enum values for AccessDeniedForDependencyExceptionReason
+const (
+	AccessDeniedForDependencyExceptionReasonAccessDeniedDuringCreateServiceLinkedRole AccessDeniedForDependencyExceptionReason = "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE"
+)
+
+func (enum AccessDeniedForDependencyExceptionReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AccessDeniedForDependencyExceptionReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
 }
 
 type AccountJoinedMethod string
@@ -7279,6 +7207,15 @@ const (
 	AccountJoinedMethodCreated AccountJoinedMethod = "CREATED"
 )
 
+func (enum AccountJoinedMethod) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AccountJoinedMethod) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AccountStatus string
 
 // Enum values for AccountStatus
@@ -7287,14 +7224,33 @@ const (
 	AccountStatusSuspended AccountStatus = "SUSPENDED"
 )
 
+func (enum AccountStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AccountStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ActionType string
 
 // Enum values for ActionType
 const (
-	ActionTypeInvite             ActionType = "INVITE"
-	ActionTypeEnableAllFeatures  ActionType = "ENABLE_ALL_FEATURES"
-	ActionTypeApproveAllFeatures ActionType = "APPROVE_ALL_FEATURES"
+	ActionTypeInvite                            ActionType = "INVITE"
+	ActionTypeEnableAllFeatures                 ActionType = "ENABLE_ALL_FEATURES"
+	ActionTypeApproveAllFeatures                ActionType = "APPROVE_ALL_FEATURES"
+	ActionTypeAddOrganizationsServiceLinkedRole ActionType = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
 )
+
+func (enum ActionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ChildType string
 
@@ -7303,6 +7259,15 @@ const (
 	ChildTypeAccount            ChildType = "ACCOUNT"
 	ChildTypeOrganizationalUnit ChildType = "ORGANIZATIONAL_UNIT"
 )
+
+func (enum ChildType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ChildType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ConstraintViolationExceptionReason string
 
@@ -7323,18 +7288,38 @@ const (
 	ConstraintViolationExceptionReasonAccountCreationRateLimitExceeded            ConstraintViolationExceptionReason = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
 	ConstraintViolationExceptionReasonMasterAccountAddressDoesNotMatchMarketplace ConstraintViolationExceptionReason = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
 	ConstraintViolationExceptionReasonMasterAccountMissingContactInfo             ConstraintViolationExceptionReason = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
+	ConstraintViolationExceptionReasonOrganizationNotInAllFeaturesMode            ConstraintViolationExceptionReason = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
 )
+
+func (enum ConstraintViolationExceptionReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ConstraintViolationExceptionReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CreateAccountFailureReason string
 
 // Enum values for CreateAccountFailureReason
 const (
-	CreateAccountFailureReasonAccountLimitExceeded CreateAccountFailureReason = "ACCOUNT_LIMIT_EXCEEDED"
-	CreateAccountFailureReasonEmailAlreadyExists   CreateAccountFailureReason = "EMAIL_ALREADY_EXISTS"
-	CreateAccountFailureReasonInvalidAddress       CreateAccountFailureReason = "INVALID_ADDRESS"
-	CreateAccountFailureReasonInvalidEmail         CreateAccountFailureReason = "INVALID_EMAIL"
-	CreateAccountFailureReasonInternalFailure      CreateAccountFailureReason = "INTERNAL_FAILURE"
+	CreateAccountFailureReasonAccountLimitExceeded          CreateAccountFailureReason = "ACCOUNT_LIMIT_EXCEEDED"
+	CreateAccountFailureReasonEmailAlreadyExists            CreateAccountFailureReason = "EMAIL_ALREADY_EXISTS"
+	CreateAccountFailureReasonInvalidAddress                CreateAccountFailureReason = "INVALID_ADDRESS"
+	CreateAccountFailureReasonInvalidEmail                  CreateAccountFailureReason = "INVALID_EMAIL"
+	CreateAccountFailureReasonConcurrentAccountModification CreateAccountFailureReason = "CONCURRENT_ACCOUNT_MODIFICATION"
+	CreateAccountFailureReasonInternalFailure               CreateAccountFailureReason = "INTERNAL_FAILURE"
 )
+
+func (enum CreateAccountFailureReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CreateAccountFailureReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CreateAccountState string
 
@@ -7344,6 +7329,15 @@ const (
 	CreateAccountStateSucceeded  CreateAccountState = "SUCCEEDED"
 	CreateAccountStateFailed     CreateAccountState = "FAILED"
 )
+
+func (enum CreateAccountState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CreateAccountState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type HandshakeConstraintViolationExceptionReason string
 
@@ -7359,6 +7353,15 @@ const (
 	HandshakeConstraintViolationExceptionReasonOrganizationMembershipChangeRateLimitExceeded HandshakeConstraintViolationExceptionReason = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
 )
 
+func (enum HandshakeConstraintViolationExceptionReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HandshakeConstraintViolationExceptionReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type HandshakePartyType string
 
 // Enum values for HandshakePartyType
@@ -7367,6 +7370,15 @@ const (
 	HandshakePartyTypeOrganization HandshakePartyType = "ORGANIZATION"
 	HandshakePartyTypeEmail        HandshakePartyType = "EMAIL"
 )
+
+func (enum HandshakePartyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HandshakePartyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type HandshakeResourceType string
 
@@ -7382,6 +7394,15 @@ const (
 	HandshakeResourceTypeParentHandshake        HandshakeResourceType = "PARENT_HANDSHAKE"
 )
 
+func (enum HandshakeResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HandshakeResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type HandshakeState string
 
 // Enum values for HandshakeState
@@ -7394,6 +7415,15 @@ const (
 	HandshakeStateExpired   HandshakeState = "EXPIRED"
 )
 
+func (enum HandshakeState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HandshakeState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type IAMUserAccessToBilling string
 
 // Enum values for IAMUserAccessToBilling
@@ -7401,6 +7431,15 @@ const (
 	IAMUserAccessToBillingAllow IAMUserAccessToBilling = "ALLOW"
 	IAMUserAccessToBillingDeny  IAMUserAccessToBilling = "DENY"
 )
+
+func (enum IAMUserAccessToBilling) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum IAMUserAccessToBilling) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InvalidInputExceptionReason string
 
@@ -7423,7 +7462,18 @@ const (
 	InvalidInputExceptionReasonMaxLimitExceededFilter             InvalidInputExceptionReason = "MAX_LIMIT_EXCEEDED_FILTER"
 	InvalidInputExceptionReasonMovingAccountBetweenDifferentRoots InvalidInputExceptionReason = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
 	InvalidInputExceptionReasonInvalidFullNameTarget              InvalidInputExceptionReason = "INVALID_FULL_NAME_TARGET"
+	InvalidInputExceptionReasonUnrecognizedServicePrincipal       InvalidInputExceptionReason = "UNRECOGNIZED_SERVICE_PRINCIPAL"
+	InvalidInputExceptionReasonInvalidRoleName                    InvalidInputExceptionReason = "INVALID_ROLE_NAME"
 )
+
+func (enum InvalidInputExceptionReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InvalidInputExceptionReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type OrganizationFeatureSet string
 
@@ -7433,6 +7483,15 @@ const (
 	OrganizationFeatureSetConsolidatedBilling OrganizationFeatureSet = "CONSOLIDATED_BILLING"
 )
 
+func (enum OrganizationFeatureSet) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OrganizationFeatureSet) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ParentType string
 
 // Enum values for ParentType
@@ -7441,12 +7500,30 @@ const (
 	ParentTypeOrganizationalUnit ParentType = "ORGANIZATIONAL_UNIT"
 )
 
+func (enum ParentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ParentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PolicyType string
 
 // Enum values for PolicyType
 const (
 	PolicyTypeServiceControlPolicy PolicyType = "SERVICE_CONTROL_POLICY"
 )
+
+func (enum PolicyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PolicyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PolicyTypeStatus string
 
@@ -7457,6 +7534,15 @@ const (
 	PolicyTypeStatusPendingDisable PolicyTypeStatus = "PENDING_DISABLE"
 )
 
+func (enum PolicyTypeStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PolicyTypeStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TargetType string
 
 // Enum values for TargetType
@@ -7465,3 +7551,12 @@ const (
 	TargetTypeOrganizationalUnit TargetType = "ORGANIZATIONAL_UNIT"
 	TargetTypeRoot               TargetType = "ROOT"
 )
+
+func (enum TargetType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TargetType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

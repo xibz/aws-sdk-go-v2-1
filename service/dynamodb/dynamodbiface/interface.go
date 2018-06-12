@@ -65,16 +65,27 @@ import (
 type DynamoDBAPI interface {
 	BatchGetItemRequest(*dynamodb.BatchGetItemInput) dynamodb.BatchGetItemRequest
 
-	BatchGetItemPages(*dynamodb.BatchGetItemInput, func(*dynamodb.BatchGetItemOutput, bool) bool) error
-	BatchGetItemPagesWithContext(aws.Context, *dynamodb.BatchGetItemInput, func(*dynamodb.BatchGetItemOutput, bool) bool, ...aws.Option) error
-
 	BatchWriteItemRequest(*dynamodb.BatchWriteItemInput) dynamodb.BatchWriteItemRequest
 
+	CreateBackupRequest(*dynamodb.CreateBackupInput) dynamodb.CreateBackupRequest
+
+	CreateGlobalTableRequest(*dynamodb.CreateGlobalTableInput) dynamodb.CreateGlobalTableRequest
+
 	CreateTableRequest(*dynamodb.CreateTableInput) dynamodb.CreateTableRequest
+
+	DeleteBackupRequest(*dynamodb.DeleteBackupInput) dynamodb.DeleteBackupRequest
 
 	DeleteItemRequest(*dynamodb.DeleteItemInput) dynamodb.DeleteItemRequest
 
 	DeleteTableRequest(*dynamodb.DeleteTableInput) dynamodb.DeleteTableRequest
+
+	DescribeBackupRequest(*dynamodb.DescribeBackupInput) dynamodb.DescribeBackupRequest
+
+	DescribeContinuousBackupsRequest(*dynamodb.DescribeContinuousBackupsInput) dynamodb.DescribeContinuousBackupsRequest
+
+	DescribeGlobalTableRequest(*dynamodb.DescribeGlobalTableInput) dynamodb.DescribeGlobalTableRequest
+
+	DescribeGlobalTableSettingsRequest(*dynamodb.DescribeGlobalTableSettingsInput) dynamodb.DescribeGlobalTableSettingsRequest
 
 	DescribeLimitsRequest(*dynamodb.DescribeLimitsInput) dynamodb.DescribeLimitsRequest
 
@@ -84,10 +95,11 @@ type DynamoDBAPI interface {
 
 	GetItemRequest(*dynamodb.GetItemInput) dynamodb.GetItemRequest
 
-	ListTablesRequest(*dynamodb.ListTablesInput) dynamodb.ListTablesRequest
+	ListBackupsRequest(*dynamodb.ListBackupsInput) dynamodb.ListBackupsRequest
 
-	ListTablesPages(*dynamodb.ListTablesInput, func(*dynamodb.ListTablesOutput, bool) bool) error
-	ListTablesPagesWithContext(aws.Context, *dynamodb.ListTablesInput, func(*dynamodb.ListTablesOutput, bool) bool, ...aws.Option) error
+	ListGlobalTablesRequest(*dynamodb.ListGlobalTablesInput) dynamodb.ListGlobalTablesRequest
+
+	ListTablesRequest(*dynamodb.ListTablesInput) dynamodb.ListTablesRequest
 
 	ListTagsOfResourceRequest(*dynamodb.ListTagsOfResourceInput) dynamodb.ListTagsOfResourceRequest
 
@@ -95,17 +107,21 @@ type DynamoDBAPI interface {
 
 	QueryRequest(*dynamodb.QueryInput) dynamodb.QueryRequest
 
-	QueryPages(*dynamodb.QueryInput, func(*dynamodb.QueryOutput, bool) bool) error
-	QueryPagesWithContext(aws.Context, *dynamodb.QueryInput, func(*dynamodb.QueryOutput, bool) bool, ...aws.Option) error
+	RestoreTableFromBackupRequest(*dynamodb.RestoreTableFromBackupInput) dynamodb.RestoreTableFromBackupRequest
+
+	RestoreTableToPointInTimeRequest(*dynamodb.RestoreTableToPointInTimeInput) dynamodb.RestoreTableToPointInTimeRequest
 
 	ScanRequest(*dynamodb.ScanInput) dynamodb.ScanRequest
-
-	ScanPages(*dynamodb.ScanInput, func(*dynamodb.ScanOutput, bool) bool) error
-	ScanPagesWithContext(aws.Context, *dynamodb.ScanInput, func(*dynamodb.ScanOutput, bool) bool, ...aws.Option) error
 
 	TagResourceRequest(*dynamodb.TagResourceInput) dynamodb.TagResourceRequest
 
 	UntagResourceRequest(*dynamodb.UntagResourceInput) dynamodb.UntagResourceRequest
+
+	UpdateContinuousBackupsRequest(*dynamodb.UpdateContinuousBackupsInput) dynamodb.UpdateContinuousBackupsRequest
+
+	UpdateGlobalTableRequest(*dynamodb.UpdateGlobalTableInput) dynamodb.UpdateGlobalTableRequest
+
+	UpdateGlobalTableSettingsRequest(*dynamodb.UpdateGlobalTableSettingsInput) dynamodb.UpdateGlobalTableSettingsRequest
 
 	UpdateItemRequest(*dynamodb.UpdateItemInput) dynamodb.UpdateItemRequest
 

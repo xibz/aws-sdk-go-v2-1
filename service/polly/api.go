@@ -8,6 +8,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/internal/awsutil"
+	"github.com/aws/aws-sdk-go-v2/private/protocol"
 )
 
 const opDeleteLexicon = "DeleteLexicon"
@@ -16,6 +17,7 @@ const opDeleteLexicon = "DeleteLexicon"
 type DeleteLexiconRequest struct {
 	*aws.Request
 	Input *DeleteLexiconInput
+	Copy  func(*DeleteLexiconInput) DeleteLexiconRequest
 }
 
 // Send marshals and sends the DeleteLexicon API request.
@@ -56,8 +58,11 @@ func (c *Polly) DeleteLexiconRequest(input *DeleteLexiconInput) DeleteLexiconReq
 		input = &DeleteLexiconInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLexiconOutput{})
-	return DeleteLexiconRequest{Request: req, Input: input}
+	output := &DeleteLexiconOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLexiconRequest{Request: req, Input: input, Copy: c.DeleteLexiconRequest}
 }
 
 const opDescribeVoices = "DescribeVoices"
@@ -66,6 +71,7 @@ const opDescribeVoices = "DescribeVoices"
 type DescribeVoicesRequest struct {
 	*aws.Request
 	Input *DescribeVoicesInput
+	Copy  func(*DescribeVoicesInput) DescribeVoicesRequest
 }
 
 // Send marshals and sends the DescribeVoices API request.
@@ -118,8 +124,11 @@ func (c *Polly) DescribeVoicesRequest(input *DescribeVoicesInput) DescribeVoices
 		input = &DescribeVoicesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeVoicesOutput{})
-	return DescribeVoicesRequest{Request: req, Input: input}
+	output := &DescribeVoicesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeVoicesRequest{Request: req, Input: input, Copy: c.DescribeVoicesRequest}
 }
 
 const opGetLexicon = "GetLexicon"
@@ -128,6 +137,7 @@ const opGetLexicon = "GetLexicon"
 type GetLexiconRequest struct {
 	*aws.Request
 	Input *GetLexiconInput
+	Copy  func(*GetLexiconInput) GetLexiconRequest
 }
 
 // Send marshals and sends the GetLexicon API request.
@@ -165,8 +175,11 @@ func (c *Polly) GetLexiconRequest(input *GetLexiconInput) GetLexiconRequest {
 		input = &GetLexiconInput{}
 	}
 
-	req := c.newRequest(op, input, &GetLexiconOutput{})
-	return GetLexiconRequest{Request: req, Input: input}
+	output := &GetLexiconOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLexiconRequest{Request: req, Input: input, Copy: c.GetLexiconRequest}
 }
 
 const opListLexicons = "ListLexicons"
@@ -175,6 +188,7 @@ const opListLexicons = "ListLexicons"
 type ListLexiconsRequest struct {
 	*aws.Request
 	Input *ListLexiconsInput
+	Copy  func(*ListLexiconsInput) ListLexiconsRequest
 }
 
 // Send marshals and sends the ListLexicons API request.
@@ -212,8 +226,11 @@ func (c *Polly) ListLexiconsRequest(input *ListLexiconsInput) ListLexiconsReques
 		input = &ListLexiconsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListLexiconsOutput{})
-	return ListLexiconsRequest{Request: req, Input: input}
+	output := &ListLexiconsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListLexiconsRequest{Request: req, Input: input, Copy: c.ListLexiconsRequest}
 }
 
 const opPutLexicon = "PutLexicon"
@@ -222,6 +239,7 @@ const opPutLexicon = "PutLexicon"
 type PutLexiconRequest struct {
 	*aws.Request
 	Input *PutLexiconInput
+	Copy  func(*PutLexiconInput) PutLexiconRequest
 }
 
 // Send marshals and sends the PutLexicon API request.
@@ -263,8 +281,11 @@ func (c *Polly) PutLexiconRequest(input *PutLexiconInput) PutLexiconRequest {
 		input = &PutLexiconInput{}
 	}
 
-	req := c.newRequest(op, input, &PutLexiconOutput{})
-	return PutLexiconRequest{Request: req, Input: input}
+	output := &PutLexiconOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutLexiconRequest{Request: req, Input: input, Copy: c.PutLexiconRequest}
 }
 
 const opSynthesizeSpeech = "SynthesizeSpeech"
@@ -273,6 +294,7 @@ const opSynthesizeSpeech = "SynthesizeSpeech"
 type SynthesizeSpeechRequest struct {
 	*aws.Request
 	Input *SynthesizeSpeechInput
+	Copy  func(*SynthesizeSpeechInput) SynthesizeSpeechRequest
 }
 
 // Send marshals and sends the SynthesizeSpeech API request.
@@ -313,8 +335,11 @@ func (c *Polly) SynthesizeSpeechRequest(input *SynthesizeSpeechInput) Synthesize
 		input = &SynthesizeSpeechInput{}
 	}
 
-	req := c.newRequest(op, input, &SynthesizeSpeechOutput{})
-	return SynthesizeSpeechRequest{Request: req, Input: input}
+	output := &SynthesizeSpeechOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SynthesizeSpeechRequest{Request: req, Input: input, Copy: c.SynthesizeSpeechRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/DeleteLexiconInput
@@ -351,15 +376,23 @@ func (s *DeleteLexiconInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteLexiconInput) SetName(v string) *DeleteLexiconInput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteLexiconInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "LexiconName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/DeleteLexiconOutput
 type DeleteLexiconOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -372,6 +405,16 @@ func (s DeleteLexiconOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLexiconOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteLexiconOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/DescribeVoicesInput
 type DescribeVoicesInput struct {
 	_ struct{} `type:"structure"`
@@ -379,7 +422,7 @@ type DescribeVoicesInput struct {
 	// The language identification tag (ISO 639 code for the language name-ISO 3166
 	// country code) for filtering the list of voices returned. If you don't specify
 	// this optional parameter, all available voices are returned.
-	LanguageCode LanguageCode `location:"querystring" locationName:"LanguageCode" type:"string"`
+	LanguageCode LanguageCode `location:"querystring" locationName:"LanguageCode" type:"string" enum:"true"`
 
 	// An opaque pagination token returned from the previous DescribeVoices operation.
 	// If present, this indicates where to continue the listing.
@@ -396,28 +439,36 @@ func (s DescribeVoicesInput) GoString() string {
 	return s.String()
 }
 
-// SetLanguageCode sets the LanguageCode field's value.
-func (s *DescribeVoicesInput) SetLanguageCode(v LanguageCode) *DescribeVoicesInput {
-	s.LanguageCode = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeVoicesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeVoicesInput) SetNextToken(v string) *DescribeVoicesInput {
-	s.NextToken = &v
-	return s
+	if len(s.LanguageCode) > 0 {
+		v := s.LanguageCode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "LanguageCode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/DescribeVoicesOutput
 type DescribeVoicesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token to use in the next request to continue the listing of
 	// voices. NextToken is returned only if the response is truncated.
 	NextToken *string `type:"string"`
 
 	// A list of voices with their properties.
-	Voices []*Voice `type:"list"`
+	Voices []Voice `type:"list"`
 }
 
 // String returns the string representation
@@ -430,16 +481,32 @@ func (s DescribeVoicesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeVoicesOutput) SetNextToken(v string) *DescribeVoicesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeVoicesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetVoices sets the Voices field's value.
-func (s *DescribeVoicesOutput) SetVoices(v []*Voice) *DescribeVoicesOutput {
-	s.Voices = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeVoicesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Voices) > 0 {
+		v := s.Voices
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Voices", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/GetLexiconInput
@@ -476,15 +543,23 @@ func (s *GetLexiconInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetLexiconInput) SetName(v string) *GetLexiconInput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetLexiconInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "LexiconName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/GetLexiconOutput
 type GetLexiconOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Lexicon object that provides name and the string content of the lexicon.
 	Lexicon *Lexicon `type:"structure"`
@@ -505,16 +580,26 @@ func (s GetLexiconOutput) GoString() string {
 	return s.String()
 }
 
-// SetLexicon sets the Lexicon field's value.
-func (s *GetLexiconOutput) SetLexicon(v *Lexicon) *GetLexiconOutput {
-	s.Lexicon = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLexiconOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetLexiconAttributes sets the LexiconAttributes field's value.
-func (s *GetLexiconOutput) SetLexiconAttributes(v *LexiconAttributes) *GetLexiconOutput {
-	s.LexiconAttributes = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetLexiconOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Lexicon != nil {
+		v := s.Lexicon
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Lexicon", v, metadata)
+	}
+	if s.LexiconAttributes != nil {
+		v := s.LexiconAttributes
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LexiconAttributes", v, metadata)
+	}
+	return nil
 }
 
 // Provides lexicon name and lexicon content in string format. For more information,
@@ -541,16 +626,21 @@ func (s Lexicon) GoString() string {
 	return s.String()
 }
 
-// SetContent sets the Content field's value.
-func (s *Lexicon) SetContent(v string) *Lexicon {
-	s.Content = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Lexicon) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Content != nil {
+		v := *s.Content
 
-// SetName sets the Name field's value.
-func (s *Lexicon) SetName(v string) *Lexicon {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Content", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Contains metadata describing the lexicon such as the number of lexemes, language
@@ -565,7 +655,7 @@ type LexiconAttributes struct {
 	// Language code that the lexicon applies to. A lexicon with a language code
 	// such as "en" would be applied to all English languages (en-GB, en-US, en-AUS,
 	// en-WLS, and so on.
-	LanguageCode LanguageCode `type:"string"`
+	LanguageCode LanguageCode `type:"string" enum:"true"`
 
 	// Date lexicon was last modified (a timestamp value).
 	LastModified *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -590,40 +680,45 @@ func (s LexiconAttributes) GoString() string {
 	return s.String()
 }
 
-// SetAlphabet sets the Alphabet field's value.
-func (s *LexiconAttributes) SetAlphabet(v string) *LexiconAttributes {
-	s.Alphabet = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LexiconAttributes) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Alphabet != nil {
+		v := *s.Alphabet
 
-// SetLanguageCode sets the LanguageCode field's value.
-func (s *LexiconAttributes) SetLanguageCode(v LanguageCode) *LexiconAttributes {
-	s.LanguageCode = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Alphabet", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.LanguageCode) > 0 {
+		v := s.LanguageCode
 
-// SetLastModified sets the LastModified field's value.
-func (s *LexiconAttributes) SetLastModified(v time.Time) *LexiconAttributes {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LanguageCode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetLexemesCount sets the LexemesCount field's value.
-func (s *LexiconAttributes) SetLexemesCount(v int64) *LexiconAttributes {
-	s.LexemesCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.LexemesCount != nil {
+		v := *s.LexemesCount
 
-// SetLexiconArn sets the LexiconArn field's value.
-func (s *LexiconAttributes) SetLexiconArn(v string) *LexiconAttributes {
-	s.LexiconArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LexemesCount", protocol.Int64Value(v), metadata)
+	}
+	if s.LexiconArn != nil {
+		v := *s.LexiconArn
 
-// SetSize sets the Size field's value.
-func (s *LexiconAttributes) SetSize(v int64) *LexiconAttributes {
-	s.Size = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LexiconArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Describes the content of the lexicon.
@@ -648,16 +743,21 @@ func (s LexiconDescription) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *LexiconDescription) SetAttributes(v *LexiconAttributes) *LexiconDescription {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LexiconDescription) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Attributes != nil {
+		v := s.Attributes
 
-// SetName sets the Name field's value.
-func (s *LexiconDescription) SetName(v string) *LexiconDescription {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Attributes", v, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/ListLexiconsInput
@@ -679,18 +779,26 @@ func (s ListLexiconsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListLexiconsInput) SetNextToken(v string) *ListLexiconsInput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListLexiconsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/ListLexiconsOutput
 type ListLexiconsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of lexicon names and attributes.
-	Lexicons []*LexiconDescription `type:"list"`
+	Lexicons []LexiconDescription `type:"list"`
 
 	// The pagination token to use in the next request to continue the listing of
 	// lexicons. NextToken is returned only if the response is truncated.
@@ -707,16 +815,32 @@ func (s ListLexiconsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLexicons sets the Lexicons field's value.
-func (s *ListLexiconsOutput) SetLexicons(v []*LexiconDescription) *ListLexiconsOutput {
-	s.Lexicons = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListLexiconsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListLexiconsOutput) SetNextToken(v string) *ListLexiconsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListLexiconsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Lexicons) > 0 {
+		v := s.Lexicons
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Lexicons", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/PutLexiconInput
@@ -764,21 +888,29 @@ func (s *PutLexiconInput) Validate() error {
 	return nil
 }
 
-// SetContent sets the Content field's value.
-func (s *PutLexiconInput) SetContent(v string) *PutLexiconInput {
-	s.Content = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutLexiconInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *PutLexiconInput) SetName(v string) *PutLexiconInput {
-	s.Name = &v
-	return s
+	if s.Content != nil {
+		v := *s.Content
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Content", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "LexiconName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/PutLexiconOutput
 type PutLexiconOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -791,6 +923,16 @@ func (s PutLexiconOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutLexiconOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutLexiconOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/SynthesizeSpeechInput
 type SynthesizeSpeechInput struct {
 	_ struct{} `type:"structure"`
@@ -799,13 +941,13 @@ type SynthesizeSpeechInput struct {
 	// during synthesis. Lexicons are applied only if the language of the lexicon
 	// is the same as the language of the voice. For information about storing lexicons,
 	// see PutLexicon (http://docs.aws.amazon.com/polly/latest/dg/API_PutLexicon.html).
-	LexiconNames []*string `type:"list"`
+	LexiconNames []string `type:"list"`
 
 	// The format in which the returned output will be encoded. For audio stream,
 	// this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
 	//
 	// OutputFormat is a required field
-	OutputFormat OutputFormat `type:"string" required:"true"`
+	OutputFormat OutputFormat `type:"string" required:"true" enum:"true"`
 
 	// The audio frequency specified in Hz.
 	//
@@ -826,14 +968,14 @@ type SynthesizeSpeechInput struct {
 
 	// Specifies whether the input text is plain text or SSML. The default value
 	// is plain text. For more information, see Using SSML (http://docs.aws.amazon.com/polly/latest/dg/ssml.html).
-	TextType TextType `type:"string"`
+	TextType TextType `type:"string" enum:"true"`
 
 	// Voice ID to use for the synthesis. You can get a list of available voice
 	// IDs by calling the DescribeVoices (http://docs.aws.amazon.com/polly/latest/dg/API_DescribeVoices.html)
 	// operation.
 	//
 	// VoiceId is a required field
-	VoiceId VoiceId `type:"string" required:"true"`
+	VoiceId VoiceId `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -866,51 +1008,71 @@ func (s *SynthesizeSpeechInput) Validate() error {
 	return nil
 }
 
-// SetLexiconNames sets the LexiconNames field's value.
-func (s *SynthesizeSpeechInput) SetLexiconNames(v []*string) *SynthesizeSpeechInput {
-	s.LexiconNames = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SynthesizeSpeechInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetOutputFormat sets the OutputFormat field's value.
-func (s *SynthesizeSpeechInput) SetOutputFormat(v OutputFormat) *SynthesizeSpeechInput {
-	s.OutputFormat = v
-	return s
-}
+	if len(s.LexiconNames) > 0 {
+		v := s.LexiconNames
 
-// SetSampleRate sets the SampleRate field's value.
-func (s *SynthesizeSpeechInput) SetSampleRate(v string) *SynthesizeSpeechInput {
-	s.SampleRate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "LexiconNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetSpeechMarkTypes sets the SpeechMarkTypes field's value.
-func (s *SynthesizeSpeechInput) SetSpeechMarkTypes(v []SpeechMarkType) *SynthesizeSpeechInput {
-	s.SpeechMarkTypes = v
-	return s
-}
+	}
+	if len(s.OutputFormat) > 0 {
+		v := s.OutputFormat
 
-// SetText sets the Text field's value.
-func (s *SynthesizeSpeechInput) SetText(v string) *SynthesizeSpeechInput {
-	s.Text = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OutputFormat", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SampleRate != nil {
+		v := *s.SampleRate
 
-// SetTextType sets the TextType field's value.
-func (s *SynthesizeSpeechInput) SetTextType(v TextType) *SynthesizeSpeechInput {
-	s.TextType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SampleRate", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SpeechMarkTypes) > 0 {
+		v := s.SpeechMarkTypes
 
-// SetVoiceId sets the VoiceId field's value.
-func (s *SynthesizeSpeechInput) SetVoiceId(v VoiceId) *SynthesizeSpeechInput {
-	s.VoiceId = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SpeechMarkTypes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Text != nil {
+		v := *s.Text
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Text", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TextType) > 0 {
+		v := s.TextType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TextType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.VoiceId) > 0 {
+		v := s.VoiceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VoiceId", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/polly-2016-06-10/SynthesizeSpeechOutput
 type SynthesizeSpeechOutput struct {
 	_ struct{} `type:"structure" payload:"AudioStream"`
+
+	responseMetadata aws.Response
 
 	// Stream containing the synthesized speech.
 	AudioStream io.ReadCloser `type:"blob"`
@@ -946,22 +1108,27 @@ func (s SynthesizeSpeechOutput) GoString() string {
 	return s.String()
 }
 
-// SetAudioStream sets the AudioStream field's value.
-func (s *SynthesizeSpeechOutput) SetAudioStream(v io.ReadCloser) *SynthesizeSpeechOutput {
-	s.AudioStream = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SynthesizeSpeechOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetContentType sets the ContentType field's value.
-func (s *SynthesizeSpeechOutput) SetContentType(v string) *SynthesizeSpeechOutput {
-	s.ContentType = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SynthesizeSpeechOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetRequestCharacters sets the RequestCharacters field's value.
-func (s *SynthesizeSpeechOutput) SetRequestCharacters(v int64) *SynthesizeSpeechOutput {
-	s.RequestCharacters = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestCharacters != nil {
+		v := *s.RequestCharacters
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amzn-RequestCharacters", protocol.Int64Value(v), metadata)
+	}
+	// Skipping AudioStream Output type's body not valid.
+	return nil
 }
 
 // Description of the voice.
@@ -970,14 +1137,14 @@ type Voice struct {
 	_ struct{} `type:"structure"`
 
 	// Gender of the voice.
-	Gender Gender `type:"string"`
+	Gender Gender `type:"string" enum:"true"`
 
 	// Amazon Polly assigned voice ID. This is the ID that you specify when calling
 	// the SynthesizeSpeech operation.
-	Id VoiceId `type:"string"`
+	Id VoiceId `type:"string" enum:"true"`
 
 	// Language code of the voice.
-	LanguageCode LanguageCode `type:"string"`
+	LanguageCode LanguageCode `type:"string" enum:"true"`
 
 	// Human readable name of the language in English.
 	LanguageName *string `type:"string"`
@@ -997,34 +1164,39 @@ func (s Voice) GoString() string {
 	return s.String()
 }
 
-// SetGender sets the Gender field's value.
-func (s *Voice) SetGender(v Gender) *Voice {
-	s.Gender = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Voice) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Gender) > 0 {
+		v := s.Gender
 
-// SetId sets the Id field's value.
-func (s *Voice) SetId(v VoiceId) *Voice {
-	s.Id = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Gender", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Id) > 0 {
+		v := s.Id
 
-// SetLanguageCode sets the LanguageCode field's value.
-func (s *Voice) SetLanguageCode(v LanguageCode) *Voice {
-	s.LanguageCode = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.LanguageCode) > 0 {
+		v := s.LanguageCode
 
-// SetLanguageName sets the LanguageName field's value.
-func (s *Voice) SetLanguageName(v string) *Voice {
-	s.LanguageName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LanguageCode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.LanguageName != nil {
+		v := *s.LanguageName
 
-// SetName sets the Name field's value.
-func (s *Voice) SetName(v string) *Voice {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LanguageName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 type Gender string
@@ -1034,6 +1206,15 @@ const (
 	GenderFemale Gender = "Female"
 	GenderMale   Gender = "Male"
 )
+
+func (enum Gender) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Gender) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type LanguageCode string
 
@@ -1053,6 +1234,7 @@ const (
 	LanguageCodeFrFr    LanguageCode = "fr-FR"
 	LanguageCodeIsIs    LanguageCode = "is-IS"
 	LanguageCodeItIt    LanguageCode = "it-IT"
+	LanguageCodeKoKr    LanguageCode = "ko-KR"
 	LanguageCodeJaJp    LanguageCode = "ja-JP"
 	LanguageCodeNbNo    LanguageCode = "nb-NO"
 	LanguageCodeNlNl    LanguageCode = "nl-NL"
@@ -1065,6 +1247,15 @@ const (
 	LanguageCodeTrTr    LanguageCode = "tr-TR"
 )
 
+func (enum LanguageCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LanguageCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type OutputFormat string
 
 // Enum values for OutputFormat
@@ -1074,6 +1265,15 @@ const (
 	OutputFormatOggVorbis OutputFormat = "ogg_vorbis"
 	OutputFormatPcm       OutputFormat = "pcm"
 )
+
+func (enum OutputFormat) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OutputFormat) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SpeechMarkType string
 
@@ -1085,6 +1285,15 @@ const (
 	SpeechMarkTypeWord     SpeechMarkType = "word"
 )
 
+func (enum SpeechMarkType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SpeechMarkType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TextType string
 
 // Enum values for TextType
@@ -1092,6 +1301,15 @@ const (
 	TextTypeSsml TextType = "ssml"
 	TextTypeText TextType = "text"
 )
+
+func (enum TextType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TextType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type VoiceId string
 
@@ -1115,6 +1333,7 @@ const (
 	VoiceIdJustin    VoiceId = "Justin"
 	VoiceIdKendra    VoiceId = "Kendra"
 	VoiceIdKimberly  VoiceId = "Kimberly"
+	VoiceIdMatthew   VoiceId = "Matthew"
 	VoiceIdSalli     VoiceId = "Salli"
 	VoiceIdConchita  VoiceId = "Conchita"
 	VoiceIdEnrique   VoiceId = "Enrique"
@@ -1122,6 +1341,7 @@ const (
 	VoiceIdPenelope  VoiceId = "Penelope"
 	VoiceIdChantal   VoiceId = "Chantal"
 	VoiceIdCeline    VoiceId = "Celine"
+	VoiceIdLea       VoiceId = "Lea"
 	VoiceIdMathieu   VoiceId = "Mathieu"
 	VoiceIdDora      VoiceId = "Dora"
 	VoiceIdKarl      VoiceId = "Karl"
@@ -1145,4 +1365,16 @@ const (
 	VoiceIdAstrid    VoiceId = "Astrid"
 	VoiceIdFiliz     VoiceId = "Filiz"
 	VoiceIdVicki     VoiceId = "Vicki"
+	VoiceIdTakumi    VoiceId = "Takumi"
+	VoiceIdSeoyeon   VoiceId = "Seoyeon"
+	VoiceIdAditi     VoiceId = "Aditi"
 )
+
+func (enum VoiceId) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum VoiceId) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

@@ -69,7 +69,13 @@ type CloudFrontAPI interface {
 
 	CreateDistributionWithTagsRequest(*cloudfront.CreateDistributionWithTagsInput) cloudfront.CreateDistributionWithTagsRequest
 
+	CreateFieldLevelEncryptionConfigRequest(*cloudfront.CreateFieldLevelEncryptionConfigInput) cloudfront.CreateFieldLevelEncryptionConfigRequest
+
+	CreateFieldLevelEncryptionProfileRequest(*cloudfront.CreateFieldLevelEncryptionProfileInput) cloudfront.CreateFieldLevelEncryptionProfileRequest
+
 	CreateInvalidationRequest(*cloudfront.CreateInvalidationInput) cloudfront.CreateInvalidationRequest
+
+	CreatePublicKeyRequest(*cloudfront.CreatePublicKeyInput) cloudfront.CreatePublicKeyRequest
 
 	CreateStreamingDistributionRequest(*cloudfront.CreateStreamingDistributionInput) cloudfront.CreateStreamingDistributionRequest
 
@@ -78,6 +84,14 @@ type CloudFrontAPI interface {
 	DeleteCloudFrontOriginAccessIdentityRequest(*cloudfront.DeleteCloudFrontOriginAccessIdentityInput) cloudfront.DeleteCloudFrontOriginAccessIdentityRequest
 
 	DeleteDistributionRequest(*cloudfront.DeleteDistributionInput) cloudfront.DeleteDistributionRequest
+
+	DeleteFieldLevelEncryptionConfigRequest(*cloudfront.DeleteFieldLevelEncryptionConfigInput) cloudfront.DeleteFieldLevelEncryptionConfigRequest
+
+	DeleteFieldLevelEncryptionProfileRequest(*cloudfront.DeleteFieldLevelEncryptionProfileInput) cloudfront.DeleteFieldLevelEncryptionProfileRequest
+
+	DeletePublicKeyRequest(*cloudfront.DeletePublicKeyInput) cloudfront.DeletePublicKeyRequest
+
+	DeleteServiceLinkedRoleRequest(*cloudfront.DeleteServiceLinkedRoleInput) cloudfront.DeleteServiceLinkedRoleRequest
 
 	DeleteStreamingDistributionRequest(*cloudfront.DeleteStreamingDistributionInput) cloudfront.DeleteStreamingDistributionRequest
 
@@ -89,7 +103,19 @@ type CloudFrontAPI interface {
 
 	GetDistributionConfigRequest(*cloudfront.GetDistributionConfigInput) cloudfront.GetDistributionConfigRequest
 
+	GetFieldLevelEncryptionRequest(*cloudfront.GetFieldLevelEncryptionInput) cloudfront.GetFieldLevelEncryptionRequest
+
+	GetFieldLevelEncryptionConfigRequest(*cloudfront.GetFieldLevelEncryptionConfigInput) cloudfront.GetFieldLevelEncryptionConfigRequest
+
+	GetFieldLevelEncryptionProfileRequest(*cloudfront.GetFieldLevelEncryptionProfileInput) cloudfront.GetFieldLevelEncryptionProfileRequest
+
+	GetFieldLevelEncryptionProfileConfigRequest(*cloudfront.GetFieldLevelEncryptionProfileConfigInput) cloudfront.GetFieldLevelEncryptionProfileConfigRequest
+
 	GetInvalidationRequest(*cloudfront.GetInvalidationInput) cloudfront.GetInvalidationRequest
+
+	GetPublicKeyRequest(*cloudfront.GetPublicKeyInput) cloudfront.GetPublicKeyRequest
+
+	GetPublicKeyConfigRequest(*cloudfront.GetPublicKeyConfigInput) cloudfront.GetPublicKeyConfigRequest
 
 	GetStreamingDistributionRequest(*cloudfront.GetStreamingDistributionInput) cloudfront.GetStreamingDistributionRequest
 
@@ -97,25 +123,19 @@ type CloudFrontAPI interface {
 
 	ListCloudFrontOriginAccessIdentitiesRequest(*cloudfront.ListCloudFrontOriginAccessIdentitiesInput) cloudfront.ListCloudFrontOriginAccessIdentitiesRequest
 
-	ListCloudFrontOriginAccessIdentitiesPages(*cloudfront.ListCloudFrontOriginAccessIdentitiesInput, func(*cloudfront.ListCloudFrontOriginAccessIdentitiesOutput, bool) bool) error
-	ListCloudFrontOriginAccessIdentitiesPagesWithContext(aws.Context, *cloudfront.ListCloudFrontOriginAccessIdentitiesInput, func(*cloudfront.ListCloudFrontOriginAccessIdentitiesOutput, bool) bool, ...aws.Option) error
-
 	ListDistributionsRequest(*cloudfront.ListDistributionsInput) cloudfront.ListDistributionsRequest
-
-	ListDistributionsPages(*cloudfront.ListDistributionsInput, func(*cloudfront.ListDistributionsOutput, bool) bool) error
-	ListDistributionsPagesWithContext(aws.Context, *cloudfront.ListDistributionsInput, func(*cloudfront.ListDistributionsOutput, bool) bool, ...aws.Option) error
 
 	ListDistributionsByWebACLIdRequest(*cloudfront.ListDistributionsByWebACLIdInput) cloudfront.ListDistributionsByWebACLIdRequest
 
+	ListFieldLevelEncryptionConfigsRequest(*cloudfront.ListFieldLevelEncryptionConfigsInput) cloudfront.ListFieldLevelEncryptionConfigsRequest
+
+	ListFieldLevelEncryptionProfilesRequest(*cloudfront.ListFieldLevelEncryptionProfilesInput) cloudfront.ListFieldLevelEncryptionProfilesRequest
+
 	ListInvalidationsRequest(*cloudfront.ListInvalidationsInput) cloudfront.ListInvalidationsRequest
 
-	ListInvalidationsPages(*cloudfront.ListInvalidationsInput, func(*cloudfront.ListInvalidationsOutput, bool) bool) error
-	ListInvalidationsPagesWithContext(aws.Context, *cloudfront.ListInvalidationsInput, func(*cloudfront.ListInvalidationsOutput, bool) bool, ...aws.Option) error
+	ListPublicKeysRequest(*cloudfront.ListPublicKeysInput) cloudfront.ListPublicKeysRequest
 
 	ListStreamingDistributionsRequest(*cloudfront.ListStreamingDistributionsInput) cloudfront.ListStreamingDistributionsRequest
-
-	ListStreamingDistributionsPages(*cloudfront.ListStreamingDistributionsInput, func(*cloudfront.ListStreamingDistributionsOutput, bool) bool) error
-	ListStreamingDistributionsPagesWithContext(aws.Context, *cloudfront.ListStreamingDistributionsInput, func(*cloudfront.ListStreamingDistributionsOutput, bool) bool, ...aws.Option) error
 
 	ListTagsForResourceRequest(*cloudfront.ListTagsForResourceInput) cloudfront.ListTagsForResourceRequest
 
@@ -126,6 +146,12 @@ type CloudFrontAPI interface {
 	UpdateCloudFrontOriginAccessIdentityRequest(*cloudfront.UpdateCloudFrontOriginAccessIdentityInput) cloudfront.UpdateCloudFrontOriginAccessIdentityRequest
 
 	UpdateDistributionRequest(*cloudfront.UpdateDistributionInput) cloudfront.UpdateDistributionRequest
+
+	UpdateFieldLevelEncryptionConfigRequest(*cloudfront.UpdateFieldLevelEncryptionConfigInput) cloudfront.UpdateFieldLevelEncryptionConfigRequest
+
+	UpdateFieldLevelEncryptionProfileRequest(*cloudfront.UpdateFieldLevelEncryptionProfileInput) cloudfront.UpdateFieldLevelEncryptionProfileRequest
+
+	UpdatePublicKeyRequest(*cloudfront.UpdatePublicKeyInput) cloudfront.UpdatePublicKeyRequest
 
 	UpdateStreamingDistributionRequest(*cloudfront.UpdateStreamingDistributionInput) cloudfront.UpdateStreamingDistributionRequest
 

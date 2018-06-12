@@ -30,7 +30,6 @@ func (a *API) updateTopLevelShapeReferences() {
 			o.InputRef.Shape.XMLNamespace.URI = o.InputRef.XMLNamespace.URI
 		}
 	}
-
 }
 
 // writeShapeNames sets each shape's API and shape name values. Binding the
@@ -61,6 +60,15 @@ func (a *API) resolveReferences() {
 			o.ErrorRefs[i].Shape.IsError = true
 		}
 	}
+
+	for _, s := range a.Shapes {
+		switch s.Type {
+		case "list":
+			s.MemberRef.Shape.UsedInList = true
+		case "map":
+			s.ValueRef.Shape.UsedInMap = true
+		}
+	}
 }
 
 // A referenceResolver provides a way to resolve shape references to
@@ -85,25 +93,29 @@ func (r *referenceResolver) resolveReference(ref *ShapeRef) {
 		return
 	}
 
-	if shape, ok := r.API.Shapes[ref.ShapeName]; ok {
-		if ref.JSONValue {
-			ref.ShapeName = "JSONValue"
-			r.API.Shapes[ref.ShapeName] = jsonvalueShape
-		}
-
-		ref.API = r.API   // resolve reference back to API
-		ref.Shape = shape // resolve shape reference
-
-		if r.visited[ref] {
-			return
-		}
-		r.visited[ref] = true
-
-		shape.refs = append(shape.refs, ref) // register the ref
-
-		// resolve shape's references, if it has any
-		r.resolveShape(shape)
+	shape, ok := r.API.Shapes[ref.ShapeName]
+	if !ok {
+		panic(fmt.Sprintf("unable resolve reference, %s", ref.ShapeName))
+		return
 	}
+
+	if ref.JSONValue {
+		ref.ShapeName = "JSONValue"
+		r.API.Shapes[ref.ShapeName] = jsonvalueShape
+	}
+
+	ref.API = r.API   // resolve reference back to API
+	ref.Shape = shape // resolve shape reference
+
+	if r.visited[ref] {
+		return
+	}
+	r.visited[ref] = true
+
+	shape.refs = append(shape.refs, ref) // register the ref
+
+	// resolve shape's references, if it has any
+	r.resolveShape(shape)
 }
 
 // resolveShape resolves a shape's Member Key Value, and nested member
@@ -124,15 +136,13 @@ func (a *API) renameToplevelShapes() {
 	for _, v := range a.OperationList() {
 		if v.HasInput() {
 			name := v.ExportedName + "Input"
-			switch {
-			case a.Shapes[name] == nil:
+			if _, ok := a.Shapes[name]; !ok {
 				v.InputRef.Shape.Rename(name)
 			}
 		}
 		if v.HasOutput() {
 			name := v.ExportedName + "Output"
-			switch {
-			case a.Shapes[name] == nil:
+			if _, ok := a.Shapes[name]; !ok {
 				v.OutputRef.Shape.Rename(name)
 			}
 		}
@@ -192,6 +202,13 @@ func (a *API) renameExportable() {
 
 		for mName, member := range s.MemberRefs {
 			newName := a.ExportableName(mName)
+
+			// if no location name is set on the member ref, but is set on the shape,
+			// we will take that name and place it on the reference.
+			if member.LocationName == "" && member.Shape.LocationName != "" {
+				member.LocationName = member.Shape.LocationName
+			}
+
 			if newName != mName {
 				delete(s.MemberRefs, mName)
 				s.MemberRefs[newName] = member
@@ -219,6 +236,9 @@ func (a *API) renameExportable() {
 		for i, n := range s.Required {
 			s.Required[i] = a.ExportableName(n)
 		}
+
+		// remove location name
+		s.LocationName = ""
 	}
 
 	for _, s := range a.Shapes {
@@ -232,6 +252,62 @@ func (a *API) renameExportable() {
 	}
 }
 
+// renameCollidingFields will rename any fields that uses an SDK or Golang
+// specific name.
+func (a *API) renameCollidingFields() {
+	for _, v := range a.Shapes {
+		namesWithFixes := map[string]struct{}{}
+		for k, field := range v.MemberRefs {
+			if strings.HasPrefix(k, "Set") {
+				namesWithFixes[k] = struct{}{}
+			}
+
+			if strings.HasSuffix(k, "Pager") {
+				namesWithFixes[k] = struct{}{}
+			}
+
+			if collides(k) {
+				renameCollidingField(k, v, field)
+			}
+		}
+
+		// checks if any field names collide with setters.
+		for name := range namesWithFixes {
+			if strings.HasPrefix(name, "Set") {
+				if field, ok := v.MemberRefs["Set"+name]; ok {
+					renameCollidingField(name, v, field)
+				}
+			}
+
+			if strings.HasSuffix(name, "Pager") {
+				if field, ok := v.MemberRefs[name+"Pager"]; ok {
+					renameCollidingField(name, v, field)
+				}
+			}
+
+		}
+	}
+}
+
+// collides will return true if it is a name used by the SDK or Golang.
+func collides(name string) bool {
+	switch name {
+	case "String",
+		"GoString",
+		"Validate":
+		return true
+	default:
+		return false
+	}
+}
+
+func renameCollidingField(name string, v *Shape, field *ShapeRef) {
+	newName := name + "_"
+	fmt.Printf("Shape %s's field %q renamed to %q\n", v.ShapeName, name, newName)
+	delete(v.MemberRefs, name)
+	v.MemberRefs[newName] = field
+}
+
 // createInputOutputShapes creates toplevel input/output shapes if they
 // have not been defined in the API. This normalizes all APIs to always
 // have an input and output structure in the signature.
@@ -240,9 +316,12 @@ func (a *API) createInputOutputShapes() {
 		if !op.HasInput() {
 			setAsPlacholderShape(&op.InputRef, op.ExportedName+"Input", a)
 		}
+		op.InputRef.Shape.UsedAsInput = true
+
 		if !op.HasOutput() {
 			setAsPlacholderShape(&op.OutputRef, op.ExportedName+"Output", a)
 		}
+		op.OutputRef.Shape.UsedAsOutput = true
 	}
 }
 
@@ -266,9 +345,9 @@ func (a *API) makeIOShape(name string) *Shape {
 // removeUnusedShapes removes shapes from the API which are not referenced by any
 // other shape in the API.
 func (a *API) removeUnusedShapes() {
-	for n, s := range a.Shapes {
+	for _, s := range a.Shapes {
 		if len(s.refs) == 0 {
-			delete(a.Shapes, n)
+			a.removeShape(s)
 		}
 	}
 }

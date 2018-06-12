@@ -18,6 +18,7 @@ const opCreateBotVersion = "CreateBotVersion"
 type CreateBotVersionRequest struct {
 	*aws.Request
 	Input *CreateBotVersionInput
+	Copy  func(*CreateBotVersionInput) CreateBotVersionRequest
 }
 
 // Send marshals and sends the CreateBotVersion API request.
@@ -64,8 +65,11 @@ func (c *LexModelBuildingService) CreateBotVersionRequest(input *CreateBotVersio
 		input = &CreateBotVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateBotVersionOutput{})
-	return CreateBotVersionRequest{Request: req, Input: input}
+	output := &CreateBotVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateBotVersionRequest{Request: req, Input: input, Copy: c.CreateBotVersionRequest}
 }
 
 const opCreateIntentVersion = "CreateIntentVersion"
@@ -74,6 +78,7 @@ const opCreateIntentVersion = "CreateIntentVersion"
 type CreateIntentVersionRequest struct {
 	*aws.Request
 	Input *CreateIntentVersionInput
+	Copy  func(*CreateIntentVersionInput) CreateIntentVersionRequest
 }
 
 // Send marshals and sends the CreateIntentVersion API request.
@@ -122,8 +127,11 @@ func (c *LexModelBuildingService) CreateIntentVersionRequest(input *CreateIntent
 		input = &CreateIntentVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateIntentVersionOutput{})
-	return CreateIntentVersionRequest{Request: req, Input: input}
+	output := &CreateIntentVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateIntentVersionRequest{Request: req, Input: input, Copy: c.CreateIntentVersionRequest}
 }
 
 const opCreateSlotTypeVersion = "CreateSlotTypeVersion"
@@ -132,6 +140,7 @@ const opCreateSlotTypeVersion = "CreateSlotTypeVersion"
 type CreateSlotTypeVersionRequest struct {
 	*aws.Request
 	Input *CreateSlotTypeVersionInput
+	Copy  func(*CreateSlotTypeVersionInput) CreateSlotTypeVersionRequest
 }
 
 // Send marshals and sends the CreateSlotTypeVersion API request.
@@ -179,8 +188,11 @@ func (c *LexModelBuildingService) CreateSlotTypeVersionRequest(input *CreateSlot
 		input = &CreateSlotTypeVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSlotTypeVersionOutput{})
-	return CreateSlotTypeVersionRequest{Request: req, Input: input}
+	output := &CreateSlotTypeVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSlotTypeVersionRequest{Request: req, Input: input, Copy: c.CreateSlotTypeVersionRequest}
 }
 
 const opDeleteBot = "DeleteBot"
@@ -189,6 +201,7 @@ const opDeleteBot = "DeleteBot"
 type DeleteBotRequest struct {
 	*aws.Request
 	Input *DeleteBotInput
+	Copy  func(*DeleteBotInput) DeleteBotRequest
 }
 
 // Send marshals and sends the DeleteBot API request.
@@ -234,10 +247,13 @@ func (c *LexModelBuildingService) DeleteBotRequest(input *DeleteBotInput) Delete
 		input = &DeleteBotInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBotOutput{})
+	output := &DeleteBotOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBotRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBotRequest{Request: req, Input: input, Copy: c.DeleteBotRequest}
 }
 
 const opDeleteBotAlias = "DeleteBotAlias"
@@ -246,6 +262,7 @@ const opDeleteBotAlias = "DeleteBotAlias"
 type DeleteBotAliasRequest struct {
 	*aws.Request
 	Input *DeleteBotAliasInput
+	Copy  func(*DeleteBotAliasInput) DeleteBotAliasRequest
 }
 
 // Send marshals and sends the DeleteBotAlias API request.
@@ -290,10 +307,13 @@ func (c *LexModelBuildingService) DeleteBotAliasRequest(input *DeleteBotAliasInp
 		input = &DeleteBotAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBotAliasOutput{})
+	output := &DeleteBotAliasOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBotAliasRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBotAliasRequest{Request: req, Input: input, Copy: c.DeleteBotAliasRequest}
 }
 
 const opDeleteBotChannelAssociation = "DeleteBotChannelAssociation"
@@ -302,6 +322,7 @@ const opDeleteBotChannelAssociation = "DeleteBotChannelAssociation"
 type DeleteBotChannelAssociationRequest struct {
 	*aws.Request
 	Input *DeleteBotChannelAssociationInput
+	Copy  func(*DeleteBotChannelAssociationInput) DeleteBotChannelAssociationRequest
 }
 
 // Send marshals and sends the DeleteBotChannelAssociation API request.
@@ -341,10 +362,13 @@ func (c *LexModelBuildingService) DeleteBotChannelAssociationRequest(input *Dele
 		input = &DeleteBotChannelAssociationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBotChannelAssociationOutput{})
+	output := &DeleteBotChannelAssociationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBotChannelAssociationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBotChannelAssociationRequest{Request: req, Input: input, Copy: c.DeleteBotChannelAssociationRequest}
 }
 
 const opDeleteBotVersion = "DeleteBotVersion"
@@ -353,6 +377,7 @@ const opDeleteBotVersion = "DeleteBotVersion"
 type DeleteBotVersionRequest struct {
 	*aws.Request
 	Input *DeleteBotVersionInput
+	Copy  func(*DeleteBotVersionInput) DeleteBotVersionRequest
 }
 
 // Send marshals and sends the DeleteBotVersion API request.
@@ -392,10 +417,13 @@ func (c *LexModelBuildingService) DeleteBotVersionRequest(input *DeleteBotVersio
 		input = &DeleteBotVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBotVersionOutput{})
+	output := &DeleteBotVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBotVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBotVersionRequest{Request: req, Input: input, Copy: c.DeleteBotVersionRequest}
 }
 
 const opDeleteIntent = "DeleteIntent"
@@ -404,6 +432,7 @@ const opDeleteIntent = "DeleteIntent"
 type DeleteIntentRequest struct {
 	*aws.Request
 	Input *DeleteIntentInput
+	Copy  func(*DeleteIntentInput) DeleteIntentRequest
 }
 
 // Send marshals and sends the DeleteIntent API request.
@@ -453,10 +482,13 @@ func (c *LexModelBuildingService) DeleteIntentRequest(input *DeleteIntentInput) 
 		input = &DeleteIntentInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteIntentOutput{})
+	output := &DeleteIntentOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteIntentRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteIntentRequest{Request: req, Input: input, Copy: c.DeleteIntentRequest}
 }
 
 const opDeleteIntentVersion = "DeleteIntentVersion"
@@ -465,6 +497,7 @@ const opDeleteIntentVersion = "DeleteIntentVersion"
 type DeleteIntentVersionRequest struct {
 	*aws.Request
 	Input *DeleteIntentVersionInput
+	Copy  func(*DeleteIntentVersionInput) DeleteIntentVersionRequest
 }
 
 // Send marshals and sends the DeleteIntentVersion API request.
@@ -504,10 +537,13 @@ func (c *LexModelBuildingService) DeleteIntentVersionRequest(input *DeleteIntent
 		input = &DeleteIntentVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteIntentVersionOutput{})
+	output := &DeleteIntentVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteIntentVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteIntentVersionRequest{Request: req, Input: input, Copy: c.DeleteIntentVersionRequest}
 }
 
 const opDeleteSlotType = "DeleteSlotType"
@@ -516,6 +552,7 @@ const opDeleteSlotType = "DeleteSlotType"
 type DeleteSlotTypeRequest struct {
 	*aws.Request
 	Input *DeleteSlotTypeInput
+	Copy  func(*DeleteSlotTypeInput) DeleteSlotTypeRequest
 }
 
 // Send marshals and sends the DeleteSlotType API request.
@@ -567,10 +604,13 @@ func (c *LexModelBuildingService) DeleteSlotTypeRequest(input *DeleteSlotTypeInp
 		input = &DeleteSlotTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSlotTypeOutput{})
+	output := &DeleteSlotTypeOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSlotTypeRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSlotTypeRequest{Request: req, Input: input, Copy: c.DeleteSlotTypeRequest}
 }
 
 const opDeleteSlotTypeVersion = "DeleteSlotTypeVersion"
@@ -579,6 +619,7 @@ const opDeleteSlotTypeVersion = "DeleteSlotTypeVersion"
 type DeleteSlotTypeVersionRequest struct {
 	*aws.Request
 	Input *DeleteSlotTypeVersionInput
+	Copy  func(*DeleteSlotTypeVersionInput) DeleteSlotTypeVersionRequest
 }
 
 // Send marshals and sends the DeleteSlotTypeVersion API request.
@@ -618,10 +659,13 @@ func (c *LexModelBuildingService) DeleteSlotTypeVersionRequest(input *DeleteSlot
 		input = &DeleteSlotTypeVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSlotTypeVersionOutput{})
+	output := &DeleteSlotTypeVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSlotTypeVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSlotTypeVersionRequest{Request: req, Input: input, Copy: c.DeleteSlotTypeVersionRequest}
 }
 
 const opDeleteUtterances = "DeleteUtterances"
@@ -630,6 +674,7 @@ const opDeleteUtterances = "DeleteUtterances"
 type DeleteUtterancesRequest struct {
 	*aws.Request
 	Input *DeleteUtterancesInput
+	Copy  func(*DeleteUtterancesInput) DeleteUtterancesRequest
 }
 
 // Send marshals and sends the DeleteUtterances API request.
@@ -647,10 +692,10 @@ func (r DeleteUtterancesRequest) Send() (*DeleteUtterancesOutput, error) {
 //
 // Deletes stored utterances.
 //
-// Amazon Lex stores the utterances that users send to your bot unless the childDirected
-// field in the bot is set to true. Utterances are stored for 15 days for use
-// with the GetUtterancesView operation, and then stored indefinately for use
-// in improving the ability of your bot to respond to user input.
+// Amazon Lex stores the utterances that users send to your bot. Utterances
+// are stored for 15 days for use with the GetUtterancesView operation, and
+// then stored indefinitely for use in improving the ability of your bot to
+// respond to user input.
 //
 // Use the DeleteStoredUtterances operation to manually delete stored utterances
 // for a specific user.
@@ -676,10 +721,13 @@ func (c *LexModelBuildingService) DeleteUtterancesRequest(input *DeleteUtterance
 		input = &DeleteUtterancesInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteUtterancesOutput{})
+	output := &DeleteUtterancesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteUtterancesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteUtterancesRequest{Request: req, Input: input, Copy: c.DeleteUtterancesRequest}
 }
 
 const opGetBot = "GetBot"
@@ -688,6 +736,7 @@ const opGetBot = "GetBot"
 type GetBotRequest struct {
 	*aws.Request
 	Input *GetBotInput
+	Copy  func(*GetBotInput) GetBotRequest
 }
 
 // Send marshals and sends the GetBot API request.
@@ -727,8 +776,11 @@ func (c *LexModelBuildingService) GetBotRequest(input *GetBotInput) GetBotReques
 		input = &GetBotInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotOutput{})
-	return GetBotRequest{Request: req, Input: input}
+	output := &GetBotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotRequest{Request: req, Input: input, Copy: c.GetBotRequest}
 }
 
 const opGetBotAlias = "GetBotAlias"
@@ -737,6 +789,7 @@ const opGetBotAlias = "GetBotAlias"
 type GetBotAliasRequest struct {
 	*aws.Request
 	Input *GetBotAliasInput
+	Copy  func(*GetBotAliasInput) GetBotAliasRequest
 }
 
 // Send marshals and sends the GetBotAlias API request.
@@ -776,8 +829,11 @@ func (c *LexModelBuildingService) GetBotAliasRequest(input *GetBotAliasInput) Ge
 		input = &GetBotAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotAliasOutput{})
-	return GetBotAliasRequest{Request: req, Input: input}
+	output := &GetBotAliasOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotAliasRequest{Request: req, Input: input, Copy: c.GetBotAliasRequest}
 }
 
 const opGetBotAliases = "GetBotAliases"
@@ -786,6 +842,7 @@ const opGetBotAliases = "GetBotAliases"
 type GetBotAliasesRequest struct {
 	*aws.Request
 	Input *GetBotAliasesInput
+	Copy  func(*GetBotAliasesInput) GetBotAliasesRequest
 }
 
 // Send marshals and sends the GetBotAliases API request.
@@ -830,58 +887,57 @@ func (c *LexModelBuildingService) GetBotAliasesRequest(input *GetBotAliasesInput
 		input = &GetBotAliasesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotAliasesOutput{})
-	return GetBotAliasesRequest{Request: req, Input: input}
+	output := &GetBotAliasesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotAliasesRequest{Request: req, Input: input, Copy: c.GetBotAliasesRequest}
 }
 
-// GetBotAliasesPages iterates over the pages of a GetBotAliases operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetBotAliases method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetBotAliasesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetBotAliases operation.
-//    pageNum := 0
-//    err := client.GetBotAliasesPages(params,
-//        func(page *GetBotAliasesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetBotAliasesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetBotAliasesPages(input *GetBotAliasesInput, fn func(*GetBotAliasesOutput, bool) bool) error {
-	return c.GetBotAliasesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetBotAliasesRequest) Paginate(opts ...aws.Option) GetBotAliasesPager {
+	return GetBotAliasesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetBotAliasesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetBotAliasesPagesWithContext same as GetBotAliasesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetBotAliasesPagesWithContext(ctx aws.Context, input *GetBotAliasesInput, fn func(*GetBotAliasesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetBotAliasesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetBotAliasesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetBotAliasesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetBotAliasesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetBotAliasesPager struct {
+	aws.Pager
+}
+
+func (p *GetBotAliasesPager) CurrentPage() *GetBotAliasesOutput {
+	return p.Pager.CurrentPage().(*GetBotAliasesOutput)
 }
 
 const opGetBotChannelAssociation = "GetBotChannelAssociation"
@@ -890,6 +946,7 @@ const opGetBotChannelAssociation = "GetBotChannelAssociation"
 type GetBotChannelAssociationRequest struct {
 	*aws.Request
 	Input *GetBotChannelAssociationInput
+	Copy  func(*GetBotChannelAssociationInput) GetBotChannelAssociationRequest
 }
 
 // Send marshals and sends the GetBotChannelAssociation API request.
@@ -930,8 +987,11 @@ func (c *LexModelBuildingService) GetBotChannelAssociationRequest(input *GetBotC
 		input = &GetBotChannelAssociationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotChannelAssociationOutput{})
-	return GetBotChannelAssociationRequest{Request: req, Input: input}
+	output := &GetBotChannelAssociationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotChannelAssociationRequest{Request: req, Input: input, Copy: c.GetBotChannelAssociationRequest}
 }
 
 const opGetBotChannelAssociations = "GetBotChannelAssociations"
@@ -940,6 +1000,7 @@ const opGetBotChannelAssociations = "GetBotChannelAssociations"
 type GetBotChannelAssociationsRequest struct {
 	*aws.Request
 	Input *GetBotChannelAssociationsInput
+	Copy  func(*GetBotChannelAssociationsInput) GetBotChannelAssociationsRequest
 }
 
 // Send marshals and sends the GetBotChannelAssociations API request.
@@ -985,58 +1046,57 @@ func (c *LexModelBuildingService) GetBotChannelAssociationsRequest(input *GetBot
 		input = &GetBotChannelAssociationsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotChannelAssociationsOutput{})
-	return GetBotChannelAssociationsRequest{Request: req, Input: input}
+	output := &GetBotChannelAssociationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotChannelAssociationsRequest{Request: req, Input: input, Copy: c.GetBotChannelAssociationsRequest}
 }
 
-// GetBotChannelAssociationsPages iterates over the pages of a GetBotChannelAssociations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetBotChannelAssociations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetBotChannelAssociationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetBotChannelAssociations operation.
-//    pageNum := 0
-//    err := client.GetBotChannelAssociationsPages(params,
-//        func(page *GetBotChannelAssociationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetBotChannelAssociationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetBotChannelAssociationsPages(input *GetBotChannelAssociationsInput, fn func(*GetBotChannelAssociationsOutput, bool) bool) error {
-	return c.GetBotChannelAssociationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetBotChannelAssociationsRequest) Paginate(opts ...aws.Option) GetBotChannelAssociationsPager {
+	return GetBotChannelAssociationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetBotChannelAssociationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetBotChannelAssociationsPagesWithContext same as GetBotChannelAssociationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetBotChannelAssociationsPagesWithContext(ctx aws.Context, input *GetBotChannelAssociationsInput, fn func(*GetBotChannelAssociationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetBotChannelAssociationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetBotChannelAssociationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetBotChannelAssociationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetBotChannelAssociationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetBotChannelAssociationsPager struct {
+	aws.Pager
+}
+
+func (p *GetBotChannelAssociationsPager) CurrentPage() *GetBotChannelAssociationsOutput {
+	return p.Pager.CurrentPage().(*GetBotChannelAssociationsOutput)
 }
 
 const opGetBotVersions = "GetBotVersions"
@@ -1045,6 +1105,7 @@ const opGetBotVersions = "GetBotVersions"
 type GetBotVersionsRequest struct {
 	*aws.Request
 	Input *GetBotVersionsInput
+	Copy  func(*GetBotVersionsInput) GetBotVersionsRequest
 }
 
 // Send marshals and sends the GetBotVersions API request.
@@ -1097,58 +1158,57 @@ func (c *LexModelBuildingService) GetBotVersionsRequest(input *GetBotVersionsInp
 		input = &GetBotVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotVersionsOutput{})
-	return GetBotVersionsRequest{Request: req, Input: input}
+	output := &GetBotVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotVersionsRequest{Request: req, Input: input, Copy: c.GetBotVersionsRequest}
 }
 
-// GetBotVersionsPages iterates over the pages of a GetBotVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetBotVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetBotVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetBotVersions operation.
-//    pageNum := 0
-//    err := client.GetBotVersionsPages(params,
-//        func(page *GetBotVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetBotVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetBotVersionsPages(input *GetBotVersionsInput, fn func(*GetBotVersionsOutput, bool) bool) error {
-	return c.GetBotVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetBotVersionsRequest) Paginate(opts ...aws.Option) GetBotVersionsPager {
+	return GetBotVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetBotVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetBotVersionsPagesWithContext same as GetBotVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetBotVersionsPagesWithContext(ctx aws.Context, input *GetBotVersionsInput, fn func(*GetBotVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetBotVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetBotVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetBotVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetBotVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetBotVersionsPager struct {
+	aws.Pager
+}
+
+func (p *GetBotVersionsPager) CurrentPage() *GetBotVersionsOutput {
+	return p.Pager.CurrentPage().(*GetBotVersionsOutput)
 }
 
 const opGetBots = "GetBots"
@@ -1157,6 +1217,7 @@ const opGetBots = "GetBots"
 type GetBotsRequest struct {
 	*aws.Request
 	Input *GetBotsInput
+	Copy  func(*GetBotsInput) GetBotsRequest
 }
 
 // Send marshals and sends the GetBots API request.
@@ -1208,58 +1269,57 @@ func (c *LexModelBuildingService) GetBotsRequest(input *GetBotsInput) GetBotsReq
 		input = &GetBotsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBotsOutput{})
-	return GetBotsRequest{Request: req, Input: input}
+	output := &GetBotsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBotsRequest{Request: req, Input: input, Copy: c.GetBotsRequest}
 }
 
-// GetBotsPages iterates over the pages of a GetBots operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetBots method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetBotsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetBots operation.
-//    pageNum := 0
-//    err := client.GetBotsPages(params,
-//        func(page *GetBotsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetBotsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetBotsPages(input *GetBotsInput, fn func(*GetBotsOutput, bool) bool) error {
-	return c.GetBotsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetBotsRequest) Paginate(opts ...aws.Option) GetBotsPager {
+	return GetBotsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetBotsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetBotsPagesWithContext same as GetBotsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetBotsPagesWithContext(ctx aws.Context, input *GetBotsInput, fn func(*GetBotsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetBotsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetBotsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetBotsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetBotsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetBotsPager struct {
+	aws.Pager
+}
+
+func (p *GetBotsPager) CurrentPage() *GetBotsOutput {
+	return p.Pager.CurrentPage().(*GetBotsOutput)
 }
 
 const opGetBuiltinIntent = "GetBuiltinIntent"
@@ -1268,6 +1328,7 @@ const opGetBuiltinIntent = "GetBuiltinIntent"
 type GetBuiltinIntentRequest struct {
 	*aws.Request
 	Input *GetBuiltinIntentInput
+	Copy  func(*GetBuiltinIntentInput) GetBuiltinIntentRequest
 }
 
 // Send marshals and sends the GetBuiltinIntent API request.
@@ -1306,8 +1367,11 @@ func (c *LexModelBuildingService) GetBuiltinIntentRequest(input *GetBuiltinInten
 		input = &GetBuiltinIntentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBuiltinIntentOutput{})
-	return GetBuiltinIntentRequest{Request: req, Input: input}
+	output := &GetBuiltinIntentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBuiltinIntentRequest{Request: req, Input: input, Copy: c.GetBuiltinIntentRequest}
 }
 
 const opGetBuiltinIntents = "GetBuiltinIntents"
@@ -1316,6 +1380,7 @@ const opGetBuiltinIntents = "GetBuiltinIntents"
 type GetBuiltinIntentsRequest struct {
 	*aws.Request
 	Input *GetBuiltinIntentsInput
+	Copy  func(*GetBuiltinIntentsInput) GetBuiltinIntentsRequest
 }
 
 // Send marshals and sends the GetBuiltinIntents API request.
@@ -1360,58 +1425,57 @@ func (c *LexModelBuildingService) GetBuiltinIntentsRequest(input *GetBuiltinInte
 		input = &GetBuiltinIntentsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBuiltinIntentsOutput{})
-	return GetBuiltinIntentsRequest{Request: req, Input: input}
+	output := &GetBuiltinIntentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBuiltinIntentsRequest{Request: req, Input: input, Copy: c.GetBuiltinIntentsRequest}
 }
 
-// GetBuiltinIntentsPages iterates over the pages of a GetBuiltinIntents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetBuiltinIntents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetBuiltinIntentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetBuiltinIntents operation.
-//    pageNum := 0
-//    err := client.GetBuiltinIntentsPages(params,
-//        func(page *GetBuiltinIntentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetBuiltinIntentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetBuiltinIntentsPages(input *GetBuiltinIntentsInput, fn func(*GetBuiltinIntentsOutput, bool) bool) error {
-	return c.GetBuiltinIntentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetBuiltinIntentsRequest) Paginate(opts ...aws.Option) GetBuiltinIntentsPager {
+	return GetBuiltinIntentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetBuiltinIntentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetBuiltinIntentsPagesWithContext same as GetBuiltinIntentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetBuiltinIntentsPagesWithContext(ctx aws.Context, input *GetBuiltinIntentsInput, fn func(*GetBuiltinIntentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetBuiltinIntentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetBuiltinIntentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetBuiltinIntentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetBuiltinIntentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetBuiltinIntentsPager struct {
+	aws.Pager
+}
+
+func (p *GetBuiltinIntentsPager) CurrentPage() *GetBuiltinIntentsOutput {
+	return p.Pager.CurrentPage().(*GetBuiltinIntentsOutput)
 }
 
 const opGetBuiltinSlotTypes = "GetBuiltinSlotTypes"
@@ -1420,6 +1484,7 @@ const opGetBuiltinSlotTypes = "GetBuiltinSlotTypes"
 type GetBuiltinSlotTypesRequest struct {
 	*aws.Request
 	Input *GetBuiltinSlotTypesInput
+	Copy  func(*GetBuiltinSlotTypesInput) GetBuiltinSlotTypesRequest
 }
 
 // Send marshals and sends the GetBuiltinSlotTypes API request.
@@ -1467,58 +1532,57 @@ func (c *LexModelBuildingService) GetBuiltinSlotTypesRequest(input *GetBuiltinSl
 		input = &GetBuiltinSlotTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBuiltinSlotTypesOutput{})
-	return GetBuiltinSlotTypesRequest{Request: req, Input: input}
+	output := &GetBuiltinSlotTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBuiltinSlotTypesRequest{Request: req, Input: input, Copy: c.GetBuiltinSlotTypesRequest}
 }
 
-// GetBuiltinSlotTypesPages iterates over the pages of a GetBuiltinSlotTypes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetBuiltinSlotTypes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetBuiltinSlotTypesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetBuiltinSlotTypes operation.
-//    pageNum := 0
-//    err := client.GetBuiltinSlotTypesPages(params,
-//        func(page *GetBuiltinSlotTypesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetBuiltinSlotTypesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetBuiltinSlotTypesPages(input *GetBuiltinSlotTypesInput, fn func(*GetBuiltinSlotTypesOutput, bool) bool) error {
-	return c.GetBuiltinSlotTypesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetBuiltinSlotTypesRequest) Paginate(opts ...aws.Option) GetBuiltinSlotTypesPager {
+	return GetBuiltinSlotTypesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetBuiltinSlotTypesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetBuiltinSlotTypesPagesWithContext same as GetBuiltinSlotTypesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetBuiltinSlotTypesPagesWithContext(ctx aws.Context, input *GetBuiltinSlotTypesInput, fn func(*GetBuiltinSlotTypesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetBuiltinSlotTypesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetBuiltinSlotTypesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetBuiltinSlotTypesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetBuiltinSlotTypesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetBuiltinSlotTypesPager struct {
+	aws.Pager
+}
+
+func (p *GetBuiltinSlotTypesPager) CurrentPage() *GetBuiltinSlotTypesOutput {
+	return p.Pager.CurrentPage().(*GetBuiltinSlotTypesOutput)
 }
 
 const opGetExport = "GetExport"
@@ -1527,6 +1591,7 @@ const opGetExport = "GetExport"
 type GetExportRequest struct {
 	*aws.Request
 	Input *GetExportInput
+	Copy  func(*GetExportInput) GetExportRequest
 }
 
 // Send marshals and sends the GetExport API request.
@@ -1563,8 +1628,61 @@ func (c *LexModelBuildingService) GetExportRequest(input *GetExportInput) GetExp
 		input = &GetExportInput{}
 	}
 
-	req := c.newRequest(op, input, &GetExportOutput{})
-	return GetExportRequest{Request: req, Input: input}
+	output := &GetExportOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetExportRequest{Request: req, Input: input, Copy: c.GetExportRequest}
+}
+
+const opGetImport = "GetImport"
+
+// GetImportRequest is a API request type for the GetImport API operation.
+type GetImportRequest struct {
+	*aws.Request
+	Input *GetImportInput
+	Copy  func(*GetImportInput) GetImportRequest
+}
+
+// Send marshals and sends the GetImport API request.
+func (r GetImportRequest) Send() (*GetImportOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetImportOutput), nil
+}
+
+// GetImportRequest returns a request value for making API operation for
+// Amazon Lex Model Building Service.
+//
+// Gets information about an import job started with the StartImport operation.
+//
+//    // Example sending a request using the GetImportRequest method.
+//    req := client.GetImportRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetImport
+func (c *LexModelBuildingService) GetImportRequest(input *GetImportInput) GetImportRequest {
+	op := &aws.Operation{
+		Name:       opGetImport,
+		HTTPMethod: "GET",
+		HTTPPath:   "/imports/{importId}",
+	}
+
+	if input == nil {
+		input = &GetImportInput{}
+	}
+
+	output := &GetImportOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetImportRequest{Request: req, Input: input, Copy: c.GetImportRequest}
 }
 
 const opGetIntent = "GetIntent"
@@ -1573,6 +1691,7 @@ const opGetIntent = "GetIntent"
 type GetIntentRequest struct {
 	*aws.Request
 	Input *GetIntentInput
+	Copy  func(*GetIntentInput) GetIntentRequest
 }
 
 // Send marshals and sends the GetIntent API request.
@@ -1612,8 +1731,11 @@ func (c *LexModelBuildingService) GetIntentRequest(input *GetIntentInput) GetInt
 		input = &GetIntentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetIntentOutput{})
-	return GetIntentRequest{Request: req, Input: input}
+	output := &GetIntentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetIntentRequest{Request: req, Input: input, Copy: c.GetIntentRequest}
 }
 
 const opGetIntentVersions = "GetIntentVersions"
@@ -1622,6 +1744,7 @@ const opGetIntentVersions = "GetIntentVersions"
 type GetIntentVersionsRequest struct {
 	*aws.Request
 	Input *GetIntentVersionsInput
+	Copy  func(*GetIntentVersionsInput) GetIntentVersionsRequest
 }
 
 // Send marshals and sends the GetIntentVersions API request.
@@ -1674,58 +1797,57 @@ func (c *LexModelBuildingService) GetIntentVersionsRequest(input *GetIntentVersi
 		input = &GetIntentVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetIntentVersionsOutput{})
-	return GetIntentVersionsRequest{Request: req, Input: input}
+	output := &GetIntentVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetIntentVersionsRequest{Request: req, Input: input, Copy: c.GetIntentVersionsRequest}
 }
 
-// GetIntentVersionsPages iterates over the pages of a GetIntentVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetIntentVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetIntentVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetIntentVersions operation.
-//    pageNum := 0
-//    err := client.GetIntentVersionsPages(params,
-//        func(page *GetIntentVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetIntentVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetIntentVersionsPages(input *GetIntentVersionsInput, fn func(*GetIntentVersionsOutput, bool) bool) error {
-	return c.GetIntentVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetIntentVersionsRequest) Paginate(opts ...aws.Option) GetIntentVersionsPager {
+	return GetIntentVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetIntentVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetIntentVersionsPagesWithContext same as GetIntentVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetIntentVersionsPagesWithContext(ctx aws.Context, input *GetIntentVersionsInput, fn func(*GetIntentVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetIntentVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetIntentVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetIntentVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetIntentVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetIntentVersionsPager struct {
+	aws.Pager
+}
+
+func (p *GetIntentVersionsPager) CurrentPage() *GetIntentVersionsOutput {
+	return p.Pager.CurrentPage().(*GetIntentVersionsOutput)
 }
 
 const opGetIntents = "GetIntents"
@@ -1734,6 +1856,7 @@ const opGetIntents = "GetIntents"
 type GetIntentsRequest struct {
 	*aws.Request
 	Input *GetIntentsInput
+	Copy  func(*GetIntentsInput) GetIntentsRequest
 }
 
 // Send marshals and sends the GetIntents API request.
@@ -1784,58 +1907,57 @@ func (c *LexModelBuildingService) GetIntentsRequest(input *GetIntentsInput) GetI
 		input = &GetIntentsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetIntentsOutput{})
-	return GetIntentsRequest{Request: req, Input: input}
+	output := &GetIntentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetIntentsRequest{Request: req, Input: input, Copy: c.GetIntentsRequest}
 }
 
-// GetIntentsPages iterates over the pages of a GetIntents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetIntents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetIntentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetIntents operation.
-//    pageNum := 0
-//    err := client.GetIntentsPages(params,
-//        func(page *GetIntentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetIntentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetIntentsPages(input *GetIntentsInput, fn func(*GetIntentsOutput, bool) bool) error {
-	return c.GetIntentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetIntentsRequest) Paginate(opts ...aws.Option) GetIntentsPager {
+	return GetIntentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetIntentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetIntentsPagesWithContext same as GetIntentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetIntentsPagesWithContext(ctx aws.Context, input *GetIntentsInput, fn func(*GetIntentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetIntentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetIntentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetIntentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetIntentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetIntentsPager struct {
+	aws.Pager
+}
+
+func (p *GetIntentsPager) CurrentPage() *GetIntentsOutput {
+	return p.Pager.CurrentPage().(*GetIntentsOutput)
 }
 
 const opGetSlotType = "GetSlotType"
@@ -1844,6 +1966,7 @@ const opGetSlotType = "GetSlotType"
 type GetSlotTypeRequest struct {
 	*aws.Request
 	Input *GetSlotTypeInput
+	Copy  func(*GetSlotTypeInput) GetSlotTypeRequest
 }
 
 // Send marshals and sends the GetSlotType API request.
@@ -1883,8 +2006,11 @@ func (c *LexModelBuildingService) GetSlotTypeRequest(input *GetSlotTypeInput) Ge
 		input = &GetSlotTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSlotTypeOutput{})
-	return GetSlotTypeRequest{Request: req, Input: input}
+	output := &GetSlotTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSlotTypeRequest{Request: req, Input: input, Copy: c.GetSlotTypeRequest}
 }
 
 const opGetSlotTypeVersions = "GetSlotTypeVersions"
@@ -1893,6 +2019,7 @@ const opGetSlotTypeVersions = "GetSlotTypeVersions"
 type GetSlotTypeVersionsRequest struct {
 	*aws.Request
 	Input *GetSlotTypeVersionsInput
+	Copy  func(*GetSlotTypeVersionsInput) GetSlotTypeVersionsRequest
 }
 
 // Send marshals and sends the GetSlotTypeVersions API request.
@@ -1945,58 +2072,57 @@ func (c *LexModelBuildingService) GetSlotTypeVersionsRequest(input *GetSlotTypeV
 		input = &GetSlotTypeVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSlotTypeVersionsOutput{})
-	return GetSlotTypeVersionsRequest{Request: req, Input: input}
+	output := &GetSlotTypeVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSlotTypeVersionsRequest{Request: req, Input: input, Copy: c.GetSlotTypeVersionsRequest}
 }
 
-// GetSlotTypeVersionsPages iterates over the pages of a GetSlotTypeVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetSlotTypeVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetSlotTypeVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetSlotTypeVersions operation.
-//    pageNum := 0
-//    err := client.GetSlotTypeVersionsPages(params,
-//        func(page *GetSlotTypeVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetSlotTypeVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetSlotTypeVersionsPages(input *GetSlotTypeVersionsInput, fn func(*GetSlotTypeVersionsOutput, bool) bool) error {
-	return c.GetSlotTypeVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetSlotTypeVersionsRequest) Paginate(opts ...aws.Option) GetSlotTypeVersionsPager {
+	return GetSlotTypeVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetSlotTypeVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetSlotTypeVersionsPagesWithContext same as GetSlotTypeVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetSlotTypeVersionsPagesWithContext(ctx aws.Context, input *GetSlotTypeVersionsInput, fn func(*GetSlotTypeVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetSlotTypeVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetSlotTypeVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetSlotTypeVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetSlotTypeVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetSlotTypeVersionsPager struct {
+	aws.Pager
+}
+
+func (p *GetSlotTypeVersionsPager) CurrentPage() *GetSlotTypeVersionsOutput {
+	return p.Pager.CurrentPage().(*GetSlotTypeVersionsOutput)
 }
 
 const opGetSlotTypes = "GetSlotTypes"
@@ -2005,6 +2131,7 @@ const opGetSlotTypes = "GetSlotTypes"
 type GetSlotTypesRequest struct {
 	*aws.Request
 	Input *GetSlotTypesInput
+	Copy  func(*GetSlotTypesInput) GetSlotTypesRequest
 }
 
 // Send marshals and sends the GetSlotTypes API request.
@@ -2055,58 +2182,57 @@ func (c *LexModelBuildingService) GetSlotTypesRequest(input *GetSlotTypesInput) 
 		input = &GetSlotTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSlotTypesOutput{})
-	return GetSlotTypesRequest{Request: req, Input: input}
+	output := &GetSlotTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSlotTypesRequest{Request: req, Input: input, Copy: c.GetSlotTypesRequest}
 }
 
-// GetSlotTypesPages iterates over the pages of a GetSlotTypes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetSlotTypes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetSlotTypesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetSlotTypes operation.
-//    pageNum := 0
-//    err := client.GetSlotTypesPages(params,
-//        func(page *GetSlotTypesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetSlotTypesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *LexModelBuildingService) GetSlotTypesPages(input *GetSlotTypesInput, fn func(*GetSlotTypesOutput, bool) bool) error {
-	return c.GetSlotTypesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetSlotTypesRequest) Paginate(opts ...aws.Option) GetSlotTypesPager {
+	return GetSlotTypesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetSlotTypesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetSlotTypesPagesWithContext same as GetSlotTypesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *LexModelBuildingService) GetSlotTypesPagesWithContext(ctx aws.Context, input *GetSlotTypesInput, fn func(*GetSlotTypesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetSlotTypesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetSlotTypesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetSlotTypesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetSlotTypesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetSlotTypesPager struct {
+	aws.Pager
+}
+
+func (p *GetSlotTypesPager) CurrentPage() *GetSlotTypesOutput {
+	return p.Pager.CurrentPage().(*GetSlotTypesOutput)
 }
 
 const opGetUtterancesView = "GetUtterancesView"
@@ -2115,6 +2241,7 @@ const opGetUtterancesView = "GetUtterancesView"
 type GetUtterancesViewRequest struct {
 	*aws.Request
 	Input *GetUtterancesViewInput
+	Copy  func(*GetUtterancesViewInput) GetUtterancesViewRequest
 }
 
 // Send marshals and sends the GetUtterancesView API request.
@@ -2145,13 +2272,10 @@ func (r GetUtterancesViewRequest) Send() (*GetUtterancesViewOutput, error) {
 // old version and the new so that you can compare the performance across the
 // two versions.
 //
-// Data is available for the last 15 days. You can request information for up
-// to 5 versions in each request. The response contains information about a
-// maximum of 100 utterances for each version.
-//
-// If the bot's childDirected field is set to true, utterances for the bot are
-// not stored and cannot be retrieved with the GetUtterancesView operation.
-// For more information, see PutBot.
+// Utterance statistics are generated once a day. Data is available for the
+// last 15 days. You can request information for up to 5 versions in each request.
+// The response contains information about a maximum of 100 utterances for each
+// version.
 //
 // This operation requires permissions for the lex:GetUtterancesView action.
 //
@@ -2174,8 +2298,11 @@ func (c *LexModelBuildingService) GetUtterancesViewRequest(input *GetUtterancesV
 		input = &GetUtterancesViewInput{}
 	}
 
-	req := c.newRequest(op, input, &GetUtterancesViewOutput{})
-	return GetUtterancesViewRequest{Request: req, Input: input}
+	output := &GetUtterancesViewOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetUtterancesViewRequest{Request: req, Input: input, Copy: c.GetUtterancesViewRequest}
 }
 
 const opPutBot = "PutBot"
@@ -2184,6 +2311,7 @@ const opPutBot = "PutBot"
 type PutBotRequest struct {
 	*aws.Request
 	Input *PutBotInput
+	Copy  func(*PutBotInput) PutBotRequest
 }
 
 // Send marshals and sends the PutBot API request.
@@ -2200,10 +2328,11 @@ func (r PutBotRequest) Send() (*PutBotOutput, error) {
 // Amazon Lex Model Building Service.
 //
 // Creates an Amazon Lex conversational bot or replaces an existing bot. When
-// you create or update a bot you are only required to specify a name. You can
-// use this to add intents later, or to remove intents from an existing bot.
-// When you create a bot with a name only, the bot is created or updated but
-// Amazon Lex returns the response FAILED. You can build the bot after you add one or more intents. For more information
+// you create or update a bot you are only required to specify a name, a locale,
+// and whether the bot is directed toward children under age 13. You can use
+// this to add intents later, or to remove intents from an existing bot. When
+// you create a bot with the minimum information, the bot is created or updated
+// but Amazon Lex returns the response FAILED. You can build the bot after you add one or more intents. For more information
 // about Amazon Lex bots, see how-it-works.
 //
 // If you specify the name of an existing bot, the fields in the request replace
@@ -2232,8 +2361,11 @@ func (c *LexModelBuildingService) PutBotRequest(input *PutBotInput) PutBotReques
 		input = &PutBotInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBotOutput{})
-	return PutBotRequest{Request: req, Input: input}
+	output := &PutBotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBotRequest{Request: req, Input: input, Copy: c.PutBotRequest}
 }
 
 const opPutBotAlias = "PutBotAlias"
@@ -2242,6 +2374,7 @@ const opPutBotAlias = "PutBotAlias"
 type PutBotAliasRequest struct {
 	*aws.Request
 	Input *PutBotAliasInput
+	Copy  func(*PutBotAliasInput) PutBotAliasRequest
 }
 
 // Send marshals and sends the PutBotAlias API request.
@@ -2282,8 +2415,11 @@ func (c *LexModelBuildingService) PutBotAliasRequest(input *PutBotAliasInput) Pu
 		input = &PutBotAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBotAliasOutput{})
-	return PutBotAliasRequest{Request: req, Input: input}
+	output := &PutBotAliasOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBotAliasRequest{Request: req, Input: input, Copy: c.PutBotAliasRequest}
 }
 
 const opPutIntent = "PutIntent"
@@ -2292,6 +2428,7 @@ const opPutIntent = "PutIntent"
 type PutIntentRequest struct {
 	*aws.Request
 	Input *PutIntentInput
+	Copy  func(*PutIntentInput) PutIntentRequest
 }
 
 // Send marshals and sends the PutIntent API request.
@@ -2344,9 +2481,11 @@ func (r PutIntentRequest) Send() (*PutIntentOutput, error) {
 //    asking "Do you want to order a drink with your pizza?"
 //
 // If you specify an existing intent name to update the intent, Amazon Lex replaces
-// the values in the $LATEST version of the slot type with the values in the
-// request. Amazon Lex removes fields that you don't provide in the request.
-// If you don't specify the required fields, Amazon Lex throws an exception.
+// the values in the $LATEST version of the intent with the values in the request.
+// Amazon Lex removes fields that you don't provide in the request. If you don't
+// specify the required fields, Amazon Lex throws an exception. When you update
+// the $LATEST version of an intent, the status field of any bot that uses the
+// $LATEST version of the intent is set to NOT_BUILT.
 //
 // For more information, see how-it-works.
 //
@@ -2371,8 +2510,11 @@ func (c *LexModelBuildingService) PutIntentRequest(input *PutIntentInput) PutInt
 		input = &PutIntentInput{}
 	}
 
-	req := c.newRequest(op, input, &PutIntentOutput{})
-	return PutIntentRequest{Request: req, Input: input}
+	output := &PutIntentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutIntentRequest{Request: req, Input: input, Copy: c.PutIntentRequest}
 }
 
 const opPutSlotType = "PutSlotType"
@@ -2381,6 +2523,7 @@ const opPutSlotType = "PutSlotType"
 type PutSlotTypeRequest struct {
 	*aws.Request
 	Input *PutSlotTypeInput
+	Copy  func(*PutSlotTypeInput) PutSlotTypeRequest
 }
 
 // Send marshals and sends the PutSlotType API request.
@@ -2405,7 +2548,9 @@ func (r PutSlotTypeRequest) Send() (*PutSlotTypeOutput, error) {
 // If you specify the name of an existing slot type, the fields in the request
 // replace the existing values in the $LATEST version of the slot type. Amazon
 // Lex removes the fields that you don't provide in the request. If you don't
-// specify required fields, Amazon Lex throws an exception.
+// specify required fields, Amazon Lex throws an exception. When you update
+// the $LATEST version of a slot type, if a bot uses the $LATEST version of
+// an intent that contains the slot type, the bot's status field is set to NOT_BUILT.
 //
 // This operation requires permissions for the lex:PutSlotType action.
 //
@@ -2428,8 +2573,61 @@ func (c *LexModelBuildingService) PutSlotTypeRequest(input *PutSlotTypeInput) Pu
 		input = &PutSlotTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &PutSlotTypeOutput{})
-	return PutSlotTypeRequest{Request: req, Input: input}
+	output := &PutSlotTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutSlotTypeRequest{Request: req, Input: input, Copy: c.PutSlotTypeRequest}
+}
+
+const opStartImport = "StartImport"
+
+// StartImportRequest is a API request type for the StartImport API operation.
+type StartImportRequest struct {
+	*aws.Request
+	Input *StartImportInput
+	Copy  func(*StartImportInput) StartImportRequest
+}
+
+// Send marshals and sends the StartImport API request.
+func (r StartImportRequest) Send() (*StartImportOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*StartImportOutput), nil
+}
+
+// StartImportRequest returns a request value for making API operation for
+// Amazon Lex Model Building Service.
+//
+// Starts a job to import a resource to Amazon Lex.
+//
+//    // Example sending a request using the StartImportRequest method.
+//    req := client.StartImportRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/StartImport
+func (c *LexModelBuildingService) StartImportRequest(input *StartImportInput) StartImportRequest {
+	op := &aws.Operation{
+		Name:       opStartImport,
+		HTTPMethod: "POST",
+		HTTPPath:   "/imports/",
+	}
+
+	if input == nil {
+		input = &StartImportInput{}
+	}
+
+	output := &StartImportOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartImportRequest{Request: req, Input: input, Copy: c.StartImportRequest}
 }
 
 // Provides information about a bot alias.
@@ -2470,46 +2668,51 @@ func (s BotAliasMetadata) GoString() string {
 	return s.String()
 }
 
-// SetBotName sets the BotName field's value.
-func (s *BotAliasMetadata) SetBotName(v string) *BotAliasMetadata {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BotAliasMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetBotVersion sets the BotVersion field's value.
-func (s *BotAliasMetadata) SetBotVersion(v string) *BotAliasMetadata {
-	s.BotVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
 
-// SetChecksum sets the Checksum field's value.
-func (s *BotAliasMetadata) SetChecksum(v string) *BotAliasMetadata {
-	s.Checksum = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *BotAliasMetadata) SetCreatedDate(v time.Time) *BotAliasMetadata {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetDescription sets the Description field's value.
-func (s *BotAliasMetadata) SetDescription(v string) *BotAliasMetadata {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *BotAliasMetadata) SetLastUpdatedDate(v time.Time) *BotAliasMetadata {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetName sets the Name field's value.
-func (s *BotAliasMetadata) SetName(v string) *BotAliasMetadata {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents an association between an Amazon Lex bot and an external messaging
@@ -2523,7 +2726,7 @@ type BotChannelAssociation struct {
 	BotAlias *string `locationName:"botAlias" min:"1" type:"string"`
 
 	// Provides information necessary to communicate with the messaging platform.
-	BotConfiguration map[string]*string `locationName:"botConfiguration" min:"1" type:"map"`
+	BotConfiguration map[string]string `locationName:"botConfiguration" min:"1" type:"map"`
 
 	// The name of the Amazon Lex bot to which this association is being made.
 	//
@@ -2538,12 +2741,26 @@ type BotChannelAssociation struct {
 	// A text description of the association you are creating.
 	Description *string `locationName:"description" type:"string"`
 
+	// If status is FAILED, Amazon Lex provides the reason that it failed to create
+	// the association.
+	FailureReason *string `locationName:"failureReason" type:"string"`
+
 	// The name of the association between the bot and the channel.
 	Name *string `locationName:"name" min:"1" type:"string"`
 
+	// The status of the bot channel.
+	//
+	//    * CREATED - The channel has been created and is ready for use.
+	//
+	//    * IN_PROGRESS - Channel creation is in progress.
+	//
+	//    * FAILED - There was an error creating the channel. For information about
+	//    the reason for the failure, see the failureReason field.
+	Status ChannelStatus `locationName:"status" type:"string" enum:"true"`
+
 	// Specifies the type of association by indicating the type of channel being
 	// established between the Amazon Lex bot and the external messaging platform.
-	Type ChannelType `locationName:"type" type:"string"`
+	Type ChannelType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2556,46 +2773,69 @@ func (s BotChannelAssociation) GoString() string {
 	return s.String()
 }
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *BotChannelAssociation) SetBotAlias(v string) *BotChannelAssociation {
-	s.BotAlias = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BotChannelAssociation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
 
-// SetBotConfiguration sets the BotConfiguration field's value.
-func (s *BotChannelAssociation) SetBotConfiguration(v map[string]*string) *BotChannelAssociation {
-	s.BotConfiguration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botAlias", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.BotConfiguration) > 0 {
+		v := s.BotConfiguration
 
-// SetBotName sets the BotName field's value.
-func (s *BotChannelAssociation) SetBotName(v string) *BotChannelAssociation {
-	s.BotName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "botConfiguration", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *BotChannelAssociation) SetCreatedDate(v time.Time) *BotChannelAssociation {
-	s.CreatedDate = &v
-	return s
-}
+	}
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetDescription sets the Description field's value.
-func (s *BotChannelAssociation) SetDescription(v string) *BotChannelAssociation {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetName sets the Name field's value.
-func (s *BotChannelAssociation) SetName(v string) *BotChannelAssociation {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetType sets the Type field's value.
-func (s *BotChannelAssociation) SetType(v ChannelType) *BotChannelAssociation {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Provides information about a bot. .
@@ -2617,7 +2857,7 @@ type BotMetadata struct {
 	Name *string `locationName:"name" min:"2" type:"string"`
 
 	// The status of the bot.
-	Status Status `locationName:"status" type:"string"`
+	Status Status `locationName:"status" type:"string" enum:"true"`
 
 	// The version of the bot. For a new bot, the version is always $LATEST.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -2633,40 +2873,45 @@ func (s BotMetadata) GoString() string {
 	return s.String()
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *BotMetadata) SetCreatedDate(v time.Time) *BotMetadata {
-	s.CreatedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BotMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetDescription sets the Description field's value.
-func (s *BotMetadata) SetDescription(v string) *BotMetadata {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *BotMetadata) SetLastUpdatedDate(v time.Time) *BotMetadata {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetName sets the Name field's value.
-func (s *BotMetadata) SetName(v string) *BotMetadata {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetStatus sets the Status field's value.
-func (s *BotMetadata) SetStatus(v Status) *BotMetadata {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
 
-// SetVersion sets the Version field's value.
-func (s *BotMetadata) SetVersion(v string) *BotMetadata {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Provides metadata for a built-in intent.
@@ -2693,16 +2938,27 @@ func (s BuiltinIntentMetadata) GoString() string {
 	return s.String()
 }
 
-// SetSignature sets the Signature field's value.
-func (s *BuiltinIntentMetadata) SetSignature(v string) *BuiltinIntentMetadata {
-	s.Signature = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BuiltinIntentMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
 
-// SetSupportedLocales sets the SupportedLocales field's value.
-func (s *BuiltinIntentMetadata) SetSupportedLocales(v []Locale) *BuiltinIntentMetadata {
-	s.SupportedLocales = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "signature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SupportedLocales) > 0 {
+		v := s.SupportedLocales
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "supportedLocales", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Provides information about a slot used in a built-in intent.
@@ -2724,10 +2980,15 @@ func (s BuiltinIntentSlot) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *BuiltinIntentSlot) SetName(v string) *BuiltinIntentSlot {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BuiltinIntentSlot) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Provides information about a built in slot type.
@@ -2754,16 +3015,27 @@ func (s BuiltinSlotTypeMetadata) GoString() string {
 	return s.String()
 }
 
-// SetSignature sets the Signature field's value.
-func (s *BuiltinSlotTypeMetadata) SetSignature(v string) *BuiltinSlotTypeMetadata {
-	s.Signature = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BuiltinSlotTypeMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
 
-// SetSupportedLocales sets the SupportedLocales field's value.
-func (s *BuiltinSlotTypeMetadata) SetSupportedLocales(v []Locale) *BuiltinSlotTypeMetadata {
-	s.SupportedLocales = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "signature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SupportedLocales) > 0 {
+		v := s.SupportedLocales
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "supportedLocales", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Specifies a Lambda function that verifies requests to a bot or fulfills the
@@ -2818,16 +3090,21 @@ func (s *CodeHook) Validate() error {
 	return nil
 }
 
-// SetMessageVersion sets the MessageVersion field's value.
-func (s *CodeHook) SetMessageVersion(v string) *CodeHook {
-	s.MessageVersion = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CodeHook) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MessageVersion != nil {
+		v := *s.MessageVersion
 
-// SetUri sets the Uri field's value.
-func (s *CodeHook) SetUri(v string) *CodeHook {
-	s.Uri = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "messageVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Uri != nil {
+		v := *s.Uri
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "uri", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateBotVersionRequest
@@ -2875,21 +3152,30 @@ func (s *CreateBotVersionInput) Validate() error {
 	return nil
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *CreateBotVersionInput) SetChecksum(v string) *CreateBotVersionInput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateBotVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *CreateBotVersionInput) SetName(v string) *CreateBotVersionInput {
-	s.Name = &v
-	return s
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateBotVersionResponse
 type CreateBotVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The message that Amazon Lex uses to abort a conversation. For more information,
 	// see PutBot.
@@ -2942,13 +3228,13 @@ type CreateBotVersionOutput struct {
 	IdleSessionTTLInSeconds *int64 `locationName:"idleSessionTTLInSeconds" min:"60" type:"integer"`
 
 	// An array of Intent objects. For more information, see PutBot.
-	Intents []*Intent `locationName:"intents" type:"list"`
+	Intents []Intent `locationName:"intents" type:"list"`
 
 	// The date when the $LATEST version of this bot was updated.
 	LastUpdatedDate *time.Time `locationName:"lastUpdatedDate" type:"timestamp" timestampFormat:"unix"`
 
 	// Specifies the target locale for the bot.
-	Locale Locale `locationName:"locale" type:"string"`
+	Locale Locale `locationName:"locale" type:"string" enum:"true"`
 
 	// The name of the bot.
 	Name *string `locationName:"name" min:"2" type:"string"`
@@ -2957,7 +3243,7 @@ type CreateBotVersionOutput struct {
 	// response element to BUILDING. After Amazon Lex builds the bot, it sets status
 	// to READY. If Amazon Lex can't build the bot, it sets status to FAILED. Amazon
 	// Lex returns the reason for the failure in the failureReason response element.
-	Status Status `locationName:"status" type:"string"`
+	Status Status `locationName:"status" type:"string" enum:"true"`
 
 	// The version of the bot.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -2977,94 +3263,110 @@ func (s CreateBotVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetAbortStatement sets the AbortStatement field's value.
-func (s *CreateBotVersionOutput) SetAbortStatement(v *Statement) *CreateBotVersionOutput {
-	s.AbortStatement = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateBotVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *CreateBotVersionOutput) SetChecksum(v string) *CreateBotVersionOutput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateBotVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
 
-// SetChildDirected sets the ChildDirected field's value.
-func (s *CreateBotVersionOutput) SetChildDirected(v bool) *CreateBotVersionOutput {
-	s.ChildDirected = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetClarificationPrompt sets the ClarificationPrompt field's value.
-func (s *CreateBotVersionOutput) SetClarificationPrompt(v *Prompt) *CreateBotVersionOutput {
-	s.ClarificationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *CreateBotVersionOutput) SetCreatedDate(v time.Time) *CreateBotVersionOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), metadata)
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
 
-// SetDescription sets the Description field's value.
-func (s *CreateBotVersionOutput) SetDescription(v string) *CreateBotVersionOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetFailureReason sets the FailureReason field's value.
-func (s *CreateBotVersionOutput) SetFailureReason(v string) *CreateBotVersionOutput {
-	s.FailureReason = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetIdleSessionTTLInSeconds sets the IdleSessionTTLInSeconds field's value.
-func (s *CreateBotVersionOutput) SetIdleSessionTTLInSeconds(v int64) *CreateBotVersionOutput {
-	s.IdleSessionTTLInSeconds = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
 
-// SetIntents sets the Intents field's value.
-func (s *CreateBotVersionOutput) SetIntents(v []*Intent) *CreateBotVersionOutput {
-	s.Intents = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *CreateBotVersionOutput) SetLastUpdatedDate(v time.Time) *CreateBotVersionOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
 
-// SetLocale sets the Locale field's value.
-func (s *CreateBotVersionOutput) SetLocale(v Locale) *CreateBotVersionOutput {
-	s.Locale = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetName sets the Name field's value.
-func (s *CreateBotVersionOutput) SetName(v string) *CreateBotVersionOutput {
-	s.Name = &v
-	return s
-}
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetStatus sets the Status field's value.
-func (s *CreateBotVersionOutput) SetStatus(v Status) *CreateBotVersionOutput {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetVersion sets the Version field's value.
-func (s *CreateBotVersionOutput) SetVersion(v string) *CreateBotVersionOutput {
-	s.Version = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetVoiceId sets the VoiceId field's value.
-func (s *CreateBotVersionOutput) SetVoiceId(v string) *CreateBotVersionOutput {
-	s.VoiceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateIntentVersionRequest
@@ -3112,21 +3414,30 @@ func (s *CreateIntentVersionInput) Validate() error {
 	return nil
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *CreateIntentVersionInput) SetChecksum(v string) *CreateIntentVersionInput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateIntentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *CreateIntentVersionInput) SetName(v string) *CreateIntentVersionInput {
-	s.Name = &v
-	return s
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateIntentVersionResponse
 type CreateIntentVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Checksum of the intent version created.
 	Checksum *string `locationName:"checksum" type:"string"`
@@ -3169,11 +3480,11 @@ type CreateIntentVersionOutput struct {
 	RejectionStatement *Statement `locationName:"rejectionStatement" type:"structure"`
 
 	// An array of sample utterances configured for the intent.
-	SampleUtterances []*string `locationName:"sampleUtterances" type:"list"`
+	SampleUtterances []string `locationName:"sampleUtterances" type:"list"`
 
 	// An array of slot types that defines the information required to fulfill the
 	// intent.
-	Slots []*Slot `locationName:"slots" type:"list"`
+	Slots []Slot `locationName:"slots" type:"list"`
 
 	// The version number assigned to the new version of the intent.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -3189,94 +3500,116 @@ func (s CreateIntentVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *CreateIntentVersionOutput) SetChecksum(v string) *CreateIntentVersionOutput {
-	s.Checksum = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateIntentVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetConclusionStatement sets the ConclusionStatement field's value.
-func (s *CreateIntentVersionOutput) SetConclusionStatement(v *Statement) *CreateIntentVersionOutput {
-	s.ConclusionStatement = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateIntentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetConfirmationPrompt sets the ConfirmationPrompt field's value.
-func (s *CreateIntentVersionOutput) SetConfirmationPrompt(v *Prompt) *CreateIntentVersionOutput {
-	s.ConfirmationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *CreateIntentVersionOutput) SetCreatedDate(v time.Time) *CreateIntentVersionOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, metadata)
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
 
-// SetDescription sets the Description field's value.
-func (s *CreateIntentVersionOutput) SetDescription(v string) *CreateIntentVersionOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetDialogCodeHook sets the DialogCodeHook field's value.
-func (s *CreateIntentVersionOutput) SetDialogCodeHook(v *CodeHook) *CreateIntentVersionOutput {
-	s.DialogCodeHook = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFollowUpPrompt sets the FollowUpPrompt field's value.
-func (s *CreateIntentVersionOutput) SetFollowUpPrompt(v *FollowUpPrompt) *CreateIntentVersionOutput {
-	s.FollowUpPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
 
-// SetFulfillmentActivity sets the FulfillmentActivity field's value.
-func (s *CreateIntentVersionOutput) SetFulfillmentActivity(v *FulfillmentActivity) *CreateIntentVersionOutput {
-	s.FulfillmentActivity = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, metadata)
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *CreateIntentVersionOutput) SetLastUpdatedDate(v time.Time) *CreateIntentVersionOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, metadata)
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
 
-// SetName sets the Name field's value.
-func (s *CreateIntentVersionOutput) SetName(v string) *CreateIntentVersionOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetParentIntentSignature sets the ParentIntentSignature field's value.
-func (s *CreateIntentVersionOutput) SetParentIntentSignature(v string) *CreateIntentVersionOutput {
-	s.ParentIntentSignature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetRejectionStatement sets the RejectionStatement field's value.
-func (s *CreateIntentVersionOutput) SetRejectionStatement(v *Statement) *CreateIntentVersionOutput {
-	s.RejectionStatement = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
 
-// SetSampleUtterances sets the SampleUtterances field's value.
-func (s *CreateIntentVersionOutput) SetSampleUtterances(v []*string) *CreateIntentVersionOutput {
-	s.SampleUtterances = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
 
-// SetSlots sets the Slots field's value.
-func (s *CreateIntentVersionOutput) SetSlots(v []*Slot) *CreateIntentVersionOutput {
-	s.Slots = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, metadata)
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
 
-// SetVersion sets the Version field's value.
-func (s *CreateIntentVersionOutput) SetVersion(v string) *CreateIntentVersionOutput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "sampleUtterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateSlotTypeVersionRequest
@@ -3324,21 +3657,30 @@ func (s *CreateSlotTypeVersionInput) Validate() error {
 	return nil
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *CreateSlotTypeVersionInput) SetChecksum(v string) *CreateSlotTypeVersionInput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateSlotTypeVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *CreateSlotTypeVersionInput) SetName(v string) *CreateSlotTypeVersionInput {
-	s.Name = &v
-	return s
+	if s.Checksum != nil {
+		v := *s.Checksum
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/CreateSlotTypeVersionResponse
 type CreateSlotTypeVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Checksum of the $LATEST version of the slot type.
 	Checksum *string `locationName:"checksum" type:"string"`
@@ -3351,7 +3693,7 @@ type CreateSlotTypeVersionOutput struct {
 
 	// A list of EnumerationValue objects that defines the values that the slot
 	// type can take.
-	EnumerationValues []*EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
+	EnumerationValues []EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
 
 	// The date that the slot type was updated. When you create a resource, the
 	// creation date and last update date are the same.
@@ -3362,7 +3704,7 @@ type CreateSlotTypeVersionOutput struct {
 
 	// The strategy that Amazon Lex uses to determine the value of the slot. For
 	// more information, see PutSlotType.
-	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string"`
+	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string" enum:"true"`
 
 	// The version assigned to the new slot type version.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -3378,52 +3720,68 @@ func (s CreateSlotTypeVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *CreateSlotTypeVersionOutput) SetChecksum(v string) *CreateSlotTypeVersionOutput {
-	s.Checksum = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSlotTypeVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *CreateSlotTypeVersionOutput) SetCreatedDate(v time.Time) *CreateSlotTypeVersionOutput {
-	s.CreatedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateSlotTypeVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetDescription sets the Description field's value.
-func (s *CreateSlotTypeVersionOutput) SetDescription(v string) *CreateSlotTypeVersionOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetEnumerationValues sets the EnumerationValues field's value.
-func (s *CreateSlotTypeVersionOutput) SetEnumerationValues(v []*EnumerationValue) *CreateSlotTypeVersionOutput {
-	s.EnumerationValues = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *CreateSlotTypeVersionOutput) SetLastUpdatedDate(v time.Time) *CreateSlotTypeVersionOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
 
-// SetName sets the Name field's value.
-func (s *CreateSlotTypeVersionOutput) SetName(v string) *CreateSlotTypeVersionOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "enumerationValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
-func (s *CreateSlotTypeVersionOutput) SetValueSelectionStrategy(v SlotValueSelectionStrategy) *CreateSlotTypeVersionOutput {
-	s.ValueSelectionStrategy = v
-	return s
-}
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetVersion sets the Version field's value.
-func (s *CreateSlotTypeVersionOutput) SetVersion(v string) *CreateSlotTypeVersionOutput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ValueSelectionStrategy) > 0 {
+		v := s.ValueSelectionStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotAliasRequest
@@ -3475,21 +3833,30 @@ func (s *DeleteBotAliasInput) Validate() error {
 	return nil
 }
 
-// SetBotName sets the BotName field's value.
-func (s *DeleteBotAliasInput) SetBotName(v string) *DeleteBotAliasInput {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *DeleteBotAliasInput) SetName(v string) *DeleteBotAliasInput {
-	s.Name = &v
-	return s
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotAliasOutput
 type DeleteBotAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3500,6 +3867,16 @@ func (s DeleteBotAliasOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotAliasOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBotAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotChannelAssociationRequest
@@ -3564,27 +3941,36 @@ func (s *DeleteBotChannelAssociationInput) Validate() error {
 	return nil
 }
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *DeleteBotChannelAssociationInput) SetBotAlias(v string) *DeleteBotChannelAssociationInput {
-	s.BotAlias = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotChannelAssociationInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBotName sets the BotName field's value.
-func (s *DeleteBotChannelAssociationInput) SetBotName(v string) *DeleteBotChannelAssociationInput {
-	s.BotName = &v
-	return s
-}
+	if s.BotAlias != nil {
+		v := *s.BotAlias
 
-// SetName sets the Name field's value.
-func (s *DeleteBotChannelAssociationInput) SetName(v string) *DeleteBotChannelAssociationInput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "aliasName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotChannelAssociationOutput
 type DeleteBotChannelAssociationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3595,6 +3981,16 @@ func (s DeleteBotChannelAssociationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotChannelAssociationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBotChannelAssociationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotChannelAssociationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotRequest
@@ -3634,15 +4030,24 @@ func (s *DeleteBotInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteBotInput) SetName(v string) *DeleteBotInput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotOutput
 type DeleteBotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3653,6 +4058,16 @@ func (s DeleteBotOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotVersionRequest
@@ -3705,21 +4120,30 @@ func (s *DeleteBotVersionInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteBotVersionInput) SetName(v string) *DeleteBotVersionInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetVersion sets the Version field's value.
-func (s *DeleteBotVersionInput) SetVersion(v string) *DeleteBotVersionInput {
-	s.Version = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteBotVersionOutput
 type DeleteBotVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3730,6 +4154,16 @@ func (s DeleteBotVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBotVersionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBotVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBotVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentRequest
@@ -3769,15 +4203,24 @@ func (s *DeleteIntentInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteIntentInput) SetName(v string) *DeleteIntentInput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentOutput
 type DeleteIntentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3788,6 +4231,16 @@ func (s DeleteIntentOutput) String() string {
 // GoString returns the string representation
 func (s DeleteIntentOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteIntentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentVersionRequest
@@ -3840,21 +4293,30 @@ func (s *DeleteIntentVersionInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteIntentVersionInput) SetName(v string) *DeleteIntentVersionInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteIntentVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetVersion sets the Version field's value.
-func (s *DeleteIntentVersionInput) SetVersion(v string) *DeleteIntentVersionInput {
-	s.Version = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteIntentVersionOutput
 type DeleteIntentVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3865,6 +4327,16 @@ func (s DeleteIntentVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteIntentVersionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteIntentVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteIntentVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeRequest
@@ -3904,15 +4376,24 @@ func (s *DeleteSlotTypeInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteSlotTypeInput) SetName(v string) *DeleteSlotTypeInput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSlotTypeInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeOutput
 type DeleteSlotTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3923,6 +4404,16 @@ func (s DeleteSlotTypeOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSlotTypeOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSlotTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSlotTypeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeVersionRequest
@@ -3975,21 +4466,30 @@ func (s *DeleteSlotTypeVersionInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteSlotTypeVersionInput) SetName(v string) *DeleteSlotTypeVersionInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSlotTypeVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetVersion sets the Version field's value.
-func (s *DeleteSlotTypeVersionInput) SetVersion(v string) *DeleteSlotTypeVersionInput {
-	s.Version = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteSlotTypeVersionOutput
 type DeleteSlotTypeVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4000,6 +4500,16 @@ func (s DeleteSlotTypeVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSlotTypeVersionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSlotTypeVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSlotTypeVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteUtterancesRequest
@@ -4054,21 +4564,30 @@ func (s *DeleteUtterancesInput) Validate() error {
 	return nil
 }
 
-// SetBotName sets the BotName field's value.
-func (s *DeleteUtterancesInput) SetBotName(v string) *DeleteUtterancesInput {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteUtterancesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetUserId sets the UserId field's value.
-func (s *DeleteUtterancesInput) SetUserId(v string) *DeleteUtterancesInput {
-	s.UserId = &v
-	return s
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "userId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/DeleteUtterancesOutput
 type DeleteUtterancesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4079,6 +4598,16 @@ func (s DeleteUtterancesOutput) String() string {
 // GoString returns the string representation
 func (s DeleteUtterancesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteUtterancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteUtterancesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Each slot type can have a set of values. Each enumeration value represents
@@ -4098,7 +4627,7 @@ type EnumerationValue struct {
 	_ struct{} `type:"structure"`
 
 	// Additional values related to the slot type value.
-	Synonyms []*string `locationName:"synonyms" type:"list"`
+	Synonyms []string `locationName:"synonyms" type:"list"`
 
 	// The value of the slot type.
 	//
@@ -4133,16 +4662,27 @@ func (s *EnumerationValue) Validate() error {
 	return nil
 }
 
-// SetSynonyms sets the Synonyms field's value.
-func (s *EnumerationValue) SetSynonyms(v []*string) *EnumerationValue {
-	s.Synonyms = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EnumerationValue) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Synonyms) > 0 {
+		v := s.Synonyms
 
-// SetValue sets the Value field's value.
-func (s *EnumerationValue) SetValue(v string) *EnumerationValue {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "synonyms", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "value", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A prompt for additional activity after an intent is fulfilled. For example,
@@ -4202,16 +4742,21 @@ func (s *FollowUpPrompt) Validate() error {
 	return nil
 }
 
-// SetPrompt sets the Prompt field's value.
-func (s *FollowUpPrompt) SetPrompt(v *Prompt) *FollowUpPrompt {
-	s.Prompt = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FollowUpPrompt) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prompt != nil {
+		v := s.Prompt
 
-// SetRejectionStatement sets the RejectionStatement field's value.
-func (s *FollowUpPrompt) SetRejectionStatement(v *Statement) *FollowUpPrompt {
-	s.RejectionStatement = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "prompt", v, metadata)
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, metadata)
+	}
+	return nil
 }
 
 // Describes how the intent is fulfilled after the user provides all of the
@@ -4243,7 +4788,7 @@ type FulfillmentActivity struct {
 	// by returning the slot data to the client application.
 	//
 	// Type is a required field
-	Type FulfillmentActivityType `locationName:"type" type:"string" required:"true"`
+	Type FulfillmentActivityType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -4274,16 +4819,21 @@ func (s *FulfillmentActivity) Validate() error {
 	return nil
 }
 
-// SetCodeHook sets the CodeHook field's value.
-func (s *FulfillmentActivity) SetCodeHook(v *CodeHook) *FulfillmentActivity {
-	s.CodeHook = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FulfillmentActivity) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeHook != nil {
+		v := s.CodeHook
 
-// SetType sets the Type field's value.
-func (s *FulfillmentActivity) SetType(v FulfillmentActivityType) *FulfillmentActivity {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "codeHook", v, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasRequest
@@ -4335,21 +4885,30 @@ func (s *GetBotAliasInput) Validate() error {
 	return nil
 }
 
-// SetBotName sets the BotName field's value.
-func (s *GetBotAliasInput) SetBotName(v string) *GetBotAliasInput {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *GetBotAliasInput) SetName(v string) *GetBotAliasInput {
-	s.Name = &v
-	return s
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasResponse
 type GetBotAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the bot that the alias points to.
 	BotName *string `locationName:"botName" min:"2" type:"string"`
@@ -4384,46 +4943,56 @@ func (s GetBotAliasOutput) GoString() string {
 	return s.String()
 }
 
-// SetBotName sets the BotName field's value.
-func (s *GetBotAliasOutput) SetBotName(v string) *GetBotAliasOutput {
-	s.BotName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetBotVersion sets the BotVersion field's value.
-func (s *GetBotAliasOutput) SetBotVersion(v string) *GetBotAliasOutput {
-	s.BotVersion = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetChecksum sets the Checksum field's value.
-func (s *GetBotAliasOutput) SetChecksum(v string) *GetBotAliasOutput {
-	s.Checksum = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetBotAliasOutput) SetCreatedDate(v time.Time) *GetBotAliasOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetDescription sets the Description field's value.
-func (s *GetBotAliasOutput) SetDescription(v string) *GetBotAliasOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *GetBotAliasOutput) SetLastUpdatedDate(v time.Time) *GetBotAliasOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetName sets the Name field's value.
-func (s *GetBotAliasOutput) SetName(v string) *GetBotAliasOutput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasesRequest
@@ -4484,36 +5053,45 @@ func (s *GetBotAliasesInput) Validate() error {
 	return nil
 }
 
-// SetBotName sets the BotName field's value.
-func (s *GetBotAliasesInput) SetBotName(v string) *GetBotAliasesInput {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotAliasesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetBotAliasesInput) SetMaxResults(v int64) *GetBotAliasesInput {
-	s.MaxResults = &v
-	return s
-}
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetNameContains sets the NameContains field's value.
-func (s *GetBotAliasesInput) SetNameContains(v string) *GetBotAliasesInput {
-	s.NameContains = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotAliasesInput) SetNextToken(v string) *GetBotAliasesInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotAliasesResponse
 type GetBotAliasesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of BotAliasMetadata objects, each describing a bot alias.
-	BotAliases []*BotAliasMetadata `type:"list"`
+	BotAliases []BotAliasMetadata `type:"list"`
 
 	// A pagination token for fetching next page of aliases. If the response to
 	// this call is truncated, Amazon Lex returns a pagination token in the response.
@@ -4532,16 +5110,32 @@ func (s GetBotAliasesOutput) GoString() string {
 	return s.String()
 }
 
-// SetBotAliases sets the BotAliases field's value.
-func (s *GetBotAliasesOutput) SetBotAliases(v []*BotAliasMetadata) *GetBotAliasesOutput {
-	s.BotAliases = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotAliasesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotAliasesOutput) SetNextToken(v string) *GetBotAliasesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotAliasesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.BotAliases) > 0 {
+		v := s.BotAliases
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "BotAliases", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationRequest
@@ -4607,27 +5201,36 @@ func (s *GetBotChannelAssociationInput) Validate() error {
 	return nil
 }
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *GetBotChannelAssociationInput) SetBotAlias(v string) *GetBotChannelAssociationInput {
-	s.BotAlias = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotChannelAssociationInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBotName sets the BotName field's value.
-func (s *GetBotChannelAssociationInput) SetBotName(v string) *GetBotChannelAssociationInput {
-	s.BotName = &v
-	return s
-}
+	if s.BotAlias != nil {
+		v := *s.BotAlias
 
-// SetName sets the Name field's value.
-func (s *GetBotChannelAssociationInput) SetName(v string) *GetBotChannelAssociationInput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "aliasName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationResponse
 type GetBotChannelAssociationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An alias pointing to the specific version of the Amazon Lex bot to which
 	// this association is being made.
@@ -4635,7 +5238,7 @@ type GetBotChannelAssociationOutput struct {
 
 	// Provides information that the messaging platform needs to communicate with
 	// the Amazon Lex bot.
-	BotConfiguration map[string]*string `locationName:"botConfiguration" min:"1" type:"map"`
+	BotConfiguration map[string]string `locationName:"botConfiguration" min:"1" type:"map"`
 
 	// The name of the Amazon Lex bot.
 	BotName *string `locationName:"botName" min:"2" type:"string"`
@@ -4646,11 +5249,25 @@ type GetBotChannelAssociationOutput struct {
 	// A description of the association between the bot and the channel.
 	Description *string `locationName:"description" type:"string"`
 
+	// If status is FAILED, Amazon Lex provides the reason that it failed to create
+	// the association.
+	FailureReason *string `locationName:"failureReason" type:"string"`
+
 	// The name of the association between the bot and the channel.
 	Name *string `locationName:"name" min:"1" type:"string"`
 
+	// The status of the bot channel.
+	//
+	//    * CREATED - The channel has been created and is ready for use.
+	//
+	//    * IN_PROGRESS - Channel creation is in progress.
+	//
+	//    * FAILED - There was an error creating the channel. For information about
+	//    the reason for the failure, see the failureReason field.
+	Status ChannelStatus `locationName:"status" type:"string" enum:"true"`
+
 	// The type of the messaging platform.
-	Type ChannelType `locationName:"type" type:"string"`
+	Type ChannelType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4663,46 +5280,74 @@ func (s GetBotChannelAssociationOutput) GoString() string {
 	return s.String()
 }
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *GetBotChannelAssociationOutput) SetBotAlias(v string) *GetBotChannelAssociationOutput {
-	s.BotAlias = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotChannelAssociationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetBotConfiguration sets the BotConfiguration field's value.
-func (s *GetBotChannelAssociationOutput) SetBotConfiguration(v map[string]*string) *GetBotChannelAssociationOutput {
-	s.BotConfiguration = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotChannelAssociationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotAlias != nil {
+		v := *s.BotAlias
 
-// SetBotName sets the BotName field's value.
-func (s *GetBotChannelAssociationOutput) SetBotName(v string) *GetBotChannelAssociationOutput {
-	s.BotName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botAlias", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.BotConfiguration) > 0 {
+		v := s.BotConfiguration
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetBotChannelAssociationOutput) SetCreatedDate(v time.Time) *GetBotChannelAssociationOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "botConfiguration", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetDescription sets the Description field's value.
-func (s *GetBotChannelAssociationOutput) SetDescription(v string) *GetBotChannelAssociationOutput {
-	s.Description = &v
-	return s
-}
+	}
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetName sets the Name field's value.
-func (s *GetBotChannelAssociationOutput) SetName(v string) *GetBotChannelAssociationOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetType sets the Type field's value.
-func (s *GetBotChannelAssociationOutput) SetType(v ChannelType) *GetBotChannelAssociationOutput {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationsRequest
@@ -4777,43 +5422,52 @@ func (s *GetBotChannelAssociationsInput) Validate() error {
 	return nil
 }
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *GetBotChannelAssociationsInput) SetBotAlias(v string) *GetBotChannelAssociationsInput {
-	s.BotAlias = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotChannelAssociationsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBotName sets the BotName field's value.
-func (s *GetBotChannelAssociationsInput) SetBotName(v string) *GetBotChannelAssociationsInput {
-	s.BotName = &v
-	return s
-}
+	if s.BotAlias != nil {
+		v := *s.BotAlias
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetBotChannelAssociationsInput) SetMaxResults(v int64) *GetBotChannelAssociationsInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "aliasName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetNameContains sets the NameContains field's value.
-func (s *GetBotChannelAssociationsInput) SetNameContains(v string) *GetBotChannelAssociationsInput {
-	s.NameContains = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotChannelAssociationsInput) SetNextToken(v string) *GetBotChannelAssociationsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotChannelAssociationsResponse
 type GetBotChannelAssociationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of objects, one for each association, that provides information
 	// about the Amazon Lex bot and its association with the channel.
-	BotChannelAssociations []*BotChannelAssociation `locationName:"botChannelAssociations" type:"list"`
+	BotChannelAssociations []BotChannelAssociation `locationName:"botChannelAssociations" type:"list"`
 
 	// A pagination token that fetches the next page of associations. If the response
 	// to this call is truncated, Amazon Lex returns a pagination token in the response.
@@ -4832,16 +5486,32 @@ func (s GetBotChannelAssociationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBotChannelAssociations sets the BotChannelAssociations field's value.
-func (s *GetBotChannelAssociationsOutput) SetBotChannelAssociations(v []*BotChannelAssociation) *GetBotChannelAssociationsOutput {
-	s.BotChannelAssociations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotChannelAssociationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotChannelAssociationsOutput) SetNextToken(v string) *GetBotChannelAssociationsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotChannelAssociationsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.BotChannelAssociations) > 0 {
+		v := s.BotChannelAssociations
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "botChannelAssociations", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotRequest
@@ -4890,21 +5560,30 @@ func (s *GetBotInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetBotInput) SetName(v string) *GetBotInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetVersionOrAlias sets the VersionOrAlias field's value.
-func (s *GetBotInput) SetVersionOrAlias(v string) *GetBotInput {
-	s.VersionOrAlias = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VersionOrAlias != nil {
+		v := *s.VersionOrAlias
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "versionoralias", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotResponse
 type GetBotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The message that Amazon Lex returns when the user elects to end the conversation
 	// without completing it. For more information, see PutBot.
@@ -4957,14 +5636,14 @@ type GetBotOutput struct {
 	IdleSessionTTLInSeconds *int64 `locationName:"idleSessionTTLInSeconds" min:"60" type:"integer"`
 
 	// An array of intent objects. For more information, see PutBot.
-	Intents []*Intent `locationName:"intents" type:"list"`
+	Intents []Intent `locationName:"intents" type:"list"`
 
 	// The date that the bot was updated. When you create a resource, the creation
 	// date and last updated date are the same.
 	LastUpdatedDate *time.Time `locationName:"lastUpdatedDate" type:"timestamp" timestampFormat:"unix"`
 
 	// The target locale for the bot.
-	Locale Locale `locationName:"locale" type:"string"`
+	Locale Locale `locationName:"locale" type:"string" enum:"true"`
 
 	// The name of the bot.
 	Name *string `locationName:"name" min:"2" type:"string"`
@@ -4973,7 +5652,7 @@ type GetBotOutput struct {
 	// there was a problem with building the bot, the status is FAILED and the failureReason
 	// explains why the bot did not build. If the bot was saved but not built, the
 	// status is NOT BUILT.
-	Status Status `locationName:"status" type:"string"`
+	Status Status `locationName:"status" type:"string" enum:"true"`
 
 	// The version of the bot. For a new bot, the version is always $LATEST.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -4993,94 +5672,110 @@ func (s GetBotOutput) GoString() string {
 	return s.String()
 }
 
-// SetAbortStatement sets the AbortStatement field's value.
-func (s *GetBotOutput) SetAbortStatement(v *Statement) *GetBotOutput {
-	s.AbortStatement = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *GetBotOutput) SetChecksum(v string) *GetBotOutput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
 
-// SetChildDirected sets the ChildDirected field's value.
-func (s *GetBotOutput) SetChildDirected(v bool) *GetBotOutput {
-	s.ChildDirected = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetClarificationPrompt sets the ClarificationPrompt field's value.
-func (s *GetBotOutput) SetClarificationPrompt(v *Prompt) *GetBotOutput {
-	s.ClarificationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetBotOutput) SetCreatedDate(v time.Time) *GetBotOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), metadata)
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
 
-// SetDescription sets the Description field's value.
-func (s *GetBotOutput) SetDescription(v string) *GetBotOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetFailureReason sets the FailureReason field's value.
-func (s *GetBotOutput) SetFailureReason(v string) *GetBotOutput {
-	s.FailureReason = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetIdleSessionTTLInSeconds sets the IdleSessionTTLInSeconds field's value.
-func (s *GetBotOutput) SetIdleSessionTTLInSeconds(v int64) *GetBotOutput {
-	s.IdleSessionTTLInSeconds = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
 
-// SetIntents sets the Intents field's value.
-func (s *GetBotOutput) SetIntents(v []*Intent) *GetBotOutput {
-	s.Intents = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *GetBotOutput) SetLastUpdatedDate(v time.Time) *GetBotOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
 
-// SetLocale sets the Locale field's value.
-func (s *GetBotOutput) SetLocale(v Locale) *GetBotOutput {
-	s.Locale = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetName sets the Name field's value.
-func (s *GetBotOutput) SetName(v string) *GetBotOutput {
-	s.Name = &v
-	return s
-}
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetStatus sets the Status field's value.
-func (s *GetBotOutput) SetStatus(v Status) *GetBotOutput {
-	s.Status = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetVersion sets the Version field's value.
-func (s *GetBotOutput) SetVersion(v string) *GetBotOutput {
-	s.Version = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetVoiceId sets the VoiceId field's value.
-func (s *GetBotOutput) SetVoiceId(v string) *GetBotOutput {
-	s.VoiceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotVersionsRequest
@@ -5133,31 +5828,40 @@ func (s *GetBotVersionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetBotVersionsInput) SetMaxResults(v int64) *GetBotVersionsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *GetBotVersionsInput) SetName(v string) *GetBotVersionsInput {
-	s.Name = &v
-	return s
-}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotVersionsInput) SetNextToken(v string) *GetBotVersionsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotVersionsResponse
 type GetBotVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of BotMetadata objects, one for each numbered version of the bot
 	// plus one for the $LATEST version.
-	Bots []*BotMetadata `locationName:"bots" type:"list"`
+	Bots []BotMetadata `locationName:"bots" type:"list"`
 
 	// A pagination token for fetching the next page of bot versions. If the response
 	// to this call is truncated, Amazon Lex returns a pagination token in the response.
@@ -5176,16 +5880,32 @@ func (s GetBotVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBots sets the Bots field's value.
-func (s *GetBotVersionsOutput) SetBots(v []*BotMetadata) *GetBotVersionsOutput {
-	s.Bots = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotVersionsOutput) SetNextToken(v string) *GetBotVersionsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Bots) > 0 {
+		v := s.Bots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "bots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotsRequest
@@ -5234,30 +5954,39 @@ func (s *GetBotsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetBotsInput) SetMaxResults(v int64) *GetBotsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetNameContains sets the NameContains field's value.
-func (s *GetBotsInput) SetNameContains(v string) *GetBotsInput {
-	s.NameContains = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotsInput) SetNextToken(v string) *GetBotsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBotsResponse
 type GetBotsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of botMetadata objects, with one entry for each bot.
-	Bots []*BotMetadata `locationName:"bots" type:"list"`
+	Bots []BotMetadata `locationName:"bots" type:"list"`
 
 	// If the response is truncated, it includes a pagination token that you can
 	// specify in your next request to fetch the next page of bots.
@@ -5274,16 +6003,32 @@ func (s GetBotsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBots sets the Bots field's value.
-func (s *GetBotsOutput) SetBots(v []*BotMetadata) *GetBotsOutput {
-	s.Bots = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBotsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBotsOutput) SetNextToken(v string) *GetBotsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBotsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Bots) > 0 {
+		v := s.Bots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "bots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentRequest
@@ -5322,22 +6067,31 @@ func (s *GetBuiltinIntentInput) Validate() error {
 	return nil
 }
 
-// SetSignature sets the Signature field's value.
-func (s *GetBuiltinIntentInput) SetSignature(v string) *GetBuiltinIntentInput {
-	s.Signature = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBuiltinIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.Signature != nil {
+		v := *s.Signature
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "signature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentResponse
 type GetBuiltinIntentOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The unique identifier for a built-in intent.
 	Signature *string `locationName:"signature" type:"string"`
 
 	// An array of BuiltinIntentSlot objects, one entry for each slot type in the
 	// intent.
-	Slots []*BuiltinIntentSlot `locationName:"slots" type:"list"`
+	Slots []BuiltinIntentSlot `locationName:"slots" type:"list"`
 
 	// A list of locales that the intent supports.
 	SupportedLocales []Locale `locationName:"supportedLocales" type:"list"`
@@ -5353,22 +6107,44 @@ func (s GetBuiltinIntentOutput) GoString() string {
 	return s.String()
 }
 
-// SetSignature sets the Signature field's value.
-func (s *GetBuiltinIntentOutput) SetSignature(v string) *GetBuiltinIntentOutput {
-	s.Signature = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBuiltinIntentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSlots sets the Slots field's value.
-func (s *GetBuiltinIntentOutput) SetSlots(v []*BuiltinIntentSlot) *GetBuiltinIntentOutput {
-	s.Slots = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBuiltinIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Signature != nil {
+		v := *s.Signature
 
-// SetSupportedLocales sets the SupportedLocales field's value.
-func (s *GetBuiltinIntentOutput) SetSupportedLocales(v []Locale) *GetBuiltinIntentOutput {
-	s.SupportedLocales = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "signature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.SupportedLocales) > 0 {
+		v := s.SupportedLocales
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "supportedLocales", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentsRequest
@@ -5376,7 +6152,7 @@ type GetBuiltinIntentsInput struct {
 	_ struct{} `type:"structure"`
 
 	// A list of locales that the intent supports.
-	Locale Locale `location:"querystring" locationName:"locale" type:"string"`
+	Locale Locale `location:"querystring" locationName:"locale" type:"string" enum:"true"`
 
 	// The maximum number of intents to return in the response. The default is 10.
 	MaxResults *int64 `location:"querystring" locationName:"maxResults" min:"1" type:"integer"`
@@ -5417,36 +6193,45 @@ func (s *GetBuiltinIntentsInput) Validate() error {
 	return nil
 }
 
-// SetLocale sets the Locale field's value.
-func (s *GetBuiltinIntentsInput) SetLocale(v Locale) *GetBuiltinIntentsInput {
-	s.Locale = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBuiltinIntentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetBuiltinIntentsInput) SetMaxResults(v int64) *GetBuiltinIntentsInput {
-	s.MaxResults = &v
-	return s
-}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBuiltinIntentsInput) SetNextToken(v string) *GetBuiltinIntentsInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetSignatureContains sets the SignatureContains field's value.
-func (s *GetBuiltinIntentsInput) SetSignatureContains(v string) *GetBuiltinIntentsInput {
-	s.SignatureContains = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SignatureContains != nil {
+		v := *s.SignatureContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "signatureContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinIntentsResponse
 type GetBuiltinIntentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of builtinIntentMetadata objects, one for each intent in the response.
-	Intents []*BuiltinIntentMetadata `locationName:"intents" type:"list"`
+	Intents []BuiltinIntentMetadata `locationName:"intents" type:"list"`
 
 	// A pagination token that fetches the next page of intents. If the response
 	// to this API call is truncated, Amazon Lex returns a pagination token in the
@@ -5465,16 +6250,32 @@ func (s GetBuiltinIntentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetIntents sets the Intents field's value.
-func (s *GetBuiltinIntentsOutput) SetIntents(v []*BuiltinIntentMetadata) *GetBuiltinIntentsOutput {
-	s.Intents = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBuiltinIntentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBuiltinIntentsOutput) SetNextToken(v string) *GetBuiltinIntentsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBuiltinIntentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinSlotTypesRequest
@@ -5482,7 +6283,7 @@ type GetBuiltinSlotTypesInput struct {
 	_ struct{} `type:"structure"`
 
 	// A list of locales that the slot type supports.
-	Locale Locale `location:"querystring" locationName:"locale" type:"string"`
+	Locale Locale `location:"querystring" locationName:"locale" type:"string" enum:"true"`
 
 	// The maximum number of slot types to return in the response. The default is
 	// 10.
@@ -5523,33 +6324,42 @@ func (s *GetBuiltinSlotTypesInput) Validate() error {
 	return nil
 }
 
-// SetLocale sets the Locale field's value.
-func (s *GetBuiltinSlotTypesInput) SetLocale(v Locale) *GetBuiltinSlotTypesInput {
-	s.Locale = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBuiltinSlotTypesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetBuiltinSlotTypesInput) SetMaxResults(v int64) *GetBuiltinSlotTypesInput {
-	s.MaxResults = &v
-	return s
-}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBuiltinSlotTypesInput) SetNextToken(v string) *GetBuiltinSlotTypesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetSignatureContains sets the SignatureContains field's value.
-func (s *GetBuiltinSlotTypesInput) SetSignatureContains(v string) *GetBuiltinSlotTypesInput {
-	s.SignatureContains = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SignatureContains != nil {
+		v := *s.SignatureContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "signatureContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetBuiltinSlotTypesResponse
 type GetBuiltinSlotTypesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the response is truncated, the response includes a pagination token that
 	// you can use in your next request to fetch the next page of slot types.
@@ -5557,7 +6367,7 @@ type GetBuiltinSlotTypesOutput struct {
 
 	// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type
 	// returned.
-	SlotTypes []*BuiltinSlotTypeMetadata `locationName:"slotTypes" type:"list"`
+	SlotTypes []BuiltinSlotTypeMetadata `locationName:"slotTypes" type:"list"`
 }
 
 // String returns the string representation
@@ -5570,16 +6380,32 @@ func (s GetBuiltinSlotTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetBuiltinSlotTypesOutput) SetNextToken(v string) *GetBuiltinSlotTypesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBuiltinSlotTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSlotTypes sets the SlotTypes field's value.
-func (s *GetBuiltinSlotTypesOutput) SetSlotTypes(v []*BuiltinSlotTypeMetadata) *GetBuiltinSlotTypesOutput {
-	s.SlotTypes = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBuiltinSlotTypesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SlotTypes) > 0 {
+		v := s.SlotTypes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slotTypes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetExportRequest
@@ -5589,7 +6415,7 @@ type GetExportInput struct {
 	// The format of the exported data.
 	//
 	// ExportType is a required field
-	ExportType ExportType `location:"querystring" locationName:"exportType" type:"string" required:"true"`
+	ExportType ExportType `location:"querystring" locationName:"exportType" type:"string" required:"true" enum:"true"`
 
 	// The name of the bot to export.
 	//
@@ -5599,7 +6425,7 @@ type GetExportInput struct {
 	// The type of resource to export.
 	//
 	// ResourceType is a required field
-	ResourceType ResourceType `location:"querystring" locationName:"resourceType" type:"string" required:"true"`
+	ResourceType ResourceType `location:"querystring" locationName:"resourceType" type:"string" required:"true" enum:"true"`
 
 	// The version of the bot to export.
 	//
@@ -5647,33 +6473,42 @@ func (s *GetExportInput) Validate() error {
 	return nil
 }
 
-// SetExportType sets the ExportType field's value.
-func (s *GetExportInput) SetExportType(v ExportType) *GetExportInput {
-	s.ExportType = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetExportInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *GetExportInput) SetName(v string) *GetExportInput {
-	s.Name = &v
-	return s
-}
+	if len(s.ExportType) > 0 {
+		v := s.ExportType
 
-// SetResourceType sets the ResourceType field's value.
-func (s *GetExportInput) SetResourceType(v ResourceType) *GetExportInput {
-	s.ResourceType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "exportType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetVersion sets the Version field's value.
-func (s *GetExportInput) SetVersion(v string) *GetExportInput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceType) > 0 {
+		v := s.ResourceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "resourceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetExportResponse
 type GetExportOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the export.
 	//
@@ -5682,10 +6517,10 @@ type GetExportOutput struct {
 	//    * READY - The export is complete.
 	//
 	//    * FAILED - The export could not be completed.
-	ExportStatus ExportStatus `locationName:"exportStatus" type:"string"`
+	ExportStatus ExportStatus `locationName:"exportStatus" type:"string" enum:"true"`
 
 	// The format of the exported data.
-	ExportType ExportType `locationName:"exportType" type:"string"`
+	ExportType ExportType `locationName:"exportType" type:"string" enum:"true"`
 
 	// If status is FAILED, Amazon Lex provides the reason that it failed to export
 	// the resource.
@@ -5695,7 +6530,7 @@ type GetExportOutput struct {
 	Name *string `locationName:"name" min:"1" type:"string"`
 
 	// The type of the exported resource.
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// An S3 pre-signed URL that provides the location of the exported resource.
 	// The exported resource is a ZIP archive that contains the exported resource
@@ -5717,46 +6552,201 @@ func (s GetExportOutput) GoString() string {
 	return s.String()
 }
 
-// SetExportStatus sets the ExportStatus field's value.
-func (s *GetExportOutput) SetExportStatus(v ExportStatus) *GetExportOutput {
-	s.ExportStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetExportOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetExportType sets the ExportType field's value.
-func (s *GetExportOutput) SetExportType(v ExportType) *GetExportOutput {
-	s.ExportType = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetExportOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ExportStatus) > 0 {
+		v := s.ExportStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "exportStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.ExportType) > 0 {
+		v := s.ExportType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "exportType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceType) > 0 {
+		v := s.ResourceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "resourceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Url != nil {
+		v := *s.Url
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "url", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetFailureReason sets the FailureReason field's value.
-func (s *GetExportOutput) SetFailureReason(v string) *GetExportOutput {
-	s.FailureReason = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetImportRequest
+type GetImportInput struct {
+	_ struct{} `type:"structure"`
+
+	// The identifier of the import job information to return.
+	//
+	// ImportId is a required field
+	ImportId *string `location:"uri" locationName:"importId" type:"string" required:"true"`
 }
 
-// SetName sets the Name field's value.
-func (s *GetExportOutput) SetName(v string) *GetExportOutput {
-	s.Name = &v
-	return s
+// String returns the string representation
+func (s GetImportInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetResourceType sets the ResourceType field's value.
-func (s *GetExportOutput) SetResourceType(v ResourceType) *GetExportOutput {
-	s.ResourceType = v
-	return s
+// GoString returns the string representation
+func (s GetImportInput) GoString() string {
+	return s.String()
 }
 
-// SetUrl sets the Url field's value.
-func (s *GetExportOutput) SetUrl(v string) *GetExportOutput {
-	s.Url = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetImportInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetImportInput"}
+
+	if s.ImportId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ImportId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetVersion sets the Version field's value.
-func (s *GetExportOutput) SetVersion(v string) *GetExportOutput {
-	s.Version = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetImportInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ImportId != nil {
+		v := *s.ImportId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "importId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetImportResponse
+type GetImportOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// A timestamp for the date and time that the import job was created.
+	CreatedDate *time.Time `locationName:"createdDate" type:"timestamp" timestampFormat:"unix"`
+
+	// A string that describes why an import job failed to complete.
+	FailureReason []string `locationName:"failureReason" type:"list"`
+
+	// The identifier for the specific import job.
+	ImportId *string `locationName:"importId" type:"string"`
+
+	// The status of the import job. If the status is FAILED, you can get the reason
+	// for the failure from the failureReason field.
+	ImportStatus ImportStatus `locationName:"importStatus" type:"string" enum:"true"`
+
+	// The action taken when there was a conflict between an existing resource and
+	// a resource in the import file.
+	MergeStrategy MergeStrategy `locationName:"mergeStrategy" type:"string" enum:"true"`
+
+	// The name given to the import job.
+	Name *string `locationName:"name" min:"1" type:"string"`
+
+	// The type of resource imported.
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s GetImportOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetImportOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetImportOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetImportOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if len(s.FailureReason) > 0 {
+		v := s.FailureReason
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "failureReason", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.ImportId != nil {
+		v := *s.ImportId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "importId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ImportStatus) > 0 {
+		v := s.ImportStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "importStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.MergeStrategy) > 0 {
+		v := s.MergeStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "mergeStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceType) > 0 {
+		v := s.ResourceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "resourceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentRequest
@@ -5808,21 +6798,30 @@ func (s *GetIntentInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetIntentInput) SetName(v string) *GetIntentInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetVersion sets the Version field's value.
-func (s *GetIntentInput) SetVersion(v string) *GetIntentInput {
-	s.Version = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentResponse
 type GetIntentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Checksum of the intent.
 	Checksum *string `locationName:"checksum" type:"string"`
@@ -5867,10 +6866,10 @@ type GetIntentOutput struct {
 	RejectionStatement *Statement `locationName:"rejectionStatement" type:"structure"`
 
 	// An array of sample utterances configured for the intent.
-	SampleUtterances []*string `locationName:"sampleUtterances" type:"list"`
+	SampleUtterances []string `locationName:"sampleUtterances" type:"list"`
 
 	// An array of intent slots configured for the intent.
-	Slots []*Slot `locationName:"slots" type:"list"`
+	Slots []Slot `locationName:"slots" type:"list"`
 
 	// The version of the intent.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -5886,94 +6885,116 @@ func (s GetIntentOutput) GoString() string {
 	return s.String()
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *GetIntentOutput) SetChecksum(v string) *GetIntentOutput {
-	s.Checksum = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetIntentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetConclusionStatement sets the ConclusionStatement field's value.
-func (s *GetIntentOutput) SetConclusionStatement(v *Statement) *GetIntentOutput {
-	s.ConclusionStatement = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetConfirmationPrompt sets the ConfirmationPrompt field's value.
-func (s *GetIntentOutput) SetConfirmationPrompt(v *Prompt) *GetIntentOutput {
-	s.ConfirmationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetIntentOutput) SetCreatedDate(v time.Time) *GetIntentOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, metadata)
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
 
-// SetDescription sets the Description field's value.
-func (s *GetIntentOutput) SetDescription(v string) *GetIntentOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetDialogCodeHook sets the DialogCodeHook field's value.
-func (s *GetIntentOutput) SetDialogCodeHook(v *CodeHook) *GetIntentOutput {
-	s.DialogCodeHook = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFollowUpPrompt sets the FollowUpPrompt field's value.
-func (s *GetIntentOutput) SetFollowUpPrompt(v *FollowUpPrompt) *GetIntentOutput {
-	s.FollowUpPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
 
-// SetFulfillmentActivity sets the FulfillmentActivity field's value.
-func (s *GetIntentOutput) SetFulfillmentActivity(v *FulfillmentActivity) *GetIntentOutput {
-	s.FulfillmentActivity = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, metadata)
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *GetIntentOutput) SetLastUpdatedDate(v time.Time) *GetIntentOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, metadata)
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
 
-// SetName sets the Name field's value.
-func (s *GetIntentOutput) SetName(v string) *GetIntentOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetParentIntentSignature sets the ParentIntentSignature field's value.
-func (s *GetIntentOutput) SetParentIntentSignature(v string) *GetIntentOutput {
-	s.ParentIntentSignature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetRejectionStatement sets the RejectionStatement field's value.
-func (s *GetIntentOutput) SetRejectionStatement(v *Statement) *GetIntentOutput {
-	s.RejectionStatement = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
 
-// SetSampleUtterances sets the SampleUtterances field's value.
-func (s *GetIntentOutput) SetSampleUtterances(v []*string) *GetIntentOutput {
-	s.SampleUtterances = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
 
-// SetSlots sets the Slots field's value.
-func (s *GetIntentOutput) SetSlots(v []*Slot) *GetIntentOutput {
-	s.Slots = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, metadata)
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
 
-// SetVersion sets the Version field's value.
-func (s *GetIntentOutput) SetVersion(v string) *GetIntentOutput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "sampleUtterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentVersionsRequest
@@ -6026,31 +7047,40 @@ func (s *GetIntentVersionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetIntentVersionsInput) SetMaxResults(v int64) *GetIntentVersionsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIntentVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *GetIntentVersionsInput) SetName(v string) *GetIntentVersionsInput {
-	s.Name = &v
-	return s
-}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetIntentVersionsInput) SetNextToken(v string) *GetIntentVersionsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentVersionsResponse
 type GetIntentVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of IntentMetadata objects, one for each numbered version of the
 	// intent plus one for the $LATEST version.
-	Intents []*IntentMetadata `locationName:"intents" type:"list"`
+	Intents []IntentMetadata `locationName:"intents" type:"list"`
 
 	// A pagination token for fetching the next page of intent versions. If the
 	// response to this call is truncated, Amazon Lex returns a pagination token
@@ -6069,16 +7099,32 @@ func (s GetIntentVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetIntents sets the Intents field's value.
-func (s *GetIntentVersionsOutput) SetIntents(v []*IntentMetadata) *GetIntentVersionsOutput {
-	s.Intents = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetIntentVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetIntentVersionsOutput) SetNextToken(v string) *GetIntentVersionsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIntentVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentsRequest
@@ -6126,30 +7172,39 @@ func (s *GetIntentsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetIntentsInput) SetMaxResults(v int64) *GetIntentsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIntentsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetNameContains sets the NameContains field's value.
-func (s *GetIntentsInput) SetNameContains(v string) *GetIntentsInput {
-	s.NameContains = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetIntentsInput) SetNextToken(v string) *GetIntentsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetIntentsResponse
 type GetIntentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of Intent objects. For more information, see PutBot.
-	Intents []*IntentMetadata `locationName:"intents" type:"list"`
+	Intents []IntentMetadata `locationName:"intents" type:"list"`
 
 	// If the response is truncated, the response includes a pagination token that
 	// you can specify in your next request to fetch the next page of intents.
@@ -6166,16 +7221,32 @@ func (s GetIntentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetIntents sets the Intents field's value.
-func (s *GetIntentsOutput) SetIntents(v []*IntentMetadata) *GetIntentsOutput {
-	s.Intents = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetIntentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetIntentsOutput) SetNextToken(v string) *GetIntentsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIntentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Intents) > 0 {
+		v := s.Intents
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeRequest
@@ -6227,21 +7298,30 @@ func (s *GetSlotTypeInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetSlotTypeInput) SetName(v string) *GetSlotTypeInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSlotTypeInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetVersion sets the Version field's value.
-func (s *GetSlotTypeInput) SetVersion(v string) *GetSlotTypeInput {
-	s.Version = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeResponse
 type GetSlotTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Checksum of the $LATEST version of the slot type.
 	Checksum *string `locationName:"checksum" type:"string"`
@@ -6254,7 +7334,7 @@ type GetSlotTypeOutput struct {
 
 	// A list of EnumerationValue objects that defines the values that the slot
 	// type can take.
-	EnumerationValues []*EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
+	EnumerationValues []EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
 
 	// The date that the slot type was updated. When you create a resource, the
 	// creation date and last update date are the same.
@@ -6265,7 +7345,7 @@ type GetSlotTypeOutput struct {
 
 	// The strategy that Amazon Lex uses to determine the value of the slot. For
 	// more information, see PutSlotType.
-	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string"`
+	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string" enum:"true"`
 
 	// The version of the slot type.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -6281,52 +7361,68 @@ func (s GetSlotTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *GetSlotTypeOutput) SetChecksum(v string) *GetSlotTypeOutput {
-	s.Checksum = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSlotTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetSlotTypeOutput) SetCreatedDate(v time.Time) *GetSlotTypeOutput {
-	s.CreatedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSlotTypeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetDescription sets the Description field's value.
-func (s *GetSlotTypeOutput) SetDescription(v string) *GetSlotTypeOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetEnumerationValues sets the EnumerationValues field's value.
-func (s *GetSlotTypeOutput) SetEnumerationValues(v []*EnumerationValue) *GetSlotTypeOutput {
-	s.EnumerationValues = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *GetSlotTypeOutput) SetLastUpdatedDate(v time.Time) *GetSlotTypeOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
 
-// SetName sets the Name field's value.
-func (s *GetSlotTypeOutput) SetName(v string) *GetSlotTypeOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "enumerationValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
-func (s *GetSlotTypeOutput) SetValueSelectionStrategy(v SlotValueSelectionStrategy) *GetSlotTypeOutput {
-	s.ValueSelectionStrategy = v
-	return s
-}
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetVersion sets the Version field's value.
-func (s *GetSlotTypeOutput) SetVersion(v string) *GetSlotTypeOutput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ValueSelectionStrategy) > 0 {
+		v := s.ValueSelectionStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeVersionsRequest
@@ -6379,27 +7475,36 @@ func (s *GetSlotTypeVersionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetSlotTypeVersionsInput) SetMaxResults(v int64) *GetSlotTypeVersionsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSlotTypeVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetName sets the Name field's value.
-func (s *GetSlotTypeVersionsInput) SetName(v string) *GetSlotTypeVersionsInput {
-	s.Name = &v
-	return s
-}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetSlotTypeVersionsInput) SetNextToken(v string) *GetSlotTypeVersionsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypeVersionsResponse
 type GetSlotTypeVersionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A pagination token for fetching the next page of slot type versions. If the
 	// response to this call is truncated, Amazon Lex returns a pagination token
@@ -6409,7 +7514,7 @@ type GetSlotTypeVersionsOutput struct {
 
 	// An array of SlotTypeMetadata objects, one for each numbered version of the
 	// slot type plus one for the $LATEST version.
-	SlotTypes []*SlotTypeMetadata `locationName:"slotTypes" type:"list"`
+	SlotTypes []SlotTypeMetadata `locationName:"slotTypes" type:"list"`
 }
 
 // String returns the string representation
@@ -6422,16 +7527,32 @@ func (s GetSlotTypeVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetSlotTypeVersionsOutput) SetNextToken(v string) *GetSlotTypeVersionsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSlotTypeVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSlotTypes sets the SlotTypes field's value.
-func (s *GetSlotTypeVersionsOutput) SetSlotTypes(v []*SlotTypeMetadata) *GetSlotTypeVersionsOutput {
-	s.SlotTypes = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSlotTypeVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SlotTypes) > 0 {
+		v := s.SlotTypes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slotTypes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypesRequest
@@ -6480,27 +7601,36 @@ func (s *GetSlotTypesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetSlotTypesInput) SetMaxResults(v int64) *GetSlotTypesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSlotTypesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetNameContains sets the NameContains field's value.
-func (s *GetSlotTypesInput) SetNameContains(v string) *GetSlotTypesInput {
-	s.NameContains = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetSlotTypesInput) SetNextToken(v string) *GetSlotTypesInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NameContains != nil {
+		v := *s.NameContains
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nameContains", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetSlotTypesResponse
 type GetSlotTypesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the response is truncated, it includes a pagination token that you can
 	// specify in your next request to fetch the next page of slot types.
@@ -6508,7 +7638,7 @@ type GetSlotTypesOutput struct {
 
 	// An array of objects, one for each slot type, that provides information such
 	// as the name of the slot type, the version, and a description.
-	SlotTypes []*SlotTypeMetadata `locationName:"slotTypes" type:"list"`
+	SlotTypes []SlotTypeMetadata `locationName:"slotTypes" type:"list"`
 }
 
 // String returns the string representation
@@ -6521,16 +7651,32 @@ func (s GetSlotTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetSlotTypesOutput) SetNextToken(v string) *GetSlotTypesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSlotTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSlotTypes sets the SlotTypes field's value.
-func (s *GetSlotTypesOutput) SetSlotTypes(v []*SlotTypeMetadata) *GetSlotTypesOutput {
-	s.SlotTypes = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSlotTypesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SlotTypes) > 0 {
+		v := s.SlotTypes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slotTypes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetUtterancesViewRequest
@@ -6546,13 +7692,13 @@ type GetUtterancesViewInput struct {
 	// The limit is 5 versions per request.
 	//
 	// BotVersions is a required field
-	BotVersions []*string `location:"querystring" locationName:"bot_versions" min:"1" type:"list" required:"true"`
+	BotVersions []string `location:"querystring" locationName:"bot_versions" min:"1" type:"list" required:"true"`
 
 	// To return utterances that were recognized and handled, useDetected. To return
 	// utterances that were not recognized, use Missed.
 	//
 	// StatusType is a required field
-	StatusType StatusType `location:"querystring" locationName:"status_type" type:"string" required:"true"`
+	StatusType StatusType `location:"querystring" locationName:"status_type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -6592,27 +7738,42 @@ func (s *GetUtterancesViewInput) Validate() error {
 	return nil
 }
 
-// SetBotName sets the BotName field's value.
-func (s *GetUtterancesViewInput) SetBotName(v string) *GetUtterancesViewInput {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetUtterancesViewInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBotVersions sets the BotVersions field's value.
-func (s *GetUtterancesViewInput) SetBotVersions(v []*string) *GetUtterancesViewInput {
-	s.BotVersions = v
-	return s
-}
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetStatusType sets the StatusType field's value.
-func (s *GetUtterancesViewInput) SetStatusType(v StatusType) *GetUtterancesViewInput {
-	s.StatusType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botname", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.BotVersions) > 0 {
+		v := s.BotVersions
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.QueryTarget, "bot_versions", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.StatusType) > 0 {
+		v := s.StatusType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "status_type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/GetUtterancesViewResponse
 type GetUtterancesViewOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the bot for which utterance information was returned.
 	BotName *string `locationName:"botName" min:"2" type:"string"`
@@ -6620,7 +7781,7 @@ type GetUtterancesViewOutput struct {
 	// An array of UtteranceList objects, each containing a list of UtteranceData
 	// objects describing the utterances that were processed by your bot. The response
 	// contains a maximum of 100 UtteranceData objects for each version.
-	Utterances []*UtteranceList `locationName:"utterances" type:"list"`
+	Utterances []UtteranceList `locationName:"utterances" type:"list"`
 }
 
 // String returns the string representation
@@ -6633,16 +7794,32 @@ func (s GetUtterancesViewOutput) GoString() string {
 	return s.String()
 }
 
-// SetBotName sets the BotName field's value.
-func (s *GetUtterancesViewOutput) SetBotName(v string) *GetUtterancesViewOutput {
-	s.BotName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetUtterancesViewOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetUtterances sets the Utterances field's value.
-func (s *GetUtterancesViewOutput) SetUtterances(v []*UtteranceList) *GetUtterancesViewOutput {
-	s.Utterances = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetUtterancesViewOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Utterances) > 0 {
+		v := s.Utterances
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "utterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Identifies the specific version of an intent.
@@ -6695,16 +7872,21 @@ func (s *Intent) Validate() error {
 	return nil
 }
 
-// SetIntentName sets the IntentName field's value.
-func (s *Intent) SetIntentName(v string) *Intent {
-	s.IntentName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Intent) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IntentName != nil {
+		v := *s.IntentName
 
-// SetIntentVersion sets the IntentVersion field's value.
-func (s *Intent) SetIntentVersion(v string) *Intent {
-	s.IntentVersion = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "intentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IntentVersion != nil {
+		v := *s.IntentVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "intentVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Provides information about an intent.
@@ -6739,34 +7921,39 @@ func (s IntentMetadata) GoString() string {
 	return s.String()
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *IntentMetadata) SetCreatedDate(v time.Time) *IntentMetadata {
-	s.CreatedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s IntentMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetDescription sets the Description field's value.
-func (s *IntentMetadata) SetDescription(v string) *IntentMetadata {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *IntentMetadata) SetLastUpdatedDate(v time.Time) *IntentMetadata {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetName sets the Name field's value.
-func (s *IntentMetadata) SetName(v string) *IntentMetadata {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetVersion sets the Version field's value.
-func (s *IntentMetadata) SetVersion(v string) *IntentMetadata {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The message object that provides the message text and its type.
@@ -6782,7 +7969,12 @@ type Message struct {
 	// The content type of the message string.
 	//
 	// ContentType is a required field
-	ContentType ContentType `locationName:"contentType" type:"string" required:"true"`
+	ContentType ContentType `locationName:"contentType" type:"string" required:"true" enum:"true"`
+
+	// Identifies the message group that the message belongs to. When a group is
+	// assigned to a message, Amazon Lex returns one message from each group in
+	// the response.
+	GroupNumber *int64 `locationName:"groupNumber" min:"1" type:"integer"`
 }
 
 // String returns the string representation
@@ -6808,6 +8000,9 @@ func (s *Message) Validate() error {
 	if len(s.ContentType) == 0 {
 		invalidParams.Add(aws.NewErrParamRequired("ContentType"))
 	}
+	if s.GroupNumber != nil && *s.GroupNumber < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("GroupNumber", 1))
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -6815,16 +8010,27 @@ func (s *Message) Validate() error {
 	return nil
 }
 
-// SetContent sets the Content field's value.
-func (s *Message) SetContent(v string) *Message {
-	s.Content = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Message) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Content != nil {
+		v := *s.Content
 
-// SetContentType sets the ContentType field's value.
-func (s *Message) SetContentType(v ContentType) *Message {
-	s.ContentType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "content", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ContentType) > 0 {
+		v := s.ContentType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "contentType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.GroupNumber != nil {
+		v := *s.GroupNumber
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "groupNumber", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Obtains information from the user. To define a prompt, provide one or more
@@ -6845,7 +8051,7 @@ type Prompt struct {
 	// Language (SSML).
 	//
 	// Messages is a required field
-	Messages []*Message `locationName:"messages" min:"1" type:"list" required:"true"`
+	Messages []Message `locationName:"messages" min:"1" type:"list" required:"true"`
 
 	// A response card. Amazon Lex uses this prompt at runtime, in the PostText
 	// API response. It substitutes session attributes and slot values for placeholders
@@ -6885,9 +8091,6 @@ func (s *Prompt) Validate() error {
 	}
 	if s.Messages != nil {
 		for i, v := range s.Messages {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Messages", i), err.(aws.ErrInvalidParams))
 			}
@@ -6900,22 +8103,33 @@ func (s *Prompt) Validate() error {
 	return nil
 }
 
-// SetMaxAttempts sets the MaxAttempts field's value.
-func (s *Prompt) SetMaxAttempts(v int64) *Prompt {
-	s.MaxAttempts = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Prompt) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxAttempts != nil {
+		v := *s.MaxAttempts
 
-// SetMessages sets the Messages field's value.
-func (s *Prompt) SetMessages(v []*Message) *Prompt {
-	s.Messages = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "maxAttempts", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Messages) > 0 {
+		v := s.Messages
 
-// SetResponseCard sets the ResponseCard field's value.
-func (s *Prompt) SetResponseCard(v string) *Prompt {
-	s.ResponseCard = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "messages", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ResponseCard != nil {
+		v := *s.ResponseCard
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "responseCard", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotAliasRequest
@@ -6993,39 +8207,48 @@ func (s *PutBotAliasInput) Validate() error {
 	return nil
 }
 
-// SetBotName sets the BotName field's value.
-func (s *PutBotAliasInput) SetBotName(v string) *PutBotAliasInput {
-	s.BotName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBotAliasInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBotVersion sets the BotVersion field's value.
-func (s *PutBotAliasInput) SetBotVersion(v string) *PutBotAliasInput {
-	s.BotVersion = &v
-	return s
-}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutBotAliasInput) SetChecksum(v string) *PutBotAliasInput {
-	s.Checksum = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetDescription sets the Description field's value.
-func (s *PutBotAliasInput) SetDescription(v string) *PutBotAliasInput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetName sets the Name field's value.
-func (s *PutBotAliasInput) SetName(v string) *PutBotAliasInput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotAliasResponse
 type PutBotAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the bot that the alias points to.
 	BotName *string `locationName:"botName" min:"2" type:"string"`
@@ -7060,46 +8283,56 @@ func (s PutBotAliasOutput) GoString() string {
 	return s.String()
 }
 
-// SetBotName sets the BotName field's value.
-func (s *PutBotAliasOutput) SetBotName(v string) *PutBotAliasOutput {
-	s.BotName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBotAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetBotVersion sets the BotVersion field's value.
-func (s *PutBotAliasOutput) SetBotVersion(v string) *PutBotAliasOutput {
-	s.BotVersion = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBotAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutBotAliasOutput) SetChecksum(v string) *PutBotAliasOutput {
-	s.Checksum = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotVersion != nil {
+		v := *s.BotVersion
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *PutBotAliasOutput) SetCreatedDate(v time.Time) *PutBotAliasOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetDescription sets the Description field's value.
-func (s *PutBotAliasOutput) SetDescription(v string) *PutBotAliasOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *PutBotAliasOutput) SetLastUpdatedDate(v time.Time) *PutBotAliasOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetName sets the Name field's value.
-func (s *PutBotAliasOutput) SetName(v string) *PutBotAliasOutput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotRequest
@@ -7171,6 +8404,8 @@ type PutBotInput struct {
 	// can say 'Order a pizza' or 'Order a drink.'"
 	ClarificationPrompt *Prompt `locationName:"clarificationPrompt" type:"structure"`
 
+	CreateVersion *bool `locationName:"createVersion" type:"boolean"`
+
 	// A description of the bot.
 	Description *string `locationName:"description" type:"string"`
 
@@ -7196,7 +8431,7 @@ type PutBotInput struct {
 	// An array of Intent objects. Each intent represents a command that a user
 	// can express. For example, a pizza ordering bot might support an OrderPizza
 	// intent. For more information, see how-it-works.
-	Intents []*Intent `locationName:"intents" type:"list"`
+	Intents []Intent `locationName:"intents" type:"list"`
 
 	// Specifies the target locale for the bot. Any intent used in the bot must
 	// be compatible with the locale of the bot.
@@ -7204,19 +8439,19 @@ type PutBotInput struct {
 	// The default is en-US.
 	//
 	// Locale is a required field
-	Locale Locale `locationName:"locale" type:"string" required:"true"`
+	Locale Locale `locationName:"locale" type:"string" required:"true" enum:"true"`
 
 	// The name of the bot. The name is not case sensitive.
 	//
 	// Name is a required field
 	Name *string `location:"uri" locationName:"name" min:"2" type:"string" required:"true"`
 
-	// If you set the processBehavior element to Build, Amazon Lex builds the bot
-	// so that it can be run. If you set the element to SaveAmazon Lex saves the
+	// If you set the processBehavior element to BUILD, Amazon Lex builds the bot
+	// so that it can be run. If you set the element to SAVE Amazon Lex saves the
 	// bot, but doesn't build it.
 	//
-	// If you don't specify this value, the default value is Save.
-	ProcessBehavior ProcessBehavior `locationName:"processBehavior" type:"string"`
+	// If you don't specify this value, the default value is BUILD.
+	ProcessBehavior ProcessBehavior `locationName:"processBehavior" type:"string" enum:"true"`
 
 	// The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions
 	// with the user. The locale configured for the voice must match the locale
@@ -7267,9 +8502,6 @@ func (s *PutBotInput) Validate() error {
 	}
 	if s.Intents != nil {
 		for i, v := range s.Intents {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Intents", i), err.(aws.ErrInvalidParams))
 			}
@@ -7282,75 +8514,96 @@ func (s *PutBotInput) Validate() error {
 	return nil
 }
 
-// SetAbortStatement sets the AbortStatement field's value.
-func (s *PutBotInput) SetAbortStatement(v *Statement) *PutBotInput {
-	s.AbortStatement = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBotInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutBotInput) SetChecksum(v string) *PutBotInput {
-	s.Checksum = &v
-	return s
-}
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
 
-// SetChildDirected sets the ChildDirected field's value.
-func (s *PutBotInput) SetChildDirected(v bool) *PutBotInput {
-	s.ChildDirected = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetClarificationPrompt sets the ClarificationPrompt field's value.
-func (s *PutBotInput) SetClarificationPrompt(v *Prompt) *PutBotInput {
-	s.ClarificationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
 
-// SetDescription sets the Description field's value.
-func (s *PutBotInput) SetDescription(v string) *PutBotInput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), metadata)
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
 
-// SetIdleSessionTTLInSeconds sets the IdleSessionTTLInSeconds field's value.
-func (s *PutBotInput) SetIdleSessionTTLInSeconds(v int64) *PutBotInput {
-	s.IdleSessionTTLInSeconds = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, metadata)
+	}
+	if s.CreateVersion != nil {
+		v := *s.CreateVersion
 
-// SetIntents sets the Intents field's value.
-func (s *PutBotInput) SetIntents(v []*Intent) *PutBotInput {
-	s.Intents = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createVersion", protocol.BoolValue(v), metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetLocale sets the Locale field's value.
-func (s *PutBotInput) SetLocale(v Locale) *PutBotInput {
-	s.Locale = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
 
-// SetName sets the Name field's value.
-func (s *PutBotInput) SetName(v string) *PutBotInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
 
-// SetProcessBehavior sets the ProcessBehavior field's value.
-func (s *PutBotInput) SetProcessBehavior(v ProcessBehavior) *PutBotInput {
-	s.ProcessBehavior = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetVoiceId sets the VoiceId field's value.
-func (s *PutBotInput) SetVoiceId(v string) *PutBotInput {
-	s.VoiceId = &v
-	return s
+	}
+	if len(s.Locale) > 0 {
+		v := s.Locale
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.ProcessBehavior) > 0 {
+		v := s.ProcessBehavior
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "processBehavior", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutBotResponse
 type PutBotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The message that Amazon Lex uses to abort a conversation. For more information,
 	// see PutBot.
@@ -7388,6 +8641,8 @@ type PutBotOutput struct {
 	// For more information, see PutBot.
 	ClarificationPrompt *Prompt `locationName:"clarificationPrompt" type:"structure"`
 
+	CreateVersion *bool `locationName:"createVersion" type:"boolean"`
+
 	// The date that the bot was created.
 	CreatedDate *time.Time `locationName:"createdDate" type:"timestamp" timestampFormat:"unix"`
 
@@ -7403,14 +8658,14 @@ type PutBotOutput struct {
 	IdleSessionTTLInSeconds *int64 `locationName:"idleSessionTTLInSeconds" min:"60" type:"integer"`
 
 	// An array of Intent objects. For more information, see PutBot.
-	Intents []*Intent `locationName:"intents" type:"list"`
+	Intents []Intent `locationName:"intents" type:"list"`
 
 	// The date that the bot was updated. When you create a resource, the creation
 	// date and last updated date are the same.
 	LastUpdatedDate *time.Time `locationName:"lastUpdatedDate" type:"timestamp" timestampFormat:"unix"`
 
 	// The target locale for the bot.
-	Locale Locale `locationName:"locale" type:"string"`
+	Locale Locale `locationName:"locale" type:"string" enum:"true"`
 
 	// The name of the bot.
 	Name *string `locationName:"name" min:"2" type:"string"`
@@ -7423,7 +8678,7 @@ type PutBotOutput struct {
 	//
 	// When you set processBehaviorto SAVE, Amazon Lex sets the status code to NOT
 	// BUILT.
-	Status Status `locationName:"status" type:"string"`
+	Status Status `locationName:"status" type:"string" enum:"true"`
 
 	// The version of the bot. For a new bot, the version is always $LATEST.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -7443,94 +8698,116 @@ func (s PutBotOutput) GoString() string {
 	return s.String()
 }
 
-// SetAbortStatement sets the AbortStatement field's value.
-func (s *PutBotOutput) SetAbortStatement(v *Statement) *PutBotOutput {
-	s.AbortStatement = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutBotOutput) SetChecksum(v string) *PutBotOutput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBotOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortStatement != nil {
+		v := s.AbortStatement
 
-// SetChildDirected sets the ChildDirected field's value.
-func (s *PutBotOutput) SetChildDirected(v bool) *PutBotOutput {
-	s.ChildDirected = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "abortStatement", v, metadata)
+	}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetClarificationPrompt sets the ClarificationPrompt field's value.
-func (s *PutBotOutput) SetClarificationPrompt(v *Prompt) *PutBotOutput {
-	s.ClarificationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ChildDirected != nil {
+		v := *s.ChildDirected
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *PutBotOutput) SetCreatedDate(v time.Time) *PutBotOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "childDirected", protocol.BoolValue(v), metadata)
+	}
+	if s.ClarificationPrompt != nil {
+		v := s.ClarificationPrompt
 
-// SetDescription sets the Description field's value.
-func (s *PutBotOutput) SetDescription(v string) *PutBotOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "clarificationPrompt", v, metadata)
+	}
+	if s.CreateVersion != nil {
+		v := *s.CreateVersion
 
-// SetFailureReason sets the FailureReason field's value.
-func (s *PutBotOutput) SetFailureReason(v string) *PutBotOutput {
-	s.FailureReason = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createVersion", protocol.BoolValue(v), metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetIdleSessionTTLInSeconds sets the IdleSessionTTLInSeconds field's value.
-func (s *PutBotOutput) SetIdleSessionTTLInSeconds(v int64) *PutBotOutput {
-	s.IdleSessionTTLInSeconds = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetIntents sets the Intents field's value.
-func (s *PutBotOutput) SetIntents(v []*Intent) *PutBotOutput {
-	s.Intents = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FailureReason != nil {
+		v := *s.FailureReason
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *PutBotOutput) SetLastUpdatedDate(v time.Time) *PutBotOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "failureReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdleSessionTTLInSeconds != nil {
+		v := *s.IdleSessionTTLInSeconds
 
-// SetLocale sets the Locale field's value.
-func (s *PutBotOutput) SetLocale(v Locale) *PutBotOutput {
-	s.Locale = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "idleSessionTTLInSeconds", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Intents) > 0 {
+		v := s.Intents
 
-// SetName sets the Name field's value.
-func (s *PutBotOutput) SetName(v string) *PutBotOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "intents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetStatus sets the Status field's value.
-func (s *PutBotOutput) SetStatus(v Status) *PutBotOutput {
-	s.Status = v
-	return s
-}
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetVersion sets the Version field's value.
-func (s *PutBotOutput) SetVersion(v string) *PutBotOutput {
-	s.Version = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if len(s.Locale) > 0 {
+		v := s.Locale
 
-// SetVoiceId sets the VoiceId field's value.
-func (s *PutBotOutput) SetVoiceId(v string) *PutBotOutput {
-	s.VoiceId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "locale", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VoiceId != nil {
+		v := *s.VoiceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "voiceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutIntentRequest
@@ -7571,6 +8848,8 @@ type PutIntentInput struct {
 	// You you must provide both the rejectionStatement and the confirmationPrompt,
 	// or neither.
 	ConfirmationPrompt *Prompt `locationName:"confirmationPrompt" type:"structure"`
+
+	CreateVersion *bool `locationName:"createVersion" type:"boolean"`
 
 	// A description of the intent.
 	Description *string `locationName:"description" type:"string"`
@@ -7645,12 +8924,12 @@ type PutIntentInput struct {
 	// For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize} pizzas".
 	//
 	// In each utterance, a slot name is enclosed in curly braces.
-	SampleUtterances []*string `locationName:"sampleUtterances" type:"list"`
+	SampleUtterances []string `locationName:"sampleUtterances" type:"list"`
 
 	// An array of intent slots. At runtime, Amazon Lex elicits required slot values
 	// from the user using prompts defined in the slots. For more information, see
 	// how-it-works.
-	Slots []*Slot `locationName:"slots" type:"list"`
+	Slots []Slot `locationName:"slots" type:"list"`
 }
 
 // String returns the string representation
@@ -7705,9 +8984,6 @@ func (s *PutIntentInput) Validate() error {
 	}
 	if s.Slots != nil {
 		for i, v := range s.Slots {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Slots", i), err.(aws.ErrInvalidParams))
 			}
@@ -7720,81 +8996,108 @@ func (s *PutIntentInput) Validate() error {
 	return nil
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutIntentInput) SetChecksum(v string) *PutIntentInput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutIntentInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetConclusionStatement sets the ConclusionStatement field's value.
-func (s *PutIntentInput) SetConclusionStatement(v *Statement) *PutIntentInput {
-	s.ConclusionStatement = v
-	return s
-}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetConfirmationPrompt sets the ConfirmationPrompt field's value.
-func (s *PutIntentInput) SetConfirmationPrompt(v *Prompt) *PutIntentInput {
-	s.ConfirmationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
 
-// SetDescription sets the Description field's value.
-func (s *PutIntentInput) SetDescription(v string) *PutIntentInput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, metadata)
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
 
-// SetDialogCodeHook sets the DialogCodeHook field's value.
-func (s *PutIntentInput) SetDialogCodeHook(v *CodeHook) *PutIntentInput {
-	s.DialogCodeHook = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, metadata)
+	}
+	if s.CreateVersion != nil {
+		v := *s.CreateVersion
 
-// SetFollowUpPrompt sets the FollowUpPrompt field's value.
-func (s *PutIntentInput) SetFollowUpPrompt(v *FollowUpPrompt) *PutIntentInput {
-	s.FollowUpPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createVersion", protocol.BoolValue(v), metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFulfillmentActivity sets the FulfillmentActivity field's value.
-func (s *PutIntentInput) SetFulfillmentActivity(v *FulfillmentActivity) *PutIntentInput {
-	s.FulfillmentActivity = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
 
-// SetName sets the Name field's value.
-func (s *PutIntentInput) SetName(v string) *PutIntentInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, metadata)
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
 
-// SetParentIntentSignature sets the ParentIntentSignature field's value.
-func (s *PutIntentInput) SetParentIntentSignature(v string) *PutIntentInput {
-	s.ParentIntentSignature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, metadata)
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
 
-// SetRejectionStatement sets the RejectionStatement field's value.
-func (s *PutIntentInput) SetRejectionStatement(v *Statement) *PutIntentInput {
-	s.RejectionStatement = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, metadata)
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
 
-// SetSampleUtterances sets the SampleUtterances field's value.
-func (s *PutIntentInput) SetSampleUtterances(v []*string) *PutIntentInput {
-	s.SampleUtterances = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
 
-// SetSlots sets the Slots field's value.
-func (s *PutIntentInput) SetSlots(v []*Slot) *PutIntentInput {
-	s.Slots = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, metadata)
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "sampleUtterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutIntentResponse
 type PutIntentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Checksum of the $LATESTversion of the intent created or updated.
 	Checksum *string `locationName:"checksum" type:"string"`
@@ -7806,6 +9109,8 @@ type PutIntentOutput struct {
 	// If defined in the intent, Amazon Lex prompts the user to confirm the intent
 	// before fulfilling it.
 	ConfirmationPrompt *Prompt `locationName:"confirmationPrompt" type:"structure"`
+
+	CreateVersion *bool `locationName:"createVersion" type:"boolean"`
 
 	// The date that the intent was created.
 	CreatedDate *time.Time `locationName:"createdDate" type:"timestamp" timestampFormat:"unix"`
@@ -7841,10 +9146,10 @@ type PutIntentOutput struct {
 	RejectionStatement *Statement `locationName:"rejectionStatement" type:"structure"`
 
 	// An array of sample utterances that are configured for the intent.
-	SampleUtterances []*string `locationName:"sampleUtterances" type:"list"`
+	SampleUtterances []string `locationName:"sampleUtterances" type:"list"`
 
 	// An array of intent slots that are configured for the intent.
-	Slots []*Slot `locationName:"slots" type:"list"`
+	Slots []Slot `locationName:"slots" type:"list"`
 
 	// The version of the intent. For a new intent, the version is always $LATEST.
 	Version *string `locationName:"version" min:"1" type:"string"`
@@ -7860,94 +9165,122 @@ func (s PutIntentOutput) GoString() string {
 	return s.String()
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutIntentOutput) SetChecksum(v string) *PutIntentOutput {
-	s.Checksum = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutIntentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetConclusionStatement sets the ConclusionStatement field's value.
-func (s *PutIntentOutput) SetConclusionStatement(v *Statement) *PutIntentOutput {
-	s.ConclusionStatement = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutIntentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetConfirmationPrompt sets the ConfirmationPrompt field's value.
-func (s *PutIntentOutput) SetConfirmationPrompt(v *Prompt) *PutIntentOutput {
-	s.ConfirmationPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ConclusionStatement != nil {
+		v := s.ConclusionStatement
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *PutIntentOutput) SetCreatedDate(v time.Time) *PutIntentOutput {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "conclusionStatement", v, metadata)
+	}
+	if s.ConfirmationPrompt != nil {
+		v := s.ConfirmationPrompt
 
-// SetDescription sets the Description field's value.
-func (s *PutIntentOutput) SetDescription(v string) *PutIntentOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "confirmationPrompt", v, metadata)
+	}
+	if s.CreateVersion != nil {
+		v := *s.CreateVersion
 
-// SetDialogCodeHook sets the DialogCodeHook field's value.
-func (s *PutIntentOutput) SetDialogCodeHook(v *CodeHook) *PutIntentOutput {
-	s.DialogCodeHook = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createVersion", protocol.BoolValue(v), metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetFollowUpPrompt sets the FollowUpPrompt field's value.
-func (s *PutIntentOutput) SetFollowUpPrompt(v *FollowUpPrompt) *PutIntentOutput {
-	s.FollowUpPrompt = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFulfillmentActivity sets the FulfillmentActivity field's value.
-func (s *PutIntentOutput) SetFulfillmentActivity(v *FulfillmentActivity) *PutIntentOutput {
-	s.FulfillmentActivity = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DialogCodeHook != nil {
+		v := s.DialogCodeHook
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *PutIntentOutput) SetLastUpdatedDate(v time.Time) *PutIntentOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "dialogCodeHook", v, metadata)
+	}
+	if s.FollowUpPrompt != nil {
+		v := s.FollowUpPrompt
 
-// SetName sets the Name field's value.
-func (s *PutIntentOutput) SetName(v string) *PutIntentOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "followUpPrompt", v, metadata)
+	}
+	if s.FulfillmentActivity != nil {
+		v := s.FulfillmentActivity
 
-// SetParentIntentSignature sets the ParentIntentSignature field's value.
-func (s *PutIntentOutput) SetParentIntentSignature(v string) *PutIntentOutput {
-	s.ParentIntentSignature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "fulfillmentActivity", v, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetRejectionStatement sets the RejectionStatement field's value.
-func (s *PutIntentOutput) SetRejectionStatement(v *Statement) *PutIntentOutput {
-	s.RejectionStatement = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSampleUtterances sets the SampleUtterances field's value.
-func (s *PutIntentOutput) SetSampleUtterances(v []*string) *PutIntentOutput {
-	s.SampleUtterances = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentIntentSignature != nil {
+		v := *s.ParentIntentSignature
 
-// SetSlots sets the Slots field's value.
-func (s *PutIntentOutput) SetSlots(v []*Slot) *PutIntentOutput {
-	s.Slots = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "parentIntentSignature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RejectionStatement != nil {
+		v := s.RejectionStatement
 
-// SetVersion sets the Version field's value.
-func (s *PutIntentOutput) SetVersion(v string) *PutIntentOutput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "rejectionStatement", v, metadata)
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "sampleUtterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "slots", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutSlotTypeRequest
@@ -7965,6 +9298,8 @@ type PutSlotTypeInput struct {
 	// you get a PreconditionFailedException exception.
 	Checksum *string `locationName:"checksum" type:"string"`
 
+	CreateVersion *bool `locationName:"createVersion" type:"boolean"`
+
 	// A description of the slot type.
 	Description *string `locationName:"description" type:"string"`
 
@@ -7979,7 +9314,7 @@ type PutSlotTypeInput struct {
 	// using a Lambda function you can choose to return the value that the user
 	// entered or the first value in the resolution list as the slot value. The
 	// valueSelectionStrategy field indicates the option to use.
-	EnumerationValues []*EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
+	EnumerationValues []EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
 
 	// The name of the slot type. The name is not case sensitive.
 	//
@@ -8004,7 +9339,7 @@ type PutSlotTypeInput struct {
 	//    is no resolution list, null is returned.
 	//
 	// If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
-	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string"`
+	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8032,9 +9367,6 @@ func (s *PutSlotTypeInput) Validate() error {
 	}
 	if s.EnumerationValues != nil {
 		for i, v := range s.EnumerationValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "EnumerationValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -8047,42 +9379,65 @@ func (s *PutSlotTypeInput) Validate() error {
 	return nil
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutSlotTypeInput) SetChecksum(v string) *PutSlotTypeInput {
-	s.Checksum = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutSlotTypeInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDescription sets the Description field's value.
-func (s *PutSlotTypeInput) SetDescription(v string) *PutSlotTypeInput {
-	s.Description = &v
-	return s
-}
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetEnumerationValues sets the EnumerationValues field's value.
-func (s *PutSlotTypeInput) SetEnumerationValues(v []*EnumerationValue) *PutSlotTypeInput {
-	s.EnumerationValues = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreateVersion != nil {
+		v := *s.CreateVersion
 
-// SetName sets the Name field's value.
-func (s *PutSlotTypeInput) SetName(v string) *PutSlotTypeInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createVersion", protocol.BoolValue(v), metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
-func (s *PutSlotTypeInput) SetValueSelectionStrategy(v SlotValueSelectionStrategy) *PutSlotTypeInput {
-	s.ValueSelectionStrategy = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "enumerationValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.ValueSelectionStrategy) > 0 {
+		v := s.ValueSelectionStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/PutSlotTypeResponse
 type PutSlotTypeOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Checksum of the $LATEST version of the slot type.
 	Checksum *string `locationName:"checksum" type:"string"`
+
+	CreateVersion *bool `locationName:"createVersion" type:"boolean"`
 
 	// The date that the slot type was created.
 	CreatedDate *time.Time `locationName:"createdDate" type:"timestamp" timestampFormat:"unix"`
@@ -8092,7 +9447,7 @@ type PutSlotTypeOutput struct {
 
 	// A list of EnumerationValue objects that defines the values that the slot
 	// type can take.
-	EnumerationValues []*EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
+	EnumerationValues []EnumerationValue `locationName:"enumerationValues" min:"1" type:"list"`
 
 	// The date that the slot type was updated. When you create a slot type, the
 	// creation date and last update date are the same.
@@ -8103,7 +9458,7 @@ type PutSlotTypeOutput struct {
 
 	// The slot resolution strategy that Amazon Lex uses to determine the value
 	// of the slot. For more information, see PutSlotType.
-	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string"`
+	ValueSelectionStrategy SlotValueSelectionStrategy `locationName:"valueSelectionStrategy" type:"string" enum:"true"`
 
 	// The version of the slot type. For a new slot type, the version is always
 	// $LATEST.
@@ -8120,52 +9475,74 @@ func (s PutSlotTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetChecksum sets the Checksum field's value.
-func (s *PutSlotTypeOutput) SetChecksum(v string) *PutSlotTypeOutput {
-	s.Checksum = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutSlotTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *PutSlotTypeOutput) SetCreatedDate(v time.Time) *PutSlotTypeOutput {
-	s.CreatedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutSlotTypeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Checksum != nil {
+		v := *s.Checksum
 
-// SetDescription sets the Description field's value.
-func (s *PutSlotTypeOutput) SetDescription(v string) *PutSlotTypeOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "checksum", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreateVersion != nil {
+		v := *s.CreateVersion
 
-// SetEnumerationValues sets the EnumerationValues field's value.
-func (s *PutSlotTypeOutput) SetEnumerationValues(v []*EnumerationValue) *PutSlotTypeOutput {
-	s.EnumerationValues = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createVersion", protocol.BoolValue(v), metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *PutSlotTypeOutput) SetLastUpdatedDate(v time.Time) *PutSlotTypeOutput {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetName sets the Name field's value.
-func (s *PutSlotTypeOutput) SetName(v string) *PutSlotTypeOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.EnumerationValues) > 0 {
+		v := s.EnumerationValues
 
-// SetValueSelectionStrategy sets the ValueSelectionStrategy field's value.
-func (s *PutSlotTypeOutput) SetValueSelectionStrategy(v SlotValueSelectionStrategy) *PutSlotTypeOutput {
-	s.ValueSelectionStrategy = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "enumerationValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetVersion sets the Version field's value.
-func (s *PutSlotTypeOutput) SetVersion(v string) *PutSlotTypeOutput {
-	s.Version = &v
-	return s
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ValueSelectionStrategy) > 0 {
+		v := s.ValueSelectionStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "valueSelectionStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes the resource that refers to the resource that you are attempting
@@ -8194,16 +9571,21 @@ func (s ResourceReference) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *ResourceReference) SetName(v string) *ResourceReference {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ResourceReference) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
 
-// SetVersion sets the Version field's value.
-func (s *ResourceReference) SetVersion(v string) *ResourceReference {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Identifies the version of a specific slot.
@@ -8236,12 +9618,12 @@ type Slot struct {
 	// Lex request for a slot value, you can provide those utterances to improve
 	// accuracy. This is optional. In most cases, Amazon Lex is capable of understanding
 	// user utterances.
-	SampleUtterances []*string `locationName:"sampleUtterances" type:"list"`
+	SampleUtterances []string `locationName:"sampleUtterances" type:"list"`
 
 	// Specifies whether the slot is required or optional.
 	//
 	// SlotConstraint is a required field
-	SlotConstraint SlotConstraint `locationName:"slotConstraint" type:"string" required:"true"`
+	SlotConstraint SlotConstraint `locationName:"slotConstraint" type:"string" required:"true" enum:"true"`
 
 	// The type of the slot, either a custom slot type that you defined or one of
 	// the built-in slot types.
@@ -8298,58 +9680,69 @@ func (s *Slot) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *Slot) SetDescription(v string) *Slot {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Slot) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Description != nil {
+		v := *s.Description
 
-// SetName sets the Name field's value.
-func (s *Slot) SetName(v string) *Slot {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetPriority sets the Priority field's value.
-func (s *Slot) SetPriority(v int64) *Slot {
-	s.Priority = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Priority != nil {
+		v := *s.Priority
 
-// SetResponseCard sets the ResponseCard field's value.
-func (s *Slot) SetResponseCard(v string) *Slot {
-	s.ResponseCard = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "priority", protocol.Int64Value(v), metadata)
+	}
+	if s.ResponseCard != nil {
+		v := *s.ResponseCard
 
-// SetSampleUtterances sets the SampleUtterances field's value.
-func (s *Slot) SetSampleUtterances(v []*string) *Slot {
-	s.SampleUtterances = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "responseCard", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SampleUtterances) > 0 {
+		v := s.SampleUtterances
 
-// SetSlotConstraint sets the SlotConstraint field's value.
-func (s *Slot) SetSlotConstraint(v SlotConstraint) *Slot {
-	s.SlotConstraint = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "sampleUtterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetSlotType sets the SlotType field's value.
-func (s *Slot) SetSlotType(v string) *Slot {
-	s.SlotType = &v
-	return s
-}
+	}
+	if len(s.SlotConstraint) > 0 {
+		v := s.SlotConstraint
 
-// SetSlotTypeVersion sets the SlotTypeVersion field's value.
-func (s *Slot) SetSlotTypeVersion(v string) *Slot {
-	s.SlotTypeVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "slotConstraint", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SlotType != nil {
+		v := *s.SlotType
 
-// SetValueElicitationPrompt sets the ValueElicitationPrompt field's value.
-func (s *Slot) SetValueElicitationPrompt(v *Prompt) *Slot {
-	s.ValueElicitationPrompt = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "slotType", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SlotTypeVersion != nil {
+		v := *s.SlotTypeVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "slotTypeVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ValueElicitationPrompt != nil {
+		v := s.ValueElicitationPrompt
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "valueElicitationPrompt", v, metadata)
+	}
+	return nil
 }
 
 // Provides information about a slot type..
@@ -8384,34 +9777,215 @@ func (s SlotTypeMetadata) GoString() string {
 	return s.String()
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *SlotTypeMetadata) SetCreatedDate(v time.Time) *SlotTypeMetadata {
-	s.CreatedDate = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SlotTypeMetadata) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *SlotTypeMetadata) SetDescription(v string) *SlotTypeMetadata {
-	s.Description = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/StartImportRequest
+type StartImportInput struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the action that the StartImport operation should take when there
+	// is an existing resource with the same name.
+	//
+	//    * FAIL_ON_CONFLICT - The import operation is stopped on the first conflict
+	//    between a resource in the import file and an existing resource. The name
+	//    of the resource causing the conflict is in the failureReason field of
+	//    the response to the GetImport operation.
+	//
+	// OVERWRITE_LATEST - The import operation proceeds even if there is a conflict
+	//    with an existing resource. The $LASTEST version of the existing resource
+	//    is overwritten with the data from the import file.
+	//
+	// MergeStrategy is a required field
+	MergeStrategy MergeStrategy `locationName:"mergeStrategy" type:"string" required:"true" enum:"true"`
+
+	// A zip archive in binary format. The archive should contain one file, a JSON
+	// file containing the resource to import. The resource should match the type
+	// specified in the resourceType field.
+	//
+	// Payload is automatically base64 encoded/decoded by the SDK.
+	//
+	// Payload is a required field
+	Payload []byte `locationName:"payload" type:"blob" required:"true"`
+
+	// Specifies the type of resource to export. Each resource also exports any
+	// resources that it depends on.
+	//
+	//    * A bot exports dependent intents.
+	//
+	//    * An intent exports dependent slot types.
+	//
+	// ResourceType is a required field
+	ResourceType ResourceType `locationName:"resourceType" type:"string" required:"true" enum:"true"`
 }
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *SlotTypeMetadata) SetLastUpdatedDate(v time.Time) *SlotTypeMetadata {
-	s.LastUpdatedDate = &v
-	return s
+// String returns the string representation
+func (s StartImportInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetName sets the Name field's value.
-func (s *SlotTypeMetadata) SetName(v string) *SlotTypeMetadata {
-	s.Name = &v
-	return s
+// GoString returns the string representation
+func (s StartImportInput) GoString() string {
+	return s.String()
 }
 
-// SetVersion sets the Version field's value.
-func (s *SlotTypeMetadata) SetVersion(v string) *SlotTypeMetadata {
-	s.Version = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *StartImportInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "StartImportInput"}
+	if len(s.MergeStrategy) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("MergeStrategy"))
+	}
+
+	if s.Payload == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Payload"))
+	}
+	if len(s.ResourceType) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("ResourceType"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StartImportInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if len(s.MergeStrategy) > 0 {
+		v := s.MergeStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "mergeStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Payload != nil {
+		v := s.Payload
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "payload", protocol.QuotedValue{ValueMarshaler: protocol.BytesValue(v)}, metadata)
+	}
+	if len(s.ResourceType) > 0 {
+		v := s.ResourceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "resourceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lex-models-2017-04-19/StartImportResponse
+type StartImportOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// A timestamp for the date and time that the import job was requested.
+	CreatedDate *time.Time `locationName:"createdDate" type:"timestamp" timestampFormat:"unix"`
+
+	// The identifier for the specific import job.
+	ImportId *string `locationName:"importId" type:"string"`
+
+	// The status of the import job. If the status is FAILED, you can get the reason
+	// for the failure using the GetImport operation.
+	ImportStatus ImportStatus `locationName:"importStatus" type:"string" enum:"true"`
+
+	// The action to take when there is a merge conflict.
+	MergeStrategy MergeStrategy `locationName:"mergeStrategy" type:"string" enum:"true"`
+
+	// The name given to the import job.
+	Name *string `locationName:"name" min:"1" type:"string"`
+
+	// The type of resource to import.
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s StartImportOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s StartImportOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartImportOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StartImportOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ImportId != nil {
+		v := *s.ImportId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "importId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ImportStatus) > 0 {
+		v := s.ImportStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "importStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.MergeStrategy) > 0 {
+		v := s.MergeStrategy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "mergeStrategy", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ResourceType) > 0 {
+		v := s.ResourceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "resourceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // A collection of messages that convey information to the user. At runtime,
@@ -8423,7 +9997,7 @@ type Statement struct {
 	// A collection of message objects.
 	//
 	// Messages is a required field
-	Messages []*Message `locationName:"messages" min:"1" type:"list" required:"true"`
+	Messages []Message `locationName:"messages" min:"1" type:"list" required:"true"`
 
 	// At runtime, if the client is using the PostText (http://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html)
 	// API, Amazon Lex includes the response card in the response. It substitutes
@@ -8457,9 +10031,6 @@ func (s *Statement) Validate() error {
 	}
 	if s.Messages != nil {
 		for i, v := range s.Messages {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Messages", i), err.(aws.ErrInvalidParams))
 			}
@@ -8472,16 +10043,27 @@ func (s *Statement) Validate() error {
 	return nil
 }
 
-// SetMessages sets the Messages field's value.
-func (s *Statement) SetMessages(v []*Message) *Statement {
-	s.Messages = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Statement) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Messages) > 0 {
+		v := s.Messages
 
-// SetResponseCard sets the ResponseCard field's value.
-func (s *Statement) SetResponseCard(v string) *Statement {
-	s.ResponseCard = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "messages", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ResponseCard != nil {
+		v := *s.ResponseCard
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "responseCard", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Provides information about a single utterance that was made to your bot.
@@ -8516,34 +10098,39 @@ func (s UtteranceData) GoString() string {
 	return s.String()
 }
 
-// SetCount sets the Count field's value.
-func (s *UtteranceData) SetCount(v int64) *UtteranceData {
-	s.Count = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UtteranceData) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Count != nil {
+		v := *s.Count
 
-// SetDistinctUsers sets the DistinctUsers field's value.
-func (s *UtteranceData) SetDistinctUsers(v int64) *UtteranceData {
-	s.DistinctUsers = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "count", protocol.Int64Value(v), metadata)
+	}
+	if s.DistinctUsers != nil {
+		v := *s.DistinctUsers
 
-// SetFirstUtteredDate sets the FirstUtteredDate field's value.
-func (s *UtteranceData) SetFirstUtteredDate(v time.Time) *UtteranceData {
-	s.FirstUtteredDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "distinctUsers", protocol.Int64Value(v), metadata)
+	}
+	if s.FirstUtteredDate != nil {
+		v := *s.FirstUtteredDate
 
-// SetLastUtteredDate sets the LastUtteredDate field's value.
-func (s *UtteranceData) SetLastUtteredDate(v time.Time) *UtteranceData {
-	s.LastUtteredDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "firstUtteredDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.LastUtteredDate != nil {
+		v := *s.LastUtteredDate
 
-// SetUtteranceString sets the UtteranceString field's value.
-func (s *UtteranceData) SetUtteranceString(v string) *UtteranceData {
-	s.UtteranceString = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUtteredDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.UtteranceString != nil {
+		v := *s.UtteranceString
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "utteranceString", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Provides a list of utterances that have been made to a specific version of
@@ -8557,7 +10144,7 @@ type UtteranceList struct {
 
 	// One or more UtteranceData objects that contain information about the utterances
 	// that have been made to a bot. The maximum number of object is 100.
-	Utterances []*UtteranceData `locationName:"utterances" type:"list"`
+	Utterances []UtteranceData `locationName:"utterances" type:"list"`
 }
 
 // String returns the string representation
@@ -8570,16 +10157,45 @@ func (s UtteranceList) GoString() string {
 	return s.String()
 }
 
-// SetBotVersion sets the BotVersion field's value.
-func (s *UtteranceList) SetBotVersion(v string) *UtteranceList {
-	s.BotVersion = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UtteranceList) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BotVersion != nil {
+		v := *s.BotVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "botVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Utterances) > 0 {
+		v := s.Utterances
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "utterances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
-// SetUtterances sets the Utterances field's value.
-func (s *UtteranceList) SetUtterances(v []*UtteranceData) *UtteranceList {
-	s.Utterances = v
-	return s
+type ChannelStatus string
+
+// Enum values for ChannelStatus
+const (
+	ChannelStatusInProgress ChannelStatus = "IN_PROGRESS"
+	ChannelStatusCreated    ChannelStatus = "CREATED"
+	ChannelStatusFailed     ChannelStatus = "FAILED"
+)
+
+func (enum ChannelStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ChannelStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
 }
 
 type ChannelType string
@@ -8589,15 +10205,35 @@ const (
 	ChannelTypeFacebook  ChannelType = "Facebook"
 	ChannelTypeSlack     ChannelType = "Slack"
 	ChannelTypeTwilioSms ChannelType = "Twilio-Sms"
+	ChannelTypeKik       ChannelType = "Kik"
 )
+
+func (enum ChannelType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ChannelType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ContentType string
 
 // Enum values for ContentType
 const (
-	ContentTypePlainText ContentType = "PlainText"
-	ContentTypeSsml      ContentType = "SSML"
+	ContentTypePlainText     ContentType = "PlainText"
+	ContentTypeSsml          ContentType = "SSML"
+	ContentTypeCustomPayload ContentType = "CustomPayload"
 )
+
+func (enum ContentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ContentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ExportStatus string
 
@@ -8608,12 +10244,31 @@ const (
 	ExportStatusFailed     ExportStatus = "FAILED"
 )
 
+func (enum ExportStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExportStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ExportType string
 
 // Enum values for ExportType
 const (
 	ExportTypeAlexaSkillsKit ExportType = "ALEXA_SKILLS_KIT"
+	ExportTypeLex            ExportType = "LEX"
 )
+
+func (enum ExportType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExportType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type FulfillmentActivityType string
 
@@ -8623,12 +10278,67 @@ const (
 	FulfillmentActivityTypeCodeHook     FulfillmentActivityType = "CodeHook"
 )
 
+func (enum FulfillmentActivityType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FulfillmentActivityType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type ImportStatus string
+
+// Enum values for ImportStatus
+const (
+	ImportStatusInProgress ImportStatus = "IN_PROGRESS"
+	ImportStatusComplete   ImportStatus = "COMPLETE"
+	ImportStatusFailed     ImportStatus = "FAILED"
+)
+
+func (enum ImportStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ImportStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Locale string
 
 // Enum values for Locale
 const (
 	LocaleEnUs Locale = "en-US"
+	LocaleEnGb Locale = "en-GB"
+	LocaleDeDe Locale = "de-DE"
 )
+
+func (enum Locale) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Locale) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type MergeStrategy string
+
+// Enum values for MergeStrategy
+const (
+	MergeStrategyOverwriteLatest MergeStrategy = "OVERWRITE_LATEST"
+	MergeStrategyFailOnConflict  MergeStrategy = "FAIL_ON_CONFLICT"
+)
+
+func (enum MergeStrategy) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MergeStrategy) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ProcessBehavior string
 
@@ -8637,6 +10347,15 @@ const (
 	ProcessBehaviorSave  ProcessBehavior = "SAVE"
 	ProcessBehaviorBuild ProcessBehavior = "BUILD"
 )
+
+func (enum ProcessBehavior) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ProcessBehavior) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ReferenceType string
 
@@ -8648,12 +10367,32 @@ const (
 	ReferenceTypeBotChannel ReferenceType = "BotChannel"
 )
 
+func (enum ReferenceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReferenceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ResourceType string
 
 // Enum values for ResourceType
 const (
-	ResourceTypeBot ResourceType = "BOT"
+	ResourceTypeBot      ResourceType = "BOT"
+	ResourceTypeIntent   ResourceType = "INTENT"
+	ResourceTypeSlotType ResourceType = "SLOT_TYPE"
 )
+
+func (enum ResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SlotConstraint string
 
@@ -8663,6 +10402,15 @@ const (
 	SlotConstraintOptional SlotConstraint = "Optional"
 )
 
+func (enum SlotConstraint) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SlotConstraint) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SlotValueSelectionStrategy string
 
 // Enum values for SlotValueSelectionStrategy
@@ -8670,6 +10418,15 @@ const (
 	SlotValueSelectionStrategyOriginalValue SlotValueSelectionStrategy = "ORIGINAL_VALUE"
 	SlotValueSelectionStrategyTopResolution SlotValueSelectionStrategy = "TOP_RESOLUTION"
 )
+
+func (enum SlotValueSelectionStrategy) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SlotValueSelectionStrategy) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Status string
 
@@ -8681,6 +10438,15 @@ const (
 	StatusNotBuilt Status = "NOT_BUILT"
 )
 
+func (enum Status) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Status) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StatusType string
 
 // Enum values for StatusType
@@ -8688,3 +10454,12 @@ const (
 	StatusTypeDetected StatusType = "Detected"
 	StatusTypeMissed   StatusType = "Missed"
 )
+
+func (enum StatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

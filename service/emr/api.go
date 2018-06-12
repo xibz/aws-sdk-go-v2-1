@@ -18,6 +18,7 @@ const opAddInstanceFleet = "AddInstanceFleet"
 type AddInstanceFleetRequest struct {
 	*aws.Request
 	Input *AddInstanceFleetInput
+	Copy  func(*AddInstanceFleetInput) AddInstanceFleetRequest
 }
 
 // Send marshals and sends the AddInstanceFleet API request.
@@ -57,8 +58,11 @@ func (c *EMR) AddInstanceFleetRequest(input *AddInstanceFleetInput) AddInstanceF
 		input = &AddInstanceFleetInput{}
 	}
 
-	req := c.newRequest(op, input, &AddInstanceFleetOutput{})
-	return AddInstanceFleetRequest{Request: req, Input: input}
+	output := &AddInstanceFleetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddInstanceFleetRequest{Request: req, Input: input, Copy: c.AddInstanceFleetRequest}
 }
 
 const opAddInstanceGroups = "AddInstanceGroups"
@@ -67,6 +71,7 @@ const opAddInstanceGroups = "AddInstanceGroups"
 type AddInstanceGroupsRequest struct {
 	*aws.Request
 	Input *AddInstanceGroupsInput
+	Copy  func(*AddInstanceGroupsInput) AddInstanceGroupsRequest
 }
 
 // Send marshals and sends the AddInstanceGroups API request.
@@ -103,8 +108,11 @@ func (c *EMR) AddInstanceGroupsRequest(input *AddInstanceGroupsInput) AddInstanc
 		input = &AddInstanceGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddInstanceGroupsOutput{})
-	return AddInstanceGroupsRequest{Request: req, Input: input}
+	output := &AddInstanceGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddInstanceGroupsRequest{Request: req, Input: input, Copy: c.AddInstanceGroupsRequest}
 }
 
 const opAddJobFlowSteps = "AddJobFlowSteps"
@@ -113,6 +121,7 @@ const opAddJobFlowSteps = "AddJobFlowSteps"
 type AddJobFlowStepsRequest struct {
 	*aws.Request
 	Input *AddJobFlowStepsInput
+	Copy  func(*AddJobFlowStepsInput) AddJobFlowStepsRequest
 }
 
 // Send marshals and sends the AddJobFlowSteps API request.
@@ -136,7 +145,7 @@ func (r AddJobFlowStepsRequest) Send() (*AddJobFlowStepsOutput, error) {
 // the 256-step limitation in various ways, including using SSH to connect to
 // the master node and submitting queries directly to the software running on
 // the master node, such as Hive and Hadoop. For more information on how to
-// do this, see Add More than 256 Steps to a Cluster (http://docs.aws.amazon.com/ElasticMapReduce/latest/ManagementGuide/AddMoreThan256Steps.html)
+// do this, see Add More than 256 Steps to a Cluster (http://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html)
 // in the Amazon EMR Management Guide.
 //
 // A step specifies the location of a JAR file stored either on the master node
@@ -171,8 +180,11 @@ func (c *EMR) AddJobFlowStepsRequest(input *AddJobFlowStepsInput) AddJobFlowStep
 		input = &AddJobFlowStepsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddJobFlowStepsOutput{})
-	return AddJobFlowStepsRequest{Request: req, Input: input}
+	output := &AddJobFlowStepsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddJobFlowStepsRequest{Request: req, Input: input, Copy: c.AddJobFlowStepsRequest}
 }
 
 const opAddTags = "AddTags"
@@ -181,6 +193,7 @@ const opAddTags = "AddTags"
 type AddTagsRequest struct {
 	*aws.Request
 	Input *AddTagsInput
+	Copy  func(*AddTagsInput) AddTagsRequest
 }
 
 // Send marshals and sends the AddTags API request.
@@ -198,8 +211,7 @@ func (r AddTagsRequest) Send() (*AddTagsOutput, error) {
 //
 // Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters
 // in various ways, such as grouping clusters to track your Amazon EMR resource
-// allocation costs. For more information, see Tagging Amazon EMR Resources
-// (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-plan-tags.html).
+// allocation costs. For more information, see Tag Clusters (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html).
 //
 //    // Example sending a request using the AddTagsRequest method.
 //    req := client.AddTagsRequest(params)
@@ -220,8 +232,11 @@ func (c *EMR) AddTagsRequest(input *AddTagsInput) AddTagsRequest {
 		input = &AddTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsOutput{})
-	return AddTagsRequest{Request: req, Input: input}
+	output := &AddTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsRequest{Request: req, Input: input, Copy: c.AddTagsRequest}
 }
 
 const opCancelSteps = "CancelSteps"
@@ -230,6 +245,7 @@ const opCancelSteps = "CancelSteps"
 type CancelStepsRequest struct {
 	*aws.Request
 	Input *CancelStepsInput
+	Copy  func(*CancelStepsInput) CancelStepsRequest
 }
 
 // Send marshals and sends the CancelSteps API request.
@@ -270,8 +286,11 @@ func (c *EMR) CancelStepsRequest(input *CancelStepsInput) CancelStepsRequest {
 		input = &CancelStepsInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelStepsOutput{})
-	return CancelStepsRequest{Request: req, Input: input}
+	output := &CancelStepsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelStepsRequest{Request: req, Input: input, Copy: c.CancelStepsRequest}
 }
 
 const opCreateSecurityConfiguration = "CreateSecurityConfiguration"
@@ -280,6 +299,7 @@ const opCreateSecurityConfiguration = "CreateSecurityConfiguration"
 type CreateSecurityConfigurationRequest struct {
 	*aws.Request
 	Input *CreateSecurityConfigurationInput
+	Copy  func(*CreateSecurityConfigurationInput) CreateSecurityConfigurationRequest
 }
 
 // Send marshals and sends the CreateSecurityConfiguration API request.
@@ -317,8 +337,11 @@ func (c *EMR) CreateSecurityConfigurationRequest(input *CreateSecurityConfigurat
 		input = &CreateSecurityConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSecurityConfigurationOutput{})
-	return CreateSecurityConfigurationRequest{Request: req, Input: input}
+	output := &CreateSecurityConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSecurityConfigurationRequest{Request: req, Input: input, Copy: c.CreateSecurityConfigurationRequest}
 }
 
 const opDeleteSecurityConfiguration = "DeleteSecurityConfiguration"
@@ -327,6 +350,7 @@ const opDeleteSecurityConfiguration = "DeleteSecurityConfiguration"
 type DeleteSecurityConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteSecurityConfigurationInput
+	Copy  func(*DeleteSecurityConfigurationInput) DeleteSecurityConfigurationRequest
 }
 
 // Send marshals and sends the DeleteSecurityConfiguration API request.
@@ -363,8 +387,11 @@ func (c *EMR) DeleteSecurityConfigurationRequest(input *DeleteSecurityConfigurat
 		input = &DeleteSecurityConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSecurityConfigurationOutput{})
-	return DeleteSecurityConfigurationRequest{Request: req, Input: input}
+	output := &DeleteSecurityConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSecurityConfigurationRequest{Request: req, Input: input, Copy: c.DeleteSecurityConfigurationRequest}
 }
 
 const opDescribeCluster = "DescribeCluster"
@@ -373,6 +400,7 @@ const opDescribeCluster = "DescribeCluster"
 type DescribeClusterRequest struct {
 	*aws.Request
 	Input *DescribeClusterInput
+	Copy  func(*DescribeClusterInput) DescribeClusterRequest
 }
 
 // Send marshals and sends the DescribeCluster API request.
@@ -410,8 +438,11 @@ func (c *EMR) DescribeClusterRequest(input *DescribeClusterInput) DescribeCluste
 		input = &DescribeClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterOutput{})
-	return DescribeClusterRequest{Request: req, Input: input}
+	output := &DescribeClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterRequest{Request: req, Input: input, Copy: c.DescribeClusterRequest}
 }
 
 const opDescribeJobFlows = "DescribeJobFlows"
@@ -420,6 +451,7 @@ const opDescribeJobFlows = "DescribeJobFlows"
 type DescribeJobFlowsRequest struct {
 	*aws.Request
 	Input *DescribeJobFlowsInput
+	Copy  func(*DescribeJobFlowsInput) DescribeJobFlowsRequest
 }
 
 // Send marshals and sends the DescribeJobFlows API request.
@@ -478,8 +510,11 @@ func (c *EMR) DescribeJobFlowsRequest(input *DescribeJobFlowsInput) DescribeJobF
 		input = &DescribeJobFlowsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeJobFlowsOutput{})
-	return DescribeJobFlowsRequest{Request: req, Input: input}
+	output := &DescribeJobFlowsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeJobFlowsRequest{Request: req, Input: input, Copy: c.DescribeJobFlowsRequest}
 }
 
 const opDescribeSecurityConfiguration = "DescribeSecurityConfiguration"
@@ -488,6 +523,7 @@ const opDescribeSecurityConfiguration = "DescribeSecurityConfiguration"
 type DescribeSecurityConfigurationRequest struct {
 	*aws.Request
 	Input *DescribeSecurityConfigurationInput
+	Copy  func(*DescribeSecurityConfigurationInput) DescribeSecurityConfigurationRequest
 }
 
 // Send marshals and sends the DescribeSecurityConfiguration API request.
@@ -525,8 +561,11 @@ func (c *EMR) DescribeSecurityConfigurationRequest(input *DescribeSecurityConfig
 		input = &DescribeSecurityConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSecurityConfigurationOutput{})
-	return DescribeSecurityConfigurationRequest{Request: req, Input: input}
+	output := &DescribeSecurityConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSecurityConfigurationRequest{Request: req, Input: input, Copy: c.DescribeSecurityConfigurationRequest}
 }
 
 const opDescribeStep = "DescribeStep"
@@ -535,6 +574,7 @@ const opDescribeStep = "DescribeStep"
 type DescribeStepRequest struct {
 	*aws.Request
 	Input *DescribeStepInput
+	Copy  func(*DescribeStepInput) DescribeStepRequest
 }
 
 // Send marshals and sends the DescribeStep API request.
@@ -571,8 +611,11 @@ func (c *EMR) DescribeStepRequest(input *DescribeStepInput) DescribeStepRequest 
 		input = &DescribeStepInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeStepOutput{})
-	return DescribeStepRequest{Request: req, Input: input}
+	output := &DescribeStepOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeStepRequest{Request: req, Input: input, Copy: c.DescribeStepRequest}
 }
 
 const opListBootstrapActions = "ListBootstrapActions"
@@ -581,6 +624,7 @@ const opListBootstrapActions = "ListBootstrapActions"
 type ListBootstrapActionsRequest struct {
 	*aws.Request
 	Input *ListBootstrapActionsInput
+	Copy  func(*ListBootstrapActionsInput) ListBootstrapActionsRequest
 }
 
 // Send marshals and sends the ListBootstrapActions API request.
@@ -623,58 +667,57 @@ func (c *EMR) ListBootstrapActionsRequest(input *ListBootstrapActionsInput) List
 		input = &ListBootstrapActionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBootstrapActionsOutput{})
-	return ListBootstrapActionsRequest{Request: req, Input: input}
+	output := &ListBootstrapActionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBootstrapActionsRequest{Request: req, Input: input, Copy: c.ListBootstrapActionsRequest}
 }
 
-// ListBootstrapActionsPages iterates over the pages of a ListBootstrapActions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListBootstrapActions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListBootstrapActionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListBootstrapActions operation.
-//    pageNum := 0
-//    err := client.ListBootstrapActionsPages(params,
-//        func(page *ListBootstrapActionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListBootstrapActionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *EMR) ListBootstrapActionsPages(input *ListBootstrapActionsInput, fn func(*ListBootstrapActionsOutput, bool) bool) error {
-	return c.ListBootstrapActionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListBootstrapActionsRequest) Paginate(opts ...aws.Option) ListBootstrapActionsPager {
+	return ListBootstrapActionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListBootstrapActionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListBootstrapActionsPagesWithContext same as ListBootstrapActionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *EMR) ListBootstrapActionsPagesWithContext(ctx aws.Context, input *ListBootstrapActionsInput, fn func(*ListBootstrapActionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListBootstrapActionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListBootstrapActionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListBootstrapActionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListBootstrapActionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListBootstrapActionsPager struct {
+	aws.Pager
+}
+
+func (p *ListBootstrapActionsPager) CurrentPage() *ListBootstrapActionsOutput {
+	return p.Pager.CurrentPage().(*ListBootstrapActionsOutput)
 }
 
 const opListClusters = "ListClusters"
@@ -683,6 +726,7 @@ const opListClusters = "ListClusters"
 type ListClustersRequest struct {
 	*aws.Request
 	Input *ListClustersInput
+	Copy  func(*ListClustersInput) ListClustersRequest
 }
 
 // Send marshals and sends the ListClusters API request.
@@ -729,58 +773,57 @@ func (c *EMR) ListClustersRequest(input *ListClustersInput) ListClustersRequest 
 		input = &ListClustersInput{}
 	}
 
-	req := c.newRequest(op, input, &ListClustersOutput{})
-	return ListClustersRequest{Request: req, Input: input}
+	output := &ListClustersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListClustersRequest{Request: req, Input: input, Copy: c.ListClustersRequest}
 }
 
-// ListClustersPages iterates over the pages of a ListClusters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListClusters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListClustersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListClusters operation.
-//    pageNum := 0
-//    err := client.ListClustersPages(params,
-//        func(page *ListClustersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListClustersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *EMR) ListClustersPages(input *ListClustersInput, fn func(*ListClustersOutput, bool) bool) error {
-	return c.ListClustersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListClustersRequest) Paginate(opts ...aws.Option) ListClustersPager {
+	return ListClustersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListClustersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListClustersPagesWithContext same as ListClustersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *EMR) ListClustersPagesWithContext(ctx aws.Context, input *ListClustersInput, fn func(*ListClustersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListClustersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListClustersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListClustersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListClustersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListClustersPager struct {
+	aws.Pager
+}
+
+func (p *ListClustersPager) CurrentPage() *ListClustersOutput {
+	return p.Pager.CurrentPage().(*ListClustersOutput)
 }
 
 const opListInstanceFleets = "ListInstanceFleets"
@@ -789,6 +832,7 @@ const opListInstanceFleets = "ListInstanceFleets"
 type ListInstanceFleetsRequest struct {
 	*aws.Request
 	Input *ListInstanceFleetsInput
+	Copy  func(*ListInstanceFleetsInput) ListInstanceFleetsRequest
 }
 
 // Send marshals and sends the ListInstanceFleets API request.
@@ -834,58 +878,57 @@ func (c *EMR) ListInstanceFleetsRequest(input *ListInstanceFleetsInput) ListInst
 		input = &ListInstanceFleetsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListInstanceFleetsOutput{})
-	return ListInstanceFleetsRequest{Request: req, Input: input}
+	output := &ListInstanceFleetsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInstanceFleetsRequest{Request: req, Input: input, Copy: c.ListInstanceFleetsRequest}
 }
 
-// ListInstanceFleetsPages iterates over the pages of a ListInstanceFleets operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListInstanceFleets method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListInstanceFleetsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListInstanceFleets operation.
-//    pageNum := 0
-//    err := client.ListInstanceFleetsPages(params,
-//        func(page *ListInstanceFleetsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListInstanceFleetsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *EMR) ListInstanceFleetsPages(input *ListInstanceFleetsInput, fn func(*ListInstanceFleetsOutput, bool) bool) error {
-	return c.ListInstanceFleetsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListInstanceFleetsRequest) Paginate(opts ...aws.Option) ListInstanceFleetsPager {
+	return ListInstanceFleetsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListInstanceFleetsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListInstanceFleetsPagesWithContext same as ListInstanceFleetsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *EMR) ListInstanceFleetsPagesWithContext(ctx aws.Context, input *ListInstanceFleetsInput, fn func(*ListInstanceFleetsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListInstanceFleetsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListInstanceFleetsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListInstanceFleetsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListInstanceFleetsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListInstanceFleetsPager struct {
+	aws.Pager
+}
+
+func (p *ListInstanceFleetsPager) CurrentPage() *ListInstanceFleetsOutput {
+	return p.Pager.CurrentPage().(*ListInstanceFleetsOutput)
 }
 
 const opListInstanceGroups = "ListInstanceGroups"
@@ -894,6 +937,7 @@ const opListInstanceGroups = "ListInstanceGroups"
 type ListInstanceGroupsRequest struct {
 	*aws.Request
 	Input *ListInstanceGroupsInput
+	Copy  func(*ListInstanceGroupsInput) ListInstanceGroupsRequest
 }
 
 // Send marshals and sends the ListInstanceGroups API request.
@@ -936,58 +980,57 @@ func (c *EMR) ListInstanceGroupsRequest(input *ListInstanceGroupsInput) ListInst
 		input = &ListInstanceGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListInstanceGroupsOutput{})
-	return ListInstanceGroupsRequest{Request: req, Input: input}
+	output := &ListInstanceGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInstanceGroupsRequest{Request: req, Input: input, Copy: c.ListInstanceGroupsRequest}
 }
 
-// ListInstanceGroupsPages iterates over the pages of a ListInstanceGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListInstanceGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListInstanceGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListInstanceGroups operation.
-//    pageNum := 0
-//    err := client.ListInstanceGroupsPages(params,
-//        func(page *ListInstanceGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListInstanceGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *EMR) ListInstanceGroupsPages(input *ListInstanceGroupsInput, fn func(*ListInstanceGroupsOutput, bool) bool) error {
-	return c.ListInstanceGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListInstanceGroupsRequest) Paginate(opts ...aws.Option) ListInstanceGroupsPager {
+	return ListInstanceGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListInstanceGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListInstanceGroupsPagesWithContext same as ListInstanceGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *EMR) ListInstanceGroupsPagesWithContext(ctx aws.Context, input *ListInstanceGroupsInput, fn func(*ListInstanceGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListInstanceGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListInstanceGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListInstanceGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListInstanceGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListInstanceGroupsPager struct {
+	aws.Pager
+}
+
+func (p *ListInstanceGroupsPager) CurrentPage() *ListInstanceGroupsOutput {
+	return p.Pager.CurrentPage().(*ListInstanceGroupsOutput)
 }
 
 const opListInstances = "ListInstances"
@@ -996,6 +1039,7 @@ const opListInstances = "ListInstances"
 type ListInstancesRequest struct {
 	*aws.Request
 	Input *ListInstancesInput
+	Copy  func(*ListInstancesInput) ListInstancesRequest
 }
 
 // Send marshals and sends the ListInstances API request.
@@ -1041,58 +1085,57 @@ func (c *EMR) ListInstancesRequest(input *ListInstancesInput) ListInstancesReque
 		input = &ListInstancesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListInstancesOutput{})
-	return ListInstancesRequest{Request: req, Input: input}
+	output := &ListInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInstancesRequest{Request: req, Input: input, Copy: c.ListInstancesRequest}
 }
 
-// ListInstancesPages iterates over the pages of a ListInstances operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListInstances method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListInstancesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListInstances operation.
-//    pageNum := 0
-//    err := client.ListInstancesPages(params,
-//        func(page *ListInstancesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListInstancesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *EMR) ListInstancesPages(input *ListInstancesInput, fn func(*ListInstancesOutput, bool) bool) error {
-	return c.ListInstancesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListInstancesRequest) Paginate(opts ...aws.Option) ListInstancesPager {
+	return ListInstancesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListInstancesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListInstancesPagesWithContext same as ListInstancesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *EMR) ListInstancesPagesWithContext(ctx aws.Context, input *ListInstancesInput, fn func(*ListInstancesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListInstancesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListInstancesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListInstancesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListInstancesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListInstancesPager struct {
+	aws.Pager
+}
+
+func (p *ListInstancesPager) CurrentPage() *ListInstancesOutput {
+	return p.Pager.CurrentPage().(*ListInstancesOutput)
 }
 
 const opListSecurityConfigurations = "ListSecurityConfigurations"
@@ -1101,6 +1144,7 @@ const opListSecurityConfigurations = "ListSecurityConfigurations"
 type ListSecurityConfigurationsRequest struct {
 	*aws.Request
 	Input *ListSecurityConfigurationsInput
+	Copy  func(*ListSecurityConfigurationsInput) ListSecurityConfigurationsRequest
 }
 
 // Send marshals and sends the ListSecurityConfigurations API request.
@@ -1140,8 +1184,11 @@ func (c *EMR) ListSecurityConfigurationsRequest(input *ListSecurityConfiguration
 		input = &ListSecurityConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSecurityConfigurationsOutput{})
-	return ListSecurityConfigurationsRequest{Request: req, Input: input}
+	output := &ListSecurityConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSecurityConfigurationsRequest{Request: req, Input: input, Copy: c.ListSecurityConfigurationsRequest}
 }
 
 const opListSteps = "ListSteps"
@@ -1150,6 +1197,7 @@ const opListSteps = "ListSteps"
 type ListStepsRequest struct {
 	*aws.Request
 	Input *ListStepsInput
+	Copy  func(*ListStepsInput) ListStepsRequest
 }
 
 // Send marshals and sends the ListSteps API request.
@@ -1193,58 +1241,57 @@ func (c *EMR) ListStepsRequest(input *ListStepsInput) ListStepsRequest {
 		input = &ListStepsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListStepsOutput{})
-	return ListStepsRequest{Request: req, Input: input}
+	output := &ListStepsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListStepsRequest{Request: req, Input: input, Copy: c.ListStepsRequest}
 }
 
-// ListStepsPages iterates over the pages of a ListSteps operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSteps method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListStepsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSteps operation.
-//    pageNum := 0
-//    err := client.ListStepsPages(params,
-//        func(page *ListStepsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListStepsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *EMR) ListStepsPages(input *ListStepsInput, fn func(*ListStepsOutput, bool) bool) error {
-	return c.ListStepsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListStepsRequest) Paginate(opts ...aws.Option) ListStepsPager {
+	return ListStepsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListStepsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListStepsPagesWithContext same as ListStepsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *EMR) ListStepsPagesWithContext(ctx aws.Context, input *ListStepsInput, fn func(*ListStepsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListStepsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListStepsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListStepsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListStepsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListStepsPager struct {
+	aws.Pager
+}
+
+func (p *ListStepsPager) CurrentPage() *ListStepsOutput {
+	return p.Pager.CurrentPage().(*ListStepsOutput)
 }
 
 const opModifyInstanceFleet = "ModifyInstanceFleet"
@@ -1253,6 +1300,7 @@ const opModifyInstanceFleet = "ModifyInstanceFleet"
 type ModifyInstanceFleetRequest struct {
 	*aws.Request
 	Input *ModifyInstanceFleetInput
+	Copy  func(*ModifyInstanceFleetInput) ModifyInstanceFleetRequest
 }
 
 // Send marshals and sends the ModifyInstanceFleet API request.
@@ -1294,10 +1342,13 @@ func (c *EMR) ModifyInstanceFleetRequest(input *ModifyInstanceFleetInput) Modify
 		input = &ModifyInstanceFleetInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyInstanceFleetOutput{})
+	output := &ModifyInstanceFleetOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return ModifyInstanceFleetRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyInstanceFleetRequest{Request: req, Input: input, Copy: c.ModifyInstanceFleetRequest}
 }
 
 const opModifyInstanceGroups = "ModifyInstanceGroups"
@@ -1306,6 +1357,7 @@ const opModifyInstanceGroups = "ModifyInstanceGroups"
 type ModifyInstanceGroupsRequest struct {
 	*aws.Request
 	Input *ModifyInstanceGroupsInput
+	Copy  func(*ModifyInstanceGroupsInput) ModifyInstanceGroupsRequest
 }
 
 // Send marshals and sends the ModifyInstanceGroups API request.
@@ -1345,10 +1397,13 @@ func (c *EMR) ModifyInstanceGroupsRequest(input *ModifyInstanceGroupsInput) Modi
 		input = &ModifyInstanceGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyInstanceGroupsOutput{})
+	output := &ModifyInstanceGroupsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return ModifyInstanceGroupsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyInstanceGroupsRequest{Request: req, Input: input, Copy: c.ModifyInstanceGroupsRequest}
 }
 
 const opPutAutoScalingPolicy = "PutAutoScalingPolicy"
@@ -1357,6 +1412,7 @@ const opPutAutoScalingPolicy = "PutAutoScalingPolicy"
 type PutAutoScalingPolicyRequest struct {
 	*aws.Request
 	Input *PutAutoScalingPolicyInput
+	Copy  func(*PutAutoScalingPolicyInput) PutAutoScalingPolicyRequest
 }
 
 // Send marshals and sends the PutAutoScalingPolicy API request.
@@ -1396,8 +1452,11 @@ func (c *EMR) PutAutoScalingPolicyRequest(input *PutAutoScalingPolicyInput) PutA
 		input = &PutAutoScalingPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutAutoScalingPolicyOutput{})
-	return PutAutoScalingPolicyRequest{Request: req, Input: input}
+	output := &PutAutoScalingPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutAutoScalingPolicyRequest{Request: req, Input: input, Copy: c.PutAutoScalingPolicyRequest}
 }
 
 const opRemoveAutoScalingPolicy = "RemoveAutoScalingPolicy"
@@ -1406,6 +1465,7 @@ const opRemoveAutoScalingPolicy = "RemoveAutoScalingPolicy"
 type RemoveAutoScalingPolicyRequest struct {
 	*aws.Request
 	Input *RemoveAutoScalingPolicyInput
+	Copy  func(*RemoveAutoScalingPolicyInput) RemoveAutoScalingPolicyRequest
 }
 
 // Send marshals and sends the RemoveAutoScalingPolicy API request.
@@ -1443,8 +1503,11 @@ func (c *EMR) RemoveAutoScalingPolicyRequest(input *RemoveAutoScalingPolicyInput
 		input = &RemoveAutoScalingPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveAutoScalingPolicyOutput{})
-	return RemoveAutoScalingPolicyRequest{Request: req, Input: input}
+	output := &RemoveAutoScalingPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveAutoScalingPolicyRequest{Request: req, Input: input, Copy: c.RemoveAutoScalingPolicyRequest}
 }
 
 const opRemoveTags = "RemoveTags"
@@ -1453,6 +1516,7 @@ const opRemoveTags = "RemoveTags"
 type RemoveTagsRequest struct {
 	*aws.Request
 	Input *RemoveTagsInput
+	Copy  func(*RemoveTagsInput) RemoveTagsRequest
 }
 
 // Send marshals and sends the RemoveTags API request.
@@ -1470,8 +1534,7 @@ func (r RemoveTagsRequest) Send() (*RemoveTagsOutput, error) {
 //
 // Removes tags from an Amazon EMR resource. Tags make it easier to associate
 // clusters in various ways, such as grouping clusters to track your Amazon
-// EMR resource allocation costs. For more information, see Tagging Amazon EMR
-// Resources (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-plan-tags.html).
+// EMR resource allocation costs. For more information, see Tag Clusters (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html).
 //
 // The following example removes the stack tag with value Prod from a cluster:
 //
@@ -1494,8 +1557,11 @@ func (c *EMR) RemoveTagsRequest(input *RemoveTagsInput) RemoveTagsRequest {
 		input = &RemoveTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsOutput{})
-	return RemoveTagsRequest{Request: req, Input: input}
+	output := &RemoveTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsRequest{Request: req, Input: input, Copy: c.RemoveTagsRequest}
 }
 
 const opRunJobFlow = "RunJobFlow"
@@ -1504,6 +1570,7 @@ const opRunJobFlow = "RunJobFlow"
 type RunJobFlowRequest struct {
 	*aws.Request
 	Input *RunJobFlowInput
+	Copy  func(*RunJobFlowInput) RunJobFlowRequest
 }
 
 // Send marshals and sends the RunJobFlow API request.
@@ -1537,7 +1604,7 @@ func (r RunJobFlowRequest) Send() (*RunJobFlowOutput, error) {
 // the 256-step limitation in various ways, including using the SSH shell to
 // connect to the master node and submitting queries directly to the software
 // running on the master node, such as Hive and Hadoop. For more information
-// on how to do this, see Add More than 256 Steps to a Cluster (http://docs.aws.amazon.com/ElasticMapReduce/latest/Management/Guide/AddMoreThan256Steps.html)
+// on how to do this, see Add More than 256 Steps to a Cluster (http://docs.aws.amazon.com/emr/latest/ManagementGuide/AddMoreThan256Steps.html)
 // in the Amazon EMR Management Guide.
 //
 // For long running clusters, we recommend that you periodically store your
@@ -1566,8 +1633,11 @@ func (c *EMR) RunJobFlowRequest(input *RunJobFlowInput) RunJobFlowRequest {
 		input = &RunJobFlowInput{}
 	}
 
-	req := c.newRequest(op, input, &RunJobFlowOutput{})
-	return RunJobFlowRequest{Request: req, Input: input}
+	output := &RunJobFlowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RunJobFlowRequest{Request: req, Input: input, Copy: c.RunJobFlowRequest}
 }
 
 const opSetTerminationProtection = "SetTerminationProtection"
@@ -1576,6 +1646,7 @@ const opSetTerminationProtection = "SetTerminationProtection"
 type SetTerminationProtectionRequest struct {
 	*aws.Request
 	Input *SetTerminationProtectionInput
+	Copy  func(*SetTerminationProtectionInput) SetTerminationProtectionRequest
 }
 
 // Send marshals and sends the SetTerminationProtection API request.
@@ -1628,10 +1699,13 @@ func (c *EMR) SetTerminationProtectionRequest(input *SetTerminationProtectionInp
 		input = &SetTerminationProtectionInput{}
 	}
 
-	req := c.newRequest(op, input, &SetTerminationProtectionOutput{})
+	output := &SetTerminationProtectionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetTerminationProtectionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetTerminationProtectionRequest{Request: req, Input: input, Copy: c.SetTerminationProtectionRequest}
 }
 
 const opSetVisibleToAllUsers = "SetVisibleToAllUsers"
@@ -1640,6 +1714,7 @@ const opSetVisibleToAllUsers = "SetVisibleToAllUsers"
 type SetVisibleToAllUsersRequest struct {
 	*aws.Request
 	Input *SetVisibleToAllUsersInput
+	Copy  func(*SetVisibleToAllUsersInput) SetVisibleToAllUsersRequest
 }
 
 // Send marshals and sends the SetVisibleToAllUsers API request.
@@ -1681,10 +1756,13 @@ func (c *EMR) SetVisibleToAllUsersRequest(input *SetVisibleToAllUsersInput) SetV
 		input = &SetVisibleToAllUsersInput{}
 	}
 
-	req := c.newRequest(op, input, &SetVisibleToAllUsersOutput{})
+	output := &SetVisibleToAllUsersOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetVisibleToAllUsersRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetVisibleToAllUsersRequest{Request: req, Input: input, Copy: c.SetVisibleToAllUsersRequest}
 }
 
 const opTerminateJobFlows = "TerminateJobFlows"
@@ -1693,6 +1771,7 @@ const opTerminateJobFlows = "TerminateJobFlows"
 type TerminateJobFlowsRequest struct {
 	*aws.Request
 	Input *TerminateJobFlowsInput
+	Copy  func(*TerminateJobFlowsInput) TerminateJobFlowsRequest
 }
 
 // Send marshals and sends the TerminateJobFlows API request.
@@ -1738,10 +1817,13 @@ func (c *EMR) TerminateJobFlowsRequest(input *TerminateJobFlowsInput) TerminateJ
 		input = &TerminateJobFlowsInput{}
 	}
 
-	req := c.newRequest(op, input, &TerminateJobFlowsOutput{})
+	output := &TerminateJobFlowsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return TerminateJobFlowsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TerminateJobFlowsRequest{Request: req, Input: input, Copy: c.TerminateJobFlowsRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddInstanceFleetInput
@@ -1792,21 +1874,11 @@ func (s *AddInstanceFleetInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *AddInstanceFleetInput) SetClusterId(v string) *AddInstanceFleetInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceFleet sets the InstanceFleet field's value.
-func (s *AddInstanceFleetInput) SetInstanceFleet(v *InstanceFleetConfig) *AddInstanceFleetInput {
-	s.InstanceFleet = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddInstanceFleetOutput
 type AddInstanceFleetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique identifier of the cluster.
 	ClusterId *string `type:"string"`
@@ -1825,16 +1897,9 @@ func (s AddInstanceFleetOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *AddInstanceFleetOutput) SetClusterId(v string) *AddInstanceFleetOutput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceFleetId sets the InstanceFleetId field's value.
-func (s *AddInstanceFleetOutput) SetInstanceFleetId(v string) *AddInstanceFleetOutput {
-	s.InstanceFleetId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddInstanceFleetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input to an AddInstanceGroups call.
@@ -1845,7 +1910,7 @@ type AddInstanceGroupsInput struct {
 	// Instance groups to add.
 	//
 	// InstanceGroups is a required field
-	InstanceGroups []*InstanceGroupConfig `type:"list" required:"true"`
+	InstanceGroups []InstanceGroupConfig `type:"list" required:"true"`
 
 	// Job flow in which to add the instance groups.
 	//
@@ -1876,9 +1941,6 @@ func (s *AddInstanceGroupsInput) Validate() error {
 	}
 	if s.InstanceGroups != nil {
 		for i, v := range s.InstanceGroups {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InstanceGroups", i), err.(aws.ErrInvalidParams))
 			}
@@ -1891,25 +1953,15 @@ func (s *AddInstanceGroupsInput) Validate() error {
 	return nil
 }
 
-// SetInstanceGroups sets the InstanceGroups field's value.
-func (s *AddInstanceGroupsInput) SetInstanceGroups(v []*InstanceGroupConfig) *AddInstanceGroupsInput {
-	s.InstanceGroups = v
-	return s
-}
-
-// SetJobFlowId sets the JobFlowId field's value.
-func (s *AddInstanceGroupsInput) SetJobFlowId(v string) *AddInstanceGroupsInput {
-	s.JobFlowId = &v
-	return s
-}
-
 // Output from an AddInstanceGroups call.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddInstanceGroupsOutput
 type AddInstanceGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Instance group IDs of the newly created instance groups.
-	InstanceGroupIds []*string `type:"list"`
+	InstanceGroupIds []string `type:"list"`
 
 	// The job flow ID in which the instance groups are added.
 	JobFlowId *string `type:"string"`
@@ -1925,16 +1977,9 @@ func (s AddInstanceGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceGroupIds sets the InstanceGroupIds field's value.
-func (s *AddInstanceGroupsOutput) SetInstanceGroupIds(v []*string) *AddInstanceGroupsOutput {
-	s.InstanceGroupIds = v
-	return s
-}
-
-// SetJobFlowId sets the JobFlowId field's value.
-func (s *AddInstanceGroupsOutput) SetJobFlowId(v string) *AddInstanceGroupsOutput {
-	s.JobFlowId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddInstanceGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The input argument to the AddJobFlowSteps operation.
@@ -1951,7 +1996,7 @@ type AddJobFlowStepsInput struct {
 	// A list of StepConfig to be executed by the job flow.
 	//
 	// Steps is a required field
-	Steps []*StepConfig `type:"list" required:"true"`
+	Steps []StepConfig `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1977,9 +2022,6 @@ func (s *AddJobFlowStepsInput) Validate() error {
 	}
 	if s.Steps != nil {
 		for i, v := range s.Steps {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Steps", i), err.(aws.ErrInvalidParams))
 			}
@@ -1992,25 +2034,15 @@ func (s *AddJobFlowStepsInput) Validate() error {
 	return nil
 }
 
-// SetJobFlowId sets the JobFlowId field's value.
-func (s *AddJobFlowStepsInput) SetJobFlowId(v string) *AddJobFlowStepsInput {
-	s.JobFlowId = &v
-	return s
-}
-
-// SetSteps sets the Steps field's value.
-func (s *AddJobFlowStepsInput) SetSteps(v []*StepConfig) *AddJobFlowStepsInput {
-	s.Steps = v
-	return s
-}
-
 // The output for the AddJobFlowSteps operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddJobFlowStepsOutput
 type AddJobFlowStepsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The identifiers of the list of steps added to the job flow.
-	StepIds []*string `type:"list"`
+	StepIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2023,10 +2055,9 @@ func (s AddJobFlowStepsOutput) GoString() string {
 	return s.String()
 }
 
-// SetStepIds sets the StepIds field's value.
-func (s *AddJobFlowStepsOutput) SetStepIds(v []*string) *AddJobFlowStepsOutput {
-	s.StepIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddJobFlowStepsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input identifies a cluster and a list of tags to attach.
@@ -2046,7 +2077,7 @@ type AddTagsInput struct {
 	// of 256 characters.
 	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2077,22 +2108,12 @@ func (s *AddTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddTagsInput) SetResourceId(v string) *AddTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AddTagsInput) SetTags(v []*Tag) *AddTagsInput {
-	s.Tags = v
-	return s
-}
-
 // This output indicates the result of adding tags to a resource.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AddTagsOutput
 type AddTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2105,12 +2126,17 @@ func (s AddTagsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // An application is any Amazon or third-party software that you can add to
 // the cluster. This structure contains a list of strings that indicates the
 // software to use with the cluster and accepts a user argument list. Amazon
 // EMR accepts and forwards the argument list to the corresponding installation
 // script as bootstrap action argument. For more information, see Using the
-// MapR Distribution for Hadoop (http://docs.aws.amazon.com/ElasticMapReduce/latest/ManagementGuide/emr-mapr.html).
+// MapR Distribution for Hadoop (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-mapr.html).
 // Currently supported values are:
 //
 //    * "mapr-m3" - launch the cluster using MapR M3 Edition.
@@ -2129,10 +2155,10 @@ type Application struct {
 
 	// This option is for advanced users only. This is meta information about third-party
 	// applications that third-party vendors use for testing purposes.
-	AdditionalInfo map[string]*string `type:"map"`
+	AdditionalInfo map[string]string `type:"map"`
 
 	// Arguments for Amazon EMR to pass to the application.
-	Args []*string `type:"list"`
+	Args []string `type:"list"`
 
 	// The name of the application.
 	Name *string `type:"string"`
@@ -2149,30 +2175,6 @@ func (s Application) String() string {
 // GoString returns the string representation
 func (s Application) GoString() string {
 	return s.String()
-}
-
-// SetAdditionalInfo sets the AdditionalInfo field's value.
-func (s *Application) SetAdditionalInfo(v map[string]*string) *Application {
-	s.AdditionalInfo = v
-	return s
-}
-
-// SetArgs sets the Args field's value.
-func (s *Application) SetArgs(v []*string) *Application {
-	s.Args = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Application) SetName(v string) *Application {
-	s.Name = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *Application) SetVersion(v string) *Application {
-	s.Version = &v
-	return s
 }
 
 // An automatic scaling policy for a core instance group or task instance group
@@ -2193,7 +2195,7 @@ type AutoScalingPolicy struct {
 	// The scale-in and scale-out rules that comprise the automatic scaling policy.
 	//
 	// Rules is a required field
-	Rules []*ScalingRule `type:"list" required:"true"`
+	Rules []ScalingRule `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2224,9 +2226,6 @@ func (s *AutoScalingPolicy) Validate() error {
 	}
 	if s.Rules != nil {
 		for i, v := range s.Rules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Rules", i), err.(aws.ErrInvalidParams))
 			}
@@ -2237,18 +2236,6 @@ func (s *AutoScalingPolicy) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetConstraints sets the Constraints field's value.
-func (s *AutoScalingPolicy) SetConstraints(v *ScalingConstraints) *AutoScalingPolicy {
-	s.Constraints = v
-	return s
-}
-
-// SetRules sets the Rules field's value.
-func (s *AutoScalingPolicy) SetRules(v []*ScalingRule) *AutoScalingPolicy {
-	s.Rules = v
-	return s
 }
 
 // An automatic scaling policy for a core instance group or task instance group
@@ -2265,7 +2252,7 @@ type AutoScalingPolicyDescription struct {
 	Constraints *ScalingConstraints `type:"structure"`
 
 	// The scale-in and scale-out rules that comprise the automatic scaling policy.
-	Rules []*ScalingRule `type:"list"`
+	Rules []ScalingRule `type:"list"`
 
 	// The status of an automatic scaling policy.
 	Status *AutoScalingPolicyStatus `type:"structure"`
@@ -2281,24 +2268,6 @@ func (s AutoScalingPolicyDescription) GoString() string {
 	return s.String()
 }
 
-// SetConstraints sets the Constraints field's value.
-func (s *AutoScalingPolicyDescription) SetConstraints(v *ScalingConstraints) *AutoScalingPolicyDescription {
-	s.Constraints = v
-	return s
-}
-
-// SetRules sets the Rules field's value.
-func (s *AutoScalingPolicyDescription) SetRules(v []*ScalingRule) *AutoScalingPolicyDescription {
-	s.Rules = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AutoScalingPolicyDescription) SetStatus(v *AutoScalingPolicyStatus) *AutoScalingPolicyDescription {
-	s.Status = v
-	return s
-}
-
 // The reason for an AutoScalingPolicyStatus change.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AutoScalingPolicyStateChangeReason
 type AutoScalingPolicyStateChangeReason struct {
@@ -2308,7 +2277,7 @@ type AutoScalingPolicyStateChangeReason struct {
 	// that the scaling policy status was changed by a user. PROVISION_FAILURE indicates
 	// that the status change was because the policy failed to provision. CLEANUP_FAILURE
 	// indicates an error.
-	Code AutoScalingPolicyStateChangeReasonCode `type:"string"`
+	Code AutoScalingPolicyStateChangeReasonCode `type:"string" enum:"true"`
 
 	// A friendly, more verbose message that accompanies an automatic scaling policy
 	// state change.
@@ -2325,25 +2294,13 @@ func (s AutoScalingPolicyStateChangeReason) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *AutoScalingPolicyStateChangeReason) SetCode(v AutoScalingPolicyStateChangeReasonCode) *AutoScalingPolicyStateChangeReason {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *AutoScalingPolicyStateChangeReason) SetMessage(v string) *AutoScalingPolicyStateChangeReason {
-	s.Message = &v
-	return s
-}
-
 // The status of an automatic scaling policy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/AutoScalingPolicyStatus
 type AutoScalingPolicyStatus struct {
 	_ struct{} `type:"structure"`
 
 	// Indicates the status of the automatic scaling policy.
-	State AutoScalingPolicyState `type:"string"`
+	State AutoScalingPolicyState `type:"string" enum:"true"`
 
 	// The reason for a change in status.
 	StateChangeReason *AutoScalingPolicyStateChangeReason `type:"structure"`
@@ -2357,18 +2314,6 @@ func (s AutoScalingPolicyStatus) String() string {
 // GoString returns the string representation
 func (s AutoScalingPolicyStatus) GoString() string {
 	return s.String()
-}
-
-// SetState sets the State field's value.
-func (s *AutoScalingPolicyStatus) SetState(v AutoScalingPolicyState) *AutoScalingPolicyStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *AutoScalingPolicyStatus) SetStateChangeReason(v *AutoScalingPolicyStateChangeReason) *AutoScalingPolicyStatus {
-	s.StateChangeReason = v
-	return s
 }
 
 // Configuration of a bootstrap action.
@@ -2420,18 +2365,6 @@ func (s *BootstrapActionConfig) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *BootstrapActionConfig) SetName(v string) *BootstrapActionConfig {
-	s.Name = &v
-	return s
-}
-
-// SetScriptBootstrapAction sets the ScriptBootstrapAction field's value.
-func (s *BootstrapActionConfig) SetScriptBootstrapAction(v *ScriptBootstrapActionConfig) *BootstrapActionConfig {
-	s.ScriptBootstrapAction = v
-	return s
-}
-
 // Reports the configuration of a bootstrap action in a cluster (job flow).
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/BootstrapActionDetail
 type BootstrapActionDetail struct {
@@ -2451,12 +2384,6 @@ func (s BootstrapActionDetail) GoString() string {
 	return s.String()
 }
 
-// SetBootstrapActionConfig sets the BootstrapActionConfig field's value.
-func (s *BootstrapActionDetail) SetBootstrapActionConfig(v *BootstrapActionConfig) *BootstrapActionDetail {
-	s.BootstrapActionConfig = v
-	return s
-}
-
 // Specification of the status of a CancelSteps request. Available only in Amazon
 // EMR version 4.8.0 and later, excluding version 5.0.0.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/CancelStepsInfo
@@ -2467,7 +2394,7 @@ type CancelStepsInfo struct {
 	Reason *string `type:"string"`
 
 	// The status of a CancelSteps Request. The value may be SUBMITTED or FAILED.
-	Status CancelStepsRequestStatus `type:"string"`
+	Status CancelStepsRequestStatus `type:"string" enum:"true"`
 
 	// The encrypted StepId of a step.
 	StepId *string `type:"string"`
@@ -2483,24 +2410,6 @@ func (s CancelStepsInfo) GoString() string {
 	return s.String()
 }
 
-// SetReason sets the Reason field's value.
-func (s *CancelStepsInfo) SetReason(v string) *CancelStepsInfo {
-	s.Reason = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *CancelStepsInfo) SetStatus(v CancelStepsRequestStatus) *CancelStepsInfo {
-	s.Status = v
-	return s
-}
-
-// SetStepId sets the StepId field's value.
-func (s *CancelStepsInfo) SetStepId(v string) *CancelStepsInfo {
-	s.StepId = &v
-	return s
-}
-
 // The input argument to the CancelSteps operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/CancelStepsInput
 type CancelStepsInput struct {
@@ -2512,7 +2421,7 @@ type CancelStepsInput struct {
 
 	// The list of StepIDs to cancel. Use ListSteps to get steps and their states
 	// for the specified cluster.
-	StepIds []*string `type:"list"`
+	StepIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2525,26 +2434,16 @@ func (s CancelStepsInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *CancelStepsInput) SetClusterId(v string) *CancelStepsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetStepIds sets the StepIds field's value.
-func (s *CancelStepsInput) SetStepIds(v []*string) *CancelStepsInput {
-	s.StepIds = v
-	return s
-}
-
 // The output for the CancelSteps operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/CancelStepsOutput
 type CancelStepsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of CancelStepsInfo, which shows the status of specified cancel requests
 	// for each StepID specified.
-	CancelStepsInfoList []*CancelStepsInfo `type:"list"`
+	CancelStepsInfoList []CancelStepsInfo `type:"list"`
 }
 
 // String returns the string representation
@@ -2557,10 +2456,9 @@ func (s CancelStepsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCancelStepsInfoList sets the CancelStepsInfoList field's value.
-func (s *CancelStepsOutput) SetCancelStepsInfoList(v []*CancelStepsInfo) *CancelStepsOutput {
-	s.CancelStepsInfoList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelStepsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The definition of a CloudWatch metric alarm, which determines when an automatic
@@ -2574,10 +2472,10 @@ type CloudWatchAlarmDefinition struct {
 	// specified by Threshold.
 	//
 	// ComparisonOperator is a required field
-	ComparisonOperator ComparisonOperator `type:"string" required:"true"`
+	ComparisonOperator ComparisonOperator `type:"string" required:"true" enum:"true"`
 
 	// A CloudWatch metric dimension.
-	Dimensions []*MetricDimension `type:"list"`
+	Dimensions []MetricDimension `type:"list"`
 
 	// The number of periods, expressed in seconds using Period, during which the
 	// alarm condition must exist before the alarm triggers automatic scaling activity.
@@ -2601,7 +2499,7 @@ type CloudWatchAlarmDefinition struct {
 
 	// The statistic to apply to the metric associated with the alarm. The default
 	// is AVERAGE.
-	Statistic Statistic `type:"string"`
+	Statistic Statistic `type:"string" enum:"true"`
 
 	// The value against which the specified statistic is compared.
 	//
@@ -2611,7 +2509,7 @@ type CloudWatchAlarmDefinition struct {
 	// The unit of measure associated with the CloudWatch metric being watched.
 	// The value specified for Unit must correspond to the units specified in the
 	// CloudWatch metric.
-	Unit Unit `type:"string"`
+	Unit Unit `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2649,67 +2547,13 @@ func (s *CloudWatchAlarmDefinition) Validate() error {
 	return nil
 }
 
-// SetComparisonOperator sets the ComparisonOperator field's value.
-func (s *CloudWatchAlarmDefinition) SetComparisonOperator(v ComparisonOperator) *CloudWatchAlarmDefinition {
-	s.ComparisonOperator = v
-	return s
-}
-
-// SetDimensions sets the Dimensions field's value.
-func (s *CloudWatchAlarmDefinition) SetDimensions(v []*MetricDimension) *CloudWatchAlarmDefinition {
-	s.Dimensions = v
-	return s
-}
-
-// SetEvaluationPeriods sets the EvaluationPeriods field's value.
-func (s *CloudWatchAlarmDefinition) SetEvaluationPeriods(v int64) *CloudWatchAlarmDefinition {
-	s.EvaluationPeriods = &v
-	return s
-}
-
-// SetMetricName sets the MetricName field's value.
-func (s *CloudWatchAlarmDefinition) SetMetricName(v string) *CloudWatchAlarmDefinition {
-	s.MetricName = &v
-	return s
-}
-
-// SetNamespace sets the Namespace field's value.
-func (s *CloudWatchAlarmDefinition) SetNamespace(v string) *CloudWatchAlarmDefinition {
-	s.Namespace = &v
-	return s
-}
-
-// SetPeriod sets the Period field's value.
-func (s *CloudWatchAlarmDefinition) SetPeriod(v int64) *CloudWatchAlarmDefinition {
-	s.Period = &v
-	return s
-}
-
-// SetStatistic sets the Statistic field's value.
-func (s *CloudWatchAlarmDefinition) SetStatistic(v Statistic) *CloudWatchAlarmDefinition {
-	s.Statistic = v
-	return s
-}
-
-// SetThreshold sets the Threshold field's value.
-func (s *CloudWatchAlarmDefinition) SetThreshold(v float64) *CloudWatchAlarmDefinition {
-	s.Threshold = &v
-	return s
-}
-
-// SetUnit sets the Unit field's value.
-func (s *CloudWatchAlarmDefinition) SetUnit(v Unit) *CloudWatchAlarmDefinition {
-	s.Unit = v
-	return s
-}
-
 // The detailed description of the cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Cluster
 type Cluster struct {
 	_ struct{} `type:"structure"`
 
 	// The applications installed on this cluster.
-	Applications []*Application `type:"list"`
+	Applications []Application `type:"list"`
 
 	// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole.
 	// The IAM role provides permissions that the automatic scaling feature requires
@@ -2721,7 +2565,7 @@ type Cluster struct {
 
 	// Applies only to Amazon EMR releases 4.x and later. The list of Configurations
 	// supplied to the EMR cluster.
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
 	// Amazon EBS-backed Linux AMI if the cluster uses a custom AMI.
@@ -2744,12 +2588,19 @@ type Cluster struct {
 	// The instance group configuration of the cluster. A value of INSTANCE_GROUP
 	// indicates a uniform instance group configuration. A value of INSTANCE_FLEET
 	// indicates an instance fleets configuration.
-	InstanceCollectionType InstanceCollectionType `type:"string"`
+	InstanceCollectionType InstanceCollectionType `type:"string" enum:"true"`
+
+	// Attributes for Kerberos configuration when Kerberos authentication is enabled
+	// using a security configuration. For more information see Use Kerberos Authentication
+	// (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html)
+	// in the EMR Management Guide.
+	KerberosAttributes *KerberosAttributes `type:"structure"`
 
 	// The path to the Amazon S3 location where logs for this cluster are stored.
 	LogUri *string `type:"string"`
 
-	// The public DNS name of the master EC2 instance.
+	// The DNS name of the master node. If the cluster is on a private subnet, this
+	// is the private DNS name. On a public subnet, this is the public DNS name.
 	MasterPublicDnsName *string `type:"string"`
 
 	// The name of the cluster.
@@ -2769,7 +2620,7 @@ type Cluster struct {
 	// Applies only when CustomAmiID is used. Specifies the type of updates that
 	// are applied from the Amazon Linux AMI package repositories when an instance
 	// boots using the AMI.
-	RepoUpgradeOnBoot RepoUpgradeOnBoot `type:"string"`
+	RepoUpgradeOnBoot RepoUpgradeOnBoot `type:"string" enum:"true"`
 
 	// The AMI version requested for this cluster.
 	RequestedAmiVersion *string `type:"string"`
@@ -2789,7 +2640,7 @@ type Cluster struct {
 	// instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION
 	// is available only in Amazon EMR version 4.1.0 and later, and is the default
 	// for versions of Amazon EMR earlier than 5.1.0.
-	ScaleDownBehavior ScaleDownBehavior `type:"string"`
+	ScaleDownBehavior ScaleDownBehavior `type:"string" enum:"true"`
 
 	// The name of the security configuration applied to the cluster.
 	SecurityConfiguration *string `type:"string"`
@@ -2802,7 +2653,7 @@ type Cluster struct {
 	Status *ClusterStatus `type:"structure"`
 
 	// A list of tags associated with a cluster.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 
 	// Indicates whether Amazon EMR will lock the cluster to prevent the EC2 instances
 	// from being terminated by an API call or user intervention, or in the event
@@ -2828,157 +2679,13 @@ func (s Cluster) GoString() string {
 	return s.String()
 }
 
-// SetApplications sets the Applications field's value.
-func (s *Cluster) SetApplications(v []*Application) *Cluster {
-	s.Applications = v
-	return s
-}
-
-// SetAutoScalingRole sets the AutoScalingRole field's value.
-func (s *Cluster) SetAutoScalingRole(v string) *Cluster {
-	s.AutoScalingRole = &v
-	return s
-}
-
-// SetAutoTerminate sets the AutoTerminate field's value.
-func (s *Cluster) SetAutoTerminate(v bool) *Cluster {
-	s.AutoTerminate = &v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *Cluster) SetConfigurations(v []*Configuration) *Cluster {
-	s.Configurations = v
-	return s
-}
-
-// SetCustomAmiId sets the CustomAmiId field's value.
-func (s *Cluster) SetCustomAmiId(v string) *Cluster {
-	s.CustomAmiId = &v
-	return s
-}
-
-// SetEbsRootVolumeSize sets the EbsRootVolumeSize field's value.
-func (s *Cluster) SetEbsRootVolumeSize(v int64) *Cluster {
-	s.EbsRootVolumeSize = &v
-	return s
-}
-
-// SetEc2InstanceAttributes sets the Ec2InstanceAttributes field's value.
-func (s *Cluster) SetEc2InstanceAttributes(v *Ec2InstanceAttributes) *Cluster {
-	s.Ec2InstanceAttributes = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Cluster) SetId(v string) *Cluster {
-	s.Id = &v
-	return s
-}
-
-// SetInstanceCollectionType sets the InstanceCollectionType field's value.
-func (s *Cluster) SetInstanceCollectionType(v InstanceCollectionType) *Cluster {
-	s.InstanceCollectionType = v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *Cluster) SetLogUri(v string) *Cluster {
-	s.LogUri = &v
-	return s
-}
-
-// SetMasterPublicDnsName sets the MasterPublicDnsName field's value.
-func (s *Cluster) SetMasterPublicDnsName(v string) *Cluster {
-	s.MasterPublicDnsName = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Cluster) SetName(v string) *Cluster {
-	s.Name = &v
-	return s
-}
-
-// SetNormalizedInstanceHours sets the NormalizedInstanceHours field's value.
-func (s *Cluster) SetNormalizedInstanceHours(v int64) *Cluster {
-	s.NormalizedInstanceHours = &v
-	return s
-}
-
-// SetReleaseLabel sets the ReleaseLabel field's value.
-func (s *Cluster) SetReleaseLabel(v string) *Cluster {
-	s.ReleaseLabel = &v
-	return s
-}
-
-// SetRepoUpgradeOnBoot sets the RepoUpgradeOnBoot field's value.
-func (s *Cluster) SetRepoUpgradeOnBoot(v RepoUpgradeOnBoot) *Cluster {
-	s.RepoUpgradeOnBoot = v
-	return s
-}
-
-// SetRequestedAmiVersion sets the RequestedAmiVersion field's value.
-func (s *Cluster) SetRequestedAmiVersion(v string) *Cluster {
-	s.RequestedAmiVersion = &v
-	return s
-}
-
-// SetRunningAmiVersion sets the RunningAmiVersion field's value.
-func (s *Cluster) SetRunningAmiVersion(v string) *Cluster {
-	s.RunningAmiVersion = &v
-	return s
-}
-
-// SetScaleDownBehavior sets the ScaleDownBehavior field's value.
-func (s *Cluster) SetScaleDownBehavior(v ScaleDownBehavior) *Cluster {
-	s.ScaleDownBehavior = v
-	return s
-}
-
-// SetSecurityConfiguration sets the SecurityConfiguration field's value.
-func (s *Cluster) SetSecurityConfiguration(v string) *Cluster {
-	s.SecurityConfiguration = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *Cluster) SetServiceRole(v string) *Cluster {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Cluster) SetStatus(v *ClusterStatus) *Cluster {
-	s.Status = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *Cluster) SetTags(v []*Tag) *Cluster {
-	s.Tags = v
-	return s
-}
-
-// SetTerminationProtected sets the TerminationProtected field's value.
-func (s *Cluster) SetTerminationProtected(v bool) *Cluster {
-	s.TerminationProtected = &v
-	return s
-}
-
-// SetVisibleToAllUsers sets the VisibleToAllUsers field's value.
-func (s *Cluster) SetVisibleToAllUsers(v bool) *Cluster {
-	s.VisibleToAllUsers = &v
-	return s
-}
-
 // The reason that the cluster changed to its current state.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ClusterStateChangeReason
 type ClusterStateChangeReason struct {
 	_ struct{} `type:"structure"`
 
 	// The programmatic code for the state change reason.
-	Code ClusterStateChangeReasonCode `type:"string"`
+	Code ClusterStateChangeReasonCode `type:"string" enum:"true"`
 
 	// The descriptive message for the state change reason.
 	Message *string `type:"string"`
@@ -2994,25 +2701,13 @@ func (s ClusterStateChangeReason) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *ClusterStateChangeReason) SetCode(v ClusterStateChangeReasonCode) *ClusterStateChangeReason {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *ClusterStateChangeReason) SetMessage(v string) *ClusterStateChangeReason {
-	s.Message = &v
-	return s
-}
-
 // The detailed status of the cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ClusterStatus
 type ClusterStatus struct {
 	_ struct{} `type:"structure"`
 
 	// The current state of the cluster.
-	State ClusterState `type:"string"`
+	State ClusterState `type:"string" enum:"true"`
 
 	// The reason for the cluster status change.
 	StateChangeReason *ClusterStateChangeReason `type:"structure"`
@@ -3030,24 +2725,6 @@ func (s ClusterStatus) String() string {
 // GoString returns the string representation
 func (s ClusterStatus) GoString() string {
 	return s.String()
-}
-
-// SetState sets the State field's value.
-func (s *ClusterStatus) SetState(v ClusterState) *ClusterStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *ClusterStatus) SetStateChangeReason(v *ClusterStateChangeReason) *ClusterStatus {
-	s.StateChangeReason = v
-	return s
-}
-
-// SetTimeline sets the Timeline field's value.
-func (s *ClusterStatus) SetTimeline(v *ClusterTimeline) *ClusterStatus {
-	s.Timeline = v
-	return s
 }
 
 // The summary description of the cluster.
@@ -3083,30 +2760,6 @@ func (s ClusterSummary) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *ClusterSummary) SetId(v string) *ClusterSummary {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ClusterSummary) SetName(v string) *ClusterSummary {
-	s.Name = &v
-	return s
-}
-
-// SetNormalizedInstanceHours sets the NormalizedInstanceHours field's value.
-func (s *ClusterSummary) SetNormalizedInstanceHours(v int64) *ClusterSummary {
-	s.NormalizedInstanceHours = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ClusterSummary) SetStatus(v *ClusterStatus) *ClusterSummary {
-	s.Status = v
-	return s
-}
-
 // Represents the timeline of the cluster's lifecycle.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ClusterTimeline
 type ClusterTimeline struct {
@@ -3132,31 +2785,13 @@ func (s ClusterTimeline) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *ClusterTimeline) SetCreationDateTime(v time.Time) *ClusterTimeline {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *ClusterTimeline) SetEndDateTime(v time.Time) *ClusterTimeline {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetReadyDateTime sets the ReadyDateTime field's value.
-func (s *ClusterTimeline) SetReadyDateTime(v time.Time) *ClusterTimeline {
-	s.ReadyDateTime = &v
-	return s
-}
-
 // An entity describing an executable that runs on a cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Command
 type Command struct {
 	_ struct{} `type:"structure"`
 
 	// Arguments for Amazon EMR to pass to the command for execution.
-	Args []*string `type:"list"`
+	Args []string `type:"list"`
 
 	// The name of the command.
 	Name *string `type:"string"`
@@ -3175,24 +2810,6 @@ func (s Command) GoString() string {
 	return s.String()
 }
 
-// SetArgs sets the Args field's value.
-func (s *Command) SetArgs(v []*string) *Command {
-	s.Args = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Command) SetName(v string) *Command {
-	s.Name = &v
-	return s
-}
-
-// SetScriptPath sets the ScriptPath field's value.
-func (s *Command) SetScriptPath(v string) *Command {
-	s.ScriptPath = &v
-	return s
-}
-
 // Amazon EMR releases 4.x or later.
 //
 // An optional configuration specification to be used when provisioning cluster
@@ -3209,10 +2826,10 @@ type Configuration struct {
 	Classification *string `type:"string"`
 
 	// A list of additional configurations to apply within a configuration object.
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// A set of properties specified within a configuration classification.
-	Properties map[string]*string `type:"map"`
+	Properties map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -3225,24 +2842,6 @@ func (s Configuration) GoString() string {
 	return s.String()
 }
 
-// SetClassification sets the Classification field's value.
-func (s *Configuration) SetClassification(v string) *Configuration {
-	s.Classification = &v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *Configuration) SetConfigurations(v []*Configuration) *Configuration {
-	s.Configurations = v
-	return s
-}
-
-// SetProperties sets the Properties field's value.
-func (s *Configuration) SetProperties(v map[string]*string) *Configuration {
-	s.Properties = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/CreateSecurityConfigurationInput
 type CreateSecurityConfigurationInput struct {
 	_ struct{} `type:"structure"`
@@ -3252,7 +2851,9 @@ type CreateSecurityConfigurationInput struct {
 	// Name is a required field
 	Name *string `type:"string" required:"true"`
 
-	// The security configuration details in JSON format.
+	// The security configuration details in JSON format. For JSON parameters and
+	// examples, see Use Security Configurations to Set Up Cluster Security (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-security-configurations.html)
+	// in the Amazon EMR Management Guide.
 	//
 	// SecurityConfiguration is a required field
 	SecurityConfiguration *string `type:"string" required:"true"`
@@ -3286,21 +2887,11 @@ func (s *CreateSecurityConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateSecurityConfigurationInput) SetName(v string) *CreateSecurityConfigurationInput {
-	s.Name = &v
-	return s
-}
-
-// SetSecurityConfiguration sets the SecurityConfiguration field's value.
-func (s *CreateSecurityConfigurationInput) SetSecurityConfiguration(v string) *CreateSecurityConfigurationInput {
-	s.SecurityConfiguration = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/CreateSecurityConfigurationOutput
 type CreateSecurityConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The date and time the security configuration was created.
 	//
@@ -3323,16 +2914,9 @@ func (s CreateSecurityConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *CreateSecurityConfigurationOutput) SetCreationDateTime(v time.Time) *CreateSecurityConfigurationOutput {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateSecurityConfigurationOutput) SetName(v string) *CreateSecurityConfigurationOutput {
-	s.Name = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSecurityConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DeleteSecurityConfigurationInput
@@ -3369,15 +2953,11 @@ func (s *DeleteSecurityConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteSecurityConfigurationInput) SetName(v string) *DeleteSecurityConfigurationInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DeleteSecurityConfigurationOutput
 type DeleteSecurityConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3388,6 +2968,11 @@ func (s DeleteSecurityConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSecurityConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSecurityConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input determines which cluster to describe.
@@ -3425,16 +3010,12 @@ func (s *DescribeClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *DescribeClusterInput) SetClusterId(v string) *DescribeClusterInput {
-	s.ClusterId = &v
-	return s
-}
-
 // This output contains the description of the cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DescribeClusterOutput
 type DescribeClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// This output contains the details for the requested cluster.
 	Cluster *Cluster `type:"structure"`
@@ -3450,10 +3031,9 @@ func (s DescribeClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *DescribeClusterOutput) SetCluster(v *Cluster) *DescribeClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The input for the DescribeJobFlows operation.
@@ -3468,7 +3048,7 @@ type DescribeJobFlowsInput struct {
 	CreatedBefore *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// Return only job flows whose job flow ID is contained in this list.
-	JobFlowIds []*string `type:"list"`
+	JobFlowIds []string `type:"list"`
 
 	// Return only job flows whose state is contained in this list.
 	JobFlowStates []JobFlowExecutionState `type:"list"`
@@ -3484,37 +3064,15 @@ func (s DescribeJobFlowsInput) GoString() string {
 	return s.String()
 }
 
-// SetCreatedAfter sets the CreatedAfter field's value.
-func (s *DescribeJobFlowsInput) SetCreatedAfter(v time.Time) *DescribeJobFlowsInput {
-	s.CreatedAfter = &v
-	return s
-}
-
-// SetCreatedBefore sets the CreatedBefore field's value.
-func (s *DescribeJobFlowsInput) SetCreatedBefore(v time.Time) *DescribeJobFlowsInput {
-	s.CreatedBefore = &v
-	return s
-}
-
-// SetJobFlowIds sets the JobFlowIds field's value.
-func (s *DescribeJobFlowsInput) SetJobFlowIds(v []*string) *DescribeJobFlowsInput {
-	s.JobFlowIds = v
-	return s
-}
-
-// SetJobFlowStates sets the JobFlowStates field's value.
-func (s *DescribeJobFlowsInput) SetJobFlowStates(v []JobFlowExecutionState) *DescribeJobFlowsInput {
-	s.JobFlowStates = v
-	return s
-}
-
 // The output for the DescribeJobFlows operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DescribeJobFlowsOutput
 type DescribeJobFlowsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of job flows matching the parameters supplied.
-	JobFlows []*JobFlowDetail `type:"list"`
+	JobFlows []JobFlowDetail `type:"list"`
 }
 
 // String returns the string representation
@@ -3527,10 +3085,9 @@ func (s DescribeJobFlowsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobFlows sets the JobFlows field's value.
-func (s *DescribeJobFlowsOutput) SetJobFlows(v []*JobFlowDetail) *DescribeJobFlowsOutput {
-	s.JobFlows = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeJobFlowsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DescribeSecurityConfigurationInput
@@ -3567,15 +3124,11 @@ func (s *DescribeSecurityConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DescribeSecurityConfigurationInput) SetName(v string) *DescribeSecurityConfigurationInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DescribeSecurityConfigurationOutput
 type DescribeSecurityConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The date and time the security configuration was created
 	CreationDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -3597,22 +3150,9 @@ func (s DescribeSecurityConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *DescribeSecurityConfigurationOutput) SetCreationDateTime(v time.Time) *DescribeSecurityConfigurationOutput {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DescribeSecurityConfigurationOutput) SetName(v string) *DescribeSecurityConfigurationOutput {
-	s.Name = &v
-	return s
-}
-
-// SetSecurityConfiguration sets the SecurityConfiguration field's value.
-func (s *DescribeSecurityConfigurationOutput) SetSecurityConfiguration(v string) *DescribeSecurityConfigurationOutput {
-	s.SecurityConfiguration = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSecurityConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input determines which step to describe.
@@ -3659,22 +3199,12 @@ func (s *DescribeStepInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *DescribeStepInput) SetClusterId(v string) *DescribeStepInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetStepId sets the StepId field's value.
-func (s *DescribeStepInput) SetStepId(v string) *DescribeStepInput {
-	s.StepId = &v
-	return s
-}
-
 // This output contains the description of the cluster step.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/DescribeStepOutput
 type DescribeStepOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The step details for the requested step identifier.
 	Step *Step `type:"structure"`
@@ -3690,10 +3220,9 @@ func (s DescribeStepOutput) GoString() string {
 	return s.String()
 }
 
-// SetStep sets the Step field's value.
-func (s *DescribeStepOutput) SetStep(v *Step) *DescribeStepOutput {
-	s.Step = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeStepOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Configuration of requested EBS block device associated with the instance
@@ -3718,18 +3247,6 @@ func (s EbsBlockDevice) String() string {
 // GoString returns the string representation
 func (s EbsBlockDevice) GoString() string {
 	return s.String()
-}
-
-// SetDevice sets the Device field's value.
-func (s *EbsBlockDevice) SetDevice(v string) *EbsBlockDevice {
-	s.Device = &v
-	return s
-}
-
-// SetVolumeSpecification sets the VolumeSpecification field's value.
-func (s *EbsBlockDevice) SetVolumeSpecification(v *VolumeSpecification) *EbsBlockDevice {
-	s.VolumeSpecification = v
-	return s
 }
 
 // Configuration of requested EBS block device associated with the instance
@@ -3778,25 +3295,13 @@ func (s *EbsBlockDeviceConfig) Validate() error {
 	return nil
 }
 
-// SetVolumeSpecification sets the VolumeSpecification field's value.
-func (s *EbsBlockDeviceConfig) SetVolumeSpecification(v *VolumeSpecification) *EbsBlockDeviceConfig {
-	s.VolumeSpecification = v
-	return s
-}
-
-// SetVolumesPerInstance sets the VolumesPerInstance field's value.
-func (s *EbsBlockDeviceConfig) SetVolumesPerInstance(v int64) *EbsBlockDeviceConfig {
-	s.VolumesPerInstance = &v
-	return s
-}
-
 // The Amazon EBS configuration of a cluster instance.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/EbsConfiguration
 type EbsConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// An array of Amazon EBS volume specifications attached to a cluster instance.
-	EbsBlockDeviceConfigs []*EbsBlockDeviceConfig `type:"list"`
+	EbsBlockDeviceConfigs []EbsBlockDeviceConfig `type:"list"`
 
 	// Indicates whether an Amazon EBS volume is EBS-optimized.
 	EbsOptimized *bool `type:"boolean"`
@@ -3817,9 +3322,6 @@ func (s *EbsConfiguration) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "EbsConfiguration"}
 	if s.EbsBlockDeviceConfigs != nil {
 		for i, v := range s.EbsBlockDeviceConfigs {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "EbsBlockDeviceConfigs", i), err.(aws.ErrInvalidParams))
 			}
@@ -3830,18 +3332,6 @@ func (s *EbsConfiguration) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetEbsBlockDeviceConfigs sets the EbsBlockDeviceConfigs field's value.
-func (s *EbsConfiguration) SetEbsBlockDeviceConfigs(v []*EbsBlockDeviceConfig) *EbsConfiguration {
-	s.EbsBlockDeviceConfigs = v
-	return s
-}
-
-// SetEbsOptimized sets the EbsOptimized field's value.
-func (s *EbsConfiguration) SetEbsOptimized(v bool) *EbsConfiguration {
-	s.EbsOptimized = &v
-	return s
 }
 
 // EBS block device that's attached to an EC2 instance.
@@ -3866,18 +3356,6 @@ func (s EbsVolume) GoString() string {
 	return s.String()
 }
 
-// SetDevice sets the Device field's value.
-func (s *EbsVolume) SetDevice(v string) *EbsVolume {
-	s.Device = &v
-	return s
-}
-
-// SetVolumeId sets the VolumeId field's value.
-func (s *EbsVolume) SetVolumeId(v string) *EbsVolume {
-	s.VolumeId = &v
-	return s
-}
-
 // Provides information about the EC2 instances in a cluster grouped by category.
 // For example, key name, subnet ID, IAM instance profile, and so on.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Ec2InstanceAttributes
@@ -3885,10 +3363,10 @@ type Ec2InstanceAttributes struct {
 	_ struct{} `type:"structure"`
 
 	// A list of additional Amazon EC2 security group IDs for the master node.
-	AdditionalMasterSecurityGroups []*string `type:"list"`
+	AdditionalMasterSecurityGroups []string `type:"list"`
 
 	// A list of additional Amazon EC2 security group IDs for the slave nodes.
-	AdditionalSlaveSecurityGroups []*string `type:"list"`
+	AdditionalSlaveSecurityGroups []string `type:"list"`
 
 	// The Availability Zone in which the cluster will run.
 	Ec2AvailabilityZone *string `type:"string"`
@@ -3925,7 +3403,7 @@ type Ec2InstanceAttributes struct {
 	// you do not specify this value, Amazon EMR chooses the Availability Zone for
 	// you. RequestedEc2SubnetIDs and RequestedEc2AvailabilityZones cannot be specified
 	// together.
-	RequestedEc2AvailabilityZones []*string `type:"list"`
+	RequestedEc2AvailabilityZones []string `type:"list"`
 
 	// Applies to clusters configured with the instance fleets option. Specifies
 	// the unique identifier of one or more Amazon EC2 subnets in which to launch
@@ -3937,7 +3415,7 @@ type Ec2InstanceAttributes struct {
 	// instead of this setting. If EC2-Classic is not supported, and no Subnet is
 	// specified, Amazon EMR chooses the subnet for you. RequestedEc2SubnetIDs and
 	// RequestedEc2AvailabilityZones cannot be specified together.
-	RequestedEc2SubnetIds []*string `type:"list"`
+	RequestedEc2SubnetIds []string `type:"list"`
 
 	// The identifier of the Amazon EC2 security group for the Amazon EMR service
 	// to access clusters in VPC private subnets.
@@ -3952,72 +3430,6 @@ func (s Ec2InstanceAttributes) String() string {
 // GoString returns the string representation
 func (s Ec2InstanceAttributes) GoString() string {
 	return s.String()
-}
-
-// SetAdditionalMasterSecurityGroups sets the AdditionalMasterSecurityGroups field's value.
-func (s *Ec2InstanceAttributes) SetAdditionalMasterSecurityGroups(v []*string) *Ec2InstanceAttributes {
-	s.AdditionalMasterSecurityGroups = v
-	return s
-}
-
-// SetAdditionalSlaveSecurityGroups sets the AdditionalSlaveSecurityGroups field's value.
-func (s *Ec2InstanceAttributes) SetAdditionalSlaveSecurityGroups(v []*string) *Ec2InstanceAttributes {
-	s.AdditionalSlaveSecurityGroups = v
-	return s
-}
-
-// SetEc2AvailabilityZone sets the Ec2AvailabilityZone field's value.
-func (s *Ec2InstanceAttributes) SetEc2AvailabilityZone(v string) *Ec2InstanceAttributes {
-	s.Ec2AvailabilityZone = &v
-	return s
-}
-
-// SetEc2KeyName sets the Ec2KeyName field's value.
-func (s *Ec2InstanceAttributes) SetEc2KeyName(v string) *Ec2InstanceAttributes {
-	s.Ec2KeyName = &v
-	return s
-}
-
-// SetEc2SubnetId sets the Ec2SubnetId field's value.
-func (s *Ec2InstanceAttributes) SetEc2SubnetId(v string) *Ec2InstanceAttributes {
-	s.Ec2SubnetId = &v
-	return s
-}
-
-// SetEmrManagedMasterSecurityGroup sets the EmrManagedMasterSecurityGroup field's value.
-func (s *Ec2InstanceAttributes) SetEmrManagedMasterSecurityGroup(v string) *Ec2InstanceAttributes {
-	s.EmrManagedMasterSecurityGroup = &v
-	return s
-}
-
-// SetEmrManagedSlaveSecurityGroup sets the EmrManagedSlaveSecurityGroup field's value.
-func (s *Ec2InstanceAttributes) SetEmrManagedSlaveSecurityGroup(v string) *Ec2InstanceAttributes {
-	s.EmrManagedSlaveSecurityGroup = &v
-	return s
-}
-
-// SetIamInstanceProfile sets the IamInstanceProfile field's value.
-func (s *Ec2InstanceAttributes) SetIamInstanceProfile(v string) *Ec2InstanceAttributes {
-	s.IamInstanceProfile = &v
-	return s
-}
-
-// SetRequestedEc2AvailabilityZones sets the RequestedEc2AvailabilityZones field's value.
-func (s *Ec2InstanceAttributes) SetRequestedEc2AvailabilityZones(v []*string) *Ec2InstanceAttributes {
-	s.RequestedEc2AvailabilityZones = v
-	return s
-}
-
-// SetRequestedEc2SubnetIds sets the RequestedEc2SubnetIds field's value.
-func (s *Ec2InstanceAttributes) SetRequestedEc2SubnetIds(v []*string) *Ec2InstanceAttributes {
-	s.RequestedEc2SubnetIds = v
-	return s
-}
-
-// SetServiceAccessSecurityGroup sets the ServiceAccessSecurityGroup field's value.
-func (s *Ec2InstanceAttributes) SetServiceAccessSecurityGroup(v string) *Ec2InstanceAttributes {
-	s.ServiceAccessSecurityGroup = &v
-	return s
 }
 
 // The details of the step failure. The service attempts to detect the root
@@ -4051,24 +3463,6 @@ func (s FailureDetails) GoString() string {
 	return s.String()
 }
 
-// SetLogFile sets the LogFile field's value.
-func (s *FailureDetails) SetLogFile(v string) *FailureDetails {
-	s.LogFile = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *FailureDetails) SetMessage(v string) *FailureDetails {
-	s.Message = &v
-	return s
-}
-
-// SetReason sets the Reason field's value.
-func (s *FailureDetails) SetReason(v string) *FailureDetails {
-	s.Reason = &v
-	return s
-}
-
 // A job flow step consisting of a JAR file whose main function will be executed.
 // The main function submits a job for Hadoop to execute and waits for the job
 // to finish or fail.
@@ -4078,7 +3472,7 @@ type HadoopJarStepConfig struct {
 
 	// A list of command line arguments passed to the JAR file's main function when
 	// executed.
-	Args []*string `type:"list"`
+	Args []string `type:"list"`
 
 	// A path to a JAR file run during the step.
 	//
@@ -4091,7 +3485,7 @@ type HadoopJarStepConfig struct {
 
 	// A list of Java properties that are set when the step runs. You can use these
 	// properties to pass key value pairs to your main function.
-	Properties []*KeyValue `type:"list"`
+	Properties []KeyValue `type:"list"`
 }
 
 // String returns the string representation
@@ -4118,30 +3512,6 @@ func (s *HadoopJarStepConfig) Validate() error {
 	return nil
 }
 
-// SetArgs sets the Args field's value.
-func (s *HadoopJarStepConfig) SetArgs(v []*string) *HadoopJarStepConfig {
-	s.Args = v
-	return s
-}
-
-// SetJar sets the Jar field's value.
-func (s *HadoopJarStepConfig) SetJar(v string) *HadoopJarStepConfig {
-	s.Jar = &v
-	return s
-}
-
-// SetMainClass sets the MainClass field's value.
-func (s *HadoopJarStepConfig) SetMainClass(v string) *HadoopJarStepConfig {
-	s.MainClass = &v
-	return s
-}
-
-// SetProperties sets the Properties field's value.
-func (s *HadoopJarStepConfig) SetProperties(v []*KeyValue) *HadoopJarStepConfig {
-	s.Properties = v
-	return s
-}
-
 // A cluster step consisting of a JAR file whose main function will be executed.
 // The main function submits a job for Hadoop to execute and waits for the job
 // to finish or fail.
@@ -4151,7 +3521,7 @@ type HadoopStepConfig struct {
 
 	// The list of command line arguments to pass to the JAR file's main function
 	// for execution.
-	Args []*string `type:"list"`
+	Args []string `type:"list"`
 
 	// The path to the JAR file that runs during the step.
 	Jar *string `type:"string"`
@@ -4162,7 +3532,7 @@ type HadoopStepConfig struct {
 
 	// The list of Java properties that are set when the step runs. You can use
 	// these properties to pass key value pairs to your main function.
-	Properties map[string]*string `type:"map"`
+	Properties map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -4175,37 +3545,13 @@ func (s HadoopStepConfig) GoString() string {
 	return s.String()
 }
 
-// SetArgs sets the Args field's value.
-func (s *HadoopStepConfig) SetArgs(v []*string) *HadoopStepConfig {
-	s.Args = v
-	return s
-}
-
-// SetJar sets the Jar field's value.
-func (s *HadoopStepConfig) SetJar(v string) *HadoopStepConfig {
-	s.Jar = &v
-	return s
-}
-
-// SetMainClass sets the MainClass field's value.
-func (s *HadoopStepConfig) SetMainClass(v string) *HadoopStepConfig {
-	s.MainClass = &v
-	return s
-}
-
-// SetProperties sets the Properties field's value.
-func (s *HadoopStepConfig) SetProperties(v map[string]*string) *HadoopStepConfig {
-	s.Properties = v
-	return s
-}
-
 // Represents an EC2 instance provisioned as part of cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Instance
 type Instance struct {
 	_ struct{} `type:"structure"`
 
 	// The list of EBS volumes that are attached to this instance.
-	EbsVolumes []*EbsVolume `type:"list"`
+	EbsVolumes []EbsVolume `type:"list"`
 
 	// The unique identifier of the instance in Amazon EC2.
 	Ec2InstanceId *string `type:"string"`
@@ -4223,7 +3569,7 @@ type Instance struct {
 	InstanceType *string `min:"1" type:"string"`
 
 	// The instance purchasing option. Valid values are ON_DEMAND or SPOT.
-	Market MarketType `type:"string"`
+	Market MarketType `type:"string" enum:"true"`
 
 	// The private DNS name of the instance.
 	PrivateDnsName *string `type:"string"`
@@ -4251,78 +3597,6 @@ func (s Instance) GoString() string {
 	return s.String()
 }
 
-// SetEbsVolumes sets the EbsVolumes field's value.
-func (s *Instance) SetEbsVolumes(v []*EbsVolume) *Instance {
-	s.EbsVolumes = v
-	return s
-}
-
-// SetEc2InstanceId sets the Ec2InstanceId field's value.
-func (s *Instance) SetEc2InstanceId(v string) *Instance {
-	s.Ec2InstanceId = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Instance) SetId(v string) *Instance {
-	s.Id = &v
-	return s
-}
-
-// SetInstanceFleetId sets the InstanceFleetId field's value.
-func (s *Instance) SetInstanceFleetId(v string) *Instance {
-	s.InstanceFleetId = &v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *Instance) SetInstanceGroupId(v string) *Instance {
-	s.InstanceGroupId = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *Instance) SetInstanceType(v string) *Instance {
-	s.InstanceType = &v
-	return s
-}
-
-// SetMarket sets the Market field's value.
-func (s *Instance) SetMarket(v MarketType) *Instance {
-	s.Market = v
-	return s
-}
-
-// SetPrivateDnsName sets the PrivateDnsName field's value.
-func (s *Instance) SetPrivateDnsName(v string) *Instance {
-	s.PrivateDnsName = &v
-	return s
-}
-
-// SetPrivateIpAddress sets the PrivateIpAddress field's value.
-func (s *Instance) SetPrivateIpAddress(v string) *Instance {
-	s.PrivateIpAddress = &v
-	return s
-}
-
-// SetPublicDnsName sets the PublicDnsName field's value.
-func (s *Instance) SetPublicDnsName(v string) *Instance {
-	s.PublicDnsName = &v
-	return s
-}
-
-// SetPublicIpAddress sets the PublicIpAddress field's value.
-func (s *Instance) SetPublicIpAddress(v string) *Instance {
-	s.PublicIpAddress = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Instance) SetStatus(v *InstanceStatus) *Instance {
-	s.Status = v
-	return s
-}
-
 // Describes an instance fleet, which is a group of EC2 instances that host
 // a particular node type (master, core, or task) in an Amazon EMR cluster.
 // Instance fleets can consist of a mix of instance types and On-Demand and
@@ -4339,12 +3613,12 @@ type InstanceFleet struct {
 
 	// The node type that the instance fleet hosts. Valid values are MASTER, CORE,
 	// or TASK.
-	InstanceFleetType InstanceFleetType `type:"string"`
+	InstanceFleetType InstanceFleetType `type:"string" enum:"true"`
 
 	// The specification for the instance types that comprise an instance fleet.
 	// Up to five unique instance specifications may be defined for each instance
 	// fleet.
-	InstanceTypeSpecifications []*InstanceTypeSpecification `type:"list"`
+	InstanceTypeSpecifications []InstanceTypeSpecification `type:"list"`
 
 	// Describes the launch specification for an instance fleet.
 	LaunchSpecifications *InstanceFleetProvisioningSpecifications `type:"structure"`
@@ -4415,66 +3689,6 @@ func (s InstanceFleet) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *InstanceFleet) SetId(v string) *InstanceFleet {
-	s.Id = &v
-	return s
-}
-
-// SetInstanceFleetType sets the InstanceFleetType field's value.
-func (s *InstanceFleet) SetInstanceFleetType(v InstanceFleetType) *InstanceFleet {
-	s.InstanceFleetType = v
-	return s
-}
-
-// SetInstanceTypeSpecifications sets the InstanceTypeSpecifications field's value.
-func (s *InstanceFleet) SetInstanceTypeSpecifications(v []*InstanceTypeSpecification) *InstanceFleet {
-	s.InstanceTypeSpecifications = v
-	return s
-}
-
-// SetLaunchSpecifications sets the LaunchSpecifications field's value.
-func (s *InstanceFleet) SetLaunchSpecifications(v *InstanceFleetProvisioningSpecifications) *InstanceFleet {
-	s.LaunchSpecifications = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceFleet) SetName(v string) *InstanceFleet {
-	s.Name = &v
-	return s
-}
-
-// SetProvisionedOnDemandCapacity sets the ProvisionedOnDemandCapacity field's value.
-func (s *InstanceFleet) SetProvisionedOnDemandCapacity(v int64) *InstanceFleet {
-	s.ProvisionedOnDemandCapacity = &v
-	return s
-}
-
-// SetProvisionedSpotCapacity sets the ProvisionedSpotCapacity field's value.
-func (s *InstanceFleet) SetProvisionedSpotCapacity(v int64) *InstanceFleet {
-	s.ProvisionedSpotCapacity = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *InstanceFleet) SetStatus(v *InstanceFleetStatus) *InstanceFleet {
-	s.Status = v
-	return s
-}
-
-// SetTargetOnDemandCapacity sets the TargetOnDemandCapacity field's value.
-func (s *InstanceFleet) SetTargetOnDemandCapacity(v int64) *InstanceFleet {
-	s.TargetOnDemandCapacity = &v
-	return s
-}
-
-// SetTargetSpotCapacity sets the TargetSpotCapacity field's value.
-func (s *InstanceFleet) SetTargetSpotCapacity(v int64) *InstanceFleet {
-	s.TargetSpotCapacity = &v
-	return s
-}
-
 // The configuration that defines an instance fleet.
 //
 // The instance fleet configuration is available only in Amazon EMR versions
@@ -4487,11 +3701,11 @@ type InstanceFleetConfig struct {
 	// TASK.
 	//
 	// InstanceFleetType is a required field
-	InstanceFleetType InstanceFleetType `type:"string" required:"true"`
+	InstanceFleetType InstanceFleetType `type:"string" required:"true" enum:"true"`
 
 	// The instance type configurations that define the EC2 instances in the instance
 	// fleet.
-	InstanceTypeConfigs []*InstanceTypeConfig `type:"list"`
+	InstanceTypeConfigs []InstanceTypeConfig `type:"list"`
 
 	// The launch specification for the instance fleet.
 	LaunchSpecifications *InstanceFleetProvisioningSpecifications `type:"structure"`
@@ -4553,9 +3767,6 @@ func (s *InstanceFleetConfig) Validate() error {
 	}
 	if s.InstanceTypeConfigs != nil {
 		for i, v := range s.InstanceTypeConfigs {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InstanceTypeConfigs", i), err.(aws.ErrInvalidParams))
 			}
@@ -4571,42 +3782,6 @@ func (s *InstanceFleetConfig) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetInstanceFleetType sets the InstanceFleetType field's value.
-func (s *InstanceFleetConfig) SetInstanceFleetType(v InstanceFleetType) *InstanceFleetConfig {
-	s.InstanceFleetType = v
-	return s
-}
-
-// SetInstanceTypeConfigs sets the InstanceTypeConfigs field's value.
-func (s *InstanceFleetConfig) SetInstanceTypeConfigs(v []*InstanceTypeConfig) *InstanceFleetConfig {
-	s.InstanceTypeConfigs = v
-	return s
-}
-
-// SetLaunchSpecifications sets the LaunchSpecifications field's value.
-func (s *InstanceFleetConfig) SetLaunchSpecifications(v *InstanceFleetProvisioningSpecifications) *InstanceFleetConfig {
-	s.LaunchSpecifications = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceFleetConfig) SetName(v string) *InstanceFleetConfig {
-	s.Name = &v
-	return s
-}
-
-// SetTargetOnDemandCapacity sets the TargetOnDemandCapacity field's value.
-func (s *InstanceFleetConfig) SetTargetOnDemandCapacity(v int64) *InstanceFleetConfig {
-	s.TargetOnDemandCapacity = &v
-	return s
-}
-
-// SetTargetSpotCapacity sets the TargetSpotCapacity field's value.
-func (s *InstanceFleetConfig) SetTargetSpotCapacity(v int64) *InstanceFleetConfig {
-	s.TargetSpotCapacity = &v
-	return s
 }
 
 // Configuration parameters for an instance fleet modification request.
@@ -4655,24 +3830,6 @@ func (s *InstanceFleetModifyConfig) Validate() error {
 	return nil
 }
 
-// SetInstanceFleetId sets the InstanceFleetId field's value.
-func (s *InstanceFleetModifyConfig) SetInstanceFleetId(v string) *InstanceFleetModifyConfig {
-	s.InstanceFleetId = &v
-	return s
-}
-
-// SetTargetOnDemandCapacity sets the TargetOnDemandCapacity field's value.
-func (s *InstanceFleetModifyConfig) SetTargetOnDemandCapacity(v int64) *InstanceFleetModifyConfig {
-	s.TargetOnDemandCapacity = &v
-	return s
-}
-
-// SetTargetSpotCapacity sets the TargetSpotCapacity field's value.
-func (s *InstanceFleetModifyConfig) SetTargetSpotCapacity(v int64) *InstanceFleetModifyConfig {
-	s.TargetSpotCapacity = &v
-	return s
-}
-
 // The launch specification for Spot instances in the fleet, which determines
 // the defined duration and provisioning timeout behavior.
 //
@@ -4718,12 +3875,6 @@ func (s *InstanceFleetProvisioningSpecifications) Validate() error {
 	return nil
 }
 
-// SetSpotSpecification sets the SpotSpecification field's value.
-func (s *InstanceFleetProvisioningSpecifications) SetSpotSpecification(v *SpotProvisioningSpecification) *InstanceFleetProvisioningSpecifications {
-	s.SpotSpecification = v
-	return s
-}
-
 // Provides status change reason details for the instance fleet.
 //
 // The instance fleet configuration is available only in Amazon EMR versions
@@ -4733,7 +3884,7 @@ type InstanceFleetStateChangeReason struct {
 	_ struct{} `type:"structure"`
 
 	// A code corresponding to the reason the state change occurred.
-	Code InstanceFleetStateChangeReasonCode `type:"string"`
+	Code InstanceFleetStateChangeReasonCode `type:"string" enum:"true"`
 
 	// An explanatory message.
 	Message *string `type:"string"`
@@ -4749,18 +3900,6 @@ func (s InstanceFleetStateChangeReason) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *InstanceFleetStateChangeReason) SetCode(v InstanceFleetStateChangeReasonCode) *InstanceFleetStateChangeReason {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *InstanceFleetStateChangeReason) SetMessage(v string) *InstanceFleetStateChangeReason {
-	s.Message = &v
-	return s
-}
-
 // The status of the instance fleet.
 //
 // The instance fleet configuration is available only in Amazon EMR versions
@@ -4770,7 +3909,27 @@ type InstanceFleetStatus struct {
 	_ struct{} `type:"structure"`
 
 	// A code representing the instance fleet status.
-	State InstanceFleetState `type:"string"`
+	//
+	//    * PROVISIONING—The instance fleet is provisioning EC2 resources and is
+	//    not yet ready to run jobs.
+	//
+	//    * BOOTSTRAPPING—EC2 instances and other resources have been provisioned
+	//    and the bootstrap actions specified for the instances are underway.
+	//
+	//    * RUNNING—EC2 instances and other resources are running. They are either
+	//    executing jobs or waiting to execute jobs.
+	//
+	//    * RESIZING—A resize operation is underway. EC2 instances are either being
+	//    added or removed.
+	//
+	//    * SUSPENDED—A resize operation could not complete. Existing EC2 instances
+	//    are running, but instances can't be added or removed.
+	//
+	//    * TERMINATING—The instance fleet is terminating EC2 instances.
+	//
+	//    * TERMINATED—The instance fleet is no longer active, and all EC2 instances
+	//    have been terminated.
+	State InstanceFleetState `type:"string" enum:"true"`
 
 	// Provides status change reason details for the instance fleet.
 	StateChangeReason *InstanceFleetStateChangeReason `type:"structure"`
@@ -4788,24 +3947,6 @@ func (s InstanceFleetStatus) String() string {
 // GoString returns the string representation
 func (s InstanceFleetStatus) GoString() string {
 	return s.String()
-}
-
-// SetState sets the State field's value.
-func (s *InstanceFleetStatus) SetState(v InstanceFleetState) *InstanceFleetStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *InstanceFleetStatus) SetStateChangeReason(v *InstanceFleetStateChangeReason) *InstanceFleetStatus {
-	s.StateChangeReason = v
-	return s
-}
-
-// SetTimeline sets the Timeline field's value.
-func (s *InstanceFleetStatus) SetTimeline(v *InstanceFleetTimeline) *InstanceFleetStatus {
-	s.Timeline = v
-	return s
 }
 
 // Provides historical timestamps for the instance fleet, including the time
@@ -4837,24 +3978,6 @@ func (s InstanceFleetTimeline) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *InstanceFleetTimeline) SetCreationDateTime(v time.Time) *InstanceFleetTimeline {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *InstanceFleetTimeline) SetEndDateTime(v time.Time) *InstanceFleetTimeline {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetReadyDateTime sets the ReadyDateTime field's value.
-func (s *InstanceFleetTimeline) SetReadyDateTime(v time.Time) *InstanceFleetTimeline {
-	s.ReadyDateTime = &v
-	return s
-}
-
 // This entity represents an instance group, which is a group of instances that
 // have common purpose. For example, CORE instance group is used for HDFS.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceGroup
@@ -4876,10 +3999,10 @@ type InstanceGroup struct {
 	// The list of configurations supplied for an EMR cluster instance group. You
 	// can specify a separate configuration for each instance group (master, core,
 	// and task).
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// The EBS block devices that are mapped to this instance group.
-	EbsBlockDevices []*EbsBlockDevice `type:"list"`
+	EbsBlockDevices []EbsBlockDevice `type:"list"`
 
 	// If the instance group is EBS-optimized. An Amazon EBS-optimized instance
 	// uses an optimized configuration stack and provides additional, dedicated
@@ -4890,14 +4013,14 @@ type InstanceGroup struct {
 	Id *string `type:"string"`
 
 	// The type of the instance group. Valid values are MASTER, CORE or TASK.
-	InstanceGroupType InstanceGroupType `type:"string"`
+	InstanceGroupType InstanceGroupType `type:"string" enum:"true"`
 
 	// The EC2 instance type for all instances in the instance group.
 	InstanceType *string `min:"1" type:"string"`
 
 	// The marketplace to provision instances for this group. Valid values are ON_DEMAND
 	// or SPOT.
-	Market MarketType `type:"string"`
+	Market MarketType `type:"string" enum:"true"`
 
 	// The name of the instance group.
 	Name *string `type:"string"`
@@ -4925,90 +4048,6 @@ func (s InstanceGroup) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingPolicy sets the AutoScalingPolicy field's value.
-func (s *InstanceGroup) SetAutoScalingPolicy(v *AutoScalingPolicyDescription) *InstanceGroup {
-	s.AutoScalingPolicy = v
-	return s
-}
-
-// SetBidPrice sets the BidPrice field's value.
-func (s *InstanceGroup) SetBidPrice(v string) *InstanceGroup {
-	s.BidPrice = &v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *InstanceGroup) SetConfigurations(v []*Configuration) *InstanceGroup {
-	s.Configurations = v
-	return s
-}
-
-// SetEbsBlockDevices sets the EbsBlockDevices field's value.
-func (s *InstanceGroup) SetEbsBlockDevices(v []*EbsBlockDevice) *InstanceGroup {
-	s.EbsBlockDevices = v
-	return s
-}
-
-// SetEbsOptimized sets the EbsOptimized field's value.
-func (s *InstanceGroup) SetEbsOptimized(v bool) *InstanceGroup {
-	s.EbsOptimized = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *InstanceGroup) SetId(v string) *InstanceGroup {
-	s.Id = &v
-	return s
-}
-
-// SetInstanceGroupType sets the InstanceGroupType field's value.
-func (s *InstanceGroup) SetInstanceGroupType(v InstanceGroupType) *InstanceGroup {
-	s.InstanceGroupType = v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *InstanceGroup) SetInstanceType(v string) *InstanceGroup {
-	s.InstanceType = &v
-	return s
-}
-
-// SetMarket sets the Market field's value.
-func (s *InstanceGroup) SetMarket(v MarketType) *InstanceGroup {
-	s.Market = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceGroup) SetName(v string) *InstanceGroup {
-	s.Name = &v
-	return s
-}
-
-// SetRequestedInstanceCount sets the RequestedInstanceCount field's value.
-func (s *InstanceGroup) SetRequestedInstanceCount(v int64) *InstanceGroup {
-	s.RequestedInstanceCount = &v
-	return s
-}
-
-// SetRunningInstanceCount sets the RunningInstanceCount field's value.
-func (s *InstanceGroup) SetRunningInstanceCount(v int64) *InstanceGroup {
-	s.RunningInstanceCount = &v
-	return s
-}
-
-// SetShrinkPolicy sets the ShrinkPolicy field's value.
-func (s *InstanceGroup) SetShrinkPolicy(v *ShrinkPolicy) *InstanceGroup {
-	s.ShrinkPolicy = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *InstanceGroup) SetStatus(v *InstanceGroupStatus) *InstanceGroup {
-	s.Status = v
-	return s
-}
-
 // Configuration defining a new instance group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceGroupConfig
 type InstanceGroupConfig struct {
@@ -5029,7 +4068,7 @@ type InstanceGroupConfig struct {
 	// The list of configurations supplied for an EMR cluster instance group. You
 	// can specify a separate configuration for each instance group (master, core,
 	// and task).
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// EBS configurations that will be attached to each EC2 instance in the instance
 	// group.
@@ -5043,7 +4082,7 @@ type InstanceGroupConfig struct {
 	// The role of the instance group in the cluster.
 	//
 	// InstanceRole is a required field
-	InstanceRole InstanceRoleType `type:"string" required:"true"`
+	InstanceRole InstanceRoleType `type:"string" required:"true" enum:"true"`
 
 	// The EC2 instance type for all instances in the instance group.
 	//
@@ -5051,7 +4090,7 @@ type InstanceGroupConfig struct {
 	InstanceType *string `min:"1" type:"string" required:"true"`
 
 	// Market type of the EC2 instances used to create a cluster node.
-	Market MarketType `type:"string"`
+	Market MarketType `type:"string" enum:"true"`
 
 	// Friendly name given to the instance group.
 	Name *string `type:"string"`
@@ -5101,60 +4140,6 @@ func (s *InstanceGroupConfig) Validate() error {
 	return nil
 }
 
-// SetAutoScalingPolicy sets the AutoScalingPolicy field's value.
-func (s *InstanceGroupConfig) SetAutoScalingPolicy(v *AutoScalingPolicy) *InstanceGroupConfig {
-	s.AutoScalingPolicy = v
-	return s
-}
-
-// SetBidPrice sets the BidPrice field's value.
-func (s *InstanceGroupConfig) SetBidPrice(v string) *InstanceGroupConfig {
-	s.BidPrice = &v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *InstanceGroupConfig) SetConfigurations(v []*Configuration) *InstanceGroupConfig {
-	s.Configurations = v
-	return s
-}
-
-// SetEbsConfiguration sets the EbsConfiguration field's value.
-func (s *InstanceGroupConfig) SetEbsConfiguration(v *EbsConfiguration) *InstanceGroupConfig {
-	s.EbsConfiguration = v
-	return s
-}
-
-// SetInstanceCount sets the InstanceCount field's value.
-func (s *InstanceGroupConfig) SetInstanceCount(v int64) *InstanceGroupConfig {
-	s.InstanceCount = &v
-	return s
-}
-
-// SetInstanceRole sets the InstanceRole field's value.
-func (s *InstanceGroupConfig) SetInstanceRole(v InstanceRoleType) *InstanceGroupConfig {
-	s.InstanceRole = v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *InstanceGroupConfig) SetInstanceType(v string) *InstanceGroupConfig {
-	s.InstanceType = &v
-	return s
-}
-
-// SetMarket sets the Market field's value.
-func (s *InstanceGroupConfig) SetMarket(v MarketType) *InstanceGroupConfig {
-	s.Market = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceGroupConfig) SetName(v string) *InstanceGroupConfig {
-	s.Name = &v
-	return s
-}
-
 // Detailed information about an instance group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceGroupDetail
 type InstanceGroupDetail struct {
@@ -5183,7 +4168,7 @@ type InstanceGroupDetail struct {
 	// Instance group role in the cluster
 	//
 	// InstanceRole is a required field
-	InstanceRole InstanceRoleType `type:"string" required:"true"`
+	InstanceRole InstanceRoleType `type:"string" required:"true" enum:"true"`
 
 	// Actual count of running instances.
 	//
@@ -5201,7 +4186,7 @@ type InstanceGroupDetail struct {
 	// Market type of the EC2 instances used to create a cluster node.
 	//
 	// Market is a required field
-	Market MarketType `type:"string" required:"true"`
+	Market MarketType `type:"string" required:"true" enum:"true"`
 
 	// Friendly name for the instance group.
 	Name *string `type:"string"`
@@ -5216,7 +4201,7 @@ type InstanceGroupDetail struct {
 	// and FAILED.
 	//
 	// State is a required field
-	State InstanceGroupState `type:"string" required:"true"`
+	State InstanceGroupState `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -5229,90 +4214,6 @@ func (s InstanceGroupDetail) GoString() string {
 	return s.String()
 }
 
-// SetBidPrice sets the BidPrice field's value.
-func (s *InstanceGroupDetail) SetBidPrice(v string) *InstanceGroupDetail {
-	s.BidPrice = &v
-	return s
-}
-
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *InstanceGroupDetail) SetCreationDateTime(v time.Time) *InstanceGroupDetail {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *InstanceGroupDetail) SetEndDateTime(v time.Time) *InstanceGroupDetail {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *InstanceGroupDetail) SetInstanceGroupId(v string) *InstanceGroupDetail {
-	s.InstanceGroupId = &v
-	return s
-}
-
-// SetInstanceRequestCount sets the InstanceRequestCount field's value.
-func (s *InstanceGroupDetail) SetInstanceRequestCount(v int64) *InstanceGroupDetail {
-	s.InstanceRequestCount = &v
-	return s
-}
-
-// SetInstanceRole sets the InstanceRole field's value.
-func (s *InstanceGroupDetail) SetInstanceRole(v InstanceRoleType) *InstanceGroupDetail {
-	s.InstanceRole = v
-	return s
-}
-
-// SetInstanceRunningCount sets the InstanceRunningCount field's value.
-func (s *InstanceGroupDetail) SetInstanceRunningCount(v int64) *InstanceGroupDetail {
-	s.InstanceRunningCount = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *InstanceGroupDetail) SetInstanceType(v string) *InstanceGroupDetail {
-	s.InstanceType = &v
-	return s
-}
-
-// SetLastStateChangeReason sets the LastStateChangeReason field's value.
-func (s *InstanceGroupDetail) SetLastStateChangeReason(v string) *InstanceGroupDetail {
-	s.LastStateChangeReason = &v
-	return s
-}
-
-// SetMarket sets the Market field's value.
-func (s *InstanceGroupDetail) SetMarket(v MarketType) *InstanceGroupDetail {
-	s.Market = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceGroupDetail) SetName(v string) *InstanceGroupDetail {
-	s.Name = &v
-	return s
-}
-
-// SetReadyDateTime sets the ReadyDateTime field's value.
-func (s *InstanceGroupDetail) SetReadyDateTime(v time.Time) *InstanceGroupDetail {
-	s.ReadyDateTime = &v
-	return s
-}
-
-// SetStartDateTime sets the StartDateTime field's value.
-func (s *InstanceGroupDetail) SetStartDateTime(v time.Time) *InstanceGroupDetail {
-	s.StartDateTime = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *InstanceGroupDetail) SetState(v InstanceGroupState) *InstanceGroupDetail {
-	s.State = v
-	return s
-}
-
 // Modify an instance group size.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceGroupModifyConfig
 type InstanceGroupModifyConfig struct {
@@ -5320,7 +4221,7 @@ type InstanceGroupModifyConfig struct {
 
 	// The EC2 InstanceIds to terminate. After you terminate the instances, the
 	// instance group will not return to its original requested size.
-	EC2InstanceIdsToTerminate []*string `type:"list"`
+	EC2InstanceIdsToTerminate []string `type:"list"`
 
 	// Target size for the instance group.
 	InstanceCount *int64 `type:"integer"`
@@ -5358,37 +4259,13 @@ func (s *InstanceGroupModifyConfig) Validate() error {
 	return nil
 }
 
-// SetEC2InstanceIdsToTerminate sets the EC2InstanceIdsToTerminate field's value.
-func (s *InstanceGroupModifyConfig) SetEC2InstanceIdsToTerminate(v []*string) *InstanceGroupModifyConfig {
-	s.EC2InstanceIdsToTerminate = v
-	return s
-}
-
-// SetInstanceCount sets the InstanceCount field's value.
-func (s *InstanceGroupModifyConfig) SetInstanceCount(v int64) *InstanceGroupModifyConfig {
-	s.InstanceCount = &v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *InstanceGroupModifyConfig) SetInstanceGroupId(v string) *InstanceGroupModifyConfig {
-	s.InstanceGroupId = &v
-	return s
-}
-
-// SetShrinkPolicy sets the ShrinkPolicy field's value.
-func (s *InstanceGroupModifyConfig) SetShrinkPolicy(v *ShrinkPolicy) *InstanceGroupModifyConfig {
-	s.ShrinkPolicy = v
-	return s
-}
-
 // The status change reason details for the instance group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceGroupStateChangeReason
 type InstanceGroupStateChangeReason struct {
 	_ struct{} `type:"structure"`
 
 	// The programmable code for the state change reason.
-	Code InstanceGroupStateChangeReasonCode `type:"string"`
+	Code InstanceGroupStateChangeReasonCode `type:"string" enum:"true"`
 
 	// The status change reason description.
 	Message *string `type:"string"`
@@ -5404,25 +4281,13 @@ func (s InstanceGroupStateChangeReason) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *InstanceGroupStateChangeReason) SetCode(v InstanceGroupStateChangeReasonCode) *InstanceGroupStateChangeReason {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *InstanceGroupStateChangeReason) SetMessage(v string) *InstanceGroupStateChangeReason {
-	s.Message = &v
-	return s
-}
-
 // The details of the instance group status.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceGroupStatus
 type InstanceGroupStatus struct {
 	_ struct{} `type:"structure"`
 
 	// The current state of the instance group.
-	State InstanceGroupState `type:"string"`
+	State InstanceGroupState `type:"string" enum:"true"`
 
 	// The status change reason details for the instance group.
 	StateChangeReason *InstanceGroupStateChangeReason `type:"structure"`
@@ -5439,24 +4304,6 @@ func (s InstanceGroupStatus) String() string {
 // GoString returns the string representation
 func (s InstanceGroupStatus) GoString() string {
 	return s.String()
-}
-
-// SetState sets the State field's value.
-func (s *InstanceGroupStatus) SetState(v InstanceGroupState) *InstanceGroupStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *InstanceGroupStatus) SetStateChangeReason(v *InstanceGroupStateChangeReason) *InstanceGroupStatus {
-	s.StateChangeReason = v
-	return s
-}
-
-// SetTimeline sets the Timeline field's value.
-func (s *InstanceGroupStatus) SetTimeline(v *InstanceGroupTimeline) *InstanceGroupStatus {
-	s.Timeline = v
-	return s
 }
 
 // The timeline of the instance group lifecycle.
@@ -5484,24 +4331,6 @@ func (s InstanceGroupTimeline) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *InstanceGroupTimeline) SetCreationDateTime(v time.Time) *InstanceGroupTimeline {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *InstanceGroupTimeline) SetEndDateTime(v time.Time) *InstanceGroupTimeline {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetReadyDateTime sets the ReadyDateTime field's value.
-func (s *InstanceGroupTimeline) SetReadyDateTime(v time.Time) *InstanceGroupTimeline {
-	s.ReadyDateTime = &v
-	return s
-}
-
 // Custom policy for requesting termination protection or termination of specific
 // instances when shrinking an instance group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceResizePolicy
@@ -5513,10 +4342,10 @@ type InstanceResizePolicy struct {
 	InstanceTerminationTimeout *int64 `type:"integer"`
 
 	// Specific list of instances to be protected when shrinking an instance group.
-	InstancesToProtect []*string `type:"list"`
+	InstancesToProtect []string `type:"list"`
 
 	// Specific list of instances to be terminated when shrinking an instance group.
-	InstancesToTerminate []*string `type:"list"`
+	InstancesToTerminate []string `type:"list"`
 }
 
 // String returns the string representation
@@ -5529,31 +4358,13 @@ func (s InstanceResizePolicy) GoString() string {
 	return s.String()
 }
 
-// SetInstanceTerminationTimeout sets the InstanceTerminationTimeout field's value.
-func (s *InstanceResizePolicy) SetInstanceTerminationTimeout(v int64) *InstanceResizePolicy {
-	s.InstanceTerminationTimeout = &v
-	return s
-}
-
-// SetInstancesToProtect sets the InstancesToProtect field's value.
-func (s *InstanceResizePolicy) SetInstancesToProtect(v []*string) *InstanceResizePolicy {
-	s.InstancesToProtect = v
-	return s
-}
-
-// SetInstancesToTerminate sets the InstancesToTerminate field's value.
-func (s *InstanceResizePolicy) SetInstancesToTerminate(v []*string) *InstanceResizePolicy {
-	s.InstancesToTerminate = v
-	return s
-}
-
 // The details of the status change reason for the instance.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceStateChangeReason
 type InstanceStateChangeReason struct {
 	_ struct{} `type:"structure"`
 
 	// The programmable code for the state change reason.
-	Code InstanceStateChangeReasonCode `type:"string"`
+	Code InstanceStateChangeReasonCode `type:"string" enum:"true"`
 
 	// The status change reason description.
 	Message *string `type:"string"`
@@ -5569,25 +4380,13 @@ func (s InstanceStateChangeReason) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *InstanceStateChangeReason) SetCode(v InstanceStateChangeReasonCode) *InstanceStateChangeReason {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *InstanceStateChangeReason) SetMessage(v string) *InstanceStateChangeReason {
-	s.Message = &v
-	return s
-}
-
 // The instance status details.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/InstanceStatus
 type InstanceStatus struct {
 	_ struct{} `type:"structure"`
 
 	// The current state of the instance.
-	State InstanceState `type:"string"`
+	State InstanceState `type:"string" enum:"true"`
 
 	// The details of the status change reason for the instance.
 	StateChangeReason *InstanceStateChangeReason `type:"structure"`
@@ -5604,24 +4403,6 @@ func (s InstanceStatus) String() string {
 // GoString returns the string representation
 func (s InstanceStatus) GoString() string {
 	return s.String()
-}
-
-// SetState sets the State field's value.
-func (s *InstanceStatus) SetState(v InstanceState) *InstanceStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *InstanceStatus) SetStateChangeReason(v *InstanceStateChangeReason) *InstanceStatus {
-	s.StateChangeReason = v
-	return s
-}
-
-// SetTimeline sets the Timeline field's value.
-func (s *InstanceStatus) SetTimeline(v *InstanceTimeline) *InstanceStatus {
-	s.Timeline = v
-	return s
 }
 
 // The timeline of the instance lifecycle.
@@ -5649,24 +4430,6 @@ func (s InstanceTimeline) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *InstanceTimeline) SetCreationDateTime(v time.Time) *InstanceTimeline {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *InstanceTimeline) SetEndDateTime(v time.Time) *InstanceTimeline {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetReadyDateTime sets the ReadyDateTime field's value.
-func (s *InstanceTimeline) SetReadyDateTime(v time.Time) *InstanceTimeline {
-	s.ReadyDateTime = &v
-	return s
-}
-
 // An instance type configuration for each instance type in an instance fleet,
 // which determines the EC2 instances Amazon EMR attempts to provision to fulfill
 // On-Demand and Spot target capacities. There can be a maximum of 5 instance
@@ -5692,7 +4455,7 @@ type InstanceTypeConfig struct {
 	// A configuration classification that applies when provisioning cluster instances,
 	// which can include configurations for applications and software that run on
 	// the cluster.
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// The configuration of Amazon Elastic Block Storage (EBS) attached to each
 	// instance as defined by InstanceType.
@@ -5742,42 +4505,6 @@ func (s *InstanceTypeConfig) Validate() error {
 	return nil
 }
 
-// SetBidPrice sets the BidPrice field's value.
-func (s *InstanceTypeConfig) SetBidPrice(v string) *InstanceTypeConfig {
-	s.BidPrice = &v
-	return s
-}
-
-// SetBidPriceAsPercentageOfOnDemandPrice sets the BidPriceAsPercentageOfOnDemandPrice field's value.
-func (s *InstanceTypeConfig) SetBidPriceAsPercentageOfOnDemandPrice(v float64) *InstanceTypeConfig {
-	s.BidPriceAsPercentageOfOnDemandPrice = &v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *InstanceTypeConfig) SetConfigurations(v []*Configuration) *InstanceTypeConfig {
-	s.Configurations = v
-	return s
-}
-
-// SetEbsConfiguration sets the EbsConfiguration field's value.
-func (s *InstanceTypeConfig) SetEbsConfiguration(v *EbsConfiguration) *InstanceTypeConfig {
-	s.EbsConfiguration = v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *InstanceTypeConfig) SetInstanceType(v string) *InstanceTypeConfig {
-	s.InstanceType = &v
-	return s
-}
-
-// SetWeightedCapacity sets the WeightedCapacity field's value.
-func (s *InstanceTypeConfig) SetWeightedCapacity(v int64) *InstanceTypeConfig {
-	s.WeightedCapacity = &v
-	return s
-}
-
 // The configuration specification for each instance type in an instance fleet.
 //
 // The instance fleet configuration is available only in Amazon EMR versions
@@ -5798,11 +4525,11 @@ type InstanceTypeSpecification struct {
 	// A configuration classification that applies when provisioning cluster instances,
 	// which can include configurations for applications and software bundled with
 	// Amazon EMR.
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// The configuration of Amazon Elastic Block Storage (EBS) attached to each
 	// instance as defined by InstanceType.
-	EbsBlockDevices []*EbsBlockDevice `type:"list"`
+	EbsBlockDevices []EbsBlockDevice `type:"list"`
 
 	// Evaluates to TRUE when the specified InstanceType is EBS-optimized.
 	EbsOptimized *bool `type:"boolean"`
@@ -5827,48 +4554,6 @@ func (s InstanceTypeSpecification) GoString() string {
 	return s.String()
 }
 
-// SetBidPrice sets the BidPrice field's value.
-func (s *InstanceTypeSpecification) SetBidPrice(v string) *InstanceTypeSpecification {
-	s.BidPrice = &v
-	return s
-}
-
-// SetBidPriceAsPercentageOfOnDemandPrice sets the BidPriceAsPercentageOfOnDemandPrice field's value.
-func (s *InstanceTypeSpecification) SetBidPriceAsPercentageOfOnDemandPrice(v float64) *InstanceTypeSpecification {
-	s.BidPriceAsPercentageOfOnDemandPrice = &v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *InstanceTypeSpecification) SetConfigurations(v []*Configuration) *InstanceTypeSpecification {
-	s.Configurations = v
-	return s
-}
-
-// SetEbsBlockDevices sets the EbsBlockDevices field's value.
-func (s *InstanceTypeSpecification) SetEbsBlockDevices(v []*EbsBlockDevice) *InstanceTypeSpecification {
-	s.EbsBlockDevices = v
-	return s
-}
-
-// SetEbsOptimized sets the EbsOptimized field's value.
-func (s *InstanceTypeSpecification) SetEbsOptimized(v bool) *InstanceTypeSpecification {
-	s.EbsOptimized = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *InstanceTypeSpecification) SetInstanceType(v string) *InstanceTypeSpecification {
-	s.InstanceType = &v
-	return s
-}
-
-// SetWeightedCapacity sets the WeightedCapacity field's value.
-func (s *InstanceTypeSpecification) SetWeightedCapacity(v int64) *InstanceTypeSpecification {
-	s.WeightedCapacity = &v
-	return s
-}
-
 // A description of a cluster (job flow).
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/JobFlowDetail
 type JobFlowDetail struct {
@@ -5876,7 +4561,7 @@ type JobFlowDetail struct {
 
 	// Used only for version 2.x and 3.x of Amazon EMR. The version of the AMI used
 	// to initialize Amazon EC2 instances in the job flow. For a list of AMI versions
-	// supported by Amazon EMR, see AMI Versions Supported in EMR (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/EnvironmentConfig_AMIVersion.html#ami-versions-supported)
+	// supported by Amazon EMR, see AMI Versions Supported in EMR (http://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf#nameddest=ami-versions-supported)
 	// in the Amazon EMR Developer Guide.
 	AmiVersion *string `type:"string"`
 
@@ -5887,7 +4572,7 @@ type JobFlowDetail struct {
 	AutoScalingRole *string `type:"string"`
 
 	// A list of the bootstrap actions run by the job flow.
-	BootstrapActions []*BootstrapActionDetail `type:"list"`
+	BootstrapActions []BootstrapActionDetail `type:"list"`
 
 	// Describes the execution status of the job flow.
 	//
@@ -5928,19 +4613,19 @@ type JobFlowDetail struct {
 	// instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION
 	// available only in Amazon EMR version 4.1.0 and later, and is the default
 	// for versions of Amazon EMR earlier than 5.1.0.
-	ScaleDownBehavior ScaleDownBehavior `type:"string"`
+	ScaleDownBehavior ScaleDownBehavior `type:"string" enum:"true"`
 
 	// The IAM role that will be assumed by the Amazon EMR service to access AWS
 	// resources on your behalf.
 	ServiceRole *string `type:"string"`
 
 	// A list of steps run by the job flow.
-	Steps []*StepDetail `type:"list"`
+	Steps []StepDetail `type:"list"`
 
 	// A list of strings set by third party software when the job flow is launched.
 	// If you are not using third party software to manage the job flow this value
 	// is empty.
-	SupportedProducts []*string `type:"list"`
+	SupportedProducts []string `type:"list"`
 
 	// Specifies whether the cluster is visible to all IAM users of the AWS account
 	// associated with the cluster. If this value is set to true, all IAM users
@@ -5959,90 +4644,6 @@ func (s JobFlowDetail) String() string {
 // GoString returns the string representation
 func (s JobFlowDetail) GoString() string {
 	return s.String()
-}
-
-// SetAmiVersion sets the AmiVersion field's value.
-func (s *JobFlowDetail) SetAmiVersion(v string) *JobFlowDetail {
-	s.AmiVersion = &v
-	return s
-}
-
-// SetAutoScalingRole sets the AutoScalingRole field's value.
-func (s *JobFlowDetail) SetAutoScalingRole(v string) *JobFlowDetail {
-	s.AutoScalingRole = &v
-	return s
-}
-
-// SetBootstrapActions sets the BootstrapActions field's value.
-func (s *JobFlowDetail) SetBootstrapActions(v []*BootstrapActionDetail) *JobFlowDetail {
-	s.BootstrapActions = v
-	return s
-}
-
-// SetExecutionStatusDetail sets the ExecutionStatusDetail field's value.
-func (s *JobFlowDetail) SetExecutionStatusDetail(v *JobFlowExecutionStatusDetail) *JobFlowDetail {
-	s.ExecutionStatusDetail = v
-	return s
-}
-
-// SetInstances sets the Instances field's value.
-func (s *JobFlowDetail) SetInstances(v *JobFlowInstancesDetail) *JobFlowDetail {
-	s.Instances = v
-	return s
-}
-
-// SetJobFlowId sets the JobFlowId field's value.
-func (s *JobFlowDetail) SetJobFlowId(v string) *JobFlowDetail {
-	s.JobFlowId = &v
-	return s
-}
-
-// SetJobFlowRole sets the JobFlowRole field's value.
-func (s *JobFlowDetail) SetJobFlowRole(v string) *JobFlowDetail {
-	s.JobFlowRole = &v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *JobFlowDetail) SetLogUri(v string) *JobFlowDetail {
-	s.LogUri = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *JobFlowDetail) SetName(v string) *JobFlowDetail {
-	s.Name = &v
-	return s
-}
-
-// SetScaleDownBehavior sets the ScaleDownBehavior field's value.
-func (s *JobFlowDetail) SetScaleDownBehavior(v ScaleDownBehavior) *JobFlowDetail {
-	s.ScaleDownBehavior = v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *JobFlowDetail) SetServiceRole(v string) *JobFlowDetail {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetSteps sets the Steps field's value.
-func (s *JobFlowDetail) SetSteps(v []*StepDetail) *JobFlowDetail {
-	s.Steps = v
-	return s
-}
-
-// SetSupportedProducts sets the SupportedProducts field's value.
-func (s *JobFlowDetail) SetSupportedProducts(v []*string) *JobFlowDetail {
-	s.SupportedProducts = v
-	return s
-}
-
-// SetVisibleToAllUsers sets the VisibleToAllUsers field's value.
-func (s *JobFlowDetail) SetVisibleToAllUsers(v bool) *JobFlowDetail {
-	s.VisibleToAllUsers = &v
-	return s
 }
 
 // Describes the status of the cluster (job flow).
@@ -6071,7 +4672,7 @@ type JobFlowExecutionStatusDetail struct {
 	// The state of the job flow.
 	//
 	// State is a required field
-	State JobFlowExecutionState `type:"string" required:"true"`
+	State JobFlowExecutionState `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -6084,42 +4685,6 @@ func (s JobFlowExecutionStatusDetail) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *JobFlowExecutionStatusDetail) SetCreationDateTime(v time.Time) *JobFlowExecutionStatusDetail {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *JobFlowExecutionStatusDetail) SetEndDateTime(v time.Time) *JobFlowExecutionStatusDetail {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetLastStateChangeReason sets the LastStateChangeReason field's value.
-func (s *JobFlowExecutionStatusDetail) SetLastStateChangeReason(v string) *JobFlowExecutionStatusDetail {
-	s.LastStateChangeReason = &v
-	return s
-}
-
-// SetReadyDateTime sets the ReadyDateTime field's value.
-func (s *JobFlowExecutionStatusDetail) SetReadyDateTime(v time.Time) *JobFlowExecutionStatusDetail {
-	s.ReadyDateTime = &v
-	return s
-}
-
-// SetStartDateTime sets the StartDateTime field's value.
-func (s *JobFlowExecutionStatusDetail) SetStartDateTime(v time.Time) *JobFlowExecutionStatusDetail {
-	s.StartDateTime = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *JobFlowExecutionStatusDetail) SetState(v JobFlowExecutionState) *JobFlowExecutionStatusDetail {
-	s.State = v
-	return s
-}
-
 // A description of the Amazon EC2 instance on which the cluster (job flow)
 // runs. A valid JobFlowInstancesConfig must contain either InstanceGroups or
 // InstanceFleets, which is the recommended configuration. They cannot be used
@@ -6130,10 +4695,10 @@ type JobFlowInstancesConfig struct {
 	_ struct{} `type:"structure"`
 
 	// A list of additional Amazon EC2 security group IDs for the master node.
-	AdditionalMasterSecurityGroups []*string `type:"list"`
+	AdditionalMasterSecurityGroups []string `type:"list"`
 
 	// A list of additional Amazon EC2 security group IDs for the slave nodes.
-	AdditionalSlaveSecurityGroups []*string `type:"list"`
+	AdditionalSlaveSecurityGroups []string `type:"list"`
 
 	// The name of the EC2 key pair that can be used to ssh to the master node as
 	// the user called "hadoop."
@@ -6158,7 +4723,7 @@ type JobFlowInstancesConfig struct {
 	//
 	// The instance fleet configuration is available only in Amazon EMR versions
 	// 4.8.0 and later, excluding 5.0.x versions.
-	Ec2SubnetIds []*string `type:"list"`
+	Ec2SubnetIds []string `type:"list"`
 
 	// The identifier of the Amazon EC2 security group for the master node.
 	EmrManagedMasterSecurityGroup *string `type:"string"`
@@ -6181,10 +4746,10 @@ type JobFlowInstancesConfig struct {
 	//
 	// Describes the EC2 instances and instance configurations for clusters that
 	// use the instance fleet configuration.
-	InstanceFleets []*InstanceFleetConfig `type:"list"`
+	InstanceFleets []InstanceFleetConfig `type:"list"`
 
 	// Configuration for the instance groups in a cluster.
-	InstanceGroups []*InstanceGroupConfig `type:"list"`
+	InstanceGroups []InstanceGroupConfig `type:"list"`
 
 	// Specifies whether the cluster should remain available after completing all
 	// steps.
@@ -6230,9 +4795,6 @@ func (s *JobFlowInstancesConfig) Validate() error {
 	}
 	if s.InstanceFleets != nil {
 		for i, v := range s.InstanceFleets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InstanceFleets", i), err.(aws.ErrInvalidParams))
 			}
@@ -6240,9 +4802,6 @@ func (s *JobFlowInstancesConfig) Validate() error {
 	}
 	if s.InstanceGroups != nil {
 		for i, v := range s.InstanceGroups {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InstanceGroups", i), err.(aws.ErrInvalidParams))
 			}
@@ -6253,108 +4812,6 @@ func (s *JobFlowInstancesConfig) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAdditionalMasterSecurityGroups sets the AdditionalMasterSecurityGroups field's value.
-func (s *JobFlowInstancesConfig) SetAdditionalMasterSecurityGroups(v []*string) *JobFlowInstancesConfig {
-	s.AdditionalMasterSecurityGroups = v
-	return s
-}
-
-// SetAdditionalSlaveSecurityGroups sets the AdditionalSlaveSecurityGroups field's value.
-func (s *JobFlowInstancesConfig) SetAdditionalSlaveSecurityGroups(v []*string) *JobFlowInstancesConfig {
-	s.AdditionalSlaveSecurityGroups = v
-	return s
-}
-
-// SetEc2KeyName sets the Ec2KeyName field's value.
-func (s *JobFlowInstancesConfig) SetEc2KeyName(v string) *JobFlowInstancesConfig {
-	s.Ec2KeyName = &v
-	return s
-}
-
-// SetEc2SubnetId sets the Ec2SubnetId field's value.
-func (s *JobFlowInstancesConfig) SetEc2SubnetId(v string) *JobFlowInstancesConfig {
-	s.Ec2SubnetId = &v
-	return s
-}
-
-// SetEc2SubnetIds sets the Ec2SubnetIds field's value.
-func (s *JobFlowInstancesConfig) SetEc2SubnetIds(v []*string) *JobFlowInstancesConfig {
-	s.Ec2SubnetIds = v
-	return s
-}
-
-// SetEmrManagedMasterSecurityGroup sets the EmrManagedMasterSecurityGroup field's value.
-func (s *JobFlowInstancesConfig) SetEmrManagedMasterSecurityGroup(v string) *JobFlowInstancesConfig {
-	s.EmrManagedMasterSecurityGroup = &v
-	return s
-}
-
-// SetEmrManagedSlaveSecurityGroup sets the EmrManagedSlaveSecurityGroup field's value.
-func (s *JobFlowInstancesConfig) SetEmrManagedSlaveSecurityGroup(v string) *JobFlowInstancesConfig {
-	s.EmrManagedSlaveSecurityGroup = &v
-	return s
-}
-
-// SetHadoopVersion sets the HadoopVersion field's value.
-func (s *JobFlowInstancesConfig) SetHadoopVersion(v string) *JobFlowInstancesConfig {
-	s.HadoopVersion = &v
-	return s
-}
-
-// SetInstanceCount sets the InstanceCount field's value.
-func (s *JobFlowInstancesConfig) SetInstanceCount(v int64) *JobFlowInstancesConfig {
-	s.InstanceCount = &v
-	return s
-}
-
-// SetInstanceFleets sets the InstanceFleets field's value.
-func (s *JobFlowInstancesConfig) SetInstanceFleets(v []*InstanceFleetConfig) *JobFlowInstancesConfig {
-	s.InstanceFleets = v
-	return s
-}
-
-// SetInstanceGroups sets the InstanceGroups field's value.
-func (s *JobFlowInstancesConfig) SetInstanceGroups(v []*InstanceGroupConfig) *JobFlowInstancesConfig {
-	s.InstanceGroups = v
-	return s
-}
-
-// SetKeepJobFlowAliveWhenNoSteps sets the KeepJobFlowAliveWhenNoSteps field's value.
-func (s *JobFlowInstancesConfig) SetKeepJobFlowAliveWhenNoSteps(v bool) *JobFlowInstancesConfig {
-	s.KeepJobFlowAliveWhenNoSteps = &v
-	return s
-}
-
-// SetMasterInstanceType sets the MasterInstanceType field's value.
-func (s *JobFlowInstancesConfig) SetMasterInstanceType(v string) *JobFlowInstancesConfig {
-	s.MasterInstanceType = &v
-	return s
-}
-
-// SetPlacement sets the Placement field's value.
-func (s *JobFlowInstancesConfig) SetPlacement(v *PlacementType) *JobFlowInstancesConfig {
-	s.Placement = v
-	return s
-}
-
-// SetServiceAccessSecurityGroup sets the ServiceAccessSecurityGroup field's value.
-func (s *JobFlowInstancesConfig) SetServiceAccessSecurityGroup(v string) *JobFlowInstancesConfig {
-	s.ServiceAccessSecurityGroup = &v
-	return s
-}
-
-// SetSlaveInstanceType sets the SlaveInstanceType field's value.
-func (s *JobFlowInstancesConfig) SetSlaveInstanceType(v string) *JobFlowInstancesConfig {
-	s.SlaveInstanceType = &v
-	return s
-}
-
-// SetTerminationProtected sets the TerminationProtected field's value.
-func (s *JobFlowInstancesConfig) SetTerminationProtected(v bool) *JobFlowInstancesConfig {
-	s.TerminationProtected = &v
-	return s
 }
 
 // Specify the type of Amazon EC2 instances that the cluster (job flow) runs
@@ -6382,7 +4839,7 @@ type JobFlowInstancesDetail struct {
 	InstanceCount *int64 `type:"integer" required:"true"`
 
 	// Details about the instance groups in a cluster.
-	InstanceGroups []*InstanceGroupDetail `type:"list"`
+	InstanceGroups []InstanceGroupDetail `type:"list"`
 
 	// Specifies whether the cluster should remain available after completing all
 	// steps.
@@ -6396,7 +4853,8 @@ type JobFlowInstancesDetail struct {
 	// MasterInstanceType is a required field
 	MasterInstanceType *string `min:"1" type:"string" required:"true"`
 
-	// The DNS name of the master node.
+	// The DNS name of the master node. If the cluster is on a private subnet, this
+	// is the private DNS name. On a public subnet, this is the public DNS name.
 	MasterPublicDnsName *string `type:"string"`
 
 	// An approximation of the cost of the cluster, represented in m1.small/hours.
@@ -6431,82 +4889,66 @@ func (s JobFlowInstancesDetail) GoString() string {
 	return s.String()
 }
 
-// SetEc2KeyName sets the Ec2KeyName field's value.
-func (s *JobFlowInstancesDetail) SetEc2KeyName(v string) *JobFlowInstancesDetail {
-	s.Ec2KeyName = &v
-	return s
+// Attributes for Kerberos configuration when Kerberos authentication is enabled
+// using a security configuration. For more information see Use Kerberos Authentication
+// (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html)
+// in the EMR Management Guide.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/KerberosAttributes
+type KerberosAttributes struct {
+	_ struct{} `type:"structure"`
+
+	// The Active Directory password for ADDomainJoinUser.
+	ADDomainJoinPassword *string `type:"string"`
+
+	// Required only when establishing a cross-realm trust with an Active Directory
+	// domain. A user with sufficient privileges to join resources to the domain.
+	ADDomainJoinUser *string `type:"string"`
+
+	// Required only when establishing a cross-realm trust with a KDC in a different
+	// realm. The cross-realm principal password, which must be identical across
+	// realms.
+	CrossRealmTrustPrincipalPassword *string `type:"string"`
+
+	// The password used within the cluster for the kadmin service on the cluster-dedicated
+	// KDC, which maintains Kerberos principals, password policies, and keytabs
+	// for the cluster.
+	//
+	// KdcAdminPassword is a required field
+	KdcAdminPassword *string `type:"string" required:"true"`
+
+	// The name of the Kerberos realm to which all nodes in a cluster belong. For
+	// example, EC2.INTERNAL.
+	//
+	// Realm is a required field
+	Realm *string `type:"string" required:"true"`
 }
 
-// SetEc2SubnetId sets the Ec2SubnetId field's value.
-func (s *JobFlowInstancesDetail) SetEc2SubnetId(v string) *JobFlowInstancesDetail {
-	s.Ec2SubnetId = &v
-	return s
+// String returns the string representation
+func (s KerberosAttributes) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetHadoopVersion sets the HadoopVersion field's value.
-func (s *JobFlowInstancesDetail) SetHadoopVersion(v string) *JobFlowInstancesDetail {
-	s.HadoopVersion = &v
-	return s
+// GoString returns the string representation
+func (s KerberosAttributes) GoString() string {
+	return s.String()
 }
 
-// SetInstanceCount sets the InstanceCount field's value.
-func (s *JobFlowInstancesDetail) SetInstanceCount(v int64) *JobFlowInstancesDetail {
-	s.InstanceCount = &v
-	return s
-}
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *KerberosAttributes) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "KerberosAttributes"}
 
-// SetInstanceGroups sets the InstanceGroups field's value.
-func (s *JobFlowInstancesDetail) SetInstanceGroups(v []*InstanceGroupDetail) *JobFlowInstancesDetail {
-	s.InstanceGroups = v
-	return s
-}
+	if s.KdcAdminPassword == nil {
+		invalidParams.Add(aws.NewErrParamRequired("KdcAdminPassword"))
+	}
 
-// SetKeepJobFlowAliveWhenNoSteps sets the KeepJobFlowAliveWhenNoSteps field's value.
-func (s *JobFlowInstancesDetail) SetKeepJobFlowAliveWhenNoSteps(v bool) *JobFlowInstancesDetail {
-	s.KeepJobFlowAliveWhenNoSteps = &v
-	return s
-}
+	if s.Realm == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Realm"))
+	}
 
-// SetMasterInstanceId sets the MasterInstanceId field's value.
-func (s *JobFlowInstancesDetail) SetMasterInstanceId(v string) *JobFlowInstancesDetail {
-	s.MasterInstanceId = &v
-	return s
-}
-
-// SetMasterInstanceType sets the MasterInstanceType field's value.
-func (s *JobFlowInstancesDetail) SetMasterInstanceType(v string) *JobFlowInstancesDetail {
-	s.MasterInstanceType = &v
-	return s
-}
-
-// SetMasterPublicDnsName sets the MasterPublicDnsName field's value.
-func (s *JobFlowInstancesDetail) SetMasterPublicDnsName(v string) *JobFlowInstancesDetail {
-	s.MasterPublicDnsName = &v
-	return s
-}
-
-// SetNormalizedInstanceHours sets the NormalizedInstanceHours field's value.
-func (s *JobFlowInstancesDetail) SetNormalizedInstanceHours(v int64) *JobFlowInstancesDetail {
-	s.NormalizedInstanceHours = &v
-	return s
-}
-
-// SetPlacement sets the Placement field's value.
-func (s *JobFlowInstancesDetail) SetPlacement(v *PlacementType) *JobFlowInstancesDetail {
-	s.Placement = v
-	return s
-}
-
-// SetSlaveInstanceType sets the SlaveInstanceType field's value.
-func (s *JobFlowInstancesDetail) SetSlaveInstanceType(v string) *JobFlowInstancesDetail {
-	s.SlaveInstanceType = &v
-	return s
-}
-
-// SetTerminationProtected sets the TerminationProtected field's value.
-func (s *JobFlowInstancesDetail) SetTerminationProtected(v bool) *JobFlowInstancesDetail {
-	s.TerminationProtected = &v
-	return s
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
 // A key value pair.
@@ -6529,18 +4971,6 @@ func (s KeyValue) String() string {
 // GoString returns the string representation
 func (s KeyValue) GoString() string {
 	return s.String()
-}
-
-// SetKey sets the Key field's value.
-func (s *KeyValue) SetKey(v string) *KeyValue {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *KeyValue) SetValue(v string) *KeyValue {
-	s.Value = &v
-	return s
 }
 
 // This input determines which bootstrap actions to retrieve.
@@ -6581,25 +5011,15 @@ func (s *ListBootstrapActionsInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ListBootstrapActionsInput) SetClusterId(v string) *ListBootstrapActionsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListBootstrapActionsInput) SetMarker(v string) *ListBootstrapActionsInput {
-	s.Marker = &v
-	return s
-}
-
 // This output contains the bootstrap actions detail.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListBootstrapActionsOutput
 type ListBootstrapActionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The bootstrap actions associated with the cluster.
-	BootstrapActions []*Command `type:"list"`
+	BootstrapActions []Command `type:"list"`
 
 	// The pagination token that indicates the next set of results to retrieve.
 	Marker *string `type:"string"`
@@ -6615,16 +5035,9 @@ func (s ListBootstrapActionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBootstrapActions sets the BootstrapActions field's value.
-func (s *ListBootstrapActionsOutput) SetBootstrapActions(v []*Command) *ListBootstrapActionsOutput {
-	s.BootstrapActions = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListBootstrapActionsOutput) SetMarker(v string) *ListBootstrapActionsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBootstrapActionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input determines how the ListClusters action filters the list of clusters
@@ -6656,38 +5069,16 @@ func (s ListClustersInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterStates sets the ClusterStates field's value.
-func (s *ListClustersInput) SetClusterStates(v []ClusterState) *ListClustersInput {
-	s.ClusterStates = v
-	return s
-}
-
-// SetCreatedAfter sets the CreatedAfter field's value.
-func (s *ListClustersInput) SetCreatedAfter(v time.Time) *ListClustersInput {
-	s.CreatedAfter = &v
-	return s
-}
-
-// SetCreatedBefore sets the CreatedBefore field's value.
-func (s *ListClustersInput) SetCreatedBefore(v time.Time) *ListClustersInput {
-	s.CreatedBefore = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListClustersInput) SetMarker(v string) *ListClustersInput {
-	s.Marker = &v
-	return s
-}
-
 // This contains a ClusterSummaryList with the cluster details; for example,
 // the cluster IDs, names, and status.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListClustersOutput
 type ListClustersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of clusters for the account based on the given filters.
-	Clusters []*ClusterSummary `type:"list"`
+	Clusters []ClusterSummary `type:"list"`
 
 	// The pagination token that indicates the next set of results to retrieve.
 	Marker *string `type:"string"`
@@ -6703,16 +5094,9 @@ func (s ListClustersOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusters sets the Clusters field's value.
-func (s *ListClustersOutput) SetClusters(v []*ClusterSummary) *ListClustersOutput {
-	s.Clusters = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListClustersOutput) SetMarker(v string) *ListClustersOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListClustersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListInstanceFleetsInput
@@ -6752,24 +5136,14 @@ func (s *ListInstanceFleetsInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ListInstanceFleetsInput) SetClusterId(v string) *ListInstanceFleetsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceFleetsInput) SetMarker(v string) *ListInstanceFleetsInput {
-	s.Marker = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListInstanceFleetsOutput
 type ListInstanceFleetsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of instance fleets for the cluster and given filters.
-	InstanceFleets []*InstanceFleet `type:"list"`
+	InstanceFleets []InstanceFleet `type:"list"`
 
 	// The pagination token that indicates the next set of results to retrieve.
 	Marker *string `type:"string"`
@@ -6785,16 +5159,9 @@ func (s ListInstanceFleetsOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceFleets sets the InstanceFleets field's value.
-func (s *ListInstanceFleetsOutput) SetInstanceFleets(v []*InstanceFleet) *ListInstanceFleetsOutput {
-	s.InstanceFleets = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceFleetsOutput) SetMarker(v string) *ListInstanceFleetsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInstanceFleetsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input determines which instance groups to retrieve.
@@ -6835,25 +5202,15 @@ func (s *ListInstanceGroupsInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ListInstanceGroupsInput) SetClusterId(v string) *ListInstanceGroupsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceGroupsInput) SetMarker(v string) *ListInstanceGroupsInput {
-	s.Marker = &v
-	return s
-}
-
 // This input determines which instance groups to retrieve.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListInstanceGroupsOutput
 type ListInstanceGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of instance groups for the cluster and given filters.
-	InstanceGroups []*InstanceGroup `type:"list"`
+	InstanceGroups []InstanceGroup `type:"list"`
 
 	// The pagination token that indicates the next set of results to retrieve.
 	Marker *string `type:"string"`
@@ -6869,16 +5226,9 @@ func (s ListInstanceGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceGroups sets the InstanceGroups field's value.
-func (s *ListInstanceGroupsOutput) SetInstanceGroups(v []*InstanceGroup) *ListInstanceGroupsOutput {
-	s.InstanceGroups = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceGroupsOutput) SetMarker(v string) *ListInstanceGroupsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInstanceGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input determines which instances to list.
@@ -6895,7 +5245,7 @@ type ListInstancesInput struct {
 	InstanceFleetId *string `type:"string"`
 
 	// The node type of the instance fleet. For example MASTER, CORE, or TASK.
-	InstanceFleetType InstanceFleetType `type:"string"`
+	InstanceFleetType InstanceFleetType `type:"string" enum:"true"`
 
 	// The identifier of the instance group for which to list the instances.
 	InstanceGroupId *string `type:"string"`
@@ -6935,55 +5285,15 @@ func (s *ListInstancesInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ListInstancesInput) SetClusterId(v string) *ListInstancesInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceFleetId sets the InstanceFleetId field's value.
-func (s *ListInstancesInput) SetInstanceFleetId(v string) *ListInstancesInput {
-	s.InstanceFleetId = &v
-	return s
-}
-
-// SetInstanceFleetType sets the InstanceFleetType field's value.
-func (s *ListInstancesInput) SetInstanceFleetType(v InstanceFleetType) *ListInstancesInput {
-	s.InstanceFleetType = v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *ListInstancesInput) SetInstanceGroupId(v string) *ListInstancesInput {
-	s.InstanceGroupId = &v
-	return s
-}
-
-// SetInstanceGroupTypes sets the InstanceGroupTypes field's value.
-func (s *ListInstancesInput) SetInstanceGroupTypes(v []InstanceGroupType) *ListInstancesInput {
-	s.InstanceGroupTypes = v
-	return s
-}
-
-// SetInstanceStates sets the InstanceStates field's value.
-func (s *ListInstancesInput) SetInstanceStates(v []InstanceState) *ListInstancesInput {
-	s.InstanceStates = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstancesInput) SetMarker(v string) *ListInstancesInput {
-	s.Marker = &v
-	return s
-}
-
 // This output contains the list of instances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListInstancesOutput
 type ListInstancesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of instances for the cluster and given filters.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 
 	// The pagination token that indicates the next set of results to retrieve.
 	Marker *string `type:"string"`
@@ -6999,16 +5309,9 @@ func (s ListInstancesOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstances sets the Instances field's value.
-func (s *ListInstancesOutput) SetInstances(v []*Instance) *ListInstancesOutput {
-	s.Instances = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstancesOutput) SetMarker(v string) *ListInstancesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListSecurityConfigurationsInput
@@ -7029,15 +5332,11 @@ func (s ListSecurityConfigurationsInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListSecurityConfigurationsInput) SetMarker(v string) *ListSecurityConfigurationsInput {
-	s.Marker = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListSecurityConfigurationsOutput
 type ListSecurityConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A pagination token that indicates the next set of results to retrieve. Include
 	// the marker in the next ListSecurityConfiguration call to retrieve the next
@@ -7045,7 +5344,7 @@ type ListSecurityConfigurationsOutput struct {
 	Marker *string `type:"string"`
 
 	// The creation date and time, and name, of each security configuration.
-	SecurityConfigurations []*SecurityConfigurationSummary `type:"list"`
+	SecurityConfigurations []SecurityConfigurationSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -7058,16 +5357,9 @@ func (s ListSecurityConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListSecurityConfigurationsOutput) SetMarker(v string) *ListSecurityConfigurationsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetSecurityConfigurations sets the SecurityConfigurations field's value.
-func (s *ListSecurityConfigurationsOutput) SetSecurityConfigurations(v []*SecurityConfigurationSummary) *ListSecurityConfigurationsOutput {
-	s.SecurityConfigurations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSecurityConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input determines which steps to list.
@@ -7084,7 +5376,7 @@ type ListStepsInput struct {
 	Marker *string `type:"string"`
 
 	// The filter to limit the step list based on the identifier of the steps.
-	StepIds []*string `type:"list"`
+	StepIds []string `type:"list"`
 
 	// The filter to limit the step list based on certain states.
 	StepStates []StepState `type:"list"`
@@ -7114,41 +5406,19 @@ func (s *ListStepsInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ListStepsInput) SetClusterId(v string) *ListStepsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListStepsInput) SetMarker(v string) *ListStepsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetStepIds sets the StepIds field's value.
-func (s *ListStepsInput) SetStepIds(v []*string) *ListStepsInput {
-	s.StepIds = v
-	return s
-}
-
-// SetStepStates sets the StepStates field's value.
-func (s *ListStepsInput) SetStepStates(v []StepState) *ListStepsInput {
-	s.StepStates = v
-	return s
-}
-
 // This output contains the list of steps returned in reverse order. This means
 // that the last step is the first element in the list.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ListStepsOutput
 type ListStepsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token that indicates the next set of results to retrieve.
 	Marker *string `type:"string"`
 
 	// The filtered list of steps for the cluster.
-	Steps []*StepSummary `type:"list"`
+	Steps []StepSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -7161,16 +5431,9 @@ func (s ListStepsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListStepsOutput) SetMarker(v string) *ListStepsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetSteps sets the Steps field's value.
-func (s *ListStepsOutput) SetSteps(v []*StepSummary) *ListStepsOutput {
-	s.Steps = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListStepsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A CloudWatch dimension, which is specified using a Key (known as a Name in
@@ -7197,18 +5460,6 @@ func (s MetricDimension) String() string {
 // GoString returns the string representation
 func (s MetricDimension) GoString() string {
 	return s.String()
-}
-
-// SetKey sets the Key field's value.
-func (s *MetricDimension) SetKey(v string) *MetricDimension {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *MetricDimension) SetValue(v string) *MetricDimension {
-	s.Value = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyInstanceFleetInput
@@ -7259,21 +5510,11 @@ func (s *ModifyInstanceFleetInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ModifyInstanceFleetInput) SetClusterId(v string) *ModifyInstanceFleetInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceFleet sets the InstanceFleet field's value.
-func (s *ModifyInstanceFleetInput) SetInstanceFleet(v *InstanceFleetModifyConfig) *ModifyInstanceFleetInput {
-	s.InstanceFleet = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyInstanceFleetOutput
 type ModifyInstanceFleetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7286,6 +5527,11 @@ func (s ModifyInstanceFleetOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyInstanceFleetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Change the size of some instance groups.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyInstanceGroupsInput
 type ModifyInstanceGroupsInput struct {
@@ -7295,7 +5541,7 @@ type ModifyInstanceGroupsInput struct {
 	ClusterId *string `type:"string"`
 
 	// Instance groups to change.
-	InstanceGroups []*InstanceGroupModifyConfig `type:"list"`
+	InstanceGroups []InstanceGroupModifyConfig `type:"list"`
 }
 
 // String returns the string representation
@@ -7313,9 +5559,6 @@ func (s *ModifyInstanceGroupsInput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "ModifyInstanceGroupsInput"}
 	if s.InstanceGroups != nil {
 		for i, v := range s.InstanceGroups {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InstanceGroups", i), err.(aws.ErrInvalidParams))
 			}
@@ -7328,21 +5571,11 @@ func (s *ModifyInstanceGroupsInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ModifyInstanceGroupsInput) SetClusterId(v string) *ModifyInstanceGroupsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceGroups sets the InstanceGroups field's value.
-func (s *ModifyInstanceGroupsInput) SetInstanceGroups(v []*InstanceGroupModifyConfig) *ModifyInstanceGroupsInput {
-	s.InstanceGroups = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ModifyInstanceGroupsOutput
 type ModifyInstanceGroupsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7353,6 +5586,11 @@ func (s ModifyInstanceGroupsOutput) String() string {
 // GoString returns the string representation
 func (s ModifyInstanceGroupsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyInstanceGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The Amazon EC2 Availability Zone configuration of the cluster (job flow).
@@ -7372,7 +5610,7 @@ type PlacementType struct {
 	//
 	// The instance fleet configuration is available only in Amazon EMR versions
 	// 4.8.0 and later, excluding 5.0.x versions.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 }
 
 // String returns the string representation
@@ -7383,18 +5621,6 @@ func (s PlacementType) String() string {
 // GoString returns the string representation
 func (s PlacementType) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *PlacementType) SetAvailabilityZone(v string) *PlacementType {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *PlacementType) SetAvailabilityZones(v []*string) *PlacementType {
-	s.AvailabilityZones = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/PutAutoScalingPolicyInput
@@ -7456,27 +5682,11 @@ func (s *PutAutoScalingPolicyInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingPolicy sets the AutoScalingPolicy field's value.
-func (s *PutAutoScalingPolicyInput) SetAutoScalingPolicy(v *AutoScalingPolicy) *PutAutoScalingPolicyInput {
-	s.AutoScalingPolicy = v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *PutAutoScalingPolicyInput) SetClusterId(v string) *PutAutoScalingPolicyInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *PutAutoScalingPolicyInput) SetInstanceGroupId(v string) *PutAutoScalingPolicyInput {
-	s.InstanceGroupId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/PutAutoScalingPolicyOutput
 type PutAutoScalingPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The automatic scaling policy definition.
 	AutoScalingPolicy *AutoScalingPolicyDescription `type:"structure"`
@@ -7499,22 +5709,9 @@ func (s PutAutoScalingPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingPolicy sets the AutoScalingPolicy field's value.
-func (s *PutAutoScalingPolicyOutput) SetAutoScalingPolicy(v *AutoScalingPolicyDescription) *PutAutoScalingPolicyOutput {
-	s.AutoScalingPolicy = v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *PutAutoScalingPolicyOutput) SetClusterId(v string) *PutAutoScalingPolicyOutput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *PutAutoScalingPolicyOutput) SetInstanceGroupId(v string) *PutAutoScalingPolicyOutput {
-	s.InstanceGroupId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutAutoScalingPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RemoveAutoScalingPolicyInput
@@ -7561,21 +5758,11 @@ func (s *RemoveAutoScalingPolicyInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *RemoveAutoScalingPolicyInput) SetClusterId(v string) *RemoveAutoScalingPolicyInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetInstanceGroupId sets the InstanceGroupId field's value.
-func (s *RemoveAutoScalingPolicyInput) SetInstanceGroupId(v string) *RemoveAutoScalingPolicyInput {
-	s.InstanceGroupId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RemoveAutoScalingPolicyOutput
 type RemoveAutoScalingPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7586,6 +5773,11 @@ func (s RemoveAutoScalingPolicyOutput) String() string {
 // GoString returns the string representation
 func (s RemoveAutoScalingPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveAutoScalingPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This input identifies a cluster and a list of tags to remove.
@@ -7602,7 +5794,7 @@ type RemoveTagsInput struct {
 	// A list of tag keys to remove from a resource.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `type:"list" required:"true"`
+	TagKeys []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -7633,22 +5825,12 @@ func (s *RemoveTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *RemoveTagsInput) SetResourceId(v string) *RemoveTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *RemoveTagsInput) SetTagKeys(v []*string) *RemoveTagsInput {
-	s.TagKeys = v
-	return s
-}
-
 // This output indicates the result of removing tags from a resource.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RemoveTagsOutput
 type RemoveTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7659,6 +5841,11 @@ func (s RemoveTagsOutput) String() string {
 // GoString returns the string representation
 func (s RemoveTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input to the RunJobFlow operation.
@@ -7673,7 +5860,7 @@ type RunJobFlowInput struct {
 	// later, the Linux AMI is determined by the ReleaseLabel specified or by CustomAmiID.
 	// The version of the Amazon Machine Image (AMI) to use when launching Amazon
 	// EC2 instances in the job flow. For details about the AMI versions currently
-	// supported in EMR version 3.x and 2.x, see AMI Versions Supported in EMR (ElasticMapReduce/latest/DeveloperGuide/emr-dg.pdf#nameddest=ami-versions-supported)
+	// supported in EMR version 3.x and 2.x, see AMI Versions Supported in EMR (emr/latest/DeveloperGuide/emr-dg.pdf#nameddest=ami-versions-supported)
 	// in the Amazon EMR Developer Guide.
 	//
 	// If the AMI supports multiple versions of Hadoop (for example, AMI 1.0 supports
@@ -7690,7 +5877,7 @@ type RunJobFlowInput struct {
 	// For Amazon EMR releases 4.0 and later. A list of applications for the cluster.
 	// Valid values are: "Hadoop", "Hive", "Mahout", "Pig", and "Spark." They are
 	// case insensitive.
-	Applications []*Application `type:"list"`
+	Applications []Application `type:"list"`
 
 	// An IAM role for automatic scaling policies. The default role is EMR_AutoScaling_DefaultRole.
 	// The IAM role provides permissions that the automatic scaling feature requires
@@ -7698,11 +5885,11 @@ type RunJobFlowInput struct {
 	AutoScalingRole *string `type:"string"`
 
 	// A list of bootstrap actions to run before Hadoop starts on the cluster nodes.
-	BootstrapActions []*BootstrapActionConfig `type:"list"`
+	BootstrapActions []BootstrapActionConfig `type:"list"`
 
 	// For Amazon EMR releases 4.0 and later. The list of configurations supplied
 	// for the EMR cluster you are creating.
-	Configurations []*Configuration `type:"list"`
+	Configurations []Configuration `type:"list"`
 
 	// Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
 	// Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when
@@ -7733,6 +5920,12 @@ type RunJobFlowInput struct {
 	// the CLI or console.
 	JobFlowRole *string `type:"string"`
 
+	// Attributes for Kerberos configuration when Kerberos authentication is enabled
+	// using a security configuration. For more information see Use Kerberos Authentication
+	// (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html)
+	// in the EMR Management Guide.
+	KerberosAttributes *KerberosAttributes `type:"structure"`
+
 	// The location in Amazon S3 to write the log files of the job flow. If a value
 	// is not provided, logs are not created.
 	LogUri *string `type:"string"`
@@ -7749,7 +5942,7 @@ type RunJobFlowInput struct {
 	// flow that accepts a user argument list. EMR accepts and forwards the argument
 	// list to the corresponding installation script as bootstrap action arguments.
 	// For more information, see "Launch a Job Flow on the MapR Distribution for
-	// Hadoop" in the Amazon EMR Developer Guide (http://docs.aws.amazon.com/http:/docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf).
+	// Hadoop" in the Amazon EMR Developer Guide (http://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf).
 	// Supported values are:
 	//
 	//    * "mapr-m3" - launch the cluster using MapR M3 Edition.
@@ -7768,7 +5961,7 @@ type RunJobFlowInput struct {
 	//    * "spark" - launch the cluster with Apache Spark installed.
 	//
 	//    * "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
-	NewSupportedProducts []*SupportedProductConfig `type:"list"`
+	NewSupportedProducts []SupportedProductConfig `type:"list"`
 
 	// The release label for the Amazon EMR release. For Amazon EMR 3.x and 2.x
 	// AMIs, use AmiVersion instead.
@@ -7779,7 +5972,7 @@ type RunJobFlowInput struct {
 	// using the AMI. If omitted, the default is SECURITY, which indicates that
 	// only security updates are applied. If NONE is specified, no updates are applied,
 	// and all updates must be applied manually.
-	RepoUpgradeOnBoot RepoUpgradeOnBoot `type:"string"`
+	RepoUpgradeOnBoot RepoUpgradeOnBoot `type:"string" enum:"true"`
 
 	// Specifies the way that individual Amazon EC2 instances terminate when an
 	// automatic scale-in activity occurs or an instance group is resized. TERMINATE_AT_INSTANCE_HOUR
@@ -7793,7 +5986,7 @@ type RunJobFlowInput struct {
 	// instance termination if it could lead to HDFS corruption. TERMINATE_AT_TASK_COMPLETION
 	// available only in Amazon EMR version 4.1.0 and later, and is the default
 	// for versions of Amazon EMR earlier than 5.1.0.
-	ScaleDownBehavior ScaleDownBehavior `type:"string"`
+	ScaleDownBehavior ScaleDownBehavior `type:"string" enum:"true"`
 
 	// The name of a security configuration to apply to the cluster.
 	SecurityConfiguration *string `type:"string"`
@@ -7803,22 +5996,22 @@ type RunJobFlowInput struct {
 	ServiceRole *string `type:"string"`
 
 	// A list of steps to run.
-	Steps []*StepConfig `type:"list"`
+	Steps []StepConfig `type:"list"`
 
 	// For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later,
 	// use Applications.
 	//
 	// A list of strings that indicates third-party software to use. For more information,
-	// see Use Third Party Applications with Amazon EMR (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-supported-products.html).
+	// see the Amazon EMR Developer Guide (http://docs.aws.amazon.com/emr/latest/DeveloperGuide/emr-dg.pdf).
 	// Currently supported values are:
 	//
 	//    * "mapr-m3" - launch the job flow using MapR M3 Edition.
 	//
 	//    * "mapr-m5" - launch the job flow using MapR M5 Edition.
-	SupportedProducts []*string `type:"list"`
+	SupportedProducts []string `type:"list"`
 
 	// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 
 	// Whether the cluster is visible to all IAM users of the AWS account associated
 	// with the cluster. If this value is set to true, all IAM users of that AWS
@@ -7851,9 +6044,6 @@ func (s *RunJobFlowInput) Validate() error {
 	}
 	if s.BootstrapActions != nil {
 		for i, v := range s.BootstrapActions {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "BootstrapActions", i), err.(aws.ErrInvalidParams))
 			}
@@ -7864,11 +6054,13 @@ func (s *RunJobFlowInput) Validate() error {
 			invalidParams.AddNested("Instances", err.(aws.ErrInvalidParams))
 		}
 	}
+	if s.KerberosAttributes != nil {
+		if err := s.KerberosAttributes.Validate(); err != nil {
+			invalidParams.AddNested("KerberosAttributes", err.(aws.ErrInvalidParams))
+		}
+	}
 	if s.Steps != nil {
 		for i, v := range s.Steps {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Steps", i), err.(aws.ErrInvalidParams))
 			}
@@ -7881,142 +6073,12 @@ func (s *RunJobFlowInput) Validate() error {
 	return nil
 }
 
-// SetAdditionalInfo sets the AdditionalInfo field's value.
-func (s *RunJobFlowInput) SetAdditionalInfo(v string) *RunJobFlowInput {
-	s.AdditionalInfo = &v
-	return s
-}
-
-// SetAmiVersion sets the AmiVersion field's value.
-func (s *RunJobFlowInput) SetAmiVersion(v string) *RunJobFlowInput {
-	s.AmiVersion = &v
-	return s
-}
-
-// SetApplications sets the Applications field's value.
-func (s *RunJobFlowInput) SetApplications(v []*Application) *RunJobFlowInput {
-	s.Applications = v
-	return s
-}
-
-// SetAutoScalingRole sets the AutoScalingRole field's value.
-func (s *RunJobFlowInput) SetAutoScalingRole(v string) *RunJobFlowInput {
-	s.AutoScalingRole = &v
-	return s
-}
-
-// SetBootstrapActions sets the BootstrapActions field's value.
-func (s *RunJobFlowInput) SetBootstrapActions(v []*BootstrapActionConfig) *RunJobFlowInput {
-	s.BootstrapActions = v
-	return s
-}
-
-// SetConfigurations sets the Configurations field's value.
-func (s *RunJobFlowInput) SetConfigurations(v []*Configuration) *RunJobFlowInput {
-	s.Configurations = v
-	return s
-}
-
-// SetCustomAmiId sets the CustomAmiId field's value.
-func (s *RunJobFlowInput) SetCustomAmiId(v string) *RunJobFlowInput {
-	s.CustomAmiId = &v
-	return s
-}
-
-// SetEbsRootVolumeSize sets the EbsRootVolumeSize field's value.
-func (s *RunJobFlowInput) SetEbsRootVolumeSize(v int64) *RunJobFlowInput {
-	s.EbsRootVolumeSize = &v
-	return s
-}
-
-// SetInstances sets the Instances field's value.
-func (s *RunJobFlowInput) SetInstances(v *JobFlowInstancesConfig) *RunJobFlowInput {
-	s.Instances = v
-	return s
-}
-
-// SetJobFlowRole sets the JobFlowRole field's value.
-func (s *RunJobFlowInput) SetJobFlowRole(v string) *RunJobFlowInput {
-	s.JobFlowRole = &v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *RunJobFlowInput) SetLogUri(v string) *RunJobFlowInput {
-	s.LogUri = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *RunJobFlowInput) SetName(v string) *RunJobFlowInput {
-	s.Name = &v
-	return s
-}
-
-// SetNewSupportedProducts sets the NewSupportedProducts field's value.
-func (s *RunJobFlowInput) SetNewSupportedProducts(v []*SupportedProductConfig) *RunJobFlowInput {
-	s.NewSupportedProducts = v
-	return s
-}
-
-// SetReleaseLabel sets the ReleaseLabel field's value.
-func (s *RunJobFlowInput) SetReleaseLabel(v string) *RunJobFlowInput {
-	s.ReleaseLabel = &v
-	return s
-}
-
-// SetRepoUpgradeOnBoot sets the RepoUpgradeOnBoot field's value.
-func (s *RunJobFlowInput) SetRepoUpgradeOnBoot(v RepoUpgradeOnBoot) *RunJobFlowInput {
-	s.RepoUpgradeOnBoot = v
-	return s
-}
-
-// SetScaleDownBehavior sets the ScaleDownBehavior field's value.
-func (s *RunJobFlowInput) SetScaleDownBehavior(v ScaleDownBehavior) *RunJobFlowInput {
-	s.ScaleDownBehavior = v
-	return s
-}
-
-// SetSecurityConfiguration sets the SecurityConfiguration field's value.
-func (s *RunJobFlowInput) SetSecurityConfiguration(v string) *RunJobFlowInput {
-	s.SecurityConfiguration = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *RunJobFlowInput) SetServiceRole(v string) *RunJobFlowInput {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetSteps sets the Steps field's value.
-func (s *RunJobFlowInput) SetSteps(v []*StepConfig) *RunJobFlowInput {
-	s.Steps = v
-	return s
-}
-
-// SetSupportedProducts sets the SupportedProducts field's value.
-func (s *RunJobFlowInput) SetSupportedProducts(v []*string) *RunJobFlowInput {
-	s.SupportedProducts = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *RunJobFlowInput) SetTags(v []*Tag) *RunJobFlowInput {
-	s.Tags = v
-	return s
-}
-
-// SetVisibleToAllUsers sets the VisibleToAllUsers field's value.
-func (s *RunJobFlowInput) SetVisibleToAllUsers(v bool) *RunJobFlowInput {
-	s.VisibleToAllUsers = &v
-	return s
-}
-
 // The result of the RunJobFlow operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/RunJobFlowOutput
 type RunJobFlowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An unique identifier for the job flow.
 	JobFlowId *string `type:"string"`
@@ -8032,10 +6094,9 @@ func (s RunJobFlowOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobFlowId sets the JobFlowId field's value.
-func (s *RunJobFlowOutput) SetJobFlowId(v string) *RunJobFlowOutput {
-	s.JobFlowId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RunJobFlowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The type of adjustment the automatic scaling activity makes when triggered,
@@ -8046,7 +6107,7 @@ type ScalingAction struct {
 
 	// Not available for instance groups. Instance groups use the market type specified
 	// for the group.
-	Market MarketType `type:"string"`
+	Market MarketType `type:"string" enum:"true"`
 
 	// The type of adjustment the automatic scaling activity makes when triggered,
 	// and the periodicity of the adjustment.
@@ -8082,18 +6143,6 @@ func (s *ScalingAction) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetMarket sets the Market field's value.
-func (s *ScalingAction) SetMarket(v MarketType) *ScalingAction {
-	s.Market = v
-	return s
-}
-
-// SetSimpleScalingPolicyConfiguration sets the SimpleScalingPolicyConfiguration field's value.
-func (s *ScalingAction) SetSimpleScalingPolicyConfiguration(v *SimpleScalingPolicyConfiguration) *ScalingAction {
-	s.SimpleScalingPolicyConfiguration = v
-	return s
 }
 
 // The upper and lower EC2 instance limits for an automatic scaling policy.
@@ -8144,18 +6193,6 @@ func (s *ScalingConstraints) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetMaxCapacity sets the MaxCapacity field's value.
-func (s *ScalingConstraints) SetMaxCapacity(v int64) *ScalingConstraints {
-	s.MaxCapacity = &v
-	return s
-}
-
-// SetMinCapacity sets the MinCapacity field's value.
-func (s *ScalingConstraints) SetMinCapacity(v int64) *ScalingConstraints {
-	s.MinCapacity = &v
-	return s
 }
 
 // A scale-in or scale-out rule that defines scaling activity, including the
@@ -8229,30 +6266,6 @@ func (s *ScalingRule) Validate() error {
 	return nil
 }
 
-// SetAction sets the Action field's value.
-func (s *ScalingRule) SetAction(v *ScalingAction) *ScalingRule {
-	s.Action = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ScalingRule) SetDescription(v string) *ScalingRule {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ScalingRule) SetName(v string) *ScalingRule {
-	s.Name = &v
-	return s
-}
-
-// SetTrigger sets the Trigger field's value.
-func (s *ScalingRule) SetTrigger(v *ScalingTrigger) *ScalingRule {
-	s.Trigger = v
-	return s
-}
-
 // The conditions that trigger an automatic scaling activity.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ScalingTrigger
 type ScalingTrigger struct {
@@ -8294,19 +6307,13 @@ func (s *ScalingTrigger) Validate() error {
 	return nil
 }
 
-// SetCloudWatchAlarmDefinition sets the CloudWatchAlarmDefinition field's value.
-func (s *ScalingTrigger) SetCloudWatchAlarmDefinition(v *CloudWatchAlarmDefinition) *ScalingTrigger {
-	s.CloudWatchAlarmDefinition = v
-	return s
-}
-
 // Configuration of the script to run during a bootstrap action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/ScriptBootstrapActionConfig
 type ScriptBootstrapActionConfig struct {
 	_ struct{} `type:"structure"`
 
 	// A list of command line arguments to pass to the bootstrap action script.
-	Args []*string `type:"list"`
+	Args []string `type:"list"`
 
 	// Location of the script to run during a bootstrap action. Can be either a
 	// location in Amazon S3 or on a local file system.
@@ -8339,18 +6346,6 @@ func (s *ScriptBootstrapActionConfig) Validate() error {
 	return nil
 }
 
-// SetArgs sets the Args field's value.
-func (s *ScriptBootstrapActionConfig) SetArgs(v []*string) *ScriptBootstrapActionConfig {
-	s.Args = v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *ScriptBootstrapActionConfig) SetPath(v string) *ScriptBootstrapActionConfig {
-	s.Path = &v
-	return s
-}
-
 // The creation date and time, and name, of a security configuration.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SecurityConfigurationSummary
 type SecurityConfigurationSummary struct {
@@ -8373,18 +6368,6 @@ func (s SecurityConfigurationSummary) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *SecurityConfigurationSummary) SetCreationDateTime(v time.Time) *SecurityConfigurationSummary {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *SecurityConfigurationSummary) SetName(v string) *SecurityConfigurationSummary {
-	s.Name = &v
-	return s
-}
-
 // The input argument to the TerminationProtection operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SetTerminationProtectionInput
 type SetTerminationProtectionInput struct {
@@ -8395,7 +6378,7 @@ type SetTerminationProtectionInput struct {
 	// .
 	//
 	// JobFlowIds is a required field
-	JobFlowIds []*string `type:"list" required:"true"`
+	JobFlowIds []string `type:"list" required:"true"`
 
 	// A Boolean that indicates whether to protect the cluster and prevent the Amazon
 	// EC2 instances in the cluster from shutting down due to API calls, user intervention,
@@ -8433,21 +6416,11 @@ func (s *SetTerminationProtectionInput) Validate() error {
 	return nil
 }
 
-// SetJobFlowIds sets the JobFlowIds field's value.
-func (s *SetTerminationProtectionInput) SetJobFlowIds(v []*string) *SetTerminationProtectionInput {
-	s.JobFlowIds = v
-	return s
-}
-
-// SetTerminationProtected sets the TerminationProtected field's value.
-func (s *SetTerminationProtectionInput) SetTerminationProtected(v bool) *SetTerminationProtectionInput {
-	s.TerminationProtected = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SetTerminationProtectionOutput
 type SetTerminationProtectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8460,6 +6433,11 @@ func (s SetTerminationProtectionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetTerminationProtectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // The input to the SetVisibleToAllUsers action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SetVisibleToAllUsersInput
 type SetVisibleToAllUsersInput struct {
@@ -8468,7 +6446,7 @@ type SetVisibleToAllUsersInput struct {
 	// Identifiers of the job flows to receive the new visibility setting.
 	//
 	// JobFlowIds is a required field
-	JobFlowIds []*string `type:"list" required:"true"`
+	JobFlowIds []string `type:"list" required:"true"`
 
 	// Whether the specified clusters are visible to all IAM users of the AWS account
 	// associated with the cluster. If this value is set to True, all IAM users
@@ -8508,21 +6486,11 @@ func (s *SetVisibleToAllUsersInput) Validate() error {
 	return nil
 }
 
-// SetJobFlowIds sets the JobFlowIds field's value.
-func (s *SetVisibleToAllUsersInput) SetJobFlowIds(v []*string) *SetVisibleToAllUsersInput {
-	s.JobFlowIds = v
-	return s
-}
-
-// SetVisibleToAllUsers sets the VisibleToAllUsers field's value.
-func (s *SetVisibleToAllUsersInput) SetVisibleToAllUsers(v bool) *SetVisibleToAllUsersInput {
-	s.VisibleToAllUsers = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/SetVisibleToAllUsersOutput
 type SetVisibleToAllUsersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8533,6 +6501,11 @@ func (s SetVisibleToAllUsersOutput) String() string {
 // GoString returns the string representation
 func (s SetVisibleToAllUsersOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetVisibleToAllUsersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Policy for customizing shrink operations. Allows configuration of decommissioning
@@ -8560,18 +6533,6 @@ func (s ShrinkPolicy) GoString() string {
 	return s.String()
 }
 
-// SetDecommissionTimeout sets the DecommissionTimeout field's value.
-func (s *ShrinkPolicy) SetDecommissionTimeout(v int64) *ShrinkPolicy {
-	s.DecommissionTimeout = &v
-	return s
-}
-
-// SetInstanceResizePolicy sets the InstanceResizePolicy field's value.
-func (s *ShrinkPolicy) SetInstanceResizePolicy(v *InstanceResizePolicy) *ShrinkPolicy {
-	s.InstanceResizePolicy = v
-	return s
-}
-
 // An automatic scaling configuration, which describes how the policy adds or
 // removes instances, the cooldown period, and the number of EC2 instances that
 // will be added each time the CloudWatch metric alarm condition is satisfied.
@@ -8585,12 +6546,12 @@ type SimpleScalingPolicyConfiguration struct {
 	// indicates that the EC2 instance count increments or decrements by ScalingAdjustment,
 	// which should be expressed as an integer. PERCENT_CHANGE_IN_CAPACITY indicates
 	// the instance count increments or decrements by the percentage specified by
-	// ScalingAdjustment, which should be expressed as a decimal. For example, 0.20
-	// indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY
+	// ScalingAdjustment, which should be expressed as an integer. For example,
+	// 20 indicates an increase in 20% increments of cluster capacity. EXACT_CAPACITY
 	// indicates the scaling activity results in an instance group with the number
 	// of EC2 instances specified by ScalingAdjustment, which should be expressed
 	// as a positive integer.
-	AdjustmentType AdjustmentType `type:"string"`
+	AdjustmentType AdjustmentType `type:"string" enum:"true"`
 
 	// The amount of time, in seconds, after a scaling activity completes before
 	// any further trigger-related scaling activities can start. The default value
@@ -8601,8 +6562,8 @@ type SimpleScalingPolicyConfiguration struct {
 	// A positive value adds to the instance group's EC2 instance count while a
 	// negative number removes instances. If AdjustmentType is set to EXACT_CAPACITY,
 	// the number should only be a positive integer. If AdjustmentType is set to
-	// PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as a
-	// decimal. For example, -0.20 indicates a decrease in 20% increments of cluster
+	// PERCENT_CHANGE_IN_CAPACITY, the value should express the percentage as an
+	// integer. For example, -20 indicates a decrease in 20% increments of cluster
 	// capacity.
 	//
 	// ScalingAdjustment is a required field
@@ -8633,24 +6594,6 @@ func (s *SimpleScalingPolicyConfiguration) Validate() error {
 	return nil
 }
 
-// SetAdjustmentType sets the AdjustmentType field's value.
-func (s *SimpleScalingPolicyConfiguration) SetAdjustmentType(v AdjustmentType) *SimpleScalingPolicyConfiguration {
-	s.AdjustmentType = v
-	return s
-}
-
-// SetCoolDown sets the CoolDown field's value.
-func (s *SimpleScalingPolicyConfiguration) SetCoolDown(v int64) *SimpleScalingPolicyConfiguration {
-	s.CoolDown = &v
-	return s
-}
-
-// SetScalingAdjustment sets the ScalingAdjustment field's value.
-func (s *SimpleScalingPolicyConfiguration) SetScalingAdjustment(v int64) *SimpleScalingPolicyConfiguration {
-	s.ScalingAdjustment = &v
-	return s
-}
-
 // The launch specification for Spot instances in the instance fleet, which
 // determines the defined duration and provisioning timeout behavior.
 //
@@ -8677,7 +6620,7 @@ type SpotProvisioningSpecification struct {
 	// Instances should be provisioned to fulfill any remaining Spot capacity.
 	//
 	// TimeoutAction is a required field
-	TimeoutAction SpotProvisioningTimeoutAction `type:"string" required:"true"`
+	TimeoutAction SpotProvisioningTimeoutAction `type:"string" required:"true" enum:"true"`
 
 	// The spot provisioning timeout period in minutes. If Spot instances are not
 	// provisioned within this time period, the TimeOutAction is taken. Minimum
@@ -8715,24 +6658,6 @@ func (s *SpotProvisioningSpecification) Validate() error {
 	return nil
 }
 
-// SetBlockDurationMinutes sets the BlockDurationMinutes field's value.
-func (s *SpotProvisioningSpecification) SetBlockDurationMinutes(v int64) *SpotProvisioningSpecification {
-	s.BlockDurationMinutes = &v
-	return s
-}
-
-// SetTimeoutAction sets the TimeoutAction field's value.
-func (s *SpotProvisioningSpecification) SetTimeoutAction(v SpotProvisioningTimeoutAction) *SpotProvisioningSpecification {
-	s.TimeoutAction = v
-	return s
-}
-
-// SetTimeoutDurationMinutes sets the TimeoutDurationMinutes field's value.
-func (s *SpotProvisioningSpecification) SetTimeoutDurationMinutes(v int64) *SpotProvisioningSpecification {
-	s.TimeoutDurationMinutes = &v
-	return s
-}
-
 // This represents a step in a cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Step
 type Step struct {
@@ -8740,7 +6665,7 @@ type Step struct {
 
 	// This specifies what action to take when the cluster step fails. Possible
 	// values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-	ActionOnFailure ActionOnFailure `type:"string"`
+	ActionOnFailure ActionOnFailure `type:"string" enum:"true"`
 
 	// The Hadoop job configuration of the cluster step.
 	Config *HadoopStepConfig `type:"structure"`
@@ -8765,43 +6690,13 @@ func (s Step) GoString() string {
 	return s.String()
 }
 
-// SetActionOnFailure sets the ActionOnFailure field's value.
-func (s *Step) SetActionOnFailure(v ActionOnFailure) *Step {
-	s.ActionOnFailure = v
-	return s
-}
-
-// SetConfig sets the Config field's value.
-func (s *Step) SetConfig(v *HadoopStepConfig) *Step {
-	s.Config = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Step) SetId(v string) *Step {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Step) SetName(v string) *Step {
-	s.Name = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Step) SetStatus(v *StepStatus) *Step {
-	s.Status = v
-	return s
-}
-
 // Specification of a cluster (job flow) step.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StepConfig
 type StepConfig struct {
 	_ struct{} `type:"structure"`
 
 	// The action to take if the step fails.
-	ActionOnFailure ActionOnFailure `type:"string"`
+	ActionOnFailure ActionOnFailure `type:"string" enum:"true"`
 
 	// The JAR file used for the step.
 	//
@@ -8847,24 +6742,6 @@ func (s *StepConfig) Validate() error {
 	return nil
 }
 
-// SetActionOnFailure sets the ActionOnFailure field's value.
-func (s *StepConfig) SetActionOnFailure(v ActionOnFailure) *StepConfig {
-	s.ActionOnFailure = v
-	return s
-}
-
-// SetHadoopJarStep sets the HadoopJarStep field's value.
-func (s *StepConfig) SetHadoopJarStep(v *HadoopJarStepConfig) *StepConfig {
-	s.HadoopJarStep = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StepConfig) SetName(v string) *StepConfig {
-	s.Name = &v
-	return s
-}
-
 // Combines the execution state and configuration of a step.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StepDetail
 type StepDetail struct {
@@ -8891,18 +6768,6 @@ func (s StepDetail) GoString() string {
 	return s.String()
 }
 
-// SetExecutionStatusDetail sets the ExecutionStatusDetail field's value.
-func (s *StepDetail) SetExecutionStatusDetail(v *StepExecutionStatusDetail) *StepDetail {
-	s.ExecutionStatusDetail = v
-	return s
-}
-
-// SetStepConfig sets the StepConfig field's value.
-func (s *StepDetail) SetStepConfig(v *StepConfig) *StepDetail {
-	s.StepConfig = v
-	return s
-}
-
 // The execution state of a step.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StepExecutionStatusDetail
 type StepExecutionStatusDetail struct {
@@ -8925,7 +6790,7 @@ type StepExecutionStatusDetail struct {
 	// The state of the step.
 	//
 	// State is a required field
-	State StepExecutionState `type:"string" required:"true"`
+	State StepExecutionState `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -8938,36 +6803,6 @@ func (s StepExecutionStatusDetail) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *StepExecutionStatusDetail) SetCreationDateTime(v time.Time) *StepExecutionStatusDetail {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *StepExecutionStatusDetail) SetEndDateTime(v time.Time) *StepExecutionStatusDetail {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetLastStateChangeReason sets the LastStateChangeReason field's value.
-func (s *StepExecutionStatusDetail) SetLastStateChangeReason(v string) *StepExecutionStatusDetail {
-	s.LastStateChangeReason = &v
-	return s
-}
-
-// SetStartDateTime sets the StartDateTime field's value.
-func (s *StepExecutionStatusDetail) SetStartDateTime(v time.Time) *StepExecutionStatusDetail {
-	s.StartDateTime = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *StepExecutionStatusDetail) SetState(v StepExecutionState) *StepExecutionStatusDetail {
-	s.State = v
-	return s
-}
-
 // The details of the step state change reason.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StepStateChangeReason
 type StepStateChangeReason struct {
@@ -8975,7 +6810,7 @@ type StepStateChangeReason struct {
 
 	// The programmable code for the state change reason. Note: Currently, the service
 	// provides no code for the state change.
-	Code StepStateChangeReasonCode `type:"string"`
+	Code StepStateChangeReasonCode `type:"string" enum:"true"`
 
 	// The descriptive message for the state change reason.
 	Message *string `type:"string"`
@@ -8991,18 +6826,6 @@ func (s StepStateChangeReason) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *StepStateChangeReason) SetCode(v StepStateChangeReasonCode) *StepStateChangeReason {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *StepStateChangeReason) SetMessage(v string) *StepStateChangeReason {
-	s.Message = &v
-	return s
-}
-
 // The execution status details of the cluster step.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StepStatus
 type StepStatus struct {
@@ -9013,7 +6836,7 @@ type StepStatus struct {
 	FailureDetails *FailureDetails `type:"structure"`
 
 	// The execution state of the cluster step.
-	State StepState `type:"string"`
+	State StepState `type:"string" enum:"true"`
 
 	// The reason for the step execution status change.
 	StateChangeReason *StepStateChangeReason `type:"structure"`
@@ -9032,30 +6855,6 @@ func (s StepStatus) GoString() string {
 	return s.String()
 }
 
-// SetFailureDetails sets the FailureDetails field's value.
-func (s *StepStatus) SetFailureDetails(v *FailureDetails) *StepStatus {
-	s.FailureDetails = v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *StepStatus) SetState(v StepState) *StepStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *StepStatus) SetStateChangeReason(v *StepStateChangeReason) *StepStatus {
-	s.StateChangeReason = v
-	return s
-}
-
-// SetTimeline sets the Timeline field's value.
-func (s *StepStatus) SetTimeline(v *StepTimeline) *StepStatus {
-	s.Timeline = v
-	return s
-}
-
 // The summary of the cluster step.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/StepSummary
 type StepSummary struct {
@@ -9063,7 +6862,7 @@ type StepSummary struct {
 
 	// This specifies what action to take when the cluster step fails. Possible
 	// values are TERMINATE_CLUSTER, CANCEL_AND_WAIT, and CONTINUE.
-	ActionOnFailure ActionOnFailure `type:"string"`
+	ActionOnFailure ActionOnFailure `type:"string" enum:"true"`
 
 	// The Hadoop job configuration of the cluster step.
 	Config *HadoopStepConfig `type:"structure"`
@@ -9086,36 +6885,6 @@ func (s StepSummary) String() string {
 // GoString returns the string representation
 func (s StepSummary) GoString() string {
 	return s.String()
-}
-
-// SetActionOnFailure sets the ActionOnFailure field's value.
-func (s *StepSummary) SetActionOnFailure(v ActionOnFailure) *StepSummary {
-	s.ActionOnFailure = v
-	return s
-}
-
-// SetConfig sets the Config field's value.
-func (s *StepSummary) SetConfig(v *HadoopStepConfig) *StepSummary {
-	s.Config = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *StepSummary) SetId(v string) *StepSummary {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StepSummary) SetName(v string) *StepSummary {
-	s.Name = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *StepSummary) SetStatus(v *StepStatus) *StepSummary {
-	s.Status = v
-	return s
 }
 
 // The timeline of the cluster step lifecycle.
@@ -9143,24 +6912,6 @@ func (s StepTimeline) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *StepTimeline) SetCreationDateTime(v time.Time) *StepTimeline {
-	s.CreationDateTime = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *StepTimeline) SetEndDateTime(v time.Time) *StepTimeline {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetStartDateTime sets the StartDateTime field's value.
-func (s *StepTimeline) SetStartDateTime(v time.Time) *StepTimeline {
-	s.StartDateTime = &v
-	return s
-}
-
 // The list of supported product configurations which allow user-supplied arguments.
 // EMR accepts these arguments and forwards them to the corresponding installation
 // script as bootstrap action arguments.
@@ -9169,7 +6920,7 @@ type SupportedProductConfig struct {
 	_ struct{} `type:"structure"`
 
 	// The list of user-supplied arguments.
-	Args []*string `type:"list"`
+	Args []string `type:"list"`
 
 	// The name of the product configuration.
 	Name *string `type:"string"`
@@ -9185,33 +6936,20 @@ func (s SupportedProductConfig) GoString() string {
 	return s.String()
 }
 
-// SetArgs sets the Args field's value.
-func (s *SupportedProductConfig) SetArgs(v []*string) *SupportedProductConfig {
-	s.Args = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *SupportedProductConfig) SetName(v string) *SupportedProductConfig {
-	s.Name = &v
-	return s
-}
-
 // A key/value pair containing user-defined metadata that you can associate
 // with an Amazon EMR resource. Tags make it easier to associate clusters in
 // various ways, such as grouping clusters to track your Amazon EMR resource
-// allocation costs. For more information, see Tagging Amazon EMR Resources
-// (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-plan-tags.html).
+// allocation costs. For more information, see Tag Clusters (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html).
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/Tag
 type Tag struct {
 	_ struct{} `type:"structure"`
 
 	// A user-defined key, which is the minimum required information for a valid
-	// tag. For more information, see Tagging Amazon EMR Resources (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-plan-tags.html).
+	// tag. For more information, see Tag  (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html).
 	Key *string `type:"string"`
 
 	// A user-defined value, which is optional in a tag. For more information, see
-	// Tagging Amazon EMR Resources (http://docs.aws.amazon.com/ElasticMapReduce/latest/DeveloperGuide/emr-plan-tags.html).
+	// Tag Clusters (http://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-tags.html).
 	Value *string `type:"string"`
 }
 
@@ -9225,18 +6963,6 @@ func (s Tag) GoString() string {
 	return s.String()
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // Input to the TerminateJobFlows operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/TerminateJobFlowsInput
 type TerminateJobFlowsInput struct {
@@ -9245,7 +6971,7 @@ type TerminateJobFlowsInput struct {
 	// A list of job flows to be shutdown.
 	//
 	// JobFlowIds is a required field
-	JobFlowIds []*string `type:"list" required:"true"`
+	JobFlowIds []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -9272,15 +6998,11 @@ func (s *TerminateJobFlowsInput) Validate() error {
 	return nil
 }
 
-// SetJobFlowIds sets the JobFlowIds field's value.
-func (s *TerminateJobFlowsInput) SetJobFlowIds(v []*string) *TerminateJobFlowsInput {
-	s.JobFlowIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticmapreduce-2009-03-31/TerminateJobFlowsOutput
 type TerminateJobFlowsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9291,6 +7013,11 @@ func (s TerminateJobFlowsOutput) String() string {
 // GoString returns the string representation
 func (s TerminateJobFlowsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TerminateJobFlowsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // EBS volume specifications such as volume type, IOPS, and size (GiB) that
@@ -9342,24 +7069,6 @@ func (s *VolumeSpecification) Validate() error {
 	return nil
 }
 
-// SetIops sets the Iops field's value.
-func (s *VolumeSpecification) SetIops(v int64) *VolumeSpecification {
-	s.Iops = &v
-	return s
-}
-
-// SetSizeInGB sets the SizeInGB field's value.
-func (s *VolumeSpecification) SetSizeInGB(v int64) *VolumeSpecification {
-	s.SizeInGB = &v
-	return s
-}
-
-// SetVolumeType sets the VolumeType field's value.
-func (s *VolumeSpecification) SetVolumeType(v string) *VolumeSpecification {
-	s.VolumeType = &v
-	return s
-}
-
 type ActionOnFailure string
 
 // Enum values for ActionOnFailure
@@ -9370,6 +7079,15 @@ const (
 	ActionOnFailureContinue         ActionOnFailure = "CONTINUE"
 )
 
+func (enum ActionOnFailure) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionOnFailure) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AdjustmentType string
 
 // Enum values for AdjustmentType
@@ -9378,6 +7096,15 @@ const (
 	AdjustmentTypePercentChangeInCapacity AdjustmentType = "PERCENT_CHANGE_IN_CAPACITY"
 	AdjustmentTypeExactCapacity           AdjustmentType = "EXACT_CAPACITY"
 )
+
+func (enum AdjustmentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AdjustmentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type AutoScalingPolicyState string
 
@@ -9391,6 +7118,15 @@ const (
 	AutoScalingPolicyStateFailed    AutoScalingPolicyState = "FAILED"
 )
 
+func (enum AutoScalingPolicyState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AutoScalingPolicyState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AutoScalingPolicyStateChangeReasonCode string
 
 // Enum values for AutoScalingPolicyStateChangeReasonCode
@@ -9400,6 +7136,15 @@ const (
 	AutoScalingPolicyStateChangeReasonCodeCleanupFailure   AutoScalingPolicyStateChangeReasonCode = "CLEANUP_FAILURE"
 )
 
+func (enum AutoScalingPolicyStateChangeReasonCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AutoScalingPolicyStateChangeReasonCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type CancelStepsRequestStatus string
 
 // Enum values for CancelStepsRequestStatus
@@ -9407,6 +7152,15 @@ const (
 	CancelStepsRequestStatusSubmitted CancelStepsRequestStatus = "SUBMITTED"
 	CancelStepsRequestStatusFailed    CancelStepsRequestStatus = "FAILED"
 )
+
+func (enum CancelStepsRequestStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CancelStepsRequestStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ClusterState string
 
@@ -9420,6 +7174,15 @@ const (
 	ClusterStateTerminated           ClusterState = "TERMINATED"
 	ClusterStateTerminatedWithErrors ClusterState = "TERMINATED_WITH_ERRORS"
 )
+
+func (enum ClusterState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ClusterState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ClusterStateChangeReasonCode string
 
@@ -9435,6 +7198,15 @@ const (
 	ClusterStateChangeReasonCodeAllStepsCompleted    ClusterStateChangeReasonCode = "ALL_STEPS_COMPLETED"
 )
 
+func (enum ClusterStateChangeReasonCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ClusterStateChangeReasonCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ComparisonOperator string
 
 // Enum values for ComparisonOperator
@@ -9445,6 +7217,15 @@ const (
 	ComparisonOperatorLessThanOrEqual    ComparisonOperator = "LESS_THAN_OR_EQUAL"
 )
 
+func (enum ComparisonOperator) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ComparisonOperator) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceCollectionType string
 
 // Enum values for InstanceCollectionType
@@ -9452,6 +7233,15 @@ const (
 	InstanceCollectionTypeInstanceFleet InstanceCollectionType = "INSTANCE_FLEET"
 	InstanceCollectionTypeInstanceGroup InstanceCollectionType = "INSTANCE_GROUP"
 )
+
+func (enum InstanceCollectionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceCollectionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InstanceFleetState string
 
@@ -9466,6 +7256,15 @@ const (
 	InstanceFleetStateTerminated    InstanceFleetState = "TERMINATED"
 )
 
+func (enum InstanceFleetState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceFleetState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceFleetStateChangeReasonCode string
 
 // Enum values for InstanceFleetStateChangeReasonCode
@@ -9476,6 +7275,15 @@ const (
 	InstanceFleetStateChangeReasonCodeClusterTerminated InstanceFleetStateChangeReasonCode = "CLUSTER_TERMINATED"
 )
 
+func (enum InstanceFleetStateChangeReasonCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceFleetStateChangeReasonCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceFleetType string
 
 // Enum values for InstanceFleetType
@@ -9484,6 +7292,15 @@ const (
 	InstanceFleetTypeCore   InstanceFleetType = "CORE"
 	InstanceFleetTypeTask   InstanceFleetType = "TASK"
 )
+
+func (enum InstanceFleetType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceFleetType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InstanceGroupState string
 
@@ -9501,6 +7318,15 @@ const (
 	InstanceGroupStateEnded         InstanceGroupState = "ENDED"
 )
 
+func (enum InstanceGroupState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceGroupState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceGroupStateChangeReasonCode string
 
 // Enum values for InstanceGroupStateChangeReasonCode
@@ -9511,6 +7337,15 @@ const (
 	InstanceGroupStateChangeReasonCodeClusterTerminated InstanceGroupStateChangeReasonCode = "CLUSTER_TERMINATED"
 )
 
+func (enum InstanceGroupStateChangeReasonCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceGroupStateChangeReasonCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceGroupType string
 
 // Enum values for InstanceGroupType
@@ -9520,6 +7355,15 @@ const (
 	InstanceGroupTypeTask   InstanceGroupType = "TASK"
 )
 
+func (enum InstanceGroupType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceGroupType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceRoleType string
 
 // Enum values for InstanceRoleType
@@ -9528,6 +7372,15 @@ const (
 	InstanceRoleTypeCore   InstanceRoleType = "CORE"
 	InstanceRoleTypeTask   InstanceRoleType = "TASK"
 )
+
+func (enum InstanceRoleType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceRoleType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InstanceState string
 
@@ -9540,6 +7393,15 @@ const (
 	InstanceStateTerminated          InstanceState = "TERMINATED"
 )
 
+func (enum InstanceState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceStateChangeReasonCode string
 
 // Enum values for InstanceStateChangeReasonCode
@@ -9550,6 +7412,15 @@ const (
 	InstanceStateChangeReasonCodeBootstrapFailure  InstanceStateChangeReasonCode = "BOOTSTRAP_FAILURE"
 	InstanceStateChangeReasonCodeClusterTerminated InstanceStateChangeReasonCode = "CLUSTER_TERMINATED"
 )
+
+func (enum InstanceStateChangeReasonCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceStateChangeReasonCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The type of instance.
 type JobFlowExecutionState string
@@ -9566,6 +7437,15 @@ const (
 	JobFlowExecutionStateFailed        JobFlowExecutionState = "FAILED"
 )
 
+func (enum JobFlowExecutionState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum JobFlowExecutionState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MarketType string
 
 // Enum values for MarketType
@@ -9573,6 +7453,15 @@ const (
 	MarketTypeOnDemand MarketType = "ON_DEMAND"
 	MarketTypeSpot     MarketType = "SPOT"
 )
+
+func (enum MarketType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MarketType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RepoUpgradeOnBoot string
 
@@ -9582,6 +7471,15 @@ const (
 	RepoUpgradeOnBootNone     RepoUpgradeOnBoot = "NONE"
 )
 
+func (enum RepoUpgradeOnBoot) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RepoUpgradeOnBoot) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ScaleDownBehavior string
 
 // Enum values for ScaleDownBehavior
@@ -9590,6 +7488,15 @@ const (
 	ScaleDownBehaviorTerminateAtTaskCompletion ScaleDownBehavior = "TERMINATE_AT_TASK_COMPLETION"
 )
 
+func (enum ScaleDownBehavior) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ScaleDownBehavior) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SpotProvisioningTimeoutAction string
 
 // Enum values for SpotProvisioningTimeoutAction
@@ -9597,6 +7504,15 @@ const (
 	SpotProvisioningTimeoutActionSwitchToOnDemand SpotProvisioningTimeoutAction = "SWITCH_TO_ON_DEMAND"
 	SpotProvisioningTimeoutActionTerminateCluster SpotProvisioningTimeoutAction = "TERMINATE_CLUSTER"
 )
+
+func (enum SpotProvisioningTimeoutAction) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SpotProvisioningTimeoutAction) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Statistic string
 
@@ -9608,6 +7524,15 @@ const (
 	StatisticMinimum     Statistic = "MINIMUM"
 	StatisticMaximum     Statistic = "MAXIMUM"
 )
+
+func (enum Statistic) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Statistic) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type StepExecutionState string
 
@@ -9622,6 +7547,15 @@ const (
 	StepExecutionStateInterrupted StepExecutionState = "INTERRUPTED"
 )
 
+func (enum StepExecutionState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StepExecutionState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StepState string
 
 // Enum values for StepState
@@ -9635,12 +7569,30 @@ const (
 	StepStateInterrupted   StepState = "INTERRUPTED"
 )
 
+func (enum StepState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StepState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StepStateChangeReasonCode string
 
 // Enum values for StepStateChangeReasonCode
 const (
 	StepStateChangeReasonCodeNone StepStateChangeReasonCode = "NONE"
 )
+
+func (enum StepStateChangeReasonCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StepStateChangeReasonCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Unit string
 
@@ -9674,3 +7626,12 @@ const (
 	UnitTeraBitsPerSecond  Unit = "TERA_BITS_PER_SECOND"
 	UnitCountPerSecond     Unit = "COUNT_PER_SECOND"
 )
+
+func (enum Unit) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Unit) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

@@ -10,10 +10,10 @@ import (
 	"io/ioutil"
 	"path"
 	"path/filepath"
-	"regexp"
 	"sort"
 	"strings"
 	"text/template"
+	"unicode"
 )
 
 // An API defines a service API's definition. and logic to serialize the definition.
@@ -45,6 +45,10 @@ type API struct {
 
 	// Set to true to not generate struct field accessors
 	NoGenStructFieldAccessors bool
+
+	// Set to true to not generate (un)marshalers
+	NoGenMarshalers   bool
+	NoGenUnmarshalers bool
 
 	SvcClientImportPath string
 
@@ -93,23 +97,53 @@ func (a *API) InterfacePackageName() string {
 	return a.PackageName() + "iface"
 }
 
-var nameRegex = regexp.MustCompile(`^Amazon|AWS\s*|\(.*|\s+|\W+`)
+var stripServiceNamePrefixes = []string{
+	"Amazon",
+	"AWS",
+}
 
 // StructName returns the struct name for a given API.
 func (a *API) StructName() string {
-	if a.name == "" {
-		name := a.Metadata.ServiceAbbreviation
-		if name == "" {
-			name = a.Metadata.ServiceFullName
-		}
+	if len(a.name) != 0 {
+		return a.name
+	}
 
-		name = nameRegex.ReplaceAllString(name, "")
+	name := a.Metadata.ServiceAbbreviation
+	if len(name) == 0 {
+		name = a.Metadata.ServiceFullName
+	}
 
-		a.name = name
-		if name, ok := serviceAliases[strings.ToLower(name)]; ok {
-			a.name = name
+	name = strings.TrimSpace(name)
+
+	// Strip out prefix names not reflected in service client symbol names.
+	for _, prefix := range stripServiceNamePrefixes {
+		if strings.HasPrefix(name, prefix) {
+			name = name[len(prefix):]
+			break
 		}
 	}
+
+	// Replace all Non-letter/number values with space
+	runes := []rune(name)
+	for i := 0; i < len(runes); i++ {
+		if r := runes[i]; !(unicode.IsNumber(r) || unicode.IsLetter(r)) {
+			runes[i] = ' '
+		}
+	}
+	name = string(runes)
+
+	// Title case name so its readable as a symbol.
+	name = strings.Title(name)
+
+	// Strip out spaces.
+	name = strings.Replace(name, " ", "", -1)
+
+	// Swap out for alias name if one is defined.
+	if alias, ok := serviceAliases[strings.ToLower(name)]; ok {
+		name = alias
+	}
+
+	a.name = name
 	return a.name
 }
 
@@ -281,6 +315,9 @@ func (a *API) APIGoCode() string {
 		a.imports["github.com/aws/aws-sdk-go-v2/private/protocol/"+a.ProtocolPackage()] = true
 		a.imports["github.com/aws/aws-sdk-go-v2/private/protocol"] = true
 	}
+	if !a.NoGenMarshalers || !a.NoGenUnmarshalers {
+		a.imports["github.com/aws/aws-sdk-go-v2/private/protocol"] = true
+	}
 
 	var buf bytes.Buffer
 	err := tplAPI.Execute(&buf, a)
@@ -404,6 +441,15 @@ var tplService = template.Must(template.New("service").Funcs(template.FuncMap{
 
 		return "EndpointsID"
 	},
+	"ServiceSpecificConfig": func(svcName string) string {
+		// TODO need unique way to refer to service.
+		cfgs := serviceSpecificConfigs[svcName]
+		if len(cfgs) == 0 {
+			return ""
+		}
+
+		return cfgs.GoCode()
+	},
 }).Parse(`
 // {{ .StructName }} provides the API operation methods for making requests to
 // {{ .Metadata.ServiceFullName }}. See this package's package overview docs
@@ -413,13 +459,15 @@ var tplService = template.Must(template.New("service").Funcs(template.FuncMap{
 // modify mutate any of the struct's properties though.
 type {{ .StructName }} struct {
 	*aws.Client
+	{{ ServiceSpecificConfig .StructName -}}
 }
 
-{{ if .UseInitMethods }}// Used for custom client initialization logic
-var initClient func(*aws.Client)
+{{ if .UseInitMethods -}}
+// Used for custom client initialization logic
+var initClient func(*{{ .StructName }})
 
 // Used for custom request initialization logic
-var initRequest func(*aws.Request)
+var initRequest func(*{{ .StructName }}, *aws.Request)
 {{ end }}
 
 
@@ -432,15 +480,10 @@ const (
 {{- end }}
 
 // New creates a new instance of the {{ .StructName }} client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a {{ .StructName }} client from just a config.
 //     svc := {{ .PackageName }}.New(myConfig)
-//
-//     // Create a {{ .StructName }} client with additional configuration
-//     svc := {{ .PackageName }}.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func New(config aws.Config) *{{ .StructName }} {
 	var signingName string
 	{{- if .Metadata.SigningName }}
@@ -478,7 +521,7 @@ func New(config aws.Config) *{{ .StructName }} {
 
 	{{ if .UseInitMethods }}// Run custom client initialization if present
 	if initClient != nil {
-		initClient(svc.Client)
+		initClient(svc)
 	}
 	{{ end  }}
 
@@ -492,7 +535,7 @@ func (c *{{ .StructName }}) newRequest(op *aws.Operation, params, data interface
 
 	{{ if .UseInitMethods }}// Run custom request initialization if present
 	if initRequest != nil {
-		initRequest(req)
+		initRequest(c, req)
 	}
 	{{ end }}
 
@@ -631,20 +674,12 @@ var _ {{ .StructName }}API = (*{{ .PackageName }}.{{ .StructName }})(nil)
 // interface{}. Assumes that the interface is being created in a different
 // package than the service API's package.
 func (a *API) InterfaceGoCode() string {
-	var hasPaginator bool
-	for _, op := range a.Operations {
-		if op.Paginator != nil {
-			hasPaginator = true
-			break
-		}
-	}
-
 	a.resetImports()
 	a.imports = map[string]bool{
 		path.Join(a.SvcClientImportPath, a.PackageName()): true,
 	}
 
-	if hasPaginator || len(a.Waiters) > 0 {
+	if len(a.Waiters) > 0 {
 		a.imports["github.com/aws/aws-sdk-go-v2/aws"] = true
 	}
 
@@ -759,4 +794,53 @@ func (a *API) APIErrorsGoCode() string {
 	}
 
 	return strings.TrimSpace(buf.String())
+}
+
+// removeOperation removes an operation, its input/output shapes, as well as
+// any references/shapes that are unique to this operation.
+func (a *API) removeOperation(name string) {
+	fmt.Println("removing operation,", name)
+	op := a.Operations[name]
+
+	delete(a.Operations, name)
+	delete(a.Examples, name)
+
+	a.removeShape(op.InputRef.Shape)
+	a.removeShape(op.OutputRef.Shape)
+}
+
+// removeShape removes the given shape, and all form member's reference target
+// shapes. Will also remove member reference targeted shapes if those shapes do
+// not have any additional references.
+func (a *API) removeShape(s *Shape) {
+	fmt.Println("removing shape,", s.ShapeName)
+
+	delete(a.Shapes, s.ShapeName)
+
+	for name, ref := range s.MemberRefs {
+		a.removeShapeRef(ref)
+		delete(s.MemberRefs, name)
+	}
+
+	for _, ref := range []*ShapeRef{&s.MemberRef, &s.KeyRef, &s.ValueRef} {
+		if ref.Shape == nil {
+			continue
+		}
+		a.removeShapeRef(ref)
+		*ref = ShapeRef{}
+	}
+}
+
+// removeShapeRef removes the shape reference from its target shape. If the
+// reference was the last reference to the target shape, the shape will also be
+// removed.
+func (a *API) removeShapeRef(ref *ShapeRef) {
+	if ref.Shape == nil {
+		return
+	}
+
+	ref.Shape.removeRef(ref)
+	if len(ref.Shape.refs) == 0 {
+		a.removeShape(ref.Shape)
+	}
 }

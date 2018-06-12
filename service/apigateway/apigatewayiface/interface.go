@@ -9,7 +9,6 @@
 package apigatewayiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/apigateway"
 )
 
@@ -91,6 +90,8 @@ type APIGatewayAPI interface {
 
 	CreateUsagePlanKeyRequest(*apigateway.CreateUsagePlanKeyInput) apigateway.CreateUsagePlanKeyRequest
 
+	CreateVpcLinkRequest(*apigateway.CreateVpcLinkInput) apigateway.CreateVpcLinkRequest
+
 	DeleteApiKeyRequest(*apigateway.DeleteApiKeyInput) apigateway.DeleteApiKeyRequest
 
 	DeleteAuthorizerRequest(*apigateway.DeleteAuthorizerInput) apigateway.DeleteAuthorizerRequest
@@ -131,6 +132,8 @@ type APIGatewayAPI interface {
 
 	DeleteUsagePlanKeyRequest(*apigateway.DeleteUsagePlanKeyInput) apigateway.DeleteUsagePlanKeyRequest
 
+	DeleteVpcLinkRequest(*apigateway.DeleteVpcLinkInput) apigateway.DeleteVpcLinkRequest
+
 	FlushStageAuthorizersCacheRequest(*apigateway.FlushStageAuthorizersCacheInput) apigateway.FlushStageAuthorizersCacheRequest
 
 	FlushStageCacheRequest(*apigateway.FlushStageCacheInput) apigateway.FlushStageCacheRequest
@@ -143,9 +146,6 @@ type APIGatewayAPI interface {
 
 	GetApiKeysRequest(*apigateway.GetApiKeysInput) apigateway.GetApiKeysRequest
 
-	GetApiKeysPages(*apigateway.GetApiKeysInput, func(*apigateway.GetApiKeysOutput, bool) bool) error
-	GetApiKeysPagesWithContext(aws.Context, *apigateway.GetApiKeysInput, func(*apigateway.GetApiKeysOutput, bool) bool, ...aws.Option) error
-
 	GetAuthorizerRequest(*apigateway.GetAuthorizerInput) apigateway.GetAuthorizerRequest
 
 	GetAuthorizersRequest(*apigateway.GetAuthorizersInput) apigateway.GetAuthorizersRequest
@@ -154,22 +154,13 @@ type APIGatewayAPI interface {
 
 	GetBasePathMappingsRequest(*apigateway.GetBasePathMappingsInput) apigateway.GetBasePathMappingsRequest
 
-	GetBasePathMappingsPages(*apigateway.GetBasePathMappingsInput, func(*apigateway.GetBasePathMappingsOutput, bool) bool) error
-	GetBasePathMappingsPagesWithContext(aws.Context, *apigateway.GetBasePathMappingsInput, func(*apigateway.GetBasePathMappingsOutput, bool) bool, ...aws.Option) error
-
 	GetClientCertificateRequest(*apigateway.GetClientCertificateInput) apigateway.GetClientCertificateRequest
 
 	GetClientCertificatesRequest(*apigateway.GetClientCertificatesInput) apigateway.GetClientCertificatesRequest
 
-	GetClientCertificatesPages(*apigateway.GetClientCertificatesInput, func(*apigateway.GetClientCertificatesOutput, bool) bool) error
-	GetClientCertificatesPagesWithContext(aws.Context, *apigateway.GetClientCertificatesInput, func(*apigateway.GetClientCertificatesOutput, bool) bool, ...aws.Option) error
-
 	GetDeploymentRequest(*apigateway.GetDeploymentInput) apigateway.GetDeploymentRequest
 
 	GetDeploymentsRequest(*apigateway.GetDeploymentsInput) apigateway.GetDeploymentsRequest
-
-	GetDeploymentsPages(*apigateway.GetDeploymentsInput, func(*apigateway.GetDeploymentsOutput, bool) bool) error
-	GetDeploymentsPagesWithContext(aws.Context, *apigateway.GetDeploymentsInput, func(*apigateway.GetDeploymentsOutput, bool) bool, ...aws.Option) error
 
 	GetDocumentationPartRequest(*apigateway.GetDocumentationPartInput) apigateway.GetDocumentationPartRequest
 
@@ -182,9 +173,6 @@ type APIGatewayAPI interface {
 	GetDomainNameRequest(*apigateway.GetDomainNameInput) apigateway.GetDomainNameRequest
 
 	GetDomainNamesRequest(*apigateway.GetDomainNamesInput) apigateway.GetDomainNamesRequest
-
-	GetDomainNamesPages(*apigateway.GetDomainNamesInput, func(*apigateway.GetDomainNamesOutput, bool) bool) error
-	GetDomainNamesPagesWithContext(aws.Context, *apigateway.GetDomainNamesInput, func(*apigateway.GetDomainNamesOutput, bool) bool, ...aws.Option) error
 
 	GetExportRequest(*apigateway.GetExportInput) apigateway.GetExportRequest
 
@@ -206,9 +194,6 @@ type APIGatewayAPI interface {
 
 	GetModelsRequest(*apigateway.GetModelsInput) apigateway.GetModelsRequest
 
-	GetModelsPages(*apigateway.GetModelsInput, func(*apigateway.GetModelsOutput, bool) bool) error
-	GetModelsPagesWithContext(aws.Context, *apigateway.GetModelsInput, func(*apigateway.GetModelsOutput, bool) bool, ...aws.Option) error
-
 	GetRequestValidatorRequest(*apigateway.GetRequestValidatorInput) apigateway.GetRequestValidatorRequest
 
 	GetRequestValidatorsRequest(*apigateway.GetRequestValidatorsInput) apigateway.GetRequestValidatorsRequest
@@ -217,15 +202,9 @@ type APIGatewayAPI interface {
 
 	GetResourcesRequest(*apigateway.GetResourcesInput) apigateway.GetResourcesRequest
 
-	GetResourcesPages(*apigateway.GetResourcesInput, func(*apigateway.GetResourcesOutput, bool) bool) error
-	GetResourcesPagesWithContext(aws.Context, *apigateway.GetResourcesInput, func(*apigateway.GetResourcesOutput, bool) bool, ...aws.Option) error
-
 	GetRestApiRequest(*apigateway.GetRestApiInput) apigateway.GetRestApiRequest
 
 	GetRestApisRequest(*apigateway.GetRestApisInput) apigateway.GetRestApisRequest
-
-	GetRestApisPages(*apigateway.GetRestApisInput, func(*apigateway.GetRestApisOutput, bool) bool) error
-	GetRestApisPagesWithContext(aws.Context, *apigateway.GetRestApisInput, func(*apigateway.GetRestApisOutput, bool) bool, ...aws.Option) error
 
 	GetSdkRequest(*apigateway.GetSdkInput) apigateway.GetSdkRequest
 
@@ -237,10 +216,9 @@ type APIGatewayAPI interface {
 
 	GetStagesRequest(*apigateway.GetStagesInput) apigateway.GetStagesRequest
 
-	GetUsageRequest(*apigateway.GetUsageInput) apigateway.GetUsageRequest
+	GetTagsRequest(*apigateway.GetTagsInput) apigateway.GetTagsRequest
 
-	GetUsagePages(*apigateway.GetUsageInput, func(*apigateway.UpdateUsageOutput, bool) bool) error
-	GetUsagePagesWithContext(aws.Context, *apigateway.GetUsageInput, func(*apigateway.UpdateUsageOutput, bool) bool, ...aws.Option) error
+	GetUsageRequest(*apigateway.GetUsageInput) apigateway.GetUsageRequest
 
 	GetUsagePlanRequest(*apigateway.GetUsagePlanInput) apigateway.GetUsagePlanRequest
 
@@ -248,13 +226,11 @@ type APIGatewayAPI interface {
 
 	GetUsagePlanKeysRequest(*apigateway.GetUsagePlanKeysInput) apigateway.GetUsagePlanKeysRequest
 
-	GetUsagePlanKeysPages(*apigateway.GetUsagePlanKeysInput, func(*apigateway.GetUsagePlanKeysOutput, bool) bool) error
-	GetUsagePlanKeysPagesWithContext(aws.Context, *apigateway.GetUsagePlanKeysInput, func(*apigateway.GetUsagePlanKeysOutput, bool) bool, ...aws.Option) error
-
 	GetUsagePlansRequest(*apigateway.GetUsagePlansInput) apigateway.GetUsagePlansRequest
 
-	GetUsagePlansPages(*apigateway.GetUsagePlansInput, func(*apigateway.GetUsagePlansOutput, bool) bool) error
-	GetUsagePlansPagesWithContext(aws.Context, *apigateway.GetUsagePlansInput, func(*apigateway.GetUsagePlansOutput, bool) bool, ...aws.Option) error
+	GetVpcLinkRequest(*apigateway.GetVpcLinkInput) apigateway.GetVpcLinkRequest
+
+	GetVpcLinksRequest(*apigateway.GetVpcLinksInput) apigateway.GetVpcLinksRequest
 
 	ImportApiKeysRequest(*apigateway.ImportApiKeysInput) apigateway.ImportApiKeysRequest
 
@@ -274,9 +250,13 @@ type APIGatewayAPI interface {
 
 	PutRestApiRequest(*apigateway.PutRestApiInput) apigateway.PutRestApiRequest
 
+	TagResourceRequest(*apigateway.TagResourceInput) apigateway.TagResourceRequest
+
 	TestInvokeAuthorizerRequest(*apigateway.TestInvokeAuthorizerInput) apigateway.TestInvokeAuthorizerRequest
 
 	TestInvokeMethodRequest(*apigateway.TestInvokeMethodInput) apigateway.TestInvokeMethodRequest
+
+	UntagResourceRequest(*apigateway.UntagResourceInput) apigateway.UntagResourceRequest
 
 	UpdateAccountRequest(*apigateway.UpdateAccountInput) apigateway.UpdateAccountRequest
 
@@ -319,6 +299,8 @@ type APIGatewayAPI interface {
 	UpdateUsageRequest(*apigateway.UpdateUsageInput) apigateway.UpdateUsageRequest
 
 	UpdateUsagePlanRequest(*apigateway.UpdateUsagePlanInput) apigateway.UpdateUsagePlanRequest
+
+	UpdateVpcLinkRequest(*apigateway.UpdateVpcLinkInput) apigateway.UpdateVpcLinkRequest
 }
 
 var _ APIGatewayAPI = (*apigateway.APIGateway)(nil)

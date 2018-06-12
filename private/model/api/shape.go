@@ -54,10 +54,10 @@ type Shape struct {
 	API              *API `json:"-"`
 	ShapeName        string
 	Documentation    string
-	MemberRefs       map[string]*ShapeRef `json:"members"`
-	MemberRef        ShapeRef             `json:"member"`
-	KeyRef           ShapeRef             `json:"key"`
-	ValueRef         ShapeRef             `json:"value"`
+	MemberRefs       map[string]*ShapeRef `json:"members"` // member fields
+	MemberRef        ShapeRef             `json:"member"`  // List type ref
+	KeyRef           ShapeRef             `json:"key"`     // map key type ref
+	ValueRef         ShapeRef             `json:"value"`   // map value type ref
 	Required         []string
 	Payload          string
 	Type             string
@@ -73,10 +73,15 @@ type Shape struct {
 	Min              float64 // optional Minimum length (string, list) or value (number)
 	Max              float64 // optional Maximum length (string, list) or value (number)
 
+	IsEventStream bool `json:"eventstream"`
+
 	refs       []*ShapeRef // References to this shape
 	resolvePkg string      // use this package in the goType() if present
 
 	OrigShapeName string `json:"-"`
+
+	UsedInMap  bool
+	UsedInList bool
 
 	// Defines if the shape is a placeholder and should not be used directly
 	Placeholder bool
@@ -88,6 +93,9 @@ type Shape struct {
 	// Error information that is set if the shape is an error shape.
 	IsError   bool
 	ErrorInfo ErrorInfo `json:"error"`
+
+	UsedAsInput  bool
+	UsedAsOutput bool
 }
 
 // ErrorCodeName will return the error shape's name formated for
@@ -144,11 +152,11 @@ func (s *Shape) MemberNames() []string {
 // GoTypeWithPkgName returns a shape's type as a string with the package name in
 // <packageName>.<type> format. Package naming only applies to structures.
 func (s *Shape) GoTypeWithPkgName() string {
-	return goType(s, true)
+	return goType(s, true, true)
 }
 
 func (s *Shape) GoTypeWithPkgNameElem() string {
-	t := goType(s, true)
+	t := goType(s, true, true)
 	if strings.HasPrefix(t, "*") {
 		return t[1:]
 	}
@@ -189,12 +197,23 @@ func (s *Shape) GoStructValueType(name string, ref *ShapeRef) string {
 	return v
 }
 
+// IsRefPayload will return whether or a not the field name is a payload.
+func (s *Shape) IsRefPayload(name string) bool {
+	return s.Payload == name
+}
+
+// IsRefPayloadReader will whether or not the shape ref is a payload and that it is
+// a streaming reference.
+func (s *Shape) IsRefPayloadReader(name string, ref *ShapeRef) bool {
+	return (ref.Streaming || ref.Shape.Streaming) && s.IsRefPayload(name)
+}
+
 // GoStructType returns the type of a struct field based on the API
 // model definition.
 func (s *Shape) GoStructType(name string, ref *ShapeRef) string {
 	if (ref.Streaming || ref.Shape.Streaming) && s.Payload == name {
 		rtype := "io.ReadSeeker"
-		if strings.HasSuffix(s.ShapeName, "Output") {
+		if s.UsedAsOutput {
 			rtype = "io.ReadCloser"
 		}
 
@@ -219,7 +238,7 @@ func (s *Shape) GoStructType(name string, ref *ShapeRef) string {
 
 // GoType returns a shape's Go type
 func (s *Shape) GoType() string {
-	return goType(s, false)
+	return goType(s, false, true)
 }
 
 // GoType returns a shape ref's Go type.
@@ -256,7 +275,7 @@ func getPkgName(s *Shape) string {
 
 // Returns a string version of the Shape's type.
 // If withPkgName is true, the package name will be added as a prefix
-func goType(s *Shape, withPkgName bool) string {
+func goType(s *Shape, withPkgName, pointer bool) string {
 	if s.IsEnum() {
 		name := s.EnumType()
 		if withPkgName {
@@ -266,32 +285,37 @@ func goType(s *Shape, withPkgName bool) string {
 		return name
 	}
 
+	prefix := ""
+	if pointer {
+		prefix = "*"
+	}
+
 	switch s.Type {
 	case "structure":
 		if withPkgName || s.resolvePkg != "" {
 			pkg := getPkgName(s)
-			return fmt.Sprintf("*%s.%s", pkg, s.ShapeName)
+			return fmt.Sprintf("%s%s.%s", prefix, pkg, s.ShapeName)
 		}
-		return "*" + s.ShapeName
+		return prefix + s.ShapeName
 	case "map":
-		return "map[string]" + goType(s.ValueRef.Shape, withPkgName)
+		return "map[string]" + goType(s.ValueRef.Shape, withPkgName, false)
 	case "jsonvalue":
 		return "aws.JSONValue"
 	case "list":
-		return "[]" + goType(s.MemberRef.Shape, withPkgName)
+		return "[]" + goType(s.MemberRef.Shape, withPkgName, false)
 	case "boolean":
-		return "*bool"
+		return prefix + "bool"
 	case "string", "character":
-		return "*string"
+		return prefix + "string"
 	case "blob":
 		return "[]byte"
 	case "integer", "long":
-		return "*int64"
+		return prefix + "int64"
 	case "float", "double":
-		return "*float64"
+		return prefix + "float64"
 	case "timestamp":
 		s.API.imports["time"] = true
-		return "*time.Time"
+		return prefix + "time.Time"
 	default:
 		panic("Unsupported shape type: " + s.Type)
 	}
@@ -414,6 +438,9 @@ func (ref *ShapeRef) GoTags(toplevel bool, isRequired bool) string {
 	if isRequired {
 		tags = append(tags, ShapeTag{"required", "true"})
 	}
+	if ref.Shape.IsEnum() {
+		tags = append(tags, ShapeTag{"enum", "true"})
+	}
 
 	if toplevel {
 		if ref.Shape.Payload != "" {
@@ -534,7 +561,9 @@ func (s *Shape) NestedShape() *Shape {
 }
 
 var structShapeTmpl = template.Must(template.New("StructShape").Funcs(template.FuncMap{
-	"GetCrosslinkURL": GetCrosslinkURL,
+	"GetCrosslinkURL":      GetCrosslinkURL,
+	"MarshalShapeGoCode":   MarshalShapeGoCode,
+	"UnmarshalShapeGoCode": UnmarshalShapeGoCode,
 }).Parse(`
 {{ .Docstring }}
 {{ if ne $.OrigShapeName "" -}}
@@ -550,7 +579,12 @@ var structShapeTmpl = template.Must(template.New("StructShape").Funcs(template.F
 {{ end -}}
 {{ $context := . -}}
 type {{ .ShapeName }} struct {
+	{{ $isOutputShape := .UsedAsOutput -}}
 	_ struct{} {{ .GoTags true false }}
+
+	{{ if $isOutputShape }}
+	responseMetadata aws.Response
+	{{ end }}
 
 	{{ range $_, $name := $context.MemberNames -}}
 		{{ $elem := index $context.MemberRefs $name -}}
@@ -585,6 +619,12 @@ type {{ .ShapeName }} struct {
 		{{ .Validations.GoCode . }}
 	{{ end }}
 {{ end }}
+{{ if $isOutputShape }}
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s {{ .ShapeName }}) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+{{ end }}
 
 {{ if not .API.NoGenStructFieldAccessors }}
 
@@ -592,16 +632,6 @@ type {{ .ShapeName }} struct {
 
 {{ range $_, $name := $context.MemberNames -}}
 	{{ $elem := index $context.MemberRefs $name -}}
-
-// Set{{ $name }} sets the {{ $name }} field's value.
-func (s *{{ $builderShapeName }}) Set{{ $name }}(v {{ $context.GoStructValueType $name $elem }}) *{{ $builderShapeName }} {
-	{{ if $elem.UseIndirection -}}
-	s.{{ $name }} = &v
-	{{ else -}}
-	s.{{ $name }} = v
-	{{ end -}}
-	return s
-}
 
 {{ if $elem.GenerateGetter -}}
 func (s *{{ $builderShapeName }}) get{{ $name }}() (v {{ $context.GoStructValueType $name $elem }}) {
@@ -618,9 +648,18 @@ func (s *{{ $builderShapeName }}) get{{ $name }}() (v {{ $context.GoStructValueT
 
 {{ end }}
 {{ end }}
+
+{{ if not $.API.NoGenMarshalers -}}
+{{ MarshalShapeGoCode $ }}
+{{- end }}
+{{ if not $.API.NoGenUnmarshalers -}}
+{{ UnmarshalShapeGoCode $ }}
+{{- end }}
 `))
 
-var enumShapeTmpl = template.Must(template.New("EnumShape").Parse(`
+var enumShapeTmpl = template.Must(template.New("EnumShape").Funcs(template.FuncMap{
+	"MarshalEnumGoCode": marshalEnumGoCode,
+}).Parse(`
 {{ .Docstring }}
 type {{ $.EnumType }} string
 
@@ -632,6 +671,8 @@ const (
 		{{ $name }} {{ $.EnumType }} = "{{ $elem }}"
 	{{ end -}}
 )
+
+{{ MarshalEnumGoCode $ }}
 `))
 
 // GoCode returns the rendered Go code for the Shape.

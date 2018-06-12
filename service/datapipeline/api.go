@@ -18,6 +18,7 @@ const opActivatePipeline = "ActivatePipeline"
 type ActivatePipelineRequest struct {
 	*aws.Request
 	Input *ActivatePipelineInput
+	Copy  func(*ActivatePipelineInput) ActivatePipelineRequest
 }
 
 // Send marshals and sends the ActivatePipeline API request.
@@ -61,8 +62,11 @@ func (c *DataPipeline) ActivatePipelineRequest(input *ActivatePipelineInput) Act
 		input = &ActivatePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &ActivatePipelineOutput{})
-	return ActivatePipelineRequest{Request: req, Input: input}
+	output := &ActivatePipelineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ActivatePipelineRequest{Request: req, Input: input, Copy: c.ActivatePipelineRequest}
 }
 
 const opAddTags = "AddTags"
@@ -71,6 +75,7 @@ const opAddTags = "AddTags"
 type AddTagsRequest struct {
 	*aws.Request
 	Input *AddTagsInput
+	Copy  func(*AddTagsInput) AddTagsRequest
 }
 
 // Send marshals and sends the AddTags API request.
@@ -107,8 +112,11 @@ func (c *DataPipeline) AddTagsRequest(input *AddTagsInput) AddTagsRequest {
 		input = &AddTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsOutput{})
-	return AddTagsRequest{Request: req, Input: input}
+	output := &AddTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsRequest{Request: req, Input: input, Copy: c.AddTagsRequest}
 }
 
 const opCreatePipeline = "CreatePipeline"
@@ -117,6 +125,7 @@ const opCreatePipeline = "CreatePipeline"
 type CreatePipelineRequest struct {
 	*aws.Request
 	Input *CreatePipelineInput
+	Copy  func(*CreatePipelineInput) CreatePipelineRequest
 }
 
 // Send marshals and sends the CreatePipeline API request.
@@ -154,8 +163,11 @@ func (c *DataPipeline) CreatePipelineRequest(input *CreatePipelineInput) CreateP
 		input = &CreatePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePipelineOutput{})
-	return CreatePipelineRequest{Request: req, Input: input}
+	output := &CreatePipelineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePipelineRequest{Request: req, Input: input, Copy: c.CreatePipelineRequest}
 }
 
 const opDeactivatePipeline = "DeactivatePipeline"
@@ -164,6 +176,7 @@ const opDeactivatePipeline = "DeactivatePipeline"
 type DeactivatePipelineRequest struct {
 	*aws.Request
 	Input *DeactivatePipelineInput
+	Copy  func(*DeactivatePipelineInput) DeactivatePipelineRequest
 }
 
 // Send marshals and sends the DeactivatePipeline API request.
@@ -205,8 +218,11 @@ func (c *DataPipeline) DeactivatePipelineRequest(input *DeactivatePipelineInput)
 		input = &DeactivatePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &DeactivatePipelineOutput{})
-	return DeactivatePipelineRequest{Request: req, Input: input}
+	output := &DeactivatePipelineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeactivatePipelineRequest{Request: req, Input: input, Copy: c.DeactivatePipelineRequest}
 }
 
 const opDeletePipeline = "DeletePipeline"
@@ -215,6 +231,7 @@ const opDeletePipeline = "DeletePipeline"
 type DeletePipelineRequest struct {
 	*aws.Request
 	Input *DeletePipelineInput
+	Copy  func(*DeletePipelineInput) DeletePipelineRequest
 }
 
 // Send marshals and sends the DeletePipeline API request.
@@ -258,10 +275,13 @@ func (c *DataPipeline) DeletePipelineRequest(input *DeletePipelineInput) DeleteP
 		input = &DeletePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePipelineOutput{})
+	output := &DeletePipelineOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePipelineRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePipelineRequest{Request: req, Input: input, Copy: c.DeletePipelineRequest}
 }
 
 const opDescribeObjects = "DescribeObjects"
@@ -270,6 +290,7 @@ const opDescribeObjects = "DescribeObjects"
 type DescribeObjectsRequest struct {
 	*aws.Request
 	Input *DescribeObjectsInput
+	Copy  func(*DescribeObjectsInput) DescribeObjectsRequest
 }
 
 // Send marshals and sends the DescribeObjects API request.
@@ -314,58 +335,57 @@ func (c *DataPipeline) DescribeObjectsRequest(input *DescribeObjectsInput) Descr
 		input = &DescribeObjectsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeObjectsOutput{})
-	return DescribeObjectsRequest{Request: req, Input: input}
+	output := &DescribeObjectsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeObjectsRequest{Request: req, Input: input, Copy: c.DescribeObjectsRequest}
 }
 
-// DescribeObjectsPages iterates over the pages of a DescribeObjects operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeObjects method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeObjectsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeObjects operation.
-//    pageNum := 0
-//    err := client.DescribeObjectsPages(params,
-//        func(page *DescribeObjectsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeObjectsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DataPipeline) DescribeObjectsPages(input *DescribeObjectsInput, fn func(*DescribeObjectsOutput, bool) bool) error {
-	return c.DescribeObjectsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeObjectsRequest) Paginate(opts ...aws.Option) DescribeObjectsPager {
+	return DescribeObjectsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeObjectsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeObjectsPagesWithContext same as DescribeObjectsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DataPipeline) DescribeObjectsPagesWithContext(ctx aws.Context, input *DescribeObjectsInput, fn func(*DescribeObjectsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeObjectsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeObjectsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeObjectsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeObjectsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeObjectsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeObjectsPager) CurrentPage() *DescribeObjectsOutput {
+	return p.Pager.CurrentPage().(*DescribeObjectsOutput)
 }
 
 const opDescribePipelines = "DescribePipelines"
@@ -374,6 +394,7 @@ const opDescribePipelines = "DescribePipelines"
 type DescribePipelinesRequest struct {
 	*aws.Request
 	Input *DescribePipelinesInput
+	Copy  func(*DescribePipelinesInput) DescribePipelinesRequest
 }
 
 // Send marshals and sends the DescribePipelines API request.
@@ -418,8 +439,11 @@ func (c *DataPipeline) DescribePipelinesRequest(input *DescribePipelinesInput) D
 		input = &DescribePipelinesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePipelinesOutput{})
-	return DescribePipelinesRequest{Request: req, Input: input}
+	output := &DescribePipelinesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePipelinesRequest{Request: req, Input: input, Copy: c.DescribePipelinesRequest}
 }
 
 const opEvaluateExpression = "EvaluateExpression"
@@ -428,6 +452,7 @@ const opEvaluateExpression = "EvaluateExpression"
 type EvaluateExpressionRequest struct {
 	*aws.Request
 	Input *EvaluateExpressionInput
+	Copy  func(*EvaluateExpressionInput) EvaluateExpressionRequest
 }
 
 // Send marshals and sends the EvaluateExpression API request.
@@ -466,8 +491,11 @@ func (c *DataPipeline) EvaluateExpressionRequest(input *EvaluateExpressionInput)
 		input = &EvaluateExpressionInput{}
 	}
 
-	req := c.newRequest(op, input, &EvaluateExpressionOutput{})
-	return EvaluateExpressionRequest{Request: req, Input: input}
+	output := &EvaluateExpressionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EvaluateExpressionRequest{Request: req, Input: input, Copy: c.EvaluateExpressionRequest}
 }
 
 const opGetPipelineDefinition = "GetPipelineDefinition"
@@ -476,6 +504,7 @@ const opGetPipelineDefinition = "GetPipelineDefinition"
 type GetPipelineDefinitionRequest struct {
 	*aws.Request
 	Input *GetPipelineDefinitionInput
+	Copy  func(*GetPipelineDefinitionInput) GetPipelineDefinitionRequest
 }
 
 // Send marshals and sends the GetPipelineDefinition API request.
@@ -513,8 +542,11 @@ func (c *DataPipeline) GetPipelineDefinitionRequest(input *GetPipelineDefinition
 		input = &GetPipelineDefinitionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPipelineDefinitionOutput{})
-	return GetPipelineDefinitionRequest{Request: req, Input: input}
+	output := &GetPipelineDefinitionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPipelineDefinitionRequest{Request: req, Input: input, Copy: c.GetPipelineDefinitionRequest}
 }
 
 const opListPipelines = "ListPipelines"
@@ -523,6 +555,7 @@ const opListPipelines = "ListPipelines"
 type ListPipelinesRequest struct {
 	*aws.Request
 	Input *ListPipelinesInput
+	Copy  func(*ListPipelinesInput) ListPipelinesRequest
 }
 
 // Send marshals and sends the ListPipelines API request.
@@ -566,58 +599,57 @@ func (c *DataPipeline) ListPipelinesRequest(input *ListPipelinesInput) ListPipel
 		input = &ListPipelinesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPipelinesOutput{})
-	return ListPipelinesRequest{Request: req, Input: input}
+	output := &ListPipelinesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPipelinesRequest{Request: req, Input: input, Copy: c.ListPipelinesRequest}
 }
 
-// ListPipelinesPages iterates over the pages of a ListPipelines operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPipelines method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPipelinesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPipelines operation.
-//    pageNum := 0
-//    err := client.ListPipelinesPages(params,
-//        func(page *ListPipelinesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPipelinesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DataPipeline) ListPipelinesPages(input *ListPipelinesInput, fn func(*ListPipelinesOutput, bool) bool) error {
-	return c.ListPipelinesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPipelinesRequest) Paginate(opts ...aws.Option) ListPipelinesPager {
+	return ListPipelinesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPipelinesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPipelinesPagesWithContext same as ListPipelinesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DataPipeline) ListPipelinesPagesWithContext(ctx aws.Context, input *ListPipelinesInput, fn func(*ListPipelinesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPipelinesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPipelinesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPipelinesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPipelinesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPipelinesPager struct {
+	aws.Pager
+}
+
+func (p *ListPipelinesPager) CurrentPage() *ListPipelinesOutput {
+	return p.Pager.CurrentPage().(*ListPipelinesOutput)
 }
 
 const opPollForTask = "PollForTask"
@@ -626,6 +658,7 @@ const opPollForTask = "PollForTask"
 type PollForTaskRequest struct {
 	*aws.Request
 	Input *PollForTaskInput
+	Copy  func(*PollForTaskInput) PollForTaskRequest
 }
 
 // Send marshals and sends the PollForTask API request.
@@ -675,8 +708,11 @@ func (c *DataPipeline) PollForTaskRequest(input *PollForTaskInput) PollForTaskRe
 		input = &PollForTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &PollForTaskOutput{})
-	return PollForTaskRequest{Request: req, Input: input}
+	output := &PollForTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PollForTaskRequest{Request: req, Input: input, Copy: c.PollForTaskRequest}
 }
 
 const opPutPipelineDefinition = "PutPipelineDefinition"
@@ -685,6 +721,7 @@ const opPutPipelineDefinition = "PutPipelineDefinition"
 type PutPipelineDefinitionRequest struct {
 	*aws.Request
 	Input *PutPipelineDefinitionInput
+	Copy  func(*PutPipelineDefinitionInput) PutPipelineDefinitionRequest
 }
 
 // Send marshals and sends the PutPipelineDefinition API request.
@@ -734,8 +771,11 @@ func (c *DataPipeline) PutPipelineDefinitionRequest(input *PutPipelineDefinition
 		input = &PutPipelineDefinitionInput{}
 	}
 
-	req := c.newRequest(op, input, &PutPipelineDefinitionOutput{})
-	return PutPipelineDefinitionRequest{Request: req, Input: input}
+	output := &PutPipelineDefinitionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutPipelineDefinitionRequest{Request: req, Input: input, Copy: c.PutPipelineDefinitionRequest}
 }
 
 const opQueryObjects = "QueryObjects"
@@ -744,6 +784,7 @@ const opQueryObjects = "QueryObjects"
 type QueryObjectsRequest struct {
 	*aws.Request
 	Input *QueryObjectsInput
+	Copy  func(*QueryObjectsInput) QueryObjectsRequest
 }
 
 // Send marshals and sends the QueryObjects API request.
@@ -787,58 +828,57 @@ func (c *DataPipeline) QueryObjectsRequest(input *QueryObjectsInput) QueryObject
 		input = &QueryObjectsInput{}
 	}
 
-	req := c.newRequest(op, input, &QueryObjectsOutput{})
-	return QueryObjectsRequest{Request: req, Input: input}
+	output := &QueryObjectsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return QueryObjectsRequest{Request: req, Input: input, Copy: c.QueryObjectsRequest}
 }
 
-// QueryObjectsPages iterates over the pages of a QueryObjects operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See QueryObjects method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a QueryObjectsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a QueryObjects operation.
-//    pageNum := 0
-//    err := client.QueryObjectsPages(params,
-//        func(page *QueryObjectsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.QueryObjectsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DataPipeline) QueryObjectsPages(input *QueryObjectsInput, fn func(*QueryObjectsOutput, bool) bool) error {
-	return c.QueryObjectsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *QueryObjectsRequest) Paginate(opts ...aws.Option) QueryObjectsPager {
+	return QueryObjectsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *QueryObjectsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// QueryObjectsPagesWithContext same as QueryObjectsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DataPipeline) QueryObjectsPagesWithContext(ctx aws.Context, input *QueryObjectsInput, fn func(*QueryObjectsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *QueryObjectsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.QueryObjectsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*QueryObjectsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// QueryObjectsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type QueryObjectsPager struct {
+	aws.Pager
+}
+
+func (p *QueryObjectsPager) CurrentPage() *QueryObjectsOutput {
+	return p.Pager.CurrentPage().(*QueryObjectsOutput)
 }
 
 const opRemoveTags = "RemoveTags"
@@ -847,6 +887,7 @@ const opRemoveTags = "RemoveTags"
 type RemoveTagsRequest struct {
 	*aws.Request
 	Input *RemoveTagsInput
+	Copy  func(*RemoveTagsInput) RemoveTagsRequest
 }
 
 // Send marshals and sends the RemoveTags API request.
@@ -883,8 +924,11 @@ func (c *DataPipeline) RemoveTagsRequest(input *RemoveTagsInput) RemoveTagsReque
 		input = &RemoveTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsOutput{})
-	return RemoveTagsRequest{Request: req, Input: input}
+	output := &RemoveTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsRequest{Request: req, Input: input, Copy: c.RemoveTagsRequest}
 }
 
 const opReportTaskProgress = "ReportTaskProgress"
@@ -893,6 +937,7 @@ const opReportTaskProgress = "ReportTaskProgress"
 type ReportTaskProgressRequest struct {
 	*aws.Request
 	Input *ReportTaskProgressInput
+	Copy  func(*ReportTaskProgressInput) ReportTaskProgressRequest
 }
 
 // Send marshals and sends the ReportTaskProgress API request.
@@ -940,8 +985,11 @@ func (c *DataPipeline) ReportTaskProgressRequest(input *ReportTaskProgressInput)
 		input = &ReportTaskProgressInput{}
 	}
 
-	req := c.newRequest(op, input, &ReportTaskProgressOutput{})
-	return ReportTaskProgressRequest{Request: req, Input: input}
+	output := &ReportTaskProgressOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ReportTaskProgressRequest{Request: req, Input: input, Copy: c.ReportTaskProgressRequest}
 }
 
 const opReportTaskRunnerHeartbeat = "ReportTaskRunnerHeartbeat"
@@ -950,6 +998,7 @@ const opReportTaskRunnerHeartbeat = "ReportTaskRunnerHeartbeat"
 type ReportTaskRunnerHeartbeatRequest struct {
 	*aws.Request
 	Input *ReportTaskRunnerHeartbeatInput
+	Copy  func(*ReportTaskRunnerHeartbeatInput) ReportTaskRunnerHeartbeatRequest
 }
 
 // Send marshals and sends the ReportTaskRunnerHeartbeat API request.
@@ -990,8 +1039,11 @@ func (c *DataPipeline) ReportTaskRunnerHeartbeatRequest(input *ReportTaskRunnerH
 		input = &ReportTaskRunnerHeartbeatInput{}
 	}
 
-	req := c.newRequest(op, input, &ReportTaskRunnerHeartbeatOutput{})
-	return ReportTaskRunnerHeartbeatRequest{Request: req, Input: input}
+	output := &ReportTaskRunnerHeartbeatOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ReportTaskRunnerHeartbeatRequest{Request: req, Input: input, Copy: c.ReportTaskRunnerHeartbeatRequest}
 }
 
 const opSetStatus = "SetStatus"
@@ -1000,6 +1052,7 @@ const opSetStatus = "SetStatus"
 type SetStatusRequest struct {
 	*aws.Request
 	Input *SetStatusInput
+	Copy  func(*SetStatusInput) SetStatusRequest
 }
 
 // Send marshals and sends the SetStatus API request.
@@ -1040,10 +1093,13 @@ func (c *DataPipeline) SetStatusRequest(input *SetStatusInput) SetStatusRequest 
 		input = &SetStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &SetStatusOutput{})
+	output := &SetStatusOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetStatusRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetStatusRequest{Request: req, Input: input, Copy: c.SetStatusRequest}
 }
 
 const opSetTaskStatus = "SetTaskStatus"
@@ -1052,6 +1108,7 @@ const opSetTaskStatus = "SetTaskStatus"
 type SetTaskStatusRequest struct {
 	*aws.Request
 	Input *SetTaskStatusInput
+	Copy  func(*SetTaskStatusInput) SetTaskStatusRequest
 }
 
 // Send marshals and sends the SetTaskStatus API request.
@@ -1092,8 +1149,11 @@ func (c *DataPipeline) SetTaskStatusRequest(input *SetTaskStatusInput) SetTaskSt
 		input = &SetTaskStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &SetTaskStatusOutput{})
-	return SetTaskStatusRequest{Request: req, Input: input}
+	output := &SetTaskStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetTaskStatusRequest{Request: req, Input: input, Copy: c.SetTaskStatusRequest}
 }
 
 const opValidatePipelineDefinition = "ValidatePipelineDefinition"
@@ -1102,6 +1162,7 @@ const opValidatePipelineDefinition = "ValidatePipelineDefinition"
 type ValidatePipelineDefinitionRequest struct {
 	*aws.Request
 	Input *ValidatePipelineDefinitionInput
+	Copy  func(*ValidatePipelineDefinitionInput) ValidatePipelineDefinitionRequest
 }
 
 // Send marshals and sends the ValidatePipelineDefinition API request.
@@ -1139,8 +1200,11 @@ func (c *DataPipeline) ValidatePipelineDefinitionRequest(input *ValidatePipeline
 		input = &ValidatePipelineDefinitionInput{}
 	}
 
-	req := c.newRequest(op, input, &ValidatePipelineDefinitionOutput{})
-	return ValidatePipelineDefinitionRequest{Request: req, Input: input}
+	output := &ValidatePipelineDefinitionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ValidatePipelineDefinitionRequest{Request: req, Input: input, Copy: c.ValidatePipelineDefinitionRequest}
 }
 
 // Contains the parameters for ActivatePipeline.
@@ -1149,7 +1213,7 @@ type ActivatePipelineInput struct {
 	_ struct{} `type:"structure"`
 
 	// A list of parameter values to pass to the pipeline at activation.
-	ParameterValues []*ParameterValue `locationName:"parameterValues" type:"list"`
+	ParameterValues []ParameterValue `locationName:"parameterValues" type:"list"`
 
 	// The ID of the pipeline.
 	//
@@ -1183,9 +1247,6 @@ func (s *ActivatePipelineInput) Validate() error {
 	}
 	if s.ParameterValues != nil {
 		for i, v := range s.ParameterValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -1198,28 +1259,12 @@ func (s *ActivatePipelineInput) Validate() error {
 	return nil
 }
 
-// SetParameterValues sets the ParameterValues field's value.
-func (s *ActivatePipelineInput) SetParameterValues(v []*ParameterValue) *ActivatePipelineInput {
-	s.ParameterValues = v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *ActivatePipelineInput) SetPipelineId(v string) *ActivatePipelineInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetStartTimestamp sets the StartTimestamp field's value.
-func (s *ActivatePipelineInput) SetStartTimestamp(v time.Time) *ActivatePipelineInput {
-	s.StartTimestamp = &v
-	return s
-}
-
 // Contains the output of ActivatePipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ActivatePipelineOutput
 type ActivatePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1230,6 +1275,11 @@ func (s ActivatePipelineOutput) String() string {
 // GoString returns the string representation
 func (s ActivatePipelineOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ActivatePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for AddTags.
@@ -1245,7 +1295,7 @@ type AddTagsInput struct {
 	// The tags to add, as key/value pairs.
 	//
 	// Tags is a required field
-	Tags []*Tag `locationName:"tags" type:"list" required:"true"`
+	Tags []Tag `locationName:"tags" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1274,9 +1324,6 @@ func (s *AddTagsInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -1289,22 +1336,12 @@ func (s *AddTagsInput) Validate() error {
 	return nil
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *AddTagsInput) SetPipelineId(v string) *AddTagsInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AddTagsInput) SetTags(v []*Tag) *AddTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Contains the output of AddTags.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/AddTagsOutput
 type AddTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1315,6 +1352,11 @@ func (s AddTagsOutput) String() string {
 // GoString returns the string representation
 func (s AddTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for CreatePipeline.
@@ -1336,7 +1378,7 @@ type CreatePipelineInput struct {
 	// access to pipelines. For more information, see Controlling User Access to
 	// Pipelines (http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html)
 	// in the AWS Data Pipeline Developer Guide.
-	Tags []*Tag `locationName:"tags" type:"list"`
+	Tags []Tag `locationName:"tags" type:"list"`
 
 	// A unique identifier. This identifier is not the same as the pipeline identifier
 	// assigned by AWS Data Pipeline. You are responsible for defining the format
@@ -1383,9 +1425,6 @@ func (s *CreatePipelineInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -1398,34 +1437,12 @@ func (s *CreatePipelineInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreatePipelineInput) SetDescription(v string) *CreatePipelineInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreatePipelineInput) SetName(v string) *CreatePipelineInput {
-	s.Name = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreatePipelineInput) SetTags(v []*Tag) *CreatePipelineInput {
-	s.Tags = v
-	return s
-}
-
-// SetUniqueId sets the UniqueId field's value.
-func (s *CreatePipelineInput) SetUniqueId(v string) *CreatePipelineInput {
-	s.UniqueId = &v
-	return s
-}
-
 // Contains the output of CreatePipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/CreatePipelineOutput
 type CreatePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID that AWS Data Pipeline assigns the newly created pipeline. For example,
 	// df-06372391ZG65EXAMPLE.
@@ -1444,10 +1461,9 @@ func (s CreatePipelineOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *CreatePipelineOutput) SetPipelineId(v string) *CreatePipelineOutput {
-	s.PipelineId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DeactivatePipeline.
@@ -1493,22 +1509,12 @@ func (s *DeactivatePipelineInput) Validate() error {
 	return nil
 }
 
-// SetCancelActive sets the CancelActive field's value.
-func (s *DeactivatePipelineInput) SetCancelActive(v bool) *DeactivatePipelineInput {
-	s.CancelActive = &v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *DeactivatePipelineInput) SetPipelineId(v string) *DeactivatePipelineInput {
-	s.PipelineId = &v
-	return s
-}
-
 // Contains the output of DeactivatePipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/DeactivatePipelineOutput
 type DeactivatePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1519,6 +1525,11 @@ func (s DeactivatePipelineOutput) String() string {
 // GoString returns the string representation
 func (s DeactivatePipelineOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeactivatePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DeletePipeline.
@@ -1559,15 +1570,11 @@ func (s *DeletePipelineInput) Validate() error {
 	return nil
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *DeletePipelineInput) SetPipelineId(v string) *DeletePipelineInput {
-	s.PipelineId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/DeletePipelineOutput
 type DeletePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1578,6 +1585,11 @@ func (s DeletePipelineOutput) String() string {
 // GoString returns the string representation
 func (s DeletePipelineOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeObjects.
@@ -1599,7 +1611,7 @@ type DescribeObjectsInput struct {
 	// You can pass as many as 25 identifiers in a single call to DescribeObjects.
 	//
 	// ObjectIds is a required field
-	ObjectIds []*string `locationName:"objectIds" type:"list" required:"true"`
+	ObjectIds []string `locationName:"objectIds" type:"list" required:"true"`
 
 	// The ID of the pipeline that contains the object definitions.
 	//
@@ -1638,34 +1650,12 @@ func (s *DescribeObjectsInput) Validate() error {
 	return nil
 }
 
-// SetEvaluateExpressions sets the EvaluateExpressions field's value.
-func (s *DescribeObjectsInput) SetEvaluateExpressions(v bool) *DescribeObjectsInput {
-	s.EvaluateExpressions = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeObjectsInput) SetMarker(v string) *DescribeObjectsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetObjectIds sets the ObjectIds field's value.
-func (s *DescribeObjectsInput) SetObjectIds(v []*string) *DescribeObjectsInput {
-	s.ObjectIds = v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *DescribeObjectsInput) SetPipelineId(v string) *DescribeObjectsInput {
-	s.PipelineId = &v
-	return s
-}
-
 // Contains the output of DescribeObjects.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/DescribeObjectsOutput
 type DescribeObjectsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether there are more results to return.
 	HasMoreResults *bool `locationName:"hasMoreResults" type:"boolean"`
@@ -1678,7 +1668,7 @@ type DescribeObjectsOutput struct {
 	// An array of object definitions.
 	//
 	// PipelineObjects is a required field
-	PipelineObjects []*PipelineObject `locationName:"pipelineObjects" type:"list" required:"true"`
+	PipelineObjects []PipelineObject `locationName:"pipelineObjects" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1691,22 +1681,9 @@ func (s DescribeObjectsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHasMoreResults sets the HasMoreResults field's value.
-func (s *DescribeObjectsOutput) SetHasMoreResults(v bool) *DescribeObjectsOutput {
-	s.HasMoreResults = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeObjectsOutput) SetMarker(v string) *DescribeObjectsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPipelineObjects sets the PipelineObjects field's value.
-func (s *DescribeObjectsOutput) SetPipelineObjects(v []*PipelineObject) *DescribeObjectsOutput {
-	s.PipelineObjects = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeObjectsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribePipelines.
@@ -1718,7 +1695,7 @@ type DescribePipelinesInput struct {
 	// in a single call. To obtain pipeline IDs, call ListPipelines.
 	//
 	// PipelineIds is a required field
-	PipelineIds []*string `locationName:"pipelineIds" type:"list" required:"true"`
+	PipelineIds []string `locationName:"pipelineIds" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1745,21 +1722,17 @@ func (s *DescribePipelinesInput) Validate() error {
 	return nil
 }
 
-// SetPipelineIds sets the PipelineIds field's value.
-func (s *DescribePipelinesInput) SetPipelineIds(v []*string) *DescribePipelinesInput {
-	s.PipelineIds = v
-	return s
-}
-
 // Contains the output of DescribePipelines.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/DescribePipelinesOutput
 type DescribePipelinesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of descriptions for the specified pipelines.
 	//
 	// PipelineDescriptionList is a required field
-	PipelineDescriptionList []*PipelineDescription `locationName:"pipelineDescriptionList" type:"list" required:"true"`
+	PipelineDescriptionList []PipelineDescription `locationName:"pipelineDescriptionList" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1772,10 +1745,9 @@ func (s DescribePipelinesOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipelineDescriptionList sets the PipelineDescriptionList field's value.
-func (s *DescribePipelinesOutput) SetPipelineDescriptionList(v []*PipelineDescription) *DescribePipelinesOutput {
-	s.PipelineDescriptionList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePipelinesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for EvaluateExpression.
@@ -1837,28 +1809,12 @@ func (s *EvaluateExpressionInput) Validate() error {
 	return nil
 }
 
-// SetExpression sets the Expression field's value.
-func (s *EvaluateExpressionInput) SetExpression(v string) *EvaluateExpressionInput {
-	s.Expression = &v
-	return s
-}
-
-// SetObjectId sets the ObjectId field's value.
-func (s *EvaluateExpressionInput) SetObjectId(v string) *EvaluateExpressionInput {
-	s.ObjectId = &v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *EvaluateExpressionInput) SetPipelineId(v string) *EvaluateExpressionInput {
-	s.PipelineId = &v
-	return s
-}
-
 // Contains the output of EvaluateExpression.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/EvaluateExpressionOutput
 type EvaluateExpressionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The evaluated expression.
 	//
@@ -1876,10 +1832,9 @@ func (s EvaluateExpressionOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvaluatedExpression sets the EvaluatedExpression field's value.
-func (s *EvaluateExpressionOutput) SetEvaluatedExpression(v string) *EvaluateExpressionOutput {
-	s.EvaluatedExpression = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EvaluateExpressionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A key-value pair that describes a property of a pipeline object. The value
@@ -1931,24 +1886,6 @@ func (s *Field) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Field) SetKey(v string) *Field {
-	s.Key = &v
-	return s
-}
-
-// SetRefValue sets the RefValue field's value.
-func (s *Field) SetRefValue(v string) *Field {
-	s.RefValue = &v
-	return s
-}
-
-// SetStringValue sets the StringValue field's value.
-func (s *Field) SetStringValue(v string) *Field {
-	s.StringValue = &v
-	return s
-}
-
 // Contains the parameters for GetPipelineDefinition.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/GetPipelineDefinitionInput
 type GetPipelineDefinitionInput struct {
@@ -1992,31 +1929,21 @@ func (s *GetPipelineDefinitionInput) Validate() error {
 	return nil
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *GetPipelineDefinitionInput) SetPipelineId(v string) *GetPipelineDefinitionInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *GetPipelineDefinitionInput) SetVersion(v string) *GetPipelineDefinitionInput {
-	s.Version = &v
-	return s
-}
-
 // Contains the output of GetPipelineDefinition.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/GetPipelineDefinitionOutput
 type GetPipelineDefinitionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The parameter objects used in the pipeline definition.
-	ParameterObjects []*ParameterObject `locationName:"parameterObjects" type:"list"`
+	ParameterObjects []ParameterObject `locationName:"parameterObjects" type:"list"`
 
 	// The parameter values used in the pipeline definition.
-	ParameterValues []*ParameterValue `locationName:"parameterValues" type:"list"`
+	ParameterValues []ParameterValue `locationName:"parameterValues" type:"list"`
 
 	// The objects defined in the pipeline.
-	PipelineObjects []*PipelineObject `locationName:"pipelineObjects" type:"list"`
+	PipelineObjects []PipelineObject `locationName:"pipelineObjects" type:"list"`
 }
 
 // String returns the string representation
@@ -2029,22 +1956,9 @@ func (s GetPipelineDefinitionOutput) GoString() string {
 	return s.String()
 }
 
-// SetParameterObjects sets the ParameterObjects field's value.
-func (s *GetPipelineDefinitionOutput) SetParameterObjects(v []*ParameterObject) *GetPipelineDefinitionOutput {
-	s.ParameterObjects = v
-	return s
-}
-
-// SetParameterValues sets the ParameterValues field's value.
-func (s *GetPipelineDefinitionOutput) SetParameterValues(v []*ParameterValue) *GetPipelineDefinitionOutput {
-	s.ParameterValues = v
-	return s
-}
-
-// SetPipelineObjects sets the PipelineObjects field's value.
-func (s *GetPipelineDefinitionOutput) SetPipelineObjects(v []*PipelineObject) *GetPipelineDefinitionOutput {
-	s.PipelineObjects = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPipelineDefinitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Identity information for the EC2 instance that is hosting the task runner.
@@ -2077,18 +1991,6 @@ func (s InstanceIdentity) GoString() string {
 	return s.String()
 }
 
-// SetDocument sets the Document field's value.
-func (s *InstanceIdentity) SetDocument(v string) *InstanceIdentity {
-	s.Document = &v
-	return s
-}
-
-// SetSignature sets the Signature field's value.
-func (s *InstanceIdentity) SetSignature(v string) *InstanceIdentity {
-	s.Signature = &v
-	return s
-}
-
 // Contains the parameters for ListPipelines.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ListPipelinesInput
 type ListPipelinesInput struct {
@@ -2111,16 +2013,12 @@ func (s ListPipelinesInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListPipelinesInput) SetMarker(v string) *ListPipelinesInput {
-	s.Marker = &v
-	return s
-}
-
 // Contains the output of ListPipelines.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ListPipelinesOutput
 type ListPipelinesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether there are more results that can be obtained by a subsequent
 	// call.
@@ -2135,7 +2033,7 @@ type ListPipelinesOutput struct {
 	// pipelines, you can use these identifiers to call DescribePipelines and GetPipelineDefinition.
 	//
 	// PipelineIdList is a required field
-	PipelineIdList []*PipelineIdName `locationName:"pipelineIdList" type:"list" required:"true"`
+	PipelineIdList []PipelineIdName `locationName:"pipelineIdList" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2148,22 +2046,9 @@ func (s ListPipelinesOutput) GoString() string {
 	return s.String()
 }
 
-// SetHasMoreResults sets the HasMoreResults field's value.
-func (s *ListPipelinesOutput) SetHasMoreResults(v bool) *ListPipelinesOutput {
-	s.HasMoreResults = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListPipelinesOutput) SetMarker(v string) *ListPipelinesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPipelineIdList sets the PipelineIdList field's value.
-func (s *ListPipelinesOutput) SetPipelineIdList(v []*PipelineIdName) *ListPipelinesOutput {
-	s.PipelineIdList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPipelinesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains a logical operation for comparing the value of a field with a specified
@@ -2201,10 +2086,10 @@ type Operator struct {
 	// only alpha-numeric values, as symbols may be reserved by AWS Data Pipeline.
 	// User-defined fields that you add to a pipeline should prefix their name with
 	// the string "my".
-	Type OperatorType `locationName:"type" type:"string"`
+	Type OperatorType `locationName:"type" type:"string" enum:"true"`
 
 	// The value that the actual field value will be compared with.
-	Values []*string `locationName:"values" type:"list"`
+	Values []string `locationName:"values" type:"list"`
 }
 
 // String returns the string representation
@@ -2215,18 +2100,6 @@ func (s Operator) String() string {
 // GoString returns the string representation
 func (s Operator) GoString() string {
 	return s.String()
-}
-
-// SetType sets the Type field's value.
-func (s *Operator) SetType(v OperatorType) *Operator {
-	s.Type = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *Operator) SetValues(v []*string) *Operator {
-	s.Values = v
-	return s
 }
 
 // The attributes allowed or specified with a parameter object.
@@ -2276,18 +2149,6 @@ func (s *ParameterAttribute) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *ParameterAttribute) SetKey(v string) *ParameterAttribute {
-	s.Key = &v
-	return s
-}
-
-// SetStringValue sets the StringValue field's value.
-func (s *ParameterAttribute) SetStringValue(v string) *ParameterAttribute {
-	s.StringValue = &v
-	return s
-}
-
 // Contains information about a parameter object.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ParameterObject
 type ParameterObject struct {
@@ -2296,7 +2157,7 @@ type ParameterObject struct {
 	// The attributes of the parameter object.
 	//
 	// Attributes is a required field
-	Attributes []*ParameterAttribute `locationName:"attributes" type:"list" required:"true"`
+	Attributes []ParameterAttribute `locationName:"attributes" type:"list" required:"true"`
 
 	// The ID of the parameter object.
 	//
@@ -2330,9 +2191,6 @@ func (s *ParameterObject) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -2343,18 +2201,6 @@ func (s *ParameterObject) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAttributes sets the Attributes field's value.
-func (s *ParameterObject) SetAttributes(v []*ParameterAttribute) *ParameterObject {
-	s.Attributes = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *ParameterObject) SetId(v string) *ParameterObject {
-	s.Id = &v
-	return s
 }
 
 // A value or list of parameter values.
@@ -2404,18 +2250,6 @@ func (s *ParameterValue) Validate() error {
 	return nil
 }
 
-// SetId sets the Id field's value.
-func (s *ParameterValue) SetId(v string) *ParameterValue {
-	s.Id = &v
-	return s
-}
-
-// SetStringValue sets the StringValue field's value.
-func (s *ParameterValue) SetStringValue(v string) *ParameterValue {
-	s.StringValue = &v
-	return s
-}
-
 // Contains pipeline metadata.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/PipelineDescription
 type PipelineDescription struct {
@@ -2428,7 +2262,7 @@ type PipelineDescription struct {
 	// @accountId, and @pipelineState.
 	//
 	// Fields is a required field
-	Fields []*Field `locationName:"fields" type:"list" required:"true"`
+	Fields []Field `locationName:"fields" type:"list" required:"true"`
 
 	// The name of the pipeline.
 	//
@@ -2445,7 +2279,7 @@ type PipelineDescription struct {
 	// to pipelines. For more information, see Controlling User Access to Pipelines
 	// (http://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-control-access.html)
 	// in the AWS Data Pipeline Developer Guide.
-	Tags []*Tag `locationName:"tags" type:"list"`
+	Tags []Tag `locationName:"tags" type:"list"`
 }
 
 // String returns the string representation
@@ -2456,36 +2290,6 @@ func (s PipelineDescription) String() string {
 // GoString returns the string representation
 func (s PipelineDescription) GoString() string {
 	return s.String()
-}
-
-// SetDescription sets the Description field's value.
-func (s *PipelineDescription) SetDescription(v string) *PipelineDescription {
-	s.Description = &v
-	return s
-}
-
-// SetFields sets the Fields field's value.
-func (s *PipelineDescription) SetFields(v []*Field) *PipelineDescription {
-	s.Fields = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PipelineDescription) SetName(v string) *PipelineDescription {
-	s.Name = &v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *PipelineDescription) SetPipelineId(v string) *PipelineDescription {
-	s.PipelineId = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *PipelineDescription) SetTags(v []*Tag) *PipelineDescription {
-	s.Tags = v
-	return s
 }
 
 // Contains the name and identifier of a pipeline.
@@ -2511,18 +2315,6 @@ func (s PipelineIdName) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *PipelineIdName) SetId(v string) *PipelineIdName {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PipelineIdName) SetName(v string) *PipelineIdName {
-	s.Name = &v
-	return s
-}
-
 // Contains information about a pipeline object. This can be a logical, physical,
 // or physical attempt pipeline object. The complete set of components of a
 // pipeline defines the pipeline.
@@ -2533,7 +2325,7 @@ type PipelineObject struct {
 	// Key-value pairs that define the properties of the object.
 	//
 	// Fields is a required field
-	Fields []*Field `locationName:"fields" type:"list" required:"true"`
+	Fields []Field `locationName:"fields" type:"list" required:"true"`
 
 	// The ID of the object.
 	//
@@ -2579,9 +2371,6 @@ func (s *PipelineObject) Validate() error {
 	}
 	if s.Fields != nil {
 		for i, v := range s.Fields {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Fields", i), err.(aws.ErrInvalidParams))
 			}
@@ -2592,24 +2381,6 @@ func (s *PipelineObject) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetFields sets the Fields field's value.
-func (s *PipelineObject) SetFields(v []*Field) *PipelineObject {
-	s.Fields = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *PipelineObject) SetId(v string) *PipelineObject {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PipelineObject) SetName(v string) *PipelineObject {
-	s.Name = &v
-	return s
 }
 
 // Contains the parameters for PollForTask.
@@ -2665,28 +2436,12 @@ func (s *PollForTaskInput) Validate() error {
 	return nil
 }
 
-// SetHostname sets the Hostname field's value.
-func (s *PollForTaskInput) SetHostname(v string) *PollForTaskInput {
-	s.Hostname = &v
-	return s
-}
-
-// SetInstanceIdentity sets the InstanceIdentity field's value.
-func (s *PollForTaskInput) SetInstanceIdentity(v *InstanceIdentity) *PollForTaskInput {
-	s.InstanceIdentity = v
-	return s
-}
-
-// SetWorkerGroup sets the WorkerGroup field's value.
-func (s *PollForTaskInput) SetWorkerGroup(v string) *PollForTaskInput {
-	s.WorkerGroup = &v
-	return s
-}
-
 // Contains the output of PollForTask.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/PollForTaskOutput
 type PollForTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The information needed to complete the task that is being assigned to the
 	// task runner. One of the fields returned in this object is taskId, which contains
@@ -2705,10 +2460,9 @@ func (s PollForTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetTaskObject sets the TaskObject field's value.
-func (s *PollForTaskOutput) SetTaskObject(v *TaskObject) *PollForTaskOutput {
-	s.TaskObject = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PollForTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for PutPipelineDefinition.
@@ -2717,10 +2471,10 @@ type PutPipelineDefinitionInput struct {
 	_ struct{} `type:"structure"`
 
 	// The parameter objects used with the pipeline.
-	ParameterObjects []*ParameterObject `locationName:"parameterObjects" type:"list"`
+	ParameterObjects []ParameterObject `locationName:"parameterObjects" type:"list"`
 
 	// The parameter values used with the pipeline.
-	ParameterValues []*ParameterValue `locationName:"parameterValues" type:"list"`
+	ParameterValues []ParameterValue `locationName:"parameterValues" type:"list"`
 
 	// The ID of the pipeline.
 	//
@@ -2731,7 +2485,7 @@ type PutPipelineDefinitionInput struct {
 	// pipeline definition.
 	//
 	// PipelineObjects is a required field
-	PipelineObjects []*PipelineObject `locationName:"pipelineObjects" type:"list" required:"true"`
+	PipelineObjects []PipelineObject `locationName:"pipelineObjects" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2760,9 +2514,6 @@ func (s *PutPipelineDefinitionInput) Validate() error {
 	}
 	if s.ParameterObjects != nil {
 		for i, v := range s.ParameterObjects {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterObjects", i), err.(aws.ErrInvalidParams))
 			}
@@ -2770,9 +2521,6 @@ func (s *PutPipelineDefinitionInput) Validate() error {
 	}
 	if s.ParameterValues != nil {
 		for i, v := range s.ParameterValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -2780,9 +2528,6 @@ func (s *PutPipelineDefinitionInput) Validate() error {
 	}
 	if s.PipelineObjects != nil {
 		for i, v := range s.PipelineObjects {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "PipelineObjects", i), err.(aws.ErrInvalidParams))
 			}
@@ -2795,34 +2540,12 @@ func (s *PutPipelineDefinitionInput) Validate() error {
 	return nil
 }
 
-// SetParameterObjects sets the ParameterObjects field's value.
-func (s *PutPipelineDefinitionInput) SetParameterObjects(v []*ParameterObject) *PutPipelineDefinitionInput {
-	s.ParameterObjects = v
-	return s
-}
-
-// SetParameterValues sets the ParameterValues field's value.
-func (s *PutPipelineDefinitionInput) SetParameterValues(v []*ParameterValue) *PutPipelineDefinitionInput {
-	s.ParameterValues = v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *PutPipelineDefinitionInput) SetPipelineId(v string) *PutPipelineDefinitionInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetPipelineObjects sets the PipelineObjects field's value.
-func (s *PutPipelineDefinitionInput) SetPipelineObjects(v []*PipelineObject) *PutPipelineDefinitionInput {
-	s.PipelineObjects = v
-	return s
-}
-
 // Contains the output of PutPipelineDefinition.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/PutPipelineDefinitionOutput
 type PutPipelineDefinitionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether there were validation errors, and the pipeline definition
 	// is stored but cannot be activated until you correct the pipeline and call
@@ -2832,10 +2555,10 @@ type PutPipelineDefinitionOutput struct {
 	Errored *bool `locationName:"errored" type:"boolean" required:"true"`
 
 	// The validation errors that are associated with the objects defined in pipelineObjects.
-	ValidationErrors []*ValidationError `locationName:"validationErrors" type:"list"`
+	ValidationErrors []ValidationError `locationName:"validationErrors" type:"list"`
 
 	// The validation warnings that are associated with the objects defined in pipelineObjects.
-	ValidationWarnings []*ValidationWarning `locationName:"validationWarnings" type:"list"`
+	ValidationWarnings []ValidationWarning `locationName:"validationWarnings" type:"list"`
 }
 
 // String returns the string representation
@@ -2848,22 +2571,9 @@ func (s PutPipelineDefinitionOutput) GoString() string {
 	return s.String()
 }
 
-// SetErrored sets the Errored field's value.
-func (s *PutPipelineDefinitionOutput) SetErrored(v bool) *PutPipelineDefinitionOutput {
-	s.Errored = &v
-	return s
-}
-
-// SetValidationErrors sets the ValidationErrors field's value.
-func (s *PutPipelineDefinitionOutput) SetValidationErrors(v []*ValidationError) *PutPipelineDefinitionOutput {
-	s.ValidationErrors = v
-	return s
-}
-
-// SetValidationWarnings sets the ValidationWarnings field's value.
-func (s *PutPipelineDefinitionOutput) SetValidationWarnings(v []*ValidationWarning) *PutPipelineDefinitionOutput {
-	s.ValidationWarnings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutPipelineDefinitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Defines the query to run against an object.
@@ -2873,7 +2583,7 @@ type Query struct {
 
 	// List of selectors that define the query. An object must satisfy all of the
 	// selectors to match the query.
-	Selectors []*Selector `locationName:"selectors" type:"list"`
+	Selectors []Selector `locationName:"selectors" type:"list"`
 }
 
 // String returns the string representation
@@ -2884,12 +2594,6 @@ func (s Query) String() string {
 // GoString returns the string representation
 func (s Query) GoString() string {
 	return s.String()
-}
-
-// SetSelectors sets the Selectors field's value.
-func (s *Query) SetSelectors(v []*Selector) *Query {
-	s.Selectors = v
-	return s
 }
 
 // Contains the parameters for QueryObjects.
@@ -2956,47 +2660,19 @@ func (s *QueryObjectsInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *QueryObjectsInput) SetLimit(v int64) *QueryObjectsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *QueryObjectsInput) SetMarker(v string) *QueryObjectsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *QueryObjectsInput) SetPipelineId(v string) *QueryObjectsInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetQuery sets the Query field's value.
-func (s *QueryObjectsInput) SetQuery(v *Query) *QueryObjectsInput {
-	s.Query = v
-	return s
-}
-
-// SetSphere sets the Sphere field's value.
-func (s *QueryObjectsInput) SetSphere(v string) *QueryObjectsInput {
-	s.Sphere = &v
-	return s
-}
-
 // Contains the output of QueryObjects.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/QueryObjectsOutput
 type QueryObjectsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether there are more results that can be obtained by a subsequent
 	// call.
 	HasMoreResults *bool `locationName:"hasMoreResults" type:"boolean"`
 
 	// The identifiers that match the query selectors.
-	Ids []*string `locationName:"ids" type:"list"`
+	Ids []string `locationName:"ids" type:"list"`
 
 	// The starting point for the next page of results. To view the next page of
 	// results, call QueryObjects again with this marker value. If the value is
@@ -3014,22 +2690,9 @@ func (s QueryObjectsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHasMoreResults sets the HasMoreResults field's value.
-func (s *QueryObjectsOutput) SetHasMoreResults(v bool) *QueryObjectsOutput {
-	s.HasMoreResults = &v
-	return s
-}
-
-// SetIds sets the Ids field's value.
-func (s *QueryObjectsOutput) SetIds(v []*string) *QueryObjectsOutput {
-	s.Ids = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *QueryObjectsOutput) SetMarker(v string) *QueryObjectsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s QueryObjectsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for RemoveTags.
@@ -3045,7 +2708,7 @@ type RemoveTagsInput struct {
 	// The keys of the tags to remove.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `locationName:"tagKeys" type:"list" required:"true"`
+	TagKeys []string `locationName:"tagKeys" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3079,22 +2742,12 @@ func (s *RemoveTagsInput) Validate() error {
 	return nil
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *RemoveTagsInput) SetPipelineId(v string) *RemoveTagsInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *RemoveTagsInput) SetTagKeys(v []*string) *RemoveTagsInput {
-	s.TagKeys = v
-	return s
-}
-
 // Contains the output of RemoveTags.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/RemoveTagsOutput
 type RemoveTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3107,6 +2760,11 @@ func (s RemoveTagsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains the parameters for ReportTaskProgress.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ReportTaskProgressInput
 type ReportTaskProgressInput struct {
@@ -3114,7 +2772,7 @@ type ReportTaskProgressInput struct {
 
 	// Key-value pairs that define the properties of the ReportTaskProgressInput
 	// object.
-	Fields []*Field `locationName:"fields" type:"list"`
+	Fields []Field `locationName:"fields" type:"list"`
 
 	// The ID of the task assigned to the task runner. This value is provided in
 	// the response for PollForTask.
@@ -3145,9 +2803,6 @@ func (s *ReportTaskProgressInput) Validate() error {
 	}
 	if s.Fields != nil {
 		for i, v := range s.Fields {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Fields", i), err.(aws.ErrInvalidParams))
 			}
@@ -3160,22 +2815,12 @@ func (s *ReportTaskProgressInput) Validate() error {
 	return nil
 }
 
-// SetFields sets the Fields field's value.
-func (s *ReportTaskProgressInput) SetFields(v []*Field) *ReportTaskProgressInput {
-	s.Fields = v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *ReportTaskProgressInput) SetTaskId(v string) *ReportTaskProgressInput {
-	s.TaskId = &v
-	return s
-}
-
 // Contains the output of ReportTaskProgress.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ReportTaskProgressOutput
 type ReportTaskProgressOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If true, the calling task runner should cancel processing of the task. The
 	// task runner does not need to call SetTaskStatus for canceled tasks.
@@ -3194,10 +2839,9 @@ func (s ReportTaskProgressOutput) GoString() string {
 	return s.String()
 }
 
-// SetCanceled sets the Canceled field's value.
-func (s *ReportTaskProgressOutput) SetCanceled(v bool) *ReportTaskProgressOutput {
-	s.Canceled = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ReportTaskProgressOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for ReportTaskRunnerHeartbeat.
@@ -3255,28 +2899,12 @@ func (s *ReportTaskRunnerHeartbeatInput) Validate() error {
 	return nil
 }
 
-// SetHostname sets the Hostname field's value.
-func (s *ReportTaskRunnerHeartbeatInput) SetHostname(v string) *ReportTaskRunnerHeartbeatInput {
-	s.Hostname = &v
-	return s
-}
-
-// SetTaskrunnerId sets the TaskrunnerId field's value.
-func (s *ReportTaskRunnerHeartbeatInput) SetTaskrunnerId(v string) *ReportTaskRunnerHeartbeatInput {
-	s.TaskrunnerId = &v
-	return s
-}
-
-// SetWorkerGroup sets the WorkerGroup field's value.
-func (s *ReportTaskRunnerHeartbeatInput) SetWorkerGroup(v string) *ReportTaskRunnerHeartbeatInput {
-	s.WorkerGroup = &v
-	return s
-}
-
 // Contains the output of ReportTaskRunnerHeartbeat.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ReportTaskRunnerHeartbeatOutput
 type ReportTaskRunnerHeartbeatOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether the calling task runner should terminate.
 	//
@@ -3294,10 +2922,9 @@ func (s ReportTaskRunnerHeartbeatOutput) GoString() string {
 	return s.String()
 }
 
-// SetTerminate sets the Terminate field's value.
-func (s *ReportTaskRunnerHeartbeatOutput) SetTerminate(v bool) *ReportTaskRunnerHeartbeatOutput {
-	s.Terminate = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ReportTaskRunnerHeartbeatOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A comparision that is used to determine whether a query should return this
@@ -3327,18 +2954,6 @@ func (s Selector) GoString() string {
 	return s.String()
 }
 
-// SetFieldName sets the FieldName field's value.
-func (s *Selector) SetFieldName(v string) *Selector {
-	s.FieldName = &v
-	return s
-}
-
-// SetOperator sets the Operator field's value.
-func (s *Selector) SetOperator(v *Operator) *Selector {
-	s.Operator = v
-	return s
-}
-
 // Contains the parameters for SetStatus.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/SetStatusInput
 type SetStatusInput struct {
@@ -3348,7 +2963,7 @@ type SetStatusInput struct {
 	// or components, but not a mix of both types.
 	//
 	// ObjectIds is a required field
-	ObjectIds []*string `locationName:"objectIds" type:"list" required:"true"`
+	ObjectIds []string `locationName:"objectIds" type:"list" required:"true"`
 
 	// The ID of the pipeline that contains the objects.
 	//
@@ -3397,27 +3012,11 @@ func (s *SetStatusInput) Validate() error {
 	return nil
 }
 
-// SetObjectIds sets the ObjectIds field's value.
-func (s *SetStatusInput) SetObjectIds(v []*string) *SetStatusInput {
-	s.ObjectIds = v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *SetStatusInput) SetPipelineId(v string) *SetStatusInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *SetStatusInput) SetStatus(v string) *SetStatusInput {
-	s.Status = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/SetStatusOutput
 type SetStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3428,6 +3027,11 @@ func (s SetStatusOutput) String() string {
 // GoString returns the string representation
 func (s SetStatusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for SetTaskStatus.
@@ -3463,7 +3067,7 @@ type SetTaskStatusInput struct {
 	// Preconditions use false.
 	//
 	// TaskStatus is a required field
-	TaskStatus TaskStatus `locationName:"taskStatus" type:"string" required:"true"`
+	TaskStatus TaskStatus `locationName:"taskStatus" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3496,40 +3100,12 @@ func (s *SetTaskStatusInput) Validate() error {
 	return nil
 }
 
-// SetErrorId sets the ErrorId field's value.
-func (s *SetTaskStatusInput) SetErrorId(v string) *SetTaskStatusInput {
-	s.ErrorId = &v
-	return s
-}
-
-// SetErrorMessage sets the ErrorMessage field's value.
-func (s *SetTaskStatusInput) SetErrorMessage(v string) *SetTaskStatusInput {
-	s.ErrorMessage = &v
-	return s
-}
-
-// SetErrorStackTrace sets the ErrorStackTrace field's value.
-func (s *SetTaskStatusInput) SetErrorStackTrace(v string) *SetTaskStatusInput {
-	s.ErrorStackTrace = &v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *SetTaskStatusInput) SetTaskId(v string) *SetTaskStatusInput {
-	s.TaskId = &v
-	return s
-}
-
-// SetTaskStatus sets the TaskStatus field's value.
-func (s *SetTaskStatusInput) SetTaskStatus(v TaskStatus) *SetTaskStatusInput {
-	s.TaskStatus = v
-	return s
-}
-
 // Contains the output of SetTaskStatus.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/SetTaskStatusOutput
 type SetTaskStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3540,6 +3116,11 @@ func (s SetTaskStatusOutput) String() string {
 // GoString returns the string representation
 func (s SetTaskStatusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetTaskStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Tags are key/value pairs defined by a user and associated with a pipeline
@@ -3597,18 +3178,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // Contains information about a pipeline task that is assigned to a task runner.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/TaskObject
 type TaskObject struct {
@@ -3620,7 +3189,7 @@ type TaskObject struct {
 
 	// Connection information for the location where the task runner will publish
 	// the output of the task.
-	Objects map[string]*PipelineObject `locationName:"objects" type:"map"`
+	Objects map[string]PipelineObject `locationName:"objects" type:"map"`
 
 	// The ID of the pipeline that provided the task.
 	PipelineId *string `locationName:"pipelineId" min:"1" type:"string"`
@@ -3640,40 +3209,16 @@ func (s TaskObject) GoString() string {
 	return s.String()
 }
 
-// SetAttemptId sets the AttemptId field's value.
-func (s *TaskObject) SetAttemptId(v string) *TaskObject {
-	s.AttemptId = &v
-	return s
-}
-
-// SetObjects sets the Objects field's value.
-func (s *TaskObject) SetObjects(v map[string]*PipelineObject) *TaskObject {
-	s.Objects = v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *TaskObject) SetPipelineId(v string) *TaskObject {
-	s.PipelineId = &v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *TaskObject) SetTaskId(v string) *TaskObject {
-	s.TaskId = &v
-	return s
-}
-
 // Contains the parameters for ValidatePipelineDefinition.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ValidatePipelineDefinitionInput
 type ValidatePipelineDefinitionInput struct {
 	_ struct{} `type:"structure"`
 
 	// The parameter objects used with the pipeline.
-	ParameterObjects []*ParameterObject `locationName:"parameterObjects" type:"list"`
+	ParameterObjects []ParameterObject `locationName:"parameterObjects" type:"list"`
 
 	// The parameter values used with the pipeline.
-	ParameterValues []*ParameterValue `locationName:"parameterValues" type:"list"`
+	ParameterValues []ParameterValue `locationName:"parameterValues" type:"list"`
 
 	// The ID of the pipeline.
 	//
@@ -3683,7 +3228,7 @@ type ValidatePipelineDefinitionInput struct {
 	// The objects that define the pipeline changes to validate against the pipeline.
 	//
 	// PipelineObjects is a required field
-	PipelineObjects []*PipelineObject `locationName:"pipelineObjects" type:"list" required:"true"`
+	PipelineObjects []PipelineObject `locationName:"pipelineObjects" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3712,9 +3257,6 @@ func (s *ValidatePipelineDefinitionInput) Validate() error {
 	}
 	if s.ParameterObjects != nil {
 		for i, v := range s.ParameterObjects {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterObjects", i), err.(aws.ErrInvalidParams))
 			}
@@ -3722,9 +3264,6 @@ func (s *ValidatePipelineDefinitionInput) Validate() error {
 	}
 	if s.ParameterValues != nil {
 		for i, v := range s.ParameterValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -3732,9 +3271,6 @@ func (s *ValidatePipelineDefinitionInput) Validate() error {
 	}
 	if s.PipelineObjects != nil {
 		for i, v := range s.PipelineObjects {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "PipelineObjects", i), err.(aws.ErrInvalidParams))
 			}
@@ -3747,34 +3283,12 @@ func (s *ValidatePipelineDefinitionInput) Validate() error {
 	return nil
 }
 
-// SetParameterObjects sets the ParameterObjects field's value.
-func (s *ValidatePipelineDefinitionInput) SetParameterObjects(v []*ParameterObject) *ValidatePipelineDefinitionInput {
-	s.ParameterObjects = v
-	return s
-}
-
-// SetParameterValues sets the ParameterValues field's value.
-func (s *ValidatePipelineDefinitionInput) SetParameterValues(v []*ParameterValue) *ValidatePipelineDefinitionInput {
-	s.ParameterValues = v
-	return s
-}
-
-// SetPipelineId sets the PipelineId field's value.
-func (s *ValidatePipelineDefinitionInput) SetPipelineId(v string) *ValidatePipelineDefinitionInput {
-	s.PipelineId = &v
-	return s
-}
-
-// SetPipelineObjects sets the PipelineObjects field's value.
-func (s *ValidatePipelineDefinitionInput) SetPipelineObjects(v []*PipelineObject) *ValidatePipelineDefinitionInput {
-	s.PipelineObjects = v
-	return s
-}
-
 // Contains the output of ValidatePipelineDefinition.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/datapipeline-2012-10-29/ValidatePipelineDefinitionOutput
 type ValidatePipelineDefinitionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether there were validation errors.
 	//
@@ -3782,10 +3296,10 @@ type ValidatePipelineDefinitionOutput struct {
 	Errored *bool `locationName:"errored" type:"boolean" required:"true"`
 
 	// Any validation errors that were found.
-	ValidationErrors []*ValidationError `locationName:"validationErrors" type:"list"`
+	ValidationErrors []ValidationError `locationName:"validationErrors" type:"list"`
 
 	// Any validation warnings that were found.
-	ValidationWarnings []*ValidationWarning `locationName:"validationWarnings" type:"list"`
+	ValidationWarnings []ValidationWarning `locationName:"validationWarnings" type:"list"`
 }
 
 // String returns the string representation
@@ -3798,22 +3312,9 @@ func (s ValidatePipelineDefinitionOutput) GoString() string {
 	return s.String()
 }
 
-// SetErrored sets the Errored field's value.
-func (s *ValidatePipelineDefinitionOutput) SetErrored(v bool) *ValidatePipelineDefinitionOutput {
-	s.Errored = &v
-	return s
-}
-
-// SetValidationErrors sets the ValidationErrors field's value.
-func (s *ValidatePipelineDefinitionOutput) SetValidationErrors(v []*ValidationError) *ValidatePipelineDefinitionOutput {
-	s.ValidationErrors = v
-	return s
-}
-
-// SetValidationWarnings sets the ValidationWarnings field's value.
-func (s *ValidatePipelineDefinitionOutput) SetValidationWarnings(v []*ValidationWarning) *ValidatePipelineDefinitionOutput {
-	s.ValidationWarnings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ValidatePipelineDefinitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Defines a validation error. Validation errors prevent pipeline activation.
@@ -3824,7 +3325,7 @@ type ValidationError struct {
 	_ struct{} `type:"structure"`
 
 	// A description of the validation error.
-	Errors []*string `locationName:"errors" type:"list"`
+	Errors []string `locationName:"errors" type:"list"`
 
 	// The identifier of the object that contains the validation error.
 	Id *string `locationName:"id" min:"1" type:"string"`
@@ -3840,18 +3341,6 @@ func (s ValidationError) GoString() string {
 	return s.String()
 }
 
-// SetErrors sets the Errors field's value.
-func (s *ValidationError) SetErrors(v []*string) *ValidationError {
-	s.Errors = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *ValidationError) SetId(v string) *ValidationError {
-	s.Id = &v
-	return s
-}
-
 // Defines a validation warning. Validation warnings do not prevent pipeline
 // activation. The set of validation warnings that can be returned are defined
 // by AWS Data Pipeline.
@@ -3863,7 +3352,7 @@ type ValidationWarning struct {
 	Id *string `locationName:"id" min:"1" type:"string"`
 
 	// A description of the validation warning.
-	Warnings []*string `locationName:"warnings" type:"list"`
+	Warnings []string `locationName:"warnings" type:"list"`
 }
 
 // String returns the string representation
@@ -3874,18 +3363,6 @@ func (s ValidationWarning) String() string {
 // GoString returns the string representation
 func (s ValidationWarning) GoString() string {
 	return s.String()
-}
-
-// SetId sets the Id field's value.
-func (s *ValidationWarning) SetId(v string) *ValidationWarning {
-	s.Id = &v
-	return s
-}
-
-// SetWarnings sets the Warnings field's value.
-func (s *ValidationWarning) SetWarnings(v []*string) *ValidationWarning {
-	s.Warnings = v
-	return s
 }
 
 type OperatorType string
@@ -3899,6 +3376,15 @@ const (
 	OperatorTypeBetween OperatorType = "BETWEEN"
 )
 
+func (enum OperatorType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OperatorType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TaskStatus string
 
 // Enum values for TaskStatus
@@ -3907,3 +3393,12 @@ const (
 	TaskStatusFailed   TaskStatus = "FAILED"
 	TaskStatusFalse    TaskStatus = "FALSE"
 )
+
+func (enum TaskStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TaskStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

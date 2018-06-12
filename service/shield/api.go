@@ -3,11 +3,145 @@
 package shield
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/internal/awsutil"
 )
+
+const opAssociateDRTLogBucket = "AssociateDRTLogBucket"
+
+// AssociateDRTLogBucketRequest is a API request type for the AssociateDRTLogBucket API operation.
+type AssociateDRTLogBucketRequest struct {
+	*aws.Request
+	Input *AssociateDRTLogBucketInput
+	Copy  func(*AssociateDRTLogBucketInput) AssociateDRTLogBucketRequest
+}
+
+// Send marshals and sends the AssociateDRTLogBucket API request.
+func (r AssociateDRTLogBucketRequest) Send() (*AssociateDRTLogBucketOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*AssociateDRTLogBucketOutput), nil
+}
+
+// AssociateDRTLogBucketRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Authorizes the DDoS Response team (DRT) to access the specified Amazon S3
+// bucket containing your flow logs. You can associate up to 10 Amazon S3 buckets
+// with your subscription.
+//
+// To use the services of the DRT and make an AssociateDRTLogBucket request,
+// you must be subscribed to the Business Support plan (https://aws.amazon.com/premiumsupport/business-support/)
+// or the Enterprise Support plan (https://aws.amazon.com/premiumsupport/enterprise-support/).
+//
+//    // Example sending a request using the AssociateDRTLogBucketRequest method.
+//    req := client.AssociateDRTLogBucketRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AssociateDRTLogBucket
+func (c *Shield) AssociateDRTLogBucketRequest(input *AssociateDRTLogBucketInput) AssociateDRTLogBucketRequest {
+	op := &aws.Operation{
+		Name:       opAssociateDRTLogBucket,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AssociateDRTLogBucketInput{}
+	}
+
+	output := &AssociateDRTLogBucketOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateDRTLogBucketRequest{Request: req, Input: input, Copy: c.AssociateDRTLogBucketRequest}
+}
+
+const opAssociateDRTRole = "AssociateDRTRole"
+
+// AssociateDRTRoleRequest is a API request type for the AssociateDRTRole API operation.
+type AssociateDRTRoleRequest struct {
+	*aws.Request
+	Input *AssociateDRTRoleInput
+	Copy  func(*AssociateDRTRoleInput) AssociateDRTRoleRequest
+}
+
+// Send marshals and sends the AssociateDRTRole API request.
+func (r AssociateDRTRoleRequest) Send() (*AssociateDRTRoleOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*AssociateDRTRoleOutput), nil
+}
+
+// AssociateDRTRoleRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Authorizes the DDoS Response team (DRT), using the specified role, to access
+// your AWS account to assist with DDoS attack mitigation during potential attacks.
+// This enables the DRT to inspect your AWS WAF configuration and create or
+// update AWS WAF rules and web ACLs.
+//
+// You can associate only one RoleArn with your subscription. If you submit
+// an AssociateDRTRole request for an account that already has an associated
+// role, the new RoleArn will replace the existing RoleArn.
+//
+// Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy
+// (https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy)
+// managed policy to the role you will specify in the request. For more information
+// see Attaching and Detaching IAM Policies ( https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html).
+// The role must also trust the service principal  drt.shield.amazonaws.com.
+// For more information, see IAM JSON Policy Elements: Principal (https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html).
+//
+// The DRT will have access only to your AWS WAF and Shield resources. By submitting
+// this request, you authorize the DRT to inspect your AWS WAF and Shield configuration
+// and create and update AWS WAF rules and web ACLs on your behalf. The DRT
+// takes these actions only if explicitly authorized by you.
+//
+// You must have the iam:PassRole permission to make an AssociateDRTRole request.
+// For more information, see Granting a User Permissions to Pass a Role to an
+// AWS Service (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html).
+//
+// To use the services of the DRT and make an AssociateDRTRole request, you
+// must be subscribed to the Business Support plan (https://aws.amazon.com/premiumsupport/business-support/)
+// or the Enterprise Support plan (https://aws.amazon.com/premiumsupport/enterprise-support/).
+//
+//    // Example sending a request using the AssociateDRTRoleRequest method.
+//    req := client.AssociateDRTRoleRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AssociateDRTRole
+func (c *Shield) AssociateDRTRoleRequest(input *AssociateDRTRoleInput) AssociateDRTRoleRequest {
+	op := &aws.Operation{
+		Name:       opAssociateDRTRole,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AssociateDRTRoleInput{}
+	}
+
+	output := &AssociateDRTRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateDRTRoleRequest{Request: req, Input: input, Copy: c.AssociateDRTRoleRequest}
+}
 
 const opCreateProtection = "CreateProtection"
 
@@ -15,6 +149,7 @@ const opCreateProtection = "CreateProtection"
 type CreateProtectionRequest struct {
 	*aws.Request
 	Input *CreateProtectionInput
+	Copy  func(*CreateProtectionInput) CreateProtectionRequest
 }
 
 // Send marshals and sends the CreateProtection API request.
@@ -32,7 +167,13 @@ func (r CreateProtectionRequest) Send() (*CreateProtectionOutput, error) {
 //
 // Enables AWS Shield Advanced for a specific AWS resource. The resource can
 // be an Amazon CloudFront distribution, Elastic Load Balancing load balancer,
-// or an Amazon Route 53 hosted zone.
+// Elastic IP Address, or an Amazon Route 53 hosted zone.
+//
+// You can add protection to only a single resource with each CreateProtection
+// request. If you want to add protection to multiple resources at once, use
+// the AWS WAF console (https://console.aws.amazon.com/waf/). For more information
+// see Getting Started with AWS Shield Advanced (https://docs.aws.amazon.com/waf/latest/developerguide/getting-started-ddos.html)
+// and Add AWS Shield Advanced Protection to more AWS Resources (https://docs.aws.amazon.com/waf/latest/developerguide/configure-new-protection.html).
 //
 //    // Example sending a request using the CreateProtectionRequest method.
 //    req := client.CreateProtectionRequest(params)
@@ -53,8 +194,11 @@ func (c *Shield) CreateProtectionRequest(input *CreateProtectionInput) CreatePro
 		input = &CreateProtectionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateProtectionOutput{})
-	return CreateProtectionRequest{Request: req, Input: input}
+	output := &CreateProtectionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateProtectionRequest{Request: req, Input: input, Copy: c.CreateProtectionRequest}
 }
 
 const opCreateSubscription = "CreateSubscription"
@@ -63,6 +207,7 @@ const opCreateSubscription = "CreateSubscription"
 type CreateSubscriptionRequest struct {
 	*aws.Request
 	Input *CreateSubscriptionInput
+	Copy  func(*CreateSubscriptionInput) CreateSubscriptionRequest
 }
 
 // Send marshals and sends the CreateSubscription API request.
@@ -79,6 +224,15 @@ func (r CreateSubscriptionRequest) Send() (*CreateSubscriptionOutput, error) {
 // AWS Shield.
 //
 // Activates AWS Shield Advanced for an account.
+//
+// As part of this request you can specify EmergencySettings that automaticaly
+// grant the DDoS response team (DRT) needed permissions to assist you during
+// a suspected DDoS attack. For more information see Authorize the DDoS Response
+// Team to Create Rules and Web ACLs on Your Behalf (https://docs.aws.amazon.com/waf/latest/developerguide/authorize-DRT.html).
+//
+// When you initally create a subscription, your subscription is set to be automatically
+// renewed at the end of the existing subscription period. You can change this
+// by submitting an UpdateSubscription request.
 //
 //    // Example sending a request using the CreateSubscriptionRequest method.
 //    req := client.CreateSubscriptionRequest(params)
@@ -99,8 +253,11 @@ func (c *Shield) CreateSubscriptionRequest(input *CreateSubscriptionInput) Creat
 		input = &CreateSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSubscriptionOutput{})
-	return CreateSubscriptionRequest{Request: req, Input: input}
+	output := &CreateSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSubscriptionRequest{Request: req, Input: input, Copy: c.CreateSubscriptionRequest}
 }
 
 const opDeleteProtection = "DeleteProtection"
@@ -109,6 +266,7 @@ const opDeleteProtection = "DeleteProtection"
 type DeleteProtectionRequest struct {
 	*aws.Request
 	Input *DeleteProtectionInput
+	Copy  func(*DeleteProtectionInput) DeleteProtectionRequest
 }
 
 // Send marshals and sends the DeleteProtection API request.
@@ -145,8 +303,11 @@ func (c *Shield) DeleteProtectionRequest(input *DeleteProtectionInput) DeletePro
 		input = &DeleteProtectionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteProtectionOutput{})
-	return DeleteProtectionRequest{Request: req, Input: input}
+	output := &DeleteProtectionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteProtectionRequest{Request: req, Input: input, Copy: c.DeleteProtectionRequest}
 }
 
 const opDeleteSubscription = "DeleteSubscription"
@@ -155,6 +316,7 @@ const opDeleteSubscription = "DeleteSubscription"
 type DeleteSubscriptionRequest struct {
 	*aws.Request
 	Input *DeleteSubscriptionInput
+	Copy  func(*DeleteSubscriptionInput) DeleteSubscriptionRequest
 }
 
 // Send marshals and sends the DeleteSubscription API request.
@@ -170,7 +332,9 @@ func (r DeleteSubscriptionRequest) Send() (*DeleteSubscriptionOutput, error) {
 // DeleteSubscriptionRequest returns a request value for making API operation for
 // AWS Shield.
 //
-// Removes AWS Shield Advanced from an account.
+// Removes AWS Shield Advanced from an account. AWS Shield Advanced requires
+// a 1-year subscription commitment. You cannot delete a subscription prior
+// to the completion of that commitment.
 //
 //    // Example sending a request using the DeleteSubscriptionRequest method.
 //    req := client.DeleteSubscriptionRequest(params)
@@ -181,6 +345,9 @@ func (r DeleteSubscriptionRequest) Send() (*DeleteSubscriptionOutput, error) {
 //
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DeleteSubscription
 func (c *Shield) DeleteSubscriptionRequest(input *DeleteSubscriptionInput) DeleteSubscriptionRequest {
+	if c.Client.Config.Logger != nil {
+		c.Client.Config.Logger.Log("This operation, DeleteSubscription, has been deprecated")
+	}
 	op := &aws.Operation{
 		Name:       opDeleteSubscription,
 		HTTPMethod: "POST",
@@ -191,8 +358,11 @@ func (c *Shield) DeleteSubscriptionRequest(input *DeleteSubscriptionInput) Delet
 		input = &DeleteSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSubscriptionOutput{})
-	return DeleteSubscriptionRequest{Request: req, Input: input}
+	output := &DeleteSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSubscriptionRequest{Request: req, Input: input, Copy: c.DeleteSubscriptionRequest}
 }
 
 const opDescribeAttack = "DescribeAttack"
@@ -201,6 +371,7 @@ const opDescribeAttack = "DescribeAttack"
 type DescribeAttackRequest struct {
 	*aws.Request
 	Input *DescribeAttackInput
+	Copy  func(*DescribeAttackInput) DescribeAttackRequest
 }
 
 // Send marshals and sends the DescribeAttack API request.
@@ -237,8 +408,114 @@ func (c *Shield) DescribeAttackRequest(input *DescribeAttackInput) DescribeAttac
 		input = &DescribeAttackInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAttackOutput{})
-	return DescribeAttackRequest{Request: req, Input: input}
+	output := &DescribeAttackOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAttackRequest{Request: req, Input: input, Copy: c.DescribeAttackRequest}
+}
+
+const opDescribeDRTAccess = "DescribeDRTAccess"
+
+// DescribeDRTAccessRequest is a API request type for the DescribeDRTAccess API operation.
+type DescribeDRTAccessRequest struct {
+	*aws.Request
+	Input *DescribeDRTAccessInput
+	Copy  func(*DescribeDRTAccessInput) DescribeDRTAccessRequest
+}
+
+// Send marshals and sends the DescribeDRTAccess API request.
+func (r DescribeDRTAccessRequest) Send() (*DescribeDRTAccessOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeDRTAccessOutput), nil
+}
+
+// DescribeDRTAccessRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Returns the current role and list of Amazon S3 log buckets used by the DDoS
+// Response team (DRT) to access your AWS account while assisting with attack
+// mitigation.
+//
+//    // Example sending a request using the DescribeDRTAccessRequest method.
+//    req := client.DescribeDRTAccessRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeDRTAccess
+func (c *Shield) DescribeDRTAccessRequest(input *DescribeDRTAccessInput) DescribeDRTAccessRequest {
+	op := &aws.Operation{
+		Name:       opDescribeDRTAccess,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeDRTAccessInput{}
+	}
+
+	output := &DescribeDRTAccessOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDRTAccessRequest{Request: req, Input: input, Copy: c.DescribeDRTAccessRequest}
+}
+
+const opDescribeEmergencyContactSettings = "DescribeEmergencyContactSettings"
+
+// DescribeEmergencyContactSettingsRequest is a API request type for the DescribeEmergencyContactSettings API operation.
+type DescribeEmergencyContactSettingsRequest struct {
+	*aws.Request
+	Input *DescribeEmergencyContactSettingsInput
+	Copy  func(*DescribeEmergencyContactSettingsInput) DescribeEmergencyContactSettingsRequest
+}
+
+// Send marshals and sends the DescribeEmergencyContactSettings API request.
+func (r DescribeEmergencyContactSettingsRequest) Send() (*DescribeEmergencyContactSettingsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeEmergencyContactSettingsOutput), nil
+}
+
+// DescribeEmergencyContactSettingsRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Lists the email addresses that the DRT can use to contact you during a suspected
+// attack.
+//
+//    // Example sending a request using the DescribeEmergencyContactSettingsRequest method.
+//    req := client.DescribeEmergencyContactSettingsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeEmergencyContactSettings
+func (c *Shield) DescribeEmergencyContactSettingsRequest(input *DescribeEmergencyContactSettingsInput) DescribeEmergencyContactSettingsRequest {
+	op := &aws.Operation{
+		Name:       opDescribeEmergencyContactSettings,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeEmergencyContactSettingsInput{}
+	}
+
+	output := &DescribeEmergencyContactSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEmergencyContactSettingsRequest{Request: req, Input: input, Copy: c.DescribeEmergencyContactSettingsRequest}
 }
 
 const opDescribeProtection = "DescribeProtection"
@@ -247,6 +524,7 @@ const opDescribeProtection = "DescribeProtection"
 type DescribeProtectionRequest struct {
 	*aws.Request
 	Input *DescribeProtectionInput
+	Copy  func(*DescribeProtectionInput) DescribeProtectionRequest
 }
 
 // Send marshals and sends the DescribeProtection API request.
@@ -283,8 +561,11 @@ func (c *Shield) DescribeProtectionRequest(input *DescribeProtectionInput) Descr
 		input = &DescribeProtectionInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeProtectionOutput{})
-	return DescribeProtectionRequest{Request: req, Input: input}
+	output := &DescribeProtectionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeProtectionRequest{Request: req, Input: input, Copy: c.DescribeProtectionRequest}
 }
 
 const opDescribeSubscription = "DescribeSubscription"
@@ -293,6 +574,7 @@ const opDescribeSubscription = "DescribeSubscription"
 type DescribeSubscriptionRequest struct {
 	*aws.Request
 	Input *DescribeSubscriptionInput
+	Copy  func(*DescribeSubscriptionInput) DescribeSubscriptionRequest
 }
 
 // Send marshals and sends the DescribeSubscription API request.
@@ -329,8 +611,176 @@ func (c *Shield) DescribeSubscriptionRequest(input *DescribeSubscriptionInput) D
 		input = &DescribeSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSubscriptionOutput{})
-	return DescribeSubscriptionRequest{Request: req, Input: input}
+	output := &DescribeSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSubscriptionRequest{Request: req, Input: input, Copy: c.DescribeSubscriptionRequest}
+}
+
+const opDisassociateDRTLogBucket = "DisassociateDRTLogBucket"
+
+// DisassociateDRTLogBucketRequest is a API request type for the DisassociateDRTLogBucket API operation.
+type DisassociateDRTLogBucketRequest struct {
+	*aws.Request
+	Input *DisassociateDRTLogBucketInput
+	Copy  func(*DisassociateDRTLogBucketInput) DisassociateDRTLogBucketRequest
+}
+
+// Send marshals and sends the DisassociateDRTLogBucket API request.
+func (r DisassociateDRTLogBucketRequest) Send() (*DisassociateDRTLogBucketOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DisassociateDRTLogBucketOutput), nil
+}
+
+// DisassociateDRTLogBucketRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Removes the DDoS Response team's (DRT) access to the specified Amazon S3
+// bucket containing your flow logs.
+//
+// To make a DisassociateDRTLogBucket request, you must be subscribed to the
+// Business Support plan (https://aws.amazon.com/premiumsupport/business-support/)
+// or the Enterprise Support plan (https://aws.amazon.com/premiumsupport/enterprise-support/).
+// However, if you are not subscribed to one of these support plans, but had
+// been previously and had granted the DRT access to your account, you can submit
+// a DisassociateDRTLogBucket request to remove this access.
+//
+//    // Example sending a request using the DisassociateDRTLogBucketRequest method.
+//    req := client.DisassociateDRTLogBucketRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DisassociateDRTLogBucket
+func (c *Shield) DisassociateDRTLogBucketRequest(input *DisassociateDRTLogBucketInput) DisassociateDRTLogBucketRequest {
+	op := &aws.Operation{
+		Name:       opDisassociateDRTLogBucket,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DisassociateDRTLogBucketInput{}
+	}
+
+	output := &DisassociateDRTLogBucketOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateDRTLogBucketRequest{Request: req, Input: input, Copy: c.DisassociateDRTLogBucketRequest}
+}
+
+const opDisassociateDRTRole = "DisassociateDRTRole"
+
+// DisassociateDRTRoleRequest is a API request type for the DisassociateDRTRole API operation.
+type DisassociateDRTRoleRequest struct {
+	*aws.Request
+	Input *DisassociateDRTRoleInput
+	Copy  func(*DisassociateDRTRoleInput) DisassociateDRTRoleRequest
+}
+
+// Send marshals and sends the DisassociateDRTRole API request.
+func (r DisassociateDRTRoleRequest) Send() (*DisassociateDRTRoleOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DisassociateDRTRoleOutput), nil
+}
+
+// DisassociateDRTRoleRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Removes the DDoS Response team's (DRT) access to your AWS account.
+//
+// To make a DisassociateDRTRole request, you must be subscribed to the Business
+// Support plan (https://aws.amazon.com/premiumsupport/business-support/) or
+// the Enterprise Support plan (https://aws.amazon.com/premiumsupport/enterprise-support/).
+// However, if you are not subscribed to one of these support plans, but had
+// been previously and had granted the DRT access to your account, you can submit
+// a DisassociateDRTRole request to remove this access.
+//
+//    // Example sending a request using the DisassociateDRTRoleRequest method.
+//    req := client.DisassociateDRTRoleRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DisassociateDRTRole
+func (c *Shield) DisassociateDRTRoleRequest(input *DisassociateDRTRoleInput) DisassociateDRTRoleRequest {
+	op := &aws.Operation{
+		Name:       opDisassociateDRTRole,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DisassociateDRTRoleInput{}
+	}
+
+	output := &DisassociateDRTRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateDRTRoleRequest{Request: req, Input: input, Copy: c.DisassociateDRTRoleRequest}
+}
+
+const opGetSubscriptionState = "GetSubscriptionState"
+
+// GetSubscriptionStateRequest is a API request type for the GetSubscriptionState API operation.
+type GetSubscriptionStateRequest struct {
+	*aws.Request
+	Input *GetSubscriptionStateInput
+	Copy  func(*GetSubscriptionStateInput) GetSubscriptionStateRequest
+}
+
+// Send marshals and sends the GetSubscriptionState API request.
+func (r GetSubscriptionStateRequest) Send() (*GetSubscriptionStateOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetSubscriptionStateOutput), nil
+}
+
+// GetSubscriptionStateRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Returns the SubscriptionState, either Active or Inactive.
+//
+//    // Example sending a request using the GetSubscriptionStateRequest method.
+//    req := client.GetSubscriptionStateRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/GetSubscriptionState
+func (c *Shield) GetSubscriptionStateRequest(input *GetSubscriptionStateInput) GetSubscriptionStateRequest {
+	op := &aws.Operation{
+		Name:       opGetSubscriptionState,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetSubscriptionStateInput{}
+	}
+
+	output := &GetSubscriptionStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSubscriptionStateRequest{Request: req, Input: input, Copy: c.GetSubscriptionStateRequest}
 }
 
 const opListAttacks = "ListAttacks"
@@ -339,6 +789,7 @@ const opListAttacks = "ListAttacks"
 type ListAttacksRequest struct {
 	*aws.Request
 	Input *ListAttacksInput
+	Copy  func(*ListAttacksInput) ListAttacksRequest
 }
 
 // Send marshals and sends the ListAttacks API request.
@@ -376,8 +827,11 @@ func (c *Shield) ListAttacksRequest(input *ListAttacksInput) ListAttacksRequest 
 		input = &ListAttacksInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAttacksOutput{})
-	return ListAttacksRequest{Request: req, Input: input}
+	output := &ListAttacksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAttacksRequest{Request: req, Input: input, Copy: c.ListAttacksRequest}
 }
 
 const opListProtections = "ListProtections"
@@ -386,6 +840,7 @@ const opListProtections = "ListProtections"
 type ListProtectionsRequest struct {
 	*aws.Request
 	Input *ListProtectionsInput
+	Copy  func(*ListProtectionsInput) ListProtectionsRequest
 }
 
 // Send marshals and sends the ListProtections API request.
@@ -422,8 +877,234 @@ func (c *Shield) ListProtectionsRequest(input *ListProtectionsInput) ListProtect
 		input = &ListProtectionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListProtectionsOutput{})
-	return ListProtectionsRequest{Request: req, Input: input}
+	output := &ListProtectionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListProtectionsRequest{Request: req, Input: input, Copy: c.ListProtectionsRequest}
+}
+
+const opUpdateEmergencyContactSettings = "UpdateEmergencyContactSettings"
+
+// UpdateEmergencyContactSettingsRequest is a API request type for the UpdateEmergencyContactSettings API operation.
+type UpdateEmergencyContactSettingsRequest struct {
+	*aws.Request
+	Input *UpdateEmergencyContactSettingsInput
+	Copy  func(*UpdateEmergencyContactSettingsInput) UpdateEmergencyContactSettingsRequest
+}
+
+// Send marshals and sends the UpdateEmergencyContactSettings API request.
+func (r UpdateEmergencyContactSettingsRequest) Send() (*UpdateEmergencyContactSettingsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateEmergencyContactSettingsOutput), nil
+}
+
+// UpdateEmergencyContactSettingsRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Updates the details of the list of email addresses that the DRT can use to
+// contact you during a suspected attack.
+//
+//    // Example sending a request using the UpdateEmergencyContactSettingsRequest method.
+//    req := client.UpdateEmergencyContactSettingsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/UpdateEmergencyContactSettings
+func (c *Shield) UpdateEmergencyContactSettingsRequest(input *UpdateEmergencyContactSettingsInput) UpdateEmergencyContactSettingsRequest {
+	op := &aws.Operation{
+		Name:       opUpdateEmergencyContactSettings,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateEmergencyContactSettingsInput{}
+	}
+
+	output := &UpdateEmergencyContactSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEmergencyContactSettingsRequest{Request: req, Input: input, Copy: c.UpdateEmergencyContactSettingsRequest}
+}
+
+const opUpdateSubscription = "UpdateSubscription"
+
+// UpdateSubscriptionRequest is a API request type for the UpdateSubscription API operation.
+type UpdateSubscriptionRequest struct {
+	*aws.Request
+	Input *UpdateSubscriptionInput
+	Copy  func(*UpdateSubscriptionInput) UpdateSubscriptionRequest
+}
+
+// Send marshals and sends the UpdateSubscription API request.
+func (r UpdateSubscriptionRequest) Send() (*UpdateSubscriptionOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateSubscriptionOutput), nil
+}
+
+// UpdateSubscriptionRequest returns a request value for making API operation for
+// AWS Shield.
+//
+// Updates the details of an existing subscription. Only enter values for parameters
+// you want to change. Empty parameters are not updated.
+//
+//    // Example sending a request using the UpdateSubscriptionRequest method.
+//    req := client.UpdateSubscriptionRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/UpdateSubscription
+func (c *Shield) UpdateSubscriptionRequest(input *UpdateSubscriptionInput) UpdateSubscriptionRequest {
+	op := &aws.Operation{
+		Name:       opUpdateSubscription,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateSubscriptionInput{}
+	}
+
+	output := &UpdateSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSubscriptionRequest{Request: req, Input: input, Copy: c.UpdateSubscriptionRequest}
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AssociateDRTLogBucketRequest
+type AssociateDRTLogBucketInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon S3 bucket that contains your flow logs.
+	//
+	// LogBucket is a required field
+	LogBucket *string `min:"3" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AssociateDRTLogBucketInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssociateDRTLogBucketInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AssociateDRTLogBucketInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "AssociateDRTLogBucketInput"}
+
+	if s.LogBucket == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LogBucket"))
+	}
+	if s.LogBucket != nil && len(*s.LogBucket) < 3 {
+		invalidParams.Add(aws.NewErrParamMinLen("LogBucket", 3))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AssociateDRTLogBucketResponse
+type AssociateDRTLogBucketOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s AssociateDRTLogBucketOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssociateDRTLogBucketOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateDRTLogBucketOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AssociateDRTRoleRequest
+type AssociateDRTRoleInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the role the DRT will use to access your
+	// AWS account.
+	//
+	// Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy
+	// (https://console.aws.amazon.com/iam/home?#/policies/arn:aws:iam::aws:policy/service-role/AWSShieldDRTAccessPolicy)
+	// managed policy to this role. For more information see Attaching and Detaching
+	// IAM Policies ( https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_manage-attach-detach.html).
+	//
+	// RoleArn is a required field
+	RoleArn *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AssociateDRTRoleInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssociateDRTRoleInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AssociateDRTRoleInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "AssociateDRTRoleInput"}
+
+	if s.RoleArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RoleArn"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AssociateDRTRoleResponse
+type AssociateDRTRoleOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s AssociateDRTRoleOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AssociateDRTRoleOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateDRTRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The details of a DDoS attack.
@@ -432,26 +1113,31 @@ type AttackDetail struct {
 	_ struct{} `type:"structure"`
 
 	// List of counters that describe the attack for the specified time period.
-	AttackCounters []*SummarizedCounter `type:"list"`
+	AttackCounters []SummarizedCounter `type:"list"`
 
 	// The unique identifier (ID) of the attack.
 	AttackId *string `min:"1" type:"string"`
 
-	// The time the attack ended, in the format 2016-12-16T13:50Z.
+	// The array of AttackProperty objects.
+	AttackProperties []AttackProperty `type:"list"`
+
+	// The time the attack ended, in Unix time in seconds. For more information
+	// see timestamp (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// List of mitigation actions taken for the attack.
-	Mitigations []*Mitigation `type:"list"`
+	Mitigations []Mitigation `type:"list"`
 
 	// The ARN (Amazon Resource Name) of the resource that was attacked.
 	ResourceArn *string `min:"1" type:"string"`
 
-	// The time the attack started, in the format 2016-12-16T13:50Z.
+	// The time the attack started, in Unix time in seconds. For more information
+	// see timestamp (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// If applicable, additional detail about the resource being attacked, for example,
 	// IP address or URL.
-	SubResources []*SubResourceSummary `type:"list"`
+	SubResources []SubResourceSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -464,46 +1150,38 @@ func (s AttackDetail) GoString() string {
 	return s.String()
 }
 
-// SetAttackCounters sets the AttackCounters field's value.
-func (s *AttackDetail) SetAttackCounters(v []*SummarizedCounter) *AttackDetail {
-	s.AttackCounters = v
-	return s
+// Details of the described attack.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AttackProperty
+type AttackProperty struct {
+	_ struct{} `type:"structure"`
+
+	// The type of DDoS event that was observed. NETWORK indicates layer 3 and layer
+	// 4 events and APPLICATION indicates layer 7 events.
+	AttackLayer AttackLayer `type:"string" enum:"true"`
+
+	// Defines the DDoS attack property information that is provided.
+	AttackPropertyIdentifier AttackPropertyIdentifier `type:"string" enum:"true"`
+
+	// The array of Contributor objects that includes the top five contributors
+	// to an attack.
+	TopContributors []Contributor `type:"list"`
+
+	// The total contributions made to this attack by all contributors, not just
+	// the five listed in the TopContributors list.
+	Total *int64 `type:"long"`
+
+	// The unit of the Value of the contributions.
+	Unit Unit `type:"string" enum:"true"`
 }
 
-// SetAttackId sets the AttackId field's value.
-func (s *AttackDetail) SetAttackId(v string) *AttackDetail {
-	s.AttackId = &v
-	return s
+// String returns the string representation
+func (s AttackProperty) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *AttackDetail) SetEndTime(v time.Time) *AttackDetail {
-	s.EndTime = &v
-	return s
-}
-
-// SetMitigations sets the Mitigations field's value.
-func (s *AttackDetail) SetMitigations(v []*Mitigation) *AttackDetail {
-	s.Mitigations = v
-	return s
-}
-
-// SetResourceArn sets the ResourceArn field's value.
-func (s *AttackDetail) SetResourceArn(v string) *AttackDetail {
-	s.ResourceArn = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *AttackDetail) SetStartTime(v time.Time) *AttackDetail {
-	s.StartTime = &v
-	return s
-}
-
-// SetSubResources sets the SubResources field's value.
-func (s *AttackDetail) SetSubResources(v []*SubResourceSummary) *AttackDetail {
-	s.SubResources = v
-	return s
+// GoString returns the string representation
+func (s AttackProperty) GoString() string {
+	return s.String()
 }
 
 // Summarizes all DDoS attacks for a specified time period.
@@ -515,15 +1193,17 @@ type AttackSummary struct {
 	AttackId *string `type:"string"`
 
 	// The list of attacks for a specified time period.
-	AttackVectors []*AttackVectorDescription `type:"list"`
+	AttackVectors []AttackVectorDescription `type:"list"`
 
-	// The end time of the attack, in the format 2016-12-16T13:50Z.
+	// The end time of the attack, in Unix time in seconds. For more information
+	// see timestamp (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The ARN (Amazon Resource Name) of the resource that was attacked.
 	ResourceArn *string `type:"string"`
 
-	// The start time of the attack, in the format 2016-12-16T13:50Z.
+	// The start time of the attack, in Unix time in seconds. For more information
+	// see timestamp (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 }
 
@@ -537,42 +1217,42 @@ func (s AttackSummary) GoString() string {
 	return s.String()
 }
 
-// SetAttackId sets the AttackId field's value.
-func (s *AttackSummary) SetAttackId(v string) *AttackSummary {
-	s.AttackId = &v
-	return s
-}
-
-// SetAttackVectors sets the AttackVectors field's value.
-func (s *AttackSummary) SetAttackVectors(v []*AttackVectorDescription) *AttackSummary {
-	s.AttackVectors = v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *AttackSummary) SetEndTime(v time.Time) *AttackSummary {
-	s.EndTime = &v
-	return s
-}
-
-// SetResourceArn sets the ResourceArn field's value.
-func (s *AttackSummary) SetResourceArn(v string) *AttackSummary {
-	s.ResourceArn = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *AttackSummary) SetStartTime(v time.Time) *AttackSummary {
-	s.StartTime = &v
-	return s
-}
-
 // Describes the attack.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/AttackVectorDescription
 type AttackVectorDescription struct {
 	_ struct{} `type:"structure"`
 
-	// The attack type, for example, SNMP reflection or SYN flood.
+	// The attack type. Valid values:
+	//
+	//    * UDP_TRAFFIC
+	//
+	//    * UDP_FRAGMENT
+	//
+	//    * GENERIC_UDP_REFLECTION
+	//
+	//    * DNS_REFLECTION
+	//
+	//    * NTP_REFLECTION
+	//
+	//    * CHARGEN_REFLECTION
+	//
+	//    * SSDP_REFLECTION
+	//
+	//    * PORT_MAPPER
+	//
+	//    * RIP_REFLECTION
+	//
+	//    * SNMP_REFLECTION
+	//
+	//    * MSSQL_REFLECTION
+	//
+	//    * NET_BIOS_REFLECTION
+	//
+	//    * SYN_FLOOD
+	//
+	//    * ACK_FLOOD
+	//
+	//    * REQUEST_FLOOD
 	//
 	// VectorType is a required field
 	VectorType *string `type:"string" required:"true"`
@@ -588,10 +1268,29 @@ func (s AttackVectorDescription) GoString() string {
 	return s.String()
 }
 
-// SetVectorType sets the VectorType field's value.
-func (s *AttackVectorDescription) SetVectorType(v string) *AttackVectorDescription {
-	s.VectorType = &v
-	return s
+// A contributor to the attack and their contribution.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/Contributor
+type Contributor struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the contributor. This is dependent on the AttackPropertyIdentifier.
+	// For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name
+	// could be United States.
+	Name *string `type:"string"`
+
+	// The contribution of this contributor expressed in Protection units. For example
+	// 10,000.
+	Value *int64 `type:"long"`
+}
+
+// String returns the string representation
+func (s Contributor) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s Contributor) GoString() string {
+	return s.String()
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/CreateProtectionRequest
@@ -604,6 +1303,18 @@ type CreateProtectionInput struct {
 	Name *string `min:"1" type:"string" required:"true"`
 
 	// The ARN (Amazon Resource Name) of the resource to be protected.
+	//
+	// The ARN should be in one of the following formats:
+	//
+	//    * For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+	//
+	//    * For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name
+	//
+	//    * For AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id
+	//
+	//    * For Amazon Route 53: arn:aws:route53::account-id:hostedzone/hosted-zone-id
+	//
+	//    * For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
 	//
 	// ResourceArn is a required field
 	ResourceArn *string `min:"1" type:"string" required:"true"`
@@ -643,21 +1354,11 @@ func (s *CreateProtectionInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateProtectionInput) SetName(v string) *CreateProtectionInput {
-	s.Name = &v
-	return s
-}
-
-// SetResourceArn sets the ResourceArn field's value.
-func (s *CreateProtectionInput) SetResourceArn(v string) *CreateProtectionInput {
-	s.ResourceArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/CreateProtectionResponse
 type CreateProtectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique identifier (ID) for the Protection object that is created.
 	ProtectionId *string `min:"1" type:"string"`
@@ -673,10 +1374,9 @@ func (s CreateProtectionOutput) GoString() string {
 	return s.String()
 }
 
-// SetProtectionId sets the ProtectionId field's value.
-func (s *CreateProtectionOutput) SetProtectionId(v string) *CreateProtectionOutput {
-	s.ProtectionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateProtectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/CreateSubscriptionRequest
@@ -697,6 +1397,8 @@ func (s CreateSubscriptionInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/CreateSubscriptionResponse
 type CreateSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -707,6 +1409,11 @@ func (s CreateSubscriptionOutput) String() string {
 // GoString returns the string representation
 func (s CreateSubscriptionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DeleteProtectionRequest
@@ -746,15 +1453,11 @@ func (s *DeleteProtectionInput) Validate() error {
 	return nil
 }
 
-// SetProtectionId sets the ProtectionId field's value.
-func (s *DeleteProtectionInput) SetProtectionId(v string) *DeleteProtectionInput {
-	s.ProtectionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DeleteProtectionResponse
 type DeleteProtectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -767,9 +1470,14 @@ func (s DeleteProtectionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteProtectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DeleteSubscriptionRequest
 type DeleteSubscriptionInput struct {
-	_ struct{} `type:"structure"`
+	_ struct{} `deprecated:"true" type:"structure"`
 }
 
 // String returns the string representation
@@ -784,7 +1492,9 @@ func (s DeleteSubscriptionInput) GoString() string {
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DeleteSubscriptionResponse
 type DeleteSubscriptionOutput struct {
-	_ struct{} `type:"structure"`
+	_ struct{} `deprecated:"true" type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -795,6 +1505,11 @@ func (s DeleteSubscriptionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSubscriptionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeAttackRequest
@@ -834,15 +1549,11 @@ func (s *DescribeAttackInput) Validate() error {
 	return nil
 }
 
-// SetAttackId sets the AttackId field's value.
-func (s *DescribeAttackInput) SetAttackId(v string) *DescribeAttackInput {
-	s.AttackId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeAttackResponse
 type DescribeAttackOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The attack that is described.
 	Attack *AttackDetail `type:"structure"`
@@ -858,10 +1569,94 @@ func (s DescribeAttackOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttack sets the Attack field's value.
-func (s *DescribeAttackOutput) SetAttack(v *AttackDetail) *DescribeAttackOutput {
-	s.Attack = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAttackOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeDRTAccessRequest
+type DescribeDRTAccessInput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DescribeDRTAccessInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeDRTAccessInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeDRTAccessResponse
+type DescribeDRTAccessOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The list of Amazon S3 buckets accessed by the DRT.
+	LogBucketList []string `type:"list"`
+
+	// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS
+	// account.
+	RoleArn *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeDRTAccessOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeDRTAccessOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDRTAccessOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeEmergencyContactSettingsRequest
+type DescribeEmergencyContactSettingsInput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DescribeEmergencyContactSettingsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeEmergencyContactSettingsInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeEmergencyContactSettingsResponse
+type DescribeEmergencyContactSettingsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// A list of email addresses that the DRT can use to contact you during a suspected
+	// attack.
+	EmergencyContactList []EmergencyContact `type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeEmergencyContactSettingsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeEmergencyContactSettingsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEmergencyContactSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeProtectionRequest
@@ -901,15 +1696,11 @@ func (s *DescribeProtectionInput) Validate() error {
 	return nil
 }
 
-// SetProtectionId sets the ProtectionId field's value.
-func (s *DescribeProtectionInput) SetProtectionId(v string) *DescribeProtectionInput {
-	s.ProtectionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeProtectionResponse
 type DescribeProtectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Protection object that is described.
 	Protection *Protection `type:"structure"`
@@ -925,10 +1716,9 @@ func (s DescribeProtectionOutput) GoString() string {
 	return s.String()
 }
 
-// SetProtection sets the Protection field's value.
-func (s *DescribeProtectionOutput) SetProtection(v *Protection) *DescribeProtectionOutput {
-	s.Protection = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeProtectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DescribeSubscriptionRequest
@@ -950,6 +1740,8 @@ func (s DescribeSubscriptionInput) GoString() string {
 type DescribeSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The AWS Shield Advanced subscription details for an account.
 	Subscription *Subscription `type:"structure"`
 }
@@ -964,17 +1756,215 @@ func (s DescribeSubscriptionOutput) GoString() string {
 	return s.String()
 }
 
-// SetSubscription sets the Subscription field's value.
-func (s *DescribeSubscriptionOutput) SetSubscription(v *Subscription) *DescribeSubscriptionOutput {
-	s.Subscription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DisassociateDRTLogBucketRequest
+type DisassociateDRTLogBucketInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon S3 bucket that contains your flow logs.
+	//
+	// LogBucket is a required field
+	LogBucket *string `min:"3" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DisassociateDRTLogBucketInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisassociateDRTLogBucketInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DisassociateDRTLogBucketInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DisassociateDRTLogBucketInput"}
+
+	if s.LogBucket == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LogBucket"))
+	}
+	if s.LogBucket != nil && len(*s.LogBucket) < 3 {
+		invalidParams.Add(aws.NewErrParamMinLen("LogBucket", 3))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DisassociateDRTLogBucketResponse
+type DisassociateDRTLogBucketOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DisassociateDRTLogBucketOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisassociateDRTLogBucketOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateDRTLogBucketOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DisassociateDRTRoleRequest
+type DisassociateDRTRoleInput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DisassociateDRTRoleInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisassociateDRTRoleInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/DisassociateDRTRoleResponse
+type DisassociateDRTRoleOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DisassociateDRTRoleOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DisassociateDRTRoleOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateDRTRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Contact information that the DRT can use to contact you during a suspected
+// attack.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/EmergencyContact
+type EmergencyContact struct {
+	_ struct{} `type:"structure"`
+
+	// An email address that the DRT can use to contact you during a suspected attack.
+	//
+	// EmailAddress is a required field
+	EmailAddress *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s EmergencyContact) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EmergencyContact) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *EmergencyContact) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "EmergencyContact"}
+
+	if s.EmailAddress == nil {
+		invalidParams.Add(aws.NewErrParamRequired("EmailAddress"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/GetSubscriptionStateRequest
+type GetSubscriptionStateInput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetSubscriptionStateInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetSubscriptionStateInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/GetSubscriptionStateResponse
+type GetSubscriptionStateOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The status of the subscription.
+	//
+	// SubscriptionState is a required field
+	SubscriptionState SubscriptionState `type:"string" required:"true" enum:"true"`
+}
+
+// String returns the string representation
+func (s GetSubscriptionStateOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetSubscriptionStateOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSubscriptionStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Specifies how many protections of a given type you can create.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/Limit
+type Limit struct {
+	_ struct{} `type:"structure"`
+
+	// The maximum number of protections that can be created for the specified Type.
+	Max *int64 `type:"long"`
+
+	// The type of protection.
+	Type *string `type:"string"`
+}
+
+// String returns the string representation
+func (s Limit) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s Limit) GoString() string {
+	return s.String()
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/ListAttacksRequest
 type ListAttacksInput struct {
 	_ struct{} `type:"structure"`
 
-	// The end of the time period for the attacks.
+	// The end of the time period for the attacks. This is a timestamp type. The
+	// sample request above indicates a number type because the default used by
+	// WAF is Unix time in seconds. However any valid timestamp format (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types)
+	// is allowed.
 	EndTime *TimeRange `type:"structure"`
 
 	// The maximum number of AttackSummary objects to be returned. If this is left
@@ -987,9 +1977,12 @@ type ListAttacksInput struct {
 
 	// The ARN (Amazon Resource Name) of the resource that was attacked. If this
 	// is left blank, all applicable resources for this account will be included.
-	ResourceArns []*string `type:"list"`
+	ResourceArns []string `type:"list"`
 
-	// The time period for the attacks.
+	// The start of the time period for the attacks. This is a timestamp type. The
+	// sample request above indicates a number type because the default used by
+	// WAF is Unix time in seconds. However any valid timestamp format (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types)
+	// is allowed.
 	StartTime *TimeRange `type:"structure"`
 }
 
@@ -1016,42 +2009,14 @@ func (s *ListAttacksInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *ListAttacksInput) SetEndTime(v *TimeRange) *ListAttacksInput {
-	s.EndTime = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAttacksInput) SetMaxResults(v int64) *ListAttacksInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAttacksInput) SetNextToken(v string) *ListAttacksInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceArns sets the ResourceArns field's value.
-func (s *ListAttacksInput) SetResourceArns(v []*string) *ListAttacksInput {
-	s.ResourceArns = v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *ListAttacksInput) SetStartTime(v *TimeRange) *ListAttacksInput {
-	s.StartTime = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/ListAttacksResponse
 type ListAttacksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The attack information for the specified time range.
-	AttackSummaries []*AttackSummary `type:"list"`
+	AttackSummaries []AttackSummary `type:"list"`
 
 	// The token returned by a previous call to indicate that there is more data
 	// available. If not null, more results are available. Pass this value for the
@@ -1070,16 +2035,9 @@ func (s ListAttacksOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttackSummaries sets the AttackSummaries field's value.
-func (s *ListAttacksOutput) SetAttackSummaries(v []*AttackSummary) *ListAttacksOutput {
-	s.AttackSummaries = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAttacksOutput) SetNextToken(v string) *ListAttacksOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAttacksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/ListProtectionsRequest
@@ -1118,21 +2076,11 @@ func (s *ListProtectionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListProtectionsInput) SetMaxResults(v int64) *ListProtectionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListProtectionsInput) SetNextToken(v string) *ListProtectionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/ListProtectionsResponse
 type ListProtectionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If you specify a value for MaxResults and you have more Protections than
 	// the value of MaxResults, AWS Shield Advanced returns a NextToken value in
@@ -1142,7 +2090,7 @@ type ListProtectionsOutput struct {
 	NextToken *string `min:"1" type:"string"`
 
 	// The array of enabled Protection objects.
-	Protections []*Protection `type:"list"`
+	Protections []Protection `type:"list"`
 }
 
 // String returns the string representation
@@ -1155,16 +2103,9 @@ func (s ListProtectionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListProtectionsOutput) SetNextToken(v string) *ListProtectionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetProtections sets the Protections field's value.
-func (s *ListProtectionsOutput) SetProtections(v []*Protection) *ListProtectionsOutput {
-	s.Protections = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListProtectionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The mitigation applied to a DDoS attack.
@@ -1184,12 +2125,6 @@ func (s Mitigation) String() string {
 // GoString returns the string representation
 func (s Mitigation) GoString() string {
 	return s.String()
-}
-
-// SetMitigationName sets the MitigationName field's value.
-func (s *Mitigation) SetMitigationName(v string) *Mitigation {
-	s.MitigationName = &v
-	return s
 }
 
 // An object that represents a resource that is under DDoS protection.
@@ -1217,40 +2152,22 @@ func (s Protection) GoString() string {
 	return s.String()
 }
 
-// SetId sets the Id field's value.
-func (s *Protection) SetId(v string) *Protection {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Protection) SetName(v string) *Protection {
-	s.Name = &v
-	return s
-}
-
-// SetResourceArn sets the ResourceArn field's value.
-func (s *Protection) SetResourceArn(v string) *Protection {
-	s.ResourceArn = &v
-	return s
-}
-
 // The attack information for the specified SubResource.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/SubResourceSummary
 type SubResourceSummary struct {
 	_ struct{} `type:"structure"`
 
 	// The list of attack types and associated counters.
-	AttackVectors []*SummarizedAttackVector `type:"list"`
+	AttackVectors []SummarizedAttackVector `type:"list"`
 
 	// The counters that describe the details of the attack.
-	Counters []*SummarizedCounter `type:"list"`
+	Counters []SummarizedCounter `type:"list"`
 
 	// The unique identifier (ID) of the SubResource.
 	Id *string `type:"string"`
 
 	// The SubResource type.
-	Type SubResourceType `type:"string"`
+	Type SubResourceType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1263,36 +2180,28 @@ func (s SubResourceSummary) GoString() string {
 	return s.String()
 }
 
-// SetAttackVectors sets the AttackVectors field's value.
-func (s *SubResourceSummary) SetAttackVectors(v []*SummarizedAttackVector) *SubResourceSummary {
-	s.AttackVectors = v
-	return s
-}
-
-// SetCounters sets the Counters field's value.
-func (s *SubResourceSummary) SetCounters(v []*SummarizedCounter) *SubResourceSummary {
-	s.Counters = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *SubResourceSummary) SetId(v string) *SubResourceSummary {
-	s.Id = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *SubResourceSummary) SetType(v SubResourceType) *SubResourceSummary {
-	s.Type = v
-	return s
-}
-
 // Information about the AWS Shield Advanced subscription for an account.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/Subscription
 type Subscription struct {
 	_ struct{} `type:"structure"`
 
-	// The start time of the subscription, in the format "2016-12-16T13:50Z".
+	// If ENABLED, the subscription will be automatically renewed at the end of
+	// the existing subscription period.
+	//
+	// When you initally create a subscription, AutoRenew is set to ENABLED. You
+	// can change this by submitting an UpdateSubscription request. If the UpdateSubscription
+	// request does not included a value for AutoRenew, the existing value for AutoRenew
+	// remains unchanged.
+	AutoRenew AutoRenew `type:"string" enum:"true"`
+
+	// The date and time your subscription will end.
+	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// Specifies how many protections of a given type you can create.
+	Limits []Limit `type:"list"`
+
+	// The start time of the subscription, in Unix time in seconds. For more information
+	// see timestamp (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The length, in seconds, of the AWS Shield Advanced subscription for the account.
@@ -1309,25 +2218,13 @@ func (s Subscription) GoString() string {
 	return s.String()
 }
 
-// SetStartTime sets the StartTime field's value.
-func (s *Subscription) SetStartTime(v time.Time) *Subscription {
-	s.StartTime = &v
-	return s
-}
-
-// SetTimeCommitmentInSeconds sets the TimeCommitmentInSeconds field's value.
-func (s *Subscription) SetTimeCommitmentInSeconds(v int64) *Subscription {
-	s.TimeCommitmentInSeconds = &v
-	return s
-}
-
 // A summary of information about the attack.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/SummarizedAttackVector
 type SummarizedAttackVector struct {
 	_ struct{} `type:"structure"`
 
 	// The list of counters that describe the details of the attack.
-	VectorCounters []*SummarizedCounter `type:"list"`
+	VectorCounters []SummarizedCounter `type:"list"`
 
 	// The attack type, for example, SNMP reflection or SYN flood.
 	//
@@ -1343,18 +2240,6 @@ func (s SummarizedAttackVector) String() string {
 // GoString returns the string representation
 func (s SummarizedAttackVector) GoString() string {
 	return s.String()
-}
-
-// SetVectorCounters sets the VectorCounters field's value.
-func (s *SummarizedAttackVector) SetVectorCounters(v []*SummarizedCounter) *SummarizedAttackVector {
-	s.VectorCounters = v
-	return s
-}
-
-// SetVectorType sets the VectorType field's value.
-func (s *SummarizedAttackVector) SetVectorType(v string) *SummarizedAttackVector {
-	s.VectorType = &v
-	return s
 }
 
 // The counter that describes a DDoS attack.
@@ -1391,51 +2276,17 @@ func (s SummarizedCounter) GoString() string {
 	return s.String()
 }
 
-// SetAverage sets the Average field's value.
-func (s *SummarizedCounter) SetAverage(v float64) *SummarizedCounter {
-	s.Average = &v
-	return s
-}
-
-// SetMax sets the Max field's value.
-func (s *SummarizedCounter) SetMax(v float64) *SummarizedCounter {
-	s.Max = &v
-	return s
-}
-
-// SetN sets the N field's value.
-func (s *SummarizedCounter) SetN(v int64) *SummarizedCounter {
-	s.N = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *SummarizedCounter) SetName(v string) *SummarizedCounter {
-	s.Name = &v
-	return s
-}
-
-// SetSum sets the Sum field's value.
-func (s *SummarizedCounter) SetSum(v float64) *SummarizedCounter {
-	s.Sum = &v
-	return s
-}
-
-// SetUnit sets the Unit field's value.
-func (s *SummarizedCounter) SetUnit(v string) *SummarizedCounter {
-	s.Unit = &v
-	return s
-}
-
 // The time range.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/TimeRange
 type TimeRange struct {
 	_ struct{} `type:"structure"`
 
-	// The start time, in the format 2016-12-16T13:50Z.
+	// The start time, in Unix time in seconds. For more information see timestamp
+	// (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	FromInclusive *time.Time `type:"timestamp" timestampFormat:"unix"`
 
-	// The end time, in the format 2016-12-16T15:50Z.
+	// The end time, in Unix time in seconds. For more information see timestamp
+	// (http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types).
 	ToExclusive *time.Time `type:"timestamp" timestampFormat:"unix"`
 }
 
@@ -1449,16 +2300,161 @@ func (s TimeRange) GoString() string {
 	return s.String()
 }
 
-// SetFromInclusive sets the FromInclusive field's value.
-func (s *TimeRange) SetFromInclusive(v time.Time) *TimeRange {
-	s.FromInclusive = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/UpdateEmergencyContactSettingsRequest
+type UpdateEmergencyContactSettingsInput struct {
+	_ struct{} `type:"structure"`
+
+	// A list of email addresses that the DRT can use to contact you during a suspected
+	// attack.
+	EmergencyContactList []EmergencyContact `type:"list"`
 }
 
-// SetToExclusive sets the ToExclusive field's value.
-func (s *TimeRange) SetToExclusive(v time.Time) *TimeRange {
-	s.ToExclusive = &v
-	return s
+// String returns the string representation
+func (s UpdateEmergencyContactSettingsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateEmergencyContactSettingsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateEmergencyContactSettingsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateEmergencyContactSettingsInput"}
+	if s.EmergencyContactList != nil {
+		for i, v := range s.EmergencyContactList {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "EmergencyContactList", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/UpdateEmergencyContactSettingsResponse
+type UpdateEmergencyContactSettingsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s UpdateEmergencyContactSettingsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateEmergencyContactSettingsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEmergencyContactSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/UpdateSubscriptionRequest
+type UpdateSubscriptionInput struct {
+	_ struct{} `type:"structure"`
+
+	// When you initally create a subscription, AutoRenew is set to ENABLED. If
+	// ENABLED, the subscription will be automatically renewed at the end of the
+	// existing subscription period. You can change this by submitting an UpdateSubscription
+	// request. If the UpdateSubscription request does not included a value for
+	// AutoRenew, the existing value for AutoRenew remains unchanged.
+	AutoRenew AutoRenew `type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s UpdateSubscriptionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateSubscriptionInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/shield-2016-06-02/UpdateSubscriptionResponse
+type UpdateSubscriptionOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s UpdateSubscriptionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateSubscriptionOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+type AttackLayer string
+
+// Enum values for AttackLayer
+const (
+	AttackLayerNetwork     AttackLayer = "NETWORK"
+	AttackLayerApplication AttackLayer = "APPLICATION"
+)
+
+func (enum AttackLayer) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AttackLayer) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type AttackPropertyIdentifier string
+
+// Enum values for AttackPropertyIdentifier
+const (
+	AttackPropertyIdentifierDestinationUrl  AttackPropertyIdentifier = "DESTINATION_URL"
+	AttackPropertyIdentifierReferrer        AttackPropertyIdentifier = "REFERRER"
+	AttackPropertyIdentifierSourceAsn       AttackPropertyIdentifier = "SOURCE_ASN"
+	AttackPropertyIdentifierSourceCountry   AttackPropertyIdentifier = "SOURCE_COUNTRY"
+	AttackPropertyIdentifierSourceIpAddress AttackPropertyIdentifier = "SOURCE_IP_ADDRESS"
+	AttackPropertyIdentifierSourceUserAgent AttackPropertyIdentifier = "SOURCE_USER_AGENT"
+)
+
+func (enum AttackPropertyIdentifier) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AttackPropertyIdentifier) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type AutoRenew string
+
+// Enum values for AutoRenew
+const (
+	AutoRenewEnabled  AutoRenew = "ENABLED"
+	AutoRenewDisabled AutoRenew = "DISABLED"
+)
+
+func (enum AutoRenew) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AutoRenew) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
 }
 
 type SubResourceType string
@@ -1468,3 +2464,48 @@ const (
 	SubResourceTypeIp  SubResourceType = "IP"
 	SubResourceTypeUrl SubResourceType = "URL"
 )
+
+func (enum SubResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SubResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type SubscriptionState string
+
+// Enum values for SubscriptionState
+const (
+	SubscriptionStateActive   SubscriptionState = "ACTIVE"
+	SubscriptionStateInactive SubscriptionState = "INACTIVE"
+)
+
+func (enum SubscriptionState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SubscriptionState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type Unit string
+
+// Enum values for Unit
+const (
+	UnitBits     Unit = "BITS"
+	UnitBytes    Unit = "BYTES"
+	UnitPackets  Unit = "PACKETS"
+	UnitRequests Unit = "REQUESTS"
+)
+
+func (enum Unit) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Unit) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

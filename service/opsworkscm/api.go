@@ -15,6 +15,7 @@ const opAssociateNode = "AssociateNode"
 type AssociateNodeRequest struct {
 	*aws.Request
 	Input *AssociateNodeInput
+	Copy  func(*AssociateNodeInput) AssociateNodeRequest
 }
 
 // Send marshals and sends the AssociateNode API request.
@@ -30,9 +31,20 @@ func (r AssociateNodeRequest) Send() (*AssociateNodeOutput, error) {
 // AssociateNodeRequest returns a request value for making API operation for
 // AWS OpsWorks for Chef Automate.
 //
-// Associates a new node with the Chef server. This command is an alternative
-// to knife bootstrap. For more information about how to disassociate a node,
-// see DisassociateNode.
+// Associates a new node with the server. For more information about how to
+// disassociate a node, see DisassociateNode.
+//
+// On a Chef server: This command is an alternative to knife bootstrap.
+//
+// Example (Chef): aws opsworks-cm associate-node --server-name MyServer --node-name
+// MyManagedNode --engine-attributes "Name=CHEF_ORGANIZATION,Value=default"
+// "Name=CHEF_NODE_PUBLIC_KEY,Value=public-key-pem"
+//
+// On a Puppet server, this command is an alternative to the puppet cert sign
+// command that signs a Puppet node CSR.
+//
+// Example (Chef): aws opsworks-cm associate-node --server-name MyServer --node-name
+// MyManagedNode --engine-attributes "Name=PUPPET_NODE_CSR,Value=csr-pem"
 //
 // A node can can only be associated with servers that are in a HEALTHY state.
 // Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException
@@ -40,9 +52,6 @@ func (r AssociateNodeRequest) Send() (*AssociateNodeOutput, error) {
 // when parameters of the request are not valid. The AssociateNode API call
 // can be integrated into Auto Scaling configurations, AWS Cloudformation templates,
 // or the user data of a server's instance.
-//
-// Example: aws opsworks-cm associate-node --server-name MyServer --node-name
-// MyManagedNode --engine-attributes "Name=MyOrganization,Value=default" "Name=Chef_node_public_key,Value=Public_key_contents"
 //
 //    // Example sending a request using the AssociateNodeRequest method.
 //    req := client.AssociateNodeRequest(params)
@@ -63,8 +72,11 @@ func (c *OpsWorksCM) AssociateNodeRequest(input *AssociateNodeInput) AssociateNo
 		input = &AssociateNodeInput{}
 	}
 
-	req := c.newRequest(op, input, &AssociateNodeOutput{})
-	return AssociateNodeRequest{Request: req, Input: input}
+	output := &AssociateNodeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateNodeRequest{Request: req, Input: input, Copy: c.AssociateNodeRequest}
 }
 
 const opCreateBackup = "CreateBackup"
@@ -73,6 +85,7 @@ const opCreateBackup = "CreateBackup"
 type CreateBackupRequest struct {
 	*aws.Request
 	Input *CreateBackupInput
+	Copy  func(*CreateBackupInput) CreateBackupRequest
 }
 
 // Send marshals and sends the CreateBackup API request.
@@ -122,8 +135,11 @@ func (c *OpsWorksCM) CreateBackupRequest(input *CreateBackupInput) CreateBackupR
 		input = &CreateBackupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateBackupOutput{})
-	return CreateBackupRequest{Request: req, Input: input}
+	output := &CreateBackupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateBackupRequest{Request: req, Input: input, Copy: c.CreateBackupRequest}
 }
 
 const opCreateServer = "CreateServer"
@@ -132,6 +148,7 @@ const opCreateServer = "CreateServer"
 type CreateServerRequest struct {
 	*aws.Request
 	Input *CreateServerInput
+	Copy  func(*CreateServerInput) CreateServerRequest
 }
 
 // Send marshals and sends the CreateServer API request.
@@ -160,12 +177,18 @@ func (r CreateServerRequest) Send() (*CreateServerOutput, error) {
 // request are not valid.
 //
 // If you do not specify a security group by adding the SecurityGroupIds parameter,
-// AWS OpsWorks creates a new security group. The default security group opens
-// the Chef server to the world on TCP port 443. If a KeyName is present, AWS
-// OpsWorks enables SSH access. SSH is also open to the world on TCP port 22.
+// AWS OpsWorks creates a new security group.
 //
-// By default, the Chef Server is accessible from any IP address. We recommend
-// that you update your security group rules to allow access from known IP addresses
+// Chef Automate: The default security group opens the Chef server to the world
+// on TCP port 443. If a KeyName is present, AWS OpsWorks enables SSH access.
+// SSH is also open to the world on TCP port 22.
+//
+// Puppet Enterprise: The default security group opens TCP ports 22, 443, 4433,
+// 8140, 8142, 8143, and 8170. If a KeyName is present, AWS OpsWorks enables
+// SSH access. SSH is also open to the world on TCP port 22.
+//
+// By default, your server is accessible from any IP address. We recommend that
+// you update your security group rules to allow access from known IP addresses
 // and address ranges only. To edit security group rules, open Security Groups
 // in the navigation pane of the EC2 management console.
 //
@@ -188,8 +211,11 @@ func (c *OpsWorksCM) CreateServerRequest(input *CreateServerInput) CreateServerR
 		input = &CreateServerInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateServerOutput{})
-	return CreateServerRequest{Request: req, Input: input}
+	output := &CreateServerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateServerRequest{Request: req, Input: input, Copy: c.CreateServerRequest}
 }
 
 const opDeleteBackup = "DeleteBackup"
@@ -198,6 +224,7 @@ const opDeleteBackup = "DeleteBackup"
 type DeleteBackupRequest struct {
 	*aws.Request
 	Input *DeleteBackupInput
+	Copy  func(*DeleteBackupInput) DeleteBackupRequest
 }
 
 // Send marshals and sends the DeleteBackup API request.
@@ -239,8 +266,11 @@ func (c *OpsWorksCM) DeleteBackupRequest(input *DeleteBackupInput) DeleteBackupR
 		input = &DeleteBackupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBackupOutput{})
-	return DeleteBackupRequest{Request: req, Input: input}
+	output := &DeleteBackupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBackupRequest{Request: req, Input: input, Copy: c.DeleteBackupRequest}
 }
 
 const opDeleteServer = "DeleteServer"
@@ -249,6 +279,7 @@ const opDeleteServer = "DeleteServer"
 type DeleteServerRequest struct {
 	*aws.Request
 	Input *DeleteServerInput
+	Copy  func(*DeleteServerInput) DeleteServerRequest
 }
 
 // Send marshals and sends the DeleteServer API request.
@@ -264,7 +295,7 @@ func (r DeleteServerRequest) Send() (*DeleteServerOutput, error) {
 // DeleteServerRequest returns a request value for making API operation for
 // AWS OpsWorks for Chef Automate.
 //
-// Deletes the server and the underlying AWS CloudFormation stack (including
+// Deletes the server and the underlying AWS CloudFormation stacks (including
 // the server's EC2 instance). When you run this command, the server state is
 // updated to DELETING. After the server is deleted, it is no longer returned
 // by DescribeServer requests. If the AWS CloudFormation stack cannot be deleted,
@@ -295,8 +326,11 @@ func (c *OpsWorksCM) DeleteServerRequest(input *DeleteServerInput) DeleteServerR
 		input = &DeleteServerInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteServerOutput{})
-	return DeleteServerRequest{Request: req, Input: input}
+	output := &DeleteServerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteServerRequest{Request: req, Input: input, Copy: c.DeleteServerRequest}
 }
 
 const opDescribeAccountAttributes = "DescribeAccountAttributes"
@@ -305,6 +339,7 @@ const opDescribeAccountAttributes = "DescribeAccountAttributes"
 type DescribeAccountAttributesRequest struct {
 	*aws.Request
 	Input *DescribeAccountAttributesInput
+	Copy  func(*DescribeAccountAttributesInput) DescribeAccountAttributesRequest
 }
 
 // Send marshals and sends the DescribeAccountAttributes API request.
@@ -344,8 +379,11 @@ func (c *OpsWorksCM) DescribeAccountAttributesRequest(input *DescribeAccountAttr
 		input = &DescribeAccountAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAccountAttributesOutput{})
-	return DescribeAccountAttributesRequest{Request: req, Input: input}
+	output := &DescribeAccountAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAccountAttributesRequest{Request: req, Input: input, Copy: c.DescribeAccountAttributesRequest}
 }
 
 const opDescribeBackups = "DescribeBackups"
@@ -354,6 +392,7 @@ const opDescribeBackups = "DescribeBackups"
 type DescribeBackupsRequest struct {
 	*aws.Request
 	Input *DescribeBackupsInput
+	Copy  func(*DescribeBackupsInput) DescribeBackupsRequest
 }
 
 // Send marshals and sends the DescribeBackups API request.
@@ -396,8 +435,11 @@ func (c *OpsWorksCM) DescribeBackupsRequest(input *DescribeBackupsInput) Describ
 		input = &DescribeBackupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeBackupsOutput{})
-	return DescribeBackupsRequest{Request: req, Input: input}
+	output := &DescribeBackupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeBackupsRequest{Request: req, Input: input, Copy: c.DescribeBackupsRequest}
 }
 
 const opDescribeEvents = "DescribeEvents"
@@ -406,6 +448,7 @@ const opDescribeEvents = "DescribeEvents"
 type DescribeEventsRequest struct {
 	*aws.Request
 	Input *DescribeEventsInput
+	Copy  func(*DescribeEventsInput) DescribeEventsRequest
 }
 
 // Send marshals and sends the DescribeEvents API request.
@@ -448,8 +491,11 @@ func (c *OpsWorksCM) DescribeEventsRequest(input *DescribeEventsInput) DescribeE
 		input = &DescribeEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventsOutput{})
-	return DescribeEventsRequest{Request: req, Input: input}
+	output := &DescribeEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventsRequest{Request: req, Input: input, Copy: c.DescribeEventsRequest}
 }
 
 const opDescribeNodeAssociationStatus = "DescribeNodeAssociationStatus"
@@ -458,6 +504,7 @@ const opDescribeNodeAssociationStatus = "DescribeNodeAssociationStatus"
 type DescribeNodeAssociationStatusRequest struct {
 	*aws.Request
 	Input *DescribeNodeAssociationStatusInput
+	Copy  func(*DescribeNodeAssociationStatusInput) DescribeNodeAssociationStatusRequest
 }
 
 // Send marshals and sends the DescribeNodeAssociationStatus API request.
@@ -498,8 +545,11 @@ func (c *OpsWorksCM) DescribeNodeAssociationStatusRequest(input *DescribeNodeAss
 		input = &DescribeNodeAssociationStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeNodeAssociationStatusOutput{})
-	return DescribeNodeAssociationStatusRequest{Request: req, Input: input}
+	output := &DescribeNodeAssociationStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeNodeAssociationStatusRequest{Request: req, Input: input, Copy: c.DescribeNodeAssociationStatusRequest}
 }
 
 const opDescribeServers = "DescribeServers"
@@ -508,6 +558,7 @@ const opDescribeServers = "DescribeServers"
 type DescribeServersRequest struct {
 	*aws.Request
 	Input *DescribeServersInput
+	Copy  func(*DescribeServersInput) DescribeServersRequest
 }
 
 // Send marshals and sends the DescribeServers API request.
@@ -525,7 +576,7 @@ func (r DescribeServersRequest) Send() (*DescribeServersOutput, error) {
 //
 // Lists all configuration management servers that are identified with your
 // account. Only the stored results from Amazon DynamoDB are returned. AWS OpsWorks
-// for Chef Automate does not query other services.
+// CM does not query other services.
 //
 // This operation is synchronous.
 //
@@ -551,8 +602,11 @@ func (c *OpsWorksCM) DescribeServersRequest(input *DescribeServersInput) Describ
 		input = &DescribeServersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeServersOutput{})
-	return DescribeServersRequest{Request: req, Input: input}
+	output := &DescribeServersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeServersRequest{Request: req, Input: input, Copy: c.DescribeServersRequest}
 }
 
 const opDisassociateNode = "DisassociateNode"
@@ -561,6 +615,7 @@ const opDisassociateNode = "DisassociateNode"
 type DisassociateNodeRequest struct {
 	*aws.Request
 	Input *DisassociateNodeInput
+	Copy  func(*DisassociateNodeInput) DisassociateNodeRequest
 }
 
 // Send marshals and sends the DisassociateNode API request.
@@ -576,10 +631,10 @@ func (r DisassociateNodeRequest) Send() (*DisassociateNodeOutput, error) {
 // DisassociateNodeRequest returns a request value for making API operation for
 // AWS OpsWorks for Chef Automate.
 //
-// Disassociates a node from a Chef server, and removes the node from the Chef
-// server's managed nodes. After a node is disassociated, the node key pair
-// is no longer valid for accessing the Chef API. For more information about
-// how to associate a node, see AssociateNode.
+// Disassociates a node from an AWS OpsWorks CM server, and removes the node
+// from the server's managed nodes. After a node is disassociated, the node
+// key pair is no longer valid for accessing the configuration manager's API.
+// For more information about how to associate a node, see AssociateNode.
 //
 // A node can can only be disassociated from a server that is in a HEALTHY state.
 // Otherwise, an InvalidStateException is thrown. A ResourceNotFoundException
@@ -605,8 +660,11 @@ func (c *OpsWorksCM) DisassociateNodeRequest(input *DisassociateNodeInput) Disas
 		input = &DisassociateNodeInput{}
 	}
 
-	req := c.newRequest(op, input, &DisassociateNodeOutput{})
-	return DisassociateNodeRequest{Request: req, Input: input}
+	output := &DisassociateNodeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateNodeRequest{Request: req, Input: input, Copy: c.DisassociateNodeRequest}
 }
 
 const opRestoreServer = "RestoreServer"
@@ -615,6 +673,7 @@ const opRestoreServer = "RestoreServer"
 type RestoreServerRequest struct {
 	*aws.Request
 	Input *RestoreServerInput
+	Copy  func(*RestoreServerInput) RestoreServerRequest
 }
 
 // Send marshals and sends the RestoreServer API request.
@@ -661,8 +720,11 @@ func (c *OpsWorksCM) RestoreServerRequest(input *RestoreServerInput) RestoreServ
 		input = &RestoreServerInput{}
 	}
 
-	req := c.newRequest(op, input, &RestoreServerOutput{})
-	return RestoreServerRequest{Request: req, Input: input}
+	output := &RestoreServerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RestoreServerRequest{Request: req, Input: input, Copy: c.RestoreServerRequest}
 }
 
 const opStartMaintenance = "StartMaintenance"
@@ -671,6 +733,7 @@ const opStartMaintenance = "StartMaintenance"
 type StartMaintenanceRequest struct {
 	*aws.Request
 	Input *StartMaintenanceInput
+	Copy  func(*StartMaintenanceInput) StartMaintenanceRequest
 }
 
 // Send marshals and sends the StartMaintenance API request.
@@ -715,8 +778,11 @@ func (c *OpsWorksCM) StartMaintenanceRequest(input *StartMaintenanceInput) Start
 		input = &StartMaintenanceInput{}
 	}
 
-	req := c.newRequest(op, input, &StartMaintenanceOutput{})
-	return StartMaintenanceRequest{Request: req, Input: input}
+	output := &StartMaintenanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartMaintenanceRequest{Request: req, Input: input, Copy: c.StartMaintenanceRequest}
 }
 
 const opUpdateServer = "UpdateServer"
@@ -725,6 +791,7 @@ const opUpdateServer = "UpdateServer"
 type UpdateServerRequest struct {
 	*aws.Request
 	Input *UpdateServerInput
+	Copy  func(*UpdateServerInput) UpdateServerRequest
 }
 
 // Send marshals and sends the UpdateServer API request.
@@ -763,8 +830,11 @@ func (c *OpsWorksCM) UpdateServerRequest(input *UpdateServerInput) UpdateServerR
 		input = &UpdateServerInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateServerOutput{})
-	return UpdateServerRequest{Request: req, Input: input}
+	output := &UpdateServerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateServerRequest{Request: req, Input: input, Copy: c.UpdateServerRequest}
 }
 
 const opUpdateServerEngineAttributes = "UpdateServerEngineAttributes"
@@ -773,6 +843,7 @@ const opUpdateServerEngineAttributes = "UpdateServerEngineAttributes"
 type UpdateServerEngineAttributesRequest struct {
 	*aws.Request
 	Input *UpdateServerEngineAttributesInput
+	Copy  func(*UpdateServerEngineAttributesInput) UpdateServerEngineAttributesRequest
 }
 
 // Send marshals and sends the UpdateServerEngineAttributes API request.
@@ -790,8 +861,9 @@ func (r UpdateServerEngineAttributesRequest) Send() (*UpdateServerEngineAttribut
 //
 // Updates engine-specific attributes on a specified server. The server enters
 // the MODIFYING state when this operation is in progress. Only one update can
-// occur at a time. You can use this command to reset the Chef server's private
-// key (CHEF_PIVOTAL_KEY).
+// occur at a time. You can use this command to reset a Chef server's private
+// key (CHEF_PIVOTAL_KEY), a Chef server's admin password (CHEF_DELIVERY_ADMIN_PASSWORD),
+// or a Puppet server's admin password (PUPPET_ADMIN_PASSWORD).
 //
 // This operation is asynchronous.
 //
@@ -819,8 +891,11 @@ func (c *OpsWorksCM) UpdateServerEngineAttributesRequest(input *UpdateServerEngi
 		input = &UpdateServerEngineAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateServerEngineAttributesOutput{})
-	return UpdateServerEngineAttributesRequest{Request: req, Input: input}
+	output := &UpdateServerEngineAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateServerEngineAttributesRequest{Request: req, Input: input, Copy: c.UpdateServerEngineAttributesRequest}
 }
 
 // Stores account attributes.
@@ -856,31 +931,13 @@ func (s AccountAttribute) GoString() string {
 	return s.String()
 }
 
-// SetMaximum sets the Maximum field's value.
-func (s *AccountAttribute) SetMaximum(v int64) *AccountAttribute {
-	s.Maximum = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *AccountAttribute) SetName(v string) *AccountAttribute {
-	s.Name = &v
-	return s
-}
-
-// SetUsed sets the Used field's value.
-func (s *AccountAttribute) SetUsed(v int64) *AccountAttribute {
-	s.Used = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/AssociateNodeRequest
 type AssociateNodeInput struct {
 	_ struct{} `type:"structure"`
 
 	// Engine attributes used for associating the node.
 	//
-	// Attributes accepted in a AssociateNode request:
+	// Attributes accepted in a AssociateNode request for Chef
 	//
 	//    * CHEF_ORGANIZATION: The Chef organization with which the node is associated.
 	//    By default only one organization named default can exist.
@@ -888,10 +945,15 @@ type AssociateNodeInput struct {
 	//    * CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required
 	//    for the chef-client agent to access the Chef API.
 	//
+	// Attributes accepted in a AssociateNode request for Puppet
+	//
+	//    * PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that
+	//    is created by the node.
+	//
 	// EngineAttributes is a required field
-	EngineAttributes []*EngineAttribute `type:"list" required:"true"`
+	EngineAttributes []EngineAttribute `type:"list" required:"true"`
 
-	// The name of the Chef client node.
+	// The name of the node.
 	//
 	// NodeName is a required field
 	NodeName *string `type:"string" required:"true"`
@@ -937,27 +999,11 @@ func (s *AssociateNodeInput) Validate() error {
 	return nil
 }
 
-// SetEngineAttributes sets the EngineAttributes field's value.
-func (s *AssociateNodeInput) SetEngineAttributes(v []*EngineAttribute) *AssociateNodeInput {
-	s.EngineAttributes = v
-	return s
-}
-
-// SetNodeName sets the NodeName field's value.
-func (s *AssociateNodeInput) SetNodeName(v string) *AssociateNodeInput {
-	s.NodeName = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *AssociateNodeInput) SetServerName(v string) *AssociateNodeInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/AssociateNodeResponse
 type AssociateNodeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains a token which can be passed to the DescribeNodeAssociationStatus
 	// API call to get the status of the association request.
@@ -974,10 +1020,9 @@ func (s AssociateNodeOutput) GoString() string {
 	return s.String()
 }
 
-// SetNodeAssociationStatusToken sets the NodeAssociationStatusToken field's value.
-func (s *AssociateNodeOutput) SetNodeAssociationStatusToken(v string) *AssociateNodeOutput {
-	s.NodeAssociationStatusToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateNodeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a single backup.
@@ -992,7 +1037,7 @@ type Backup struct {
 	BackupId *string `type:"string"`
 
 	// The backup type. Valid values are automated or manual.
-	BackupType BackupType `type:"string"`
+	BackupType BackupType `type:"string" enum:"true"`
 
 	// The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z
 	CreatedAt *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -1040,7 +1085,7 @@ type Backup struct {
 
 	// The security group IDs that are obtained from the server when the backup
 	// is created.
-	SecurityGroupIds []*string `type:"list"`
+	SecurityGroupIds []string `type:"list"`
 
 	// The name of the server from which the backup was made.
 	ServerName *string `min:"1" type:"string"`
@@ -1050,16 +1095,16 @@ type Backup struct {
 	ServiceRoleArn *string `type:"string"`
 
 	// The status of a backup while in progress.
-	Status BackupStatus `type:"string"`
+	Status BackupStatus `type:"string" enum:"true"`
 
 	// An informational message about backup status.
 	StatusDescription *string `type:"string"`
 
 	// The subnet IDs that are obtained from the server when the backup is created.
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 
-	// The version of AWS OpsWorks for Chef Automate-specific tools that is obtained
-	// from the server when the backup is created.
+	// The version of AWS OpsWorks CM-specific tools that is obtained from the server
+	// when the backup is created.
 	ToolsVersion *string `type:"string"`
 
 	// The IAM user ARN of the requester for manual backups. This field is empty
@@ -1075,150 +1120,6 @@ func (s Backup) String() string {
 // GoString returns the string representation
 func (s Backup) GoString() string {
 	return s.String()
-}
-
-// SetBackupArn sets the BackupArn field's value.
-func (s *Backup) SetBackupArn(v string) *Backup {
-	s.BackupArn = &v
-	return s
-}
-
-// SetBackupId sets the BackupId field's value.
-func (s *Backup) SetBackupId(v string) *Backup {
-	s.BackupId = &v
-	return s
-}
-
-// SetBackupType sets the BackupType field's value.
-func (s *Backup) SetBackupType(v BackupType) *Backup {
-	s.BackupType = v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Backup) SetCreatedAt(v time.Time) *Backup {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Backup) SetDescription(v string) *Backup {
-	s.Description = &v
-	return s
-}
-
-// SetEngine sets the Engine field's value.
-func (s *Backup) SetEngine(v string) *Backup {
-	s.Engine = &v
-	return s
-}
-
-// SetEngineModel sets the EngineModel field's value.
-func (s *Backup) SetEngineModel(v string) *Backup {
-	s.EngineModel = &v
-	return s
-}
-
-// SetEngineVersion sets the EngineVersion field's value.
-func (s *Backup) SetEngineVersion(v string) *Backup {
-	s.EngineVersion = &v
-	return s
-}
-
-// SetInstanceProfileArn sets the InstanceProfileArn field's value.
-func (s *Backup) SetInstanceProfileArn(v string) *Backup {
-	s.InstanceProfileArn = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *Backup) SetInstanceType(v string) *Backup {
-	s.InstanceType = &v
-	return s
-}
-
-// SetKeyPair sets the KeyPair field's value.
-func (s *Backup) SetKeyPair(v string) *Backup {
-	s.KeyPair = &v
-	return s
-}
-
-// SetPreferredBackupWindow sets the PreferredBackupWindow field's value.
-func (s *Backup) SetPreferredBackupWindow(v string) *Backup {
-	s.PreferredBackupWindow = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *Backup) SetPreferredMaintenanceWindow(v string) *Backup {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetS3DataSize sets the S3DataSize field's value.
-func (s *Backup) SetS3DataSize(v int64) *Backup {
-	s.S3DataSize = &v
-	return s
-}
-
-// SetS3DataUrl sets the S3DataUrl field's value.
-func (s *Backup) SetS3DataUrl(v string) *Backup {
-	s.S3DataUrl = &v
-	return s
-}
-
-// SetS3LogUrl sets the S3LogUrl field's value.
-func (s *Backup) SetS3LogUrl(v string) *Backup {
-	s.S3LogUrl = &v
-	return s
-}
-
-// SetSecurityGroupIds sets the SecurityGroupIds field's value.
-func (s *Backup) SetSecurityGroupIds(v []*string) *Backup {
-	s.SecurityGroupIds = v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *Backup) SetServerName(v string) *Backup {
-	s.ServerName = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *Backup) SetServiceRoleArn(v string) *Backup {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Backup) SetStatus(v BackupStatus) *Backup {
-	s.Status = v
-	return s
-}
-
-// SetStatusDescription sets the StatusDescription field's value.
-func (s *Backup) SetStatusDescription(v string) *Backup {
-	s.StatusDescription = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *Backup) SetSubnetIds(v []*string) *Backup {
-	s.SubnetIds = v
-	return s
-}
-
-// SetToolsVersion sets the ToolsVersion field's value.
-func (s *Backup) SetToolsVersion(v string) *Backup {
-	s.ToolsVersion = &v
-	return s
-}
-
-// SetUserArn sets the UserArn field's value.
-func (s *Backup) SetUserArn(v string) *Backup {
-	s.UserArn = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateBackupRequest
@@ -1261,21 +1162,11 @@ func (s *CreateBackupInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateBackupInput) SetDescription(v string) *CreateBackupInput {
-	s.Description = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *CreateBackupInput) SetServerName(v string) *CreateBackupInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateBackupResponse
 type CreateBackupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Backup created by request.
 	Backup *Backup `type:"structure"`
@@ -1291,10 +1182,9 @@ func (s CreateBackupOutput) GoString() string {
 	return s.String()
 }
 
-// SetBackup sets the Backup field's value.
-func (s *CreateBackupOutput) SetBackup(v *Backup) *CreateBackupOutput {
-	s.Backup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateBackupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateServerRequest
@@ -1305,30 +1195,31 @@ type CreateServerInput struct {
 	// values are true or false. The default value is true.
 	AssociatePublicIpAddress *bool `type:"boolean"`
 
-	// If you specify this field, AWS OpsWorks for Chef Automate creates the server
-	// by using the backup represented by BackupId.
+	// If you specify this field, AWS OpsWorks CM creates the server by using the
+	// backup represented by BackupId.
 	BackupId *string `type:"string"`
 
 	// The number of automated backups that you want to keep. Whenever a new backup
-	// is created, AWS OpsWorks for Chef Automate deletes the oldest backups if
-	// this number is exceeded. The default value is 1.
+	// is created, AWS OpsWorks CM deletes the oldest backups if this number is
+	// exceeded. The default value is 1.
 	BackupRetentionCount *int64 `min:"1" type:"integer"`
 
 	// Enable or disable scheduled backups. Valid values are true or false. The
 	// default value is true.
 	DisableAutomatedBackup *bool `type:"boolean"`
 
-	// The configuration management engine to use. Valid values include Chef.
+	// The configuration management engine to use. Valid values include Chef and
+	// Puppet.
 	Engine *string `type:"string"`
 
 	// Optional engine attributes on a specified server.
 	//
-	// Attributes accepted in a createServer request:
+	// Attributes accepted in a Chef createServer request:
 	//
 	//    * CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is not stored
-	//    by AWS OpsWorks for Chef. This private key is required to access the Chef
-	//    API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned in
-	//    the response.
+	//    by AWS OpsWorks for Chef Automate. This private key is required to access
+	//    the Chef API. When no CHEF_PIVOTAL_KEY is set, one is generated and returned
+	//    in the response.
 	//
 	//    * CHEF_DELIVERY_ADMIN_PASSWORD: The password for the administrative user
 	//    in the Chef Automate GUI. The password length is a minimum of eight characters,
@@ -1337,13 +1228,20 @@ type CreateServerInput struct {
 	//    case letter, one upper case letter, one number, and one special character.
 	//    When no CHEF_DELIVERY_ADMIN_PASSWORD is set, one is generated and returned
 	//    in the response.
-	EngineAttributes []*EngineAttribute `type:"list"`
+	//
+	// Attributes accepted in a Puppet createServer request:
+	//
+	//    * PUPPET_ADMIN_PASSWORD: To work with the Puppet Enterprise console, a
+	//    password must use ASCII characters.
+	EngineAttributes []EngineAttribute `type:"list"`
 
-	// The engine model, or option. Valid values include Single.
+	// The engine model of the server. Valid values in this release include Monolithic
+	// for Puppet and Single for Chef.
 	EngineModel *string `type:"string"`
 
-	// The major release version of the engine that you want to use. Values depend
-	// on the engine that you choose.
+	// The major release version of the engine that you want to use. For a Chef
+	// server, the valid value for EngineVersion is currently 12. For a Puppet server,
+	// the valid value is 2017.
 	EngineVersion *string `type:"string"`
 
 	// The ARN of the instance profile that your Amazon EC2 instances use. Although
@@ -1356,9 +1254,8 @@ type CreateServerInput struct {
 	// InstanceProfileArn is a required field
 	InstanceProfileArn *string `type:"string" required:"true"`
 
-	// The Amazon EC2 instance type to use. Valid values must be specified in the
-	// following format: ^([cm][34]|t2).* For example, m4.large. Valid values are
-	// t2.medium, m4.large, or m4.2xlarge.
+	// The Amazon EC2 instance type to use. For example, m4.large. Recommended instance
+	// types include t2.medium and greater, m4.*, or c4.xlarge and greater.
 	//
 	// InstanceType is a required field
 	InstanceType *string `type:"string" required:"true"`
@@ -1368,9 +1265,9 @@ type CreateServerInput struct {
 	// using SSH.
 	KeyPair *string `type:"string"`
 
-	// The start time for a one-hour period during which AWS OpsWorks for Chef Automate
-	// backs up application-level data on your server if automated backups are enabled.
-	// Valid values must be specified in one of the following formats:
+	// The start time for a one-hour period during which AWS OpsWorks CM backs up
+	// application-level data on your server if automated backups are enabled. Valid
+	// values must be specified in one of the following formats:
 	//
 	//    * HH:MM for daily backups
 	//
@@ -1386,11 +1283,10 @@ type CreateServerInput struct {
 	PreferredBackupWindow *string `type:"string"`
 
 	// The start time for a one-hour period each week during which AWS OpsWorks
-	// for Chef Automate performs maintenance on the instance. Valid values must
-	// be specified in the following format: DDD:HH:MM. The specified time is in
-	// coordinated universal time (UTC). The default value is a random one-hour
-	// period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more
-	// information.
+	// CM performs maintenance on the instance. Valid values must be specified in
+	// the following format: DDD:HH:MM. The specified time is in coordinated universal
+	// time (UTC). The default value is a random one-hour period on Tuesday, Wednesday,
+	// or Friday. See TimeWindowDefinition for more information.
 	//
 	// Example:Mon:08:00, which represents a start time of every Monday at 08:00
 	// UTC. (8:00 a.m.)
@@ -1400,10 +1296,9 @@ type CreateServerInput struct {
 	// add this parameter, the specified security groups must be within the VPC
 	// that is specified by SubnetIds.
 	//
-	// If you do not specify this parameter, AWS OpsWorks for Chef Automate creates
-	// one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0
-	// (everyone).
-	SecurityGroupIds []*string `type:"list"`
+	// If you do not specify this parameter, AWS OpsWorks CM creates one new security
+	// group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
+	SecurityGroupIds []string `type:"list"`
 
 	// The name of the server. The server name must be unique within your AWS account,
 	// within each region. Server names must start with a letter; then letters,
@@ -1412,13 +1307,12 @@ type CreateServerInput struct {
 	// ServerName is a required field
 	ServerName *string `min:"1" type:"string" required:"true"`
 
-	// The service role that the AWS OpsWorks for Chef Automate service backend
-	// uses to work with your account. Although the AWS OpsWorks management console
-	// typically creates the service role for you, if you are using the AWS CLI
-	// or API commands, run the service-role-creation.yaml AWS CloudFormation template,
-	// located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml.
+	// The service role that the AWS OpsWorks CM service backend uses to work with
+	// your account. Although the AWS OpsWorks management console typically creates
+	// the service role for you, if you are using the AWS CLI or API commands, run
+	// the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml.
 	// This template creates a CloudFormation stack that includes the service role
-	// that you need.
+	// and instance profile that you need.
 	//
 	// ServiceRoleArn is a required field
 	ServiceRoleArn *string `type:"string" required:"true"`
@@ -1435,7 +1329,7 @@ type CreateServerInput struct {
 	//
 	// For more information about supported Amazon EC2 platforms, see Supported
 	// Platforms (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html).
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -1480,111 +1374,11 @@ func (s *CreateServerInput) Validate() error {
 	return nil
 }
 
-// SetAssociatePublicIpAddress sets the AssociatePublicIpAddress field's value.
-func (s *CreateServerInput) SetAssociatePublicIpAddress(v bool) *CreateServerInput {
-	s.AssociatePublicIpAddress = &v
-	return s
-}
-
-// SetBackupId sets the BackupId field's value.
-func (s *CreateServerInput) SetBackupId(v string) *CreateServerInput {
-	s.BackupId = &v
-	return s
-}
-
-// SetBackupRetentionCount sets the BackupRetentionCount field's value.
-func (s *CreateServerInput) SetBackupRetentionCount(v int64) *CreateServerInput {
-	s.BackupRetentionCount = &v
-	return s
-}
-
-// SetDisableAutomatedBackup sets the DisableAutomatedBackup field's value.
-func (s *CreateServerInput) SetDisableAutomatedBackup(v bool) *CreateServerInput {
-	s.DisableAutomatedBackup = &v
-	return s
-}
-
-// SetEngine sets the Engine field's value.
-func (s *CreateServerInput) SetEngine(v string) *CreateServerInput {
-	s.Engine = &v
-	return s
-}
-
-// SetEngineAttributes sets the EngineAttributes field's value.
-func (s *CreateServerInput) SetEngineAttributes(v []*EngineAttribute) *CreateServerInput {
-	s.EngineAttributes = v
-	return s
-}
-
-// SetEngineModel sets the EngineModel field's value.
-func (s *CreateServerInput) SetEngineModel(v string) *CreateServerInput {
-	s.EngineModel = &v
-	return s
-}
-
-// SetEngineVersion sets the EngineVersion field's value.
-func (s *CreateServerInput) SetEngineVersion(v string) *CreateServerInput {
-	s.EngineVersion = &v
-	return s
-}
-
-// SetInstanceProfileArn sets the InstanceProfileArn field's value.
-func (s *CreateServerInput) SetInstanceProfileArn(v string) *CreateServerInput {
-	s.InstanceProfileArn = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *CreateServerInput) SetInstanceType(v string) *CreateServerInput {
-	s.InstanceType = &v
-	return s
-}
-
-// SetKeyPair sets the KeyPair field's value.
-func (s *CreateServerInput) SetKeyPair(v string) *CreateServerInput {
-	s.KeyPair = &v
-	return s
-}
-
-// SetPreferredBackupWindow sets the PreferredBackupWindow field's value.
-func (s *CreateServerInput) SetPreferredBackupWindow(v string) *CreateServerInput {
-	s.PreferredBackupWindow = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *CreateServerInput) SetPreferredMaintenanceWindow(v string) *CreateServerInput {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetSecurityGroupIds sets the SecurityGroupIds field's value.
-func (s *CreateServerInput) SetSecurityGroupIds(v []*string) *CreateServerInput {
-	s.SecurityGroupIds = v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *CreateServerInput) SetServerName(v string) *CreateServerInput {
-	s.ServerName = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *CreateServerInput) SetServiceRoleArn(v string) *CreateServerInput {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *CreateServerInput) SetSubnetIds(v []*string) *CreateServerInput {
-	s.SubnetIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/CreateServerResponse
 type CreateServerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The server that is created by the request.
 	Server *Server `type:"structure"`
@@ -1600,10 +1394,9 @@ func (s CreateServerOutput) GoString() string {
 	return s.String()
 }
 
-// SetServer sets the Server field's value.
-func (s *CreateServerOutput) SetServer(v *Server) *CreateServerOutput {
-	s.Server = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateServerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteBackupRequest
@@ -1641,15 +1434,11 @@ func (s *DeleteBackupInput) Validate() error {
 	return nil
 }
 
-// SetBackupId sets the BackupId field's value.
-func (s *DeleteBackupInput) SetBackupId(v string) *DeleteBackupInput {
-	s.BackupId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteBackupResponse
 type DeleteBackupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1660,6 +1449,11 @@ func (s DeleteBackupOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBackupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBackupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteServerRequest
@@ -1699,15 +1493,11 @@ func (s *DeleteServerInput) Validate() error {
 	return nil
 }
 
-// SetServerName sets the ServerName field's value.
-func (s *DeleteServerInput) SetServerName(v string) *DeleteServerInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DeleteServerResponse
 type DeleteServerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1718,6 +1508,11 @@ func (s DeleteServerOutput) String() string {
 // GoString returns the string representation
 func (s DeleteServerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteServerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeAccountAttributesRequest
@@ -1739,8 +1534,10 @@ func (s DescribeAccountAttributesInput) GoString() string {
 type DescribeAccountAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The attributes that are currently set for the account.
-	Attributes []*AccountAttribute `type:"list"`
+	Attributes []AccountAttribute `type:"list"`
 }
 
 // String returns the string representation
@@ -1753,10 +1550,9 @@ func (s DescribeAccountAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *DescribeAccountAttributesOutput) SetAttributes(v []*AccountAttribute) *DescribeAccountAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAccountAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeBackupsRequest
@@ -1813,36 +1609,14 @@ func (s *DescribeBackupsInput) Validate() error {
 	return nil
 }
 
-// SetBackupId sets the BackupId field's value.
-func (s *DescribeBackupsInput) SetBackupId(v string) *DescribeBackupsInput {
-	s.BackupId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeBackupsInput) SetMaxResults(v int64) *DescribeBackupsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBackupsInput) SetNextToken(v string) *DescribeBackupsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *DescribeBackupsInput) SetServerName(v string) *DescribeBackupsInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeBackupsResponse
 type DescribeBackupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Contains the response to a DescribeBackups request.
-	Backups []*Backup `type:"list"`
+	Backups []Backup `type:"list"`
 
 	// NextToken is a string that is returned in some command responses. It indicates
 	// that not all entries have been returned, and that you must run at least one
@@ -1865,16 +1639,9 @@ func (s DescribeBackupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBackups sets the Backups field's value.
-func (s *DescribeBackupsOutput) SetBackups(v []*Backup) *DescribeBackupsOutput {
-	s.Backups = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBackupsOutput) SetNextToken(v string) *DescribeBackupsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeBackupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeEventsRequest
@@ -1934,27 +1701,11 @@ func (s *DescribeEventsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeEventsInput) SetMaxResults(v int64) *DescribeEventsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventsInput) SetNextToken(v string) *DescribeEventsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *DescribeEventsInput) SetServerName(v string) *DescribeEventsInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeEventsResponse
 type DescribeEventsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// NextToken is a string that is returned in some command responses. It indicates
 	// that not all entries have been returned, and that you must run at least one
@@ -1967,7 +1718,7 @@ type DescribeEventsOutput struct {
 	NextToken *string `type:"string"`
 
 	// Contains the response to a DescribeEvents request.
-	ServerEvents []*ServerEvent `type:"list"`
+	ServerEvents []ServerEvent `type:"list"`
 }
 
 // String returns the string representation
@@ -1980,16 +1731,9 @@ func (s DescribeEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventsOutput) SetNextToken(v string) *DescribeEventsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetServerEvents sets the ServerEvents field's value.
-func (s *DescribeEventsOutput) SetServerEvents(v []*ServerEvent) *DescribeEventsOutput {
-	s.ServerEvents = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeNodeAssociationStatusRequest
@@ -2038,24 +1782,15 @@ func (s *DescribeNodeAssociationStatusInput) Validate() error {
 	return nil
 }
 
-// SetNodeAssociationStatusToken sets the NodeAssociationStatusToken field's value.
-func (s *DescribeNodeAssociationStatusInput) SetNodeAssociationStatusToken(v string) *DescribeNodeAssociationStatusInput {
-	s.NodeAssociationStatusToken = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *DescribeNodeAssociationStatusInput) SetServerName(v string) *DescribeNodeAssociationStatusInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeNodeAssociationStatusResponse
 type DescribeNodeAssociationStatusOutput struct {
 	_ struct{} `type:"structure"`
 
-	// Attributes specific to the node association.
-	EngineAttributes []*EngineAttribute `type:"list"`
+	responseMetadata aws.Response
+
+	// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT
+	// contains the signed certificate (the result of the CSR).
+	EngineAttributes []EngineAttribute `type:"list"`
 
 	// The status of the association or disassociation request.
 	//
@@ -2066,7 +1801,7 @@ type DescribeNodeAssociationStatusOutput struct {
 	//    * FAILED: The association or disassociation failed.
 	//
 	//    * IN_PROGRESS: The association or disassociation is still in progress.
-	NodeAssociationStatus NodeAssociationStatus `type:"string"`
+	NodeAssociationStatus NodeAssociationStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2079,16 +1814,9 @@ func (s DescribeNodeAssociationStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetEngineAttributes sets the EngineAttributes field's value.
-func (s *DescribeNodeAssociationStatusOutput) SetEngineAttributes(v []*EngineAttribute) *DescribeNodeAssociationStatusOutput {
-	s.EngineAttributes = v
-	return s
-}
-
-// SetNodeAssociationStatus sets the NodeAssociationStatus field's value.
-func (s *DescribeNodeAssociationStatusOutput) SetNodeAssociationStatus(v NodeAssociationStatus) *DescribeNodeAssociationStatusOutput {
-	s.NodeAssociationStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeNodeAssociationStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeServersRequest
@@ -2142,27 +1870,11 @@ func (s *DescribeServersInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeServersInput) SetMaxResults(v int64) *DescribeServersInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeServersInput) SetNextToken(v string) *DescribeServersInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *DescribeServersInput) SetServerName(v string) *DescribeServersInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DescribeServersResponse
 type DescribeServersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// NextToken is a string that is returned in some command responses. It indicates
 	// that not all entries have been returned, and that you must run at least one
@@ -2175,7 +1887,12 @@ type DescribeServersOutput struct {
 	NextToken *string `type:"string"`
 
 	// Contains the response to a DescribeServers request.
-	Servers []*Server `type:"list"`
+	//
+	// For Puppet Server:DescribeServersResponse$Servers$EngineAttributes contains
+	// PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by
+	// the Puppet API over TCP port number 8140. The CA certificate is also used
+	// to sign node certificates.
+	Servers []Server `type:"list"`
 }
 
 // String returns the string representation
@@ -2188,31 +1905,25 @@ func (s DescribeServersOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeServersOutput) SetNextToken(v string) *DescribeServersOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetServers sets the Servers field's value.
-func (s *DescribeServersOutput) SetServers(v []*Server) *DescribeServersOutput {
-	s.Servers = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeServersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DisassociateNodeRequest
 type DisassociateNodeInput struct {
 	_ struct{} `type:"structure"`
 
-	// Engine attributes used for disassociating the node.
+	// Engine attributes that are used for disassociating the node. No attributes
+	// are required for Puppet.
 	//
-	// Attributes accepted in a DisassociateNode request:
+	// Attributes required in a DisassociateNode request for Chef
 	//
 	//    * CHEF_ORGANIZATION: The Chef organization with which the node was associated.
 	//    By default only one organization named default can exist.
-	EngineAttributes []*EngineAttribute `type:"list"`
+	EngineAttributes []EngineAttribute `type:"list"`
 
-	// The name of the Chef client node.
+	// The name of the client node.
 	//
 	// NodeName is a required field
 	NodeName *string `type:"string" required:"true"`
@@ -2254,27 +1965,11 @@ func (s *DisassociateNodeInput) Validate() error {
 	return nil
 }
 
-// SetEngineAttributes sets the EngineAttributes field's value.
-func (s *DisassociateNodeInput) SetEngineAttributes(v []*EngineAttribute) *DisassociateNodeInput {
-	s.EngineAttributes = v
-	return s
-}
-
-// SetNodeName sets the NodeName field's value.
-func (s *DisassociateNodeInput) SetNodeName(v string) *DisassociateNodeInput {
-	s.NodeName = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *DisassociateNodeInput) SetServerName(v string) *DisassociateNodeInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/DisassociateNodeResponse
 type DisassociateNodeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains a token which can be passed to the DescribeNodeAssociationStatus
 	// API call to get the status of the disassociation request.
@@ -2291,10 +1986,9 @@ func (s DisassociateNodeOutput) GoString() string {
 	return s.String()
 }
 
-// SetNodeAssociationStatusToken sets the NodeAssociationStatusToken field's value.
-func (s *DisassociateNodeOutput) SetNodeAssociationStatusToken(v string) *DisassociateNodeOutput {
-	s.NodeAssociationStatusToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateNodeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A name and value pair that is specific to the engine of the server.
@@ -2317,18 +2011,6 @@ func (s EngineAttribute) String() string {
 // GoString returns the string representation
 func (s EngineAttribute) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *EngineAttribute) SetName(v string) *EngineAttribute {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *EngineAttribute) SetValue(v string) *EngineAttribute {
-	s.Value = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/RestoreServerRequest
@@ -2387,33 +2069,11 @@ func (s *RestoreServerInput) Validate() error {
 	return nil
 }
 
-// SetBackupId sets the BackupId field's value.
-func (s *RestoreServerInput) SetBackupId(v string) *RestoreServerInput {
-	s.BackupId = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *RestoreServerInput) SetInstanceType(v string) *RestoreServerInput {
-	s.InstanceType = &v
-	return s
-}
-
-// SetKeyPair sets the KeyPair field's value.
-func (s *RestoreServerInput) SetKeyPair(v string) *RestoreServerInput {
-	s.KeyPair = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *RestoreServerInput) SetServerName(v string) *RestoreServerInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/RestoreServerResponse
 type RestoreServerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2424,6 +2084,11 @@ func (s RestoreServerOutput) String() string {
 // GoString returns the string representation
 func (s RestoreServerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RestoreServerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a configuration management server.
@@ -2450,15 +2115,15 @@ type Server struct {
 	// A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io
 	Endpoint *string `type:"string"`
 
-	// The engine type of the server. The valid value in this release is Chef.
+	// The engine type of the server. Valid values in this release include Chef
+	// and Puppet.
 	Engine *string `type:"string"`
 
 	// The response of a createServer() request returns the master credential to
 	// access the server in EngineAttributes. These credentials are not stored by
-	// AWS OpsWorks for Chef Automate; they are returned only as part of the result
-	// of createServer().
+	// AWS OpsWorks CM; they are returned only as part of the result of createServer().
 	//
-	// Attributes returned in a createServer response:
+	// Attributes returned in a createServer response for Chef
 	//
 	//    * CHEF_PIVOTAL_KEY: A base64-encoded RSA private key that is generated
 	//    by AWS OpsWorks for Chef Automate. This private key is required to access
@@ -2469,13 +2134,24 @@ type Server struct {
 	//    required RSA private key. Save this file, unzip it, and then change to
 	//    the directory where you've unzipped the file contents. From this directory,
 	//    you can run Knife commands.
-	EngineAttributes []*EngineAttribute `type:"list"`
+	//
+	// Attributes returned in a createServer response for Puppet
+	//
+	//    * PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains
+	//    a Puppet starter kit, including a README and a required private key. Save
+	//    this file, unzip it, and then change to the directory where you've unzipped
+	//    the file contents.
+	//
+	//    * PUPPET_ADMIN_PASSWORD: An administrator password that you can use to
+	//    sign in to the Puppet Enterprise console after the server is online.
+	EngineAttributes []EngineAttribute `type:"list"`
 
-	// The engine model of the server. The valid value in this release is Single.
+	// The engine model of the server. Valid values in this release include Monolithic
+	// for Puppet and Single for Chef.
 	EngineModel *string `type:"string"`
 
-	// The engine version of the server. Because Chef is the engine available in
-	// this release, the valid value for EngineVersion is 12.
+	// The engine version of the server. For a Chef server, the valid value for
+	// EngineVersion is currently 12. For a Puppet server, the valid value is 2017.
 	EngineVersion *string `type:"string"`
 
 	// The instance profile ARN of the server.
@@ -2489,7 +2165,7 @@ type Server struct {
 	KeyPair *string `type:"string"`
 
 	// The status of the most recent server maintenance run. Shows SUCCESS or FAILED.
-	MaintenanceStatus MaintenanceStatus `type:"string"`
+	MaintenanceStatus MaintenanceStatus `type:"string" enum:"true"`
 
 	// The preferred backup period specified for the server.
 	PreferredBackupWindow *string `type:"string"`
@@ -2500,7 +2176,7 @@ type Server struct {
 	// The security group IDs for the server, as specified in the CloudFormation
 	// stack. These might not be the same security groups that are shown in the
 	// EC2 console.
-	SecurityGroupIds []*string `type:"list"`
+	SecurityGroupIds []string `type:"list"`
 
 	// The ARN of the server.
 	ServerArn *string `type:"string"`
@@ -2514,7 +2190,7 @@ type Server struct {
 	// The server's status. This field displays the states of actions in progress,
 	// such as creating, running, or backing up the server, as well as the server's
 	// health state.
-	Status ServerStatus `type:"string"`
+	Status ServerStatus `type:"string" enum:"true"`
 
 	// Depending on the server status, this field has either a human-readable message
 	// (such as a create or backup error), or an escaped block of JSON (used for
@@ -2522,7 +2198,7 @@ type Server struct {
 	StatusReason *string `type:"string"`
 
 	// The subnet IDs specified in a CreateServer request.
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2533,144 +2209,6 @@ func (s Server) String() string {
 // GoString returns the string representation
 func (s Server) GoString() string {
 	return s.String()
-}
-
-// SetAssociatePublicIpAddress sets the AssociatePublicIpAddress field's value.
-func (s *Server) SetAssociatePublicIpAddress(v bool) *Server {
-	s.AssociatePublicIpAddress = &v
-	return s
-}
-
-// SetBackupRetentionCount sets the BackupRetentionCount field's value.
-func (s *Server) SetBackupRetentionCount(v int64) *Server {
-	s.BackupRetentionCount = &v
-	return s
-}
-
-// SetCloudFormationStackArn sets the CloudFormationStackArn field's value.
-func (s *Server) SetCloudFormationStackArn(v string) *Server {
-	s.CloudFormationStackArn = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Server) SetCreatedAt(v time.Time) *Server {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetDisableAutomatedBackup sets the DisableAutomatedBackup field's value.
-func (s *Server) SetDisableAutomatedBackup(v bool) *Server {
-	s.DisableAutomatedBackup = &v
-	return s
-}
-
-// SetEndpoint sets the Endpoint field's value.
-func (s *Server) SetEndpoint(v string) *Server {
-	s.Endpoint = &v
-	return s
-}
-
-// SetEngine sets the Engine field's value.
-func (s *Server) SetEngine(v string) *Server {
-	s.Engine = &v
-	return s
-}
-
-// SetEngineAttributes sets the EngineAttributes field's value.
-func (s *Server) SetEngineAttributes(v []*EngineAttribute) *Server {
-	s.EngineAttributes = v
-	return s
-}
-
-// SetEngineModel sets the EngineModel field's value.
-func (s *Server) SetEngineModel(v string) *Server {
-	s.EngineModel = &v
-	return s
-}
-
-// SetEngineVersion sets the EngineVersion field's value.
-func (s *Server) SetEngineVersion(v string) *Server {
-	s.EngineVersion = &v
-	return s
-}
-
-// SetInstanceProfileArn sets the InstanceProfileArn field's value.
-func (s *Server) SetInstanceProfileArn(v string) *Server {
-	s.InstanceProfileArn = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *Server) SetInstanceType(v string) *Server {
-	s.InstanceType = &v
-	return s
-}
-
-// SetKeyPair sets the KeyPair field's value.
-func (s *Server) SetKeyPair(v string) *Server {
-	s.KeyPair = &v
-	return s
-}
-
-// SetMaintenanceStatus sets the MaintenanceStatus field's value.
-func (s *Server) SetMaintenanceStatus(v MaintenanceStatus) *Server {
-	s.MaintenanceStatus = v
-	return s
-}
-
-// SetPreferredBackupWindow sets the PreferredBackupWindow field's value.
-func (s *Server) SetPreferredBackupWindow(v string) *Server {
-	s.PreferredBackupWindow = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *Server) SetPreferredMaintenanceWindow(v string) *Server {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetSecurityGroupIds sets the SecurityGroupIds field's value.
-func (s *Server) SetSecurityGroupIds(v []*string) *Server {
-	s.SecurityGroupIds = v
-	return s
-}
-
-// SetServerArn sets the ServerArn field's value.
-func (s *Server) SetServerArn(v string) *Server {
-	s.ServerArn = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *Server) SetServerName(v string) *Server {
-	s.ServerName = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *Server) SetServiceRoleArn(v string) *Server {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Server) SetStatus(v ServerStatus) *Server {
-	s.Status = v
-	return s
-}
-
-// SetStatusReason sets the StatusReason field's value.
-func (s *Server) SetStatusReason(v string) *Server {
-	s.StatusReason = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *Server) SetSubnetIds(v []*string) *Server {
-	s.SubnetIds = v
-	return s
 }
 
 // An event that is related to the server, such as the start of maintenance
@@ -2702,37 +2240,13 @@ func (s ServerEvent) GoString() string {
 	return s.String()
 }
 
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *ServerEvent) SetCreatedAt(v time.Time) *ServerEvent {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetLogUrl sets the LogUrl field's value.
-func (s *ServerEvent) SetLogUrl(v string) *ServerEvent {
-	s.LogUrl = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *ServerEvent) SetMessage(v string) *ServerEvent {
-	s.Message = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *ServerEvent) SetServerName(v string) *ServerEvent {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/StartMaintenanceRequest
 type StartMaintenanceInput struct {
 	_ struct{} `type:"structure"`
 
 	// Engine attributes that are specific to the server on which you want to run
 	// maintenance.
-	EngineAttributes []*EngineAttribute `type:"list"`
+	EngineAttributes []EngineAttribute `type:"list"`
 
 	// The name of the server on which to run maintenance.
 	//
@@ -2767,21 +2281,11 @@ func (s *StartMaintenanceInput) Validate() error {
 	return nil
 }
 
-// SetEngineAttributes sets the EngineAttributes field's value.
-func (s *StartMaintenanceInput) SetEngineAttributes(v []*EngineAttribute) *StartMaintenanceInput {
-	s.EngineAttributes = v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *StartMaintenanceInput) SetServerName(v string) *StartMaintenanceInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/StartMaintenanceResponse
 type StartMaintenanceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains the response to a StartMaintenance request.
 	Server *Server `type:"structure"`
@@ -2797,10 +2301,9 @@ func (s StartMaintenanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetServer sets the Server field's value.
-func (s *StartMaintenanceOutput) SetServer(v *Server) *StartMaintenanceOutput {
-	s.Server = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartMaintenanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServerEngineAttributesRequest
@@ -2855,27 +2358,11 @@ func (s *UpdateServerEngineAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *UpdateServerEngineAttributesInput) SetAttributeName(v string) *UpdateServerEngineAttributesInput {
-	s.AttributeName = &v
-	return s
-}
-
-// SetAttributeValue sets the AttributeValue field's value.
-func (s *UpdateServerEngineAttributesInput) SetAttributeValue(v string) *UpdateServerEngineAttributesInput {
-	s.AttributeValue = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *UpdateServerEngineAttributesInput) SetServerName(v string) *UpdateServerEngineAttributesInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServerEngineAttributesResponse
 type UpdateServerEngineAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains the response to an UpdateServerEngineAttributes request.
 	Server *Server `type:"structure"`
@@ -2891,10 +2378,9 @@ func (s UpdateServerEngineAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetServer sets the Server field's value.
-func (s *UpdateServerEngineAttributesOutput) SetServer(v *Server) *UpdateServerEngineAttributesOutput {
-	s.Server = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateServerEngineAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServerRequest
@@ -2953,39 +2439,11 @@ func (s *UpdateServerInput) Validate() error {
 	return nil
 }
 
-// SetBackupRetentionCount sets the BackupRetentionCount field's value.
-func (s *UpdateServerInput) SetBackupRetentionCount(v int64) *UpdateServerInput {
-	s.BackupRetentionCount = &v
-	return s
-}
-
-// SetDisableAutomatedBackup sets the DisableAutomatedBackup field's value.
-func (s *UpdateServerInput) SetDisableAutomatedBackup(v bool) *UpdateServerInput {
-	s.DisableAutomatedBackup = &v
-	return s
-}
-
-// SetPreferredBackupWindow sets the PreferredBackupWindow field's value.
-func (s *UpdateServerInput) SetPreferredBackupWindow(v string) *UpdateServerInput {
-	s.PreferredBackupWindow = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *UpdateServerInput) SetPreferredMaintenanceWindow(v string) *UpdateServerInput {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetServerName sets the ServerName field's value.
-func (s *UpdateServerInput) SetServerName(v string) *UpdateServerInput {
-	s.ServerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/opsworkscm-2016-11-01/UpdateServerResponse
 type UpdateServerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains the response to a UpdateServer request.
 	Server *Server `type:"structure"`
@@ -3001,10 +2459,9 @@ func (s UpdateServerOutput) GoString() string {
 	return s.String()
 }
 
-// SetServer sets the Server field's value.
-func (s *UpdateServerOutput) SetServer(v *Server) *UpdateServerOutput {
-	s.Server = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateServerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type BackupStatus string
@@ -3017,6 +2474,15 @@ const (
 	BackupStatusDeleting   BackupStatus = "DELETING"
 )
 
+func (enum BackupStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BackupStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BackupType string
 
 // Enum values for BackupType
@@ -3025,6 +2491,15 @@ const (
 	BackupTypeManual    BackupType = "MANUAL"
 )
 
+func (enum BackupType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BackupType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MaintenanceStatus string
 
 // Enum values for MaintenanceStatus
@@ -3032,6 +2507,15 @@ const (
 	MaintenanceStatusSuccess MaintenanceStatus = "SUCCESS"
 	MaintenanceStatusFailed  MaintenanceStatus = "FAILED"
 )
+
+func (enum MaintenanceStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MaintenanceStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The status of the association or disassociation request.
 //
@@ -3051,6 +2535,15 @@ const (
 	NodeAssociationStatusInProgress NodeAssociationStatus = "IN_PROGRESS"
 )
 
+func (enum NodeAssociationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NodeAssociationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ServerStatus string
 
 // Enum values for ServerStatus
@@ -3069,3 +2562,12 @@ const (
 	ServerStatusUnhealthy        ServerStatus = "UNHEALTHY"
 	ServerStatusTerminated       ServerStatus = "TERMINATED"
 )
+
+func (enum ServerStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ServerStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

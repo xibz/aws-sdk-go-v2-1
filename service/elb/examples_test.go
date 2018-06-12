@@ -36,10 +36,10 @@ func ExampleELB_AddTagsRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.AddTagsInput{
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
-		Tags: []*elb.Tag{
+		Tags: []elb.Tag{
 			{
 				Key:   aws.String("project"),
 				Value: aws.String("lima"),
@@ -88,8 +88,8 @@ func ExampleELB_ApplySecurityGroupsToLoadBalancerRequest_shared00() {
 	svc := elb.New(cfg)
 	input := &elb.ApplySecurityGroupsToLoadBalancerInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		SecurityGroups: []*string{
-			aws.String("sg-fc448899"),
+		SecurityGroups: []string{
+			"sg-fc448899",
 		},
 	}
 
@@ -131,8 +131,8 @@ func ExampleELB_AttachLoadBalancerToSubnetsRequest_shared00() {
 	svc := elb.New(cfg)
 	input := &elb.AttachLoadBalancerToSubnetsInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		Subnets: []*string{
-			aws.String("subnet-0ecac448"),
+		Subnets: []string{
+			"subnet-0ecac448",
 		},
 	}
 
@@ -305,7 +305,7 @@ func ExampleELB_CreateLoadBalancerRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerInput{
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -314,11 +314,11 @@ func ExampleELB_CreateLoadBalancerRequest_shared00() {
 			},
 		},
 		LoadBalancerName: aws.String("my-load-balancer"),
-		SecurityGroups: []*string{
-			aws.String("sg-a61988c3"),
+		SecurityGroups: []string{
+			"sg-a61988c3",
 		},
-		Subnets: []*string{
-			aws.String("subnet-15aaab61"),
+		Subnets: []string{
+			"subnet-15aaab61",
 		},
 	}
 
@@ -349,6 +349,8 @@ func ExampleELB_CreateLoadBalancerRequest_shared00() {
 				fmt.Println(elb.ErrCodeDuplicateTagKeysException, aerr.Error())
 			case elb.ErrCodeUnsupportedProtocolException:
 				fmt.Println(elb.ErrCodeUnsupportedProtocolException, aerr.Error())
+			case elb.ErrCodeOperationNotPermittedException:
+				fmt.Println(elb.ErrCodeOperationNotPermittedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -374,10 +376,10 @@ func ExampleELB_CreateLoadBalancerRequest_shared01() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerInput{
-		AvailabilityZones: []*string{
-			aws.String("us-west-2a"),
+		AvailabilityZones: []string{
+			"us-west-2a",
 		},
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -415,6 +417,8 @@ func ExampleELB_CreateLoadBalancerRequest_shared01() {
 				fmt.Println(elb.ErrCodeDuplicateTagKeysException, aerr.Error())
 			case elb.ErrCodeUnsupportedProtocolException:
 				fmt.Println(elb.ErrCodeUnsupportedProtocolException, aerr.Error())
+			case elb.ErrCodeOperationNotPermittedException:
+				fmt.Println(elb.ErrCodeOperationNotPermittedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -440,7 +444,7 @@ func ExampleELB_CreateLoadBalancerRequest_shared02() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerInput{
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -456,11 +460,11 @@ func ExampleELB_CreateLoadBalancerRequest_shared02() {
 			},
 		},
 		LoadBalancerName: aws.String("my-load-balancer"),
-		SecurityGroups: []*string{
-			aws.String("sg-a61988c3"),
+		SecurityGroups: []string{
+			"sg-a61988c3",
 		},
-		Subnets: []*string{
-			aws.String("subnet-15aaab61"),
+		Subnets: []string{
+			"subnet-15aaab61",
 		},
 	}
 
@@ -491,6 +495,8 @@ func ExampleELB_CreateLoadBalancerRequest_shared02() {
 				fmt.Println(elb.ErrCodeDuplicateTagKeysException, aerr.Error())
 			case elb.ErrCodeUnsupportedProtocolException:
 				fmt.Println(elb.ErrCodeUnsupportedProtocolException, aerr.Error())
+			case elb.ErrCodeOperationNotPermittedException:
+				fmt.Println(elb.ErrCodeOperationNotPermittedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -516,10 +522,10 @@ func ExampleELB_CreateLoadBalancerRequest_shared03() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerInput{
-		AvailabilityZones: []*string{
-			aws.String("us-west-2a"),
+		AvailabilityZones: []string{
+			"us-west-2a",
 		},
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -564,6 +570,8 @@ func ExampleELB_CreateLoadBalancerRequest_shared03() {
 				fmt.Println(elb.ErrCodeDuplicateTagKeysException, aerr.Error())
 			case elb.ErrCodeUnsupportedProtocolException:
 				fmt.Println(elb.ErrCodeUnsupportedProtocolException, aerr.Error())
+			case elb.ErrCodeOperationNotPermittedException:
+				fmt.Println(elb.ErrCodeOperationNotPermittedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -589,7 +597,7 @@ func ExampleELB_CreateLoadBalancerRequest_shared04() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerInput{
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -599,11 +607,11 @@ func ExampleELB_CreateLoadBalancerRequest_shared04() {
 		},
 		LoadBalancerName: aws.String("my-load-balancer"),
 		Scheme:           aws.String("internal"),
-		SecurityGroups: []*string{
-			aws.String("sg-a61988c3"),
+		SecurityGroups: []string{
+			"sg-a61988c3",
 		},
-		Subnets: []*string{
-			aws.String("subnet-15aaab61"),
+		Subnets: []string{
+			"subnet-15aaab61",
 		},
 	}
 
@@ -634,6 +642,8 @@ func ExampleELB_CreateLoadBalancerRequest_shared04() {
 				fmt.Println(elb.ErrCodeDuplicateTagKeysException, aerr.Error())
 			case elb.ErrCodeUnsupportedProtocolException:
 				fmt.Println(elb.ErrCodeUnsupportedProtocolException, aerr.Error())
+			case elb.ErrCodeOperationNotPermittedException:
+				fmt.Println(elb.ErrCodeOperationNotPermittedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -660,7 +670,7 @@ func ExampleELB_CreateLoadBalancerListenersRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerListenersInput{
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -712,7 +722,7 @@ func ExampleELB_CreateLoadBalancerListenersRequest_shared01() {
 
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerListenersInput{
-		Listeners: []*elb.Listener{
+		Listeners: []elb.Listener{
 			{
 				InstancePort:     aws.Int64(80),
 				InstanceProtocol: aws.String("HTTP"),
@@ -765,7 +775,7 @@ func ExampleELB_CreateLoadBalancerPolicyRequest_shared00() {
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerPolicyInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		PolicyAttributes: []*elb.PolicyAttribute{
+		PolicyAttributes: []elb.PolicyAttribute{
 			{
 				AttributeName:  aws.String("ProxyProtocol"),
 				AttributeValue: aws.String("true"),
@@ -816,7 +826,7 @@ func ExampleELB_CreateLoadBalancerPolicyRequest_shared01() {
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerPolicyInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		PolicyAttributes: []*elb.PolicyAttribute{
+		PolicyAttributes: []elb.PolicyAttribute{
 			{
 				AttributeName:  aws.String("PublicKey"),
 				AttributeValue: aws.String("MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwAYUjnfyEyXr1pxjhFWBpMlggUcqoi3kl+dS74kj//c6x7ROtusUaeQCTgIUkayttRDWchuqo1pHC1u+n5xxXnBBe2ejbb2WRsKIQ5rXEeixsjFpFsojpSQKkzhVGI6mJVZBJDVKSHmswnwLBdofLhzvllpovBPTHe+o4haAWvDBALJU0pkSI1FecPHcs2hwxf14zHoXy1e2k36A64nXW43wtfx5qcVSIxtCEOjnYRg7RPvybaGfQ+v6Iaxb/+7J5kEvZhTFQId+bSiJImF1FSUT1W1xwzBZPUbcUkkXDj45vC2s3Z8E+Lk7a3uZhvsQHLZnrfuWjBWGWvZ/MhZYgEXAMPLE"),
@@ -868,7 +878,7 @@ func ExampleELB_CreateLoadBalancerPolicyRequest_shared02() {
 	svc := elb.New(cfg)
 	input := &elb.CreateLoadBalancerPolicyInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		PolicyAttributes: []*elb.PolicyAttribute{
+		PolicyAttributes: []elb.PolicyAttribute{
 			{
 				AttributeName:  aws.String("PublicKeyPolicyName"),
 				AttributeValue: aws.String("my-PublicKey-policy"),
@@ -953,8 +963,8 @@ func ExampleELB_DeleteLoadBalancerListenersRequest_shared00() {
 	svc := elb.New(cfg)
 	input := &elb.DeleteLoadBalancerListenersInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		LoadBalancerPorts: []*int64{
-			aws.Int64(80),
+		LoadBalancerPorts: []int64{
+			80,
 		},
 	}
 
@@ -1029,7 +1039,7 @@ func ExampleELB_DeregisterInstancesFromLoadBalancerRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.DeregisterInstancesFromLoadBalancerInput{
-		Instances: []*elb.Instance{
+		Instances: []elb.Instance{
 			{
 				InstanceId: aws.String("i-d6f6fae3"),
 			},
@@ -1146,8 +1156,8 @@ func ExampleELB_DescribeLoadBalancerPoliciesRequest_shared00() {
 	svc := elb.New(cfg)
 	input := &elb.DescribeLoadBalancerPoliciesInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		PolicyNames: []*string{
-			aws.String("my-authentication-policy"),
+		PolicyNames: []string{
+			"my-authentication-policy",
 		},
 	}
 
@@ -1185,8 +1195,8 @@ func ExampleELB_DescribeLoadBalancerPolicyTypesRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.DescribeLoadBalancerPolicyTypesInput{
-		PolicyTypeNames: []*string{
-			aws.String("ProxyProtocolPolicyType"),
+		PolicyTypeNames: []string{
+			"ProxyProtocolPolicyType",
 		},
 	}
 
@@ -1222,8 +1232,8 @@ func ExampleELB_DescribeLoadBalancersRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.DescribeLoadBalancersInput{
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
 	}
 
@@ -1261,8 +1271,8 @@ func ExampleELB_DescribeTagsRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.DescribeTagsInput{
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
 	}
 
@@ -1299,8 +1309,8 @@ func ExampleELB_DetachLoadBalancerFromSubnetsRequest_shared00() {
 	svc := elb.New(cfg)
 	input := &elb.DetachLoadBalancerFromSubnetsInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
-		Subnets: []*string{
-			aws.String("subnet-0ecac448"),
+		Subnets: []string{
+			"subnet-0ecac448",
 		},
 	}
 
@@ -1339,8 +1349,8 @@ func ExampleELB_DisableAvailabilityZonesForLoadBalancerRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.DisableAvailabilityZonesForLoadBalancerInput{
-		AvailabilityZones: []*string{
-			aws.String("us-west-2a"),
+		AvailabilityZones: []string{
+			"us-west-2a",
 		},
 		LoadBalancerName: aws.String("my-load-balancer"),
 	}
@@ -1379,8 +1389,8 @@ func ExampleELB_EnableAvailabilityZonesForLoadBalancerRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.EnableAvailabilityZonesForLoadBalancerInput{
-		AvailabilityZones: []*string{
-			aws.String("us-west-2b"),
+		AvailabilityZones: []string{
+			"us-west-2b",
 		},
 		LoadBalancerName: aws.String("my-load-balancer"),
 	}
@@ -1506,7 +1516,7 @@ func ExampleELB_RegisterInstancesWithLoadBalancerRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.RegisterInstancesWithLoadBalancerInput{
-		Instances: []*elb.Instance{
+		Instances: []elb.Instance{
 			{
 				InstanceId: aws.String("i-d6f6fae3"),
 			},
@@ -1548,10 +1558,10 @@ func ExampleELB_RemoveTagsRequest_shared00() {
 
 	svc := elb.New(cfg)
 	input := &elb.RemoveTagsInput{
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
-		Tags: []*elb.TagKeyOnly{
+		Tags: []elb.TagKeyOnly{
 			{
 				Key: aws.String("project"),
 			},
@@ -1638,8 +1648,8 @@ func ExampleELB_SetLoadBalancerPoliciesForBackendServerRequest_shared00() {
 	input := &elb.SetLoadBalancerPoliciesForBackendServerInput{
 		InstancePort:     aws.Int64(80),
 		LoadBalancerName: aws.String("my-load-balancer"),
-		PolicyNames: []*string{
-			aws.String("my-ProxyProtocol-policy"),
+		PolicyNames: []string{
+			"my-ProxyProtocol-policy",
 		},
 	}
 
@@ -1682,8 +1692,8 @@ func ExampleELB_SetLoadBalancerPoliciesOfListenerRequest_shared00() {
 	input := &elb.SetLoadBalancerPoliciesOfListenerInput{
 		LoadBalancerName: aws.String("my-load-balancer"),
 		LoadBalancerPort: aws.Int64(80),
-		PolicyNames: []*string{
-			aws.String("my-SSLNegotiation-policy"),
+		PolicyNames: []string{
+			"my-SSLNegotiation-policy",
 		},
 	}
 

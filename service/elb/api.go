@@ -16,6 +16,7 @@ const opAddTags = "AddTags"
 type AddTagsRequest struct {
 	*aws.Request
 	Input *AddTagsInput
+	Copy  func(*AddTagsInput) AddTagsRequest
 }
 
 // Send marshals and sends the AddTags API request.
@@ -59,8 +60,11 @@ func (c *ELB) AddTagsRequest(input *AddTagsInput) AddTagsRequest {
 		input = &AddTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsOutput{})
-	return AddTagsRequest{Request: req, Input: input}
+	output := &AddTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsRequest{Request: req, Input: input, Copy: c.AddTagsRequest}
 }
 
 const opApplySecurityGroupsToLoadBalancer = "ApplySecurityGroupsToLoadBalancer"
@@ -69,6 +73,7 @@ const opApplySecurityGroupsToLoadBalancer = "ApplySecurityGroupsToLoadBalancer"
 type ApplySecurityGroupsToLoadBalancerRequest struct {
 	*aws.Request
 	Input *ApplySecurityGroupsToLoadBalancerInput
+	Copy  func(*ApplySecurityGroupsToLoadBalancerInput) ApplySecurityGroupsToLoadBalancerRequest
 }
 
 // Send marshals and sends the ApplySecurityGroupsToLoadBalancer API request.
@@ -110,8 +115,11 @@ func (c *ELB) ApplySecurityGroupsToLoadBalancerRequest(input *ApplySecurityGroup
 		input = &ApplySecurityGroupsToLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &ApplySecurityGroupsToLoadBalancerOutput{})
-	return ApplySecurityGroupsToLoadBalancerRequest{Request: req, Input: input}
+	output := &ApplySecurityGroupsToLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ApplySecurityGroupsToLoadBalancerRequest{Request: req, Input: input, Copy: c.ApplySecurityGroupsToLoadBalancerRequest}
 }
 
 const opAttachLoadBalancerToSubnets = "AttachLoadBalancerToSubnets"
@@ -120,6 +128,7 @@ const opAttachLoadBalancerToSubnets = "AttachLoadBalancerToSubnets"
 type AttachLoadBalancerToSubnetsRequest struct {
 	*aws.Request
 	Input *AttachLoadBalancerToSubnetsInput
+	Copy  func(*AttachLoadBalancerToSubnetsInput) AttachLoadBalancerToSubnetsRequest
 }
 
 // Send marshals and sends the AttachLoadBalancerToSubnets API request.
@@ -162,8 +171,11 @@ func (c *ELB) AttachLoadBalancerToSubnetsRequest(input *AttachLoadBalancerToSubn
 		input = &AttachLoadBalancerToSubnetsInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachLoadBalancerToSubnetsOutput{})
-	return AttachLoadBalancerToSubnetsRequest{Request: req, Input: input}
+	output := &AttachLoadBalancerToSubnetsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachLoadBalancerToSubnetsRequest{Request: req, Input: input, Copy: c.AttachLoadBalancerToSubnetsRequest}
 }
 
 const opConfigureHealthCheck = "ConfigureHealthCheck"
@@ -172,6 +184,7 @@ const opConfigureHealthCheck = "ConfigureHealthCheck"
 type ConfigureHealthCheckRequest struct {
 	*aws.Request
 	Input *ConfigureHealthCheckInput
+	Copy  func(*ConfigureHealthCheckInput) ConfigureHealthCheckRequest
 }
 
 // Send marshals and sends the ConfigureHealthCheck API request.
@@ -213,8 +226,11 @@ func (c *ELB) ConfigureHealthCheckRequest(input *ConfigureHealthCheckInput) Conf
 		input = &ConfigureHealthCheckInput{}
 	}
 
-	req := c.newRequest(op, input, &ConfigureHealthCheckOutput{})
-	return ConfigureHealthCheckRequest{Request: req, Input: input}
+	output := &ConfigureHealthCheckOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ConfigureHealthCheckRequest{Request: req, Input: input, Copy: c.ConfigureHealthCheckRequest}
 }
 
 const opCreateAppCookieStickinessPolicy = "CreateAppCookieStickinessPolicy"
@@ -223,6 +239,7 @@ const opCreateAppCookieStickinessPolicy = "CreateAppCookieStickinessPolicy"
 type CreateAppCookieStickinessPolicyRequest struct {
 	*aws.Request
 	Input *CreateAppCookieStickinessPolicyInput
+	Copy  func(*CreateAppCookieStickinessPolicyInput) CreateAppCookieStickinessPolicyRequest
 }
 
 // Send marshals and sends the CreateAppCookieStickinessPolicy API request.
@@ -273,8 +290,11 @@ func (c *ELB) CreateAppCookieStickinessPolicyRequest(input *CreateAppCookieStick
 		input = &CreateAppCookieStickinessPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAppCookieStickinessPolicyOutput{})
-	return CreateAppCookieStickinessPolicyRequest{Request: req, Input: input}
+	output := &CreateAppCookieStickinessPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAppCookieStickinessPolicyRequest{Request: req, Input: input, Copy: c.CreateAppCookieStickinessPolicyRequest}
 }
 
 const opCreateLBCookieStickinessPolicy = "CreateLBCookieStickinessPolicy"
@@ -283,6 +303,7 @@ const opCreateLBCookieStickinessPolicy = "CreateLBCookieStickinessPolicy"
 type CreateLBCookieStickinessPolicyRequest struct {
 	*aws.Request
 	Input *CreateLBCookieStickinessPolicyInput
+	Copy  func(*CreateLBCookieStickinessPolicyInput) CreateLBCookieStickinessPolicyRequest
 }
 
 // Send marshals and sends the CreateLBCookieStickinessPolicy API request.
@@ -335,8 +356,11 @@ func (c *ELB) CreateLBCookieStickinessPolicyRequest(input *CreateLBCookieStickin
 		input = &CreateLBCookieStickinessPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLBCookieStickinessPolicyOutput{})
-	return CreateLBCookieStickinessPolicyRequest{Request: req, Input: input}
+	output := &CreateLBCookieStickinessPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLBCookieStickinessPolicyRequest{Request: req, Input: input, Copy: c.CreateLBCookieStickinessPolicyRequest}
 }
 
 const opCreateLoadBalancer = "CreateLoadBalancer"
@@ -345,6 +369,7 @@ const opCreateLoadBalancer = "CreateLoadBalancer"
 type CreateLoadBalancerRequest struct {
 	*aws.Request
 	Input *CreateLoadBalancerInput
+	Copy  func(*CreateLoadBalancerInput) CreateLoadBalancerRequest
 }
 
 // Send marshals and sends the CreateLoadBalancer API request.
@@ -393,8 +418,11 @@ func (c *ELB) CreateLoadBalancerRequest(input *CreateLoadBalancerInput) CreateLo
 		input = &CreateLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLoadBalancerOutput{})
-	return CreateLoadBalancerRequest{Request: req, Input: input}
+	output := &CreateLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLoadBalancerRequest{Request: req, Input: input, Copy: c.CreateLoadBalancerRequest}
 }
 
 const opCreateLoadBalancerListeners = "CreateLoadBalancerListeners"
@@ -403,6 +431,7 @@ const opCreateLoadBalancerListeners = "CreateLoadBalancerListeners"
 type CreateLoadBalancerListenersRequest struct {
 	*aws.Request
 	Input *CreateLoadBalancerListenersInput
+	Copy  func(*CreateLoadBalancerListenersInput) CreateLoadBalancerListenersRequest
 }
 
 // Send marshals and sends the CreateLoadBalancerListeners API request.
@@ -445,8 +474,11 @@ func (c *ELB) CreateLoadBalancerListenersRequest(input *CreateLoadBalancerListen
 		input = &CreateLoadBalancerListenersInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLoadBalancerListenersOutput{})
-	return CreateLoadBalancerListenersRequest{Request: req, Input: input}
+	output := &CreateLoadBalancerListenersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLoadBalancerListenersRequest{Request: req, Input: input, Copy: c.CreateLoadBalancerListenersRequest}
 }
 
 const opCreateLoadBalancerPolicy = "CreateLoadBalancerPolicy"
@@ -455,6 +487,7 @@ const opCreateLoadBalancerPolicy = "CreateLoadBalancerPolicy"
 type CreateLoadBalancerPolicyRequest struct {
 	*aws.Request
 	Input *CreateLoadBalancerPolicyInput
+	Copy  func(*CreateLoadBalancerPolicyInput) CreateLoadBalancerPolicyRequest
 }
 
 // Send marshals and sends the CreateLoadBalancerPolicy API request.
@@ -495,8 +528,11 @@ func (c *ELB) CreateLoadBalancerPolicyRequest(input *CreateLoadBalancerPolicyInp
 		input = &CreateLoadBalancerPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLoadBalancerPolicyOutput{})
-	return CreateLoadBalancerPolicyRequest{Request: req, Input: input}
+	output := &CreateLoadBalancerPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLoadBalancerPolicyRequest{Request: req, Input: input, Copy: c.CreateLoadBalancerPolicyRequest}
 }
 
 const opDeleteLoadBalancer = "DeleteLoadBalancer"
@@ -505,6 +541,7 @@ const opDeleteLoadBalancer = "DeleteLoadBalancer"
 type DeleteLoadBalancerRequest struct {
 	*aws.Request
 	Input *DeleteLoadBalancerInput
+	Copy  func(*DeleteLoadBalancerInput) DeleteLoadBalancerRequest
 }
 
 // Send marshals and sends the DeleteLoadBalancer API request.
@@ -550,8 +587,11 @@ func (c *ELB) DeleteLoadBalancerRequest(input *DeleteLoadBalancerInput) DeleteLo
 		input = &DeleteLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLoadBalancerOutput{})
-	return DeleteLoadBalancerRequest{Request: req, Input: input}
+	output := &DeleteLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLoadBalancerRequest{Request: req, Input: input, Copy: c.DeleteLoadBalancerRequest}
 }
 
 const opDeleteLoadBalancerListeners = "DeleteLoadBalancerListeners"
@@ -560,6 +600,7 @@ const opDeleteLoadBalancerListeners = "DeleteLoadBalancerListeners"
 type DeleteLoadBalancerListenersRequest struct {
 	*aws.Request
 	Input *DeleteLoadBalancerListenersInput
+	Copy  func(*DeleteLoadBalancerListenersInput) DeleteLoadBalancerListenersRequest
 }
 
 // Send marshals and sends the DeleteLoadBalancerListeners API request.
@@ -596,8 +637,11 @@ func (c *ELB) DeleteLoadBalancerListenersRequest(input *DeleteLoadBalancerListen
 		input = &DeleteLoadBalancerListenersInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLoadBalancerListenersOutput{})
-	return DeleteLoadBalancerListenersRequest{Request: req, Input: input}
+	output := &DeleteLoadBalancerListenersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLoadBalancerListenersRequest{Request: req, Input: input, Copy: c.DeleteLoadBalancerListenersRequest}
 }
 
 const opDeleteLoadBalancerPolicy = "DeleteLoadBalancerPolicy"
@@ -606,6 +650,7 @@ const opDeleteLoadBalancerPolicy = "DeleteLoadBalancerPolicy"
 type DeleteLoadBalancerPolicyRequest struct {
 	*aws.Request
 	Input *DeleteLoadBalancerPolicyInput
+	Copy  func(*DeleteLoadBalancerPolicyInput) DeleteLoadBalancerPolicyRequest
 }
 
 // Send marshals and sends the DeleteLoadBalancerPolicy API request.
@@ -643,8 +688,11 @@ func (c *ELB) DeleteLoadBalancerPolicyRequest(input *DeleteLoadBalancerPolicyInp
 		input = &DeleteLoadBalancerPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLoadBalancerPolicyOutput{})
-	return DeleteLoadBalancerPolicyRequest{Request: req, Input: input}
+	output := &DeleteLoadBalancerPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLoadBalancerPolicyRequest{Request: req, Input: input, Copy: c.DeleteLoadBalancerPolicyRequest}
 }
 
 const opDeregisterInstancesFromLoadBalancer = "DeregisterInstancesFromLoadBalancer"
@@ -653,6 +701,7 @@ const opDeregisterInstancesFromLoadBalancer = "DeregisterInstancesFromLoadBalanc
 type DeregisterInstancesFromLoadBalancerRequest struct {
 	*aws.Request
 	Input *DeregisterInstancesFromLoadBalancerInput
+	Copy  func(*DeregisterInstancesFromLoadBalancerInput) DeregisterInstancesFromLoadBalancerRequest
 }
 
 // Send marshals and sends the DeregisterInstancesFromLoadBalancer API request.
@@ -697,8 +746,11 @@ func (c *ELB) DeregisterInstancesFromLoadBalancerRequest(input *DeregisterInstan
 		input = &DeregisterInstancesFromLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &DeregisterInstancesFromLoadBalancerOutput{})
-	return DeregisterInstancesFromLoadBalancerRequest{Request: req, Input: input}
+	output := &DeregisterInstancesFromLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterInstancesFromLoadBalancerRequest{Request: req, Input: input, Copy: c.DeregisterInstancesFromLoadBalancerRequest}
 }
 
 const opDescribeAccountLimits = "DescribeAccountLimits"
@@ -707,6 +759,7 @@ const opDescribeAccountLimits = "DescribeAccountLimits"
 type DescribeAccountLimitsRequest struct {
 	*aws.Request
 	Input *DescribeAccountLimitsInput
+	Copy  func(*DescribeAccountLimitsInput) DescribeAccountLimitsRequest
 }
 
 // Send marshals and sends the DescribeAccountLimits API request.
@@ -747,8 +800,11 @@ func (c *ELB) DescribeAccountLimitsRequest(input *DescribeAccountLimitsInput) De
 		input = &DescribeAccountLimitsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAccountLimitsOutput{})
-	return DescribeAccountLimitsRequest{Request: req, Input: input}
+	output := &DescribeAccountLimitsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAccountLimitsRequest{Request: req, Input: input, Copy: c.DescribeAccountLimitsRequest}
 }
 
 const opDescribeInstanceHealth = "DescribeInstanceHealth"
@@ -757,6 +813,7 @@ const opDescribeInstanceHealth = "DescribeInstanceHealth"
 type DescribeInstanceHealthRequest struct {
 	*aws.Request
 	Input *DescribeInstanceHealthInput
+	Copy  func(*DescribeInstanceHealthInput) DescribeInstanceHealthRequest
 }
 
 // Send marshals and sends the DescribeInstanceHealth API request.
@@ -798,8 +855,11 @@ func (c *ELB) DescribeInstanceHealthRequest(input *DescribeInstanceHealthInput) 
 		input = &DescribeInstanceHealthInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstanceHealthOutput{})
-	return DescribeInstanceHealthRequest{Request: req, Input: input}
+	output := &DescribeInstanceHealthOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstanceHealthRequest{Request: req, Input: input, Copy: c.DescribeInstanceHealthRequest}
 }
 
 const opDescribeLoadBalancerAttributes = "DescribeLoadBalancerAttributes"
@@ -808,6 +868,7 @@ const opDescribeLoadBalancerAttributes = "DescribeLoadBalancerAttributes"
 type DescribeLoadBalancerAttributesRequest struct {
 	*aws.Request
 	Input *DescribeLoadBalancerAttributesInput
+	Copy  func(*DescribeLoadBalancerAttributesInput) DescribeLoadBalancerAttributesRequest
 }
 
 // Send marshals and sends the DescribeLoadBalancerAttributes API request.
@@ -844,8 +905,11 @@ func (c *ELB) DescribeLoadBalancerAttributesRequest(input *DescribeLoadBalancerA
 		input = &DescribeLoadBalancerAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLoadBalancerAttributesOutput{})
-	return DescribeLoadBalancerAttributesRequest{Request: req, Input: input}
+	output := &DescribeLoadBalancerAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoadBalancerAttributesRequest{Request: req, Input: input, Copy: c.DescribeLoadBalancerAttributesRequest}
 }
 
 const opDescribeLoadBalancerPolicies = "DescribeLoadBalancerPolicies"
@@ -854,6 +918,7 @@ const opDescribeLoadBalancerPolicies = "DescribeLoadBalancerPolicies"
 type DescribeLoadBalancerPoliciesRequest struct {
 	*aws.Request
 	Input *DescribeLoadBalancerPoliciesInput
+	Copy  func(*DescribeLoadBalancerPoliciesInput) DescribeLoadBalancerPoliciesRequest
 }
 
 // Send marshals and sends the DescribeLoadBalancerPolicies API request.
@@ -897,8 +962,11 @@ func (c *ELB) DescribeLoadBalancerPoliciesRequest(input *DescribeLoadBalancerPol
 		input = &DescribeLoadBalancerPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLoadBalancerPoliciesOutput{})
-	return DescribeLoadBalancerPoliciesRequest{Request: req, Input: input}
+	output := &DescribeLoadBalancerPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoadBalancerPoliciesRequest{Request: req, Input: input, Copy: c.DescribeLoadBalancerPoliciesRequest}
 }
 
 const opDescribeLoadBalancerPolicyTypes = "DescribeLoadBalancerPolicyTypes"
@@ -907,6 +975,7 @@ const opDescribeLoadBalancerPolicyTypes = "DescribeLoadBalancerPolicyTypes"
 type DescribeLoadBalancerPolicyTypesRequest struct {
 	*aws.Request
 	Input *DescribeLoadBalancerPolicyTypesInput
+	Copy  func(*DescribeLoadBalancerPolicyTypesInput) DescribeLoadBalancerPolicyTypesRequest
 }
 
 // Send marshals and sends the DescribeLoadBalancerPolicyTypes API request.
@@ -954,8 +1023,11 @@ func (c *ELB) DescribeLoadBalancerPolicyTypesRequest(input *DescribeLoadBalancer
 		input = &DescribeLoadBalancerPolicyTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLoadBalancerPolicyTypesOutput{})
-	return DescribeLoadBalancerPolicyTypesRequest{Request: req, Input: input}
+	output := &DescribeLoadBalancerPolicyTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoadBalancerPolicyTypesRequest{Request: req, Input: input, Copy: c.DescribeLoadBalancerPolicyTypesRequest}
 }
 
 const opDescribeLoadBalancers = "DescribeLoadBalancers"
@@ -964,6 +1036,7 @@ const opDescribeLoadBalancers = "DescribeLoadBalancers"
 type DescribeLoadBalancersRequest struct {
 	*aws.Request
 	Input *DescribeLoadBalancersInput
+	Copy  func(*DescribeLoadBalancersInput) DescribeLoadBalancersRequest
 }
 
 // Send marshals and sends the DescribeLoadBalancers API request.
@@ -1007,58 +1080,57 @@ func (c *ELB) DescribeLoadBalancersRequest(input *DescribeLoadBalancersInput) De
 		input = &DescribeLoadBalancersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLoadBalancersOutput{})
-	return DescribeLoadBalancersRequest{Request: req, Input: input}
+	output := &DescribeLoadBalancersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoadBalancersRequest{Request: req, Input: input, Copy: c.DescribeLoadBalancersRequest}
 }
 
-// DescribeLoadBalancersPages iterates over the pages of a DescribeLoadBalancers operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeLoadBalancers method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeLoadBalancersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeLoadBalancers operation.
-//    pageNum := 0
-//    err := client.DescribeLoadBalancersPages(params,
-//        func(page *DescribeLoadBalancersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeLoadBalancersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ELB) DescribeLoadBalancersPages(input *DescribeLoadBalancersInput, fn func(*DescribeLoadBalancersOutput, bool) bool) error {
-	return c.DescribeLoadBalancersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeLoadBalancersRequest) Paginate(opts ...aws.Option) DescribeLoadBalancersPager {
+	return DescribeLoadBalancersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeLoadBalancersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeLoadBalancersPagesWithContext same as DescribeLoadBalancersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ELB) DescribeLoadBalancersPagesWithContext(ctx aws.Context, input *DescribeLoadBalancersInput, fn func(*DescribeLoadBalancersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeLoadBalancersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeLoadBalancersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeLoadBalancersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeLoadBalancersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeLoadBalancersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeLoadBalancersPager) CurrentPage() *DescribeLoadBalancersOutput {
+	return p.Pager.CurrentPage().(*DescribeLoadBalancersOutput)
 }
 
 const opDescribeTags = "DescribeTags"
@@ -1067,6 +1139,7 @@ const opDescribeTags = "DescribeTags"
 type DescribeTagsRequest struct {
 	*aws.Request
 	Input *DescribeTagsInput
+	Copy  func(*DescribeTagsInput) DescribeTagsRequest
 }
 
 // Send marshals and sends the DescribeTags API request.
@@ -1103,8 +1176,11 @@ func (c *ELB) DescribeTagsRequest(input *DescribeTagsInput) DescribeTagsRequest 
 		input = &DescribeTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTagsOutput{})
-	return DescribeTagsRequest{Request: req, Input: input}
+	output := &DescribeTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTagsRequest{Request: req, Input: input, Copy: c.DescribeTagsRequest}
 }
 
 const opDetachLoadBalancerFromSubnets = "DetachLoadBalancerFromSubnets"
@@ -1113,6 +1189,7 @@ const opDetachLoadBalancerFromSubnets = "DetachLoadBalancerFromSubnets"
 type DetachLoadBalancerFromSubnetsRequest struct {
 	*aws.Request
 	Input *DetachLoadBalancerFromSubnetsInput
+	Copy  func(*DetachLoadBalancerFromSubnetsInput) DetachLoadBalancerFromSubnetsRequest
 }
 
 // Send marshals and sends the DetachLoadBalancerFromSubnets API request.
@@ -1154,8 +1231,11 @@ func (c *ELB) DetachLoadBalancerFromSubnetsRequest(input *DetachLoadBalancerFrom
 		input = &DetachLoadBalancerFromSubnetsInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachLoadBalancerFromSubnetsOutput{})
-	return DetachLoadBalancerFromSubnetsRequest{Request: req, Input: input}
+	output := &DetachLoadBalancerFromSubnetsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachLoadBalancerFromSubnetsRequest{Request: req, Input: input, Copy: c.DetachLoadBalancerFromSubnetsRequest}
 }
 
 const opDisableAvailabilityZonesForLoadBalancer = "DisableAvailabilityZonesForLoadBalancer"
@@ -1164,6 +1244,7 @@ const opDisableAvailabilityZonesForLoadBalancer = "DisableAvailabilityZonesForLo
 type DisableAvailabilityZonesForLoadBalancerRequest struct {
 	*aws.Request
 	Input *DisableAvailabilityZonesForLoadBalancerInput
+	Copy  func(*DisableAvailabilityZonesForLoadBalancerInput) DisableAvailabilityZonesForLoadBalancerRequest
 }
 
 // Send marshals and sends the DisableAvailabilityZonesForLoadBalancer API request.
@@ -1210,8 +1291,11 @@ func (c *ELB) DisableAvailabilityZonesForLoadBalancerRequest(input *DisableAvail
 		input = &DisableAvailabilityZonesForLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableAvailabilityZonesForLoadBalancerOutput{})
-	return DisableAvailabilityZonesForLoadBalancerRequest{Request: req, Input: input}
+	output := &DisableAvailabilityZonesForLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableAvailabilityZonesForLoadBalancerRequest{Request: req, Input: input, Copy: c.DisableAvailabilityZonesForLoadBalancerRequest}
 }
 
 const opEnableAvailabilityZonesForLoadBalancer = "EnableAvailabilityZonesForLoadBalancer"
@@ -1220,6 +1304,7 @@ const opEnableAvailabilityZonesForLoadBalancer = "EnableAvailabilityZonesForLoad
 type EnableAvailabilityZonesForLoadBalancerRequest struct {
 	*aws.Request
 	Input *EnableAvailabilityZonesForLoadBalancerInput
+	Copy  func(*EnableAvailabilityZonesForLoadBalancerInput) EnableAvailabilityZonesForLoadBalancerRequest
 }
 
 // Send marshals and sends the EnableAvailabilityZonesForLoadBalancer API request.
@@ -1263,8 +1348,11 @@ func (c *ELB) EnableAvailabilityZonesForLoadBalancerRequest(input *EnableAvailab
 		input = &EnableAvailabilityZonesForLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableAvailabilityZonesForLoadBalancerOutput{})
-	return EnableAvailabilityZonesForLoadBalancerRequest{Request: req, Input: input}
+	output := &EnableAvailabilityZonesForLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableAvailabilityZonesForLoadBalancerRequest{Request: req, Input: input, Copy: c.EnableAvailabilityZonesForLoadBalancerRequest}
 }
 
 const opModifyLoadBalancerAttributes = "ModifyLoadBalancerAttributes"
@@ -1273,6 +1361,7 @@ const opModifyLoadBalancerAttributes = "ModifyLoadBalancerAttributes"
 type ModifyLoadBalancerAttributesRequest struct {
 	*aws.Request
 	Input *ModifyLoadBalancerAttributesInput
+	Copy  func(*ModifyLoadBalancerAttributesInput) ModifyLoadBalancerAttributesRequest
 }
 
 // Send marshals and sends the ModifyLoadBalancerAttributes API request.
@@ -1324,8 +1413,11 @@ func (c *ELB) ModifyLoadBalancerAttributesRequest(input *ModifyLoadBalancerAttri
 		input = &ModifyLoadBalancerAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyLoadBalancerAttributesOutput{})
-	return ModifyLoadBalancerAttributesRequest{Request: req, Input: input}
+	output := &ModifyLoadBalancerAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyLoadBalancerAttributesRequest{Request: req, Input: input, Copy: c.ModifyLoadBalancerAttributesRequest}
 }
 
 const opRegisterInstancesWithLoadBalancer = "RegisterInstancesWithLoadBalancer"
@@ -1334,6 +1426,7 @@ const opRegisterInstancesWithLoadBalancer = "RegisterInstancesWithLoadBalancer"
 type RegisterInstancesWithLoadBalancerRequest struct {
 	*aws.Request
 	Input *RegisterInstancesWithLoadBalancerInput
+	Copy  func(*RegisterInstancesWithLoadBalancerInput) RegisterInstancesWithLoadBalancerRequest
 }
 
 // Send marshals and sends the RegisterInstancesWithLoadBalancer API request.
@@ -1392,8 +1485,11 @@ func (c *ELB) RegisterInstancesWithLoadBalancerRequest(input *RegisterInstancesW
 		input = &RegisterInstancesWithLoadBalancerInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterInstancesWithLoadBalancerOutput{})
-	return RegisterInstancesWithLoadBalancerRequest{Request: req, Input: input}
+	output := &RegisterInstancesWithLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterInstancesWithLoadBalancerRequest{Request: req, Input: input, Copy: c.RegisterInstancesWithLoadBalancerRequest}
 }
 
 const opRemoveTags = "RemoveTags"
@@ -1402,6 +1498,7 @@ const opRemoveTags = "RemoveTags"
 type RemoveTagsRequest struct {
 	*aws.Request
 	Input *RemoveTagsInput
+	Copy  func(*RemoveTagsInput) RemoveTagsRequest
 }
 
 // Send marshals and sends the RemoveTags API request.
@@ -1438,8 +1535,11 @@ func (c *ELB) RemoveTagsRequest(input *RemoveTagsInput) RemoveTagsRequest {
 		input = &RemoveTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsOutput{})
-	return RemoveTagsRequest{Request: req, Input: input}
+	output := &RemoveTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsRequest{Request: req, Input: input, Copy: c.RemoveTagsRequest}
 }
 
 const opSetLoadBalancerListenerSSLCertificate = "SetLoadBalancerListenerSSLCertificate"
@@ -1448,6 +1548,7 @@ const opSetLoadBalancerListenerSSLCertificate = "SetLoadBalancerListenerSSLCerti
 type SetLoadBalancerListenerSSLCertificateRequest struct {
 	*aws.Request
 	Input *SetLoadBalancerListenerSSLCertificateInput
+	Copy  func(*SetLoadBalancerListenerSSLCertificateInput) SetLoadBalancerListenerSSLCertificateRequest
 }
 
 // Send marshals and sends the SetLoadBalancerListenerSSLCertificate API request.
@@ -1490,8 +1591,11 @@ func (c *ELB) SetLoadBalancerListenerSSLCertificateRequest(input *SetLoadBalance
 		input = &SetLoadBalancerListenerSSLCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &SetLoadBalancerListenerSSLCertificateOutput{})
-	return SetLoadBalancerListenerSSLCertificateRequest{Request: req, Input: input}
+	output := &SetLoadBalancerListenerSSLCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetLoadBalancerListenerSSLCertificateRequest{Request: req, Input: input, Copy: c.SetLoadBalancerListenerSSLCertificateRequest}
 }
 
 const opSetLoadBalancerPoliciesForBackendServer = "SetLoadBalancerPoliciesForBackendServer"
@@ -1500,6 +1604,7 @@ const opSetLoadBalancerPoliciesForBackendServer = "SetLoadBalancerPoliciesForBac
 type SetLoadBalancerPoliciesForBackendServerRequest struct {
 	*aws.Request
 	Input *SetLoadBalancerPoliciesForBackendServerInput
+	Copy  func(*SetLoadBalancerPoliciesForBackendServerInput) SetLoadBalancerPoliciesForBackendServerRequest
 }
 
 // Send marshals and sends the SetLoadBalancerPoliciesForBackendServer API request.
@@ -1551,8 +1656,11 @@ func (c *ELB) SetLoadBalancerPoliciesForBackendServerRequest(input *SetLoadBalan
 		input = &SetLoadBalancerPoliciesForBackendServerInput{}
 	}
 
-	req := c.newRequest(op, input, &SetLoadBalancerPoliciesForBackendServerOutput{})
-	return SetLoadBalancerPoliciesForBackendServerRequest{Request: req, Input: input}
+	output := &SetLoadBalancerPoliciesForBackendServerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetLoadBalancerPoliciesForBackendServerRequest{Request: req, Input: input, Copy: c.SetLoadBalancerPoliciesForBackendServerRequest}
 }
 
 const opSetLoadBalancerPoliciesOfListener = "SetLoadBalancerPoliciesOfListener"
@@ -1561,6 +1669,7 @@ const opSetLoadBalancerPoliciesOfListener = "SetLoadBalancerPoliciesOfListener"
 type SetLoadBalancerPoliciesOfListenerRequest struct {
 	*aws.Request
 	Input *SetLoadBalancerPoliciesOfListenerInput
+	Copy  func(*SetLoadBalancerPoliciesOfListenerInput) SetLoadBalancerPoliciesOfListenerRequest
 }
 
 // Send marshals and sends the SetLoadBalancerPoliciesOfListener API request.
@@ -1606,8 +1715,11 @@ func (c *ELB) SetLoadBalancerPoliciesOfListenerRequest(input *SetLoadBalancerPol
 		input = &SetLoadBalancerPoliciesOfListenerInput{}
 	}
 
-	req := c.newRequest(op, input, &SetLoadBalancerPoliciesOfListenerOutput{})
-	return SetLoadBalancerPoliciesOfListenerRequest{Request: req, Input: input}
+	output := &SetLoadBalancerPoliciesOfListenerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetLoadBalancerPoliciesOfListenerRequest{Request: req, Input: input, Copy: c.SetLoadBalancerPoliciesOfListenerRequest}
 }
 
 // Information about the AccessLog attribute.
@@ -1659,30 +1771,6 @@ func (s *AccessLog) Validate() error {
 	return nil
 }
 
-// SetEmitInterval sets the EmitInterval field's value.
-func (s *AccessLog) SetEmitInterval(v int64) *AccessLog {
-	s.EmitInterval = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *AccessLog) SetEnabled(v bool) *AccessLog {
-	s.Enabled = &v
-	return s
-}
-
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *AccessLog) SetS3BucketName(v string) *AccessLog {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3BucketPrefix sets the S3BucketPrefix field's value.
-func (s *AccessLog) SetS3BucketPrefix(v string) *AccessLog {
-	s.S3BucketPrefix = &v
-	return s
-}
-
 // Contains the parameters for AddTags.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/AddTagsInput
 type AddTagsInput struct {
@@ -1691,12 +1779,12 @@ type AddTagsInput struct {
 	// The name of the load balancer. You can specify one load balancer only.
 	//
 	// LoadBalancerNames is a required field
-	LoadBalancerNames []*string `type:"list" required:"true"`
+	LoadBalancerNames []string `type:"list" required:"true"`
 
 	// The tags.
 	//
 	// Tags is a required field
-	Tags []*Tag `min:"1" type:"list" required:"true"`
+	Tags []Tag `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1725,9 +1813,6 @@ func (s *AddTagsInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -1740,22 +1825,12 @@ func (s *AddTagsInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *AddTagsInput) SetLoadBalancerNames(v []*string) *AddTagsInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AddTagsInput) SetTags(v []*Tag) *AddTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Contains the output of AddTags.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/AddTagsOutput
 type AddTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1766,6 +1841,11 @@ func (s AddTagsOutput) String() string {
 // GoString returns the string representation
 func (s AddTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // This data type is reserved.
@@ -1788,18 +1868,6 @@ func (s AdditionalAttribute) String() string {
 // GoString returns the string representation
 func (s AdditionalAttribute) GoString() string {
 	return s.String()
-}
-
-// SetKey sets the Key field's value.
-func (s *AdditionalAttribute) SetKey(v string) *AdditionalAttribute {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *AdditionalAttribute) SetValue(v string) *AdditionalAttribute {
-	s.Value = &v
-	return s
 }
 
 // Information about a policy for application-controlled session stickiness.
@@ -1825,18 +1893,6 @@ func (s AppCookieStickinessPolicy) GoString() string {
 	return s.String()
 }
 
-// SetCookieName sets the CookieName field's value.
-func (s *AppCookieStickinessPolicy) SetCookieName(v string) *AppCookieStickinessPolicy {
-	s.CookieName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *AppCookieStickinessPolicy) SetPolicyName(v string) *AppCookieStickinessPolicy {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains the parameters for ApplySecurityGroupsToLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/ApplySecurityGroupsToLoadBalancerInput
 type ApplySecurityGroupsToLoadBalancerInput struct {
@@ -1851,7 +1907,7 @@ type ApplySecurityGroupsToLoadBalancerInput struct {
 	// that you cannot specify the name of the security group.
 	//
 	// SecurityGroups is a required field
-	SecurityGroups []*string `type:"list" required:"true"`
+	SecurityGroups []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1882,25 +1938,15 @@ func (s *ApplySecurityGroupsToLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *ApplySecurityGroupsToLoadBalancerInput) SetLoadBalancerName(v string) *ApplySecurityGroupsToLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetSecurityGroups sets the SecurityGroups field's value.
-func (s *ApplySecurityGroupsToLoadBalancerInput) SetSecurityGroups(v []*string) *ApplySecurityGroupsToLoadBalancerInput {
-	s.SecurityGroups = v
-	return s
-}
-
 // Contains the output of ApplySecurityGroupsToLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/ApplySecurityGroupsToLoadBalancerOutput
 type ApplySecurityGroupsToLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The IDs of the security groups associated with the load balancer.
-	SecurityGroups []*string `type:"list"`
+	SecurityGroups []string `type:"list"`
 }
 
 // String returns the string representation
@@ -1913,10 +1959,9 @@ func (s ApplySecurityGroupsToLoadBalancerOutput) GoString() string {
 	return s.String()
 }
 
-// SetSecurityGroups sets the SecurityGroups field's value.
-func (s *ApplySecurityGroupsToLoadBalancerOutput) SetSecurityGroups(v []*string) *ApplySecurityGroupsToLoadBalancerOutput {
-	s.SecurityGroups = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ApplySecurityGroupsToLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for AttachLoaBalancerToSubnets.
@@ -1933,7 +1978,7 @@ type AttachLoadBalancerToSubnetsInput struct {
 	// Zone.
 	//
 	// Subnets is a required field
-	Subnets []*string `type:"list" required:"true"`
+	Subnets []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1964,25 +2009,15 @@ func (s *AttachLoadBalancerToSubnetsInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *AttachLoadBalancerToSubnetsInput) SetLoadBalancerName(v string) *AttachLoadBalancerToSubnetsInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetSubnets sets the Subnets field's value.
-func (s *AttachLoadBalancerToSubnetsInput) SetSubnets(v []*string) *AttachLoadBalancerToSubnetsInput {
-	s.Subnets = v
-	return s
-}
-
 // Contains the output of AttachLoadBalancerToSubnets.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/AttachLoadBalancerToSubnetsOutput
 type AttachLoadBalancerToSubnetsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The IDs of the subnets attached to the load balancer.
-	Subnets []*string `type:"list"`
+	Subnets []string `type:"list"`
 }
 
 // String returns the string representation
@@ -1995,10 +2030,9 @@ func (s AttachLoadBalancerToSubnetsOutput) GoString() string {
 	return s.String()
 }
 
-// SetSubnets sets the Subnets field's value.
-func (s *AttachLoadBalancerToSubnetsOutput) SetSubnets(v []*string) *AttachLoadBalancerToSubnetsOutput {
-	s.Subnets = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachLoadBalancerToSubnetsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about the configuration of an EC2 instance.
@@ -2010,7 +2044,7 @@ type BackendServerDescription struct {
 	InstancePort *int64 `min:"1" type:"integer"`
 
 	// The names of the policies enabled for the EC2 instance.
-	PolicyNames []*string `type:"list"`
+	PolicyNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2021,18 +2055,6 @@ func (s BackendServerDescription) String() string {
 // GoString returns the string representation
 func (s BackendServerDescription) GoString() string {
 	return s.String()
-}
-
-// SetInstancePort sets the InstancePort field's value.
-func (s *BackendServerDescription) SetInstancePort(v int64) *BackendServerDescription {
-	s.InstancePort = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *BackendServerDescription) SetPolicyNames(v []*string) *BackendServerDescription {
-	s.PolicyNames = v
-	return s
 }
 
 // Contains the parameters for ConfigureHealthCheck.
@@ -2084,22 +2106,12 @@ func (s *ConfigureHealthCheckInput) Validate() error {
 	return nil
 }
 
-// SetHealthCheck sets the HealthCheck field's value.
-func (s *ConfigureHealthCheckInput) SetHealthCheck(v *HealthCheck) *ConfigureHealthCheckInput {
-	s.HealthCheck = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *ConfigureHealthCheckInput) SetLoadBalancerName(v string) *ConfigureHealthCheckInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output of ConfigureHealthCheck.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/ConfigureHealthCheckOutput
 type ConfigureHealthCheckOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The updated health check.
 	HealthCheck *HealthCheck `type:"structure"`
@@ -2115,10 +2127,9 @@ func (s ConfigureHealthCheckOutput) GoString() string {
 	return s.String()
 }
 
-// SetHealthCheck sets the HealthCheck field's value.
-func (s *ConfigureHealthCheckOutput) SetHealthCheck(v *HealthCheck) *ConfigureHealthCheckOutput {
-	s.HealthCheck = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ConfigureHealthCheckOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about the ConnectionDraining attribute.
@@ -2160,18 +2171,6 @@ func (s *ConnectionDraining) Validate() error {
 	return nil
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *ConnectionDraining) SetEnabled(v bool) *ConnectionDraining {
-	s.Enabled = &v
-	return s
-}
-
-// SetTimeout sets the Timeout field's value.
-func (s *ConnectionDraining) SetTimeout(v int64) *ConnectionDraining {
-	s.Timeout = &v
-	return s
-}
-
 // Information about the ConnectionSettings attribute.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/ConnectionSettings
 type ConnectionSettings struct {
@@ -2209,12 +2208,6 @@ func (s *ConnectionSettings) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetIdleTimeout sets the IdleTimeout field's value.
-func (s *ConnectionSettings) SetIdleTimeout(v int64) *ConnectionSettings {
-	s.IdleTimeout = &v
-	return s
 }
 
 // Contains the parameters for CreateAppCookieStickinessPolicy.
@@ -2272,28 +2265,12 @@ func (s *CreateAppCookieStickinessPolicyInput) Validate() error {
 	return nil
 }
 
-// SetCookieName sets the CookieName field's value.
-func (s *CreateAppCookieStickinessPolicyInput) SetCookieName(v string) *CreateAppCookieStickinessPolicyInput {
-	s.CookieName = &v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *CreateAppCookieStickinessPolicyInput) SetLoadBalancerName(v string) *CreateAppCookieStickinessPolicyInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *CreateAppCookieStickinessPolicyInput) SetPolicyName(v string) *CreateAppCookieStickinessPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains the output for CreateAppCookieStickinessPolicy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/CreateAppCookieStickinessPolicyOutput
 type CreateAppCookieStickinessPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2304,6 +2281,11 @@ func (s CreateAppCookieStickinessPolicyOutput) String() string {
 // GoString returns the string representation
 func (s CreateAppCookieStickinessPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAppCookieStickinessPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for CreateLBCookieStickinessPolicy.
@@ -2358,28 +2340,12 @@ func (s *CreateLBCookieStickinessPolicyInput) Validate() error {
 	return nil
 }
 
-// SetCookieExpirationPeriod sets the CookieExpirationPeriod field's value.
-func (s *CreateLBCookieStickinessPolicyInput) SetCookieExpirationPeriod(v int64) *CreateLBCookieStickinessPolicyInput {
-	s.CookieExpirationPeriod = &v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *CreateLBCookieStickinessPolicyInput) SetLoadBalancerName(v string) *CreateLBCookieStickinessPolicyInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *CreateLBCookieStickinessPolicyInput) SetPolicyName(v string) *CreateLBCookieStickinessPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains the output for CreateLBCookieStickinessPolicy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/CreateLBCookieStickinessPolicyOutput
 type CreateLBCookieStickinessPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2390,6 +2356,11 @@ func (s CreateLBCookieStickinessPolicyOutput) String() string {
 // GoString returns the string representation
 func (s CreateLBCookieStickinessPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLBCookieStickinessPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for CreateLoadBalancer.
@@ -2403,7 +2374,7 @@ type CreateLoadBalancerInput struct {
 	//
 	// You can add more Availability Zones after you create the load balancer using
 	// EnableAvailabilityZonesForLoadBalancer.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 
 	// The listeners.
 	//
@@ -2411,7 +2382,7 @@ type CreateLoadBalancerInput struct {
 	// in the Classic Load Balancer Guide.
 	//
 	// Listeners is a required field
-	Listeners []*Listener `type:"list" required:"true"`
+	Listeners []Listener `type:"list" required:"true"`
 
 	// The name of the load balancer.
 	//
@@ -2435,18 +2406,18 @@ type CreateLoadBalancerInput struct {
 	Scheme *string `type:"string"`
 
 	// The IDs of the security groups to assign to the load balancer.
-	SecurityGroups []*string `type:"list"`
+	SecurityGroups []string `type:"list"`
 
 	// The IDs of the subnets in your VPC to attach to the load balancer. Specify
 	// one subnet per Availability Zone specified in AvailabilityZones.
-	Subnets []*string `type:"list"`
+	Subnets []string `type:"list"`
 
 	// A list of tags to assign to the load balancer.
 	//
 	// For more information about tagging your load balancer, see Tag Your Classic
 	// Load Balancer (http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html)
 	// in the Classic Load Balancer Guide.
-	Tags []*Tag `min:"1" type:"list"`
+	Tags []Tag `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -2475,9 +2446,6 @@ func (s *CreateLoadBalancerInput) Validate() error {
 	}
 	if s.Listeners != nil {
 		for i, v := range s.Listeners {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Listeners", i), err.(aws.ErrInvalidParams))
 			}
@@ -2485,9 +2453,6 @@ func (s *CreateLoadBalancerInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -2500,48 +2465,6 @@ func (s *CreateLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *CreateLoadBalancerInput) SetAvailabilityZones(v []*string) *CreateLoadBalancerInput {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetListeners sets the Listeners field's value.
-func (s *CreateLoadBalancerInput) SetListeners(v []*Listener) *CreateLoadBalancerInput {
-	s.Listeners = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *CreateLoadBalancerInput) SetLoadBalancerName(v string) *CreateLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetScheme sets the Scheme field's value.
-func (s *CreateLoadBalancerInput) SetScheme(v string) *CreateLoadBalancerInput {
-	s.Scheme = &v
-	return s
-}
-
-// SetSecurityGroups sets the SecurityGroups field's value.
-func (s *CreateLoadBalancerInput) SetSecurityGroups(v []*string) *CreateLoadBalancerInput {
-	s.SecurityGroups = v
-	return s
-}
-
-// SetSubnets sets the Subnets field's value.
-func (s *CreateLoadBalancerInput) SetSubnets(v []*string) *CreateLoadBalancerInput {
-	s.Subnets = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateLoadBalancerInput) SetTags(v []*Tag) *CreateLoadBalancerInput {
-	s.Tags = v
-	return s
-}
-
 // Contains the parameters for CreateLoadBalancerListeners.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/CreateLoadBalancerListenerInput
 type CreateLoadBalancerListenersInput struct {
@@ -2550,7 +2473,7 @@ type CreateLoadBalancerListenersInput struct {
 	// The listeners.
 	//
 	// Listeners is a required field
-	Listeners []*Listener `type:"list" required:"true"`
+	Listeners []Listener `type:"list" required:"true"`
 
 	// The name of the load balancer.
 	//
@@ -2581,9 +2504,6 @@ func (s *CreateLoadBalancerListenersInput) Validate() error {
 	}
 	if s.Listeners != nil {
 		for i, v := range s.Listeners {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Listeners", i), err.(aws.ErrInvalidParams))
 			}
@@ -2596,22 +2516,12 @@ func (s *CreateLoadBalancerListenersInput) Validate() error {
 	return nil
 }
 
-// SetListeners sets the Listeners field's value.
-func (s *CreateLoadBalancerListenersInput) SetListeners(v []*Listener) *CreateLoadBalancerListenersInput {
-	s.Listeners = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *CreateLoadBalancerListenersInput) SetLoadBalancerName(v string) *CreateLoadBalancerListenersInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the parameters for CreateLoadBalancerListener.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/CreateLoadBalancerListenerOutput
 type CreateLoadBalancerListenersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2624,10 +2534,17 @@ func (s CreateLoadBalancerListenersOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLoadBalancerListenersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains the output for CreateLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/CreateAccessPointOutput
 type CreateLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The DNS name of the load balancer.
 	DNSName *string `type:"string"`
@@ -2643,10 +2560,9 @@ func (s CreateLoadBalancerOutput) GoString() string {
 	return s.String()
 }
 
-// SetDNSName sets the DNSName field's value.
-func (s *CreateLoadBalancerOutput) SetDNSName(v string) *CreateLoadBalancerOutput {
-	s.DNSName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for CreateLoadBalancerPolicy.
@@ -2660,7 +2576,7 @@ type CreateLoadBalancerPolicyInput struct {
 	LoadBalancerName *string `type:"string" required:"true"`
 
 	// The policy attributes.
-	PolicyAttributes []*PolicyAttribute `type:"list"`
+	PolicyAttributes []PolicyAttribute `type:"list"`
 
 	// The name of the load balancer policy to be created. This name must be unique
 	// within the set of policies for this load balancer.
@@ -2706,34 +2622,12 @@ func (s *CreateLoadBalancerPolicyInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *CreateLoadBalancerPolicyInput) SetLoadBalancerName(v string) *CreateLoadBalancerPolicyInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicyAttributes sets the PolicyAttributes field's value.
-func (s *CreateLoadBalancerPolicyInput) SetPolicyAttributes(v []*PolicyAttribute) *CreateLoadBalancerPolicyInput {
-	s.PolicyAttributes = v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *CreateLoadBalancerPolicyInput) SetPolicyName(v string) *CreateLoadBalancerPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetPolicyTypeName sets the PolicyTypeName field's value.
-func (s *CreateLoadBalancerPolicyInput) SetPolicyTypeName(v string) *CreateLoadBalancerPolicyInput {
-	s.PolicyTypeName = &v
-	return s
-}
-
 // Contains the output of CreateLoadBalancerPolicy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/CreateLoadBalancerPolicyOutput
 type CreateLoadBalancerPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2744,6 +2638,11 @@ func (s CreateLoadBalancerPolicyOutput) String() string {
 // GoString returns the string representation
 func (s CreateLoadBalancerPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLoadBalancerPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about the CrossZoneLoadBalancing attribute.
@@ -2781,12 +2680,6 @@ func (s *CrossZoneLoadBalancing) Validate() error {
 	return nil
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *CrossZoneLoadBalancing) SetEnabled(v bool) *CrossZoneLoadBalancing {
-	s.Enabled = &v
-	return s
-}
-
 // Contains the parameters for DeleteLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeleteAccessPointInput
 type DeleteLoadBalancerInput struct {
@@ -2822,12 +2715,6 @@ func (s *DeleteLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DeleteLoadBalancerInput) SetLoadBalancerName(v string) *DeleteLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the parameters for DeleteLoadBalancerListeners.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeleteLoadBalancerListenerInput
 type DeleteLoadBalancerListenersInput struct {
@@ -2841,7 +2728,7 @@ type DeleteLoadBalancerListenersInput struct {
 	// The client port numbers of the listeners.
 	//
 	// LoadBalancerPorts is a required field
-	LoadBalancerPorts []*int64 `type:"list" required:"true"`
+	LoadBalancerPorts []int64 `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2872,22 +2759,12 @@ func (s *DeleteLoadBalancerListenersInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DeleteLoadBalancerListenersInput) SetLoadBalancerName(v string) *DeleteLoadBalancerListenersInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetLoadBalancerPorts sets the LoadBalancerPorts field's value.
-func (s *DeleteLoadBalancerListenersInput) SetLoadBalancerPorts(v []*int64) *DeleteLoadBalancerListenersInput {
-	s.LoadBalancerPorts = v
-	return s
-}
-
 // Contains the output of DeleteLoadBalancerListeners.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeleteLoadBalancerListenerOutput
 type DeleteLoadBalancerListenersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2900,10 +2777,17 @@ func (s DeleteLoadBalancerListenersOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLoadBalancerListenersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains the output of DeleteLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeleteAccessPointOutput
 type DeleteLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2914,6 +2798,11 @@ func (s DeleteLoadBalancerOutput) String() string {
 // GoString returns the string representation
 func (s DeleteLoadBalancerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DeleteLoadBalancerPolicy.
@@ -2960,22 +2849,12 @@ func (s *DeleteLoadBalancerPolicyInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DeleteLoadBalancerPolicyInput) SetLoadBalancerName(v string) *DeleteLoadBalancerPolicyInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *DeleteLoadBalancerPolicyInput) SetPolicyName(v string) *DeleteLoadBalancerPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains the output of DeleteLoadBalancerPolicy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeleteLoadBalancerPolicyOutput
 type DeleteLoadBalancerPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2988,6 +2867,11 @@ func (s DeleteLoadBalancerPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLoadBalancerPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains the parameters for DeregisterInstancesFromLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeregisterEndPointsInput
 type DeregisterInstancesFromLoadBalancerInput struct {
@@ -2996,7 +2880,7 @@ type DeregisterInstancesFromLoadBalancerInput struct {
 	// The IDs of the instances.
 	//
 	// Instances is a required field
-	Instances []*Instance `type:"list" required:"true"`
+	Instances []Instance `type:"list" required:"true"`
 
 	// The name of the load balancer.
 	//
@@ -3032,25 +2916,15 @@ func (s *DeregisterInstancesFromLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetInstances sets the Instances field's value.
-func (s *DeregisterInstancesFromLoadBalancerInput) SetInstances(v []*Instance) *DeregisterInstancesFromLoadBalancerInput {
-	s.Instances = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DeregisterInstancesFromLoadBalancerInput) SetLoadBalancerName(v string) *DeregisterInstancesFromLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output of DeregisterInstancesFromLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DeregisterEndPointsOutput
 type DeregisterInstancesFromLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The remaining instances registered with the load balancer.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 }
 
 // String returns the string representation
@@ -3063,10 +2937,9 @@ func (s DeregisterInstancesFromLoadBalancerOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstances sets the Instances field's value.
-func (s *DeregisterInstancesFromLoadBalancerOutput) SetInstances(v []*Instance) *DeregisterInstancesFromLoadBalancerOutput {
-	s.Instances = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterInstancesFromLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeAccountLimitsInput
@@ -3104,24 +2977,14 @@ func (s *DescribeAccountLimitsInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeAccountLimitsInput) SetMarker(v string) *DescribeAccountLimitsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetPageSize sets the PageSize field's value.
-func (s *DescribeAccountLimitsInput) SetPageSize(v int64) *DescribeAccountLimitsInput {
-	s.PageSize = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeAccountLimitsOutput
 type DescribeAccountLimitsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the limits.
-	Limits []*Limit `type:"list"`
+	Limits []Limit `type:"list"`
 
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
@@ -3138,16 +3001,9 @@ func (s DescribeAccountLimitsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLimits sets the Limits field's value.
-func (s *DescribeAccountLimitsOutput) SetLimits(v []*Limit) *DescribeAccountLimitsOutput {
-	s.Limits = v
-	return s
-}
-
-// SetNextMarker sets the NextMarker field's value.
-func (s *DescribeAccountLimitsOutput) SetNextMarker(v string) *DescribeAccountLimitsOutput {
-	s.NextMarker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAccountLimitsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeInstanceHealth.
@@ -3156,7 +3012,7 @@ type DescribeInstanceHealthInput struct {
 	_ struct{} `type:"structure"`
 
 	// The IDs of the instances.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 
 	// The name of the load balancer.
 	//
@@ -3188,25 +3044,15 @@ func (s *DescribeInstanceHealthInput) Validate() error {
 	return nil
 }
 
-// SetInstances sets the Instances field's value.
-func (s *DescribeInstanceHealthInput) SetInstances(v []*Instance) *DescribeInstanceHealthInput {
-	s.Instances = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DescribeInstanceHealthInput) SetLoadBalancerName(v string) *DescribeInstanceHealthInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output for DescribeInstanceHealth.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeEndPointStateOutput
 type DescribeInstanceHealthOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the health of the instances.
-	InstanceStates []*InstanceState `type:"list"`
+	InstanceStates []InstanceState `type:"list"`
 }
 
 // String returns the string representation
@@ -3219,10 +3065,9 @@ func (s DescribeInstanceHealthOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceStates sets the InstanceStates field's value.
-func (s *DescribeInstanceHealthOutput) SetInstanceStates(v []*InstanceState) *DescribeInstanceHealthOutput {
-	s.InstanceStates = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstanceHealthOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeLoadBalancerAttributes.
@@ -3260,16 +3105,12 @@ func (s *DescribeLoadBalancerAttributesInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DescribeLoadBalancerAttributesInput) SetLoadBalancerName(v string) *DescribeLoadBalancerAttributesInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output of DescribeLoadBalancerAttributes.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeLoadBalancerAttributesOutput
 type DescribeLoadBalancerAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the load balancer attributes.
 	LoadBalancerAttributes *LoadBalancerAttributes `type:"structure"`
@@ -3285,10 +3126,9 @@ func (s DescribeLoadBalancerAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerAttributes sets the LoadBalancerAttributes field's value.
-func (s *DescribeLoadBalancerAttributesOutput) SetLoadBalancerAttributes(v *LoadBalancerAttributes) *DescribeLoadBalancerAttributesOutput {
-	s.LoadBalancerAttributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLoadBalancerAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeLoadBalancerPolicies.
@@ -3300,7 +3140,7 @@ type DescribeLoadBalancerPoliciesInput struct {
 	LoadBalancerName *string `type:"string"`
 
 	// The names of the policies.
-	PolicyNames []*string `type:"list"`
+	PolicyNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3313,25 +3153,15 @@ func (s DescribeLoadBalancerPoliciesInput) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DescribeLoadBalancerPoliciesInput) SetLoadBalancerName(v string) *DescribeLoadBalancerPoliciesInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *DescribeLoadBalancerPoliciesInput) SetPolicyNames(v []*string) *DescribeLoadBalancerPoliciesInput {
-	s.PolicyNames = v
-	return s
-}
-
 // Contains the output of DescribeLoadBalancerPolicies.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeLoadBalancerPoliciesOutput
 type DescribeLoadBalancerPoliciesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the policies.
-	PolicyDescriptions []*PolicyDescription `type:"list"`
+	PolicyDescriptions []PolicyDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -3344,10 +3174,9 @@ func (s DescribeLoadBalancerPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyDescriptions sets the PolicyDescriptions field's value.
-func (s *DescribeLoadBalancerPoliciesOutput) SetPolicyDescriptions(v []*PolicyDescription) *DescribeLoadBalancerPoliciesOutput {
-	s.PolicyDescriptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLoadBalancerPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeLoadBalancerPolicyTypes.
@@ -3357,7 +3186,7 @@ type DescribeLoadBalancerPolicyTypesInput struct {
 
 	// The names of the policy types. If no names are specified, describes all policy
 	// types defined by Elastic Load Balancing.
-	PolicyTypeNames []*string `type:"list"`
+	PolicyTypeNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3370,19 +3199,15 @@ func (s DescribeLoadBalancerPolicyTypesInput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyTypeNames sets the PolicyTypeNames field's value.
-func (s *DescribeLoadBalancerPolicyTypesInput) SetPolicyTypeNames(v []*string) *DescribeLoadBalancerPolicyTypesInput {
-	s.PolicyTypeNames = v
-	return s
-}
-
 // Contains the output of DescribeLoadBalancerPolicyTypes.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeLoadBalancerPolicyTypesOutput
 type DescribeLoadBalancerPolicyTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the policy types.
-	PolicyTypeDescriptions []*PolicyTypeDescription `type:"list"`
+	PolicyTypeDescriptions []PolicyTypeDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -3395,10 +3220,9 @@ func (s DescribeLoadBalancerPolicyTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyTypeDescriptions sets the PolicyTypeDescriptions field's value.
-func (s *DescribeLoadBalancerPolicyTypesOutput) SetPolicyTypeDescriptions(v []*PolicyTypeDescription) *DescribeLoadBalancerPolicyTypesOutput {
-	s.PolicyTypeDescriptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLoadBalancerPolicyTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeLoadBalancers.
@@ -3407,7 +3231,7 @@ type DescribeLoadBalancersInput struct {
 	_ struct{} `type:"structure"`
 
 	// The names of the load balancers.
-	LoadBalancerNames []*string `type:"list"`
+	LoadBalancerNames []string `type:"list"`
 
 	// The marker for the next set of results. (You received this marker from a
 	// previous call.)
@@ -3441,31 +3265,15 @@ func (s *DescribeLoadBalancersInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *DescribeLoadBalancersInput) SetLoadBalancerNames(v []*string) *DescribeLoadBalancersInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeLoadBalancersInput) SetMarker(v string) *DescribeLoadBalancersInput {
-	s.Marker = &v
-	return s
-}
-
-// SetPageSize sets the PageSize field's value.
-func (s *DescribeLoadBalancersInput) SetPageSize(v int64) *DescribeLoadBalancersInput {
-	s.PageSize = &v
-	return s
-}
-
 // Contains the parameters for DescribeLoadBalancers.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeAccessPointsOutput
 type DescribeLoadBalancersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the load balancers.
-	LoadBalancerDescriptions []*LoadBalancerDescription `type:"list"`
+	LoadBalancerDescriptions []LoadBalancerDescription `type:"list"`
 
 	// The marker to use when requesting the next set of results. If there are no
 	// additional results, the string is empty.
@@ -3482,16 +3290,9 @@ func (s DescribeLoadBalancersOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerDescriptions sets the LoadBalancerDescriptions field's value.
-func (s *DescribeLoadBalancersOutput) SetLoadBalancerDescriptions(v []*LoadBalancerDescription) *DescribeLoadBalancersOutput {
-	s.LoadBalancerDescriptions = v
-	return s
-}
-
-// SetNextMarker sets the NextMarker field's value.
-func (s *DescribeLoadBalancersOutput) SetNextMarker(v string) *DescribeLoadBalancersOutput {
-	s.NextMarker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLoadBalancersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DescribeTags.
@@ -3502,7 +3303,7 @@ type DescribeTagsInput struct {
 	// The names of the load balancers.
 	//
 	// LoadBalancerNames is a required field
-	LoadBalancerNames []*string `min:"1" type:"list" required:"true"`
+	LoadBalancerNames []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3532,19 +3333,15 @@ func (s *DescribeTagsInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *DescribeTagsInput) SetLoadBalancerNames(v []*string) *DescribeTagsInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
 // Contains the output for DescribeTags.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DescribeTagsOutput
 type DescribeTagsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the tags.
-	TagDescriptions []*TagDescription `type:"list"`
+	TagDescriptions []TagDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -3557,10 +3354,9 @@ func (s DescribeTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetTagDescriptions sets the TagDescriptions field's value.
-func (s *DescribeTagsOutput) SetTagDescriptions(v []*TagDescription) *DescribeTagsOutput {
-	s.TagDescriptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DetachLoadBalancerFromSubnets.
@@ -3576,7 +3372,7 @@ type DetachLoadBalancerFromSubnetsInput struct {
 	// The IDs of the subnets.
 	//
 	// Subnets is a required field
-	Subnets []*string `type:"list" required:"true"`
+	Subnets []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3607,25 +3403,15 @@ func (s *DetachLoadBalancerFromSubnetsInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DetachLoadBalancerFromSubnetsInput) SetLoadBalancerName(v string) *DetachLoadBalancerFromSubnetsInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetSubnets sets the Subnets field's value.
-func (s *DetachLoadBalancerFromSubnetsInput) SetSubnets(v []*string) *DetachLoadBalancerFromSubnetsInput {
-	s.Subnets = v
-	return s
-}
-
 // Contains the output of DetachLoadBalancerFromSubnets.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/DetachLoadBalancerFromSubnetsOutput
 type DetachLoadBalancerFromSubnetsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The IDs of the remaining subnets for the load balancer.
-	Subnets []*string `type:"list"`
+	Subnets []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3638,10 +3424,9 @@ func (s DetachLoadBalancerFromSubnetsOutput) GoString() string {
 	return s.String()
 }
 
-// SetSubnets sets the Subnets field's value.
-func (s *DetachLoadBalancerFromSubnetsOutput) SetSubnets(v []*string) *DetachLoadBalancerFromSubnetsOutput {
-	s.Subnets = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachLoadBalancerFromSubnetsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for DisableAvailabilityZonesForLoadBalancer.
@@ -3652,7 +3437,7 @@ type DisableAvailabilityZonesForLoadBalancerInput struct {
 	// The Availability Zones.
 	//
 	// AvailabilityZones is a required field
-	AvailabilityZones []*string `type:"list" required:"true"`
+	AvailabilityZones []string `type:"list" required:"true"`
 
 	// The name of the load balancer.
 	//
@@ -3688,25 +3473,15 @@ func (s *DisableAvailabilityZonesForLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *DisableAvailabilityZonesForLoadBalancerInput) SetAvailabilityZones(v []*string) *DisableAvailabilityZonesForLoadBalancerInput {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *DisableAvailabilityZonesForLoadBalancerInput) SetLoadBalancerName(v string) *DisableAvailabilityZonesForLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output for DisableAvailabilityZonesForLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/RemoveAvailabilityZonesOutput
 type DisableAvailabilityZonesForLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The remaining Availability Zones for the load balancer.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3719,10 +3494,9 @@ func (s DisableAvailabilityZonesForLoadBalancerOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *DisableAvailabilityZonesForLoadBalancerOutput) SetAvailabilityZones(v []*string) *DisableAvailabilityZonesForLoadBalancerOutput {
-	s.AvailabilityZones = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableAvailabilityZonesForLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for EnableAvailabilityZonesForLoadBalancer.
@@ -3733,7 +3507,7 @@ type EnableAvailabilityZonesForLoadBalancerInput struct {
 	// The Availability Zones. These must be in the same region as the load balancer.
 	//
 	// AvailabilityZones is a required field
-	AvailabilityZones []*string `type:"list" required:"true"`
+	AvailabilityZones []string `type:"list" required:"true"`
 
 	// The name of the load balancer.
 	//
@@ -3769,25 +3543,15 @@ func (s *EnableAvailabilityZonesForLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *EnableAvailabilityZonesForLoadBalancerInput) SetAvailabilityZones(v []*string) *EnableAvailabilityZonesForLoadBalancerInput {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *EnableAvailabilityZonesForLoadBalancerInput) SetLoadBalancerName(v string) *EnableAvailabilityZonesForLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output of EnableAvailabilityZonesForLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/AddAvailabilityZonesOutput
 type EnableAvailabilityZonesForLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The updated list of Availability Zones for the load balancer.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3800,10 +3564,9 @@ func (s EnableAvailabilityZonesForLoadBalancerOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *EnableAvailabilityZonesForLoadBalancerOutput) SetAvailabilityZones(v []*string) *EnableAvailabilityZonesForLoadBalancerOutput {
-	s.AvailabilityZones = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableAvailabilityZonesForLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about a health check.
@@ -3912,36 +3675,6 @@ func (s *HealthCheck) Validate() error {
 	return nil
 }
 
-// SetHealthyThreshold sets the HealthyThreshold field's value.
-func (s *HealthCheck) SetHealthyThreshold(v int64) *HealthCheck {
-	s.HealthyThreshold = &v
-	return s
-}
-
-// SetInterval sets the Interval field's value.
-func (s *HealthCheck) SetInterval(v int64) *HealthCheck {
-	s.Interval = &v
-	return s
-}
-
-// SetTarget sets the Target field's value.
-func (s *HealthCheck) SetTarget(v string) *HealthCheck {
-	s.Target = &v
-	return s
-}
-
-// SetTimeout sets the Timeout field's value.
-func (s *HealthCheck) SetTimeout(v int64) *HealthCheck {
-	s.Timeout = &v
-	return s
-}
-
-// SetUnhealthyThreshold sets the UnhealthyThreshold field's value.
-func (s *HealthCheck) SetUnhealthyThreshold(v int64) *HealthCheck {
-	s.UnhealthyThreshold = &v
-	return s
-}
-
 // The ID of an EC2 instance.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/Instance
 type Instance struct {
@@ -3959,12 +3692,6 @@ func (s Instance) String() string {
 // GoString returns the string representation
 func (s Instance) GoString() string {
 	return s.String()
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *Instance) SetInstanceId(v string) *Instance {
-	s.InstanceId = &v
-	return s
 }
 
 // Information about the state of an EC2 instance.
@@ -4028,30 +3755,6 @@ func (s InstanceState) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *InstanceState) SetDescription(v string) *InstanceState {
-	s.Description = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *InstanceState) SetInstanceId(v string) *InstanceState {
-	s.InstanceId = &v
-	return s
-}
-
-// SetReasonCode sets the ReasonCode field's value.
-func (s *InstanceState) SetReasonCode(v string) *InstanceState {
-	s.ReasonCode = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *InstanceState) SetState(v string) *InstanceState {
-	s.State = &v
-	return s
-}
-
 // Information about a policy for duration-based session stickiness.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/LBCookieStickinessPolicy
 type LBCookieStickinessPolicy struct {
@@ -4075,18 +3778,6 @@ func (s LBCookieStickinessPolicy) String() string {
 // GoString returns the string representation
 func (s LBCookieStickinessPolicy) GoString() string {
 	return s.String()
-}
-
-// SetCookieExpirationPeriod sets the CookieExpirationPeriod field's value.
-func (s *LBCookieStickinessPolicy) SetCookieExpirationPeriod(v int64) *LBCookieStickinessPolicy {
-	s.CookieExpirationPeriod = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *LBCookieStickinessPolicy) SetPolicyName(v string) *LBCookieStickinessPolicy {
-	s.PolicyName = &v
-	return s
 }
 
 // Information about an Elastic Load Balancing resource limit for your AWS account.
@@ -4113,18 +3804,6 @@ func (s Limit) String() string {
 // GoString returns the string representation
 func (s Limit) GoString() string {
 	return s.String()
-}
-
-// SetMax sets the Max field's value.
-func (s *Limit) SetMax(v string) *Limit {
-	s.Max = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Limit) SetName(v string) *Limit {
-	s.Name = &v
-	return s
 }
 
 // Information about a listener.
@@ -4206,36 +3885,6 @@ func (s *Listener) Validate() error {
 	return nil
 }
 
-// SetInstancePort sets the InstancePort field's value.
-func (s *Listener) SetInstancePort(v int64) *Listener {
-	s.InstancePort = &v
-	return s
-}
-
-// SetInstanceProtocol sets the InstanceProtocol field's value.
-func (s *Listener) SetInstanceProtocol(v string) *Listener {
-	s.InstanceProtocol = &v
-	return s
-}
-
-// SetLoadBalancerPort sets the LoadBalancerPort field's value.
-func (s *Listener) SetLoadBalancerPort(v int64) *Listener {
-	s.LoadBalancerPort = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *Listener) SetProtocol(v string) *Listener {
-	s.Protocol = &v
-	return s
-}
-
-// SetSSLCertificateId sets the SSLCertificateId field's value.
-func (s *Listener) SetSSLCertificateId(v string) *Listener {
-	s.SSLCertificateId = &v
-	return s
-}
-
 // The policies enabled for a listener.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/ListenerDescription
 type ListenerDescription struct {
@@ -4245,7 +3894,7 @@ type ListenerDescription struct {
 	Listener *Listener `type:"structure"`
 
 	// The policies. If there are no policies enabled, the list is empty.
-	PolicyNames []*string `type:"list"`
+	PolicyNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4256,18 +3905,6 @@ func (s ListenerDescription) String() string {
 // GoString returns the string representation
 func (s ListenerDescription) GoString() string {
 	return s.String()
-}
-
-// SetListener sets the Listener field's value.
-func (s *ListenerDescription) SetListener(v *Listener) *ListenerDescription {
-	s.Listener = v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *ListenerDescription) SetPolicyNames(v []*string) *ListenerDescription {
-	s.PolicyNames = v
-	return s
 }
 
 // The attributes for a load balancer.
@@ -4283,7 +3920,7 @@ type LoadBalancerAttributes struct {
 	AccessLog *AccessLog `type:"structure"`
 
 	// This parameter is reserved.
-	AdditionalAttributes []*AdditionalAttribute `type:"list"`
+	AdditionalAttributes []AdditionalAttribute `type:"list"`
 
 	// If enabled, the load balancer allows existing requests to complete before
 	// the load balancer shifts traffic away from a deregistered or unhealthy instance.
@@ -4349,46 +3986,16 @@ func (s *LoadBalancerAttributes) Validate() error {
 	return nil
 }
 
-// SetAccessLog sets the AccessLog field's value.
-func (s *LoadBalancerAttributes) SetAccessLog(v *AccessLog) *LoadBalancerAttributes {
-	s.AccessLog = v
-	return s
-}
-
-// SetAdditionalAttributes sets the AdditionalAttributes field's value.
-func (s *LoadBalancerAttributes) SetAdditionalAttributes(v []*AdditionalAttribute) *LoadBalancerAttributes {
-	s.AdditionalAttributes = v
-	return s
-}
-
-// SetConnectionDraining sets the ConnectionDraining field's value.
-func (s *LoadBalancerAttributes) SetConnectionDraining(v *ConnectionDraining) *LoadBalancerAttributes {
-	s.ConnectionDraining = v
-	return s
-}
-
-// SetConnectionSettings sets the ConnectionSettings field's value.
-func (s *LoadBalancerAttributes) SetConnectionSettings(v *ConnectionSettings) *LoadBalancerAttributes {
-	s.ConnectionSettings = v
-	return s
-}
-
-// SetCrossZoneLoadBalancing sets the CrossZoneLoadBalancing field's value.
-func (s *LoadBalancerAttributes) SetCrossZoneLoadBalancing(v *CrossZoneLoadBalancing) *LoadBalancerAttributes {
-	s.CrossZoneLoadBalancing = v
-	return s
-}
-
 // Information about a load balancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/LoadBalancerDescription
 type LoadBalancerDescription struct {
 	_ struct{} `type:"structure"`
 
 	// The Availability Zones for the load balancer.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 
 	// Information about your EC2 instances.
-	BackendServerDescriptions []*BackendServerDescription `type:"list"`
+	BackendServerDescriptions []BackendServerDescription `type:"list"`
 
 	// The DNS name of the load balancer.
 	//
@@ -4409,10 +4016,10 @@ type LoadBalancerDescription struct {
 	HealthCheck *HealthCheck `type:"structure"`
 
 	// The IDs of the instances for the load balancer.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 
 	// The listeners for the load balancer.
-	ListenerDescriptions []*ListenerDescription `type:"list"`
+	ListenerDescriptions []ListenerDescription `type:"list"`
 
 	// The name of the load balancer.
 	LoadBalancerName *string `type:"string"`
@@ -4431,7 +4038,7 @@ type LoadBalancerDescription struct {
 
 	// The security groups for the load balancer. Valid only for load balancers
 	// in a VPC.
-	SecurityGroups []*string `type:"list"`
+	SecurityGroups []string `type:"list"`
 
 	// The security group for the load balancer, which you can use as part of your
 	// inbound rules for your registered instances. To only allow traffic from load
@@ -4440,7 +4047,7 @@ type LoadBalancerDescription struct {
 	SourceSecurityGroup *SourceSecurityGroup `type:"structure"`
 
 	// The IDs of the subnets for the load balancer.
-	Subnets []*string `type:"list"`
+	Subnets []string `type:"list"`
 
 	// The ID of the VPC for the load balancer.
 	VPCId *string `type:"string"`
@@ -4454,102 +4061,6 @@ func (s LoadBalancerDescription) String() string {
 // GoString returns the string representation
 func (s LoadBalancerDescription) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *LoadBalancerDescription) SetAvailabilityZones(v []*string) *LoadBalancerDescription {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetBackendServerDescriptions sets the BackendServerDescriptions field's value.
-func (s *LoadBalancerDescription) SetBackendServerDescriptions(v []*BackendServerDescription) *LoadBalancerDescription {
-	s.BackendServerDescriptions = v
-	return s
-}
-
-// SetCanonicalHostedZoneName sets the CanonicalHostedZoneName field's value.
-func (s *LoadBalancerDescription) SetCanonicalHostedZoneName(v string) *LoadBalancerDescription {
-	s.CanonicalHostedZoneName = &v
-	return s
-}
-
-// SetCanonicalHostedZoneNameID sets the CanonicalHostedZoneNameID field's value.
-func (s *LoadBalancerDescription) SetCanonicalHostedZoneNameID(v string) *LoadBalancerDescription {
-	s.CanonicalHostedZoneNameID = &v
-	return s
-}
-
-// SetCreatedTime sets the CreatedTime field's value.
-func (s *LoadBalancerDescription) SetCreatedTime(v time.Time) *LoadBalancerDescription {
-	s.CreatedTime = &v
-	return s
-}
-
-// SetDNSName sets the DNSName field's value.
-func (s *LoadBalancerDescription) SetDNSName(v string) *LoadBalancerDescription {
-	s.DNSName = &v
-	return s
-}
-
-// SetHealthCheck sets the HealthCheck field's value.
-func (s *LoadBalancerDescription) SetHealthCheck(v *HealthCheck) *LoadBalancerDescription {
-	s.HealthCheck = v
-	return s
-}
-
-// SetInstances sets the Instances field's value.
-func (s *LoadBalancerDescription) SetInstances(v []*Instance) *LoadBalancerDescription {
-	s.Instances = v
-	return s
-}
-
-// SetListenerDescriptions sets the ListenerDescriptions field's value.
-func (s *LoadBalancerDescription) SetListenerDescriptions(v []*ListenerDescription) *LoadBalancerDescription {
-	s.ListenerDescriptions = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *LoadBalancerDescription) SetLoadBalancerName(v string) *LoadBalancerDescription {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicies sets the Policies field's value.
-func (s *LoadBalancerDescription) SetPolicies(v *Policies) *LoadBalancerDescription {
-	s.Policies = v
-	return s
-}
-
-// SetScheme sets the Scheme field's value.
-func (s *LoadBalancerDescription) SetScheme(v string) *LoadBalancerDescription {
-	s.Scheme = &v
-	return s
-}
-
-// SetSecurityGroups sets the SecurityGroups field's value.
-func (s *LoadBalancerDescription) SetSecurityGroups(v []*string) *LoadBalancerDescription {
-	s.SecurityGroups = v
-	return s
-}
-
-// SetSourceSecurityGroup sets the SourceSecurityGroup field's value.
-func (s *LoadBalancerDescription) SetSourceSecurityGroup(v *SourceSecurityGroup) *LoadBalancerDescription {
-	s.SourceSecurityGroup = v
-	return s
-}
-
-// SetSubnets sets the Subnets field's value.
-func (s *LoadBalancerDescription) SetSubnets(v []*string) *LoadBalancerDescription {
-	s.Subnets = v
-	return s
-}
-
-// SetVPCId sets the VPCId field's value.
-func (s *LoadBalancerDescription) SetVPCId(v string) *LoadBalancerDescription {
-	s.VPCId = &v
-	return s
 }
 
 // Contains the parameters for ModifyLoadBalancerAttributes.
@@ -4601,22 +4112,12 @@ func (s *ModifyLoadBalancerAttributesInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerAttributes sets the LoadBalancerAttributes field's value.
-func (s *ModifyLoadBalancerAttributesInput) SetLoadBalancerAttributes(v *LoadBalancerAttributes) *ModifyLoadBalancerAttributesInput {
-	s.LoadBalancerAttributes = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *ModifyLoadBalancerAttributesInput) SetLoadBalancerName(v string) *ModifyLoadBalancerAttributesInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output of ModifyLoadBalancerAttributes.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/ModifyLoadBalancerAttributesOutput
 type ModifyLoadBalancerAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the load balancer attributes.
 	LoadBalancerAttributes *LoadBalancerAttributes `type:"structure"`
@@ -4635,16 +4136,9 @@ func (s ModifyLoadBalancerAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerAttributes sets the LoadBalancerAttributes field's value.
-func (s *ModifyLoadBalancerAttributesOutput) SetLoadBalancerAttributes(v *LoadBalancerAttributes) *ModifyLoadBalancerAttributesOutput {
-	s.LoadBalancerAttributes = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *ModifyLoadBalancerAttributesOutput) SetLoadBalancerName(v string) *ModifyLoadBalancerAttributesOutput {
-	s.LoadBalancerName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyLoadBalancerAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The policies for a load balancer.
@@ -4653,13 +4147,13 @@ type Policies struct {
 	_ struct{} `type:"structure"`
 
 	// The stickiness policies created using CreateAppCookieStickinessPolicy.
-	AppCookieStickinessPolicies []*AppCookieStickinessPolicy `type:"list"`
+	AppCookieStickinessPolicies []AppCookieStickinessPolicy `type:"list"`
 
 	// The stickiness policies created using CreateLBCookieStickinessPolicy.
-	LBCookieStickinessPolicies []*LBCookieStickinessPolicy `type:"list"`
+	LBCookieStickinessPolicies []LBCookieStickinessPolicy `type:"list"`
 
 	// The policies other than the stickiness policies.
-	OtherPolicies []*string `type:"list"`
+	OtherPolicies []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4670,24 +4164,6 @@ func (s Policies) String() string {
 // GoString returns the string representation
 func (s Policies) GoString() string {
 	return s.String()
-}
-
-// SetAppCookieStickinessPolicies sets the AppCookieStickinessPolicies field's value.
-func (s *Policies) SetAppCookieStickinessPolicies(v []*AppCookieStickinessPolicy) *Policies {
-	s.AppCookieStickinessPolicies = v
-	return s
-}
-
-// SetLBCookieStickinessPolicies sets the LBCookieStickinessPolicies field's value.
-func (s *Policies) SetLBCookieStickinessPolicies(v []*LBCookieStickinessPolicy) *Policies {
-	s.LBCookieStickinessPolicies = v
-	return s
-}
-
-// SetOtherPolicies sets the OtherPolicies field's value.
-func (s *Policies) SetOtherPolicies(v []*string) *Policies {
-	s.OtherPolicies = v
-	return s
 }
 
 // Information about a policy attribute.
@@ -4712,18 +4188,6 @@ func (s PolicyAttribute) GoString() string {
 	return s.String()
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *PolicyAttribute) SetAttributeName(v string) *PolicyAttribute {
-	s.AttributeName = &v
-	return s
-}
-
-// SetAttributeValue sets the AttributeValue field's value.
-func (s *PolicyAttribute) SetAttributeValue(v string) *PolicyAttribute {
-	s.AttributeValue = &v
-	return s
-}
-
 // Information about a policy attribute.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/PolicyAttributeDescription
 type PolicyAttributeDescription struct {
@@ -4744,18 +4208,6 @@ func (s PolicyAttributeDescription) String() string {
 // GoString returns the string representation
 func (s PolicyAttributeDescription) GoString() string {
 	return s.String()
-}
-
-// SetAttributeName sets the AttributeName field's value.
-func (s *PolicyAttributeDescription) SetAttributeName(v string) *PolicyAttributeDescription {
-	s.AttributeName = &v
-	return s
-}
-
-// SetAttributeValue sets the AttributeValue field's value.
-func (s *PolicyAttributeDescription) SetAttributeValue(v string) *PolicyAttributeDescription {
-	s.AttributeValue = &v
-	return s
 }
 
 // Information about a policy attribute type.
@@ -4799,43 +4251,13 @@ func (s PolicyAttributeTypeDescription) GoString() string {
 	return s.String()
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *PolicyAttributeTypeDescription) SetAttributeName(v string) *PolicyAttributeTypeDescription {
-	s.AttributeName = &v
-	return s
-}
-
-// SetAttributeType sets the AttributeType field's value.
-func (s *PolicyAttributeTypeDescription) SetAttributeType(v string) *PolicyAttributeTypeDescription {
-	s.AttributeType = &v
-	return s
-}
-
-// SetCardinality sets the Cardinality field's value.
-func (s *PolicyAttributeTypeDescription) SetCardinality(v string) *PolicyAttributeTypeDescription {
-	s.Cardinality = &v
-	return s
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *PolicyAttributeTypeDescription) SetDefaultValue(v string) *PolicyAttributeTypeDescription {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *PolicyAttributeTypeDescription) SetDescription(v string) *PolicyAttributeTypeDescription {
-	s.Description = &v
-	return s
-}
-
 // Information about a policy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/PolicyDescription
 type PolicyDescription struct {
 	_ struct{} `type:"structure"`
 
 	// The policy attributes.
-	PolicyAttributeDescriptions []*PolicyAttributeDescription `type:"list"`
+	PolicyAttributeDescriptions []PolicyAttributeDescription `type:"list"`
 
 	// The name of the policy.
 	PolicyName *string `type:"string"`
@@ -4854,24 +4276,6 @@ func (s PolicyDescription) GoString() string {
 	return s.String()
 }
 
-// SetPolicyAttributeDescriptions sets the PolicyAttributeDescriptions field's value.
-func (s *PolicyDescription) SetPolicyAttributeDescriptions(v []*PolicyAttributeDescription) *PolicyDescription {
-	s.PolicyAttributeDescriptions = v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PolicyDescription) SetPolicyName(v string) *PolicyDescription {
-	s.PolicyName = &v
-	return s
-}
-
-// SetPolicyTypeName sets the PolicyTypeName field's value.
-func (s *PolicyDescription) SetPolicyTypeName(v string) *PolicyDescription {
-	s.PolicyTypeName = &v
-	return s
-}
-
 // Information about a policy type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/PolicyTypeDescription
 type PolicyTypeDescription struct {
@@ -4882,7 +4286,7 @@ type PolicyTypeDescription struct {
 
 	// The description of the policy attributes associated with the policies defined
 	// by Elastic Load Balancing.
-	PolicyAttributeTypeDescriptions []*PolicyAttributeTypeDescription `type:"list"`
+	PolicyAttributeTypeDescriptions []PolicyAttributeTypeDescription `type:"list"`
 
 	// The name of the policy type.
 	PolicyTypeName *string `type:"string"`
@@ -4898,24 +4302,6 @@ func (s PolicyTypeDescription) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *PolicyTypeDescription) SetDescription(v string) *PolicyTypeDescription {
-	s.Description = &v
-	return s
-}
-
-// SetPolicyAttributeTypeDescriptions sets the PolicyAttributeTypeDescriptions field's value.
-func (s *PolicyTypeDescription) SetPolicyAttributeTypeDescriptions(v []*PolicyAttributeTypeDescription) *PolicyTypeDescription {
-	s.PolicyAttributeTypeDescriptions = v
-	return s
-}
-
-// SetPolicyTypeName sets the PolicyTypeName field's value.
-func (s *PolicyTypeDescription) SetPolicyTypeName(v string) *PolicyTypeDescription {
-	s.PolicyTypeName = &v
-	return s
-}
-
 // Contains the parameters for RegisterInstancesWithLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/RegisterEndPointsInput
 type RegisterInstancesWithLoadBalancerInput struct {
@@ -4924,7 +4310,7 @@ type RegisterInstancesWithLoadBalancerInput struct {
 	// The IDs of the instances.
 	//
 	// Instances is a required field
-	Instances []*Instance `type:"list" required:"true"`
+	Instances []Instance `type:"list" required:"true"`
 
 	// The name of the load balancer.
 	//
@@ -4960,25 +4346,15 @@ func (s *RegisterInstancesWithLoadBalancerInput) Validate() error {
 	return nil
 }
 
-// SetInstances sets the Instances field's value.
-func (s *RegisterInstancesWithLoadBalancerInput) SetInstances(v []*Instance) *RegisterInstancesWithLoadBalancerInput {
-	s.Instances = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *RegisterInstancesWithLoadBalancerInput) SetLoadBalancerName(v string) *RegisterInstancesWithLoadBalancerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // Contains the output of RegisterInstancesWithLoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/RegisterEndPointsOutput
 type RegisterInstancesWithLoadBalancerOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The updated list of instances for the load balancer.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 }
 
 // String returns the string representation
@@ -4991,10 +4367,9 @@ func (s RegisterInstancesWithLoadBalancerOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstances sets the Instances field's value.
-func (s *RegisterInstancesWithLoadBalancerOutput) SetInstances(v []*Instance) *RegisterInstancesWithLoadBalancerOutput {
-	s.Instances = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterInstancesWithLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for RemoveTags.
@@ -5006,12 +4381,12 @@ type RemoveTagsInput struct {
 	// name.
 	//
 	// LoadBalancerNames is a required field
-	LoadBalancerNames []*string `type:"list" required:"true"`
+	LoadBalancerNames []string `type:"list" required:"true"`
 
 	// The list of tag keys to remove.
 	//
 	// Tags is a required field
-	Tags []*TagKeyOnly `min:"1" type:"list" required:"true"`
+	Tags []TagKeyOnly `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5040,9 +4415,6 @@ func (s *RemoveTagsInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -5055,22 +4427,12 @@ func (s *RemoveTagsInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *RemoveTagsInput) SetLoadBalancerNames(v []*string) *RemoveTagsInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *RemoveTagsInput) SetTags(v []*TagKeyOnly) *RemoveTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Contains the output of RemoveTags.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/RemoveTagsOutput
 type RemoveTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5081,6 +4443,11 @@ func (s RemoveTagsOutput) String() string {
 // GoString returns the string representation
 func (s RemoveTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for SetLoadBalancerListenerSSLCertificate.
@@ -5136,28 +4503,12 @@ func (s *SetLoadBalancerListenerSSLCertificateInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *SetLoadBalancerListenerSSLCertificateInput) SetLoadBalancerName(v string) *SetLoadBalancerListenerSSLCertificateInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetLoadBalancerPort sets the LoadBalancerPort field's value.
-func (s *SetLoadBalancerListenerSSLCertificateInput) SetLoadBalancerPort(v int64) *SetLoadBalancerListenerSSLCertificateInput {
-	s.LoadBalancerPort = &v
-	return s
-}
-
-// SetSSLCertificateId sets the SSLCertificateId field's value.
-func (s *SetLoadBalancerListenerSSLCertificateInput) SetSSLCertificateId(v string) *SetLoadBalancerListenerSSLCertificateInput {
-	s.SSLCertificateId = &v
-	return s
-}
-
 // Contains the output of SetLoadBalancerListenerSSLCertificate.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/SetLoadBalancerListenerSSLCertificateOutput
 type SetLoadBalancerListenerSSLCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5168,6 +4519,11 @@ func (s SetLoadBalancerListenerSSLCertificateOutput) String() string {
 // GoString returns the string representation
 func (s SetLoadBalancerListenerSSLCertificateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetLoadBalancerListenerSSLCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for SetLoadBalancerPoliciesForBackendServer.
@@ -5189,7 +4545,7 @@ type SetLoadBalancerPoliciesForBackendServerInput struct {
 	// are removed from the EC2 instance.
 	//
 	// PolicyNames is a required field
-	PolicyNames []*string `type:"list" required:"true"`
+	PolicyNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5224,28 +4580,12 @@ func (s *SetLoadBalancerPoliciesForBackendServerInput) Validate() error {
 	return nil
 }
 
-// SetInstancePort sets the InstancePort field's value.
-func (s *SetLoadBalancerPoliciesForBackendServerInput) SetInstancePort(v int64) *SetLoadBalancerPoliciesForBackendServerInput {
-	s.InstancePort = &v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *SetLoadBalancerPoliciesForBackendServerInput) SetLoadBalancerName(v string) *SetLoadBalancerPoliciesForBackendServerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *SetLoadBalancerPoliciesForBackendServerInput) SetPolicyNames(v []*string) *SetLoadBalancerPoliciesForBackendServerInput {
-	s.PolicyNames = v
-	return s
-}
-
 // Contains the output of SetLoadBalancerPoliciesForBackendServer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/SetLoadBalancerPoliciesForBackendServerOutput
 type SetLoadBalancerPoliciesForBackendServerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5256,6 +4596,11 @@ func (s SetLoadBalancerPoliciesForBackendServerOutput) String() string {
 // GoString returns the string representation
 func (s SetLoadBalancerPoliciesForBackendServerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetLoadBalancerPoliciesForBackendServerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the parameters for SetLoadBalancePoliciesOfListener.
@@ -5278,7 +4623,7 @@ type SetLoadBalancerPoliciesOfListenerInput struct {
 	// is empty, all current policies are disabled.
 	//
 	// PolicyNames is a required field
-	PolicyNames []*string `type:"list" required:"true"`
+	PolicyNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5313,28 +4658,12 @@ func (s *SetLoadBalancerPoliciesOfListenerInput) Validate() error {
 	return nil
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *SetLoadBalancerPoliciesOfListenerInput) SetLoadBalancerName(v string) *SetLoadBalancerPoliciesOfListenerInput {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetLoadBalancerPort sets the LoadBalancerPort field's value.
-func (s *SetLoadBalancerPoliciesOfListenerInput) SetLoadBalancerPort(v int64) *SetLoadBalancerPoliciesOfListenerInput {
-	s.LoadBalancerPort = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *SetLoadBalancerPoliciesOfListenerInput) SetPolicyNames(v []*string) *SetLoadBalancerPoliciesOfListenerInput {
-	s.PolicyNames = v
-	return s
-}
-
 // Contains the output of SetLoadBalancePoliciesOfListener.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/SetLoadBalancerPoliciesOfListenerOutput
 type SetLoadBalancerPoliciesOfListenerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5345,6 +4674,11 @@ func (s SetLoadBalancerPoliciesOfListenerOutput) String() string {
 // GoString returns the string representation
 func (s SetLoadBalancerPoliciesOfListenerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetLoadBalancerPoliciesOfListenerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about a source security group.
@@ -5367,18 +4701,6 @@ func (s SourceSecurityGroup) String() string {
 // GoString returns the string representation
 func (s SourceSecurityGroup) GoString() string {
 	return s.String()
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *SourceSecurityGroup) SetGroupName(v string) *SourceSecurityGroup {
-	s.GroupName = &v
-	return s
-}
-
-// SetOwnerAlias sets the OwnerAlias field's value.
-func (s *SourceSecurityGroup) SetOwnerAlias(v string) *SourceSecurityGroup {
-	s.OwnerAlias = &v
-	return s
 }
 
 // Information about a tag.
@@ -5422,18 +4744,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // The tags associated with a load balancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancing-2012-06-01/TagDescription
 type TagDescription struct {
@@ -5443,7 +4753,7 @@ type TagDescription struct {
 	LoadBalancerName *string `type:"string"`
 
 	// The tags.
-	Tags []*Tag `min:"1" type:"list"`
+	Tags []Tag `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -5454,18 +4764,6 @@ func (s TagDescription) String() string {
 // GoString returns the string representation
 func (s TagDescription) GoString() string {
 	return s.String()
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *TagDescription) SetLoadBalancerName(v string) *TagDescription {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *TagDescription) SetTags(v []*Tag) *TagDescription {
-	s.Tags = v
-	return s
 }
 
 // The key of a tag.
@@ -5498,10 +4796,4 @@ func (s *TagKeyOnly) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *TagKeyOnly) SetKey(v string) *TagKeyOnly {
-	s.Key = &v
-	return s
 }

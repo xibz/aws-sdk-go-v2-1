@@ -18,6 +18,7 @@ const opAddPermission = "AddPermission"
 type AddPermissionRequest struct {
 	*aws.Request
 	Input *AddPermissionInput
+	Copy  func(*AddPermissionInput) AddPermissionRequest
 }
 
 // Send marshals and sends the AddPermission API request.
@@ -40,7 +41,7 @@ func (r AddPermissionRequest) Send() (*AddPermissionOutput, error) {
 // you add to the resource policy allows an event source, permission to invoke
 // the Lambda function.
 //
-// For information about the push model, see AWS Lambda: How it Works (http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html).
+// For information about the push model, see Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html).
 //
 // If you are using versioning, the permissions you add are specific to the
 // Lambda function version or alias you specify in the AddPermission request
@@ -68,8 +69,11 @@ func (c *Lambda) AddPermissionRequest(input *AddPermissionInput) AddPermissionRe
 		input = &AddPermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &AddPermissionOutput{})
-	return AddPermissionRequest{Request: req, Input: input}
+	output := &AddPermissionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddPermissionRequest{Request: req, Input: input, Copy: c.AddPermissionRequest}
 }
 
 const opCreateAlias = "CreateAlias"
@@ -78,6 +82,7 @@ const opCreateAlias = "CreateAlias"
 type CreateAliasRequest struct {
 	*aws.Request
 	Input *CreateAliasInput
+	Copy  func(*CreateAliasInput) CreateAliasRequest
 }
 
 // Send marshals and sends the CreateAlias API request.
@@ -118,8 +123,11 @@ func (c *Lambda) CreateAliasRequest(input *CreateAliasInput) CreateAliasRequest 
 		input = &CreateAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAliasOutput{})
-	return CreateAliasRequest{Request: req, Input: input}
+	output := &UpdateAliasOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAliasRequest{Request: req, Input: input, Copy: c.CreateAliasRequest}
 }
 
 const opCreateEventSourceMapping = "CreateEventSourceMapping"
@@ -128,6 +136,7 @@ const opCreateEventSourceMapping = "CreateEventSourceMapping"
 type CreateEventSourceMappingRequest struct {
 	*aws.Request
 	Input *CreateEventSourceMappingInput
+	Copy  func(*CreateEventSourceMappingInput) CreateEventSourceMappingRequest
 }
 
 // Send marshals and sends the CreateEventSourceMapping API request.
@@ -150,16 +159,11 @@ func (r CreateEventSourceMappingRequest) Send() (*UpdateEventSourceMappingOutput
 // This association between a stream source and a Lambda function is called
 // the event source mapping.
 //
-// This event source mapping is relevant only in the AWS Lambda pull model,
-// where AWS Lambda invokes the function. For more information, see AWS Lambda:
-// How it Works (http://docs.aws.amazon.com/lambda/latest/dg/lambda-introduction.html)
-// in the AWS Lambda Developer Guide.
-//
 // You provide mapping information (for example, which stream to read from and
 // which Lambda function to invoke) in the request body.
 //
 // Each event source, such as an Amazon Kinesis or a DynamoDB stream, can be
-// associated with multiple AWS Lambda function. A given Lambda function can
+// associated with multiple AWS Lambda functions. A given Lambda function can
 // be associated with multiple AWS event sources.
 //
 // If you are using versioning, you can specify a specific function version
@@ -188,8 +192,11 @@ func (c *Lambda) CreateEventSourceMappingRequest(input *CreateEventSourceMapping
 		input = &CreateEventSourceMappingInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEventSourceMappingOutput{})
-	return CreateEventSourceMappingRequest{Request: req, Input: input}
+	output := &UpdateEventSourceMappingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateEventSourceMappingRequest{Request: req, Input: input, Copy: c.CreateEventSourceMappingRequest}
 }
 
 const opCreateFunction = "CreateFunction"
@@ -198,6 +205,7 @@ const opCreateFunction = "CreateFunction"
 type CreateFunctionRequest struct {
 	*aws.Request
 	Input *CreateFunctionInput
+	Copy  func(*CreateFunctionInput) CreateFunctionRequest
 }
 
 // Send marshals and sends the CreateFunction API request.
@@ -243,8 +251,11 @@ func (c *Lambda) CreateFunctionRequest(input *CreateFunctionInput) CreateFunctio
 		input = &CreateFunctionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFunctionConfigurationOutput{})
-	return CreateFunctionRequest{Request: req, Input: input}
+	output := &UpdateFunctionConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateFunctionRequest{Request: req, Input: input, Copy: c.CreateFunctionRequest}
 }
 
 const opDeleteAlias = "DeleteAlias"
@@ -253,6 +264,7 @@ const opDeleteAlias = "DeleteAlias"
 type DeleteAliasRequest struct {
 	*aws.Request
 	Input *DeleteAliasInput
+	Copy  func(*DeleteAliasInput) DeleteAliasRequest
 }
 
 // Send marshals and sends the DeleteAlias API request.
@@ -292,10 +304,13 @@ func (c *Lambda) DeleteAliasRequest(input *DeleteAliasInput) DeleteAliasRequest 
 		input = &DeleteAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAliasOutput{})
+	output := &DeleteAliasOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteAliasRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAliasRequest{Request: req, Input: input, Copy: c.DeleteAliasRequest}
 }
 
 const opDeleteEventSourceMapping = "DeleteEventSourceMapping"
@@ -304,6 +319,7 @@ const opDeleteEventSourceMapping = "DeleteEventSourceMapping"
 type DeleteEventSourceMappingRequest struct {
 	*aws.Request
 	Input *DeleteEventSourceMappingInput
+	Copy  func(*DeleteEventSourceMappingInput) DeleteEventSourceMappingRequest
 }
 
 // Send marshals and sends the DeleteEventSourceMapping API request.
@@ -344,8 +360,11 @@ func (c *Lambda) DeleteEventSourceMappingRequest(input *DeleteEventSourceMapping
 		input = &DeleteEventSourceMappingInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEventSourceMappingOutput{})
-	return DeleteEventSourceMappingRequest{Request: req, Input: input}
+	output := &UpdateEventSourceMappingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEventSourceMappingRequest{Request: req, Input: input, Copy: c.DeleteEventSourceMappingRequest}
 }
 
 const opDeleteFunction = "DeleteFunction"
@@ -354,6 +373,7 @@ const opDeleteFunction = "DeleteFunction"
 type DeleteFunctionRequest struct {
 	*aws.Request
 	Input *DeleteFunctionInput
+	Copy  func(*DeleteFunctionInput) DeleteFunctionRequest
 }
 
 // Send marshals and sends the DeleteFunction API request.
@@ -402,10 +422,66 @@ func (c *Lambda) DeleteFunctionRequest(input *DeleteFunctionInput) DeleteFunctio
 		input = &DeleteFunctionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteFunctionOutput{})
+	output := &DeleteFunctionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteFunctionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteFunctionRequest{Request: req, Input: input, Copy: c.DeleteFunctionRequest}
+}
+
+const opDeleteFunctionConcurrency = "DeleteFunctionConcurrency"
+
+// DeleteFunctionConcurrencyRequest is a API request type for the DeleteFunctionConcurrency API operation.
+type DeleteFunctionConcurrencyRequest struct {
+	*aws.Request
+	Input *DeleteFunctionConcurrencyInput
+	Copy  func(*DeleteFunctionConcurrencyInput) DeleteFunctionConcurrencyRequest
+}
+
+// Send marshals and sends the DeleteFunctionConcurrency API request.
+func (r DeleteFunctionConcurrencyRequest) Send() (*DeleteFunctionConcurrencyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteFunctionConcurrencyOutput), nil
+}
+
+// DeleteFunctionConcurrencyRequest returns a request value for making API operation for
+// AWS Lambda.
+//
+// Removes concurrent execution limits from this function. For more information,
+// see concurrent-executions.
+//
+//    // Example sending a request using the DeleteFunctionConcurrencyRequest method.
+//    req := client.DeleteFunctionConcurrencyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionConcurrency
+func (c *Lambda) DeleteFunctionConcurrencyRequest(input *DeleteFunctionConcurrencyInput) DeleteFunctionConcurrencyRequest {
+	op := &aws.Operation{
+		Name:       opDeleteFunctionConcurrency,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/2017-10-31/functions/{FunctionName}/concurrency",
+	}
+
+	if input == nil {
+		input = &DeleteFunctionConcurrencyInput{}
+	}
+
+	output := &DeleteFunctionConcurrencyOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteFunctionConcurrencyRequest{Request: req, Input: input, Copy: c.DeleteFunctionConcurrencyRequest}
 }
 
 const opGetAccountSettings = "GetAccountSettings"
@@ -414,6 +490,7 @@ const opGetAccountSettings = "GetAccountSettings"
 type GetAccountSettingsRequest struct {
 	*aws.Request
 	Input *GetAccountSettingsInput
+	Copy  func(*GetAccountSettingsInput) GetAccountSettingsRequest
 }
 
 // Send marshals and sends the GetAccountSettings API request.
@@ -456,8 +533,11 @@ func (c *Lambda) GetAccountSettingsRequest(input *GetAccountSettingsInput) GetAc
 		input = &GetAccountSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccountSettingsOutput{})
-	return GetAccountSettingsRequest{Request: req, Input: input}
+	output := &GetAccountSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccountSettingsRequest{Request: req, Input: input, Copy: c.GetAccountSettingsRequest}
 }
 
 const opGetAlias = "GetAlias"
@@ -466,6 +546,7 @@ const opGetAlias = "GetAlias"
 type GetAliasRequest struct {
 	*aws.Request
 	Input *GetAliasInput
+	Copy  func(*GetAliasInput) GetAliasRequest
 }
 
 // Send marshals and sends the GetAlias API request.
@@ -506,8 +587,11 @@ func (c *Lambda) GetAliasRequest(input *GetAliasInput) GetAliasRequest {
 		input = &GetAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAliasOutput{})
-	return GetAliasRequest{Request: req, Input: input}
+	output := &UpdateAliasOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAliasRequest{Request: req, Input: input, Copy: c.GetAliasRequest}
 }
 
 const opGetEventSourceMapping = "GetEventSourceMapping"
@@ -516,6 +600,7 @@ const opGetEventSourceMapping = "GetEventSourceMapping"
 type GetEventSourceMappingRequest struct {
 	*aws.Request
 	Input *GetEventSourceMappingInput
+	Copy  func(*GetEventSourceMappingInput) GetEventSourceMappingRequest
 }
 
 // Send marshals and sends the GetEventSourceMapping API request.
@@ -555,8 +640,11 @@ func (c *Lambda) GetEventSourceMappingRequest(input *GetEventSourceMappingInput)
 		input = &GetEventSourceMappingInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEventSourceMappingOutput{})
-	return GetEventSourceMappingRequest{Request: req, Input: input}
+	output := &UpdateEventSourceMappingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEventSourceMappingRequest{Request: req, Input: input, Copy: c.GetEventSourceMappingRequest}
 }
 
 const opGetFunction = "GetFunction"
@@ -565,6 +653,7 @@ const opGetFunction = "GetFunction"
 type GetFunctionRequest struct {
 	*aws.Request
 	Input *GetFunctionInput
+	Copy  func(*GetFunctionInput) GetFunctionRequest
 }
 
 // Send marshals and sends the GetFunction API request.
@@ -613,8 +702,11 @@ func (c *Lambda) GetFunctionRequest(input *GetFunctionInput) GetFunctionRequest 
 		input = &GetFunctionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetFunctionOutput{})
-	return GetFunctionRequest{Request: req, Input: input}
+	output := &GetFunctionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFunctionRequest{Request: req, Input: input, Copy: c.GetFunctionRequest}
 }
 
 const opGetFunctionConfiguration = "GetFunctionConfiguration"
@@ -623,6 +715,7 @@ const opGetFunctionConfiguration = "GetFunctionConfiguration"
 type GetFunctionConfigurationRequest struct {
 	*aws.Request
 	Input *GetFunctionConfigurationInput
+	Copy  func(*GetFunctionConfigurationInput) GetFunctionConfigurationRequest
 }
 
 // Send marshals and sends the GetFunctionConfiguration API request.
@@ -671,8 +764,11 @@ func (c *Lambda) GetFunctionConfigurationRequest(input *GetFunctionConfiguration
 		input = &GetFunctionConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFunctionConfigurationOutput{})
-	return GetFunctionConfigurationRequest{Request: req, Input: input}
+	output := &UpdateFunctionConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFunctionConfigurationRequest{Request: req, Input: input, Copy: c.GetFunctionConfigurationRequest}
 }
 
 const opGetPolicy = "GetPolicy"
@@ -681,6 +777,7 @@ const opGetPolicy = "GetPolicy"
 type GetPolicyRequest struct {
 	*aws.Request
 	Input *GetPolicyInput
+	Copy  func(*GetPolicyInput) GetPolicyRequest
 }
 
 // Send marshals and sends the GetPolicy API request.
@@ -724,8 +821,11 @@ func (c *Lambda) GetPolicyRequest(input *GetPolicyInput) GetPolicyRequest {
 		input = &GetPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPolicyOutput{})
-	return GetPolicyRequest{Request: req, Input: input}
+	output := &GetPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPolicyRequest{Request: req, Input: input, Copy: c.GetPolicyRequest}
 }
 
 const opInvoke = "Invoke"
@@ -734,6 +834,7 @@ const opInvoke = "Invoke"
 type InvokeRequest struct {
 	*aws.Request
 	Input *InvokeInput
+	Copy  func(*InvokeInput) InvokeRequest
 }
 
 // Send marshals and sends the Invoke API request.
@@ -762,6 +863,13 @@ func (r InvokeRequest) Send() (*InvokeOutput, error) {
 //
 // This operation requires permission for the lambda:InvokeFunction action.
 //
+// The TooManyRequestsException noted below will return the following: ConcurrentInvocationLimitExceeded
+// will be returned if you have no functions with reserved concurrency and have
+// exceeded your account concurrent limit or if a function without reserved
+// concurrency exceeds the account's unreserved concurrency limit. ReservedFunctionConcurrentInvocationLimitExceeded
+// will be returned when a function with reserved concurrency exceeds its configured
+// concurrency limit.
+//
 //    // Example sending a request using the InvokeRequest method.
 //    req := client.InvokeRequest(params)
 //    resp, err := req.Send()
@@ -781,8 +889,11 @@ func (c *Lambda) InvokeRequest(input *InvokeInput) InvokeRequest {
 		input = &InvokeInput{}
 	}
 
-	req := c.newRequest(op, input, &InvokeOutput{})
-	return InvokeRequest{Request: req, Input: input}
+	output := &InvokeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InvokeRequest{Request: req, Input: input, Copy: c.InvokeRequest}
 }
 
 const opInvokeAsync = "InvokeAsync"
@@ -791,6 +902,7 @@ const opInvokeAsync = "InvokeAsync"
 type InvokeAsyncRequest struct {
 	*aws.Request
 	Input *InvokeAsyncInput
+	Copy  func(*InvokeAsyncInput) InvokeAsyncRequest
 }
 
 // Send marshals and sends the InvokeAsync API request.
@@ -836,8 +948,11 @@ func (c *Lambda) InvokeAsyncRequest(input *InvokeAsyncInput) InvokeAsyncRequest 
 		input = &InvokeAsyncInput{}
 	}
 
-	req := c.newRequest(op, input, &InvokeAsyncOutput{})
-	return InvokeAsyncRequest{Request: req, Input: input}
+	output := &InvokeAsyncOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InvokeAsyncRequest{Request: req, Input: input, Copy: c.InvokeAsyncRequest}
 }
 
 const opListAliases = "ListAliases"
@@ -846,6 +961,7 @@ const opListAliases = "ListAliases"
 type ListAliasesRequest struct {
 	*aws.Request
 	Input *ListAliasesInput
+	Copy  func(*ListAliasesInput) ListAliasesRequest
 }
 
 // Send marshals and sends the ListAliases API request.
@@ -887,8 +1003,11 @@ func (c *Lambda) ListAliasesRequest(input *ListAliasesInput) ListAliasesRequest 
 		input = &ListAliasesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAliasesOutput{})
-	return ListAliasesRequest{Request: req, Input: input}
+	output := &ListAliasesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAliasesRequest{Request: req, Input: input, Copy: c.ListAliasesRequest}
 }
 
 const opListEventSourceMappings = "ListEventSourceMappings"
@@ -897,6 +1016,7 @@ const opListEventSourceMappings = "ListEventSourceMappings"
 type ListEventSourceMappingsRequest struct {
 	*aws.Request
 	Input *ListEventSourceMappingsInput
+	Copy  func(*ListEventSourceMappingsInput) ListEventSourceMappingsRequest
 }
 
 // Send marshals and sends the ListEventSourceMappings API request.
@@ -951,58 +1071,57 @@ func (c *Lambda) ListEventSourceMappingsRequest(input *ListEventSourceMappingsIn
 		input = &ListEventSourceMappingsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListEventSourceMappingsOutput{})
-	return ListEventSourceMappingsRequest{Request: req, Input: input}
+	output := &ListEventSourceMappingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListEventSourceMappingsRequest{Request: req, Input: input, Copy: c.ListEventSourceMappingsRequest}
 }
 
-// ListEventSourceMappingsPages iterates over the pages of a ListEventSourceMappings operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListEventSourceMappings method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListEventSourceMappingsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListEventSourceMappings operation.
-//    pageNum := 0
-//    err := client.ListEventSourceMappingsPages(params,
-//        func(page *ListEventSourceMappingsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListEventSourceMappingsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Lambda) ListEventSourceMappingsPages(input *ListEventSourceMappingsInput, fn func(*ListEventSourceMappingsOutput, bool) bool) error {
-	return c.ListEventSourceMappingsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListEventSourceMappingsRequest) Paginate(opts ...aws.Option) ListEventSourceMappingsPager {
+	return ListEventSourceMappingsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListEventSourceMappingsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListEventSourceMappingsPagesWithContext same as ListEventSourceMappingsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Lambda) ListEventSourceMappingsPagesWithContext(ctx aws.Context, input *ListEventSourceMappingsInput, fn func(*ListEventSourceMappingsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListEventSourceMappingsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListEventSourceMappingsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListEventSourceMappingsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListEventSourceMappingsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListEventSourceMappingsPager struct {
+	aws.Pager
+}
+
+func (p *ListEventSourceMappingsPager) CurrentPage() *ListEventSourceMappingsOutput {
+	return p.Pager.CurrentPage().(*ListEventSourceMappingsOutput)
 }
 
 const opListFunctions = "ListFunctions"
@@ -1011,6 +1130,7 @@ const opListFunctions = "ListFunctions"
 type ListFunctionsRequest struct {
 	*aws.Request
 	Input *ListFunctionsInput
+	Copy  func(*ListFunctionsInput) ListFunctionsRequest
 }
 
 // Send marshals and sends the ListFunctions API request.
@@ -1061,58 +1181,57 @@ func (c *Lambda) ListFunctionsRequest(input *ListFunctionsInput) ListFunctionsRe
 		input = &ListFunctionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListFunctionsOutput{})
-	return ListFunctionsRequest{Request: req, Input: input}
+	output := &ListFunctionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListFunctionsRequest{Request: req, Input: input, Copy: c.ListFunctionsRequest}
 }
 
-// ListFunctionsPages iterates over the pages of a ListFunctions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListFunctions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListFunctionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListFunctions operation.
-//    pageNum := 0
-//    err := client.ListFunctionsPages(params,
-//        func(page *ListFunctionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListFunctionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Lambda) ListFunctionsPages(input *ListFunctionsInput, fn func(*ListFunctionsOutput, bool) bool) error {
-	return c.ListFunctionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListFunctionsRequest) Paginate(opts ...aws.Option) ListFunctionsPager {
+	return ListFunctionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListFunctionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListFunctionsPagesWithContext same as ListFunctionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Lambda) ListFunctionsPagesWithContext(ctx aws.Context, input *ListFunctionsInput, fn func(*ListFunctionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListFunctionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListFunctionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListFunctionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListFunctionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListFunctionsPager struct {
+	aws.Pager
+}
+
+func (p *ListFunctionsPager) CurrentPage() *ListFunctionsOutput {
+	return p.Pager.CurrentPage().(*ListFunctionsOutput)
 }
 
 const opListTags = "ListTags"
@@ -1121,6 +1240,7 @@ const opListTags = "ListTags"
 type ListTagsRequest struct {
 	*aws.Request
 	Input *ListTagsInput
+	Copy  func(*ListTagsInput) ListTagsRequest
 }
 
 // Send marshals and sends the ListTags API request.
@@ -1137,7 +1257,9 @@ func (r ListTagsRequest) Send() (*ListTagsOutput, error) {
 // AWS Lambda.
 //
 // Returns a list of tags assigned to a function when supplied the function
-// ARN (Amazon Resource Name).
+// ARN (Amazon Resource Name). For more information on Tagging, see Tagging
+// Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+// in the AWS Lambda Developer Guide.
 //
 //    // Example sending a request using the ListTagsRequest method.
 //    req := client.ListTagsRequest(params)
@@ -1158,8 +1280,11 @@ func (c *Lambda) ListTagsRequest(input *ListTagsInput) ListTagsRequest {
 		input = &ListTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsOutput{})
-	return ListTagsRequest{Request: req, Input: input}
+	output := &ListTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsRequest{Request: req, Input: input, Copy: c.ListTagsRequest}
 }
 
 const opListVersionsByFunction = "ListVersionsByFunction"
@@ -1168,6 +1293,7 @@ const opListVersionsByFunction = "ListVersionsByFunction"
 type ListVersionsByFunctionRequest struct {
 	*aws.Request
 	Input *ListVersionsByFunctionInput
+	Copy  func(*ListVersionsByFunctionInput) ListVersionsByFunctionRequest
 }
 
 // Send marshals and sends the ListVersionsByFunction API request.
@@ -1205,8 +1331,11 @@ func (c *Lambda) ListVersionsByFunctionRequest(input *ListVersionsByFunctionInpu
 		input = &ListVersionsByFunctionInput{}
 	}
 
-	req := c.newRequest(op, input, &ListVersionsByFunctionOutput{})
-	return ListVersionsByFunctionRequest{Request: req, Input: input}
+	output := &ListVersionsByFunctionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListVersionsByFunctionRequest{Request: req, Input: input, Copy: c.ListVersionsByFunctionRequest}
 }
 
 const opPublishVersion = "PublishVersion"
@@ -1215,6 +1344,7 @@ const opPublishVersion = "PublishVersion"
 type PublishVersionRequest struct {
 	*aws.Request
 	Input *PublishVersionInput
+	Copy  func(*PublishVersionInput) PublishVersionRequest
 }
 
 // Send marshals and sends the PublishVersion API request.
@@ -1255,8 +1385,66 @@ func (c *Lambda) PublishVersionRequest(input *PublishVersionInput) PublishVersio
 		input = &PublishVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFunctionConfigurationOutput{})
-	return PublishVersionRequest{Request: req, Input: input}
+	output := &UpdateFunctionConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PublishVersionRequest{Request: req, Input: input, Copy: c.PublishVersionRequest}
+}
+
+const opPutFunctionConcurrency = "PutFunctionConcurrency"
+
+// PutFunctionConcurrencyRequest is a API request type for the PutFunctionConcurrency API operation.
+type PutFunctionConcurrencyRequest struct {
+	*aws.Request
+	Input *PutFunctionConcurrencyInput
+	Copy  func(*PutFunctionConcurrencyInput) PutFunctionConcurrencyRequest
+}
+
+// Send marshals and sends the PutFunctionConcurrency API request.
+func (r PutFunctionConcurrencyRequest) Send() (*PutFunctionConcurrencyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*PutFunctionConcurrencyOutput), nil
+}
+
+// PutFunctionConcurrencyRequest returns a request value for making API operation for
+// AWS Lambda.
+//
+// Sets a limit on the number of concurrent executions available to this function.
+// It is a subset of your account's total concurrent execution limit per region.
+// Note that Lambda automatically reserves a buffer of 100 concurrent executions
+// for functions without any reserved concurrency limit. This means if your
+// account limit is 1000, you have a total of 900 available to allocate to individual
+// functions. For more information, see concurrent-executions.
+//
+//    // Example sending a request using the PutFunctionConcurrencyRequest method.
+//    req := client.PutFunctionConcurrencyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionConcurrency
+func (c *Lambda) PutFunctionConcurrencyRequest(input *PutFunctionConcurrencyInput) PutFunctionConcurrencyRequest {
+	op := &aws.Operation{
+		Name:       opPutFunctionConcurrency,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/2017-10-31/functions/{FunctionName}/concurrency",
+	}
+
+	if input == nil {
+		input = &PutFunctionConcurrencyInput{}
+	}
+
+	output := &PutFunctionConcurrencyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutFunctionConcurrencyRequest{Request: req, Input: input, Copy: c.PutFunctionConcurrencyRequest}
 }
 
 const opRemovePermission = "RemovePermission"
@@ -1265,6 +1453,7 @@ const opRemovePermission = "RemovePermission"
 type RemovePermissionRequest struct {
 	*aws.Request
 	Input *RemovePermissionInput
+	Copy  func(*RemovePermissionInput) RemovePermissionRequest
 }
 
 // Send marshals and sends the RemovePermission API request.
@@ -1313,10 +1502,13 @@ func (c *Lambda) RemovePermissionRequest(input *RemovePermissionInput) RemovePer
 		input = &RemovePermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &RemovePermissionOutput{})
+	output := &RemovePermissionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemovePermissionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemovePermissionRequest{Request: req, Input: input, Copy: c.RemovePermissionRequest}
 }
 
 const opTagResource = "TagResource"
@@ -1325,6 +1517,7 @@ const opTagResource = "TagResource"
 type TagResourceRequest struct {
 	*aws.Request
 	Input *TagResourceInput
+	Copy  func(*TagResourceInput) TagResourceRequest
 }
 
 // Send marshals and sends the TagResource API request.
@@ -1343,6 +1536,8 @@ func (r TagResourceRequest) Send() (*TagResourceOutput, error) {
 // Creates a list of tags (key-value pairs) on the Lambda function. Requires
 // the Lambda function ARN (Amazon Resource Name). If a key is specified without
 // a value, Lambda creates a tag with the specified key and a value of null.
+// For more information, see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+// in the AWS Lambda Developer Guide.
 //
 //    // Example sending a request using the TagResourceRequest method.
 //    req := client.TagResourceRequest(params)
@@ -1363,10 +1558,13 @@ func (c *Lambda) TagResourceRequest(input *TagResourceInput) TagResourceRequest 
 		input = &TagResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &TagResourceOutput{})
+	output := &TagResourceOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return TagResourceRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TagResourceRequest{Request: req, Input: input, Copy: c.TagResourceRequest}
 }
 
 const opUntagResource = "UntagResource"
@@ -1375,6 +1573,7 @@ const opUntagResource = "UntagResource"
 type UntagResourceRequest struct {
 	*aws.Request
 	Input *UntagResourceInput
+	Copy  func(*UntagResourceInput) UntagResourceRequest
 }
 
 // Send marshals and sends the UntagResource API request.
@@ -1391,7 +1590,8 @@ func (r UntagResourceRequest) Send() (*UntagResourceOutput, error) {
 // AWS Lambda.
 //
 // Removes tags from a Lambda function. Requires the function ARN (Amazon Resource
-// Name).
+// Name). For more information, see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+// in the AWS Lambda Developer Guide.
 //
 //    // Example sending a request using the UntagResourceRequest method.
 //    req := client.UntagResourceRequest(params)
@@ -1412,10 +1612,13 @@ func (c *Lambda) UntagResourceRequest(input *UntagResourceInput) UntagResourceRe
 		input = &UntagResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &UntagResourceOutput{})
+	output := &UntagResourceOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UntagResourceRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UntagResourceRequest{Request: req, Input: input, Copy: c.UntagResourceRequest}
 }
 
 const opUpdateAlias = "UpdateAlias"
@@ -1424,6 +1627,7 @@ const opUpdateAlias = "UpdateAlias"
 type UpdateAliasRequest struct {
 	*aws.Request
 	Input *UpdateAliasInput
+	Copy  func(*UpdateAliasInput) UpdateAliasRequest
 }
 
 // Send marshals and sends the UpdateAlias API request.
@@ -1464,8 +1668,11 @@ func (c *Lambda) UpdateAliasRequest(input *UpdateAliasInput) UpdateAliasRequest 
 		input = &UpdateAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAliasOutput{})
-	return UpdateAliasRequest{Request: req, Input: input}
+	output := &UpdateAliasOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAliasRequest{Request: req, Input: input, Copy: c.UpdateAliasRequest}
 }
 
 const opUpdateEventSourceMapping = "UpdateEventSourceMapping"
@@ -1474,6 +1681,7 @@ const opUpdateEventSourceMapping = "UpdateEventSourceMapping"
 type UpdateEventSourceMappingRequest struct {
 	*aws.Request
 	Input *UpdateEventSourceMappingInput
+	Copy  func(*UpdateEventSourceMappingInput) UpdateEventSourceMappingRequest
 }
 
 // Send marshals and sends the UpdateEventSourceMapping API request.
@@ -1526,8 +1734,11 @@ func (c *Lambda) UpdateEventSourceMappingRequest(input *UpdateEventSourceMapping
 		input = &UpdateEventSourceMappingInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEventSourceMappingOutput{})
-	return UpdateEventSourceMappingRequest{Request: req, Input: input}
+	output := &UpdateEventSourceMappingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEventSourceMappingRequest{Request: req, Input: input, Copy: c.UpdateEventSourceMappingRequest}
 }
 
 const opUpdateFunctionCode = "UpdateFunctionCode"
@@ -1536,6 +1747,7 @@ const opUpdateFunctionCode = "UpdateFunctionCode"
 type UpdateFunctionCodeRequest struct {
 	*aws.Request
 	Input *UpdateFunctionCodeInput
+	Copy  func(*UpdateFunctionCodeInput) UpdateFunctionCodeRequest
 }
 
 // Send marshals and sends the UpdateFunctionCode API request.
@@ -1580,8 +1792,11 @@ func (c *Lambda) UpdateFunctionCodeRequest(input *UpdateFunctionCodeInput) Updat
 		input = &UpdateFunctionCodeInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFunctionConfigurationOutput{})
-	return UpdateFunctionCodeRequest{Request: req, Input: input}
+	output := &UpdateFunctionConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateFunctionCodeRequest{Request: req, Input: input, Copy: c.UpdateFunctionCodeRequest}
 }
 
 const opUpdateFunctionConfiguration = "UpdateFunctionConfiguration"
@@ -1590,6 +1805,7 @@ const opUpdateFunctionConfiguration = "UpdateFunctionConfiguration"
 type UpdateFunctionConfigurationRequest struct {
 	*aws.Request
 	Input *UpdateFunctionConfigurationInput
+	Copy  func(*UpdateFunctionConfigurationInput) UpdateFunctionConfigurationRequest
 }
 
 // Send marshals and sends the UpdateFunctionConfiguration API request.
@@ -1636,8 +1852,11 @@ func (c *Lambda) UpdateFunctionConfigurationRequest(input *UpdateFunctionConfigu
 		input = &UpdateFunctionConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFunctionConfigurationOutput{})
-	return UpdateFunctionConfigurationRequest{Request: req, Input: input}
+	output := &UpdateFunctionConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateFunctionConfigurationRequest{Request: req, Input: input, Copy: c.UpdateFunctionConfigurationRequest}
 }
 
 // Provides limits of code size and concurrency associated with the current
@@ -1658,12 +1877,16 @@ type AccountLimit struct {
 	// Number of simultaneous executions of your function per region. For more information
 	// or to request a limit increase for concurrent executions, see Lambda Function
 	// Concurrent Executions (http://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html).
-	// The default limit is 100.
+	// The default limit is 1000.
 	ConcurrentExecutions *int64 `type:"integer"`
 
 	// Maximum size, in bytes, of a code package you can upload per region. The
 	// default size is 75 GB.
 	TotalCodeSize *int64 `type:"long"`
+
+	// The number of concurrent executions available to functions that do not have
+	// concurrency limits set. For more information, see concurrent-executions.
+	UnreservedConcurrentExecutions *int64 `type:"integer"`
 }
 
 // String returns the string representation
@@ -1676,28 +1899,39 @@ func (s AccountLimit) GoString() string {
 	return s.String()
 }
 
-// SetCodeSizeUnzipped sets the CodeSizeUnzipped field's value.
-func (s *AccountLimit) SetCodeSizeUnzipped(v int64) *AccountLimit {
-	s.CodeSizeUnzipped = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AccountLimit) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeSizeUnzipped != nil {
+		v := *s.CodeSizeUnzipped
 
-// SetCodeSizeZipped sets the CodeSizeZipped field's value.
-func (s *AccountLimit) SetCodeSizeZipped(v int64) *AccountLimit {
-	s.CodeSizeZipped = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CodeSizeUnzipped", protocol.Int64Value(v), metadata)
+	}
+	if s.CodeSizeZipped != nil {
+		v := *s.CodeSizeZipped
 
-// SetConcurrentExecutions sets the ConcurrentExecutions field's value.
-func (s *AccountLimit) SetConcurrentExecutions(v int64) *AccountLimit {
-	s.ConcurrentExecutions = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CodeSizeZipped", protocol.Int64Value(v), metadata)
+	}
+	if s.ConcurrentExecutions != nil {
+		v := *s.ConcurrentExecutions
 
-// SetTotalCodeSize sets the TotalCodeSize field's value.
-func (s *AccountLimit) SetTotalCodeSize(v int64) *AccountLimit {
-	s.TotalCodeSize = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ConcurrentExecutions", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalCodeSize != nil {
+		v := *s.TotalCodeSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalCodeSize", protocol.Int64Value(v), metadata)
+	}
+	if s.UnreservedConcurrentExecutions != nil {
+		v := *s.UnreservedConcurrentExecutions
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UnreservedConcurrentExecutions", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Provides code size usage and function count associated with the current account
@@ -1723,16 +1957,21 @@ func (s AccountUsage) GoString() string {
 	return s.String()
 }
 
-// SetFunctionCount sets the FunctionCount field's value.
-func (s *AccountUsage) SetFunctionCount(v int64) *AccountUsage {
-	s.FunctionCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AccountUsage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FunctionCount != nil {
+		v := *s.FunctionCount
 
-// SetTotalCodeSize sets the TotalCodeSize field's value.
-func (s *AccountUsage) SetTotalCodeSize(v int64) *AccountUsage {
-	s.TotalCodeSize = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalCodeSize != nil {
+		v := *s.TotalCodeSize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalCodeSize", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermissionRequest
@@ -1791,6 +2030,13 @@ type AddPermissionInput struct {
 	//
 	// arn:aws:lambda:aws-region:acct-id:function:function-name
 	Qualifier *string `location:"querystring" locationName:"Qualifier" min:"1" type:"string"`
+
+	// An optional value you can use to ensure you are updating the latest update
+	// of the function version or alias. If the RevisionID you pass doesn't match
+	// the latest RevisionId of the function or alias, it will fail with an error
+	// message, advising you to retrieve the latest function version or alias RevisionID
+	// using either or .
+	RevisionId *string `type:"string"`
 
 	// This parameter is used for S3 and SES. The AWS account ID (without a hyphen)
 	// of the source owner. For example, if the SourceArn identifies a bucket, then
@@ -1862,57 +2108,71 @@ func (s *AddPermissionInput) Validate() error {
 	return nil
 }
 
-// SetAction sets the Action field's value.
-func (s *AddPermissionInput) SetAction(v string) *AddPermissionInput {
-	s.Action = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddPermissionInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetEventSourceToken sets the EventSourceToken field's value.
-func (s *AddPermissionInput) SetEventSourceToken(v string) *AddPermissionInput {
-	s.EventSourceToken = &v
-	return s
-}
+	if s.Action != nil {
+		v := *s.Action
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *AddPermissionInput) SetFunctionName(v string) *AddPermissionInput {
-	s.FunctionName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EventSourceToken != nil {
+		v := *s.EventSourceToken
 
-// SetPrincipal sets the Principal field's value.
-func (s *AddPermissionInput) SetPrincipal(v string) *AddPermissionInput {
-	s.Principal = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EventSourceToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Principal != nil {
+		v := *s.Principal
 
-// SetQualifier sets the Qualifier field's value.
-func (s *AddPermissionInput) SetQualifier(v string) *AddPermissionInput {
-	s.Qualifier = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Principal", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
 
-// SetSourceAccount sets the SourceAccount field's value.
-func (s *AddPermissionInput) SetSourceAccount(v string) *AddPermissionInput {
-	s.SourceAccount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SourceAccount != nil {
+		v := *s.SourceAccount
 
-// SetSourceArn sets the SourceArn field's value.
-func (s *AddPermissionInput) SetSourceArn(v string) *AddPermissionInput {
-	s.SourceArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SourceAccount", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SourceArn != nil {
+		v := *s.SourceArn
 
-// SetStatementId sets the StatementId field's value.
-func (s *AddPermissionInput) SetStatementId(v string) *AddPermissionInput {
-	s.StatementId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StatementId != nil {
+		v := *s.StatementId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StatementId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AddPermissionResponse
 type AddPermissionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The permission statement you specified in the request. The response returns
 	// the same as a string using a backslash ("\") as an escape character in the
@@ -1930,10 +2190,59 @@ func (s AddPermissionOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatement sets the Statement field's value.
-func (s *AddPermissionOutput) SetStatement(v string) *AddPermissionOutput {
-	s.Statement = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddPermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddPermissionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Statement != nil {
+		v := *s.Statement
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Statement", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// The parent object that implements what percentage of traffic will invoke
+// each function version. For more information, see lambda-traffic-shifting-using-aliases.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/AliasRoutingConfiguration
+type AliasRoutingConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// Set this value to dictate what percentage of traffic will invoke the updated
+	// function version. If set to an empty string, 100 percent of traffic will
+	// invoke function-version. For more information, see lambda-traffic-shifting-using-aliases.
+	AdditionalVersionWeights map[string]float64 `type:"map"`
+}
+
+// String returns the string representation
+func (s AliasRoutingConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AliasRoutingConfiguration) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AliasRoutingConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AdditionalVersionWeights) > 0 {
+		v := s.AdditionalVersionWeights
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "AdditionalVersionWeights", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.Float64Value(v1))
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateAliasRequest
@@ -1959,6 +2268,11 @@ type CreateAliasInput struct {
 	//
 	// Name is a required field
 	Name *string `min:"1" type:"string" required:"true"`
+
+	// Specifies an additional version your alias can point to, allowing you to
+	// dictate what percentage of traffic will invoke each version. For more information,
+	// see lambda-traffic-shifting-using-aliases.
+	RoutingConfig *AliasRoutingConfiguration `type:"structure"`
 }
 
 // String returns the string representation
@@ -2002,28 +2316,40 @@ func (s *CreateAliasInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateAliasInput) SetDescription(v string) *CreateAliasInput {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateAliasInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *CreateAliasInput) SetFunctionName(v string) *CreateAliasInput {
-	s.FunctionName = &v
-	return s
-}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFunctionVersion sets the FunctionVersion field's value.
-func (s *CreateAliasInput) SetFunctionVersion(v string) *CreateAliasInput {
-	s.FunctionVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
 
-// SetName sets the Name field's value.
-func (s *CreateAliasInput) SetName(v string) *CreateAliasInput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoutingConfig != nil {
+		v := s.RoutingConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RoutingConfig", v, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateEventSourceMappingRequest
@@ -2067,19 +2393,21 @@ type CreateEventSourceMappingInput struct {
 	// FunctionName is a required field
 	FunctionName *string `min:"1" type:"string" required:"true"`
 
-	// The position in the stream where AWS Lambda should start reading. Valid only
-	// for Kinesis streams. For more information, see ShardIteratorType (http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType)
-	// in the Amazon Kinesis API Reference.
+	// The position in the DynamoDB or Kinesis stream where AWS Lambda should start
+	// reading. For more information, see GetShardIterator (http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType)
+	// in the Amazon Kinesis API Reference Guide or GetShardIterator (http://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetShardIterator.html)
+	// in the Amazon DynamoDB API Reference Guide. The AT_TIMESTAMP value is supported
+	// only for Kinesis streams (http://docs.aws.amazon.com/streams/latest/dev/amazon-kinesis-streams.html).
 	//
 	// StartingPosition is a required field
-	StartingPosition EventSourcePosition `type:"string" required:"true"`
+	StartingPosition EventSourcePosition `type:"string" required:"true" enum:"true"`
 
 	// The timestamp of the data record from which to start reading. Used with shard
 	// iterator type (http://docs.aws.amazon.com/kinesis/latest/APIReference/API_GetShardIterator.html#Kinesis-GetShardIterator-request-ShardIteratorType)
 	// AT_TIMESTAMP. If a record with this exact timestamp does not exist, the iterator
 	// returned is for the next (later) record. If the timestamp is older than the
 	// current trim horizon, the iterator returned is for the oldest untrimmed data
-	// record (TRIM_HORIZON). Valid only for Kinesis streams.
+	// record (TRIM_HORIZON). Valid only for Kinesis streams (http://docs.aws.amazon.com/streams/latest/dev/amazon-kinesis-streams.html).
 	StartingPositionTimestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
 }
 
@@ -2120,40 +2448,46 @@ func (s *CreateEventSourceMappingInput) Validate() error {
 	return nil
 }
 
-// SetBatchSize sets the BatchSize field's value.
-func (s *CreateEventSourceMappingInput) SetBatchSize(v int64) *CreateEventSourceMappingInput {
-	s.BatchSize = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetEnabled sets the Enabled field's value.
-func (s *CreateEventSourceMappingInput) SetEnabled(v bool) *CreateEventSourceMappingInput {
-	s.Enabled = &v
-	return s
-}
+	if s.BatchSize != nil {
+		v := *s.BatchSize
 
-// SetEventSourceArn sets the EventSourceArn field's value.
-func (s *CreateEventSourceMappingInput) SetEventSourceArn(v string) *CreateEventSourceMappingInput {
-	s.EventSourceArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BatchSize", protocol.Int64Value(v), metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *CreateEventSourceMappingInput) SetFunctionName(v string) *CreateEventSourceMappingInput {
-	s.FunctionName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.EventSourceArn != nil {
+		v := *s.EventSourceArn
 
-// SetStartingPosition sets the StartingPosition field's value.
-func (s *CreateEventSourceMappingInput) SetStartingPosition(v EventSourcePosition) *CreateEventSourceMappingInput {
-	s.StartingPosition = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EventSourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetStartingPositionTimestamp sets the StartingPositionTimestamp field's value.
-func (s *CreateEventSourceMappingInput) SetStartingPositionTimestamp(v time.Time) *CreateEventSourceMappingInput {
-	s.StartingPositionTimestamp = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.StartingPosition) > 0 {
+		v := s.StartingPosition
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartingPosition", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.StartingPositionTimestamp != nil {
+		v := *s.StartingPositionTimestamp
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartingPositionTimestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/CreateFunctionRequest
@@ -2166,7 +2500,7 @@ type CreateFunctionInput struct {
 	Code *FunctionCode `type:"structure" required:"true"`
 
 	// The parent object that contains the target ARN (Amazon Resource Name) of
-	// an Amazon SQS queue or Amazon SNS topic.
+	// an Amazon SQS queue or Amazon SNS topic. For more information, see dlq.
 	DeadLetterConfig *DeadLetterConfig `type:"structure"`
 
 	// A short, user-defined function description. Lambda does not use this value.
@@ -2222,21 +2556,22 @@ type CreateFunctionInput struct {
 	// To use the Python runtime v3.6, set the value to "python3.6". To use the
 	// Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime
 	// v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set
-	// the value to "nodejs4.3".
+	// the value to "nodejs4.3". To use the .NET Core runtime v1.0, set the value
+	// to "dotnetcore1.0". To use the .NET Core runtime v2.0, set the value to "dotnetcore2.0".
 	//
 	// Node v0.10.42 is currently marked as deprecated. You must migrate existing
 	// functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3
-	// or nodejs6.10) as soon as possible. You can request a one-time extension
-	// until June 30, 2017 by going to the Lambda console and following the instructions
-	// provided. Failure to do so will result in an invalid parmaeter error being
-	// returned. Note that you will have to follow this procedure for each region
-	// that contains functions written in the Node v0.10.42 runtime.
+	// or nodejs6.10) as soon as possible. Failure to do so will result in an invalid
+	// parameter error being returned. Note that you will have to follow this procedure
+	// for each region that contains functions written in the Node v0.10.42 runtime.
 	//
 	// Runtime is a required field
-	Runtime Runtime `type:"string" required:"true"`
+	Runtime Runtime `type:"string" required:"true" enum:"true"`
 
-	// The list of tags (key-value pairs) assigned to the new function.
-	Tags map[string]*string `type:"map"`
+	// The list of tags (key-value pairs) assigned to the new function. For more
+	// information, see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
+	Tags map[string]string `type:"map"`
 
 	// The function execution time at which Lambda should terminate the function.
 	// Because the execution time has cost implications, we recommend you set this
@@ -2306,104 +2641,117 @@ func (s *CreateFunctionInput) Validate() error {
 	return nil
 }
 
-// SetCode sets the Code field's value.
-func (s *CreateFunctionInput) SetCode(v *FunctionCode) *CreateFunctionInput {
-	s.Code = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Code != nil {
+		v := s.Code
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Code", v, metadata)
+	}
+	if s.DeadLetterConfig != nil {
+		v := s.DeadLetterConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DeadLetterConfig", v, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Environment != nil {
+		v := s.Environment
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Environment", v, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Handler != nil {
+		v := *s.Handler
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Handler", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.KMSKeyArn != nil {
+		v := *s.KMSKeyArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KMSKeyArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MemorySize != nil {
+		v := *s.MemorySize
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MemorySize", protocol.Int64Value(v), metadata)
+	}
+	if s.Publish != nil {
+		v := *s.Publish
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Publish", protocol.BoolValue(v), metadata)
+	}
+	if s.Role != nil {
+		v := *s.Role
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Runtime) > 0 {
+		v := s.Runtime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Runtime", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Tags", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.Timeout != nil {
+		v := *s.Timeout
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Timeout", protocol.Int64Value(v), metadata)
+	}
+	if s.TracingConfig != nil {
+		v := s.TracingConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TracingConfig", v, metadata)
+	}
+	if s.VpcConfig != nil {
+		v := s.VpcConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VpcConfig", v, metadata)
+	}
+	return nil
 }
 
-// SetDeadLetterConfig sets the DeadLetterConfig field's value.
-func (s *CreateFunctionInput) SetDeadLetterConfig(v *DeadLetterConfig) *CreateFunctionInput {
-	s.DeadLetterConfig = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateFunctionInput) SetDescription(v string) *CreateFunctionInput {
-	s.Description = &v
-	return s
-}
-
-// SetEnvironment sets the Environment field's value.
-func (s *CreateFunctionInput) SetEnvironment(v *Environment) *CreateFunctionInput {
-	s.Environment = v
-	return s
-}
-
-// SetFunctionName sets the FunctionName field's value.
-func (s *CreateFunctionInput) SetFunctionName(v string) *CreateFunctionInput {
-	s.FunctionName = &v
-	return s
-}
-
-// SetHandler sets the Handler field's value.
-func (s *CreateFunctionInput) SetHandler(v string) *CreateFunctionInput {
-	s.Handler = &v
-	return s
-}
-
-// SetKMSKeyArn sets the KMSKeyArn field's value.
-func (s *CreateFunctionInput) SetKMSKeyArn(v string) *CreateFunctionInput {
-	s.KMSKeyArn = &v
-	return s
-}
-
-// SetMemorySize sets the MemorySize field's value.
-func (s *CreateFunctionInput) SetMemorySize(v int64) *CreateFunctionInput {
-	s.MemorySize = &v
-	return s
-}
-
-// SetPublish sets the Publish field's value.
-func (s *CreateFunctionInput) SetPublish(v bool) *CreateFunctionInput {
-	s.Publish = &v
-	return s
-}
-
-// SetRole sets the Role field's value.
-func (s *CreateFunctionInput) SetRole(v string) *CreateFunctionInput {
-	s.Role = &v
-	return s
-}
-
-// SetRuntime sets the Runtime field's value.
-func (s *CreateFunctionInput) SetRuntime(v Runtime) *CreateFunctionInput {
-	s.Runtime = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateFunctionInput) SetTags(v map[string]*string) *CreateFunctionInput {
-	s.Tags = v
-	return s
-}
-
-// SetTimeout sets the Timeout field's value.
-func (s *CreateFunctionInput) SetTimeout(v int64) *CreateFunctionInput {
-	s.Timeout = &v
-	return s
-}
-
-// SetTracingConfig sets the TracingConfig field's value.
-func (s *CreateFunctionInput) SetTracingConfig(v *TracingConfig) *CreateFunctionInput {
-	s.TracingConfig = v
-	return s
-}
-
-// SetVpcConfig sets the VpcConfig field's value.
-func (s *CreateFunctionInput) SetVpcConfig(v *VpcConfig) *CreateFunctionInput {
-	s.VpcConfig = v
-	return s
-}
-
-// The parent object that contains the target ARN (Amazon Resource Name) of
-// an Amazon SQS queue or Amazon SNS topic.
+// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic
+// you specify as your Dead Letter Queue (DLQ). For more information, see dlq.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeadLetterConfig
 type DeadLetterConfig struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic
-	// you specify as your Dead Letter Queue (DLQ).
+	// you specify as your Dead Letter Queue (DLQ). dlq. For more information, see
+	// dlq.
 	TargetArn *string `type:"string"`
 }
 
@@ -2417,10 +2765,15 @@ func (s DeadLetterConfig) GoString() string {
 	return s.String()
 }
 
-// SetTargetArn sets the TargetArn field's value.
-func (s *DeadLetterConfig) SetTargetArn(v string) *DeadLetterConfig {
-	s.TargetArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeadLetterConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TargetArn != nil {
+		v := *s.TargetArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TargetArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAliasRequest
@@ -2475,21 +2828,29 @@ func (s *DeleteAliasInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *DeleteAliasInput) SetFunctionName(v string) *DeleteAliasInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteAliasInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *DeleteAliasInput) SetName(v string) *DeleteAliasInput {
-	s.Name = &v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteAliasOutput
 type DeleteAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2500,6 +2861,16 @@ func (s DeleteAliasOutput) String() string {
 // GoString returns the string representation
 func (s DeleteAliasOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteEventSourceMappingRequest
@@ -2536,10 +2907,93 @@ func (s *DeleteEventSourceMappingInput) Validate() error {
 	return nil
 }
 
-// SetUUID sets the UUID field's value.
-func (s *DeleteEventSourceMappingInput) SetUUID(v string) *DeleteEventSourceMappingInput {
-	s.UUID = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.UUID != nil {
+		v := *s.UUID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UUID", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionConcurrencyRequest
+type DeleteFunctionConcurrencyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the function you are removing concurrent execution limits from.
+	// For more information, see concurrent-executions.
+	//
+	// FunctionName is a required field
+	FunctionName *string `location:"uri" locationName:"FunctionName" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteFunctionConcurrencyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteFunctionConcurrencyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteFunctionConcurrencyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteFunctionConcurrencyInput"}
+
+	if s.FunctionName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("FunctionName"))
+	}
+	if s.FunctionName != nil && len(*s.FunctionName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("FunctionName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFunctionConcurrencyInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionConcurrencyOutput
+type DeleteFunctionConcurrencyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeleteFunctionConcurrencyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteFunctionConcurrencyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteFunctionConcurrencyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFunctionConcurrencyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionRequest
@@ -2606,21 +3060,29 @@ func (s *DeleteFunctionInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *DeleteFunctionInput) SetFunctionName(v string) *DeleteFunctionInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQualifier sets the Qualifier field's value.
-func (s *DeleteFunctionInput) SetQualifier(v string) *DeleteFunctionInput {
-	s.Qualifier = &v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/DeleteFunctionOutput
 type DeleteFunctionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2633,13 +3095,23 @@ func (s DeleteFunctionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteFunctionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFunctionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // The parent object that contains your environment's configuration settings.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/Environment
 type Environment struct {
 	_ struct{} `type:"structure"`
 
 	// The key-value pairs that represent your environment's configuration settings.
-	Variables map[string]*string `type:"map"`
+	Variables map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -2652,10 +3124,21 @@ func (s Environment) GoString() string {
 	return s.String()
 }
 
-// SetVariables sets the Variables field's value.
-func (s *Environment) SetVariables(v map[string]*string) *Environment {
-	s.Variables = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Environment) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Variables) > 0 {
+		v := s.Variables
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Variables", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // The parent object that contains error information associated with your configuration
@@ -2681,16 +3164,21 @@ func (s EnvironmentError) GoString() string {
 	return s.String()
 }
 
-// SetErrorCode sets the ErrorCode field's value.
-func (s *EnvironmentError) SetErrorCode(v string) *EnvironmentError {
-	s.ErrorCode = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EnvironmentError) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorCode != nil {
+		v := *s.ErrorCode
 
-// SetMessage sets the Message field's value.
-func (s *EnvironmentError) SetMessage(v string) *EnvironmentError {
-	s.Message = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ErrorCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Message != nil {
+		v := *s.Message
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Message", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The parent object returned that contains your environment's configuration
@@ -2705,7 +3193,7 @@ type EnvironmentResponse struct {
 
 	// The key-value pairs returned that represent your environment's configuration
 	// settings or error information.
-	Variables map[string]*string `type:"map"`
+	Variables map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -2718,16 +3206,27 @@ func (s EnvironmentResponse) GoString() string {
 	return s.String()
 }
 
-// SetError sets the Error field's value.
-func (s *EnvironmentResponse) SetError(v *EnvironmentError) *EnvironmentResponse {
-	s.Error = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EnvironmentResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Error != nil {
+		v := s.Error
 
-// SetVariables sets the Variables field's value.
-func (s *EnvironmentResponse) SetVariables(v map[string]*string) *EnvironmentResponse {
-	s.Variables = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Error", v, metadata)
+	}
+	if len(s.Variables) > 0 {
+		v := s.Variables
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Variables", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // The code for the Lambda function.
@@ -2786,28 +3285,33 @@ func (s *FunctionCode) Validate() error {
 	return nil
 }
 
-// SetS3Bucket sets the S3Bucket field's value.
-func (s *FunctionCode) SetS3Bucket(v string) *FunctionCode {
-	s.S3Bucket = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FunctionCode) MarshalFields(e protocol.FieldEncoder) error {
+	if s.S3Bucket != nil {
+		v := *s.S3Bucket
 
-// SetS3Key sets the S3Key field's value.
-func (s *FunctionCode) SetS3Key(v string) *FunctionCode {
-	s.S3Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Bucket", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3Key != nil {
+		v := *s.S3Key
 
-// SetS3ObjectVersion sets the S3ObjectVersion field's value.
-func (s *FunctionCode) SetS3ObjectVersion(v string) *FunctionCode {
-	s.S3ObjectVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Key", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3ObjectVersion != nil {
+		v := *s.S3ObjectVersion
 
-// SetZipFile sets the ZipFile field's value.
-func (s *FunctionCode) SetZipFile(v []byte) *FunctionCode {
-	s.ZipFile = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3ObjectVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ZipFile != nil {
+		v := s.ZipFile
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ZipFile", protocol.QuotedValue{ValueMarshaler: protocol.BytesValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The object for the Lambda function location.
@@ -2833,16 +3337,21 @@ func (s FunctionCodeLocation) GoString() string {
 	return s.String()
 }
 
-// SetLocation sets the Location field's value.
-func (s *FunctionCodeLocation) SetLocation(v string) *FunctionCodeLocation {
-	s.Location = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FunctionCodeLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Location != nil {
+		v := *s.Location
 
-// SetRepositoryType sets the RepositoryType field's value.
-func (s *FunctionCodeLocation) SetRepositoryType(v string) *FunctionCodeLocation {
-	s.RepositoryType = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Location", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RepositoryType != nil {
+		v := *s.RepositoryType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RepositoryType", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettingsRequest
@@ -2860,9 +3369,17 @@ func (s GetAccountSettingsInput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAccountSettingsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAccountSettingsResponse
 type GetAccountSettingsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Provides limits of code size and concurrency associated with the current
 	// account and region.
@@ -2883,16 +3400,26 @@ func (s GetAccountSettingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccountLimit sets the AccountLimit field's value.
-func (s *GetAccountSettingsOutput) SetAccountLimit(v *AccountLimit) *GetAccountSettingsOutput {
-	s.AccountLimit = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccountSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetAccountUsage sets the AccountUsage field's value.
-func (s *GetAccountSettingsOutput) SetAccountUsage(v *AccountUsage) *GetAccountSettingsOutput {
-	s.AccountUsage = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAccountSettingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccountLimit != nil {
+		v := s.AccountLimit
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AccountLimit", v, metadata)
+	}
+	if s.AccountUsage != nil {
+		v := s.AccountUsage
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AccountUsage", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAliasRequest
@@ -2948,16 +3475,22 @@ func (s *GetAliasInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *GetAliasInput) SetFunctionName(v string) *GetAliasInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAliasInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *GetAliasInput) SetName(v string) *GetAliasInput {
-	s.Name = &v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetEventSourceMappingRequest
@@ -2994,10 +3527,16 @@ func (s *GetEventSourceMappingInput) Validate() error {
 	return nil
 }
 
-// SetUUID sets the UUID field's value.
-func (s *GetEventSourceMappingInput) SetUUID(v string) *GetEventSourceMappingInput {
-	s.UUID = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.UUID != nil {
+		v := *s.UUID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UUID", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionConfigurationRequest
@@ -3057,16 +3596,22 @@ func (s *GetFunctionConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *GetFunctionConfigurationInput) SetFunctionName(v string) *GetFunctionConfigurationInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFunctionConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQualifier sets the Qualifier field's value.
-func (s *GetFunctionConfigurationInput) SetQualifier(v string) *GetFunctionConfigurationInput {
-	s.Qualifier = &v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetFunctionRequest
@@ -3084,7 +3629,7 @@ type GetFunctionInput struct {
 	// FunctionName is a required field
 	FunctionName *string `location:"uri" locationName:"FunctionName" min:"1" type:"string" required:"true"`
 
-	// Using this optional parameter to specify a function version or an alias name.
+	// Use this optional parameter to specify a function version or an alias name.
 	// If you specify function version, the API uses qualified function ARN for
 	// the request and returns information about the specific Lambda function version.
 	// If you specify an alias name, the API uses the alias ARN and returns information
@@ -3124,16 +3669,22 @@ func (s *GetFunctionInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *GetFunctionInput) SetFunctionName(v string) *GetFunctionInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQualifier sets the Qualifier field's value.
-func (s *GetFunctionInput) SetQualifier(v string) *GetFunctionInput {
-	s.Qualifier = &v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // This response contains the object for the Lambda function location (see FunctionCodeLocation.
@@ -3141,14 +3692,22 @@ func (s *GetFunctionInput) SetQualifier(v string) *GetFunctionInput {
 type GetFunctionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The object for the Lambda function location.
 	Code *FunctionCodeLocation `type:"structure"`
+
+	// The concurrent execution limit set for this function. For more information,
+	// see concurrent-executions.
+	Concurrency *PutFunctionConcurrencyOutput `type:"structure"`
 
 	// A complex type that describes function metadata.
 	Configuration *UpdateFunctionConfigurationOutput `type:"structure"`
 
-	// Returns the list of tags associated with the function.
-	Tags map[string]*string `type:"map"`
+	// Returns the list of tags associated with the function. For more information,
+	// see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
+	Tags map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -3161,22 +3720,44 @@ func (s GetFunctionOutput) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *GetFunctionOutput) SetCode(v *FunctionCodeLocation) *GetFunctionOutput {
-	s.Code = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetFunctionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetConfiguration sets the Configuration field's value.
-func (s *GetFunctionOutput) SetConfiguration(v *UpdateFunctionConfigurationOutput) *GetFunctionOutput {
-	s.Configuration = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFunctionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Code != nil {
+		v := s.Code
 
-// SetTags sets the Tags field's value.
-func (s *GetFunctionOutput) SetTags(v map[string]*string) *GetFunctionOutput {
-	s.Tags = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Code", v, metadata)
+	}
+	if s.Concurrency != nil {
+		v := s.Concurrency
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Concurrency", v, metadata)
+	}
+	if s.Configuration != nil {
+		v := s.Configuration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Configuration", v, metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Tags", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicyRequest
@@ -3234,26 +3815,37 @@ func (s *GetPolicyInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *GetPolicyInput) SetFunctionName(v string) *GetPolicyInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQualifier sets the Qualifier field's value.
-func (s *GetPolicyInput) SetQualifier(v string) *GetPolicyInput {
-	s.Qualifier = &v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetPolicyResponse
 type GetPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The resource policy associated with the specified function. The response
 	// returns the same as a string using a backslash ("\") as an escape character
 	// in the JSON.
 	Policy *string `type:"string"`
+
+	// Represents the latest updated revision of the function or alias.
+	RevisionId *string `type:"string"`
 }
 
 // String returns the string representation
@@ -3266,10 +3858,26 @@ func (s GetPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *GetPolicyOutput) SetPolicy(v string) *GetPolicyOutput {
-	s.Policy = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Policy != nil {
+		v := *s.Policy
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Policy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsyncRequest
@@ -3320,22 +3928,30 @@ func (s *InvokeAsyncInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *InvokeAsyncInput) SetFunctionName(v string) *InvokeAsyncInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InvokeAsyncInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetInvokeArgs sets the InvokeArgs field's value.
-func (s *InvokeAsyncInput) SetInvokeArgs(v io.ReadSeeker) *InvokeAsyncInput {
-	s.InvokeArgs = v
-	return s
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.InvokeArgs != nil {
+		v := s.InvokeArgs
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "InvokeArgs", protocol.ReadSeekerStream{V: v}, metadata)
+	}
+	return nil
 }
 
 // Upon success, it returns empty response. Otherwise, throws an exception.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvokeAsyncResponse
 type InvokeAsyncOutput struct {
 	_ struct{} `deprecated:"true" type:"structure"`
+
+	responseMetadata aws.Response
 
 	// It will be 202 upon success.
 	Status *int64 `location:"statusCode" type:"integer"`
@@ -3351,10 +3967,15 @@ func (s InvokeAsyncOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *InvokeAsyncOutput) SetStatus(v int64) *InvokeAsyncOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InvokeAsyncOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InvokeAsyncOutput) MarshalFields(e protocol.FieldEncoder) error {
+	// ignoring invalid encode state, StatusCode. Status
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvocationRequest
@@ -3367,7 +3988,8 @@ type InvokeInput struct {
 	// of a ClientContext JSON, see PutEvents (http://docs.aws.amazon.com/mobileanalytics/latest/ug/PutEvents.html)
 	// in the Amazon Mobile Analytics API Reference and User Guide.
 	//
-	// The ClientContext JSON must be base64-encoded.
+	// The ClientContext JSON must be base64-encoded and has a maximum size of 3583
+	// bytes.
 	ClientContext *string `location:"header" locationName:"X-Amz-Client-Context" type:"string"`
 
 	// The Lambda function name.
@@ -3388,13 +4010,13 @@ type InvokeInput struct {
 	// invoke the function and if the inputs are valid. You request this by specifying
 	// DryRun as the InvocationType. This is useful in a cross-account scenario
 	// when you want to verify access to a function without running it.
-	InvocationType InvocationType `location:"header" locationName:"X-Amz-Invocation-Type" type:"string"`
+	InvocationType InvocationType `location:"header" locationName:"X-Amz-Invocation-Type" type:"string" enum:"true"`
 
 	// You can set this optional parameter to Tail in the request only if you specify
 	// the InvocationType parameter with value RequestResponse. In this case, AWS
 	// Lambda returns the base64-encoded last 4 KB of log data produced by your
 	// Lambda function in the x-amz-log-result header.
-	LogType LogType `location:"header" locationName:"X-Amz-Log-Type" type:"string"`
+	LogType LogType `location:"header" locationName:"X-Amz-Log-Type" type:"string" enum:"true"`
 
 	// JSON that you want to provide to your Lambda function as input.
 	Payload []byte `type:"blob"`
@@ -3440,46 +4062,58 @@ func (s *InvokeInput) Validate() error {
 	return nil
 }
 
-// SetClientContext sets the ClientContext field's value.
-func (s *InvokeInput) SetClientContext(v string) *InvokeInput {
-	s.ClientContext = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InvokeInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *InvokeInput) SetFunctionName(v string) *InvokeInput {
-	s.FunctionName = &v
-	return s
-}
+	if s.ClientContext != nil {
+		v := *s.ClientContext
 
-// SetInvocationType sets the InvocationType field's value.
-func (s *InvokeInput) SetInvocationType(v InvocationType) *InvokeInput {
-	s.InvocationType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Client-Context", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.InvocationType) > 0 {
+		v := s.InvocationType
 
-// SetLogType sets the LogType field's value.
-func (s *InvokeInput) SetLogType(v LogType) *InvokeInput {
-	s.LogType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Invocation-Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.LogType) > 0 {
+		v := s.LogType
 
-// SetPayload sets the Payload field's value.
-func (s *InvokeInput) SetPayload(v []byte) *InvokeInput {
-	s.Payload = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Log-Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetQualifier sets the Qualifier field's value.
-func (s *InvokeInput) SetQualifier(v string) *InvokeInput {
-	s.Qualifier = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Payload != nil {
+		v := s.Payload
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "Payload", protocol.BytesStream(v), metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Upon success, returns an empty response. Otherwise, throws an exception.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/InvocationResponse
 type InvokeOutput struct {
 	_ struct{} `type:"structure" payload:"Payload"`
+
+	responseMetadata aws.Response
+
+	// The function version that has been executed. This value is returned only
+	// if the invocation type is RequestResponse. For more information, see lambda-traffic-shifting-using-aliases.
+	ExecutedVersion *string `location:"header" locationName:"X-Amz-Executed-Version" min:"1" type:"string"`
 
 	// Indicates whether an error occurred while executing the Lambda function.
 	// If an error occurred this field will have one of two values; Handled or Unhandled.
@@ -3519,28 +4153,39 @@ func (s InvokeOutput) GoString() string {
 	return s.String()
 }
 
-// SetFunctionError sets the FunctionError field's value.
-func (s *InvokeOutput) SetFunctionError(v string) *InvokeOutput {
-	s.FunctionError = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InvokeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetLogResult sets the LogResult field's value.
-func (s *InvokeOutput) SetLogResult(v string) *InvokeOutput {
-	s.LogResult = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InvokeOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExecutedVersion != nil {
+		v := *s.ExecutedVersion
 
-// SetPayload sets the Payload field's value.
-func (s *InvokeOutput) SetPayload(v []byte) *InvokeOutput {
-	s.Payload = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Executed-Version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionError != nil {
+		v := *s.FunctionError
 
-// SetStatusCode sets the StatusCode field's value.
-func (s *InvokeOutput) SetStatusCode(v int64) *InvokeOutput {
-	s.StatusCode = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Function-Error", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LogResult != nil {
+		v := *s.LogResult
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "X-Amz-Log-Result", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Payload != nil {
+		v := s.Payload
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "Payload", protocol.BytesStream(v), metadata)
+	}
+	// ignoring invalid encode state, StatusCode. StatusCode
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliasesRequest
@@ -3601,36 +4246,44 @@ func (s *ListAliasesInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *ListAliasesInput) SetFunctionName(v string) *ListAliasesInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListAliasesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFunctionVersion sets the FunctionVersion field's value.
-func (s *ListAliasesInput) SetFunctionVersion(v string) *ListAliasesInput {
-	s.FunctionVersion = &v
-	return s
-}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetMarker sets the Marker field's value.
-func (s *ListAliasesInput) SetMarker(v string) *ListAliasesInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
 
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListAliasesInput) SetMaxItems(v int64) *ListAliasesInput {
-	s.MaxItems = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "FunctionVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListAliasesResponse
 type ListAliasesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of aliases.
-	Aliases []*UpdateAliasOutput `type:"list"`
+	Aliases []UpdateAliasOutput `type:"list"`
 
 	// A string, present if there are more aliases.
 	NextMarker *string `type:"string"`
@@ -3646,16 +4299,32 @@ func (s ListAliasesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAliases sets the Aliases field's value.
-func (s *ListAliasesOutput) SetAliases(v []*UpdateAliasOutput) *ListAliasesOutput {
-	s.Aliases = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAliasesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextMarker sets the NextMarker field's value.
-func (s *ListAliasesOutput) SetNextMarker(v string) *ListAliasesOutput {
-	s.NextMarker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListAliasesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Aliases) > 0 {
+		v := s.Aliases
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Aliases", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListEventSourceMappingsRequest
@@ -3714,28 +4383,34 @@ func (s *ListEventSourceMappingsInput) Validate() error {
 	return nil
 }
 
-// SetEventSourceArn sets the EventSourceArn field's value.
-func (s *ListEventSourceMappingsInput) SetEventSourceArn(v string) *ListEventSourceMappingsInput {
-	s.EventSourceArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListEventSourceMappingsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *ListEventSourceMappingsInput) SetFunctionName(v string) *ListEventSourceMappingsInput {
-	s.FunctionName = &v
-	return s
-}
+	if s.EventSourceArn != nil {
+		v := *s.EventSourceArn
 
-// SetMarker sets the Marker field's value.
-func (s *ListEventSourceMappingsInput) SetMarker(v string) *ListEventSourceMappingsInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "EventSourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListEventSourceMappingsInput) SetMaxItems(v int64) *ListEventSourceMappingsInput {
-	s.MaxItems = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Contains a list of event sources (see EventSourceMappingConfiguration)
@@ -3743,8 +4418,10 @@ func (s *ListEventSourceMappingsInput) SetMaxItems(v int64) *ListEventSourceMapp
 type ListEventSourceMappingsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of EventSourceMappingConfiguration objects.
-	EventSourceMappings []*UpdateEventSourceMappingOutput `type:"list"`
+	EventSourceMappings []UpdateEventSourceMappingOutput `type:"list"`
 
 	// A string, present if there are more event source mappings.
 	NextMarker *string `type:"string"`
@@ -3760,16 +4437,32 @@ func (s ListEventSourceMappingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventSourceMappings sets the EventSourceMappings field's value.
-func (s *ListEventSourceMappingsOutput) SetEventSourceMappings(v []*UpdateEventSourceMappingOutput) *ListEventSourceMappingsOutput {
-	s.EventSourceMappings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListEventSourceMappingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextMarker sets the NextMarker field's value.
-func (s *ListEventSourceMappingsOutput) SetNextMarker(v string) *ListEventSourceMappingsOutput {
-	s.NextMarker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListEventSourceMappingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.EventSourceMappings) > 0 {
+		v := s.EventSourceMappings
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "EventSourceMappings", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListFunctionsRequest
@@ -3781,9 +4474,9 @@ type ListFunctionsInput struct {
 	//
 	// Valid value:
 	//
-	// ALL _ Will return all versions, including $LATEST which will have fully qualified
+	// ALL: Will return all versions, including $LATEST which will have fully qualified
 	// ARNs (Amazon Resource Names).
-	FunctionVersion FunctionVersion `location:"querystring" locationName:"FunctionVersion" type:"string"`
+	FunctionVersion FunctionVersion `location:"querystring" locationName:"FunctionVersion" type:"string" enum:"true"`
 
 	// Optional string. An opaque pagination token returned from a previous ListFunctions
 	// operation. If present, indicates where to continue the listing.
@@ -3797,7 +4490,7 @@ type ListFunctionsInput struct {
 	// The region from which the functions are replicated. For example, if you specify
 	// us-east-1, only functions replicated from that region will be returned.
 	//
-	// ALL _ Will return all functions from any region. If specified, you also must
+	// ALL: Will return all functions from any region. If specified, you also must
 	// specify a valid FunctionVersion parameter.
 	MasterRegion *string `location:"querystring" locationName:"MasterRegion" type:"string"`
 
@@ -3829,28 +4522,34 @@ func (s *ListFunctionsInput) Validate() error {
 	return nil
 }
 
-// SetFunctionVersion sets the FunctionVersion field's value.
-func (s *ListFunctionsInput) SetFunctionVersion(v FunctionVersion) *ListFunctionsInput {
-	s.FunctionVersion = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListFunctionsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMarker sets the Marker field's value.
-func (s *ListFunctionsInput) SetMarker(v string) *ListFunctionsInput {
-	s.Marker = &v
-	return s
-}
+	if len(s.FunctionVersion) > 0 {
+		v := s.FunctionVersion
 
-// SetMasterRegion sets the MasterRegion field's value.
-func (s *ListFunctionsInput) SetMasterRegion(v string) *ListFunctionsInput {
-	s.MasterRegion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "FunctionVersion", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
 
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListFunctionsInput) SetMaxItems(v int64) *ListFunctionsInput {
-	s.MaxItems = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MasterRegion != nil {
+		v := *s.MasterRegion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "MasterRegion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Contains a list of AWS Lambda function configurations (see FunctionConfiguration.
@@ -3858,8 +4557,10 @@ func (s *ListFunctionsInput) SetMaxItems(v int64) *ListFunctionsInput {
 type ListFunctionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of Lambda functions.
-	Functions []*UpdateFunctionConfigurationOutput `type:"list"`
+	Functions []UpdateFunctionConfigurationOutput `type:"list"`
 
 	// A string, present if there are more functions.
 	NextMarker *string `type:"string"`
@@ -3875,23 +4576,41 @@ func (s ListFunctionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetFunctions sets the Functions field's value.
-func (s *ListFunctionsOutput) SetFunctions(v []*UpdateFunctionConfigurationOutput) *ListFunctionsOutput {
-	s.Functions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListFunctionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextMarker sets the NextMarker field's value.
-func (s *ListFunctionsOutput) SetNextMarker(v string) *ListFunctionsOutput {
-	s.NextMarker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListFunctionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Functions) > 0 {
+		v := s.Functions
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Functions", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTagsRequest
 type ListTagsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The ARN (Amazon Resource Name) of the function.
+	// The ARN (Amazon Resource Name) of the function. For more information, see
+	// Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
 	//
 	// Resource is a required field
 	Resource *string `location:"uri" locationName:"ARN" type:"string" required:"true"`
@@ -3921,18 +4640,28 @@ func (s *ListTagsInput) Validate() error {
 	return nil
 }
 
-// SetResource sets the Resource field's value.
-func (s *ListTagsInput) SetResource(v string) *ListTagsInput {
-	s.Resource = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTagsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Resource != nil {
+		v := *s.Resource
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListTagsResponse
 type ListTagsOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The list of tags assigned to the function.
-	Tags map[string]*string `type:"map"`
+	responseMetadata aws.Response
+
+	// The list of tags assigned to the function. For more information, see Tagging
+	// Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
+	Tags map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -3945,10 +4674,26 @@ func (s ListTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetTags sets the Tags field's value.
-func (s *ListTagsOutput) SetTags(v map[string]*string) *ListTagsOutput {
-	s.Tags = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Tags", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunctionRequest
@@ -4004,33 +4749,41 @@ func (s *ListVersionsByFunctionInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *ListVersionsByFunctionInput) SetFunctionName(v string) *ListVersionsByFunctionInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListVersionsByFunctionInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMarker sets the Marker field's value.
-func (s *ListVersionsByFunctionInput) SetMarker(v string) *ListVersionsByFunctionInput {
-	s.Marker = &v
-	return s
-}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListVersionsByFunctionInput) SetMaxItems(v int64) *ListVersionsByFunctionInput {
-	s.MaxItems = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Marker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxItems != nil {
+		v := *s.MaxItems
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "MaxItems", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/ListVersionsByFunctionResponse
 type ListVersionsByFunctionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A string, present if there are more function versions.
 	NextMarker *string `type:"string"`
 
 	// A list of Lambda function versions.
-	Versions []*UpdateFunctionConfigurationOutput `type:"list"`
+	Versions []UpdateFunctionConfigurationOutput `type:"list"`
 }
 
 // String returns the string representation
@@ -4043,16 +4796,32 @@ func (s ListVersionsByFunctionOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextMarker sets the NextMarker field's value.
-func (s *ListVersionsByFunctionOutput) SetNextMarker(v string) *ListVersionsByFunctionOutput {
-	s.NextMarker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListVersionsByFunctionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetVersions sets the Versions field's value.
-func (s *ListVersionsByFunctionOutput) SetVersions(v []*UpdateFunctionConfigurationOutput) *ListVersionsByFunctionOutput {
-	s.Versions = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListVersionsByFunctionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Versions) > 0 {
+		v := s.Versions
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Versions", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PublishVersionRequest
@@ -4060,9 +4829,10 @@ type PublishVersionInput struct {
 	_ struct{} `type:"structure"`
 
 	// The SHA256 hash of the deployment package you want to publish. This provides
-	// validation on the code you are publishing. If you provide this parameter
-	// value must match the SHA256 of the $LATEST version for the publication to
-	// succeed.
+	// validation on the code you are publishing. If you provide this parameter,
+	// the value must match the SHA256 of the $LATEST version for the publication
+	// to succeed. You can use the DryRun parameter of UpdateFunctionCode to verify
+	// the hash value that will be returned before publishing your new version.
 	CodeSha256 *string `type:"string"`
 
 	// The description for the version you are publishing. If not provided, AWS
@@ -4078,6 +4848,13 @@ type PublishVersionInput struct {
 	//
 	// FunctionName is a required field
 	FunctionName *string `location:"uri" locationName:"FunctionName" min:"1" type:"string" required:"true"`
+
+	// An optional value you can use to ensure you are updating the latest update
+	// of the function version or alias. If the RevisionID you pass doesn't match
+	// the latest RevisionId of the function or alias, it will fail with an error
+	// message, advising you to retrieve the latest function version or alias RevisionID
+	// using either or .
+	RevisionId *string `type:"string"`
 }
 
 // String returns the string representation
@@ -4107,22 +4884,137 @@ func (s *PublishVersionInput) Validate() error {
 	return nil
 }
 
-// SetCodeSha256 sets the CodeSha256 field's value.
-func (s *PublishVersionInput) SetCodeSha256(v string) *PublishVersionInput {
-	s.CodeSha256 = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PublishVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.CodeSha256 != nil {
+		v := *s.CodeSha256
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CodeSha256", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *PublishVersionInput) SetDescription(v string) *PublishVersionInput {
-	s.Description = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/PutFunctionConcurrencyRequest
+type PutFunctionConcurrencyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the function you are setting concurrent execution limits on.
+	// For more information, see concurrent-executions.
+	//
+	// FunctionName is a required field
+	FunctionName *string `location:"uri" locationName:"FunctionName" min:"1" type:"string" required:"true"`
+
+	// The concurrent execution limit reserved for this function. For more information,
+	// see concurrent-executions.
+	//
+	// ReservedConcurrentExecutions is a required field
+	ReservedConcurrentExecutions *int64 `type:"integer" required:"true"`
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *PublishVersionInput) SetFunctionName(v string) *PublishVersionInput {
-	s.FunctionName = &v
-	return s
+// String returns the string representation
+func (s PutFunctionConcurrencyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutFunctionConcurrencyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutFunctionConcurrencyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PutFunctionConcurrencyInput"}
+
+	if s.FunctionName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("FunctionName"))
+	}
+	if s.FunctionName != nil && len(*s.FunctionName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("FunctionName", 1))
+	}
+
+	if s.ReservedConcurrentExecutions == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ReservedConcurrentExecutions"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutFunctionConcurrencyInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.ReservedConcurrentExecutions != nil {
+		v := *s.ReservedConcurrentExecutions
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedConcurrentExecutions", protocol.Int64Value(v), metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/Concurrency
+type PutFunctionConcurrencyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The number of concurrent executions reserved for this function. For more
+	// information, see concurrent-executions.
+	ReservedConcurrentExecutions *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s PutFunctionConcurrencyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutFunctionConcurrencyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutFunctionConcurrencyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutFunctionConcurrencyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ReservedConcurrentExecutions != nil {
+		v := *s.ReservedConcurrentExecutions
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedConcurrentExecutions", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermissionRequest
@@ -4145,6 +5037,13 @@ type RemovePermissionInput struct {
 	// parameter, the API removes permission associated with the unqualified function
 	// ARN.
 	Qualifier *string `location:"querystring" locationName:"Qualifier" min:"1" type:"string"`
+
+	// An optional value you can use to ensure you are updating the latest update
+	// of the function version or alias. If the RevisionID you pass doesn't match
+	// the latest RevisionId of the function or alias, it will fail with an error
+	// message, advising you to retrieve the latest function version or alias RevisionID
+	// using either or .
+	RevisionId *string `location:"querystring" locationName:"RevisionId" type:"string"`
 
 	// Statement ID of the permission to remove.
 	//
@@ -4189,27 +5088,41 @@ func (s *RemovePermissionInput) Validate() error {
 	return nil
 }
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *RemovePermissionInput) SetFunctionName(v string) *RemovePermissionInput {
-	s.FunctionName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemovePermissionInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQualifier sets the Qualifier field's value.
-func (s *RemovePermissionInput) SetQualifier(v string) *RemovePermissionInput {
-	s.Qualifier = &v
-	return s
-}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetStatementId sets the StatementId field's value.
-func (s *RemovePermissionInput) SetStatementId(v string) *RemovePermissionInput {
-	s.StatementId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StatementId != nil {
+		v := *s.StatementId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "StatementId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Qualifier != nil {
+		v := *s.Qualifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "Qualifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/RemovePermissionOutput
 type RemovePermissionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4222,19 +5135,33 @@ func (s RemovePermissionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemovePermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemovePermissionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResourceRequest
 type TagResourceInput struct {
 	_ struct{} `type:"structure"`
 
-	// The ARN (Amazon Resource Name) of the Lambda function.
+	// The ARN (Amazon Resource Name) of the Lambda function. For more information,
+	// see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
 	//
 	// Resource is a required field
 	Resource *string `location:"uri" locationName:"ARN" type:"string" required:"true"`
 
 	// The list of tags (key-value pairs) you are assigning to the Lambda function.
+	// For more information, see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
 	//
 	// Tags is a required field
-	Tags map[string]*string `type:"map" required:"true"`
+	Tags map[string]string `type:"map" required:"true"`
 }
 
 // String returns the string representation
@@ -4265,21 +5192,35 @@ func (s *TagResourceInput) Validate() error {
 	return nil
 }
 
-// SetResource sets the Resource field's value.
-func (s *TagResourceInput) SetResource(v string) *TagResourceInput {
-	s.Resource = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TagResourceInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTags sets the Tags field's value.
-func (s *TagResourceInput) SetTags(v map[string]*string) *TagResourceInput {
-	s.Tags = v
-	return s
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Tags", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.Resource != nil {
+		v := *s.Resource
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TagResourceOutput
 type TagResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4292,6 +5233,16 @@ func (s TagResourceOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TagResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TagResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // The parent object that contains your function's tracing settings.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/TracingConfig
 type TracingConfig struct {
@@ -4302,7 +5253,7 @@ type TracingConfig struct {
 	// "sampled=1". If Active, Lambda will respect any tracing header it receives
 	// from an upstream service. If no tracing header is received, Lambda will call
 	// X-Ray for a tracing decision.
-	Mode TracingMode `type:"string"`
+	Mode TracingMode `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4315,10 +5266,15 @@ func (s TracingConfig) GoString() string {
 	return s.String()
 }
 
-// SetMode sets the Mode field's value.
-func (s *TracingConfig) SetMode(v TracingMode) *TracingConfig {
-	s.Mode = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TracingConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Mode) > 0 {
+		v := s.Mode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Mode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Parent object of the tracing information associated with your Lambda function.
@@ -4327,7 +5283,7 @@ type TracingConfigResponse struct {
 	_ struct{} `type:"structure"`
 
 	// The tracing mode associated with your Lambda function.
-	Mode TracingMode `type:"string"`
+	Mode TracingMode `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4340,25 +5296,34 @@ func (s TracingConfigResponse) GoString() string {
 	return s.String()
 }
 
-// SetMode sets the Mode field's value.
-func (s *TracingConfigResponse) SetMode(v TracingMode) *TracingConfigResponse {
-	s.Mode = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TracingConfigResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Mode) > 0 {
+		v := s.Mode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Mode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResourceRequest
 type UntagResourceInput struct {
 	_ struct{} `type:"structure"`
 
-	// The ARN (Amazon Resource Name) of the function.
+	// The ARN (Amazon Resource Name) of the function. For more information, see
+	// Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
 	//
 	// Resource is a required field
 	Resource *string `location:"uri" locationName:"ARN" type:"string" required:"true"`
 
-	// The list of tag keys to be deleted from the function.
+	// The list of tag keys to be deleted from the function. For more information,
+	// see Tagging Lambda Functions (http://docs.aws.amazon.com/lambda/latest/dg/tagging.html)
+	// in the AWS Lambda Developer Guide.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `location:"querystring" locationName:"tagKeys" type:"list" required:"true"`
+	TagKeys []string `location:"querystring" locationName:"tagKeys" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -4389,21 +5354,35 @@ func (s *UntagResourceInput) Validate() error {
 	return nil
 }
 
-// SetResource sets the Resource field's value.
-func (s *UntagResourceInput) SetResource(v string) *UntagResourceInput {
-	s.Resource = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UntagResourceInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTagKeys sets the TagKeys field's value.
-func (s *UntagResourceInput) SetTagKeys(v []*string) *UntagResourceInput {
-	s.TagKeys = v
-	return s
+	if s.Resource != nil {
+		v := *s.Resource
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TagKeys) > 0 {
+		v := s.TagKeys
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.QueryTarget, "tagKeys", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UntagResourceOutput
 type UntagResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4414,6 +5393,16 @@ func (s UntagResourceOutput) String() string {
 // GoString returns the string representation
 func (s UntagResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UntagResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UntagResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateAliasRequest
@@ -4438,6 +5427,18 @@ type UpdateAliasInput struct {
 	//
 	// Name is a required field
 	Name *string `location:"uri" locationName:"Name" min:"1" type:"string" required:"true"`
+
+	// An optional value you can use to ensure you are updating the latest update
+	// of the function version or alias. If the RevisionID you pass doesn't match
+	// the latest RevisionId of the function or alias, it will fail with an error
+	// message, advising you to retrieve the latest function version or alias RevisionID
+	// using either or .
+	RevisionId *string `type:"string"`
+
+	// Specifies an additional version your alias can point to, allowing you to
+	// dictate what percentage of traffic will invoke each version. For more information,
+	// see lambda-traffic-shifting-using-aliases.
+	RoutingConfig *AliasRoutingConfiguration `type:"structure"`
 }
 
 // String returns the string representation
@@ -4477,34 +5478,54 @@ func (s *UpdateAliasInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateAliasInput) SetDescription(v string) *UpdateAliasInput {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateAliasInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *UpdateAliasInput) SetFunctionName(v string) *UpdateAliasInput {
-	s.FunctionName = &v
-	return s
-}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFunctionVersion sets the FunctionVersion field's value.
-func (s *UpdateAliasInput) SetFunctionVersion(v string) *UpdateAliasInput {
-	s.FunctionVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
 
-// SetName sets the Name field's value.
-func (s *UpdateAliasInput) SetName(v string) *UpdateAliasInput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoutingConfig != nil {
+		v := s.RoutingConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RoutingConfig", v, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Provides configuration information about a Lambda function version alias.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetAliasOutput
 type UpdateAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Lambda function ARN that is qualified using the alias name as the suffix.
 	// For example, if you create an alias called BETA that points to a helloworld
@@ -4519,6 +5540,14 @@ type UpdateAliasOutput struct {
 
 	// Alias name.
 	Name *string `min:"1" type:"string"`
+
+	// Represents the latest updated revision of the function or alias.
+	RevisionId *string `type:"string"`
+
+	// Specifies an additional function versions the alias points to, allowing you
+	// to dictate what percentage of traffic will invoke each version. For more
+	// information, see lambda-traffic-shifting-using-aliases.
+	RoutingConfig *AliasRoutingConfiguration `type:"structure"`
 }
 
 // String returns the string representation
@@ -4531,28 +5560,50 @@ func (s UpdateAliasOutput) GoString() string {
 	return s.String()
 }
 
-// SetAliasArn sets the AliasArn field's value.
-func (s *UpdateAliasOutput) SetAliasArn(v string) *UpdateAliasOutput {
-	s.AliasArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateAliasOutput) SetDescription(v string) *UpdateAliasOutput {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateAliasOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AliasArn != nil {
+		v := *s.AliasArn
 
-// SetFunctionVersion sets the FunctionVersion field's value.
-func (s *UpdateAliasOutput) SetFunctionVersion(v string) *UpdateAliasOutput {
-	s.FunctionVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AliasArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetName sets the Name field's value.
-func (s *UpdateAliasOutput) SetName(v string) *UpdateAliasOutput {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionVersion != nil {
+		v := *s.FunctionVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoutingConfig != nil {
+		v := s.RoutingConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RoutingConfig", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateEventSourceMappingRequest
@@ -4620,34 +5671,42 @@ func (s *UpdateEventSourceMappingInput) Validate() error {
 	return nil
 }
 
-// SetBatchSize sets the BatchSize field's value.
-func (s *UpdateEventSourceMappingInput) SetBatchSize(v int64) *UpdateEventSourceMappingInput {
-	s.BatchSize = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEventSourceMappingInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetEnabled sets the Enabled field's value.
-func (s *UpdateEventSourceMappingInput) SetEnabled(v bool) *UpdateEventSourceMappingInput {
-	s.Enabled = &v
-	return s
-}
+	if s.BatchSize != nil {
+		v := *s.BatchSize
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *UpdateEventSourceMappingInput) SetFunctionName(v string) *UpdateEventSourceMappingInput {
-	s.FunctionName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BatchSize", protocol.Int64Value(v), metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
 
-// SetUUID sets the UUID field's value.
-func (s *UpdateEventSourceMappingInput) SetUUID(v string) *UpdateEventSourceMappingInput {
-	s.UUID = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UUID != nil {
+		v := *s.UUID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "UUID", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Describes mapping between an Amazon Kinesis stream and a Lambda function.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/GetEventSourceMappingOutput
 type UpdateEventSourceMappingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The largest number of records that AWS Lambda will retrieve from your event
 	// source at the time of invoking your function. Your function receives an event
@@ -4689,52 +5748,62 @@ func (s UpdateEventSourceMappingOutput) GoString() string {
 	return s.String()
 }
 
-// SetBatchSize sets the BatchSize field's value.
-func (s *UpdateEventSourceMappingOutput) SetBatchSize(v int64) *UpdateEventSourceMappingOutput {
-	s.BatchSize = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEventSourceMappingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetEventSourceArn sets the EventSourceArn field's value.
-func (s *UpdateEventSourceMappingOutput) SetEventSourceArn(v string) *UpdateEventSourceMappingOutput {
-	s.EventSourceArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateEventSourceMappingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchSize != nil {
+		v := *s.BatchSize
 
-// SetFunctionArn sets the FunctionArn field's value.
-func (s *UpdateEventSourceMappingOutput) SetFunctionArn(v string) *UpdateEventSourceMappingOutput {
-	s.FunctionArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BatchSize", protocol.Int64Value(v), metadata)
+	}
+	if s.EventSourceArn != nil {
+		v := *s.EventSourceArn
 
-// SetLastModified sets the LastModified field's value.
-func (s *UpdateEventSourceMappingOutput) SetLastModified(v time.Time) *UpdateEventSourceMappingOutput {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EventSourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionArn != nil {
+		v := *s.FunctionArn
 
-// SetLastProcessingResult sets the LastProcessingResult field's value.
-func (s *UpdateEventSourceMappingOutput) SetLastProcessingResult(v string) *UpdateEventSourceMappingOutput {
-	s.LastProcessingResult = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetState sets the State field's value.
-func (s *UpdateEventSourceMappingOutput) SetState(v string) *UpdateEventSourceMappingOutput {
-	s.State = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.LastProcessingResult != nil {
+		v := *s.LastProcessingResult
 
-// SetStateTransitionReason sets the StateTransitionReason field's value.
-func (s *UpdateEventSourceMappingOutput) SetStateTransitionReason(v string) *UpdateEventSourceMappingOutput {
-	s.StateTransitionReason = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastProcessingResult", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.State != nil {
+		v := *s.State
 
-// SetUUID sets the UUID field's value.
-func (s *UpdateEventSourceMappingOutput) SetUUID(v string) *UpdateEventSourceMappingOutput {
-	s.UUID = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "State", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StateTransitionReason != nil {
+		v := *s.StateTransitionReason
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StateTransitionReason", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UUID != nil {
+		v := *s.UUID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UUID", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionCodeRequest
@@ -4745,8 +5814,8 @@ type UpdateFunctionCodeInput struct {
 	// update the Lambda function and publish a version as an atomic operation.
 	// It will do all necessary computation and validation of your code but will
 	// not upload it or a publish a version. Each time this operation is invoked,
-	// the CodeSha256 hash value the provided code will also be computed and returned
-	// in the response.
+	// the CodeSha256 hash value of the provided code will also be computed and
+	// returned in the response.
 	DryRun *bool `type:"boolean"`
 
 	// The existing Lambda function name whose code you want to replace.
@@ -4764,6 +5833,13 @@ type UpdateFunctionCodeInput struct {
 	// function and publish a version as an atomic operation.
 	Publish *bool `type:"boolean"`
 
+	// An optional value you can use to ensure you are updating the latest update
+	// of the function version or alias. If the RevisionID you pass doesn't match
+	// the latest RevisionId of the function or alias, it will fail with an error
+	// message, advising you to retrieve the latest function version or alias RevisionID
+	// using either or .
+	RevisionId *string `type:"string"`
+
 	// Amazon S3 bucket name where the .zip file containing your deployment package
 	// is stored. This bucket must reside in the same AWS Region where you are creating
 	// the Lambda function.
@@ -4779,8 +5855,7 @@ type UpdateFunctionCodeInput struct {
 	// are using the web API directly, the contents of the zip file must be base64-encoded.
 	// If you are using the AWS SDKs or the AWS CLI, the SDKs or CLI will do the
 	// encoding for you. For more information about creating a .zip file, see Execution
-	// Permissions (http://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role.html)
-	// in the AWS Lambda Developer Guide.
+	// Permissions (http://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role.html).
 	//
 	// ZipFile is automatically base64 encoded/decoded by the SDK.
 	ZipFile []byte `type:"blob"`
@@ -4822,46 +5897,58 @@ func (s *UpdateFunctionCodeInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *UpdateFunctionCodeInput) SetDryRun(v bool) *UpdateFunctionCodeInput {
-	s.DryRun = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFunctionCodeInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *UpdateFunctionCodeInput) SetFunctionName(v string) *UpdateFunctionCodeInput {
-	s.FunctionName = &v
-	return s
-}
+	if s.DryRun != nil {
+		v := *s.DryRun
 
-// SetPublish sets the Publish field's value.
-func (s *UpdateFunctionCodeInput) SetPublish(v bool) *UpdateFunctionCodeInput {
-	s.Publish = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DryRun", protocol.BoolValue(v), metadata)
+	}
+	if s.Publish != nil {
+		v := *s.Publish
 
-// SetS3Bucket sets the S3Bucket field's value.
-func (s *UpdateFunctionCodeInput) SetS3Bucket(v string) *UpdateFunctionCodeInput {
-	s.S3Bucket = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Publish", protocol.BoolValue(v), metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
 
-// SetS3Key sets the S3Key field's value.
-func (s *UpdateFunctionCodeInput) SetS3Key(v string) *UpdateFunctionCodeInput {
-	s.S3Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3Bucket != nil {
+		v := *s.S3Bucket
 
-// SetS3ObjectVersion sets the S3ObjectVersion field's value.
-func (s *UpdateFunctionCodeInput) SetS3ObjectVersion(v string) *UpdateFunctionCodeInput {
-	s.S3ObjectVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Bucket", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3Key != nil {
+		v := *s.S3Key
 
-// SetZipFile sets the ZipFile field's value.
-func (s *UpdateFunctionCodeInput) SetZipFile(v []byte) *UpdateFunctionCodeInput {
-	s.ZipFile = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3Key", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.S3ObjectVersion != nil {
+		v := *s.S3ObjectVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "S3ObjectVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ZipFile != nil {
+		v := s.ZipFile
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ZipFile", protocol.QuotedValue{ValueMarshaler: protocol.BytesValue(v)}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionConfigurationRequest
@@ -4869,7 +5956,7 @@ type UpdateFunctionConfigurationInput struct {
 	_ struct{} `type:"structure"`
 
 	// The parent object that contains the target ARN (Amazon Resource Name) of
-	// an Amazon SQS queue or Amazon SNS topic.
+	// an Amazon SQS queue or Amazon SNS topic. For more information, see dlq.
 	DeadLetterConfig *DeadLetterConfig `type:"structure"`
 
 	// A short user-defined function description. AWS Lambda does not use this value.
@@ -4907,6 +5994,13 @@ type UpdateFunctionConfigurationInput struct {
 	// MB.
 	MemorySize *int64 `min:"128" type:"integer"`
 
+	// An optional value you can use to ensure you are updating the latest update
+	// of the function version or alias. If the RevisionID you pass doesn't match
+	// the latest RevisionId of the function or alias, it will fail with an error
+	// message, advising you to retrieve the latest function version or alias RevisionID
+	// using either or .
+	RevisionId *string `type:"string"`
+
 	// The Amazon Resource Name (ARN) of the IAM role that Lambda will assume when
 	// it executes your function.
 	Role *string `type:"string"`
@@ -4916,17 +6010,15 @@ type UpdateFunctionConfigurationInput struct {
 	// To use the Python runtime v3.6, set the value to "python3.6". To use the
 	// Python runtime v2.7, set the value to "python2.7". To use the Node.js runtime
 	// v6.10, set the value to "nodejs6.10". To use the Node.js runtime v4.3, set
-	// the value to "nodejs4.3". To use the Python runtime v3.6, set the value to
-	// "python3.6".
+	// the value to "nodejs4.3". To use the .NET Core runtime v1.0, set the value
+	// to "dotnetcore1.0". To use the .NET Core runtime v2.0, set the value to "dotnetcore2.0".
 	//
 	// Node v0.10.42 is currently marked as deprecated. You must migrate existing
 	// functions to the newer Node.js runtime versions available on AWS Lambda (nodejs4.3
-	// or nodejs6.10) as soon as possible. You can request a one-time extension
-	// until June 30, 2017 by going to the Lambda console and following the instructions
-	// provided. Failure to do so will result in an invalid parameter error being
-	// returned. Note that you will have to follow this procedure for each region
-	// that contains functions written in the Node v0.10.42 runtime.
-	Runtime Runtime `type:"string"`
+	// or nodejs6.10) as soon as possible. Failure to do so will result in an invalid
+	// parameter error being returned. Note that you will have to follow this procedure
+	// for each region that contains functions written in the Node v0.10.42 runtime.
+	Runtime Runtime `type:"string" enum:"true"`
 
 	// The function execution time at which AWS Lambda should terminate the function.
 	// Because the execution time has cost implications, we recommend you set this
@@ -4976,82 +6068,96 @@ func (s *UpdateFunctionConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetDeadLetterConfig sets the DeadLetterConfig field's value.
-func (s *UpdateFunctionConfigurationInput) SetDeadLetterConfig(v *DeadLetterConfig) *UpdateFunctionConfigurationInput {
-	s.DeadLetterConfig = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFunctionConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDescription sets the Description field's value.
-func (s *UpdateFunctionConfigurationInput) SetDescription(v string) *UpdateFunctionConfigurationInput {
-	s.Description = &v
-	return s
-}
+	if s.DeadLetterConfig != nil {
+		v := s.DeadLetterConfig
 
-// SetEnvironment sets the Environment field's value.
-func (s *UpdateFunctionConfigurationInput) SetEnvironment(v *Environment) *UpdateFunctionConfigurationInput {
-	s.Environment = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DeadLetterConfig", v, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *UpdateFunctionConfigurationInput) SetFunctionName(v string) *UpdateFunctionConfigurationInput {
-	s.FunctionName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Environment != nil {
+		v := s.Environment
 
-// SetHandler sets the Handler field's value.
-func (s *UpdateFunctionConfigurationInput) SetHandler(v string) *UpdateFunctionConfigurationInput {
-	s.Handler = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Environment", v, metadata)
+	}
+	if s.Handler != nil {
+		v := *s.Handler
 
-// SetKMSKeyArn sets the KMSKeyArn field's value.
-func (s *UpdateFunctionConfigurationInput) SetKMSKeyArn(v string) *UpdateFunctionConfigurationInput {
-	s.KMSKeyArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Handler", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.KMSKeyArn != nil {
+		v := *s.KMSKeyArn
 
-// SetMemorySize sets the MemorySize field's value.
-func (s *UpdateFunctionConfigurationInput) SetMemorySize(v int64) *UpdateFunctionConfigurationInput {
-	s.MemorySize = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KMSKeyArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MemorySize != nil {
+		v := *s.MemorySize
 
-// SetRole sets the Role field's value.
-func (s *UpdateFunctionConfigurationInput) SetRole(v string) *UpdateFunctionConfigurationInput {
-	s.Role = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MemorySize", protocol.Int64Value(v), metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
 
-// SetRuntime sets the Runtime field's value.
-func (s *UpdateFunctionConfigurationInput) SetRuntime(v Runtime) *UpdateFunctionConfigurationInput {
-	s.Runtime = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Role != nil {
+		v := *s.Role
 
-// SetTimeout sets the Timeout field's value.
-func (s *UpdateFunctionConfigurationInput) SetTimeout(v int64) *UpdateFunctionConfigurationInput {
-	s.Timeout = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Runtime) > 0 {
+		v := s.Runtime
 
-// SetTracingConfig sets the TracingConfig field's value.
-func (s *UpdateFunctionConfigurationInput) SetTracingConfig(v *TracingConfig) *UpdateFunctionConfigurationInput {
-	s.TracingConfig = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Runtime", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Timeout != nil {
+		v := *s.Timeout
 
-// SetVpcConfig sets the VpcConfig field's value.
-func (s *UpdateFunctionConfigurationInput) SetVpcConfig(v *VpcConfig) *UpdateFunctionConfigurationInput {
-	s.VpcConfig = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Timeout", protocol.Int64Value(v), metadata)
+	}
+	if s.TracingConfig != nil {
+		v := s.TracingConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TracingConfig", v, metadata)
+	}
+	if s.VpcConfig != nil {
+		v := s.VpcConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VpcConfig", v, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A complex type that describes function metadata.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lambda-2015-03-31/UpdateFunctionCodeOutput
 type UpdateFunctionConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// It is the SHA256 hash of your function deployment package.
 	CodeSha256 *string `type:"string"`
@@ -5060,7 +6166,7 @@ type UpdateFunctionConfigurationOutput struct {
 	CodeSize *int64 `type:"long"`
 
 	// The parent object that contains the target ARN (Amazon Resource Name) of
-	// an Amazon SQS queue or Amazon SNS topic.
+	// an Amazon SQS queue or Amazon SNS topic. For more information, see dlq.
 	DeadLetterConfig *DeadLetterConfig `type:"structure"`
 
 	// The user-provided description.
@@ -5098,12 +6204,15 @@ type UpdateFunctionConfigurationOutput struct {
 	// of 64 MB.
 	MemorySize *int64 `min:"128" type:"integer"`
 
+	// Represents the latest updated revision of the function or alias.
+	RevisionId *string `type:"string"`
+
 	// The Amazon Resource Name (ARN) of the IAM role that Lambda assumes when it
 	// executes your function to access any other Amazon Web Services (AWS) resources.
 	Role *string `type:"string"`
 
 	// The runtime environment for the Lambda function.
-	Runtime Runtime `type:"string"`
+	Runtime Runtime `type:"string" enum:"true"`
 
 	// The function execution time at which Lambda should terminate the function.
 	// Because the execution time has cost implications, we recommend you set this
@@ -5130,112 +6239,128 @@ func (s UpdateFunctionConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCodeSha256 sets the CodeSha256 field's value.
-func (s *UpdateFunctionConfigurationOutput) SetCodeSha256(v string) *UpdateFunctionConfigurationOutput {
-	s.CodeSha256 = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateFunctionConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCodeSize sets the CodeSize field's value.
-func (s *UpdateFunctionConfigurationOutput) SetCodeSize(v int64) *UpdateFunctionConfigurationOutput {
-	s.CodeSize = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFunctionConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CodeSha256 != nil {
+		v := *s.CodeSha256
 
-// SetDeadLetterConfig sets the DeadLetterConfig field's value.
-func (s *UpdateFunctionConfigurationOutput) SetDeadLetterConfig(v *DeadLetterConfig) *UpdateFunctionConfigurationOutput {
-	s.DeadLetterConfig = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CodeSha256", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CodeSize != nil {
+		v := *s.CodeSize
 
-// SetDescription sets the Description field's value.
-func (s *UpdateFunctionConfigurationOutput) SetDescription(v string) *UpdateFunctionConfigurationOutput {
-	s.Description = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CodeSize", protocol.Int64Value(v), metadata)
+	}
+	if s.DeadLetterConfig != nil {
+		v := s.DeadLetterConfig
 
-// SetEnvironment sets the Environment field's value.
-func (s *UpdateFunctionConfigurationOutput) SetEnvironment(v *EnvironmentResponse) *UpdateFunctionConfigurationOutput {
-	s.Environment = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DeadLetterConfig", v, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetFunctionArn sets the FunctionArn field's value.
-func (s *UpdateFunctionConfigurationOutput) SetFunctionArn(v string) *UpdateFunctionConfigurationOutput {
-	s.FunctionArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Environment != nil {
+		v := s.Environment
 
-// SetFunctionName sets the FunctionName field's value.
-func (s *UpdateFunctionConfigurationOutput) SetFunctionName(v string) *UpdateFunctionConfigurationOutput {
-	s.FunctionName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Environment", v, metadata)
+	}
+	if s.FunctionArn != nil {
+		v := *s.FunctionArn
 
-// SetHandler sets the Handler field's value.
-func (s *UpdateFunctionConfigurationOutput) SetHandler(v string) *UpdateFunctionConfigurationOutput {
-	s.Handler = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.FunctionName != nil {
+		v := *s.FunctionName
 
-// SetKMSKeyArn sets the KMSKeyArn field's value.
-func (s *UpdateFunctionConfigurationOutput) SetKMSKeyArn(v string) *UpdateFunctionConfigurationOutput {
-	s.KMSKeyArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FunctionName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Handler != nil {
+		v := *s.Handler
 
-// SetLastModified sets the LastModified field's value.
-func (s *UpdateFunctionConfigurationOutput) SetLastModified(v string) *UpdateFunctionConfigurationOutput {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Handler", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.KMSKeyArn != nil {
+		v := *s.KMSKeyArn
 
-// SetMasterArn sets the MasterArn field's value.
-func (s *UpdateFunctionConfigurationOutput) SetMasterArn(v string) *UpdateFunctionConfigurationOutput {
-	s.MasterArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KMSKeyArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetMemorySize sets the MemorySize field's value.
-func (s *UpdateFunctionConfigurationOutput) SetMemorySize(v int64) *UpdateFunctionConfigurationOutput {
-	s.MemorySize = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MasterArn != nil {
+		v := *s.MasterArn
 
-// SetRole sets the Role field's value.
-func (s *UpdateFunctionConfigurationOutput) SetRole(v string) *UpdateFunctionConfigurationOutput {
-	s.Role = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MasterArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MemorySize != nil {
+		v := *s.MemorySize
 
-// SetRuntime sets the Runtime field's value.
-func (s *UpdateFunctionConfigurationOutput) SetRuntime(v Runtime) *UpdateFunctionConfigurationOutput {
-	s.Runtime = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MemorySize", protocol.Int64Value(v), metadata)
+	}
+	if s.RevisionId != nil {
+		v := *s.RevisionId
 
-// SetTimeout sets the Timeout field's value.
-func (s *UpdateFunctionConfigurationOutput) SetTimeout(v int64) *UpdateFunctionConfigurationOutput {
-	s.Timeout = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RevisionId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Role != nil {
+		v := *s.Role
 
-// SetTracingConfig sets the TracingConfig field's value.
-func (s *UpdateFunctionConfigurationOutput) SetTracingConfig(v *TracingConfigResponse) *UpdateFunctionConfigurationOutput {
-	s.TracingConfig = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Runtime) > 0 {
+		v := s.Runtime
 
-// SetVersion sets the Version field's value.
-func (s *UpdateFunctionConfigurationOutput) SetVersion(v string) *UpdateFunctionConfigurationOutput {
-	s.Version = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Runtime", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Timeout != nil {
+		v := *s.Timeout
 
-// SetVpcConfig sets the VpcConfig field's value.
-func (s *UpdateFunctionConfigurationOutput) SetVpcConfig(v *VpcConfigResponse) *UpdateFunctionConfigurationOutput {
-	s.VpcConfig = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Timeout", protocol.Int64Value(v), metadata)
+	}
+	if s.TracingConfig != nil {
+		v := s.TracingConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TracingConfig", v, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.VpcConfig != nil {
+		v := s.VpcConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VpcConfig", v, metadata)
+	}
+	return nil
 }
 
 // If your Lambda function accesses resources in a VPC, you provide this parameter
@@ -5247,10 +6372,10 @@ type VpcConfig struct {
 	_ struct{} `type:"structure"`
 
 	// A list of one or more security groups IDs in your VPC.
-	SecurityGroupIds []*string `type:"list"`
+	SecurityGroupIds []string `type:"list"`
 
 	// A list of one or more subnet IDs in your VPC.
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -5263,16 +6388,33 @@ func (s VpcConfig) GoString() string {
 	return s.String()
 }
 
-// SetSecurityGroupIds sets the SecurityGroupIds field's value.
-func (s *VpcConfig) SetSecurityGroupIds(v []*string) *VpcConfig {
-	s.SecurityGroupIds = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s VpcConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
 
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *VpcConfig) SetSubnetIds(v []*string) *VpcConfig {
-	s.SubnetIds = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SecurityGroupIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.SubnetIds) > 0 {
+		v := s.SubnetIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SubnetIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // VPC configuration associated with your Lambda function.
@@ -5281,10 +6423,10 @@ type VpcConfigResponse struct {
 	_ struct{} `type:"structure"`
 
 	// A list of security group IDs associated with the Lambda function.
-	SecurityGroupIds []*string `type:"list"`
+	SecurityGroupIds []string `type:"list"`
 
 	// A list of subnet IDs associated with the Lambda function.
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 
 	// The VPC ID associated with you Lambda function.
 	VpcId *string `type:"string"`
@@ -5300,22 +6442,39 @@ func (s VpcConfigResponse) GoString() string {
 	return s.String()
 }
 
-// SetSecurityGroupIds sets the SecurityGroupIds field's value.
-func (s *VpcConfigResponse) SetSecurityGroupIds(v []*string) *VpcConfigResponse {
-	s.SecurityGroupIds = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s VpcConfigResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
 
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *VpcConfigResponse) SetSubnetIds(v []*string) *VpcConfigResponse {
-	s.SubnetIds = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SecurityGroupIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetVpcId sets the VpcId field's value.
-func (s *VpcConfigResponse) SetVpcId(v string) *VpcConfigResponse {
-	s.VpcId = &v
-	return s
+	}
+	if len(s.SubnetIds) > 0 {
+		v := s.SubnetIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SubnetIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.VpcId != nil {
+		v := *s.VpcId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VpcId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 type EventSourcePosition string
@@ -5327,12 +6486,30 @@ const (
 	EventSourcePositionAtTimestamp EventSourcePosition = "AT_TIMESTAMP"
 )
 
+func (enum EventSourcePosition) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EventSourcePosition) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type FunctionVersion string
 
 // Enum values for FunctionVersion
 const (
 	FunctionVersionAll FunctionVersion = "ALL"
 )
+
+func (enum FunctionVersion) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FunctionVersion) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InvocationType string
 
@@ -5343,6 +6520,15 @@ const (
 	InvocationTypeDryRun          InvocationType = "DryRun"
 )
 
+func (enum InvocationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InvocationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type LogType string
 
 // Enum values for LogType
@@ -5351,6 +6537,15 @@ const (
 	LogTypeTail LogType = "Tail"
 )
 
+func (enum LogType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LogType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Runtime string
 
 // Enum values for Runtime
@@ -5358,21 +6553,44 @@ const (
 	RuntimeNodejs       Runtime = "nodejs"
 	RuntimeNodejs43     Runtime = "nodejs4.3"
 	RuntimeNodejs610    Runtime = "nodejs6.10"
+	RuntimeNodejs810    Runtime = "nodejs8.10"
 	RuntimeJava8        Runtime = "java8"
 	RuntimePython27     Runtime = "python2.7"
 	RuntimePython36     Runtime = "python3.6"
 	RuntimeDotnetcore10 Runtime = "dotnetcore1.0"
+	RuntimeDotnetcore20 Runtime = "dotnetcore2.0"
 	RuntimeNodejs43Edge Runtime = "nodejs4.3-edge"
+	RuntimeGo1X         Runtime = "go1.x"
 )
+
+func (enum Runtime) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Runtime) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ThrottleReason string
 
 // Enum values for ThrottleReason
 const (
-	ThrottleReasonConcurrentInvocationLimitExceeded   ThrottleReason = "ConcurrentInvocationLimitExceeded"
-	ThrottleReasonFunctionInvocationRateLimitExceeded ThrottleReason = "FunctionInvocationRateLimitExceeded"
-	ThrottleReasonCallerRateLimitExceeded             ThrottleReason = "CallerRateLimitExceeded"
+	ThrottleReasonConcurrentInvocationLimitExceeded                 ThrottleReason = "ConcurrentInvocationLimitExceeded"
+	ThrottleReasonFunctionInvocationRateLimitExceeded               ThrottleReason = "FunctionInvocationRateLimitExceeded"
+	ThrottleReasonReservedFunctionConcurrentInvocationLimitExceeded ThrottleReason = "ReservedFunctionConcurrentInvocationLimitExceeded"
+	ThrottleReasonReservedFunctionInvocationRateLimitExceeded       ThrottleReason = "ReservedFunctionInvocationRateLimitExceeded"
+	ThrottleReasonCallerRateLimitExceeded                           ThrottleReason = "CallerRateLimitExceeded"
 )
+
+func (enum ThrottleReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ThrottleReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type TracingMode string
 
@@ -5381,3 +6599,12 @@ const (
 	TracingModeActive      TracingMode = "Active"
 	TracingModePassThrough TracingMode = "PassThrough"
 )
+
+func (enum TracingMode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TracingMode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

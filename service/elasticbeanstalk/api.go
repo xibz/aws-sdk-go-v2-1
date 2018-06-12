@@ -18,6 +18,7 @@ const opAbortEnvironmentUpdate = "AbortEnvironmentUpdate"
 type AbortEnvironmentUpdateRequest struct {
 	*aws.Request
 	Input *AbortEnvironmentUpdateInput
+	Copy  func(*AbortEnvironmentUpdateInput) AbortEnvironmentUpdateRequest
 }
 
 // Send marshals and sends the AbortEnvironmentUpdate API request.
@@ -55,10 +56,13 @@ func (c *ElasticBeanstalk) AbortEnvironmentUpdateRequest(input *AbortEnvironment
 		input = &AbortEnvironmentUpdateInput{}
 	}
 
-	req := c.newRequest(op, input, &AbortEnvironmentUpdateOutput{})
+	output := &AbortEnvironmentUpdateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AbortEnvironmentUpdateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AbortEnvironmentUpdateRequest{Request: req, Input: input, Copy: c.AbortEnvironmentUpdateRequest}
 }
 
 const opApplyEnvironmentManagedAction = "ApplyEnvironmentManagedAction"
@@ -67,6 +71,7 @@ const opApplyEnvironmentManagedAction = "ApplyEnvironmentManagedAction"
 type ApplyEnvironmentManagedActionRequest struct {
 	*aws.Request
 	Input *ApplyEnvironmentManagedActionInput
+	Copy  func(*ApplyEnvironmentManagedActionInput) ApplyEnvironmentManagedActionRequest
 }
 
 // Send marshals and sends the ApplyEnvironmentManagedAction API request.
@@ -105,8 +110,11 @@ func (c *ElasticBeanstalk) ApplyEnvironmentManagedActionRequest(input *ApplyEnvi
 		input = &ApplyEnvironmentManagedActionInput{}
 	}
 
-	req := c.newRequest(op, input, &ApplyEnvironmentManagedActionOutput{})
-	return ApplyEnvironmentManagedActionRequest{Request: req, Input: input}
+	output := &ApplyEnvironmentManagedActionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ApplyEnvironmentManagedActionRequest{Request: req, Input: input, Copy: c.ApplyEnvironmentManagedActionRequest}
 }
 
 const opCheckDNSAvailability = "CheckDNSAvailability"
@@ -115,6 +123,7 @@ const opCheckDNSAvailability = "CheckDNSAvailability"
 type CheckDNSAvailabilityRequest struct {
 	*aws.Request
 	Input *CheckDNSAvailabilityInput
+	Copy  func(*CheckDNSAvailabilityInput) CheckDNSAvailabilityRequest
 }
 
 // Send marshals and sends the CheckDNSAvailability API request.
@@ -151,8 +160,11 @@ func (c *ElasticBeanstalk) CheckDNSAvailabilityRequest(input *CheckDNSAvailabili
 		input = &CheckDNSAvailabilityInput{}
 	}
 
-	req := c.newRequest(op, input, &CheckDNSAvailabilityOutput{})
-	return CheckDNSAvailabilityRequest{Request: req, Input: input}
+	output := &CheckDNSAvailabilityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CheckDNSAvailabilityRequest{Request: req, Input: input, Copy: c.CheckDNSAvailabilityRequest}
 }
 
 const opComposeEnvironments = "ComposeEnvironments"
@@ -161,6 +173,7 @@ const opComposeEnvironments = "ComposeEnvironments"
 type ComposeEnvironmentsRequest struct {
 	*aws.Request
 	Input *ComposeEnvironmentsInput
+	Copy  func(*ComposeEnvironmentsInput) ComposeEnvironmentsRequest
 }
 
 // Send marshals and sends the ComposeEnvironments API request.
@@ -203,8 +216,11 @@ func (c *ElasticBeanstalk) ComposeEnvironmentsRequest(input *ComposeEnvironments
 		input = &ComposeEnvironmentsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEnvironmentsOutput{})
-	return ComposeEnvironmentsRequest{Request: req, Input: input}
+	output := &DescribeEnvironmentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ComposeEnvironmentsRequest{Request: req, Input: input, Copy: c.ComposeEnvironmentsRequest}
 }
 
 const opCreateApplication = "CreateApplication"
@@ -213,6 +229,7 @@ const opCreateApplication = "CreateApplication"
 type CreateApplicationRequest struct {
 	*aws.Request
 	Input *CreateApplicationInput
+	Copy  func(*CreateApplicationInput) CreateApplicationRequest
 }
 
 // Send marshals and sends the CreateApplication API request.
@@ -250,8 +267,11 @@ func (c *ElasticBeanstalk) CreateApplicationRequest(input *CreateApplicationInpu
 		input = &CreateApplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApplicationOutput{})
-	return CreateApplicationRequest{Request: req, Input: input}
+	output := &UpdateApplicationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateApplicationRequest{Request: req, Input: input, Copy: c.CreateApplicationRequest}
 }
 
 const opCreateApplicationVersion = "CreateApplicationVersion"
@@ -260,6 +280,7 @@ const opCreateApplicationVersion = "CreateApplicationVersion"
 type CreateApplicationVersionRequest struct {
 	*aws.Request
 	Input *CreateApplicationVersionInput
+	Copy  func(*CreateApplicationVersionInput) CreateApplicationVersionRequest
 }
 
 // Send marshals and sends the CreateApplicationVersion API request.
@@ -312,8 +333,11 @@ func (c *ElasticBeanstalk) CreateApplicationVersionRequest(input *CreateApplicat
 		input = &CreateApplicationVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApplicationVersionOutput{})
-	return CreateApplicationVersionRequest{Request: req, Input: input}
+	output := &UpdateApplicationVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateApplicationVersionRequest{Request: req, Input: input, Copy: c.CreateApplicationVersionRequest}
 }
 
 const opCreateConfigurationTemplate = "CreateConfigurationTemplate"
@@ -322,6 +346,7 @@ const opCreateConfigurationTemplate = "CreateConfigurationTemplate"
 type CreateConfigurationTemplateRequest struct {
 	*aws.Request
 	Input *CreateConfigurationTemplateInput
+	Copy  func(*CreateConfigurationTemplateInput) CreateConfigurationTemplateRequest
 }
 
 // Send marshals and sends the CreateConfigurationTemplate API request.
@@ -368,8 +393,11 @@ func (c *ElasticBeanstalk) CreateConfigurationTemplateRequest(input *CreateConfi
 		input = &CreateConfigurationTemplateInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateConfigurationTemplateOutput{})
-	return CreateConfigurationTemplateRequest{Request: req, Input: input}
+	output := &UpdateConfigurationTemplateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateConfigurationTemplateRequest{Request: req, Input: input, Copy: c.CreateConfigurationTemplateRequest}
 }
 
 const opCreateEnvironment = "CreateEnvironment"
@@ -378,6 +406,7 @@ const opCreateEnvironment = "CreateEnvironment"
 type CreateEnvironmentRequest struct {
 	*aws.Request
 	Input *CreateEnvironmentInput
+	Copy  func(*CreateEnvironmentInput) CreateEnvironmentRequest
 }
 
 // Send marshals and sends the CreateEnvironment API request.
@@ -415,8 +444,11 @@ func (c *ElasticBeanstalk) CreateEnvironmentRequest(input *CreateEnvironmentInpu
 		input = &CreateEnvironmentInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEnvironmentOutput{})
-	return CreateEnvironmentRequest{Request: req, Input: input}
+	output := &UpdateEnvironmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateEnvironmentRequest{Request: req, Input: input, Copy: c.CreateEnvironmentRequest}
 }
 
 const opCreatePlatformVersion = "CreatePlatformVersion"
@@ -425,6 +457,7 @@ const opCreatePlatformVersion = "CreatePlatformVersion"
 type CreatePlatformVersionRequest struct {
 	*aws.Request
 	Input *CreatePlatformVersionInput
+	Copy  func(*CreatePlatformVersionInput) CreatePlatformVersionRequest
 }
 
 // Send marshals and sends the CreatePlatformVersion API request.
@@ -461,8 +494,11 @@ func (c *ElasticBeanstalk) CreatePlatformVersionRequest(input *CreatePlatformVer
 		input = &CreatePlatformVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePlatformVersionOutput{})
-	return CreatePlatformVersionRequest{Request: req, Input: input}
+	output := &CreatePlatformVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePlatformVersionRequest{Request: req, Input: input, Copy: c.CreatePlatformVersionRequest}
 }
 
 const opCreateStorageLocation = "CreateStorageLocation"
@@ -471,6 +507,7 @@ const opCreateStorageLocation = "CreateStorageLocation"
 type CreateStorageLocationRequest struct {
 	*aws.Request
 	Input *CreateStorageLocationInput
+	Copy  func(*CreateStorageLocationInput) CreateStorageLocationRequest
 }
 
 // Send marshals and sends the CreateStorageLocation API request.
@@ -486,9 +523,11 @@ func (r CreateStorageLocationRequest) Send() (*CreateStorageLocationOutput, erro
 // CreateStorageLocationRequest returns a request value for making API operation for
 // AWS Elastic Beanstalk.
 //
-// Creates the Amazon S3 storage location for the account.
-//
-// This location is used to store user log files.
+// Creates a bucket in Amazon S3 to store application versions, logs, and other
+// files used by Elastic Beanstalk environments. The Elastic Beanstalk console
+// and EB CLI call this API the first time you create an environment in a region.
+// If the storage location already exists, CreateStorageLocation still returns
+// the bucket name but does not create a new bucket.
 //
 //    // Example sending a request using the CreateStorageLocationRequest method.
 //    req := client.CreateStorageLocationRequest(params)
@@ -509,8 +548,11 @@ func (c *ElasticBeanstalk) CreateStorageLocationRequest(input *CreateStorageLoca
 		input = &CreateStorageLocationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateStorageLocationOutput{})
-	return CreateStorageLocationRequest{Request: req, Input: input}
+	output := &CreateStorageLocationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateStorageLocationRequest{Request: req, Input: input, Copy: c.CreateStorageLocationRequest}
 }
 
 const opDeleteApplication = "DeleteApplication"
@@ -519,6 +561,7 @@ const opDeleteApplication = "DeleteApplication"
 type DeleteApplicationRequest struct {
 	*aws.Request
 	Input *DeleteApplicationInput
+	Copy  func(*DeleteApplicationInput) DeleteApplicationRequest
 }
 
 // Send marshals and sends the DeleteApplication API request.
@@ -559,10 +602,13 @@ func (c *ElasticBeanstalk) DeleteApplicationRequest(input *DeleteApplicationInpu
 		input = &DeleteApplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteApplicationOutput{})
+	output := &DeleteApplicationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteApplicationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteApplicationRequest{Request: req, Input: input, Copy: c.DeleteApplicationRequest}
 }
 
 const opDeleteApplicationVersion = "DeleteApplicationVersion"
@@ -571,6 +617,7 @@ const opDeleteApplicationVersion = "DeleteApplicationVersion"
 type DeleteApplicationVersionRequest struct {
 	*aws.Request
 	Input *DeleteApplicationVersionInput
+	Copy  func(*DeleteApplicationVersionInput) DeleteApplicationVersionRequest
 }
 
 // Send marshals and sends the DeleteApplicationVersion API request.
@@ -610,10 +657,13 @@ func (c *ElasticBeanstalk) DeleteApplicationVersionRequest(input *DeleteApplicat
 		input = &DeleteApplicationVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteApplicationVersionOutput{})
+	output := &DeleteApplicationVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteApplicationVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteApplicationVersionRequest{Request: req, Input: input, Copy: c.DeleteApplicationVersionRequest}
 }
 
 const opDeleteConfigurationTemplate = "DeleteConfigurationTemplate"
@@ -622,6 +672,7 @@ const opDeleteConfigurationTemplate = "DeleteConfigurationTemplate"
 type DeleteConfigurationTemplateRequest struct {
 	*aws.Request
 	Input *DeleteConfigurationTemplateInput
+	Copy  func(*DeleteConfigurationTemplateInput) DeleteConfigurationTemplateRequest
 }
 
 // Send marshals and sends the DeleteConfigurationTemplate API request.
@@ -662,10 +713,13 @@ func (c *ElasticBeanstalk) DeleteConfigurationTemplateRequest(input *DeleteConfi
 		input = &DeleteConfigurationTemplateInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteConfigurationTemplateOutput{})
+	output := &DeleteConfigurationTemplateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteConfigurationTemplateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteConfigurationTemplateRequest{Request: req, Input: input, Copy: c.DeleteConfigurationTemplateRequest}
 }
 
 const opDeleteEnvironmentConfiguration = "DeleteEnvironmentConfiguration"
@@ -674,6 +728,7 @@ const opDeleteEnvironmentConfiguration = "DeleteEnvironmentConfiguration"
 type DeleteEnvironmentConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteEnvironmentConfigurationInput
+	Copy  func(*DeleteEnvironmentConfigurationInput) DeleteEnvironmentConfigurationRequest
 }
 
 // Send marshals and sends the DeleteEnvironmentConfiguration API request.
@@ -717,10 +772,13 @@ func (c *ElasticBeanstalk) DeleteEnvironmentConfigurationRequest(input *DeleteEn
 		input = &DeleteEnvironmentConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteEnvironmentConfigurationOutput{})
+	output := &DeleteEnvironmentConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteEnvironmentConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEnvironmentConfigurationRequest{Request: req, Input: input, Copy: c.DeleteEnvironmentConfigurationRequest}
 }
 
 const opDeletePlatformVersion = "DeletePlatformVersion"
@@ -729,6 +787,7 @@ const opDeletePlatformVersion = "DeletePlatformVersion"
 type DeletePlatformVersionRequest struct {
 	*aws.Request
 	Input *DeletePlatformVersionInput
+	Copy  func(*DeletePlatformVersionInput) DeletePlatformVersionRequest
 }
 
 // Send marshals and sends the DeletePlatformVersion API request.
@@ -765,8 +824,64 @@ func (c *ElasticBeanstalk) DeletePlatformVersionRequest(input *DeletePlatformVer
 		input = &DeletePlatformVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePlatformVersionOutput{})
-	return DeletePlatformVersionRequest{Request: req, Input: input}
+	output := &DeletePlatformVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePlatformVersionRequest{Request: req, Input: input, Copy: c.DeletePlatformVersionRequest}
+}
+
+const opDescribeAccountAttributes = "DescribeAccountAttributes"
+
+// DescribeAccountAttributesRequest is a API request type for the DescribeAccountAttributes API operation.
+type DescribeAccountAttributesRequest struct {
+	*aws.Request
+	Input *DescribeAccountAttributesInput
+	Copy  func(*DescribeAccountAttributesInput) DescribeAccountAttributesRequest
+}
+
+// Send marshals and sends the DescribeAccountAttributes API request.
+func (r DescribeAccountAttributesRequest) Send() (*DescribeAccountAttributesOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeAccountAttributesOutput), nil
+}
+
+// DescribeAccountAttributesRequest returns a request value for making API operation for
+// AWS Elastic Beanstalk.
+//
+// Returns attributes related to AWS Elastic Beanstalk that are associated with
+// the calling AWS account.
+//
+// The result currently has one set of attributes—resource quotas.
+//
+//    // Example sending a request using the DescribeAccountAttributesRequest method.
+//    req := client.DescribeAccountAttributesRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeAccountAttributes
+func (c *ElasticBeanstalk) DescribeAccountAttributesRequest(input *DescribeAccountAttributesInput) DescribeAccountAttributesRequest {
+	op := &aws.Operation{
+		Name:       opDescribeAccountAttributes,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeAccountAttributesInput{}
+	}
+
+	output := &DescribeAccountAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAccountAttributesRequest{Request: req, Input: input, Copy: c.DescribeAccountAttributesRequest}
 }
 
 const opDescribeApplicationVersions = "DescribeApplicationVersions"
@@ -775,6 +890,7 @@ const opDescribeApplicationVersions = "DescribeApplicationVersions"
 type DescribeApplicationVersionsRequest struct {
 	*aws.Request
 	Input *DescribeApplicationVersionsInput
+	Copy  func(*DescribeApplicationVersionsInput) DescribeApplicationVersionsRequest
 }
 
 // Send marshals and sends the DescribeApplicationVersions API request.
@@ -811,8 +927,11 @@ func (c *ElasticBeanstalk) DescribeApplicationVersionsRequest(input *DescribeApp
 		input = &DescribeApplicationVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeApplicationVersionsOutput{})
-	return DescribeApplicationVersionsRequest{Request: req, Input: input}
+	output := &DescribeApplicationVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeApplicationVersionsRequest{Request: req, Input: input, Copy: c.DescribeApplicationVersionsRequest}
 }
 
 const opDescribeApplications = "DescribeApplications"
@@ -821,6 +940,7 @@ const opDescribeApplications = "DescribeApplications"
 type DescribeApplicationsRequest struct {
 	*aws.Request
 	Input *DescribeApplicationsInput
+	Copy  func(*DescribeApplicationsInput) DescribeApplicationsRequest
 }
 
 // Send marshals and sends the DescribeApplications API request.
@@ -857,8 +977,11 @@ func (c *ElasticBeanstalk) DescribeApplicationsRequest(input *DescribeApplicatio
 		input = &DescribeApplicationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeApplicationsOutput{})
-	return DescribeApplicationsRequest{Request: req, Input: input}
+	output := &DescribeApplicationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeApplicationsRequest{Request: req, Input: input, Copy: c.DescribeApplicationsRequest}
 }
 
 const opDescribeConfigurationOptions = "DescribeConfigurationOptions"
@@ -867,6 +990,7 @@ const opDescribeConfigurationOptions = "DescribeConfigurationOptions"
 type DescribeConfigurationOptionsRequest struct {
 	*aws.Request
 	Input *DescribeConfigurationOptionsInput
+	Copy  func(*DescribeConfigurationOptionsInput) DescribeConfigurationOptionsRequest
 }
 
 // Send marshals and sends the DescribeConfigurationOptions API request.
@@ -907,8 +1031,11 @@ func (c *ElasticBeanstalk) DescribeConfigurationOptionsRequest(input *DescribeCo
 		input = &DescribeConfigurationOptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeConfigurationOptionsOutput{})
-	return DescribeConfigurationOptionsRequest{Request: req, Input: input}
+	output := &DescribeConfigurationOptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeConfigurationOptionsRequest{Request: req, Input: input, Copy: c.DescribeConfigurationOptionsRequest}
 }
 
 const opDescribeConfigurationSettings = "DescribeConfigurationSettings"
@@ -917,6 +1044,7 @@ const opDescribeConfigurationSettings = "DescribeConfigurationSettings"
 type DescribeConfigurationSettingsRequest struct {
 	*aws.Request
 	Input *DescribeConfigurationSettingsInput
+	Copy  func(*DescribeConfigurationSettingsInput) DescribeConfigurationSettingsRequest
 }
 
 // Send marshals and sends the DescribeConfigurationSettings API request.
@@ -965,8 +1093,11 @@ func (c *ElasticBeanstalk) DescribeConfigurationSettingsRequest(input *DescribeC
 		input = &DescribeConfigurationSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeConfigurationSettingsOutput{})
-	return DescribeConfigurationSettingsRequest{Request: req, Input: input}
+	output := &DescribeConfigurationSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeConfigurationSettingsRequest{Request: req, Input: input, Copy: c.DescribeConfigurationSettingsRequest}
 }
 
 const opDescribeEnvironmentHealth = "DescribeEnvironmentHealth"
@@ -975,6 +1106,7 @@ const opDescribeEnvironmentHealth = "DescribeEnvironmentHealth"
 type DescribeEnvironmentHealthRequest struct {
 	*aws.Request
 	Input *DescribeEnvironmentHealthInput
+	Copy  func(*DescribeEnvironmentHealthInput) DescribeEnvironmentHealthRequest
 }
 
 // Send marshals and sends the DescribeEnvironmentHealth API request.
@@ -1013,8 +1145,11 @@ func (c *ElasticBeanstalk) DescribeEnvironmentHealthRequest(input *DescribeEnvir
 		input = &DescribeEnvironmentHealthInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEnvironmentHealthOutput{})
-	return DescribeEnvironmentHealthRequest{Request: req, Input: input}
+	output := &DescribeEnvironmentHealthOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEnvironmentHealthRequest{Request: req, Input: input, Copy: c.DescribeEnvironmentHealthRequest}
 }
 
 const opDescribeEnvironmentManagedActionHistory = "DescribeEnvironmentManagedActionHistory"
@@ -1023,6 +1158,7 @@ const opDescribeEnvironmentManagedActionHistory = "DescribeEnvironmentManagedAct
 type DescribeEnvironmentManagedActionHistoryRequest struct {
 	*aws.Request
 	Input *DescribeEnvironmentManagedActionHistoryInput
+	Copy  func(*DescribeEnvironmentManagedActionHistoryInput) DescribeEnvironmentManagedActionHistoryRequest
 }
 
 // Send marshals and sends the DescribeEnvironmentManagedActionHistory API request.
@@ -1059,8 +1195,11 @@ func (c *ElasticBeanstalk) DescribeEnvironmentManagedActionHistoryRequest(input 
 		input = &DescribeEnvironmentManagedActionHistoryInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEnvironmentManagedActionHistoryOutput{})
-	return DescribeEnvironmentManagedActionHistoryRequest{Request: req, Input: input}
+	output := &DescribeEnvironmentManagedActionHistoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEnvironmentManagedActionHistoryRequest{Request: req, Input: input, Copy: c.DescribeEnvironmentManagedActionHistoryRequest}
 }
 
 const opDescribeEnvironmentManagedActions = "DescribeEnvironmentManagedActions"
@@ -1069,6 +1208,7 @@ const opDescribeEnvironmentManagedActions = "DescribeEnvironmentManagedActions"
 type DescribeEnvironmentManagedActionsRequest struct {
 	*aws.Request
 	Input *DescribeEnvironmentManagedActionsInput
+	Copy  func(*DescribeEnvironmentManagedActionsInput) DescribeEnvironmentManagedActionsRequest
 }
 
 // Send marshals and sends the DescribeEnvironmentManagedActions API request.
@@ -1105,8 +1245,11 @@ func (c *ElasticBeanstalk) DescribeEnvironmentManagedActionsRequest(input *Descr
 		input = &DescribeEnvironmentManagedActionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEnvironmentManagedActionsOutput{})
-	return DescribeEnvironmentManagedActionsRequest{Request: req, Input: input}
+	output := &DescribeEnvironmentManagedActionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEnvironmentManagedActionsRequest{Request: req, Input: input, Copy: c.DescribeEnvironmentManagedActionsRequest}
 }
 
 const opDescribeEnvironmentResources = "DescribeEnvironmentResources"
@@ -1115,6 +1258,7 @@ const opDescribeEnvironmentResources = "DescribeEnvironmentResources"
 type DescribeEnvironmentResourcesRequest struct {
 	*aws.Request
 	Input *DescribeEnvironmentResourcesInput
+	Copy  func(*DescribeEnvironmentResourcesInput) DescribeEnvironmentResourcesRequest
 }
 
 // Send marshals and sends the DescribeEnvironmentResources API request.
@@ -1151,8 +1295,11 @@ func (c *ElasticBeanstalk) DescribeEnvironmentResourcesRequest(input *DescribeEn
 		input = &DescribeEnvironmentResourcesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEnvironmentResourcesOutput{})
-	return DescribeEnvironmentResourcesRequest{Request: req, Input: input}
+	output := &DescribeEnvironmentResourcesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEnvironmentResourcesRequest{Request: req, Input: input, Copy: c.DescribeEnvironmentResourcesRequest}
 }
 
 const opDescribeEnvironments = "DescribeEnvironments"
@@ -1161,6 +1308,7 @@ const opDescribeEnvironments = "DescribeEnvironments"
 type DescribeEnvironmentsRequest struct {
 	*aws.Request
 	Input *DescribeEnvironmentsInput
+	Copy  func(*DescribeEnvironmentsInput) DescribeEnvironmentsRequest
 }
 
 // Send marshals and sends the DescribeEnvironments API request.
@@ -1197,8 +1345,11 @@ func (c *ElasticBeanstalk) DescribeEnvironmentsRequest(input *DescribeEnvironmen
 		input = &DescribeEnvironmentsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEnvironmentsOutput{})
-	return DescribeEnvironmentsRequest{Request: req, Input: input}
+	output := &DescribeEnvironmentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEnvironmentsRequest{Request: req, Input: input, Copy: c.DescribeEnvironmentsRequest}
 }
 
 const opDescribeEvents = "DescribeEvents"
@@ -1207,6 +1358,7 @@ const opDescribeEvents = "DescribeEvents"
 type DescribeEventsRequest struct {
 	*aws.Request
 	Input *DescribeEventsInput
+	Copy  func(*DescribeEventsInput) DescribeEventsRequest
 }
 
 // Send marshals and sends the DescribeEvents API request.
@@ -1251,58 +1403,57 @@ func (c *ElasticBeanstalk) DescribeEventsRequest(input *DescribeEventsInput) Des
 		input = &DescribeEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventsOutput{})
-	return DescribeEventsRequest{Request: req, Input: input}
+	output := &DescribeEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventsRequest{Request: req, Input: input, Copy: c.DescribeEventsRequest}
 }
 
-// DescribeEventsPages iterates over the pages of a DescribeEvents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEvents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEventsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEvents operation.
-//    pageNum := 0
-//    err := client.DescribeEventsPages(params,
-//        func(page *DescribeEventsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEventsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ElasticBeanstalk) DescribeEventsPages(input *DescribeEventsInput, fn func(*DescribeEventsOutput, bool) bool) error {
-	return c.DescribeEventsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEventsRequest) Paginate(opts ...aws.Option) DescribeEventsPager {
+	return DescribeEventsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEventsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEventsPagesWithContext same as DescribeEventsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ElasticBeanstalk) DescribeEventsPagesWithContext(ctx aws.Context, input *DescribeEventsInput, fn func(*DescribeEventsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEventsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEventsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEventsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEventsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEventsPager) CurrentPage() *DescribeEventsOutput {
+	return p.Pager.CurrentPage().(*DescribeEventsOutput)
 }
 
 const opDescribeInstancesHealth = "DescribeInstancesHealth"
@@ -1311,6 +1462,7 @@ const opDescribeInstancesHealth = "DescribeInstancesHealth"
 type DescribeInstancesHealthRequest struct {
 	*aws.Request
 	Input *DescribeInstancesHealthInput
+	Copy  func(*DescribeInstancesHealthInput) DescribeInstancesHealthRequest
 }
 
 // Send marshals and sends the DescribeInstancesHealth API request.
@@ -1348,8 +1500,11 @@ func (c *ElasticBeanstalk) DescribeInstancesHealthRequest(input *DescribeInstanc
 		input = &DescribeInstancesHealthInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstancesHealthOutput{})
-	return DescribeInstancesHealthRequest{Request: req, Input: input}
+	output := &DescribeInstancesHealthOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstancesHealthRequest{Request: req, Input: input, Copy: c.DescribeInstancesHealthRequest}
 }
 
 const opDescribePlatformVersion = "DescribePlatformVersion"
@@ -1358,6 +1513,7 @@ const opDescribePlatformVersion = "DescribePlatformVersion"
 type DescribePlatformVersionRequest struct {
 	*aws.Request
 	Input *DescribePlatformVersionInput
+	Copy  func(*DescribePlatformVersionInput) DescribePlatformVersionRequest
 }
 
 // Send marshals and sends the DescribePlatformVersion API request.
@@ -1394,8 +1550,11 @@ func (c *ElasticBeanstalk) DescribePlatformVersionRequest(input *DescribePlatfor
 		input = &DescribePlatformVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePlatformVersionOutput{})
-	return DescribePlatformVersionRequest{Request: req, Input: input}
+	output := &DescribePlatformVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePlatformVersionRequest{Request: req, Input: input, Copy: c.DescribePlatformVersionRequest}
 }
 
 const opListAvailableSolutionStacks = "ListAvailableSolutionStacks"
@@ -1404,6 +1563,7 @@ const opListAvailableSolutionStacks = "ListAvailableSolutionStacks"
 type ListAvailableSolutionStacksRequest struct {
 	*aws.Request
 	Input *ListAvailableSolutionStacksInput
+	Copy  func(*ListAvailableSolutionStacksInput) ListAvailableSolutionStacksRequest
 }
 
 // Send marshals and sends the ListAvailableSolutionStacks API request.
@@ -1441,8 +1601,11 @@ func (c *ElasticBeanstalk) ListAvailableSolutionStacksRequest(input *ListAvailab
 		input = &ListAvailableSolutionStacksInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAvailableSolutionStacksOutput{})
-	return ListAvailableSolutionStacksRequest{Request: req, Input: input}
+	output := &ListAvailableSolutionStacksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAvailableSolutionStacksRequest{Request: req, Input: input, Copy: c.ListAvailableSolutionStacksRequest}
 }
 
 const opListPlatformVersions = "ListPlatformVersions"
@@ -1451,6 +1614,7 @@ const opListPlatformVersions = "ListPlatformVersions"
 type ListPlatformVersionsRequest struct {
 	*aws.Request
 	Input *ListPlatformVersionsInput
+	Copy  func(*ListPlatformVersionsInput) ListPlatformVersionsRequest
 }
 
 // Send marshals and sends the ListPlatformVersions API request.
@@ -1487,8 +1651,66 @@ func (c *ElasticBeanstalk) ListPlatformVersionsRequest(input *ListPlatformVersio
 		input = &ListPlatformVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPlatformVersionsOutput{})
-	return ListPlatformVersionsRequest{Request: req, Input: input}
+	output := &ListPlatformVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPlatformVersionsRequest{Request: req, Input: input, Copy: c.ListPlatformVersionsRequest}
+}
+
+const opListTagsForResource = "ListTagsForResource"
+
+// ListTagsForResourceRequest is a API request type for the ListTagsForResource API operation.
+type ListTagsForResourceRequest struct {
+	*aws.Request
+	Input *ListTagsForResourceInput
+	Copy  func(*ListTagsForResourceInput) ListTagsForResourceRequest
+}
+
+// Send marshals and sends the ListTagsForResource API request.
+func (r ListTagsForResourceRequest) Send() (*ListTagsForResourceOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*ListTagsForResourceOutput), nil
+}
+
+// ListTagsForResourceRequest returns a request value for making API operation for
+// AWS Elastic Beanstalk.
+//
+// Returns the tags applied to an AWS Elastic Beanstalk resource. The response
+// contains a list of tag key-value pairs.
+//
+// Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments.
+// For details about environment tagging, see Tagging Resources in Your Elastic
+// Beanstalk Environment (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html).
+//
+//    // Example sending a request using the ListTagsForResourceRequest method.
+//    req := client.ListTagsForResourceRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ListTagsForResource
+func (c *ElasticBeanstalk) ListTagsForResourceRequest(input *ListTagsForResourceInput) ListTagsForResourceRequest {
+	op := &aws.Operation{
+		Name:       opListTagsForResource,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ListTagsForResourceInput{}
+	}
+
+	output := &ListTagsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsForResourceRequest{Request: req, Input: input, Copy: c.ListTagsForResourceRequest}
 }
 
 const opRebuildEnvironment = "RebuildEnvironment"
@@ -1497,6 +1719,7 @@ const opRebuildEnvironment = "RebuildEnvironment"
 type RebuildEnvironmentRequest struct {
 	*aws.Request
 	Input *RebuildEnvironmentInput
+	Copy  func(*RebuildEnvironmentInput) RebuildEnvironmentRequest
 }
 
 // Send marshals and sends the RebuildEnvironment API request.
@@ -1534,10 +1757,13 @@ func (c *ElasticBeanstalk) RebuildEnvironmentRequest(input *RebuildEnvironmentIn
 		input = &RebuildEnvironmentInput{}
 	}
 
-	req := c.newRequest(op, input, &RebuildEnvironmentOutput{})
+	output := &RebuildEnvironmentOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RebuildEnvironmentRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RebuildEnvironmentRequest{Request: req, Input: input, Copy: c.RebuildEnvironmentRequest}
 }
 
 const opRequestEnvironmentInfo = "RequestEnvironmentInfo"
@@ -1546,6 +1772,7 @@ const opRequestEnvironmentInfo = "RequestEnvironmentInfo"
 type RequestEnvironmentInfoRequest struct {
 	*aws.Request
 	Input *RequestEnvironmentInfoInput
+	Copy  func(*RequestEnvironmentInfoInput) RequestEnvironmentInfoRequest
 }
 
 // Send marshals and sends the RequestEnvironmentInfo API request.
@@ -1596,10 +1823,13 @@ func (c *ElasticBeanstalk) RequestEnvironmentInfoRequest(input *RequestEnvironme
 		input = &RequestEnvironmentInfoInput{}
 	}
 
-	req := c.newRequest(op, input, &RequestEnvironmentInfoOutput{})
+	output := &RequestEnvironmentInfoOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RequestEnvironmentInfoRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RequestEnvironmentInfoRequest{Request: req, Input: input, Copy: c.RequestEnvironmentInfoRequest}
 }
 
 const opRestartAppServer = "RestartAppServer"
@@ -1608,6 +1838,7 @@ const opRestartAppServer = "RestartAppServer"
 type RestartAppServerRequest struct {
 	*aws.Request
 	Input *RestartAppServerInput
+	Copy  func(*RestartAppServerInput) RestartAppServerRequest
 }
 
 // Send marshals and sends the RestartAppServer API request.
@@ -1645,10 +1876,13 @@ func (c *ElasticBeanstalk) RestartAppServerRequest(input *RestartAppServerInput)
 		input = &RestartAppServerInput{}
 	}
 
-	req := c.newRequest(op, input, &RestartAppServerOutput{})
+	output := &RestartAppServerOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RestartAppServerRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RestartAppServerRequest{Request: req, Input: input, Copy: c.RestartAppServerRequest}
 }
 
 const opRetrieveEnvironmentInfo = "RetrieveEnvironmentInfo"
@@ -1657,6 +1891,7 @@ const opRetrieveEnvironmentInfo = "RetrieveEnvironmentInfo"
 type RetrieveEnvironmentInfoRequest struct {
 	*aws.Request
 	Input *RetrieveEnvironmentInfoInput
+	Copy  func(*RetrieveEnvironmentInfoInput) RetrieveEnvironmentInfoRequest
 }
 
 // Send marshals and sends the RetrieveEnvironmentInfo API request.
@@ -1697,8 +1932,11 @@ func (c *ElasticBeanstalk) RetrieveEnvironmentInfoRequest(input *RetrieveEnviron
 		input = &RetrieveEnvironmentInfoInput{}
 	}
 
-	req := c.newRequest(op, input, &RetrieveEnvironmentInfoOutput{})
-	return RetrieveEnvironmentInfoRequest{Request: req, Input: input}
+	output := &RetrieveEnvironmentInfoOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RetrieveEnvironmentInfoRequest{Request: req, Input: input, Copy: c.RetrieveEnvironmentInfoRequest}
 }
 
 const opSwapEnvironmentCNAMEs = "SwapEnvironmentCNAMEs"
@@ -1707,6 +1945,7 @@ const opSwapEnvironmentCNAMEs = "SwapEnvironmentCNAMEs"
 type SwapEnvironmentCNAMEsRequest struct {
 	*aws.Request
 	Input *SwapEnvironmentCNAMEsInput
+	Copy  func(*SwapEnvironmentCNAMEsInput) SwapEnvironmentCNAMEsRequest
 }
 
 // Send marshals and sends the SwapEnvironmentCNAMEs API request.
@@ -1743,10 +1982,13 @@ func (c *ElasticBeanstalk) SwapEnvironmentCNAMEsRequest(input *SwapEnvironmentCN
 		input = &SwapEnvironmentCNAMEsInput{}
 	}
 
-	req := c.newRequest(op, input, &SwapEnvironmentCNAMEsOutput{})
+	output := &SwapEnvironmentCNAMEsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SwapEnvironmentCNAMEsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SwapEnvironmentCNAMEsRequest{Request: req, Input: input, Copy: c.SwapEnvironmentCNAMEsRequest}
 }
 
 const opTerminateEnvironment = "TerminateEnvironment"
@@ -1755,6 +1997,7 @@ const opTerminateEnvironment = "TerminateEnvironment"
 type TerminateEnvironmentRequest struct {
 	*aws.Request
 	Input *TerminateEnvironmentInput
+	Copy  func(*TerminateEnvironmentInput) TerminateEnvironmentRequest
 }
 
 // Send marshals and sends the TerminateEnvironment API request.
@@ -1791,8 +2034,11 @@ func (c *ElasticBeanstalk) TerminateEnvironmentRequest(input *TerminateEnvironme
 		input = &TerminateEnvironmentInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEnvironmentOutput{})
-	return TerminateEnvironmentRequest{Request: req, Input: input}
+	output := &UpdateEnvironmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TerminateEnvironmentRequest{Request: req, Input: input, Copy: c.TerminateEnvironmentRequest}
 }
 
 const opUpdateApplication = "UpdateApplication"
@@ -1801,6 +2047,7 @@ const opUpdateApplication = "UpdateApplication"
 type UpdateApplicationRequest struct {
 	*aws.Request
 	Input *UpdateApplicationInput
+	Copy  func(*UpdateApplicationInput) UpdateApplicationRequest
 }
 
 // Send marshals and sends the UpdateApplication API request.
@@ -1840,8 +2087,11 @@ func (c *ElasticBeanstalk) UpdateApplicationRequest(input *UpdateApplicationInpu
 		input = &UpdateApplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApplicationOutput{})
-	return UpdateApplicationRequest{Request: req, Input: input}
+	output := &UpdateApplicationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApplicationRequest{Request: req, Input: input, Copy: c.UpdateApplicationRequest}
 }
 
 const opUpdateApplicationResourceLifecycle = "UpdateApplicationResourceLifecycle"
@@ -1850,6 +2100,7 @@ const opUpdateApplicationResourceLifecycle = "UpdateApplicationResourceLifecycle
 type UpdateApplicationResourceLifecycleRequest struct {
 	*aws.Request
 	Input *UpdateApplicationResourceLifecycleInput
+	Copy  func(*UpdateApplicationResourceLifecycleInput) UpdateApplicationResourceLifecycleRequest
 }
 
 // Send marshals and sends the UpdateApplicationResourceLifecycle API request.
@@ -1886,8 +2137,11 @@ func (c *ElasticBeanstalk) UpdateApplicationResourceLifecycleRequest(input *Upda
 		input = &UpdateApplicationResourceLifecycleInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApplicationResourceLifecycleOutput{})
-	return UpdateApplicationResourceLifecycleRequest{Request: req, Input: input}
+	output := &UpdateApplicationResourceLifecycleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApplicationResourceLifecycleRequest{Request: req, Input: input, Copy: c.UpdateApplicationResourceLifecycleRequest}
 }
 
 const opUpdateApplicationVersion = "UpdateApplicationVersion"
@@ -1896,6 +2150,7 @@ const opUpdateApplicationVersion = "UpdateApplicationVersion"
 type UpdateApplicationVersionRequest struct {
 	*aws.Request
 	Input *UpdateApplicationVersionInput
+	Copy  func(*UpdateApplicationVersionInput) UpdateApplicationVersionRequest
 }
 
 // Send marshals and sends the UpdateApplicationVersion API request.
@@ -1935,8 +2190,11 @@ func (c *ElasticBeanstalk) UpdateApplicationVersionRequest(input *UpdateApplicat
 		input = &UpdateApplicationVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateApplicationVersionOutput{})
-	return UpdateApplicationVersionRequest{Request: req, Input: input}
+	output := &UpdateApplicationVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateApplicationVersionRequest{Request: req, Input: input, Copy: c.UpdateApplicationVersionRequest}
 }
 
 const opUpdateConfigurationTemplate = "UpdateConfigurationTemplate"
@@ -1945,6 +2203,7 @@ const opUpdateConfigurationTemplate = "UpdateConfigurationTemplate"
 type UpdateConfigurationTemplateRequest struct {
 	*aws.Request
 	Input *UpdateConfigurationTemplateInput
+	Copy  func(*UpdateConfigurationTemplateInput) UpdateConfigurationTemplateRequest
 }
 
 // Send marshals and sends the UpdateConfigurationTemplate API request.
@@ -1989,8 +2248,11 @@ func (c *ElasticBeanstalk) UpdateConfigurationTemplateRequest(input *UpdateConfi
 		input = &UpdateConfigurationTemplateInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateConfigurationTemplateOutput{})
-	return UpdateConfigurationTemplateRequest{Request: req, Input: input}
+	output := &UpdateConfigurationTemplateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateConfigurationTemplateRequest{Request: req, Input: input, Copy: c.UpdateConfigurationTemplateRequest}
 }
 
 const opUpdateEnvironment = "UpdateEnvironment"
@@ -1999,6 +2261,7 @@ const opUpdateEnvironment = "UpdateEnvironment"
 type UpdateEnvironmentRequest struct {
 	*aws.Request
 	Input *UpdateEnvironmentInput
+	Copy  func(*UpdateEnvironmentInput) UpdateEnvironmentRequest
 }
 
 // Send marshals and sends the UpdateEnvironment API request.
@@ -2045,8 +2308,81 @@ func (c *ElasticBeanstalk) UpdateEnvironmentRequest(input *UpdateEnvironmentInpu
 		input = &UpdateEnvironmentInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEnvironmentOutput{})
-	return UpdateEnvironmentRequest{Request: req, Input: input}
+	output := &UpdateEnvironmentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEnvironmentRequest{Request: req, Input: input, Copy: c.UpdateEnvironmentRequest}
+}
+
+const opUpdateTagsForResource = "UpdateTagsForResource"
+
+// UpdateTagsForResourceRequest is a API request type for the UpdateTagsForResource API operation.
+type UpdateTagsForResourceRequest struct {
+	*aws.Request
+	Input *UpdateTagsForResourceInput
+	Copy  func(*UpdateTagsForResourceInput) UpdateTagsForResourceRequest
+}
+
+// Send marshals and sends the UpdateTagsForResource API request.
+func (r UpdateTagsForResourceRequest) Send() (*UpdateTagsForResourceOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateTagsForResourceOutput), nil
+}
+
+// UpdateTagsForResourceRequest returns a request value for making API operation for
+// AWS Elastic Beanstalk.
+//
+// Update the list of tags applied to an AWS Elastic Beanstalk resource. Two
+// lists can be passed: TagsToAdd for tags to add or update, and TagsToRemove.
+//
+// Currently, Elastic Beanstalk only supports tagging of Elastic Beanstalk environments.
+// For details about environment tagging, see Tagging Resources in Your Elastic
+// Beanstalk Environment (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.tagging.html).
+//
+// If you create a custom IAM user policy to control permission to this operation,
+// specify one of the following two virtual actions (or both) instead of the
+// API operation name:
+//
+// elasticbeanstalk:AddTagsControls permission to call UpdateTagsForResource
+// and pass a list of tags to add in the TagsToAdd parameter.
+//
+// elasticbeanstalk:RemoveTagsControls permission to call UpdateTagsForResource
+// and pass a list of tag keys to remove in the TagsToRemove parameter.
+//
+// For details about creating a custom user policy, see Creating a Custom User
+// Policy (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/AWSHowTo.iam.managed-policies.html#AWSHowTo.iam.policies).
+//
+//    // Example sending a request using the UpdateTagsForResourceRequest method.
+//    req := client.UpdateTagsForResourceRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/UpdateTagsForResource
+func (c *ElasticBeanstalk) UpdateTagsForResourceRequest(input *UpdateTagsForResourceInput) UpdateTagsForResourceRequest {
+	op := &aws.Operation{
+		Name:       opUpdateTagsForResource,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateTagsForResourceInput{}
+	}
+
+	output := &UpdateTagsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateTagsForResourceRequest{Request: req, Input: input, Copy: c.UpdateTagsForResourceRequest}
 }
 
 const opValidateConfigurationSettings = "ValidateConfigurationSettings"
@@ -2055,6 +2391,7 @@ const opValidateConfigurationSettings = "ValidateConfigurationSettings"
 type ValidateConfigurationSettingsRequest struct {
 	*aws.Request
 	Input *ValidateConfigurationSettingsInput
+	Copy  func(*ValidateConfigurationSettingsInput) ValidateConfigurationSettingsRequest
 }
 
 // Send marshals and sends the ValidateConfigurationSettings API request.
@@ -2095,8 +2432,11 @@ func (c *ElasticBeanstalk) ValidateConfigurationSettingsRequest(input *ValidateC
 		input = &ValidateConfigurationSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &ValidateConfigurationSettingsOutput{})
-	return ValidateConfigurationSettingsRequest{Request: req, Input: input}
+	output := &ValidateConfigurationSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ValidateConfigurationSettingsRequest{Request: req, Input: input, Copy: c.ValidateConfigurationSettingsRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/AbortEnvironmentUpdateMessage
@@ -2135,21 +2475,11 @@ func (s *AbortEnvironmentUpdateInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *AbortEnvironmentUpdateInput) SetEnvironmentId(v string) *AbortEnvironmentUpdateInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *AbortEnvironmentUpdateInput) SetEnvironmentName(v string) *AbortEnvironmentUpdateInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/AbortEnvironmentUpdateOutput
 type AbortEnvironmentUpdateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2162,16 +2492,24 @@ func (s AbortEnvironmentUpdateOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AbortEnvironmentUpdateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Describes the properties of an application.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplicationDescription
 type ApplicationDescription struct {
 	_ struct{} `type:"structure"`
 
+	// The Amazon Resource Name (ARN) of the application.
+	ApplicationArn *string `type:"string"`
+
 	// The name of the application.
 	ApplicationName *string `min:"1" type:"string"`
 
 	// The names of the configuration templates associated with this application.
-	ConfigurationTemplates []*string `type:"list"`
+	ConfigurationTemplates []string `type:"list"`
 
 	// The date when the application was created.
 	DateCreated *time.Time `type:"timestamp" timestampFormat:"iso8601"`
@@ -2186,7 +2524,7 @@ type ApplicationDescription struct {
 	ResourceLifecycleConfig *ApplicationResourceLifecycleConfig `type:"structure"`
 
 	// The names of the versions for this application.
-	Versions []*string `type:"list"`
+	Versions []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2197,48 +2535,6 @@ func (s ApplicationDescription) String() string {
 // GoString returns the string representation
 func (s ApplicationDescription) GoString() string {
 	return s.String()
-}
-
-// SetApplicationName sets the ApplicationName field's value.
-func (s *ApplicationDescription) SetApplicationName(v string) *ApplicationDescription {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetConfigurationTemplates sets the ConfigurationTemplates field's value.
-func (s *ApplicationDescription) SetConfigurationTemplates(v []*string) *ApplicationDescription {
-	s.ConfigurationTemplates = v
-	return s
-}
-
-// SetDateCreated sets the DateCreated field's value.
-func (s *ApplicationDescription) SetDateCreated(v time.Time) *ApplicationDescription {
-	s.DateCreated = &v
-	return s
-}
-
-// SetDateUpdated sets the DateUpdated field's value.
-func (s *ApplicationDescription) SetDateUpdated(v time.Time) *ApplicationDescription {
-	s.DateUpdated = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ApplicationDescription) SetDescription(v string) *ApplicationDescription {
-	s.Description = &v
-	return s
-}
-
-// SetResourceLifecycleConfig sets the ResourceLifecycleConfig field's value.
-func (s *ApplicationDescription) SetResourceLifecycleConfig(v *ApplicationResourceLifecycleConfig) *ApplicationDescription {
-	s.ResourceLifecycleConfig = v
-	return s
-}
-
-// SetVersions sets the Versions field's value.
-func (s *ApplicationDescription) SetVersions(v []*string) *ApplicationDescription {
-	s.Versions = v
-	return s
 }
 
 // Application request metrics for an AWS Elastic Beanstalk environment.
@@ -2272,30 +2568,6 @@ func (s ApplicationMetrics) String() string {
 // GoString returns the string representation
 func (s ApplicationMetrics) GoString() string {
 	return s.String()
-}
-
-// SetDuration sets the Duration field's value.
-func (s *ApplicationMetrics) SetDuration(v int64) *ApplicationMetrics {
-	s.Duration = &v
-	return s
-}
-
-// SetLatency sets the Latency field's value.
-func (s *ApplicationMetrics) SetLatency(v *Latency) *ApplicationMetrics {
-	s.Latency = v
-	return s
-}
-
-// SetRequestCount sets the RequestCount field's value.
-func (s *ApplicationMetrics) SetRequestCount(v int64) *ApplicationMetrics {
-	s.RequestCount = &v
-	return s
-}
-
-// SetStatusCodes sets the StatusCodes field's value.
-func (s *ApplicationMetrics) SetStatusCodes(v *StatusCodes) *ApplicationMetrics {
-	s.StatusCodes = v
-	return s
 }
 
 // The resource lifecycle configuration for an application. Defines lifecycle
@@ -2339,18 +2611,6 @@ func (s *ApplicationResourceLifecycleConfig) Validate() error {
 	return nil
 }
 
-// SetServiceRole sets the ServiceRole field's value.
-func (s *ApplicationResourceLifecycleConfig) SetServiceRole(v string) *ApplicationResourceLifecycleConfig {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetVersionLifecycleConfig sets the VersionLifecycleConfig field's value.
-func (s *ApplicationResourceLifecycleConfig) SetVersionLifecycleConfig(v *ApplicationVersionLifecycleConfig) *ApplicationResourceLifecycleConfig {
-	s.VersionLifecycleConfig = v
-	return s
-}
-
 // Describes the properties of an application version.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplicationVersionDescription
 type ApplicationVersionDescription struct {
@@ -2358,6 +2618,9 @@ type ApplicationVersionDescription struct {
 
 	// The name of the application to which the application version belongs.
 	ApplicationName *string `min:"1" type:"string"`
+
+	// The Amazon Resource Name (ARN) of the application version.
+	ApplicationVersionArn *string `type:"string"`
 
 	// Reference to the artifact from the AWS CodeBuild build.
 	BuildArn *string `type:"string"`
@@ -2380,7 +2643,7 @@ type ApplicationVersionDescription struct {
 	SourceBundle *S3Location `type:"structure"`
 
 	// The processing status of the application version.
-	Status ApplicationVersionStatus `type:"string"`
+	Status ApplicationVersionStatus `type:"string" enum:"true"`
 
 	// A unique identifier for the application version.
 	VersionLabel *string `min:"1" type:"string"`
@@ -2394,60 +2657,6 @@ func (s ApplicationVersionDescription) String() string {
 // GoString returns the string representation
 func (s ApplicationVersionDescription) GoString() string {
 	return s.String()
-}
-
-// SetApplicationName sets the ApplicationName field's value.
-func (s *ApplicationVersionDescription) SetApplicationName(v string) *ApplicationVersionDescription {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetBuildArn sets the BuildArn field's value.
-func (s *ApplicationVersionDescription) SetBuildArn(v string) *ApplicationVersionDescription {
-	s.BuildArn = &v
-	return s
-}
-
-// SetDateCreated sets the DateCreated field's value.
-func (s *ApplicationVersionDescription) SetDateCreated(v time.Time) *ApplicationVersionDescription {
-	s.DateCreated = &v
-	return s
-}
-
-// SetDateUpdated sets the DateUpdated field's value.
-func (s *ApplicationVersionDescription) SetDateUpdated(v time.Time) *ApplicationVersionDescription {
-	s.DateUpdated = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ApplicationVersionDescription) SetDescription(v string) *ApplicationVersionDescription {
-	s.Description = &v
-	return s
-}
-
-// SetSourceBuildInformation sets the SourceBuildInformation field's value.
-func (s *ApplicationVersionDescription) SetSourceBuildInformation(v *SourceBuildInformation) *ApplicationVersionDescription {
-	s.SourceBuildInformation = v
-	return s
-}
-
-// SetSourceBundle sets the SourceBundle field's value.
-func (s *ApplicationVersionDescription) SetSourceBundle(v *S3Location) *ApplicationVersionDescription {
-	s.SourceBundle = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ApplicationVersionDescription) SetStatus(v ApplicationVersionStatus) *ApplicationVersionDescription {
-	s.Status = v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *ApplicationVersionDescription) SetVersionLabel(v string) *ApplicationVersionDescription {
-	s.VersionLabel = &v
-	return s
 }
 
 // The application version lifecycle settings for an application. Defines the
@@ -2500,18 +2709,6 @@ func (s *ApplicationVersionLifecycleConfig) Validate() error {
 	return nil
 }
 
-// SetMaxAgeRule sets the MaxAgeRule field's value.
-func (s *ApplicationVersionLifecycleConfig) SetMaxAgeRule(v *MaxAgeRule) *ApplicationVersionLifecycleConfig {
-	s.MaxAgeRule = v
-	return s
-}
-
-// SetMaxCountRule sets the MaxCountRule field's value.
-func (s *ApplicationVersionLifecycleConfig) SetMaxCountRule(v *MaxCountRule) *ApplicationVersionLifecycleConfig {
-	s.MaxCountRule = v
-	return s
-}
-
 // Request to execute a scheduled managed action immediately.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplyEnvironmentManagedActionRequest
 type ApplyEnvironmentManagedActionInput struct {
@@ -2553,28 +2750,12 @@ func (s *ApplyEnvironmentManagedActionInput) Validate() error {
 	return nil
 }
 
-// SetActionId sets the ActionId field's value.
-func (s *ApplyEnvironmentManagedActionInput) SetActionId(v string) *ApplyEnvironmentManagedActionInput {
-	s.ActionId = &v
-	return s
-}
-
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *ApplyEnvironmentManagedActionInput) SetEnvironmentId(v string) *ApplyEnvironmentManagedActionInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *ApplyEnvironmentManagedActionInput) SetEnvironmentName(v string) *ApplyEnvironmentManagedActionInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // The result message containing information about the managed action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplyEnvironmentManagedActionResult
 type ApplyEnvironmentManagedActionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A description of the managed action.
 	ActionDescription *string `type:"string"`
@@ -2583,7 +2764,7 @@ type ApplyEnvironmentManagedActionOutput struct {
 	ActionId *string `type:"string"`
 
 	// The type of managed action.
-	ActionType ActionType `type:"string"`
+	ActionType ActionType `type:"string" enum:"true"`
 
 	// The status of the managed action.
 	Status *string `type:"string"`
@@ -2599,28 +2780,9 @@ func (s ApplyEnvironmentManagedActionOutput) GoString() string {
 	return s.String()
 }
 
-// SetActionDescription sets the ActionDescription field's value.
-func (s *ApplyEnvironmentManagedActionOutput) SetActionDescription(v string) *ApplyEnvironmentManagedActionOutput {
-	s.ActionDescription = &v
-	return s
-}
-
-// SetActionId sets the ActionId field's value.
-func (s *ApplyEnvironmentManagedActionOutput) SetActionId(v string) *ApplyEnvironmentManagedActionOutput {
-	s.ActionId = &v
-	return s
-}
-
-// SetActionType sets the ActionType field's value.
-func (s *ApplyEnvironmentManagedActionOutput) SetActionType(v ActionType) *ApplyEnvironmentManagedActionOutput {
-	s.ActionType = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ApplyEnvironmentManagedActionOutput) SetStatus(v string) *ApplyEnvironmentManagedActionOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ApplyEnvironmentManagedActionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an Auto Scaling launch configuration.
@@ -2640,12 +2802,6 @@ func (s AutoScalingGroup) String() string {
 // GoString returns the string representation
 func (s AutoScalingGroup) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *AutoScalingGroup) SetName(v string) *AutoScalingGroup {
-	s.Name = &v
-	return s
 }
 
 // Settings for an AWS CodeBuild build.
@@ -2673,7 +2829,7 @@ type BuildConfiguration struct {
 	//    * BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds
 	//
 	//    * BUILD_GENERAL1_LARGE: Use up to 15 GB memory and 8 vCPUs for builds
-	ComputeType ComputeType `type:"string"`
+	ComputeType ComputeType `type:"string" enum:"true"`
 
 	// The ID of the Docker image to use for this build project.
 	//
@@ -2714,36 +2870,6 @@ func (s *BuildConfiguration) Validate() error {
 	return nil
 }
 
-// SetArtifactName sets the ArtifactName field's value.
-func (s *BuildConfiguration) SetArtifactName(v string) *BuildConfiguration {
-	s.ArtifactName = &v
-	return s
-}
-
-// SetCodeBuildServiceRole sets the CodeBuildServiceRole field's value.
-func (s *BuildConfiguration) SetCodeBuildServiceRole(v string) *BuildConfiguration {
-	s.CodeBuildServiceRole = &v
-	return s
-}
-
-// SetComputeType sets the ComputeType field's value.
-func (s *BuildConfiguration) SetComputeType(v ComputeType) *BuildConfiguration {
-	s.ComputeType = v
-	return s
-}
-
-// SetImage sets the Image field's value.
-func (s *BuildConfiguration) SetImage(v string) *BuildConfiguration {
-	s.Image = &v
-	return s
-}
-
-// SetTimeoutInMinutes sets the TimeoutInMinutes field's value.
-func (s *BuildConfiguration) SetTimeoutInMinutes(v int64) *BuildConfiguration {
-	s.TimeoutInMinutes = &v
-	return s
-}
-
 // The builder used to build the custom platform.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/Builder
 type Builder struct {
@@ -2761,12 +2887,6 @@ func (s Builder) String() string {
 // GoString returns the string representation
 func (s Builder) GoString() string {
 	return s.String()
-}
-
-// SetARN sets the ARN field's value.
-func (s *Builder) SetARN(v string) *Builder {
-	s.ARN = &v
-	return s
 }
 
 // CPU utilization metrics for an instance.
@@ -2813,48 +2933,6 @@ func (s CPUUtilization) GoString() string {
 	return s.String()
 }
 
-// SetIOWait sets the IOWait field's value.
-func (s *CPUUtilization) SetIOWait(v float64) *CPUUtilization {
-	s.IOWait = &v
-	return s
-}
-
-// SetIRQ sets the IRQ field's value.
-func (s *CPUUtilization) SetIRQ(v float64) *CPUUtilization {
-	s.IRQ = &v
-	return s
-}
-
-// SetIdle sets the Idle field's value.
-func (s *CPUUtilization) SetIdle(v float64) *CPUUtilization {
-	s.Idle = &v
-	return s
-}
-
-// SetNice sets the Nice field's value.
-func (s *CPUUtilization) SetNice(v float64) *CPUUtilization {
-	s.Nice = &v
-	return s
-}
-
-// SetSoftIRQ sets the SoftIRQ field's value.
-func (s *CPUUtilization) SetSoftIRQ(v float64) *CPUUtilization {
-	s.SoftIRQ = &v
-	return s
-}
-
-// SetSystem sets the System field's value.
-func (s *CPUUtilization) SetSystem(v float64) *CPUUtilization {
-	s.System = &v
-	return s
-}
-
-// SetUser sets the User field's value.
-func (s *CPUUtilization) SetUser(v float64) *CPUUtilization {
-	s.User = &v
-	return s
-}
-
 // Results message indicating whether a CNAME is available.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CheckDNSAvailabilityMessage
 type CheckDNSAvailabilityInput struct {
@@ -2893,16 +2971,12 @@ func (s *CheckDNSAvailabilityInput) Validate() error {
 	return nil
 }
 
-// SetCNAMEPrefix sets the CNAMEPrefix field's value.
-func (s *CheckDNSAvailabilityInput) SetCNAMEPrefix(v string) *CheckDNSAvailabilityInput {
-	s.CNAMEPrefix = &v
-	return s
-}
-
 // Indicates if the specified CNAME is available.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CheckDNSAvailabilityResultMessage
 type CheckDNSAvailabilityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates if the specified CNAME is available:
 	//
@@ -2926,16 +3000,9 @@ func (s CheckDNSAvailabilityOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailable sets the Available field's value.
-func (s *CheckDNSAvailabilityOutput) SetAvailable(v bool) *CheckDNSAvailabilityOutput {
-	s.Available = &v
-	return s
-}
-
-// SetFullyQualifiedCNAME sets the FullyQualifiedCNAME field's value.
-func (s *CheckDNSAvailabilityOutput) SetFullyQualifiedCNAME(v string) *CheckDNSAvailabilityOutput {
-	s.FullyQualifiedCNAME = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CheckDNSAvailabilityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to create or update a group of environments.
@@ -2958,7 +3025,7 @@ type ComposeEnvironmentsInput struct {
 	// environment manifest that specifies the name of the environment and the name
 	// of the solution stack to use, and optionally can specify environment links
 	// to create.
-	VersionLabels []*string `type:"list"`
+	VersionLabels []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2985,24 +3052,6 @@ func (s *ComposeEnvironmentsInput) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetApplicationName sets the ApplicationName field's value.
-func (s *ComposeEnvironmentsInput) SetApplicationName(v string) *ComposeEnvironmentsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *ComposeEnvironmentsInput) SetGroupName(v string) *ComposeEnvironmentsInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetVersionLabels sets the VersionLabels field's value.
-func (s *ComposeEnvironmentsInput) SetVersionLabels(v []*string) *ComposeEnvironmentsInput {
-	s.VersionLabels = v
-	return s
 }
 
 // Describes the possible values for a configuration option.
@@ -3065,7 +3114,7 @@ type ConfigurationOptionDescription struct {
 
 	// If specified, values for the configuration option are selected from this
 	// list.
-	ValueOptions []*string `type:"list"`
+	ValueOptions []string `type:"list"`
 
 	// An indication of which type of values this option has and whether it is allowable
 	// to select one or more than one of the possible values:
@@ -3080,7 +3129,7 @@ type ConfigurationOptionDescription struct {
 	//    * Boolean : Values for this option are either true or false .
 	//
 	//    * Json : Values for this option are a JSON representation of a ConfigDocument.
-	ValueType ConfigurationOptionValueType `type:"string"`
+	ValueType ConfigurationOptionValueType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3091,72 +3140,6 @@ func (s ConfigurationOptionDescription) String() string {
 // GoString returns the string representation
 func (s ConfigurationOptionDescription) GoString() string {
 	return s.String()
-}
-
-// SetChangeSeverity sets the ChangeSeverity field's value.
-func (s *ConfigurationOptionDescription) SetChangeSeverity(v string) *ConfigurationOptionDescription {
-	s.ChangeSeverity = &v
-	return s
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *ConfigurationOptionDescription) SetDefaultValue(v string) *ConfigurationOptionDescription {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetMaxLength sets the MaxLength field's value.
-func (s *ConfigurationOptionDescription) SetMaxLength(v int64) *ConfigurationOptionDescription {
-	s.MaxLength = &v
-	return s
-}
-
-// SetMaxValue sets the MaxValue field's value.
-func (s *ConfigurationOptionDescription) SetMaxValue(v int64) *ConfigurationOptionDescription {
-	s.MaxValue = &v
-	return s
-}
-
-// SetMinValue sets the MinValue field's value.
-func (s *ConfigurationOptionDescription) SetMinValue(v int64) *ConfigurationOptionDescription {
-	s.MinValue = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ConfigurationOptionDescription) SetName(v string) *ConfigurationOptionDescription {
-	s.Name = &v
-	return s
-}
-
-// SetNamespace sets the Namespace field's value.
-func (s *ConfigurationOptionDescription) SetNamespace(v string) *ConfigurationOptionDescription {
-	s.Namespace = &v
-	return s
-}
-
-// SetRegex sets the Regex field's value.
-func (s *ConfigurationOptionDescription) SetRegex(v *OptionRestrictionRegex) *ConfigurationOptionDescription {
-	s.Regex = v
-	return s
-}
-
-// SetUserDefined sets the UserDefined field's value.
-func (s *ConfigurationOptionDescription) SetUserDefined(v bool) *ConfigurationOptionDescription {
-	s.UserDefined = &v
-	return s
-}
-
-// SetValueOptions sets the ValueOptions field's value.
-func (s *ConfigurationOptionDescription) SetValueOptions(v []*string) *ConfigurationOptionDescription {
-	s.ValueOptions = v
-	return s
-}
-
-// SetValueType sets the ValueType field's value.
-func (s *ConfigurationOptionDescription) SetValueType(v ConfigurationOptionValueType) *ConfigurationOptionDescription {
-	s.ValueType = v
-	return s
 }
 
 // A specification identifying an individual configuration option along with
@@ -3201,30 +3184,6 @@ func (s *ConfigurationOptionSetting) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetNamespace sets the Namespace field's value.
-func (s *ConfigurationOptionSetting) SetNamespace(v string) *ConfigurationOptionSetting {
-	s.Namespace = &v
-	return s
-}
-
-// SetOptionName sets the OptionName field's value.
-func (s *ConfigurationOptionSetting) SetOptionName(v string) *ConfigurationOptionSetting {
-	s.OptionName = &v
-	return s
-}
-
-// SetResourceName sets the ResourceName field's value.
-func (s *ConfigurationOptionSetting) SetResourceName(v string) *ConfigurationOptionSetting {
-	s.ResourceName = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *ConfigurationOptionSetting) SetValue(v string) *ConfigurationOptionSetting {
-	s.Value = &v
-	return s
 }
 
 // Request to create an application.
@@ -3280,24 +3239,6 @@ func (s *CreateApplicationInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *CreateApplicationInput) SetApplicationName(v string) *CreateApplicationInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateApplicationInput) SetDescription(v string) *CreateApplicationInput {
-	s.Description = &v
-	return s
-}
-
-// SetResourceLifecycleConfig sets the ResourceLifecycleConfig field's value.
-func (s *CreateApplicationInput) SetResourceLifecycleConfig(v *ApplicationResourceLifecycleConfig) *CreateApplicationInput {
-	s.ResourceLifecycleConfig = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateApplicationVersionMessage
 type CreateApplicationVersionInput struct {
 	_ struct{} `type:"structure"`
@@ -3318,9 +3259,14 @@ type CreateApplicationVersionInput struct {
 	// Describes this version.
 	Description *string `type:"string"`
 
-	// Preprocesses and validates the environment manifest and configuration files
-	// in the source bundle. Validating configuration files can identify issues
-	// prior to deploying the application version to an environment.
+	// Preprocesses and validates the environment manifest (env.yaml) and configuration
+	// files (*.config files in the .ebextensions folder) in the source bundle.
+	// Validating configuration files can identify issues prior to deploying the
+	// application version to an environment.
+	//
+	// The Process option validates Elastic Beanstalk configuration files. It doesn't
+	// validate your application's configuration files, like proxy server or Docker
+	// configuration.
 	Process *bool `type:"boolean"`
 
 	// Specify a commit in an AWS CodeCommit Git repository to use as the source
@@ -3391,54 +3337,6 @@ func (s *CreateApplicationVersionInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *CreateApplicationVersionInput) SetApplicationName(v string) *CreateApplicationVersionInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetAutoCreateApplication sets the AutoCreateApplication field's value.
-func (s *CreateApplicationVersionInput) SetAutoCreateApplication(v bool) *CreateApplicationVersionInput {
-	s.AutoCreateApplication = &v
-	return s
-}
-
-// SetBuildConfiguration sets the BuildConfiguration field's value.
-func (s *CreateApplicationVersionInput) SetBuildConfiguration(v *BuildConfiguration) *CreateApplicationVersionInput {
-	s.BuildConfiguration = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateApplicationVersionInput) SetDescription(v string) *CreateApplicationVersionInput {
-	s.Description = &v
-	return s
-}
-
-// SetProcess sets the Process field's value.
-func (s *CreateApplicationVersionInput) SetProcess(v bool) *CreateApplicationVersionInput {
-	s.Process = &v
-	return s
-}
-
-// SetSourceBuildInformation sets the SourceBuildInformation field's value.
-func (s *CreateApplicationVersionInput) SetSourceBuildInformation(v *SourceBuildInformation) *CreateApplicationVersionInput {
-	s.SourceBuildInformation = v
-	return s
-}
-
-// SetSourceBundle sets the SourceBundle field's value.
-func (s *CreateApplicationVersionInput) SetSourceBundle(v *S3Location) *CreateApplicationVersionInput {
-	s.SourceBundle = v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *CreateApplicationVersionInput) SetVersionLabel(v string) *CreateApplicationVersionInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Request to create a configuration template.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateConfigurationTemplateMessage
 type CreateConfigurationTemplateInput struct {
@@ -3460,9 +3358,9 @@ type CreateConfigurationTemplateInput struct {
 	// If specified, AWS Elastic Beanstalk sets the specified configuration option
 	// to the requested value. The new value overrides the value obtained from the
 	// solution stack or the source configuration template.
-	OptionSettings []*ConfigurationOptionSetting `type:"list"`
+	OptionSettings []ConfigurationOptionSetting `type:"list"`
 
-	// The ARN of the custome platform.
+	// The ARN of the custom platform.
 	PlatformArn *string `type:"string"`
 
 	// The name of the solution stack used by this configuration. The solution stack
@@ -3534,9 +3432,6 @@ func (s *CreateConfigurationTemplateInput) Validate() error {
 	}
 	if s.OptionSettings != nil {
 		for i, v := range s.OptionSettings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionSettings", i), err.(aws.ErrInvalidParams))
 			}
@@ -3552,54 +3447,6 @@ func (s *CreateConfigurationTemplateInput) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetApplicationName sets the ApplicationName field's value.
-func (s *CreateConfigurationTemplateInput) SetApplicationName(v string) *CreateConfigurationTemplateInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateConfigurationTemplateInput) SetDescription(v string) *CreateConfigurationTemplateInput {
-	s.Description = &v
-	return s
-}
-
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *CreateConfigurationTemplateInput) SetEnvironmentId(v string) *CreateConfigurationTemplateInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *CreateConfigurationTemplateInput) SetOptionSettings(v []*ConfigurationOptionSetting) *CreateConfigurationTemplateInput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *CreateConfigurationTemplateInput) SetPlatformArn(v string) *CreateConfigurationTemplateInput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *CreateConfigurationTemplateInput) SetSolutionStackName(v string) *CreateConfigurationTemplateInput {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetSourceConfiguration sets the SourceConfiguration field's value.
-func (s *CreateConfigurationTemplateInput) SetSourceConfiguration(v *SourceConfiguration) *CreateConfigurationTemplateInput {
-	s.SourceConfiguration = v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *CreateConfigurationTemplateInput) SetTemplateName(v string) *CreateConfigurationTemplateInput {
-	s.TemplateName = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateEnvironmentMessage
@@ -3645,11 +3492,11 @@ type CreateEnvironmentInput struct {
 	// to the requested value in the configuration set for the new environment.
 	// These override the values obtained from the solution stack or the configuration
 	// template.
-	OptionSettings []*ConfigurationOptionSetting `type:"list"`
+	OptionSettings []ConfigurationOptionSetting `type:"list"`
 
 	// A list of custom user-defined configuration options to remove from the configuration
 	// set for this new environment.
-	OptionsToRemove []*OptionSpecification `type:"list"`
+	OptionsToRemove []OptionSpecification `type:"list"`
 
 	// The ARN of the platform.
 	PlatformArn *string `type:"string"`
@@ -3660,7 +3507,7 @@ type CreateEnvironmentInput struct {
 	SolutionStackName *string `type:"string"`
 
 	// This specifies the tags applied to resources in the environment.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 
 	// The name of the configuration template to use in deployment. If no configuration
 	// template is found with this name, AWS Elastic Beanstalk returns an InvalidParameterValue
@@ -3717,9 +3564,6 @@ func (s *CreateEnvironmentInput) Validate() error {
 	}
 	if s.OptionSettings != nil {
 		for i, v := range s.OptionSettings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionSettings", i), err.(aws.ErrInvalidParams))
 			}
@@ -3727,9 +3571,6 @@ func (s *CreateEnvironmentInput) Validate() error {
 	}
 	if s.OptionsToRemove != nil {
 		for i, v := range s.OptionsToRemove {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionsToRemove", i), err.(aws.ErrInvalidParams))
 			}
@@ -3737,9 +3578,6 @@ func (s *CreateEnvironmentInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -3752,84 +3590,6 @@ func (s *CreateEnvironmentInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *CreateEnvironmentInput) SetApplicationName(v string) *CreateEnvironmentInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetCNAMEPrefix sets the CNAMEPrefix field's value.
-func (s *CreateEnvironmentInput) SetCNAMEPrefix(v string) *CreateEnvironmentInput {
-	s.CNAMEPrefix = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateEnvironmentInput) SetDescription(v string) *CreateEnvironmentInput {
-	s.Description = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *CreateEnvironmentInput) SetEnvironmentName(v string) *CreateEnvironmentInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *CreateEnvironmentInput) SetGroupName(v string) *CreateEnvironmentInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *CreateEnvironmentInput) SetOptionSettings(v []*ConfigurationOptionSetting) *CreateEnvironmentInput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetOptionsToRemove sets the OptionsToRemove field's value.
-func (s *CreateEnvironmentInput) SetOptionsToRemove(v []*OptionSpecification) *CreateEnvironmentInput {
-	s.OptionsToRemove = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *CreateEnvironmentInput) SetPlatformArn(v string) *CreateEnvironmentInput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *CreateEnvironmentInput) SetSolutionStackName(v string) *CreateEnvironmentInput {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateEnvironmentInput) SetTags(v []*Tag) *CreateEnvironmentInput {
-	s.Tags = v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *CreateEnvironmentInput) SetTemplateName(v string) *CreateEnvironmentInput {
-	s.TemplateName = &v
-	return s
-}
-
-// SetTier sets the Tier field's value.
-func (s *CreateEnvironmentInput) SetTier(v *EnvironmentTier) *CreateEnvironmentInput {
-	s.Tier = v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *CreateEnvironmentInput) SetVersionLabel(v string) *CreateEnvironmentInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Request to create a new platform version.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreatePlatformVersionRequest
 type CreatePlatformVersionInput struct {
@@ -3839,7 +3599,7 @@ type CreatePlatformVersionInput struct {
 	EnvironmentName *string `min:"4" type:"string"`
 
 	// The configuration option settings to apply to the builder environment.
-	OptionSettings []*ConfigurationOptionSetting `type:"list"`
+	OptionSettings []ConfigurationOptionSetting `type:"list"`
 
 	// The location of the platform definition archive in Amazon S3.
 	//
@@ -3887,9 +3647,6 @@ func (s *CreatePlatformVersionInput) Validate() error {
 	}
 	if s.OptionSettings != nil {
 		for i, v := range s.OptionSettings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionSettings", i), err.(aws.ErrInvalidParams))
 			}
@@ -3902,39 +3659,11 @@ func (s *CreatePlatformVersionInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *CreatePlatformVersionInput) SetEnvironmentName(v string) *CreatePlatformVersionInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *CreatePlatformVersionInput) SetOptionSettings(v []*ConfigurationOptionSetting) *CreatePlatformVersionInput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetPlatformDefinitionBundle sets the PlatformDefinitionBundle field's value.
-func (s *CreatePlatformVersionInput) SetPlatformDefinitionBundle(v *S3Location) *CreatePlatformVersionInput {
-	s.PlatformDefinitionBundle = v
-	return s
-}
-
-// SetPlatformName sets the PlatformName field's value.
-func (s *CreatePlatformVersionInput) SetPlatformName(v string) *CreatePlatformVersionInput {
-	s.PlatformName = &v
-	return s
-}
-
-// SetPlatformVersion sets the PlatformVersion field's value.
-func (s *CreatePlatformVersionInput) SetPlatformVersion(v string) *CreatePlatformVersionInput {
-	s.PlatformVersion = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreatePlatformVersionResult
 type CreatePlatformVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The builder used to create the custom platform.
 	Builder *Builder `type:"structure"`
@@ -3953,16 +3682,9 @@ func (s CreatePlatformVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetBuilder sets the Builder field's value.
-func (s *CreatePlatformVersionOutput) SetBuilder(v *Builder) *CreatePlatformVersionOutput {
-	s.Builder = v
-	return s
-}
-
-// SetPlatformSummary sets the PlatformSummary field's value.
-func (s *CreatePlatformVersionOutput) SetPlatformSummary(v *PlatformSummary) *CreatePlatformVersionOutput {
-	s.PlatformSummary = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePlatformVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateStorageLocationInput
@@ -3985,6 +3707,8 @@ func (s CreateStorageLocationInput) GoString() string {
 type CreateStorageLocationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The name of the Amazon S3 bucket created.
 	S3Bucket *string `type:"string"`
 }
@@ -3999,10 +3723,9 @@ func (s CreateStorageLocationOutput) GoString() string {
 	return s.String()
 }
 
-// SetS3Bucket sets the S3Bucket field's value.
-func (s *CreateStorageLocationOutput) SetS3Bucket(v string) *CreateStorageLocationOutput {
-	s.S3Bucket = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateStorageLocationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A custom AMI available to platforms.
@@ -4025,18 +3748,6 @@ func (s CustomAmi) String() string {
 // GoString returns the string representation
 func (s CustomAmi) GoString() string {
 	return s.String()
-}
-
-// SetImageId sets the ImageId field's value.
-func (s *CustomAmi) SetImageId(v string) *CustomAmi {
-	s.ImageId = &v
-	return s
-}
-
-// SetVirtualizationType sets the VirtualizationType field's value.
-func (s *CustomAmi) SetVirtualizationType(v string) *CustomAmi {
-	s.VirtualizationType = &v
-	return s
 }
 
 // Request to delete an application.
@@ -4081,21 +3792,11 @@ func (s *DeleteApplicationInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DeleteApplicationInput) SetApplicationName(v string) *DeleteApplicationInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetTerminateEnvByForce sets the TerminateEnvByForce field's value.
-func (s *DeleteApplicationInput) SetTerminateEnvByForce(v bool) *DeleteApplicationInput {
-	s.TerminateEnvByForce = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DeleteApplicationOutput
 type DeleteApplicationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4106,6 +3807,11 @@ func (s DeleteApplicationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteApplicationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteApplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to delete an application version.
@@ -4163,27 +3869,11 @@ func (s *DeleteApplicationVersionInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DeleteApplicationVersionInput) SetApplicationName(v string) *DeleteApplicationVersionInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDeleteSourceBundle sets the DeleteSourceBundle field's value.
-func (s *DeleteApplicationVersionInput) SetDeleteSourceBundle(v bool) *DeleteApplicationVersionInput {
-	s.DeleteSourceBundle = &v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *DeleteApplicationVersionInput) SetVersionLabel(v string) *DeleteApplicationVersionInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DeleteApplicationVersionOutput
 type DeleteApplicationVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4194,6 +3884,11 @@ func (s DeleteApplicationVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteApplicationVersionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteApplicationVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to delete a configuration template.
@@ -4246,21 +3941,11 @@ func (s *DeleteConfigurationTemplateInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DeleteConfigurationTemplateInput) SetApplicationName(v string) *DeleteConfigurationTemplateInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *DeleteConfigurationTemplateInput) SetTemplateName(v string) *DeleteConfigurationTemplateInput {
-	s.TemplateName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DeleteConfigurationTemplateOutput
 type DeleteConfigurationTemplateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4271,6 +3956,11 @@ func (s DeleteConfigurationTemplateOutput) String() string {
 // GoString returns the string representation
 func (s DeleteConfigurationTemplateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteConfigurationTemplateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to delete a draft environment configuration.
@@ -4323,21 +4013,11 @@ func (s *DeleteEnvironmentConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DeleteEnvironmentConfigurationInput) SetApplicationName(v string) *DeleteEnvironmentConfigurationInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DeleteEnvironmentConfigurationInput) SetEnvironmentName(v string) *DeleteEnvironmentConfigurationInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DeleteEnvironmentConfigurationOutput
 type DeleteEnvironmentConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4348,6 +4028,11 @@ func (s DeleteEnvironmentConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteEnvironmentConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEnvironmentConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DeletePlatformVersionRequest
@@ -4368,15 +4053,11 @@ func (s DeletePlatformVersionInput) GoString() string {
 	return s.String()
 }
 
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *DeletePlatformVersionInput) SetPlatformArn(v string) *DeletePlatformVersionInput {
-	s.PlatformArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DeletePlatformVersionResult
 type DeletePlatformVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Detailed information about the version of the custom platform.
 	PlatformSummary *PlatformSummary `type:"structure"`
@@ -4392,10 +4073,9 @@ func (s DeletePlatformVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPlatformSummary sets the PlatformSummary field's value.
-func (s *DeletePlatformVersionOutput) SetPlatformSummary(v *PlatformSummary) *DeletePlatformVersionOutput {
-	s.PlatformSummary = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePlatformVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about an application version deployment.
@@ -4435,28 +4115,44 @@ func (s Deployment) GoString() string {
 	return s.String()
 }
 
-// SetDeploymentId sets the DeploymentId field's value.
-func (s *Deployment) SetDeploymentId(v int64) *Deployment {
-	s.DeploymentId = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeAccountAttributesInput
+type DescribeAccountAttributesInput struct {
+	_ struct{} `type:"structure"`
 }
 
-// SetDeploymentTime sets the DeploymentTime field's value.
-func (s *Deployment) SetDeploymentTime(v time.Time) *Deployment {
-	s.DeploymentTime = &v
-	return s
+// String returns the string representation
+func (s DescribeAccountAttributesInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetStatus sets the Status field's value.
-func (s *Deployment) SetStatus(v string) *Deployment {
-	s.Status = &v
-	return s
+// GoString returns the string representation
+func (s DescribeAccountAttributesInput) GoString() string {
+	return s.String()
 }
 
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *Deployment) SetVersionLabel(v string) *Deployment {
-	s.VersionLabel = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeAccountAttributesResult
+type DescribeAccountAttributesOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The Elastic Beanstalk resource quotas associated with the calling AWS account.
+	ResourceQuotas *ResourceQuotas `type:"structure"`
+}
+
+// String returns the string representation
+func (s DescribeAccountAttributesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeAccountAttributesOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAccountAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to describe application versions.
@@ -4482,7 +4178,7 @@ type DescribeApplicationVersionsInput struct {
 	NextToken *string `type:"string"`
 
 	// Specify a version label to show a specific application version.
-	VersionLabels []*string `type:"list"`
+	VersionLabels []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4511,37 +4207,15 @@ func (s *DescribeApplicationVersionsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DescribeApplicationVersionsInput) SetApplicationName(v string) *DescribeApplicationVersionsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeApplicationVersionsInput) SetMaxRecords(v int64) *DescribeApplicationVersionsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeApplicationVersionsInput) SetNextToken(v string) *DescribeApplicationVersionsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetVersionLabels sets the VersionLabels field's value.
-func (s *DescribeApplicationVersionsInput) SetVersionLabels(v []*string) *DescribeApplicationVersionsInput {
-	s.VersionLabels = v
-	return s
-}
-
 // Result message wrapping a list of application version descriptions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplicationVersionDescriptionsMessage
 type DescribeApplicationVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of ApplicationVersionDescription objects sorted in order of creation.
-	ApplicationVersions []*ApplicationVersionDescription `type:"list"`
+	ApplicationVersions []ApplicationVersionDescription `type:"list"`
 
 	// In a paginated request, the token that you can pass in a subsequent request
 	// to get the next response page.
@@ -4558,16 +4232,9 @@ func (s DescribeApplicationVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationVersions sets the ApplicationVersions field's value.
-func (s *DescribeApplicationVersionsOutput) SetApplicationVersions(v []*ApplicationVersionDescription) *DescribeApplicationVersionsOutput {
-	s.ApplicationVersions = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeApplicationVersionsOutput) SetNextToken(v string) *DescribeApplicationVersionsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeApplicationVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to describe one or more applications.
@@ -4577,7 +4244,7 @@ type DescribeApplicationsInput struct {
 
 	// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
 	// only include those with the specified names.
-	ApplicationNames []*string `type:"list"`
+	ApplicationNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4590,19 +4257,15 @@ func (s DescribeApplicationsInput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationNames sets the ApplicationNames field's value.
-func (s *DescribeApplicationsInput) SetApplicationNames(v []*string) *DescribeApplicationsInput {
-	s.ApplicationNames = v
-	return s
-}
-
 // Result message containing a list of application descriptions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplicationDescriptionsMessage
 type DescribeApplicationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// This parameter contains a list of ApplicationDescription.
-	Applications []*ApplicationDescription `type:"list"`
+	Applications []ApplicationDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -4615,10 +4278,9 @@ func (s DescribeApplicationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplications sets the Applications field's value.
-func (s *DescribeApplicationsOutput) SetApplications(v []*ApplicationDescription) *DescribeApplicationsOutput {
-	s.Applications = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeApplicationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Result message containing a list of application version descriptions.
@@ -4635,7 +4297,7 @@ type DescribeConfigurationOptionsInput struct {
 	EnvironmentName *string `min:"4" type:"string"`
 
 	// If specified, restricts the descriptions to only the specified options.
-	Options []*OptionSpecification `type:"list"`
+	Options []OptionSpecification `type:"list"`
 
 	// The ARN of the custom platform.
 	PlatformArn *string `type:"string"`
@@ -4672,9 +4334,6 @@ func (s *DescribeConfigurationOptionsInput) Validate() error {
 	}
 	if s.Options != nil {
 		for i, v := range s.Options {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Options", i), err.(aws.ErrInvalidParams))
 			}
@@ -4687,49 +4346,15 @@ func (s *DescribeConfigurationOptionsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DescribeConfigurationOptionsInput) SetApplicationName(v string) *DescribeConfigurationOptionsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeConfigurationOptionsInput) SetEnvironmentName(v string) *DescribeConfigurationOptionsInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetOptions sets the Options field's value.
-func (s *DescribeConfigurationOptionsInput) SetOptions(v []*OptionSpecification) *DescribeConfigurationOptionsInput {
-	s.Options = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *DescribeConfigurationOptionsInput) SetPlatformArn(v string) *DescribeConfigurationOptionsInput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *DescribeConfigurationOptionsInput) SetSolutionStackName(v string) *DescribeConfigurationOptionsInput {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *DescribeConfigurationOptionsInput) SetTemplateName(v string) *DescribeConfigurationOptionsInput {
-	s.TemplateName = &v
-	return s
-}
-
 // Describes the settings for a specified configuration set.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ConfigurationOptionsDescription
 type DescribeConfigurationOptionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of ConfigurationOptionDescription.
-	Options []*ConfigurationOptionDescription `type:"list"`
+	Options []ConfigurationOptionDescription `type:"list"`
 
 	// The ARN of the platform.
 	PlatformArn *string `type:"string"`
@@ -4748,22 +4373,9 @@ func (s DescribeConfigurationOptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *DescribeConfigurationOptionsOutput) SetOptions(v []*ConfigurationOptionDescription) *DescribeConfigurationOptionsOutput {
-	s.Options = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *DescribeConfigurationOptionsOutput) SetPlatformArn(v string) *DescribeConfigurationOptionsOutput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *DescribeConfigurationOptionsOutput) SetSolutionStackName(v string) *DescribeConfigurationOptionsOutput {
-	s.SolutionStackName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeConfigurationOptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Result message containing all of the configuration settings for a specified
@@ -4827,31 +4439,15 @@ func (s *DescribeConfigurationSettingsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DescribeConfigurationSettingsInput) SetApplicationName(v string) *DescribeConfigurationSettingsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeConfigurationSettingsInput) SetEnvironmentName(v string) *DescribeConfigurationSettingsInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *DescribeConfigurationSettingsInput) SetTemplateName(v string) *DescribeConfigurationSettingsInput {
-	s.TemplateName = &v
-	return s
-}
-
 // The results from a request to change the configuration settings of an environment.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ConfigurationSettingsDescriptions
 type DescribeConfigurationSettingsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of ConfigurationSettingsDescription.
-	ConfigurationSettings []*UpdateConfigurationTemplateOutput `type:"list"`
+	ConfigurationSettings []UpdateConfigurationTemplateOutput `type:"list"`
 }
 
 // String returns the string representation
@@ -4864,10 +4460,9 @@ func (s DescribeConfigurationSettingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetConfigurationSettings sets the ConfigurationSettings field's value.
-func (s *DescribeConfigurationSettingsOutput) SetConfigurationSettings(v []*UpdateConfigurationTemplateOutput) *DescribeConfigurationSettingsOutput {
-	s.ConfigurationSettings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeConfigurationSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // See the example below to learn how to create a request body.
@@ -4913,35 +4508,19 @@ func (s *DescribeEnvironmentHealthInput) Validate() error {
 	return nil
 }
 
-// SetAttributeNames sets the AttributeNames field's value.
-func (s *DescribeEnvironmentHealthInput) SetAttributeNames(v []EnvironmentHealthAttribute) *DescribeEnvironmentHealthInput {
-	s.AttributeNames = v
-	return s
-}
-
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *DescribeEnvironmentHealthInput) SetEnvironmentId(v string) *DescribeEnvironmentHealthInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeEnvironmentHealthInput) SetEnvironmentName(v string) *DescribeEnvironmentHealthInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // Health details for an AWS Elastic Beanstalk environment.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeEnvironmentHealthResult
 type DescribeEnvironmentHealthOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Application request metrics for the environment.
 	ApplicationMetrics *ApplicationMetrics `type:"structure"`
 
 	// Descriptions of the data that contributed to the environment's current health
 	// status.
-	Causes []*string `type:"list"`
+	Causes []string `type:"list"`
 
 	// The health color (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html)
 	// of the environment.
@@ -4962,7 +4541,7 @@ type DescribeEnvironmentHealthOutput struct {
 
 	// The environment's operational status. Ready, Launching, Updating, Terminating,
 	// or Terminated.
-	Status EnvironmentHealth `type:"string"`
+	Status EnvironmentHealth `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4975,52 +4554,9 @@ func (s DescribeEnvironmentHealthOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationMetrics sets the ApplicationMetrics field's value.
-func (s *DescribeEnvironmentHealthOutput) SetApplicationMetrics(v *ApplicationMetrics) *DescribeEnvironmentHealthOutput {
-	s.ApplicationMetrics = v
-	return s
-}
-
-// SetCauses sets the Causes field's value.
-func (s *DescribeEnvironmentHealthOutput) SetCauses(v []*string) *DescribeEnvironmentHealthOutput {
-	s.Causes = v
-	return s
-}
-
-// SetColor sets the Color field's value.
-func (s *DescribeEnvironmentHealthOutput) SetColor(v string) *DescribeEnvironmentHealthOutput {
-	s.Color = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeEnvironmentHealthOutput) SetEnvironmentName(v string) *DescribeEnvironmentHealthOutput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetHealthStatus sets the HealthStatus field's value.
-func (s *DescribeEnvironmentHealthOutput) SetHealthStatus(v string) *DescribeEnvironmentHealthOutput {
-	s.HealthStatus = &v
-	return s
-}
-
-// SetInstancesHealth sets the InstancesHealth field's value.
-func (s *DescribeEnvironmentHealthOutput) SetInstancesHealth(v *InstanceHealthSummary) *DescribeEnvironmentHealthOutput {
-	s.InstancesHealth = v
-	return s
-}
-
-// SetRefreshedAt sets the RefreshedAt field's value.
-func (s *DescribeEnvironmentHealthOutput) SetRefreshedAt(v time.Time) *DescribeEnvironmentHealthOutput {
-	s.RefreshedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DescribeEnvironmentHealthOutput) SetStatus(v EnvironmentHealth) *DescribeEnvironmentHealthOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEnvironmentHealthOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to list completed and failed managed actions.
@@ -5064,37 +4600,15 @@ func (s *DescribeEnvironmentManagedActionHistoryInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *DescribeEnvironmentManagedActionHistoryInput) SetEnvironmentId(v string) *DescribeEnvironmentManagedActionHistoryInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeEnvironmentManagedActionHistoryInput) SetEnvironmentName(v string) *DescribeEnvironmentManagedActionHistoryInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *DescribeEnvironmentManagedActionHistoryInput) SetMaxItems(v int64) *DescribeEnvironmentManagedActionHistoryInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEnvironmentManagedActionHistoryInput) SetNextToken(v string) *DescribeEnvironmentManagedActionHistoryInput {
-	s.NextToken = &v
-	return s
-}
-
 // A result message containing a list of completed and failed managed actions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeEnvironmentManagedActionHistoryResult
 type DescribeEnvironmentManagedActionHistoryOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of completed and failed managed actions.
-	ManagedActionHistoryItems []*ManagedActionHistoryItem `min:"1" type:"list"`
+	ManagedActionHistoryItems []ManagedActionHistoryItem `min:"1" type:"list"`
 
 	// A pagination token that you pass to DescribeEnvironmentManagedActionHistory
 	// to get the next page of results.
@@ -5111,16 +4625,9 @@ func (s DescribeEnvironmentManagedActionHistoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetManagedActionHistoryItems sets the ManagedActionHistoryItems field's value.
-func (s *DescribeEnvironmentManagedActionHistoryOutput) SetManagedActionHistoryItems(v []*ManagedActionHistoryItem) *DescribeEnvironmentManagedActionHistoryOutput {
-	s.ManagedActionHistoryItems = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEnvironmentManagedActionHistoryOutput) SetNextToken(v string) *DescribeEnvironmentManagedActionHistoryOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEnvironmentManagedActionHistoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to list an environment's upcoming and in-progress managed actions.
@@ -5135,7 +4642,7 @@ type DescribeEnvironmentManagedActionsInput struct {
 	EnvironmentName *string `type:"string"`
 
 	// To show only actions with a particular status, specify a status.
-	Status ActionStatus `type:"string"`
+	Status ActionStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -5148,31 +4655,15 @@ func (s DescribeEnvironmentManagedActionsInput) GoString() string {
 	return s.String()
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *DescribeEnvironmentManagedActionsInput) SetEnvironmentId(v string) *DescribeEnvironmentManagedActionsInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeEnvironmentManagedActionsInput) SetEnvironmentName(v string) *DescribeEnvironmentManagedActionsInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DescribeEnvironmentManagedActionsInput) SetStatus(v ActionStatus) *DescribeEnvironmentManagedActionsInput {
-	s.Status = v
-	return s
-}
-
 // The result message containing a list of managed actions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeEnvironmentManagedActionsResult
 type DescribeEnvironmentManagedActionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of upcoming and in-progress managed actions.
-	ManagedActions []*ManagedAction `min:"1" type:"list"`
+	ManagedActions []ManagedAction `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -5185,10 +4676,9 @@ func (s DescribeEnvironmentManagedActionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetManagedActions sets the ManagedActions field's value.
-func (s *DescribeEnvironmentManagedActionsOutput) SetManagedActions(v []*ManagedAction) *DescribeEnvironmentManagedActionsOutput {
-	s.ManagedActions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEnvironmentManagedActionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to describe the resources in an environment.
@@ -5234,22 +4724,12 @@ func (s *DescribeEnvironmentResourcesInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *DescribeEnvironmentResourcesInput) SetEnvironmentId(v string) *DescribeEnvironmentResourcesInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeEnvironmentResourcesInput) SetEnvironmentName(v string) *DescribeEnvironmentResourcesInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // Result message containing a list of environment resource descriptions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/EnvironmentResourceDescriptionsMessage
 type DescribeEnvironmentResourcesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A list of EnvironmentResourceDescription.
 	EnvironmentResources *EnvironmentResourceDescription `type:"structure"`
@@ -5265,10 +4745,9 @@ func (s DescribeEnvironmentResourcesOutput) GoString() string {
 	return s.String()
 }
 
-// SetEnvironmentResources sets the EnvironmentResources field's value.
-func (s *DescribeEnvironmentResourcesOutput) SetEnvironmentResources(v *EnvironmentResourceDescription) *DescribeEnvironmentResourcesOutput {
-	s.EnvironmentResources = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEnvironmentResourcesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to describe one or more environments.
@@ -5282,11 +4761,11 @@ type DescribeEnvironmentsInput struct {
 
 	// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
 	// include only those that have the specified IDs.
-	EnvironmentIds []*string `type:"list"`
+	EnvironmentIds []string `type:"list"`
 
 	// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
 	// include only those that have the specified names.
-	EnvironmentNames []*string `type:"list"`
+	EnvironmentNames []string `type:"list"`
 
 	// Indicates whether to include deleted environments:
 	//
@@ -5348,61 +4827,15 @@ func (s *DescribeEnvironmentsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DescribeEnvironmentsInput) SetApplicationName(v string) *DescribeEnvironmentsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEnvironmentIds sets the EnvironmentIds field's value.
-func (s *DescribeEnvironmentsInput) SetEnvironmentIds(v []*string) *DescribeEnvironmentsInput {
-	s.EnvironmentIds = v
-	return s
-}
-
-// SetEnvironmentNames sets the EnvironmentNames field's value.
-func (s *DescribeEnvironmentsInput) SetEnvironmentNames(v []*string) *DescribeEnvironmentsInput {
-	s.EnvironmentNames = v
-	return s
-}
-
-// SetIncludeDeleted sets the IncludeDeleted field's value.
-func (s *DescribeEnvironmentsInput) SetIncludeDeleted(v bool) *DescribeEnvironmentsInput {
-	s.IncludeDeleted = &v
-	return s
-}
-
-// SetIncludedDeletedBackTo sets the IncludedDeletedBackTo field's value.
-func (s *DescribeEnvironmentsInput) SetIncludedDeletedBackTo(v time.Time) *DescribeEnvironmentsInput {
-	s.IncludedDeletedBackTo = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeEnvironmentsInput) SetMaxRecords(v int64) *DescribeEnvironmentsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEnvironmentsInput) SetNextToken(v string) *DescribeEnvironmentsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *DescribeEnvironmentsInput) SetVersionLabel(v string) *DescribeEnvironmentsInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Result message containing a list of environment descriptions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ComposeEnvironmentsOutput
 type DescribeEnvironmentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Returns an EnvironmentDescription list.
-	Environments []*UpdateEnvironmentOutput `type:"list"`
+	Environments []UpdateEnvironmentOutput `type:"list"`
 
 	// In a paginated request, the token that you can pass in a subsequent request
 	// to get the next response page.
@@ -5419,16 +4852,9 @@ func (s DescribeEnvironmentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEnvironments sets the Environments field's value.
-func (s *DescribeEnvironmentsOutput) SetEnvironments(v []*UpdateEnvironmentOutput) *DescribeEnvironmentsOutput {
-	s.Environments = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEnvironmentsOutput) SetNextToken(v string) *DescribeEnvironmentsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEnvironmentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to retrieve a list of events for an environment.
@@ -5468,7 +4894,7 @@ type DescribeEventsInput struct {
 
 	// If specified, limits the events returned from this call to include only those
 	// with the specified severity or higher.
-	Severity EventSeverity `type:"string"`
+	Severity EventSeverity `type:"string" enum:"true"`
 
 	// If specified, AWS Elastic Beanstalk restricts the returned descriptions to
 	// those that occur on or after this time.
@@ -5518,85 +4944,15 @@ func (s *DescribeEventsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *DescribeEventsInput) SetApplicationName(v string) *DescribeEventsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *DescribeEventsInput) SetEndTime(v time.Time) *DescribeEventsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *DescribeEventsInput) SetEnvironmentId(v string) *DescribeEventsInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeEventsInput) SetEnvironmentName(v string) *DescribeEventsInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeEventsInput) SetMaxRecords(v int64) *DescribeEventsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventsInput) SetNextToken(v string) *DescribeEventsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *DescribeEventsInput) SetPlatformArn(v string) *DescribeEventsInput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetRequestId sets the RequestId field's value.
-func (s *DescribeEventsInput) SetRequestId(v string) *DescribeEventsInput {
-	s.RequestId = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *DescribeEventsInput) SetSeverity(v EventSeverity) *DescribeEventsInput {
-	s.Severity = v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *DescribeEventsInput) SetStartTime(v time.Time) *DescribeEventsInput {
-	s.StartTime = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *DescribeEventsInput) SetTemplateName(v string) *DescribeEventsInput {
-	s.TemplateName = &v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *DescribeEventsInput) SetVersionLabel(v string) *DescribeEventsInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Result message wrapping a list of event descriptions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/EventDescriptionsMessage
 type DescribeEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of EventDescription.
-	Events []*EventDescription `type:"list"`
+	Events []EventDescription `type:"list"`
 
 	// If returned, this indicates that there are more results to obtain. Use this
 	// token in the next DescribeEvents call to get the next batch of events.
@@ -5613,16 +4969,9 @@ func (s DescribeEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *DescribeEventsOutput) SetEvents(v []*EventDescription) *DescribeEventsOutput {
-	s.Events = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventsOutput) SetNextToken(v string) *DescribeEventsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Parameters for a call to DescribeInstancesHealth.
@@ -5670,38 +5019,16 @@ func (s *DescribeInstancesHealthInput) Validate() error {
 	return nil
 }
 
-// SetAttributeNames sets the AttributeNames field's value.
-func (s *DescribeInstancesHealthInput) SetAttributeNames(v []InstancesHealthAttribute) *DescribeInstancesHealthInput {
-	s.AttributeNames = v
-	return s
-}
-
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *DescribeInstancesHealthInput) SetEnvironmentId(v string) *DescribeInstancesHealthInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *DescribeInstancesHealthInput) SetEnvironmentName(v string) *DescribeInstancesHealthInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancesHealthInput) SetNextToken(v string) *DescribeInstancesHealthInput {
-	s.NextToken = &v
-	return s
-}
-
 // Detailed health information about the Amazon EC2 instances in an AWS Elastic
 // Beanstalk environment.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribeInstancesHealthResult
 type DescribeInstancesHealthOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Detailed health information about each instance.
-	InstanceHealthList []*SingleInstanceHealth `type:"list"`
+	InstanceHealthList []SingleInstanceHealth `type:"list"`
 
 	// Pagination token for the next page of results, if available.
 	NextToken *string `min:"1" type:"string"`
@@ -5720,22 +5047,9 @@ func (s DescribeInstancesHealthOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceHealthList sets the InstanceHealthList field's value.
-func (s *DescribeInstancesHealthOutput) SetInstanceHealthList(v []*SingleInstanceHealth) *DescribeInstancesHealthOutput {
-	s.InstanceHealthList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancesHealthOutput) SetNextToken(v string) *DescribeInstancesHealthOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRefreshedAt sets the RefreshedAt field's value.
-func (s *DescribeInstancesHealthOutput) SetRefreshedAt(v time.Time) *DescribeInstancesHealthOutput {
-	s.RefreshedAt = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstancesHealthOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribePlatformVersionRequest
@@ -5756,15 +5070,11 @@ func (s DescribePlatformVersionInput) GoString() string {
 	return s.String()
 }
 
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *DescribePlatformVersionInput) SetPlatformArn(v string) *DescribePlatformVersionInput {
-	s.PlatformArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/DescribePlatformVersionResult
 type DescribePlatformVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Detailed information about the version of the platform.
 	PlatformDescription *PlatformDescription `type:"structure"`
@@ -5780,10 +5090,9 @@ func (s DescribePlatformVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPlatformDescription sets the PlatformDescription field's value.
-func (s *DescribePlatformVersionOutput) SetPlatformDescription(v *PlatformDescription) *DescribePlatformVersionOutput {
-	s.PlatformDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePlatformVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The information retrieved from the Amazon EC2 instances.
@@ -5795,7 +5104,7 @@ type EnvironmentInfoDescription struct {
 	Ec2InstanceId *string `type:"string"`
 
 	// The type of information retrieved.
-	InfoType EnvironmentInfoType `type:"string"`
+	InfoType EnvironmentInfoType `type:"string" enum:"true"`
 
 	// The retrieved information.
 	Message *string `type:"string"`
@@ -5812,30 +5121,6 @@ func (s EnvironmentInfoDescription) String() string {
 // GoString returns the string representation
 func (s EnvironmentInfoDescription) GoString() string {
 	return s.String()
-}
-
-// SetEc2InstanceId sets the Ec2InstanceId field's value.
-func (s *EnvironmentInfoDescription) SetEc2InstanceId(v string) *EnvironmentInfoDescription {
-	s.Ec2InstanceId = &v
-	return s
-}
-
-// SetInfoType sets the InfoType field's value.
-func (s *EnvironmentInfoDescription) SetInfoType(v EnvironmentInfoType) *EnvironmentInfoDescription {
-	s.InfoType = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *EnvironmentInfoDescription) SetMessage(v string) *EnvironmentInfoDescription {
-	s.Message = &v
-	return s
-}
-
-// SetSampleTimestamp sets the SampleTimestamp field's value.
-func (s *EnvironmentInfoDescription) SetSampleTimestamp(v time.Time) *EnvironmentInfoDescription {
-	s.SampleTimestamp = &v
-	return s
 }
 
 // A link to another environment, defined in the environment's manifest. Links
@@ -5864,43 +5149,31 @@ func (s EnvironmentLink) GoString() string {
 	return s.String()
 }
 
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *EnvironmentLink) SetEnvironmentName(v string) *EnvironmentLink {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetLinkName sets the LinkName field's value.
-func (s *EnvironmentLink) SetLinkName(v string) *EnvironmentLink {
-	s.LinkName = &v
-	return s
-}
-
 // Describes the AWS resources in use by this environment. This data is live.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/EnvironmentResourceDescription
 type EnvironmentResourceDescription struct {
 	_ struct{} `type:"structure"`
 
 	// The AutoScalingGroups used by this environment.
-	AutoScalingGroups []*AutoScalingGroup `type:"list"`
+	AutoScalingGroups []AutoScalingGroup `type:"list"`
 
 	// The name of the environment.
 	EnvironmentName *string `min:"4" type:"string"`
 
 	// The Amazon EC2 instances used by this environment.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 
 	// The Auto Scaling launch configurations in use by this environment.
-	LaunchConfigurations []*LaunchConfiguration `type:"list"`
+	LaunchConfigurations []LaunchConfiguration `type:"list"`
 
 	// The LoadBalancers in use by this environment.
-	LoadBalancers []*LoadBalancer `type:"list"`
+	LoadBalancers []LoadBalancer `type:"list"`
 
 	// The queues used by this environment.
-	Queues []*Queue `type:"list"`
+	Queues []Queue `type:"list"`
 
 	// The AutoScaling triggers in use by this environment.
-	Triggers []*Trigger `type:"list"`
+	Triggers []Trigger `type:"list"`
 }
 
 // String returns the string representation
@@ -5911,48 +5184,6 @@ func (s EnvironmentResourceDescription) String() string {
 // GoString returns the string representation
 func (s EnvironmentResourceDescription) GoString() string {
 	return s.String()
-}
-
-// SetAutoScalingGroups sets the AutoScalingGroups field's value.
-func (s *EnvironmentResourceDescription) SetAutoScalingGroups(v []*AutoScalingGroup) *EnvironmentResourceDescription {
-	s.AutoScalingGroups = v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *EnvironmentResourceDescription) SetEnvironmentName(v string) *EnvironmentResourceDescription {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetInstances sets the Instances field's value.
-func (s *EnvironmentResourceDescription) SetInstances(v []*Instance) *EnvironmentResourceDescription {
-	s.Instances = v
-	return s
-}
-
-// SetLaunchConfigurations sets the LaunchConfigurations field's value.
-func (s *EnvironmentResourceDescription) SetLaunchConfigurations(v []*LaunchConfiguration) *EnvironmentResourceDescription {
-	s.LaunchConfigurations = v
-	return s
-}
-
-// SetLoadBalancers sets the LoadBalancers field's value.
-func (s *EnvironmentResourceDescription) SetLoadBalancers(v []*LoadBalancer) *EnvironmentResourceDescription {
-	s.LoadBalancers = v
-	return s
-}
-
-// SetQueues sets the Queues field's value.
-func (s *EnvironmentResourceDescription) SetQueues(v []*Queue) *EnvironmentResourceDescription {
-	s.Queues = v
-	return s
-}
-
-// SetTriggers sets the Triggers field's value.
-func (s *EnvironmentResourceDescription) SetTriggers(v []*Trigger) *EnvironmentResourceDescription {
-	s.Triggers = v
-	return s
 }
 
 // Describes the AWS resources in use by this environment. This data is not
@@ -5973,12 +5204,6 @@ func (s EnvironmentResourcesDescription) String() string {
 // GoString returns the string representation
 func (s EnvironmentResourcesDescription) GoString() string {
 	return s.String()
-}
-
-// SetLoadBalancer sets the LoadBalancer field's value.
-func (s *EnvironmentResourcesDescription) SetLoadBalancer(v *LoadBalancerDescription) *EnvironmentResourcesDescription {
-	s.LoadBalancer = v
-	return s
 }
 
 // Describes the properties of an environment tier
@@ -6006,24 +5231,6 @@ func (s EnvironmentTier) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *EnvironmentTier) SetName(v string) *EnvironmentTier {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *EnvironmentTier) SetType(v string) *EnvironmentTier {
-	s.Type = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *EnvironmentTier) SetVersion(v string) *EnvironmentTier {
-	s.Version = &v
-	return s
-}
-
 // Describes an event.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/EventDescription
 type EventDescription struct {
@@ -6048,7 +5255,7 @@ type EventDescription struct {
 	RequestId *string `type:"string"`
 
 	// The severity level of this event.
-	Severity EventSeverity `type:"string"`
+	Severity EventSeverity `type:"string" enum:"true"`
 
 	// The name of the configuration associated with this event.
 	TemplateName *string `min:"1" type:"string"`
@@ -6065,60 +5272,6 @@ func (s EventDescription) String() string {
 // GoString returns the string representation
 func (s EventDescription) GoString() string {
 	return s.String()
-}
-
-// SetApplicationName sets the ApplicationName field's value.
-func (s *EventDescription) SetApplicationName(v string) *EventDescription {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *EventDescription) SetEnvironmentName(v string) *EventDescription {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetEventDate sets the EventDate field's value.
-func (s *EventDescription) SetEventDate(v time.Time) *EventDescription {
-	s.EventDate = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *EventDescription) SetMessage(v string) *EventDescription {
-	s.Message = &v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *EventDescription) SetPlatformArn(v string) *EventDescription {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetRequestId sets the RequestId field's value.
-func (s *EventDescription) SetRequestId(v string) *EventDescription {
-	s.RequestId = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *EventDescription) SetSeverity(v EventSeverity) *EventDescription {
-	s.Severity = v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *EventDescription) SetTemplateName(v string) *EventDescription {
-	s.TemplateName = &v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *EventDescription) SetVersionLabel(v string) *EventDescription {
-	s.VersionLabel = &v
-	return s
 }
 
 // The description of an Amazon EC2 instance.
@@ -6138,12 +5291,6 @@ func (s Instance) String() string {
 // GoString returns the string representation
 func (s Instance) GoString() string {
 	return s.String()
-}
-
-// SetId sets the Id field's value.
-func (s *Instance) SetId(v string) *Instance {
-	s.Id = &v
-	return s
 }
 
 // Represents summary information about the health of an instance. For more
@@ -6191,54 +5338,6 @@ func (s InstanceHealthSummary) String() string {
 // GoString returns the string representation
 func (s InstanceHealthSummary) GoString() string {
 	return s.String()
-}
-
-// SetDegraded sets the Degraded field's value.
-func (s *InstanceHealthSummary) SetDegraded(v int64) *InstanceHealthSummary {
-	s.Degraded = &v
-	return s
-}
-
-// SetInfo sets the Info field's value.
-func (s *InstanceHealthSummary) SetInfo(v int64) *InstanceHealthSummary {
-	s.Info = &v
-	return s
-}
-
-// SetNoData sets the NoData field's value.
-func (s *InstanceHealthSummary) SetNoData(v int64) *InstanceHealthSummary {
-	s.NoData = &v
-	return s
-}
-
-// SetOk sets the Ok field's value.
-func (s *InstanceHealthSummary) SetOk(v int64) *InstanceHealthSummary {
-	s.Ok = &v
-	return s
-}
-
-// SetPending sets the Pending field's value.
-func (s *InstanceHealthSummary) SetPending(v int64) *InstanceHealthSummary {
-	s.Pending = &v
-	return s
-}
-
-// SetSevere sets the Severe field's value.
-func (s *InstanceHealthSummary) SetSevere(v int64) *InstanceHealthSummary {
-	s.Severe = &v
-	return s
-}
-
-// SetUnknown sets the Unknown field's value.
-func (s *InstanceHealthSummary) SetUnknown(v int64) *InstanceHealthSummary {
-	s.Unknown = &v
-	return s
-}
-
-// SetWarning sets the Warning field's value.
-func (s *InstanceHealthSummary) SetWarning(v int64) *InstanceHealthSummary {
-	s.Warning = &v
-	return s
 }
 
 // Represents the average latency for the slowest X percent of requests over
@@ -6290,54 +5389,6 @@ func (s Latency) GoString() string {
 	return s.String()
 }
 
-// SetP10 sets the P10 field's value.
-func (s *Latency) SetP10(v float64) *Latency {
-	s.P10 = &v
-	return s
-}
-
-// SetP50 sets the P50 field's value.
-func (s *Latency) SetP50(v float64) *Latency {
-	s.P50 = &v
-	return s
-}
-
-// SetP75 sets the P75 field's value.
-func (s *Latency) SetP75(v float64) *Latency {
-	s.P75 = &v
-	return s
-}
-
-// SetP85 sets the P85 field's value.
-func (s *Latency) SetP85(v float64) *Latency {
-	s.P85 = &v
-	return s
-}
-
-// SetP90 sets the P90 field's value.
-func (s *Latency) SetP90(v float64) *Latency {
-	s.P90 = &v
-	return s
-}
-
-// SetP95 sets the P95 field's value.
-func (s *Latency) SetP95(v float64) *Latency {
-	s.P95 = &v
-	return s
-}
-
-// SetP99 sets the P99 field's value.
-func (s *Latency) SetP99(v float64) *Latency {
-	s.P99 = &v
-	return s
-}
-
-// SetP999 sets the P999 field's value.
-func (s *Latency) SetP999(v float64) *Latency {
-	s.P999 = &v
-	return s
-}
-
 // Describes an Auto Scaling launch configuration.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/LaunchConfiguration
 type LaunchConfiguration struct {
@@ -6355,12 +5406,6 @@ func (s LaunchConfiguration) String() string {
 // GoString returns the string representation
 func (s LaunchConfiguration) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *LaunchConfiguration) SetName(v string) *LaunchConfiguration {
-	s.Name = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ListAvailableSolutionStacksInput
@@ -6383,11 +5428,13 @@ func (s ListAvailableSolutionStacksInput) GoString() string {
 type ListAvailableSolutionStacksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of available solution stacks and their SolutionStackDescription.
-	SolutionStackDetails []*SolutionStackDescription `type:"list"`
+	SolutionStackDetails []SolutionStackDescription `type:"list"`
 
 	// A list of available solution stacks.
-	SolutionStacks []*string `type:"list"`
+	SolutionStacks []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6400,16 +5447,9 @@ func (s ListAvailableSolutionStacksOutput) GoString() string {
 	return s.String()
 }
 
-// SetSolutionStackDetails sets the SolutionStackDetails field's value.
-func (s *ListAvailableSolutionStacksOutput) SetSolutionStackDetails(v []*SolutionStackDescription) *ListAvailableSolutionStacksOutput {
-	s.SolutionStackDetails = v
-	return s
-}
-
-// SetSolutionStacks sets the SolutionStacks field's value.
-func (s *ListAvailableSolutionStacksOutput) SetSolutionStacks(v []*string) *ListAvailableSolutionStacksOutput {
-	s.SolutionStacks = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAvailableSolutionStacksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ListPlatformVersionsRequest
@@ -6418,7 +5458,7 @@ type ListPlatformVersionsInput struct {
 
 	// List only the platforms where the platform member value relates to one of
 	// the supplied values.
-	Filters []*PlatformFilter `type:"list"`
+	Filters []PlatformFilter `type:"list"`
 
 	// The maximum number of platform values returned in one call.
 	MaxRecords *int64 `min:"1" type:"integer"`
@@ -6451,34 +5491,18 @@ func (s *ListPlatformVersionsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *ListPlatformVersionsInput) SetFilters(v []*PlatformFilter) *ListPlatformVersionsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *ListPlatformVersionsInput) SetMaxRecords(v int64) *ListPlatformVersionsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListPlatformVersionsInput) SetNextToken(v string) *ListPlatformVersionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ListPlatformVersionsResult
 type ListPlatformVersionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The starting index into the remaining list of platforms. if this value is
 	// not null, you can use it in a subsequent ListPlatformVersion call.
 	NextToken *string `type:"string"`
 
 	// Detailed information about the platforms.
-	PlatformSummaryList []*PlatformSummary `type:"list"`
+	PlatformSummaryList []PlatformSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -6491,16 +5515,73 @@ func (s ListPlatformVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPlatformVersionsOutput) SetNextToken(v string) *ListPlatformVersionsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPlatformVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetPlatformSummaryList sets the PlatformSummaryList field's value.
-func (s *ListPlatformVersionsOutput) SetPlatformSummaryList(v []*PlatformSummary) *ListPlatformVersionsOutput {
-	s.PlatformSummaryList = v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ListTagsForResourceMessage
+type ListTagsForResourceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the resouce for which a tag list is requested.
+	//
+	// Must be the ARN of an Elastic Beanstalk environment.
+	//
+	// ResourceArn is a required field
+	ResourceArn *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ListTagsForResourceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListTagsForResourceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListTagsForResourceInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ListTagsForResourceInput"}
+
+	if s.ResourceArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ResourceArn"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ResourceTagsDescriptionMessage
+type ListTagsForResourceOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The Amazon Resource Name (ARN) of the resouce for which a tag list was requested.
+	ResourceArn *string `type:"string"`
+
+	// A list of tag key-value pairs.
+	ResourceTags []Tag `type:"list"`
+}
+
+// String returns the string representation
+func (s ListTagsForResourceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListTagsForResourceOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the properties of a Listener for the LoadBalancer.
@@ -6525,18 +5606,6 @@ func (s Listener) GoString() string {
 	return s.String()
 }
 
-// SetPort sets the Port field's value.
-func (s *Listener) SetPort(v int64) *Listener {
-	s.Port = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *Listener) SetProtocol(v string) *Listener {
-	s.Protocol = &v
-	return s
-}
-
 // Describes a LoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/LoadBalancer
 type LoadBalancer struct {
@@ -6556,12 +5625,6 @@ func (s LoadBalancer) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *LoadBalancer) SetName(v string) *LoadBalancer {
-	s.Name = &v
-	return s
-}
-
 // Describes the details of a LoadBalancer.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/LoadBalancerDescription
 type LoadBalancerDescription struct {
@@ -6571,7 +5634,7 @@ type LoadBalancerDescription struct {
 	Domain *string `type:"string"`
 
 	// A list of Listeners used by the LoadBalancer.
-	Listeners []*Listener `type:"list"`
+	Listeners []Listener `type:"list"`
 
 	// The name of the LoadBalancer.
 	LoadBalancerName *string `type:"string"`
@@ -6587,24 +5650,6 @@ func (s LoadBalancerDescription) GoString() string {
 	return s.String()
 }
 
-// SetDomain sets the Domain field's value.
-func (s *LoadBalancerDescription) SetDomain(v string) *LoadBalancerDescription {
-	s.Domain = &v
-	return s
-}
-
-// SetListeners sets the Listeners field's value.
-func (s *LoadBalancerDescription) SetListeners(v []*Listener) *LoadBalancerDescription {
-	s.Listeners = v
-	return s
-}
-
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *LoadBalancerDescription) SetLoadBalancerName(v string) *LoadBalancerDescription {
-	s.LoadBalancerName = &v
-	return s
-}
-
 // The record of an upcoming or in-progress managed action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ManagedAction
 type ManagedAction struct {
@@ -6617,11 +5662,11 @@ type ManagedAction struct {
 	ActionId *string `type:"string"`
 
 	// The type of managed action.
-	ActionType ActionType `type:"string"`
+	ActionType ActionType `type:"string" enum:"true"`
 
 	// The status of the managed action. If the action is Scheduled, you can apply
 	// it immediately with ApplyEnvironmentManagedAction.
-	Status ActionStatus `type:"string"`
+	Status ActionStatus `type:"string" enum:"true"`
 
 	// The start time of the maintenance window in which the managed action will
 	// execute.
@@ -6638,36 +5683,6 @@ func (s ManagedAction) GoString() string {
 	return s.String()
 }
 
-// SetActionDescription sets the ActionDescription field's value.
-func (s *ManagedAction) SetActionDescription(v string) *ManagedAction {
-	s.ActionDescription = &v
-	return s
-}
-
-// SetActionId sets the ActionId field's value.
-func (s *ManagedAction) SetActionId(v string) *ManagedAction {
-	s.ActionId = &v
-	return s
-}
-
-// SetActionType sets the ActionType field's value.
-func (s *ManagedAction) SetActionType(v ActionType) *ManagedAction {
-	s.ActionType = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ManagedAction) SetStatus(v ActionStatus) *ManagedAction {
-	s.Status = v
-	return s
-}
-
-// SetWindowStartTime sets the WindowStartTime field's value.
-func (s *ManagedAction) SetWindowStartTime(v time.Time) *ManagedAction {
-	s.WindowStartTime = &v
-	return s
-}
-
 // The record of a completed or failed managed action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ManagedActionHistoryItem
 type ManagedActionHistoryItem struct {
@@ -6680,7 +5695,7 @@ type ManagedActionHistoryItem struct {
 	ActionId *string `type:"string"`
 
 	// The type of the managed action.
-	ActionType ActionType `type:"string"`
+	ActionType ActionType `type:"string" enum:"true"`
 
 	// The date and time that the action started executing.
 	ExecutedTime *time.Time `type:"timestamp" timestampFormat:"iso8601"`
@@ -6689,13 +5704,13 @@ type ManagedActionHistoryItem struct {
 	FailureDescription *string `type:"string"`
 
 	// If the action failed, the type of failure.
-	FailureType FailureType `type:"string"`
+	FailureType FailureType `type:"string" enum:"true"`
 
 	// The date and time that the action finished executing.
 	FinishedTime *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	// The status of the action.
-	Status ActionHistoryStatus `type:"string"`
+	Status ActionHistoryStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6706,54 +5721,6 @@ func (s ManagedActionHistoryItem) String() string {
 // GoString returns the string representation
 func (s ManagedActionHistoryItem) GoString() string {
 	return s.String()
-}
-
-// SetActionDescription sets the ActionDescription field's value.
-func (s *ManagedActionHistoryItem) SetActionDescription(v string) *ManagedActionHistoryItem {
-	s.ActionDescription = &v
-	return s
-}
-
-// SetActionId sets the ActionId field's value.
-func (s *ManagedActionHistoryItem) SetActionId(v string) *ManagedActionHistoryItem {
-	s.ActionId = &v
-	return s
-}
-
-// SetActionType sets the ActionType field's value.
-func (s *ManagedActionHistoryItem) SetActionType(v ActionType) *ManagedActionHistoryItem {
-	s.ActionType = v
-	return s
-}
-
-// SetExecutedTime sets the ExecutedTime field's value.
-func (s *ManagedActionHistoryItem) SetExecutedTime(v time.Time) *ManagedActionHistoryItem {
-	s.ExecutedTime = &v
-	return s
-}
-
-// SetFailureDescription sets the FailureDescription field's value.
-func (s *ManagedActionHistoryItem) SetFailureDescription(v string) *ManagedActionHistoryItem {
-	s.FailureDescription = &v
-	return s
-}
-
-// SetFailureType sets the FailureType field's value.
-func (s *ManagedActionHistoryItem) SetFailureType(v FailureType) *ManagedActionHistoryItem {
-	s.FailureType = v
-	return s
-}
-
-// SetFinishedTime sets the FinishedTime field's value.
-func (s *ManagedActionHistoryItem) SetFinishedTime(v time.Time) *ManagedActionHistoryItem {
-	s.FinishedTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ManagedActionHistoryItem) SetStatus(v ActionHistoryStatus) *ManagedActionHistoryItem {
-	s.Status = v
-	return s
 }
 
 // A lifecycle rule that deletes application versions after the specified number
@@ -6799,24 +5766,6 @@ func (s *MaxAgeRule) Validate() error {
 	return nil
 }
 
-// SetDeleteSourceFromS3 sets the DeleteSourceFromS3 field's value.
-func (s *MaxAgeRule) SetDeleteSourceFromS3(v bool) *MaxAgeRule {
-	s.DeleteSourceFromS3 = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *MaxAgeRule) SetEnabled(v bool) *MaxAgeRule {
-	s.Enabled = &v
-	return s
-}
-
-// SetMaxAgeInDays sets the MaxAgeInDays field's value.
-func (s *MaxAgeRule) SetMaxAgeInDays(v int64) *MaxAgeRule {
-	s.MaxAgeInDays = &v
-	return s
-}
-
 // A lifecycle rule that deletes the oldest application version when the maximum
 // count is exceeded.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/MaxCountRule
@@ -6860,24 +5809,6 @@ func (s *MaxCountRule) Validate() error {
 	return nil
 }
 
-// SetDeleteSourceFromS3 sets the DeleteSourceFromS3 field's value.
-func (s *MaxCountRule) SetDeleteSourceFromS3(v bool) *MaxCountRule {
-	s.DeleteSourceFromS3 = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *MaxCountRule) SetEnabled(v bool) *MaxCountRule {
-	s.Enabled = &v
-	return s
-}
-
-// SetMaxCount sets the MaxCount field's value.
-func (s *MaxCountRule) SetMaxCount(v int64) *MaxCountRule {
-	s.MaxCount = &v
-	return s
-}
-
 // A regular expression representing a restriction on a string configuration
 // option value.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/OptionRestrictionRegex
@@ -6900,18 +5831,6 @@ func (s OptionRestrictionRegex) String() string {
 // GoString returns the string representation
 func (s OptionRestrictionRegex) GoString() string {
 	return s.String()
-}
-
-// SetLabel sets the Label field's value.
-func (s *OptionRestrictionRegex) SetLabel(v string) *OptionRestrictionRegex {
-	s.Label = &v
-	return s
-}
-
-// SetPattern sets the Pattern field's value.
-func (s *OptionRestrictionRegex) SetPattern(v string) *OptionRestrictionRegex {
-	s.Pattern = &v
-	return s
 }
 
 // A specification identifying an individual configuration option.
@@ -6952,31 +5871,13 @@ func (s *OptionSpecification) Validate() error {
 	return nil
 }
 
-// SetNamespace sets the Namespace field's value.
-func (s *OptionSpecification) SetNamespace(v string) *OptionSpecification {
-	s.Namespace = &v
-	return s
-}
-
-// SetOptionName sets the OptionName field's value.
-func (s *OptionSpecification) SetOptionName(v string) *OptionSpecification {
-	s.OptionName = &v
-	return s
-}
-
-// SetResourceName sets the ResourceName field's value.
-func (s *OptionSpecification) SetResourceName(v string) *OptionSpecification {
-	s.ResourceName = &v
-	return s
-}
-
 // Detailed information about a platform.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/PlatformDescription
 type PlatformDescription struct {
 	_ struct{} `type:"structure"`
 
 	// The custom AMIs supported by the platform.
-	CustomAmiList []*CustomAmi `type:"list"`
+	CustomAmiList []CustomAmi `type:"list"`
 
 	// The date when the platform was created.
 	DateCreated *time.Time `type:"timestamp" timestampFormat:"iso8601"`
@@ -6988,7 +5889,7 @@ type PlatformDescription struct {
 	Description *string `type:"string"`
 
 	// The frameworks supported by the platform.
-	Frameworks []*PlatformFramework `type:"list"`
+	Frameworks []PlatformFramework `type:"list"`
 
 	// Information about the maintainer of the platform.
 	Maintainer *string `type:"string"`
@@ -7012,22 +5913,22 @@ type PlatformDescription struct {
 	PlatformOwner *string `type:"string"`
 
 	// The status of the platform.
-	PlatformStatus PlatformStatus `type:"string"`
+	PlatformStatus PlatformStatus `type:"string" enum:"true"`
 
 	// The version of the platform.
 	PlatformVersion *string `type:"string"`
 
 	// The programming languages supported by the platform.
-	ProgrammingLanguages []*PlatformProgrammingLanguage `type:"list"`
+	ProgrammingLanguages []PlatformProgrammingLanguage `type:"list"`
 
 	// The name of the solution stack used by the platform.
 	SolutionStackName *string `type:"string"`
 
 	// The additions supported by the platform.
-	SupportedAddonList []*string `type:"list"`
+	SupportedAddonList []string `type:"list"`
 
 	// The tiers supported by the platform.
-	SupportedTierList []*string `type:"list"`
+	SupportedTierList []string `type:"list"`
 }
 
 // String returns the string representation
@@ -7038,114 +5939,6 @@ func (s PlatformDescription) String() string {
 // GoString returns the string representation
 func (s PlatformDescription) GoString() string {
 	return s.String()
-}
-
-// SetCustomAmiList sets the CustomAmiList field's value.
-func (s *PlatformDescription) SetCustomAmiList(v []*CustomAmi) *PlatformDescription {
-	s.CustomAmiList = v
-	return s
-}
-
-// SetDateCreated sets the DateCreated field's value.
-func (s *PlatformDescription) SetDateCreated(v time.Time) *PlatformDescription {
-	s.DateCreated = &v
-	return s
-}
-
-// SetDateUpdated sets the DateUpdated field's value.
-func (s *PlatformDescription) SetDateUpdated(v time.Time) *PlatformDescription {
-	s.DateUpdated = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *PlatformDescription) SetDescription(v string) *PlatformDescription {
-	s.Description = &v
-	return s
-}
-
-// SetFrameworks sets the Frameworks field's value.
-func (s *PlatformDescription) SetFrameworks(v []*PlatformFramework) *PlatformDescription {
-	s.Frameworks = v
-	return s
-}
-
-// SetMaintainer sets the Maintainer field's value.
-func (s *PlatformDescription) SetMaintainer(v string) *PlatformDescription {
-	s.Maintainer = &v
-	return s
-}
-
-// SetOperatingSystemName sets the OperatingSystemName field's value.
-func (s *PlatformDescription) SetOperatingSystemName(v string) *PlatformDescription {
-	s.OperatingSystemName = &v
-	return s
-}
-
-// SetOperatingSystemVersion sets the OperatingSystemVersion field's value.
-func (s *PlatformDescription) SetOperatingSystemVersion(v string) *PlatformDescription {
-	s.OperatingSystemVersion = &v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *PlatformDescription) SetPlatformArn(v string) *PlatformDescription {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetPlatformCategory sets the PlatformCategory field's value.
-func (s *PlatformDescription) SetPlatformCategory(v string) *PlatformDescription {
-	s.PlatformCategory = &v
-	return s
-}
-
-// SetPlatformName sets the PlatformName field's value.
-func (s *PlatformDescription) SetPlatformName(v string) *PlatformDescription {
-	s.PlatformName = &v
-	return s
-}
-
-// SetPlatformOwner sets the PlatformOwner field's value.
-func (s *PlatformDescription) SetPlatformOwner(v string) *PlatformDescription {
-	s.PlatformOwner = &v
-	return s
-}
-
-// SetPlatformStatus sets the PlatformStatus field's value.
-func (s *PlatformDescription) SetPlatformStatus(v PlatformStatus) *PlatformDescription {
-	s.PlatformStatus = v
-	return s
-}
-
-// SetPlatformVersion sets the PlatformVersion field's value.
-func (s *PlatformDescription) SetPlatformVersion(v string) *PlatformDescription {
-	s.PlatformVersion = &v
-	return s
-}
-
-// SetProgrammingLanguages sets the ProgrammingLanguages field's value.
-func (s *PlatformDescription) SetProgrammingLanguages(v []*PlatformProgrammingLanguage) *PlatformDescription {
-	s.ProgrammingLanguages = v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *PlatformDescription) SetSolutionStackName(v string) *PlatformDescription {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetSupportedAddonList sets the SupportedAddonList field's value.
-func (s *PlatformDescription) SetSupportedAddonList(v []*string) *PlatformDescription {
-	s.SupportedAddonList = v
-	return s
-}
-
-// SetSupportedTierList sets the SupportedTierList field's value.
-func (s *PlatformDescription) SetSupportedTierList(v []*string) *PlatformDescription {
-	s.SupportedTierList = v
-	return s
 }
 
 // Specify criteria to restrict the results when listing custom platforms.
@@ -7170,7 +5963,7 @@ type PlatformFilter struct {
 	Type *string `type:"string"`
 
 	// The list of values applied to the custom platform attribute.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -7181,24 +5974,6 @@ func (s PlatformFilter) String() string {
 // GoString returns the string representation
 func (s PlatformFilter) GoString() string {
 	return s.String()
-}
-
-// SetOperator sets the Operator field's value.
-func (s *PlatformFilter) SetOperator(v string) *PlatformFilter {
-	s.Operator = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *PlatformFilter) SetType(v string) *PlatformFilter {
-	s.Type = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *PlatformFilter) SetValues(v []*string) *PlatformFilter {
-	s.Values = v
-	return s
 }
 
 // A framework supported by the custom platform.
@@ -7223,18 +5998,6 @@ func (s PlatformFramework) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *PlatformFramework) SetName(v string) *PlatformFramework {
-	s.Name = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *PlatformFramework) SetVersion(v string) *PlatformFramework {
-	s.Version = &v
-	return s
-}
-
 // A programming language supported by the platform.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/PlatformProgrammingLanguage
 type PlatformProgrammingLanguage struct {
@@ -7255,18 +6018,6 @@ func (s PlatformProgrammingLanguage) String() string {
 // GoString returns the string representation
 func (s PlatformProgrammingLanguage) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *PlatformProgrammingLanguage) SetName(v string) *PlatformProgrammingLanguage {
-	s.Name = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *PlatformProgrammingLanguage) SetVersion(v string) *PlatformProgrammingLanguage {
-	s.Version = &v
-	return s
 }
 
 // Detailed information about a platform.
@@ -7291,13 +6042,13 @@ type PlatformSummary struct {
 
 	// The status of the platform. You can create an environment from the platform
 	// once it is ready.
-	PlatformStatus PlatformStatus `type:"string"`
+	PlatformStatus PlatformStatus `type:"string" enum:"true"`
 
 	// The additions associated with the platform.
-	SupportedAddonList []*string `type:"list"`
+	SupportedAddonList []string `type:"list"`
 
 	// The tiers in which the platform runs.
-	SupportedTierList []*string `type:"list"`
+	SupportedTierList []string `type:"list"`
 }
 
 // String returns the string representation
@@ -7308,54 +6059,6 @@ func (s PlatformSummary) String() string {
 // GoString returns the string representation
 func (s PlatformSummary) GoString() string {
 	return s.String()
-}
-
-// SetOperatingSystemName sets the OperatingSystemName field's value.
-func (s *PlatformSummary) SetOperatingSystemName(v string) *PlatformSummary {
-	s.OperatingSystemName = &v
-	return s
-}
-
-// SetOperatingSystemVersion sets the OperatingSystemVersion field's value.
-func (s *PlatformSummary) SetOperatingSystemVersion(v string) *PlatformSummary {
-	s.OperatingSystemVersion = &v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *PlatformSummary) SetPlatformArn(v string) *PlatformSummary {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetPlatformCategory sets the PlatformCategory field's value.
-func (s *PlatformSummary) SetPlatformCategory(v string) *PlatformSummary {
-	s.PlatformCategory = &v
-	return s
-}
-
-// SetPlatformOwner sets the PlatformOwner field's value.
-func (s *PlatformSummary) SetPlatformOwner(v string) *PlatformSummary {
-	s.PlatformOwner = &v
-	return s
-}
-
-// SetPlatformStatus sets the PlatformStatus field's value.
-func (s *PlatformSummary) SetPlatformStatus(v PlatformStatus) *PlatformSummary {
-	s.PlatformStatus = v
-	return s
-}
-
-// SetSupportedAddonList sets the SupportedAddonList field's value.
-func (s *PlatformSummary) SetSupportedAddonList(v []*string) *PlatformSummary {
-	s.SupportedAddonList = v
-	return s
-}
-
-// SetSupportedTierList sets the SupportedTierList field's value.
-func (s *PlatformSummary) SetSupportedTierList(v []*string) *PlatformSummary {
-	s.SupportedTierList = v
-	return s
 }
 
 // Describes a queue.
@@ -7378,18 +6081,6 @@ func (s Queue) String() string {
 // GoString returns the string representation
 func (s Queue) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *Queue) SetName(v string) *Queue {
-	s.Name = &v
-	return s
-}
-
-// SetURL sets the URL field's value.
-func (s *Queue) SetURL(v string) *Queue {
-	s.URL = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/RebuildEnvironmentMessage
@@ -7434,21 +6125,11 @@ func (s *RebuildEnvironmentInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *RebuildEnvironmentInput) SetEnvironmentId(v string) *RebuildEnvironmentInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *RebuildEnvironmentInput) SetEnvironmentName(v string) *RebuildEnvironmentInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/RebuildEnvironmentOutput
 type RebuildEnvironmentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7459,6 +6140,11 @@ func (s RebuildEnvironmentOutput) String() string {
 // GoString returns the string representation
 func (s RebuildEnvironmentOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RebuildEnvironmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to retrieve logs from an environment and store them in your Elastic
@@ -7490,7 +6176,7 @@ type RequestEnvironmentInfoInput struct {
 	// The type of information to request.
 	//
 	// InfoType is a required field
-	InfoType EnvironmentInfoType `type:"string" required:"true"`
+	InfoType EnvironmentInfoType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -7519,27 +6205,11 @@ func (s *RequestEnvironmentInfoInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *RequestEnvironmentInfoInput) SetEnvironmentId(v string) *RequestEnvironmentInfoInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *RequestEnvironmentInfoInput) SetEnvironmentName(v string) *RequestEnvironmentInfoInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetInfoType sets the InfoType field's value.
-func (s *RequestEnvironmentInfoInput) SetInfoType(v EnvironmentInfoType) *RequestEnvironmentInfoInput {
-	s.InfoType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/RequestEnvironmentInfoOutput
 type RequestEnvironmentInfoOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7549,6 +6219,64 @@ func (s RequestEnvironmentInfoOutput) String() string {
 
 // GoString returns the string representation
 func (s RequestEnvironmentInfoOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RequestEnvironmentInfoOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// The AWS Elastic Beanstalk quota information for a single resource type in
+// an AWS account. It reflects the resource's limits for this account.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ResourceQuota
+type ResourceQuota struct {
+	_ struct{} `type:"structure"`
+
+	// The maximum number of instances of this Elastic Beanstalk resource type that
+	// an AWS account can use.
+	Maximum *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s ResourceQuota) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResourceQuota) GoString() string {
+	return s.String()
+}
+
+// A set of per-resource AWS Elastic Beanstalk quotas associated with an AWS
+// account. They reflect Elastic Beanstalk resource limits for this account.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ResourceQuotas
+type ResourceQuotas struct {
+	_ struct{} `type:"structure"`
+
+	// The quota for applications in the AWS account.
+	ApplicationQuota *ResourceQuota `type:"structure"`
+
+	// The quota for application versions in the AWS account.
+	ApplicationVersionQuota *ResourceQuota `type:"structure"`
+
+	// The quota for configuration templates in the AWS account.
+	ConfigurationTemplateQuota *ResourceQuota `type:"structure"`
+
+	// The quota for custom platforms in the AWS account.
+	CustomPlatformQuota *ResourceQuota `type:"structure"`
+
+	// The quota for environments in the AWS account.
+	EnvironmentQuota *ResourceQuota `type:"structure"`
+}
+
+// String returns the string representation
+func (s ResourceQuotas) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResourceQuotas) GoString() string {
 	return s.String()
 }
 
@@ -7594,21 +6322,11 @@ func (s *RestartAppServerInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *RestartAppServerInput) SetEnvironmentId(v string) *RestartAppServerInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *RestartAppServerInput) SetEnvironmentName(v string) *RestartAppServerInput {
-	s.EnvironmentName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/RestartAppServerOutput
 type RestartAppServerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7619,6 +6337,11 @@ func (s RestartAppServerOutput) String() string {
 // GoString returns the string representation
 func (s RestartAppServerOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RestartAppServerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to download logs retrieved with RequestEnvironmentInfo.
@@ -7647,7 +6370,7 @@ type RetrieveEnvironmentInfoInput struct {
 	// The type of information to retrieve.
 	//
 	// InfoType is a required field
-	InfoType EnvironmentInfoType `type:"string" required:"true"`
+	InfoType EnvironmentInfoType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -7676,31 +6399,15 @@ func (s *RetrieveEnvironmentInfoInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *RetrieveEnvironmentInfoInput) SetEnvironmentId(v string) *RetrieveEnvironmentInfoInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *RetrieveEnvironmentInfoInput) SetEnvironmentName(v string) *RetrieveEnvironmentInfoInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetInfoType sets the InfoType field's value.
-func (s *RetrieveEnvironmentInfoInput) SetInfoType(v EnvironmentInfoType) *RetrieveEnvironmentInfoInput {
-	s.InfoType = v
-	return s
-}
-
 // Result message containing a description of the requested environment info.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/RetrieveEnvironmentInfoResultMessage
 type RetrieveEnvironmentInfoOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The EnvironmentInfoDescription of the environment.
-	EnvironmentInfo []*EnvironmentInfoDescription `type:"list"`
+	EnvironmentInfo []EnvironmentInfoDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -7713,10 +6420,9 @@ func (s RetrieveEnvironmentInfoOutput) GoString() string {
 	return s.String()
 }
 
-// SetEnvironmentInfo sets the EnvironmentInfo field's value.
-func (s *RetrieveEnvironmentInfoOutput) SetEnvironmentInfo(v []*EnvironmentInfoDescription) *RetrieveEnvironmentInfoOutput {
-	s.EnvironmentInfo = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RetrieveEnvironmentInfoOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The bucket and key of an item stored in Amazon S3.
@@ -7741,18 +6447,6 @@ func (s S3Location) GoString() string {
 	return s.String()
 }
 
-// SetS3Bucket sets the S3Bucket field's value.
-func (s *S3Location) SetS3Bucket(v string) *S3Location {
-	s.S3Bucket = &v
-	return s
-}
-
-// SetS3Key sets the S3Key field's value.
-func (s *S3Location) SetS3Key(v string) *S3Location {
-	s.S3Key = &v
-	return s
-}
-
 // Detailed health information about an Amazon EC2 instance in your Elastic
 // Beanstalk environment.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/SingleInstanceHealth
@@ -7767,7 +6461,7 @@ type SingleInstanceHealth struct {
 
 	// Represents the causes, which provide more information about the current health
 	// status.
-	Causes []*string `type:"list"`
+	Causes []string `type:"list"`
 
 	// Represents the color indicator that gives you information about the health
 	// of the EC2 instance. For more information, see Health Colors and Statuses
@@ -7804,73 +6498,13 @@ func (s SingleInstanceHealth) GoString() string {
 	return s.String()
 }
 
-// SetApplicationMetrics sets the ApplicationMetrics field's value.
-func (s *SingleInstanceHealth) SetApplicationMetrics(v *ApplicationMetrics) *SingleInstanceHealth {
-	s.ApplicationMetrics = v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *SingleInstanceHealth) SetAvailabilityZone(v string) *SingleInstanceHealth {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetCauses sets the Causes field's value.
-func (s *SingleInstanceHealth) SetCauses(v []*string) *SingleInstanceHealth {
-	s.Causes = v
-	return s
-}
-
-// SetColor sets the Color field's value.
-func (s *SingleInstanceHealth) SetColor(v string) *SingleInstanceHealth {
-	s.Color = &v
-	return s
-}
-
-// SetDeployment sets the Deployment field's value.
-func (s *SingleInstanceHealth) SetDeployment(v *Deployment) *SingleInstanceHealth {
-	s.Deployment = v
-	return s
-}
-
-// SetHealthStatus sets the HealthStatus field's value.
-func (s *SingleInstanceHealth) SetHealthStatus(v string) *SingleInstanceHealth {
-	s.HealthStatus = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *SingleInstanceHealth) SetInstanceId(v string) *SingleInstanceHealth {
-	s.InstanceId = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *SingleInstanceHealth) SetInstanceType(v string) *SingleInstanceHealth {
-	s.InstanceType = &v
-	return s
-}
-
-// SetLaunchedAt sets the LaunchedAt field's value.
-func (s *SingleInstanceHealth) SetLaunchedAt(v time.Time) *SingleInstanceHealth {
-	s.LaunchedAt = &v
-	return s
-}
-
-// SetSystem sets the System field's value.
-func (s *SingleInstanceHealth) SetSystem(v *SystemStatus) *SingleInstanceHealth {
-	s.System = v
-	return s
-}
-
 // Describes the solution stack.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/SolutionStackDescription
 type SolutionStackDescription struct {
 	_ struct{} `type:"structure"`
 
 	// The permitted file types allowed for a solution stack.
-	PermittedFileTypes []*string `type:"list"`
+	PermittedFileTypes []string `type:"list"`
 
 	// The name of the solution stack.
 	SolutionStackName *string `type:"string"`
@@ -7884,18 +6518,6 @@ func (s SolutionStackDescription) String() string {
 // GoString returns the string representation
 func (s SolutionStackDescription) GoString() string {
 	return s.String()
-}
-
-// SetPermittedFileTypes sets the PermittedFileTypes field's value.
-func (s *SolutionStackDescription) SetPermittedFileTypes(v []*string) *SolutionStackDescription {
-	s.PermittedFileTypes = v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *SolutionStackDescription) SetSolutionStackName(v string) *SolutionStackDescription {
-	s.SolutionStackName = &v
-	return s
 }
 
 // Location of the source code for an application version.
@@ -7922,7 +6544,7 @@ type SourceBuildInformation struct {
 	//    * S3
 	//
 	// SourceRepository is a required field
-	SourceRepository SourceRepository `type:"string" required:"true"`
+	SourceRepository SourceRepository `type:"string" required:"true" enum:"true"`
 
 	// The type of repository.
 	//
@@ -7931,7 +6553,7 @@ type SourceBuildInformation struct {
 	//    * Zip
 	//
 	// SourceType is a required field
-	SourceType SourceType `type:"string" required:"true"`
+	SourceType SourceType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -7965,24 +6587,6 @@ func (s *SourceBuildInformation) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetSourceLocation sets the SourceLocation field's value.
-func (s *SourceBuildInformation) SetSourceLocation(v string) *SourceBuildInformation {
-	s.SourceLocation = &v
-	return s
-}
-
-// SetSourceRepository sets the SourceRepository field's value.
-func (s *SourceBuildInformation) SetSourceRepository(v SourceRepository) *SourceBuildInformation {
-	s.SourceRepository = v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *SourceBuildInformation) SetSourceType(v SourceType) *SourceBuildInformation {
-	s.SourceType = v
-	return s
 }
 
 // A specification for an environment configuration
@@ -8023,18 +6627,6 @@ func (s *SourceConfiguration) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *SourceConfiguration) SetApplicationName(v string) *SourceConfiguration {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *SourceConfiguration) SetTemplateName(v string) *SourceConfiguration {
-	s.TemplateName = &v
-	return s
-}
-
 // Represents the percentage of requests over the last 10 seconds that resulted
 // in each type of status code response. For more information, see Status Code
 // Definitions (http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
@@ -8067,30 +6659,6 @@ func (s StatusCodes) String() string {
 // GoString returns the string representation
 func (s StatusCodes) GoString() string {
 	return s.String()
-}
-
-// SetStatus2xx sets the Status2xx field's value.
-func (s *StatusCodes) SetStatus2xx(v int64) *StatusCodes {
-	s.Status2xx = &v
-	return s
-}
-
-// SetStatus3xx sets the Status3xx field's value.
-func (s *StatusCodes) SetStatus3xx(v int64) *StatusCodes {
-	s.Status3xx = &v
-	return s
-}
-
-// SetStatus4xx sets the Status4xx field's value.
-func (s *StatusCodes) SetStatus4xx(v int64) *StatusCodes {
-	s.Status4xx = &v
-	return s
-}
-
-// SetStatus5xx sets the Status5xx field's value.
-func (s *StatusCodes) SetStatus5xx(v int64) *StatusCodes {
-	s.Status5xx = &v
-	return s
 }
 
 // Swaps the CNAMEs of two environments.
@@ -8153,33 +6721,11 @@ func (s *SwapEnvironmentCNAMEsInput) Validate() error {
 	return nil
 }
 
-// SetDestinationEnvironmentId sets the DestinationEnvironmentId field's value.
-func (s *SwapEnvironmentCNAMEsInput) SetDestinationEnvironmentId(v string) *SwapEnvironmentCNAMEsInput {
-	s.DestinationEnvironmentId = &v
-	return s
-}
-
-// SetDestinationEnvironmentName sets the DestinationEnvironmentName field's value.
-func (s *SwapEnvironmentCNAMEsInput) SetDestinationEnvironmentName(v string) *SwapEnvironmentCNAMEsInput {
-	s.DestinationEnvironmentName = &v
-	return s
-}
-
-// SetSourceEnvironmentId sets the SourceEnvironmentId field's value.
-func (s *SwapEnvironmentCNAMEsInput) SetSourceEnvironmentId(v string) *SwapEnvironmentCNAMEsInput {
-	s.SourceEnvironmentId = &v
-	return s
-}
-
-// SetSourceEnvironmentName sets the SourceEnvironmentName field's value.
-func (s *SwapEnvironmentCNAMEsInput) SetSourceEnvironmentName(v string) *SwapEnvironmentCNAMEsInput {
-	s.SourceEnvironmentName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/SwapEnvironmentCNAMEsOutput
 type SwapEnvironmentCNAMEsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8192,6 +6738,11 @@ func (s SwapEnvironmentCNAMEsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SwapEnvironmentCNAMEsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // CPU utilization and load average metrics for an Amazon EC2 instance.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/SystemStatus
 type SystemStatus struct {
@@ -8202,7 +6753,7 @@ type SystemStatus struct {
 
 	// Load average in the last 1-minute, 5-minute, and 15-minute periods. For more
 	// information, see Operating System Metrics (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-metrics.html#health-enhanced-metrics-os).
-	LoadAverage []*float64 `type:"list"`
+	LoadAverage []float64 `type:"list"`
 }
 
 // String returns the string representation
@@ -8213,18 +6764,6 @@ func (s SystemStatus) String() string {
 // GoString returns the string representation
 func (s SystemStatus) GoString() string {
 	return s.String()
-}
-
-// SetCPUUtilization sets the CPUUtilization field's value.
-func (s *SystemStatus) SetCPUUtilization(v *CPUUtilization) *SystemStatus {
-	s.CPUUtilization = v
-	return s
-}
-
-// SetLoadAverage sets the LoadAverage field's value.
-func (s *SystemStatus) SetLoadAverage(v []*float64) *SystemStatus {
-	s.LoadAverage = v
-	return s
 }
 
 // Describes a tag applied to a resource in an environment.
@@ -8263,18 +6802,6 @@ func (s *Tag) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
 }
 
 // Request to terminate an environment.
@@ -8340,30 +6867,6 @@ func (s *TerminateEnvironmentInput) Validate() error {
 	return nil
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *TerminateEnvironmentInput) SetEnvironmentId(v string) *TerminateEnvironmentInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *TerminateEnvironmentInput) SetEnvironmentName(v string) *TerminateEnvironmentInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetForceTerminate sets the ForceTerminate field's value.
-func (s *TerminateEnvironmentInput) SetForceTerminate(v bool) *TerminateEnvironmentInput {
-	s.ForceTerminate = &v
-	return s
-}
-
-// SetTerminateResources sets the TerminateResources field's value.
-func (s *TerminateEnvironmentInput) SetTerminateResources(v bool) *TerminateEnvironmentInput {
-	s.TerminateResources = &v
-	return s
-}
-
 // Describes a trigger.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/Trigger
 type Trigger struct {
@@ -8381,12 +6884,6 @@ func (s Trigger) String() string {
 // GoString returns the string representation
 func (s Trigger) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *Trigger) SetName(v string) *Trigger {
-	s.Name = &v
-	return s
 }
 
 // Request to update an application.
@@ -8433,22 +6930,12 @@ func (s *UpdateApplicationInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateApplicationInput) SetApplicationName(v string) *UpdateApplicationInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateApplicationInput) SetDescription(v string) *UpdateApplicationInput {
-	s.Description = &v
-	return s
-}
-
 // Result message containing a single description of an application.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateApplicationOutput
 type UpdateApplicationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ApplicationDescription of the application.
 	Application *ApplicationDescription `type:"structure"`
@@ -8464,10 +6951,9 @@ func (s UpdateApplicationOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplication sets the Application field's value.
-func (s *UpdateApplicationOutput) SetApplication(v *ApplicationDescription) *UpdateApplicationOutput {
-	s.Application = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/UpdateApplicationResourceLifecycleMessage
@@ -8521,21 +7007,11 @@ func (s *UpdateApplicationResourceLifecycleInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateApplicationResourceLifecycleInput) SetApplicationName(v string) *UpdateApplicationResourceLifecycleInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetResourceLifecycleConfig sets the ResourceLifecycleConfig field's value.
-func (s *UpdateApplicationResourceLifecycleInput) SetResourceLifecycleConfig(v *ApplicationResourceLifecycleConfig) *UpdateApplicationResourceLifecycleInput {
-	s.ResourceLifecycleConfig = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ApplicationResourceLifecycleDescriptionMessage
 type UpdateApplicationResourceLifecycleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the application.
 	ApplicationName *string `min:"1" type:"string"`
@@ -8554,16 +7030,9 @@ func (s UpdateApplicationResourceLifecycleOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateApplicationResourceLifecycleOutput) SetApplicationName(v string) *UpdateApplicationResourceLifecycleOutput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetResourceLifecycleConfig sets the ResourceLifecycleConfig field's value.
-func (s *UpdateApplicationResourceLifecycleOutput) SetResourceLifecycleConfig(v *ApplicationResourceLifecycleConfig) *UpdateApplicationResourceLifecycleOutput {
-	s.ResourceLifecycleConfig = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApplicationResourceLifecycleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/UpdateApplicationVersionMessage
@@ -8624,28 +7093,12 @@ func (s *UpdateApplicationVersionInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateApplicationVersionInput) SetApplicationName(v string) *UpdateApplicationVersionInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateApplicationVersionInput) SetDescription(v string) *UpdateApplicationVersionInput {
-	s.Description = &v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *UpdateApplicationVersionInput) SetVersionLabel(v string) *UpdateApplicationVersionInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Result message wrapping a single description of an application version.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateApplicationVersionOutput
 type UpdateApplicationVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ApplicationVersionDescription of the application version.
 	ApplicationVersion *ApplicationVersionDescription `type:"structure"`
@@ -8661,10 +7114,9 @@ func (s UpdateApplicationVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationVersion sets the ApplicationVersion field's value.
-func (s *UpdateApplicationVersionOutput) SetApplicationVersion(v *ApplicationVersionDescription) *UpdateApplicationVersionOutput {
-	s.ApplicationVersion = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateApplicationVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The result message containing the options for the specified solution stack.
@@ -8686,12 +7138,12 @@ type UpdateConfigurationTemplateInput struct {
 
 	// A list of configuration option settings to update with the new specified
 	// option value.
-	OptionSettings []*ConfigurationOptionSetting `type:"list"`
+	OptionSettings []ConfigurationOptionSetting `type:"list"`
 
 	// A list of configuration options to remove from the configuration set.
 	//
 	// Constraint: You can remove only UserDefined configuration options.
-	OptionsToRemove []*OptionSpecification `type:"list"`
+	OptionsToRemove []OptionSpecification `type:"list"`
 
 	// The name of the configuration template to update.
 	//
@@ -8731,9 +7183,6 @@ func (s *UpdateConfigurationTemplateInput) Validate() error {
 	}
 	if s.OptionSettings != nil {
 		for i, v := range s.OptionSettings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionSettings", i), err.(aws.ErrInvalidParams))
 			}
@@ -8741,9 +7190,6 @@ func (s *UpdateConfigurationTemplateInput) Validate() error {
 	}
 	if s.OptionsToRemove != nil {
 		for i, v := range s.OptionsToRemove {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionsToRemove", i), err.(aws.ErrInvalidParams))
 			}
@@ -8756,40 +7202,12 @@ func (s *UpdateConfigurationTemplateInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateConfigurationTemplateInput) SetApplicationName(v string) *UpdateConfigurationTemplateInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateConfigurationTemplateInput) SetDescription(v string) *UpdateConfigurationTemplateInput {
-	s.Description = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *UpdateConfigurationTemplateInput) SetOptionSettings(v []*ConfigurationOptionSetting) *UpdateConfigurationTemplateInput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetOptionsToRemove sets the OptionsToRemove field's value.
-func (s *UpdateConfigurationTemplateInput) SetOptionsToRemove(v []*OptionSpecification) *UpdateConfigurationTemplateInput {
-	s.OptionsToRemove = v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *UpdateConfigurationTemplateInput) SetTemplateName(v string) *UpdateConfigurationTemplateInput {
-	s.TemplateName = &v
-	return s
-}
-
 // Describes the settings for a configuration set.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/CreateConfigurationTemplateOutput
 type UpdateConfigurationTemplateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the application associated with this configuration set.
 	ApplicationName *string `min:"1" type:"string"`
@@ -8812,7 +7230,7 @@ type UpdateConfigurationTemplateOutput struct {
 	//    associated running environment.
 	//
 	//    * failed: This is a draft configuration that failed to successfully deploy.
-	DeploymentStatus ConfigurationDeploymentStatus `type:"string"`
+	DeploymentStatus ConfigurationDeploymentStatus `type:"string" enum:"true"`
 
 	// Describes this configuration set.
 	Description *string `type:"string"`
@@ -8822,7 +7240,7 @@ type UpdateConfigurationTemplateOutput struct {
 
 	// A list of the configuration options and their values in this configuration
 	// set.
-	OptionSettings []*ConfigurationOptionSetting `type:"list"`
+	OptionSettings []ConfigurationOptionSetting `type:"list"`
 
 	// The ARN of the platform.
 	PlatformArn *string `type:"string"`
@@ -8845,64 +7263,9 @@ func (s UpdateConfigurationTemplateOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateConfigurationTemplateOutput) SetApplicationName(v string) *UpdateConfigurationTemplateOutput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDateCreated sets the DateCreated field's value.
-func (s *UpdateConfigurationTemplateOutput) SetDateCreated(v time.Time) *UpdateConfigurationTemplateOutput {
-	s.DateCreated = &v
-	return s
-}
-
-// SetDateUpdated sets the DateUpdated field's value.
-func (s *UpdateConfigurationTemplateOutput) SetDateUpdated(v time.Time) *UpdateConfigurationTemplateOutput {
-	s.DateUpdated = &v
-	return s
-}
-
-// SetDeploymentStatus sets the DeploymentStatus field's value.
-func (s *UpdateConfigurationTemplateOutput) SetDeploymentStatus(v ConfigurationDeploymentStatus) *UpdateConfigurationTemplateOutput {
-	s.DeploymentStatus = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateConfigurationTemplateOutput) SetDescription(v string) *UpdateConfigurationTemplateOutput {
-	s.Description = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *UpdateConfigurationTemplateOutput) SetEnvironmentName(v string) *UpdateConfigurationTemplateOutput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *UpdateConfigurationTemplateOutput) SetOptionSettings(v []*ConfigurationOptionSetting) *UpdateConfigurationTemplateOutput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *UpdateConfigurationTemplateOutput) SetPlatformArn(v string) *UpdateConfigurationTemplateOutput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *UpdateConfigurationTemplateOutput) SetSolutionStackName(v string) *UpdateConfigurationTemplateOutput {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *UpdateConfigurationTemplateOutput) SetTemplateName(v string) *UpdateConfigurationTemplateOutput {
-	s.TemplateName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateConfigurationTemplateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request to update an environment.
@@ -8945,11 +7308,11 @@ type UpdateEnvironmentInput struct {
 	// If specified, AWS Elastic Beanstalk updates the configuration set associated
 	// with the running environment and sets the specified configuration options
 	// to the requested value.
-	OptionSettings []*ConfigurationOptionSetting `type:"list"`
+	OptionSettings []ConfigurationOptionSetting `type:"list"`
 
 	// A list of custom user-defined configuration options to remove from the configuration
 	// set for this environment.
-	OptionsToRemove []*OptionSpecification `type:"list"`
+	OptionsToRemove []OptionSpecification `type:"list"`
 
 	// The ARN of the platform, if used.
 	PlatformArn *string `type:"string"`
@@ -9005,9 +7368,6 @@ func (s *UpdateEnvironmentInput) Validate() error {
 	}
 	if s.OptionSettings != nil {
 		for i, v := range s.OptionSettings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionSettings", i), err.(aws.ErrInvalidParams))
 			}
@@ -9015,9 +7375,6 @@ func (s *UpdateEnvironmentInput) Validate() error {
 	}
 	if s.OptionsToRemove != nil {
 		for i, v := range s.OptionsToRemove {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionsToRemove", i), err.(aws.ErrInvalidParams))
 			}
@@ -9030,82 +7387,12 @@ func (s *UpdateEnvironmentInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateEnvironmentInput) SetApplicationName(v string) *UpdateEnvironmentInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateEnvironmentInput) SetDescription(v string) *UpdateEnvironmentInput {
-	s.Description = &v
-	return s
-}
-
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *UpdateEnvironmentInput) SetEnvironmentId(v string) *UpdateEnvironmentInput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *UpdateEnvironmentInput) SetEnvironmentName(v string) *UpdateEnvironmentInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *UpdateEnvironmentInput) SetGroupName(v string) *UpdateEnvironmentInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *UpdateEnvironmentInput) SetOptionSettings(v []*ConfigurationOptionSetting) *UpdateEnvironmentInput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetOptionsToRemove sets the OptionsToRemove field's value.
-func (s *UpdateEnvironmentInput) SetOptionsToRemove(v []*OptionSpecification) *UpdateEnvironmentInput {
-	s.OptionsToRemove = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *UpdateEnvironmentInput) SetPlatformArn(v string) *UpdateEnvironmentInput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *UpdateEnvironmentInput) SetSolutionStackName(v string) *UpdateEnvironmentInput {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *UpdateEnvironmentInput) SetTemplateName(v string) *UpdateEnvironmentInput {
-	s.TemplateName = &v
-	return s
-}
-
-// SetTier sets the Tier field's value.
-func (s *UpdateEnvironmentInput) SetTier(v *EnvironmentTier) *UpdateEnvironmentInput {
-	s.Tier = v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *UpdateEnvironmentInput) SetVersionLabel(v string) *UpdateEnvironmentInput {
-	s.VersionLabel = &v
-	return s
-}
-
 // Describes the properties of an environment.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/TerminateEnvironmentOutput
 type UpdateEnvironmentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates if there is an in-progress environment configuration update or
 	// application version deployment that you can cancel.
@@ -9135,14 +7422,14 @@ type UpdateEnvironmentOutput struct {
 	EndpointURL *string `type:"string"`
 
 	// The environment's Amazon Resource Name (ARN), which can be used in other
-	// API reuqests that require an ARN.
+	// API requests that require an ARN.
 	EnvironmentArn *string `type:"string"`
 
 	// The ID of this environment.
 	EnvironmentId *string `type:"string"`
 
 	// A list of links to other environments in the same group.
-	EnvironmentLinks []*EnvironmentLink `type:"list"`
+	EnvironmentLinks []EnvironmentLink `type:"list"`
 
 	// The name of this environment.
 	EnvironmentName *string `min:"4" type:"string"`
@@ -9163,11 +7450,11 @@ type UpdateEnvironmentOutput struct {
 	//    during an UpdateEnvironment or RestartEnvironement request.
 	//
 	// Default: Grey
-	Health EnvironmentHealth `type:"string"`
+	Health EnvironmentHealth `type:"string" enum:"true"`
 
 	// Returns the health status of the application running in your environment.
 	// For more information, see Health Colors and Statuses (http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/health-enhanced-status.html).
-	HealthStatus EnvironmentHealthStatus `type:"string"`
+	HealthStatus EnvironmentHealthStatus `type:"string" enum:"true"`
 
 	// The ARN of the platform.
 	PlatformArn *string `type:"string"`
@@ -9191,7 +7478,7 @@ type UpdateEnvironmentOutput struct {
 	//    * Terminating: Environment is in the shut-down process.
 	//
 	//    * Terminated: Environment is not running.
-	Status EnvironmentStatus `type:"string"`
+	Status EnvironmentStatus `type:"string" enum:"true"`
 
 	// The name of the configuration template used to originally launch this environment.
 	TemplateName *string `min:"1" type:"string"`
@@ -9213,124 +7500,84 @@ func (s UpdateEnvironmentOutput) GoString() string {
 	return s.String()
 }
 
-// SetAbortableOperationInProgress sets the AbortableOperationInProgress field's value.
-func (s *UpdateEnvironmentOutput) SetAbortableOperationInProgress(v bool) *UpdateEnvironmentOutput {
-	s.AbortableOperationInProgress = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEnvironmentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *UpdateEnvironmentOutput) SetApplicationName(v string) *UpdateEnvironmentOutput {
-	s.ApplicationName = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/UpdateTagsForResourceMessage
+type UpdateTagsForResourceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the resouce to be updated.
+	//
+	// Must be the ARN of an Elastic Beanstalk environment.
+	//
+	// ResourceArn is a required field
+	ResourceArn *string `type:"string" required:"true"`
+
+	// A list of tags to add or update.
+	//
+	// If a key of an existing tag is added, the tag's value is updated.
+	TagsToAdd []Tag `type:"list"`
+
+	// A list of tag keys to remove.
+	//
+	// If a tag key doesn't exist, it is silently ignored.
+	TagsToRemove []string `type:"list"`
 }
 
-// SetCNAME sets the CNAME field's value.
-func (s *UpdateEnvironmentOutput) SetCNAME(v string) *UpdateEnvironmentOutput {
-	s.CNAME = &v
-	return s
+// String returns the string representation
+func (s UpdateTagsForResourceInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetDateCreated sets the DateCreated field's value.
-func (s *UpdateEnvironmentOutput) SetDateCreated(v time.Time) *UpdateEnvironmentOutput {
-	s.DateCreated = &v
-	return s
+// GoString returns the string representation
+func (s UpdateTagsForResourceInput) GoString() string {
+	return s.String()
 }
 
-// SetDateUpdated sets the DateUpdated field's value.
-func (s *UpdateEnvironmentOutput) SetDateUpdated(v time.Time) *UpdateEnvironmentOutput {
-	s.DateUpdated = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateTagsForResourceInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateTagsForResourceInput"}
+
+	if s.ResourceArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ResourceArn"))
+	}
+	if s.TagsToAdd != nil {
+		for i, v := range s.TagsToAdd {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagsToAdd", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateEnvironmentOutput) SetDescription(v string) *UpdateEnvironmentOutput {
-	s.Description = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/UpdateTagsForResourceOutput
+type UpdateTagsForResourceOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
-// SetEndpointURL sets the EndpointURL field's value.
-func (s *UpdateEnvironmentOutput) SetEndpointURL(v string) *UpdateEnvironmentOutput {
-	s.EndpointURL = &v
-	return s
+// String returns the string representation
+func (s UpdateTagsForResourceOutput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetEnvironmentArn sets the EnvironmentArn field's value.
-func (s *UpdateEnvironmentOutput) SetEnvironmentArn(v string) *UpdateEnvironmentOutput {
-	s.EnvironmentArn = &v
-	return s
+// GoString returns the string representation
+func (s UpdateTagsForResourceOutput) GoString() string {
+	return s.String()
 }
 
-// SetEnvironmentId sets the EnvironmentId field's value.
-func (s *UpdateEnvironmentOutput) SetEnvironmentId(v string) *UpdateEnvironmentOutput {
-	s.EnvironmentId = &v
-	return s
-}
-
-// SetEnvironmentLinks sets the EnvironmentLinks field's value.
-func (s *UpdateEnvironmentOutput) SetEnvironmentLinks(v []*EnvironmentLink) *UpdateEnvironmentOutput {
-	s.EnvironmentLinks = v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *UpdateEnvironmentOutput) SetEnvironmentName(v string) *UpdateEnvironmentOutput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetHealth sets the Health field's value.
-func (s *UpdateEnvironmentOutput) SetHealth(v EnvironmentHealth) *UpdateEnvironmentOutput {
-	s.Health = v
-	return s
-}
-
-// SetHealthStatus sets the HealthStatus field's value.
-func (s *UpdateEnvironmentOutput) SetHealthStatus(v EnvironmentHealthStatus) *UpdateEnvironmentOutput {
-	s.HealthStatus = v
-	return s
-}
-
-// SetPlatformArn sets the PlatformArn field's value.
-func (s *UpdateEnvironmentOutput) SetPlatformArn(v string) *UpdateEnvironmentOutput {
-	s.PlatformArn = &v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *UpdateEnvironmentOutput) SetResources(v *EnvironmentResourcesDescription) *UpdateEnvironmentOutput {
-	s.Resources = v
-	return s
-}
-
-// SetSolutionStackName sets the SolutionStackName field's value.
-func (s *UpdateEnvironmentOutput) SetSolutionStackName(v string) *UpdateEnvironmentOutput {
-	s.SolutionStackName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *UpdateEnvironmentOutput) SetStatus(v EnvironmentStatus) *UpdateEnvironmentOutput {
-	s.Status = v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *UpdateEnvironmentOutput) SetTemplateName(v string) *UpdateEnvironmentOutput {
-	s.TemplateName = &v
-	return s
-}
-
-// SetTier sets the Tier field's value.
-func (s *UpdateEnvironmentOutput) SetTier(v *EnvironmentTier) *UpdateEnvironmentOutput {
-	s.Tier = v
-	return s
-}
-
-// SetVersionLabel sets the VersionLabel field's value.
-func (s *UpdateEnvironmentOutput) SetVersionLabel(v string) *UpdateEnvironmentOutput {
-	s.VersionLabel = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateTagsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A list of validation messages for a specified configuration template.
@@ -9352,7 +7599,7 @@ type ValidateConfigurationSettingsInput struct {
 	// A list of the options and desired values to evaluate.
 	//
 	// OptionSettings is a required field
-	OptionSettings []*ConfigurationOptionSetting `type:"list" required:"true"`
+	OptionSettings []ConfigurationOptionSetting `type:"list" required:"true"`
 
 	// The name of the configuration template to validate the settings against.
 	//
@@ -9392,9 +7639,6 @@ func (s *ValidateConfigurationSettingsInput) Validate() error {
 	}
 	if s.OptionSettings != nil {
 		for i, v := range s.OptionSettings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OptionSettings", i), err.(aws.ErrInvalidParams))
 			}
@@ -9407,37 +7651,15 @@ func (s *ValidateConfigurationSettingsInput) Validate() error {
 	return nil
 }
 
-// SetApplicationName sets the ApplicationName field's value.
-func (s *ValidateConfigurationSettingsInput) SetApplicationName(v string) *ValidateConfigurationSettingsInput {
-	s.ApplicationName = &v
-	return s
-}
-
-// SetEnvironmentName sets the EnvironmentName field's value.
-func (s *ValidateConfigurationSettingsInput) SetEnvironmentName(v string) *ValidateConfigurationSettingsInput {
-	s.EnvironmentName = &v
-	return s
-}
-
-// SetOptionSettings sets the OptionSettings field's value.
-func (s *ValidateConfigurationSettingsInput) SetOptionSettings(v []*ConfigurationOptionSetting) *ValidateConfigurationSettingsInput {
-	s.OptionSettings = v
-	return s
-}
-
-// SetTemplateName sets the TemplateName field's value.
-func (s *ValidateConfigurationSettingsInput) SetTemplateName(v string) *ValidateConfigurationSettingsInput {
-	s.TemplateName = &v
-	return s
-}
-
 // Provides a list of validation messages.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/elasticbeanstalk-2010-12-01/ConfigurationSettingsValidationMessages
 type ValidateConfigurationSettingsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of ValidationMessage.
-	Messages []*ValidationMessage `type:"list"`
+	Messages []ValidationMessage `type:"list"`
 }
 
 // String returns the string representation
@@ -9450,10 +7672,9 @@ func (s ValidateConfigurationSettingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMessages sets the Messages field's value.
-func (s *ValidateConfigurationSettingsOutput) SetMessages(v []*ValidationMessage) *ValidateConfigurationSettingsOutput {
-	s.Messages = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ValidateConfigurationSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An error or warning for a desired configuration option value.
@@ -9477,7 +7698,7 @@ type ValidationMessage struct {
 	//
 	//    * warning: This message is providing information you should take into
 	//    account.
-	Severity ValidationSeverity `type:"string"`
+	Severity ValidationSeverity `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9490,30 +7711,6 @@ func (s ValidationMessage) GoString() string {
 	return s.String()
 }
 
-// SetMessage sets the Message field's value.
-func (s *ValidationMessage) SetMessage(v string) *ValidationMessage {
-	s.Message = &v
-	return s
-}
-
-// SetNamespace sets the Namespace field's value.
-func (s *ValidationMessage) SetNamespace(v string) *ValidationMessage {
-	s.Namespace = &v
-	return s
-}
-
-// SetOptionName sets the OptionName field's value.
-func (s *ValidationMessage) SetOptionName(v string) *ValidationMessage {
-	s.OptionName = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *ValidationMessage) SetSeverity(v ValidationSeverity) *ValidationMessage {
-	s.Severity = v
-	return s
-}
-
 type ActionHistoryStatus string
 
 // Enum values for ActionHistoryStatus
@@ -9522,6 +7719,15 @@ const (
 	ActionHistoryStatusFailed    ActionHistoryStatus = "Failed"
 	ActionHistoryStatusUnknown   ActionHistoryStatus = "Unknown"
 )
+
+func (enum ActionHistoryStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionHistoryStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ActionStatus string
 
@@ -9533,6 +7739,15 @@ const (
 	ActionStatusUnknown   ActionStatus = "Unknown"
 )
 
+func (enum ActionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ActionType string
 
 // Enum values for ActionType
@@ -9541,6 +7756,15 @@ const (
 	ActionTypePlatformUpdate  ActionType = "PlatformUpdate"
 	ActionTypeUnknown         ActionType = "Unknown"
 )
+
+func (enum ActionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ApplicationVersionStatus string
 
@@ -9553,6 +7777,15 @@ const (
 	ApplicationVersionStatusBuilding    ApplicationVersionStatus = "Building"
 )
 
+func (enum ApplicationVersionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ApplicationVersionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ComputeType string
 
 // Enum values for ComputeType
@@ -9561,6 +7794,15 @@ const (
 	ComputeTypeBuildGeneral1Medium ComputeType = "BUILD_GENERAL1_MEDIUM"
 	ComputeTypeBuildGeneral1Large  ComputeType = "BUILD_GENERAL1_LARGE"
 )
+
+func (enum ComputeType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ComputeType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ConfigurationDeploymentStatus string
 
@@ -9571,6 +7813,15 @@ const (
 	ConfigurationDeploymentStatusFailed   ConfigurationDeploymentStatus = "failed"
 )
 
+func (enum ConfigurationDeploymentStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ConfigurationDeploymentStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ConfigurationOptionValueType string
 
 // Enum values for ConfigurationOptionValueType
@@ -9578,6 +7829,15 @@ const (
 	ConfigurationOptionValueTypeScalar ConfigurationOptionValueType = "Scalar"
 	ConfigurationOptionValueTypeList   ConfigurationOptionValueType = "List"
 )
+
+func (enum ConfigurationOptionValueType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ConfigurationOptionValueType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EnvironmentHealth string
 
@@ -9588,6 +7848,15 @@ const (
 	EnvironmentHealthRed    EnvironmentHealth = "Red"
 	EnvironmentHealthGrey   EnvironmentHealth = "Grey"
 )
+
+func (enum EnvironmentHealth) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EnvironmentHealth) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EnvironmentHealthAttribute string
 
@@ -9603,6 +7872,15 @@ const (
 	EnvironmentHealthAttributeRefreshedAt        EnvironmentHealthAttribute = "RefreshedAt"
 )
 
+func (enum EnvironmentHealthAttribute) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EnvironmentHealthAttribute) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EnvironmentHealthStatus string
 
 // Enum values for EnvironmentHealthStatus
@@ -9617,6 +7895,15 @@ const (
 	EnvironmentHealthStatusSevere   EnvironmentHealthStatus = "Severe"
 )
 
+func (enum EnvironmentHealthStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EnvironmentHealthStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EnvironmentInfoType string
 
 // Enum values for EnvironmentInfoType
@@ -9624,6 +7911,15 @@ const (
 	EnvironmentInfoTypeTail   EnvironmentInfoType = "tail"
 	EnvironmentInfoTypeBundle EnvironmentInfoType = "bundle"
 )
+
+func (enum EnvironmentInfoType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EnvironmentInfoType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EnvironmentStatus string
 
@@ -9635,6 +7931,15 @@ const (
 	EnvironmentStatusTerminating EnvironmentStatus = "Terminating"
 	EnvironmentStatusTerminated  EnvironmentStatus = "Terminated"
 )
+
+func (enum EnvironmentStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EnvironmentStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EventSeverity string
 
@@ -9648,6 +7953,15 @@ const (
 	EventSeverityFatal EventSeverity = "FATAL"
 )
 
+func (enum EventSeverity) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EventSeverity) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type FailureType string
 
 // Enum values for FailureType
@@ -9660,6 +7974,15 @@ const (
 	FailureTypeInvalidEnvironmentState FailureType = "InvalidEnvironmentState"
 	FailureTypePermissionsError        FailureType = "PermissionsError"
 )
+
+func (enum FailureType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FailureType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InstancesHealthAttribute string
 
@@ -9678,6 +8001,15 @@ const (
 	InstancesHealthAttributeAll                InstancesHealthAttribute = "All"
 )
 
+func (enum InstancesHealthAttribute) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstancesHealthAttribute) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PlatformStatus string
 
 // Enum values for PlatformStatus
@@ -9689,6 +8021,15 @@ const (
 	PlatformStatusDeleted  PlatformStatus = "Deleted"
 )
 
+func (enum PlatformStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PlatformStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SourceRepository string
 
 // Enum values for SourceRepository
@@ -9696,6 +8037,15 @@ const (
 	SourceRepositoryCodeCommit SourceRepository = "CodeCommit"
 	SourceRepositoryS3         SourceRepository = "S3"
 )
+
+func (enum SourceRepository) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SourceRepository) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SourceType string
 
@@ -9705,6 +8055,15 @@ const (
 	SourceTypeZip SourceType = "Zip"
 )
 
+func (enum SourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ValidationSeverity string
 
 // Enum values for ValidationSeverity
@@ -9712,3 +8071,12 @@ const (
 	ValidationSeverityError   ValidationSeverity = "error"
 	ValidationSeverityWarning ValidationSeverity = "warning"
 )
+
+func (enum ValidationSeverity) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ValidationSeverity) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

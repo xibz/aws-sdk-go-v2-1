@@ -27,6 +27,18 @@ var mergeServices = map[string]service{
 	},
 }
 
+func (a *API) EnableSelectGeneratedMarshalers() {
+	// Selectivily enable generated marshalers as available
+	a.NoGenMarshalers = true
+	a.NoGenUnmarshalers = true
+
+	// Enable generated marshalers
+	switch a.Metadata.Protocol {
+	case "rest-xml", "rest-json":
+		a.NoGenMarshalers = false
+	}
+}
+
 // customizationPasses Executes customization logic for the API by package name.
 func (a *API) customizationPasses() {
 	var svcCustomizations = map[string]func(*API){
@@ -42,6 +54,8 @@ func (a *API) customizationPasses() {
 	if fn := svcCustomizations[a.PackageName()]; fn != nil {
 		fn(a)
 	}
+
+	a.EnableSelectGeneratedMarshalers()
 }
 
 // s3Customizations customizes the API generation to replace values specific to S3.
@@ -140,6 +154,10 @@ func mergeServicesCustomizations(a *API) {
 
 	for n := range a.Shapes {
 		if _, ok := serviceAPI.Shapes[n]; ok {
+			// Input and output shapes must remain unique.
+			if s := a.Shapes[n]; s.UsedAsInput || s.UsedAsOutput {
+				continue
+			}
 			a.Shapes[n].resolvePkg = "github.com/aws/aws-sdk-go-v2/service/" + info.dstName
 		}
 	}

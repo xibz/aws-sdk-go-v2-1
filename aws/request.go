@@ -26,10 +26,10 @@ const (
 	// during body reads.
 	ErrCodeResponseTimeout = "ResponseTimeout"
 
-	// CanceledErrorCode is the error code that will be returned by an
+	// ErrCodeRequestCanceled is the error code that will be returned by an
 	// API request that was canceled. Requests given a Context may
 	// return this error when canceled.
-	CanceledErrorCode = "RequestCanceled"
+	ErrCodeRequestCanceled = "RequestCanceled"
 )
 
 // A Request is the service request to be made.
@@ -103,7 +103,7 @@ func New(cfg Config, metadata Metadata, handlers Handlers,
 	if err == nil {
 		// TODO so ugly
 		metadata.Endpoint = endpoint.URL
-		if len(endpoint.SigningName) > 0 {
+		if len(endpoint.SigningName) > 0 && !endpoint.SigningNameDerived {
 			metadata.SigningName = endpoint.SigningName
 		}
 		if len(endpoint.SigningRegion) > 0 {
@@ -235,13 +235,6 @@ func (r *Request) WillRetry() bool {
 // provided or invalid.
 func (r *Request) ParamsFilled() bool {
 	return r.Params != nil && reflect.ValueOf(r.Params).Elem().IsValid()
-}
-
-// DataFilled returns true if the request's data for response deserialization
-// target has been set and is a valid. False is returned if data is not
-// set, or is invalid.
-func (r *Request) DataFilled() bool {
-	return r.Data != nil && reflect.ValueOf(r.Data).Elem().IsValid()
 }
 
 // SetBufferBody will set the request's body bytes that will be sent to
@@ -572,7 +565,7 @@ func shouldRetryCancel(r *Request) bool {
 	timeoutErr := false
 	errStr := r.Error.Error()
 	if ok {
-		if awsErr.Code() == CanceledErrorCode {
+		if awsErr.Code() == ErrCodeRequestCanceled {
 			return false
 		}
 		err := awsErr.OrigErr()

@@ -52,15 +52,10 @@ type InputService1ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService1ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService1ProtocolTest client from just a config.
 //     svc := inputservice1protocoltest.New(myConfig)
-//
-//     // Create a InputService1ProtocolTest client with additional configuration
-//     svc := inputservice1protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService1ProtocolTest(config aws.Config) *InputService1ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -101,6 +96,7 @@ const opInputService1TestCaseOperation1 = "OperationName"
 type InputService1TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService1TestShapeInputService1TestCaseOperation2Input
+	Copy  func(*InputService1TestShapeInputService1TestCaseOperation2Input) InputService1TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService1TestCaseOperation1 API request.
@@ -133,10 +129,13 @@ func (c *InputService1ProtocolTest) InputService1TestCaseOperation1Request(input
 		input = &InputService1TestShapeInputService1TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService1TestShapeInputService1TestCaseOperation1Output{})
+	output := &InputService1TestShapeInputService1TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService1TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService1TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService1TestCaseOperation1Request}
 }
 
 const opInputService1TestCaseOperation2 = "OperationName"
@@ -145,6 +144,7 @@ const opInputService1TestCaseOperation2 = "OperationName"
 type InputService1TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService1TestShapeInputService1TestCaseOperation2Input
+	Copy  func(*InputService1TestShapeInputService1TestCaseOperation2Input) InputService1TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService1TestCaseOperation2 API request.
@@ -177,10 +177,13 @@ func (c *InputService1ProtocolTest) InputService1TestCaseOperation2Request(input
 		input = &InputService1TestShapeInputService1TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService1TestShapeInputService1TestCaseOperation2Output{})
+	output := &InputService1TestShapeInputService1TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService1TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService1TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService1TestCaseOperation2Request}
 }
 
 const opInputService1TestCaseOperation3 = "OperationName"
@@ -189,6 +192,7 @@ const opInputService1TestCaseOperation3 = "OperationName"
 type InputService1TestCaseOperation3Request struct {
 	*aws.Request
 	Input *InputService1TestShapeInputService1TestCaseOperation3Input
+	Copy  func(*InputService1TestShapeInputService1TestCaseOperation3Input) InputService1TestCaseOperation3Request
 }
 
 // Send marshals and sends the InputService1TestCaseOperation3 API request.
@@ -221,14 +225,29 @@ func (c *InputService1ProtocolTest) InputService1TestCaseOperation3Request(input
 		input = &InputService1TestShapeInputService1TestCaseOperation3Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService1TestShapeInputService1TestCaseOperation3Output{})
+	output := &InputService1TestShapeInputService1TestCaseOperation3Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService1TestCaseOperation3Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService1TestCaseOperation3Request{Request: req, Input: input, Copy: c.InputService1TestCaseOperation3Request}
 }
 
 type InputService1TestShapeInputService1TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService1TestShapeInputService1TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService1TestShapeInputService1TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService1TestShapeInputService1TestCaseOperation2Input struct {
@@ -239,28 +258,67 @@ type InputService1TestShapeInputService1TestCaseOperation2Input struct {
 	Name *string `type:"string"`
 }
 
-// SetDescription sets the Description field's value.
-func (s *InputService1TestShapeInputService1TestCaseOperation2Input) SetDescription(v string) *InputService1TestShapeInputService1TestCaseOperation2Input {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService1TestShapeInputService1TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *InputService1TestShapeInputService1TestCaseOperation2Input) SetName(v string) *InputService1TestShapeInputService1TestCaseOperation2Input {
-	s.Name = &v
-	return s
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if s.Description != nil {
+			v := *s.Description
+
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), metadata)
+		}
+		if s.Name != nil {
+			v := *s.Name
+
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), metadata)
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService1TestShapeInputService1TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService1TestShapeInputService1TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService1TestShapeInputService1TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService1TestShapeInputService1TestCaseOperation3Input struct {
 	_ struct{} `type:"structure"`
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService1TestShapeInputService1TestCaseOperation3Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 type InputService1TestShapeInputService1TestCaseOperation3Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService1TestShapeInputService1TestCaseOperation3Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService1TestShapeInputService1TestCaseOperation3Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService2ProtocolTest provides the API operation methods for making requests to
@@ -274,15 +332,10 @@ type InputService2ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService2ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService2ProtocolTest client from just a config.
 //     svc := inputservice2protocoltest.New(myConfig)
-//
-//     // Create a InputService2ProtocolTest client with additional configuration
-//     svc := inputservice2protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService2ProtocolTest(config aws.Config) *InputService2ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -323,6 +376,7 @@ const opInputService2TestCaseOperation1 = "OperationName"
 type InputService2TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService2TestShapeInputService2TestCaseOperation1Input
+	Copy  func(*InputService2TestShapeInputService2TestCaseOperation1Input) InputService2TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService2TestCaseOperation1 API request.
@@ -355,10 +409,13 @@ func (c *InputService2ProtocolTest) InputService2TestCaseOperation1Request(input
 		input = &InputService2TestShapeInputService2TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService2TestShapeInputService2TestCaseOperation1Output{})
+	output := &InputService2TestShapeInputService2TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService2TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService2TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService2TestCaseOperation1Request}
 }
 
 type InputService2TestShapeInputService2TestCaseOperation1Input struct {
@@ -373,32 +430,53 @@ type InputService2TestShapeInputService2TestCaseOperation1Input struct {
 	Third *float64 `type:"float"`
 }
 
-// SetFirst sets the First field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetFirst(v bool) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.First = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService2TestShapeInputService2TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFourth sets the Fourth field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetFourth(v int64) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.Fourth = &v
-	return s
-}
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if s.First != nil {
+			v := *s.First
 
-// SetSecond sets the Second field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetSecond(v bool) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.Second = &v
-	return s
-}
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "First", protocol.BoolValue(v), metadata)
+		}
+		if s.Fourth != nil {
+			v := *s.Fourth
 
-// SetThird sets the Third field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetThird(v float64) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.Third = &v
-	return s
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Fourth", protocol.Int64Value(v), metadata)
+		}
+		if s.Second != nil {
+			v := *s.Second
+
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Second", protocol.BoolValue(v), metadata)
+		}
+		if s.Third != nil {
+			v := *s.Third
+
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Third", protocol.Float64Value(v), metadata)
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService2TestShapeInputService2TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService2TestShapeInputService2TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService2TestShapeInputService2TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService3ProtocolTest provides the API operation methods for making requests to
@@ -412,15 +490,10 @@ type InputService3ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService3ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService3ProtocolTest client from just a config.
 //     svc := inputservice3protocoltest.New(myConfig)
-//
-//     // Create a InputService3ProtocolTest client with additional configuration
-//     svc := inputservice3protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService3ProtocolTest(config aws.Config) *InputService3ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -461,6 +534,7 @@ const opInputService3TestCaseOperation1 = "OperationName"
 type InputService3TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService3TestShapeInputService3TestCaseOperation2Input
+	Copy  func(*InputService3TestShapeInputService3TestCaseOperation2Input) InputService3TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService3TestCaseOperation1 API request.
@@ -493,10 +567,13 @@ func (c *InputService3ProtocolTest) InputService3TestCaseOperation1Request(input
 		input = &InputService3TestShapeInputService3TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService3TestShapeInputService3TestCaseOperation1Output{})
+	output := &InputService3TestShapeInputService3TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService3TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService3TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService3TestCaseOperation1Request}
 }
 
 const opInputService3TestCaseOperation2 = "OperationName"
@@ -505,6 +582,7 @@ const opInputService3TestCaseOperation2 = "OperationName"
 type InputService3TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService3TestShapeInputService3TestCaseOperation2Input
+	Copy  func(*InputService3TestShapeInputService3TestCaseOperation2Input) InputService3TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService3TestCaseOperation2 API request.
@@ -537,14 +615,29 @@ func (c *InputService3ProtocolTest) InputService3TestCaseOperation2Request(input
 		input = &InputService3TestShapeInputService3TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService3TestShapeInputService3TestCaseOperation2Output{})
+	output := &InputService3TestShapeInputService3TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService3TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService3TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService3TestCaseOperation2Request}
 }
 
 type InputService3TestShapeInputService3TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService3TestShapeInputService3TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService3TestShapeInputService3TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService3TestShapeInputService3TestCaseOperation2Input struct {
@@ -555,20 +648,41 @@ type InputService3TestShapeInputService3TestCaseOperation2Input struct {
 	SubStructure *InputService3TestShapeSubStructure `type:"structure"`
 }
 
-// SetDescription sets the Description field's value.
-func (s *InputService3TestShapeInputService3TestCaseOperation2Input) SetDescription(v string) *InputService3TestShapeInputService3TestCaseOperation2Input {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService3TestShapeInputService3TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSubStructure sets the SubStructure field's value.
-func (s *InputService3TestShapeInputService3TestCaseOperation2Input) SetSubStructure(v *InputService3TestShapeSubStructure) *InputService3TestShapeInputService3TestCaseOperation2Input {
-	s.SubStructure = v
-	return s
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if s.Description != nil {
+			v := *s.Description
+
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), metadata)
+		}
+		if s.SubStructure != nil {
+			v := s.SubStructure
+
+			metadata := protocol.Metadata{}
+			e.SetFields(protocol.BodyTarget, "SubStructure", v, metadata)
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService3TestShapeInputService3TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService3TestShapeInputService3TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService3TestShapeInputService3TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService3TestShapeSubStructure struct {
@@ -579,16 +693,21 @@ type InputService3TestShapeSubStructure struct {
 	Foo *string `type:"string"`
 }
 
-// SetBar sets the Bar field's value.
-func (s *InputService3TestShapeSubStructure) SetBar(v string) *InputService3TestShapeSubStructure {
-	s.Bar = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService3TestShapeSubStructure) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bar != nil {
+		v := *s.Bar
 
-// SetFoo sets the Foo field's value.
-func (s *InputService3TestShapeSubStructure) SetFoo(v string) *InputService3TestShapeSubStructure {
-	s.Foo = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bar", protocol.StringValue(v), metadata)
+	}
+	if s.Foo != nil {
+		v := *s.Foo
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Foo", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // InputService4ProtocolTest provides the API operation methods for making requests to
@@ -602,15 +721,10 @@ type InputService4ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService4ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService4ProtocolTest client from just a config.
 //     svc := inputservice4protocoltest.New(myConfig)
-//
-//     // Create a InputService4ProtocolTest client with additional configuration
-//     svc := inputservice4protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService4ProtocolTest(config aws.Config) *InputService4ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -651,6 +765,7 @@ const opInputService4TestCaseOperation1 = "OperationName"
 type InputService4TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService4TestShapeInputService4TestCaseOperation1Input
+	Copy  func(*InputService4TestShapeInputService4TestCaseOperation1Input) InputService4TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService4TestCaseOperation1 API request.
@@ -683,10 +798,13 @@ func (c *InputService4ProtocolTest) InputService4TestCaseOperation1Request(input
 		input = &InputService4TestShapeInputService4TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService4TestShapeInputService4TestCaseOperation1Output{})
+	output := &InputService4TestShapeInputService4TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService4TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService4TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService4TestCaseOperation1Request}
 }
 
 type InputService4TestShapeInputService4TestCaseOperation1Input struct {
@@ -697,20 +815,41 @@ type InputService4TestShapeInputService4TestCaseOperation1Input struct {
 	SubStructure *InputService4TestShapeSubStructure `type:"structure"`
 }
 
-// SetDescription sets the Description field's value.
-func (s *InputService4TestShapeInputService4TestCaseOperation1Input) SetDescription(v string) *InputService4TestShapeInputService4TestCaseOperation1Input {
-	s.Description = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService4TestShapeInputService4TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSubStructure sets the SubStructure field's value.
-func (s *InputService4TestShapeInputService4TestCaseOperation1Input) SetSubStructure(v *InputService4TestShapeSubStructure) *InputService4TestShapeInputService4TestCaseOperation1Input {
-	s.SubStructure = v
-	return s
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if s.Description != nil {
+			v := *s.Description
+
+			metadata := protocol.Metadata{}
+			e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), metadata)
+		}
+		if s.SubStructure != nil {
+			v := s.SubStructure
+
+			metadata := protocol.Metadata{}
+			e.SetFields(protocol.BodyTarget, "SubStructure", v, metadata)
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService4TestShapeInputService4TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService4TestShapeInputService4TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService4TestShapeInputService4TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService4TestShapeSubStructure struct {
@@ -721,16 +860,21 @@ type InputService4TestShapeSubStructure struct {
 	Foo *string `type:"string"`
 }
 
-// SetBar sets the Bar field's value.
-func (s *InputService4TestShapeSubStructure) SetBar(v string) *InputService4TestShapeSubStructure {
-	s.Bar = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService4TestShapeSubStructure) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bar != nil {
+		v := *s.Bar
 
-// SetFoo sets the Foo field's value.
-func (s *InputService4TestShapeSubStructure) SetFoo(v string) *InputService4TestShapeSubStructure {
-	s.Foo = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bar", protocol.StringValue(v), metadata)
+	}
+	if s.Foo != nil {
+		v := *s.Foo
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Foo", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // InputService5ProtocolTest provides the API operation methods for making requests to
@@ -744,15 +888,10 @@ type InputService5ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService5ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService5ProtocolTest client from just a config.
 //     svc := inputservice5protocoltest.New(myConfig)
-//
-//     // Create a InputService5ProtocolTest client with additional configuration
-//     svc := inputservice5protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService5ProtocolTest(config aws.Config) *InputService5ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -793,6 +932,7 @@ const opInputService5TestCaseOperation1 = "OperationName"
 type InputService5TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService5TestShapeInputService5TestCaseOperation1Input
+	Copy  func(*InputService5TestShapeInputService5TestCaseOperation1Input) InputService5TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService5TestCaseOperation1 API request.
@@ -825,26 +965,56 @@ func (c *InputService5ProtocolTest) InputService5TestCaseOperation1Request(input
 		input = &InputService5TestShapeInputService5TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService5TestShapeInputService5TestCaseOperation1Output{})
+	output := &InputService5TestShapeInputService5TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService5TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService5TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService5TestCaseOperation1Request}
 }
 
 type InputService5TestShapeInputService5TestCaseOperation1Input struct {
 	_ struct{} `locationName:"OperationRequest" type:"structure" xmlURI:"https://foo/"`
 
-	ListParam []*string `type:"list"`
+	ListParam []string `type:"list"`
 }
 
-// SetListParam sets the ListParam field's value.
-func (s *InputService5TestShapeInputService5TestCaseOperation1Input) SetListParam(v []*string) *InputService5TestShapeInputService5TestCaseOperation1Input {
-	s.ListParam = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService5TestShapeInputService5TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if len(s.ListParam) > 0 {
+			v := s.ListParam
+
+			metadata := protocol.Metadata{}
+			ls0 := e.List(protocol.BodyTarget, "ListParam", metadata)
+			ls0.Start()
+			for _, v1 := range v {
+				ls0.ListAddValue(protocol.StringValue(v1))
+			}
+			ls0.End()
+
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService5TestShapeInputService5TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService5TestShapeInputService5TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService5TestShapeInputService5TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService6ProtocolTest provides the API operation methods for making requests to
@@ -858,15 +1028,10 @@ type InputService6ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService6ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService6ProtocolTest client from just a config.
 //     svc := inputservice6protocoltest.New(myConfig)
-//
-//     // Create a InputService6ProtocolTest client with additional configuration
-//     svc := inputservice6protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService6ProtocolTest(config aws.Config) *InputService6ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -907,6 +1072,7 @@ const opInputService6TestCaseOperation1 = "OperationName"
 type InputService6TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService6TestShapeInputService6TestCaseOperation1Input
+	Copy  func(*InputService6TestShapeInputService6TestCaseOperation1Input) InputService6TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService6TestCaseOperation1 API request.
@@ -939,26 +1105,56 @@ func (c *InputService6ProtocolTest) InputService6TestCaseOperation1Request(input
 		input = &InputService6TestShapeInputService6TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService6TestShapeInputService6TestCaseOperation1Output{})
+	output := &InputService6TestShapeInputService6TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService6TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService6TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService6TestCaseOperation1Request}
 }
 
 type InputService6TestShapeInputService6TestCaseOperation1Input struct {
 	_ struct{} `locationName:"OperationRequest" type:"structure" xmlURI:"https://foo/"`
 
-	ListParam []*string `locationName:"AlternateName" locationNameList:"NotMember" type:"list"`
+	ListParam []string `locationName:"AlternateName" locationNameList:"NotMember" type:"list"`
 }
 
-// SetListParam sets the ListParam field's value.
-func (s *InputService6TestShapeInputService6TestCaseOperation1Input) SetListParam(v []*string) *InputService6TestShapeInputService6TestCaseOperation1Input {
-	s.ListParam = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService6TestShapeInputService6TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if len(s.ListParam) > 0 {
+			v := s.ListParam
+
+			metadata := protocol.Metadata{ListLocationName: "NotMember"}
+			ls0 := e.List(protocol.BodyTarget, "AlternateName", metadata)
+			ls0.Start()
+			for _, v1 := range v {
+				ls0.ListAddValue(protocol.StringValue(v1))
+			}
+			ls0.End()
+
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService6TestShapeInputService6TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService6TestShapeInputService6TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService6TestShapeInputService6TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService7ProtocolTest provides the API operation methods for making requests to
@@ -972,15 +1168,10 @@ type InputService7ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService7ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService7ProtocolTest client from just a config.
 //     svc := inputservice7protocoltest.New(myConfig)
-//
-//     // Create a InputService7ProtocolTest client with additional configuration
-//     svc := inputservice7protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService7ProtocolTest(config aws.Config) *InputService7ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1021,6 +1212,7 @@ const opInputService7TestCaseOperation1 = "OperationName"
 type InputService7TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService7TestShapeInputService7TestCaseOperation1Input
+	Copy  func(*InputService7TestShapeInputService7TestCaseOperation1Input) InputService7TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService7TestCaseOperation1 API request.
@@ -1053,26 +1245,56 @@ func (c *InputService7ProtocolTest) InputService7TestCaseOperation1Request(input
 		input = &InputService7TestShapeInputService7TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService7TestShapeInputService7TestCaseOperation1Output{})
+	output := &InputService7TestShapeInputService7TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService7TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService7TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService7TestCaseOperation1Request}
 }
 
 type InputService7TestShapeInputService7TestCaseOperation1Input struct {
 	_ struct{} `locationName:"OperationRequest" type:"structure" xmlURI:"https://foo/"`
 
-	ListParam []*string `type:"list" flattened:"true"`
+	ListParam []string `type:"list" flattened:"true"`
 }
 
-// SetListParam sets the ListParam field's value.
-func (s *InputService7TestShapeInputService7TestCaseOperation1Input) SetListParam(v []*string) *InputService7TestShapeInputService7TestCaseOperation1Input {
-	s.ListParam = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService7TestShapeInputService7TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if len(s.ListParam) > 0 {
+			v := s.ListParam
+
+			metadata := protocol.Metadata{Flatten: true}
+			ls0 := e.List(protocol.BodyTarget, "ListParam", metadata)
+			ls0.Start()
+			for _, v1 := range v {
+				ls0.ListAddValue(protocol.StringValue(v1))
+			}
+			ls0.End()
+
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService7TestShapeInputService7TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService7TestShapeInputService7TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService7TestShapeInputService7TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService8ProtocolTest provides the API operation methods for making requests to
@@ -1086,15 +1308,10 @@ type InputService8ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService8ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService8ProtocolTest client from just a config.
 //     svc := inputservice8protocoltest.New(myConfig)
-//
-//     // Create a InputService8ProtocolTest client with additional configuration
-//     svc := inputservice8protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService8ProtocolTest(config aws.Config) *InputService8ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1135,6 +1352,7 @@ const opInputService8TestCaseOperation1 = "OperationName"
 type InputService8TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService8TestShapeInputService8TestCaseOperation1Input
+	Copy  func(*InputService8TestShapeInputService8TestCaseOperation1Input) InputService8TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService8TestCaseOperation1 API request.
@@ -1167,26 +1385,56 @@ func (c *InputService8ProtocolTest) InputService8TestCaseOperation1Request(input
 		input = &InputService8TestShapeInputService8TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService8TestShapeInputService8TestCaseOperation1Output{})
+	output := &InputService8TestShapeInputService8TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService8TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService8TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService8TestCaseOperation1Request}
 }
 
 type InputService8TestShapeInputService8TestCaseOperation1Input struct {
 	_ struct{} `locationName:"OperationRequest" type:"structure" xmlURI:"https://foo/"`
 
-	ListParam []*string `locationName:"item" type:"list" flattened:"true"`
+	ListParam []string `locationName:"item" type:"list" flattened:"true"`
 }
 
-// SetListParam sets the ListParam field's value.
-func (s *InputService8TestShapeInputService8TestCaseOperation1Input) SetListParam(v []*string) *InputService8TestShapeInputService8TestCaseOperation1Input {
-	s.ListParam = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService8TestShapeInputService8TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if len(s.ListParam) > 0 {
+			v := s.ListParam
+
+			metadata := protocol.Metadata{Flatten: true}
+			ls0 := e.List(protocol.BodyTarget, "item", metadata)
+			ls0.Start()
+			for _, v1 := range v {
+				ls0.ListAddValue(protocol.StringValue(v1))
+			}
+			ls0.End()
+
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService8TestShapeInputService8TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService8TestShapeInputService8TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService8TestShapeInputService8TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService9ProtocolTest provides the API operation methods for making requests to
@@ -1200,15 +1448,10 @@ type InputService9ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService9ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService9ProtocolTest client from just a config.
 //     svc := inputservice9protocoltest.New(myConfig)
-//
-//     // Create a InputService9ProtocolTest client with additional configuration
-//     svc := inputservice9protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService9ProtocolTest(config aws.Config) *InputService9ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1249,6 +1492,7 @@ const opInputService9TestCaseOperation1 = "OperationName"
 type InputService9TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService9TestShapeInputService9TestCaseOperation1Input
+	Copy  func(*InputService9TestShapeInputService9TestCaseOperation1Input) InputService9TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService9TestCaseOperation1 API request.
@@ -1281,26 +1525,56 @@ func (c *InputService9ProtocolTest) InputService9TestCaseOperation1Request(input
 		input = &InputService9TestShapeInputService9TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService9TestShapeInputService9TestCaseOperation1Output{})
+	output := &InputService9TestShapeInputService9TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService9TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService9TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService9TestCaseOperation1Request}
 }
 
 type InputService9TestShapeInputService9TestCaseOperation1Input struct {
 	_ struct{} `locationName:"OperationRequest" type:"structure" xmlURI:"https://foo/"`
 
-	ListParam []*InputService9TestShapeSingleFieldStruct `locationName:"item" type:"list" flattened:"true"`
+	ListParam []InputService9TestShapeSingleFieldStruct `locationName:"item" type:"list" flattened:"true"`
 }
 
-// SetListParam sets the ListParam field's value.
-func (s *InputService9TestShapeInputService9TestCaseOperation1Input) SetListParam(v []*InputService9TestShapeSingleFieldStruct) *InputService9TestShapeInputService9TestCaseOperation1Input {
-	s.ListParam = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService9TestShapeInputService9TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if len(s.ListParam) > 0 {
+			v := s.ListParam
+
+			metadata := protocol.Metadata{Flatten: true}
+			ls0 := e.List(protocol.BodyTarget, "item", metadata)
+			ls0.Start()
+			for _, v1 := range v {
+				ls0.ListAddFields(v1)
+			}
+			ls0.End()
+
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService9TestShapeInputService9TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService9TestShapeInputService9TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService9TestShapeInputService9TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService9TestShapeSingleFieldStruct struct {
@@ -1309,10 +1583,15 @@ type InputService9TestShapeSingleFieldStruct struct {
 	Element *string `locationName:"value" type:"string"`
 }
 
-// SetElement sets the Element field's value.
-func (s *InputService9TestShapeSingleFieldStruct) SetElement(v string) *InputService9TestShapeSingleFieldStruct {
-	s.Element = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService9TestShapeSingleFieldStruct) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Element != nil {
+		v := *s.Element
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "value", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // InputService10ProtocolTest provides the API operation methods for making requests to
@@ -1326,15 +1605,10 @@ type InputService10ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService10ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService10ProtocolTest client from just a config.
 //     svc := inputservice10protocoltest.New(myConfig)
-//
-//     // Create a InputService10ProtocolTest client with additional configuration
-//     svc := inputservice10protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService10ProtocolTest(config aws.Config) *InputService10ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1375,6 +1649,7 @@ const opInputService10TestCaseOperation1 = "OperationName"
 type InputService10TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService10TestShapeInputService10TestCaseOperation1Input
+	Copy  func(*InputService10TestShapeInputService10TestCaseOperation1Input) InputService10TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService10TestCaseOperation1 API request.
@@ -1407,10 +1682,13 @@ func (c *InputService10ProtocolTest) InputService10TestCaseOperation1Request(inp
 		input = &InputService10TestShapeInputService10TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService10TestShapeInputService10TestCaseOperation1Output{})
+	output := &InputService10TestShapeInputService10TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService10TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService10TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService10TestCaseOperation1Request}
 }
 
 type InputService10TestShapeInputService10TestCaseOperation1Input struct {
@@ -1419,14 +1697,35 @@ type InputService10TestShapeInputService10TestCaseOperation1Input struct {
 	StructureParam *InputService10TestShapeStructureShape `type:"structure"`
 }
 
-// SetStructureParam sets the StructureParam field's value.
-func (s *InputService10TestShapeInputService10TestCaseOperation1Input) SetStructureParam(v *InputService10TestShapeStructureShape) *InputService10TestShapeInputService10TestCaseOperation1Input {
-	s.StructureParam = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService10TestShapeInputService10TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if s.StructureParam != nil {
+			v := s.StructureParam
+
+			metadata := protocol.Metadata{}
+			e.SetFields(protocol.BodyTarget, "StructureParam", v, metadata)
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService10TestShapeInputService10TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService10TestShapeInputService10TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService10TestShapeInputService10TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService10TestShapeStructureShape struct {
@@ -1438,16 +1737,21 @@ type InputService10TestShapeStructureShape struct {
 	T *time.Time `locationName:"t" type:"timestamp" timestampFormat:"iso8601"`
 }
 
-// SetB sets the B field's value.
-func (s *InputService10TestShapeStructureShape) SetB(v []byte) *InputService10TestShapeStructureShape {
-	s.B = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService10TestShapeStructureShape) MarshalFields(e protocol.FieldEncoder) error {
+	if s.B != nil {
+		v := s.B
 
-// SetT sets the T field's value.
-func (s *InputService10TestShapeStructureShape) SetT(v time.Time) *InputService10TestShapeStructureShape {
-	s.T = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "b", protocol.BytesValue(v), metadata)
+	}
+	if s.T != nil {
+		v := *s.T
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "t", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	return nil
 }
 
 // InputService11ProtocolTest provides the API operation methods for making requests to
@@ -1461,15 +1765,10 @@ type InputService11ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService11ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService11ProtocolTest client from just a config.
 //     svc := inputservice11protocoltest.New(myConfig)
-//
-//     // Create a InputService11ProtocolTest client with additional configuration
-//     svc := inputservice11protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService11ProtocolTest(config aws.Config) *InputService11ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1510,6 +1809,7 @@ const opInputService11TestCaseOperation1 = "OperationName"
 type InputService11TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService11TestShapeInputService11TestCaseOperation1Input
+	Copy  func(*InputService11TestShapeInputService11TestCaseOperation1Input) InputService11TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService11TestCaseOperation1 API request.
@@ -1542,26 +1842,53 @@ func (c *InputService11ProtocolTest) InputService11TestCaseOperation1Request(inp
 		input = &InputService11TestShapeInputService11TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService11TestShapeInputService11TestCaseOperation1Output{})
+	output := &InputService11TestShapeInputService11TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService11TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService11TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService11TestCaseOperation1Request}
 }
 
 type InputService11TestShapeInputService11TestCaseOperation1Input struct {
 	_ struct{} `locationName:"OperationRequest" type:"structure" xmlURI:"https://foo/"`
 
-	Foo map[string]*string `location:"headers" locationName:"x-foo-" type:"map"`
+	Foo map[string]string `location:"headers" locationName:"x-foo-" type:"map"`
 }
 
-// SetFoo sets the Foo field's value.
-func (s *InputService11TestShapeInputService11TestCaseOperation1Input) SetFoo(v map[string]*string) *InputService11TestShapeInputService11TestCaseOperation1Input {
-	s.Foo = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService11TestShapeInputService11TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if len(s.Foo) > 0 {
+		v := s.Foo
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.HeadersTarget, "x-foo-", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 type InputService11TestShapeInputService11TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService11TestShapeInputService11TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService11TestShapeInputService11TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService12ProtocolTest provides the API operation methods for making requests to
@@ -1575,15 +1902,10 @@ type InputService12ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService12ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService12ProtocolTest client from just a config.
 //     svc := inputservice12protocoltest.New(myConfig)
-//
-//     // Create a InputService12ProtocolTest client with additional configuration
-//     svc := inputservice12protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService12ProtocolTest(config aws.Config) *InputService12ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1624,6 +1946,7 @@ const opInputService12TestCaseOperation1 = "OperationName"
 type InputService12TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService12TestShapeInputService12TestCaseOperation1Input
+	Copy  func(*InputService12TestShapeInputService12TestCaseOperation1Input) InputService12TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService12TestCaseOperation1 API request.
@@ -1656,26 +1979,53 @@ func (c *InputService12ProtocolTest) InputService12TestCaseOperation1Request(inp
 		input = &InputService12TestShapeInputService12TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService12TestShapeInputService12TestCaseOperation1Output{})
+	output := &InputService12TestShapeInputService12TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService12TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService12TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService12TestCaseOperation1Request}
 }
 
 type InputService12TestShapeInputService12TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 
-	Items []*string `location:"querystring" locationName:"item" type:"list"`
+	Items []string `location:"querystring" locationName:"item" type:"list"`
 }
 
-// SetItems sets the Items field's value.
-func (s *InputService12TestShapeInputService12TestCaseOperation1Input) SetItems(v []*string) *InputService12TestShapeInputService12TestCaseOperation1Input {
-	s.Items = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService12TestShapeInputService12TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if len(s.Items) > 0 {
+		v := s.Items
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.QueryTarget, "item", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type InputService12TestShapeInputService12TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService12TestShapeInputService12TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService12TestShapeInputService12TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService13ProtocolTest provides the API operation methods for making requests to
@@ -1689,15 +2039,10 @@ type InputService13ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService13ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService13ProtocolTest client from just a config.
 //     svc := inputservice13protocoltest.New(myConfig)
-//
-//     // Create a InputService13ProtocolTest client with additional configuration
-//     svc := inputservice13protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService13ProtocolTest(config aws.Config) *InputService13ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1738,6 +2083,7 @@ const opInputService13TestCaseOperation1 = "OperationName"
 type InputService13TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService13TestShapeInputService13TestCaseOperation1Input
+	Copy  func(*InputService13TestShapeInputService13TestCaseOperation1Input) InputService13TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService13TestCaseOperation1 API request.
@@ -1770,10 +2116,13 @@ func (c *InputService13ProtocolTest) InputService13TestCaseOperation1Request(inp
 		input = &InputService13TestShapeInputService13TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService13TestShapeInputService13TestCaseOperation1Output{})
+	output := &InputService13TestShapeInputService13TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService13TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService13TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService13TestCaseOperation1Request}
 }
 
 type InputService13TestShapeInputService13TestCaseOperation1Input struct {
@@ -1781,23 +2130,47 @@ type InputService13TestShapeInputService13TestCaseOperation1Input struct {
 
 	PipelineId *string `location:"uri" type:"string"`
 
-	QueryDoc map[string]*string `location:"querystring" type:"map"`
+	QueryDoc map[string]string `location:"querystring" type:"map"`
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *InputService13TestShapeInputService13TestCaseOperation1Input) SetPipelineId(v string) *InputService13TestShapeInputService13TestCaseOperation1Input {
-	s.PipelineId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService13TestShapeInputService13TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQueryDoc sets the QueryDoc field's value.
-func (s *InputService13TestShapeInputService13TestCaseOperation1Input) SetQueryDoc(v map[string]*string) *InputService13TestShapeInputService13TestCaseOperation1Input {
-	s.QueryDoc = v
-	return s
+	if s.PipelineId != nil {
+		v := *s.PipelineId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "PipelineId", protocol.StringValue(v), metadata)
+	}
+	if len(s.QueryDoc) > 0 {
+		v := s.QueryDoc
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.QueryTarget, "QueryDoc", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 type InputService13TestShapeInputService13TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService13TestShapeInputService13TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService13TestShapeInputService13TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService14ProtocolTest provides the API operation methods for making requests to
@@ -1811,15 +2184,10 @@ type InputService14ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService14ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService14ProtocolTest client from just a config.
 //     svc := inputservice14protocoltest.New(myConfig)
-//
-//     // Create a InputService14ProtocolTest client with additional configuration
-//     svc := inputservice14protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService14ProtocolTest(config aws.Config) *InputService14ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1860,6 +2228,7 @@ const opInputService14TestCaseOperation1 = "OperationName"
 type InputService14TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService14TestShapeInputService14TestCaseOperation1Input
+	Copy  func(*InputService14TestShapeInputService14TestCaseOperation1Input) InputService14TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService14TestCaseOperation1 API request.
@@ -1892,10 +2261,13 @@ func (c *InputService14ProtocolTest) InputService14TestCaseOperation1Request(inp
 		input = &InputService14TestShapeInputService14TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService14TestShapeInputService14TestCaseOperation1Output{})
+	output := &InputService14TestShapeInputService14TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService14TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService14TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService14TestCaseOperation1Request}
 }
 
 type InputService14TestShapeInputService14TestCaseOperation1Input struct {
@@ -1903,23 +2275,52 @@ type InputService14TestShapeInputService14TestCaseOperation1Input struct {
 
 	PipelineId *string `location:"uri" type:"string"`
 
-	QueryDoc map[string][]*string `location:"querystring" type:"map"`
+	QueryDoc map[string][]string `location:"querystring" type:"map"`
 }
 
-// SetPipelineId sets the PipelineId field's value.
-func (s *InputService14TestShapeInputService14TestCaseOperation1Input) SetPipelineId(v string) *InputService14TestShapeInputService14TestCaseOperation1Input {
-	s.PipelineId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService14TestShapeInputService14TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetQueryDoc sets the QueryDoc field's value.
-func (s *InputService14TestShapeInputService14TestCaseOperation1Input) SetQueryDoc(v map[string][]*string) *InputService14TestShapeInputService14TestCaseOperation1Input {
-	s.QueryDoc = v
-	return s
+	if s.PipelineId != nil {
+		v := *s.PipelineId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "PipelineId", protocol.StringValue(v), metadata)
+	}
+	if len(s.QueryDoc) > 0 {
+		v := s.QueryDoc
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.QueryTarget, "QueryDoc", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddValue(protocol.StringValue(v2))
+			}
+			ls1.End()
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 type InputService14TestShapeInputService14TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService14TestShapeInputService14TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService14TestShapeInputService14TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService15ProtocolTest provides the API operation methods for making requests to
@@ -1933,15 +2334,10 @@ type InputService15ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService15ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService15ProtocolTest client from just a config.
 //     svc := inputservice15protocoltest.New(myConfig)
-//
-//     // Create a InputService15ProtocolTest client with additional configuration
-//     svc := inputservice15protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService15ProtocolTest(config aws.Config) *InputService15ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1982,6 +2378,7 @@ const opInputService15TestCaseOperation1 = "OperationName"
 type InputService15TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService15TestShapeInputService15TestCaseOperation2Input
+	Copy  func(*InputService15TestShapeInputService15TestCaseOperation2Input) InputService15TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService15TestCaseOperation1 API request.
@@ -2014,10 +2411,13 @@ func (c *InputService15ProtocolTest) InputService15TestCaseOperation1Request(inp
 		input = &InputService15TestShapeInputService15TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService15TestShapeInputService15TestCaseOperation1Output{})
+	output := &InputService15TestShapeInputService15TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService15TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService15TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService15TestCaseOperation1Request}
 }
 
 const opInputService15TestCaseOperation2 = "OperationName"
@@ -2026,6 +2426,7 @@ const opInputService15TestCaseOperation2 = "OperationName"
 type InputService15TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService15TestShapeInputService15TestCaseOperation2Input
+	Copy  func(*InputService15TestShapeInputService15TestCaseOperation2Input) InputService15TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService15TestCaseOperation2 API request.
@@ -2058,14 +2459,29 @@ func (c *InputService15ProtocolTest) InputService15TestCaseOperation2Request(inp
 		input = &InputService15TestShapeInputService15TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService15TestShapeInputService15TestCaseOperation2Output{})
+	output := &InputService15TestShapeInputService15TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService15TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService15TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService15TestCaseOperation2Request}
 }
 
 type InputService15TestShapeInputService15TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService15TestShapeInputService15TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService15TestShapeInputService15TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService15TestShapeInputService15TestCaseOperation2Input struct {
@@ -2074,14 +2490,32 @@ type InputService15TestShapeInputService15TestCaseOperation2Input struct {
 	BoolQuery *bool `location:"querystring" locationName:"bool-query" type:"boolean"`
 }
 
-// SetBoolQuery sets the BoolQuery field's value.
-func (s *InputService15TestShapeInputService15TestCaseOperation2Input) SetBoolQuery(v bool) *InputService15TestShapeInputService15TestCaseOperation2Input {
-	s.BoolQuery = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService15TestShapeInputService15TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.BoolQuery != nil {
+		v := *s.BoolQuery
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "bool-query", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 type InputService15TestShapeInputService15TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService15TestShapeInputService15TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService15TestShapeInputService15TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService16ProtocolTest provides the API operation methods for making requests to
@@ -2095,15 +2529,10 @@ type InputService16ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService16ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService16ProtocolTest client from just a config.
 //     svc := inputservice16protocoltest.New(myConfig)
-//
-//     // Create a InputService16ProtocolTest client with additional configuration
-//     svc := inputservice16protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService16ProtocolTest(config aws.Config) *InputService16ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -2144,6 +2573,7 @@ const opInputService16TestCaseOperation1 = "OperationName"
 type InputService16TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService16TestShapeInputService16TestCaseOperation1Input
+	Copy  func(*InputService16TestShapeInputService16TestCaseOperation1Input) InputService16TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService16TestCaseOperation1 API request.
@@ -2176,10 +2606,13 @@ func (c *InputService16ProtocolTest) InputService16TestCaseOperation1Request(inp
 		input = &InputService16TestShapeInputService16TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService16TestShapeInputService16TestCaseOperation1Output{})
+	output := &InputService16TestShapeInputService16TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService16TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService16TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService16TestCaseOperation1Request}
 }
 
 type InputService16TestShapeInputService16TestCaseOperation1Input struct {
@@ -2188,14 +2621,32 @@ type InputService16TestShapeInputService16TestCaseOperation1Input struct {
 	Foo *string `locationName:"foo" type:"string"`
 }
 
-// SetFoo sets the Foo field's value.
-func (s *InputService16TestShapeInputService16TestCaseOperation1Input) SetFoo(v string) *InputService16TestShapeInputService16TestCaseOperation1Input {
-	s.Foo = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService16TestShapeInputService16TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Foo != nil {
+		v := *s.Foo
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "foo", protocol.StringStream(v), metadata)
+	}
+	return nil
 }
 
 type InputService16TestShapeInputService16TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService16TestShapeInputService16TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService16TestShapeInputService16TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService17ProtocolTest provides the API operation methods for making requests to
@@ -2209,15 +2660,10 @@ type InputService17ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService17ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService17ProtocolTest client from just a config.
 //     svc := inputservice17protocoltest.New(myConfig)
-//
-//     // Create a InputService17ProtocolTest client with additional configuration
-//     svc := inputservice17protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService17ProtocolTest(config aws.Config) *InputService17ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -2258,6 +2704,7 @@ const opInputService17TestCaseOperation1 = "OperationName"
 type InputService17TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService17TestShapeInputService17TestCaseOperation2Input
+	Copy  func(*InputService17TestShapeInputService17TestCaseOperation2Input) InputService17TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService17TestCaseOperation1 API request.
@@ -2290,10 +2737,13 @@ func (c *InputService17ProtocolTest) InputService17TestCaseOperation1Request(inp
 		input = &InputService17TestShapeInputService17TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService17TestShapeInputService17TestCaseOperation1Output{})
+	output := &InputService17TestShapeInputService17TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService17TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService17TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService17TestCaseOperation1Request}
 }
 
 const opInputService17TestCaseOperation2 = "OperationName"
@@ -2302,6 +2752,7 @@ const opInputService17TestCaseOperation2 = "OperationName"
 type InputService17TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService17TestShapeInputService17TestCaseOperation2Input
+	Copy  func(*InputService17TestShapeInputService17TestCaseOperation2Input) InputService17TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService17TestCaseOperation2 API request.
@@ -2334,14 +2785,29 @@ func (c *InputService17ProtocolTest) InputService17TestCaseOperation2Request(inp
 		input = &InputService17TestShapeInputService17TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService17TestShapeInputService17TestCaseOperation2Output{})
+	output := &InputService17TestShapeInputService17TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService17TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService17TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService17TestCaseOperation2Request}
 }
 
 type InputService17TestShapeInputService17TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService17TestShapeInputService17TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService17TestShapeInputService17TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService17TestShapeInputService17TestCaseOperation2Input struct {
@@ -2350,14 +2816,32 @@ type InputService17TestShapeInputService17TestCaseOperation2Input struct {
 	Foo []byte `locationName:"foo" type:"blob"`
 }
 
-// SetFoo sets the Foo field's value.
-func (s *InputService17TestShapeInputService17TestCaseOperation2Input) SetFoo(v []byte) *InputService17TestShapeInputService17TestCaseOperation2Input {
-	s.Foo = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService17TestShapeInputService17TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Foo != nil {
+		v := s.Foo
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "foo", protocol.BytesStream(v), metadata)
+	}
+	return nil
 }
 
 type InputService17TestShapeInputService17TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService17TestShapeInputService17TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService17TestShapeInputService17TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService18ProtocolTest provides the API operation methods for making requests to
@@ -2371,15 +2855,10 @@ type InputService18ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService18ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService18ProtocolTest client from just a config.
 //     svc := inputservice18protocoltest.New(myConfig)
-//
-//     // Create a InputService18ProtocolTest client with additional configuration
-//     svc := inputservice18protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService18ProtocolTest(config aws.Config) *InputService18ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -2420,6 +2899,7 @@ const opInputService18TestCaseOperation1 = "OperationName"
 type InputService18TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService18TestShapeInputService18TestCaseOperation4Input
+	Copy  func(*InputService18TestShapeInputService18TestCaseOperation4Input) InputService18TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService18TestCaseOperation1 API request.
@@ -2452,10 +2932,13 @@ func (c *InputService18ProtocolTest) InputService18TestCaseOperation1Request(inp
 		input = &InputService18TestShapeInputService18TestCaseOperation4Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService18TestShapeInputService18TestCaseOperation1Output{})
+	output := &InputService18TestShapeInputService18TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService18TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService18TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService18TestCaseOperation1Request}
 }
 
 const opInputService18TestCaseOperation2 = "OperationName"
@@ -2464,6 +2947,7 @@ const opInputService18TestCaseOperation2 = "OperationName"
 type InputService18TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService18TestShapeInputService18TestCaseOperation4Input
+	Copy  func(*InputService18TestShapeInputService18TestCaseOperation4Input) InputService18TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService18TestCaseOperation2 API request.
@@ -2496,10 +2980,13 @@ func (c *InputService18ProtocolTest) InputService18TestCaseOperation2Request(inp
 		input = &InputService18TestShapeInputService18TestCaseOperation4Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService18TestShapeInputService18TestCaseOperation2Output{})
+	output := &InputService18TestShapeInputService18TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService18TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService18TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService18TestCaseOperation2Request}
 }
 
 const opInputService18TestCaseOperation3 = "OperationName"
@@ -2508,6 +2995,7 @@ const opInputService18TestCaseOperation3 = "OperationName"
 type InputService18TestCaseOperation3Request struct {
 	*aws.Request
 	Input *InputService18TestShapeInputService18TestCaseOperation4Input
+	Copy  func(*InputService18TestShapeInputService18TestCaseOperation4Input) InputService18TestCaseOperation3Request
 }
 
 // Send marshals and sends the InputService18TestCaseOperation3 API request.
@@ -2540,10 +3028,13 @@ func (c *InputService18ProtocolTest) InputService18TestCaseOperation3Request(inp
 		input = &InputService18TestShapeInputService18TestCaseOperation4Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService18TestShapeInputService18TestCaseOperation3Output{})
+	output := &InputService18TestShapeInputService18TestCaseOperation3Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService18TestCaseOperation3Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService18TestCaseOperation3Request{Request: req, Input: input, Copy: c.InputService18TestCaseOperation3Request}
 }
 
 const opInputService18TestCaseOperation4 = "OperationName"
@@ -2552,6 +3043,7 @@ const opInputService18TestCaseOperation4 = "OperationName"
 type InputService18TestCaseOperation4Request struct {
 	*aws.Request
 	Input *InputService18TestShapeInputService18TestCaseOperation4Input
+	Copy  func(*InputService18TestShapeInputService18TestCaseOperation4Input) InputService18TestCaseOperation4Request
 }
 
 // Send marshals and sends the InputService18TestCaseOperation4 API request.
@@ -2584,34 +3076,78 @@ func (c *InputService18ProtocolTest) InputService18TestCaseOperation4Request(inp
 		input = &InputService18TestShapeInputService18TestCaseOperation4Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService18TestShapeInputService18TestCaseOperation4Output{})
+	output := &InputService18TestShapeInputService18TestCaseOperation4Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService18TestCaseOperation4Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService18TestCaseOperation4Request{Request: req, Input: input, Copy: c.InputService18TestCaseOperation4Request}
 }
 
 type InputService18TestShapeFooShape struct {
-	_ struct{} `locationName:"foo" type:"structure"`
+	_ struct{} `type:"structure"`
 
 	Baz *string `locationName:"baz" type:"string"`
 }
 
-// SetBaz sets the Baz field's value.
-func (s *InputService18TestShapeFooShape) SetBaz(v string) *InputService18TestShapeFooShape {
-	s.Baz = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService18TestShapeFooShape) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Baz != nil {
+		v := *s.Baz
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "baz", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 type InputService18TestShapeInputService18TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService18TestShapeInputService18TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService18TestShapeInputService18TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService18TestShapeInputService18TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService18TestShapeInputService18TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService18TestShapeInputService18TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService18TestShapeInputService18TestCaseOperation3Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService18TestShapeInputService18TestCaseOperation3Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService18TestShapeInputService18TestCaseOperation3Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService18TestShapeInputService18TestCaseOperation4Input struct {
@@ -2620,14 +3156,32 @@ type InputService18TestShapeInputService18TestCaseOperation4Input struct {
 	Foo *InputService18TestShapeFooShape `locationName:"foo" type:"structure"`
 }
 
-// SetFoo sets the Foo field's value.
-func (s *InputService18TestShapeInputService18TestCaseOperation4Input) SetFoo(v *InputService18TestShapeFooShape) *InputService18TestShapeInputService18TestCaseOperation4Input {
-	s.Foo = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService18TestShapeInputService18TestCaseOperation4Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Foo != nil {
+		v := s.Foo
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "foo", v, metadata)
+	}
+	return nil
 }
 
 type InputService18TestShapeInputService18TestCaseOperation4Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService18TestShapeInputService18TestCaseOperation4Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService18TestShapeInputService18TestCaseOperation4Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService19ProtocolTest provides the API operation methods for making requests to
@@ -2641,15 +3195,10 @@ type InputService19ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService19ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService19ProtocolTest client from just a config.
 //     svc := inputservice19protocoltest.New(myConfig)
-//
-//     // Create a InputService19ProtocolTest client with additional configuration
-//     svc := inputservice19protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService19ProtocolTest(config aws.Config) *InputService19ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -2690,6 +3239,7 @@ const opInputService19TestCaseOperation1 = "OperationName"
 type InputService19TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService19TestShapeInputService19TestCaseOperation1Input
+	Copy  func(*InputService19TestShapeInputService19TestCaseOperation1Input) InputService19TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService19TestCaseOperation1 API request.
@@ -2722,22 +3272,35 @@ func (c *InputService19ProtocolTest) InputService19TestCaseOperation1Request(inp
 		input = &InputService19TestShapeInputService19TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService19TestShapeInputService19TestCaseOperation1Output{})
+	output := &InputService19TestShapeInputService19TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService19TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService19TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService19TestCaseOperation1Request}
 }
 
 type InputService19TestShapeGrant struct {
-	_ struct{} `locationName:"Grant" type:"structure"`
+	_ struct{} `type:"structure"`
 
 	Grantee *InputService19TestShapeGrantee `type:"structure" xmlPrefix:"xsi" xmlURI:"http://www.w3.org/2001/XMLSchema-instance"`
 }
 
-// SetGrantee sets the Grantee field's value.
-func (s *InputService19TestShapeGrant) SetGrantee(v *InputService19TestShapeGrantee) *InputService19TestShapeGrant {
-	s.Grantee = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService19TestShapeGrant) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Grantee != nil {
+		v := s.Grantee
+		attrs := make([]protocol.Attribute, 0, 1)
+
+		if s.Grantee.Type != nil {
+			v := *s.Grantee.Type
+			attrs = append(attrs, protocol.Attribute{Name: "xsi:type", Value: protocol.StringValue(v), Meta: protocol.Metadata{}})
+		}
+		metadata := protocol.Metadata{Attributes: attrs, XMLNamespacePrefix: "xsi", XMLNamespaceURI: "http://www.w3.org/2001/XMLSchema-instance"}
+		e.SetFields(protocol.BodyTarget, "Grantee", v, metadata)
+	}
+	return nil
 }
 
 type InputService19TestShapeGrantee struct {
@@ -2748,32 +3311,50 @@ type InputService19TestShapeGrantee struct {
 	Type *string `locationName:"xsi:type" type:"string" xmlAttribute:"true"`
 }
 
-// SetEmailAddress sets the EmailAddress field's value.
-func (s *InputService19TestShapeGrantee) SetEmailAddress(v string) *InputService19TestShapeGrantee {
-	s.EmailAddress = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService19TestShapeGrantee) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EmailAddress != nil {
+		v := *s.EmailAddress
 
-// SetType sets the Type field's value.
-func (s *InputService19TestShapeGrantee) SetType(v string) *InputService19TestShapeGrantee {
-	s.Type = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EmailAddress", protocol.StringValue(v), metadata)
+	}
+	// Skipping Type XML Attribute.
+	return nil
 }
 
 type InputService19TestShapeInputService19TestCaseOperation1Input struct {
 	_ struct{} `type:"structure" payload:"Grant"`
 
-	Grant *InputService19TestShapeGrant `locationName:"Grant" type:"structure"`
+	Grant *InputService19TestShapeGrant `type:"structure"`
 }
 
-// SetGrant sets the Grant field's value.
-func (s *InputService19TestShapeInputService19TestCaseOperation1Input) SetGrant(v *InputService19TestShapeGrant) *InputService19TestShapeInputService19TestCaseOperation1Input {
-	s.Grant = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService19TestShapeInputService19TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Grant != nil {
+		v := s.Grant
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "Grant", v, metadata)
+	}
+	return nil
 }
 
 type InputService19TestShapeInputService19TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService19TestShapeInputService19TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService19TestShapeInputService19TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService20ProtocolTest provides the API operation methods for making requests to
@@ -2787,15 +3368,10 @@ type InputService20ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService20ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService20ProtocolTest client from just a config.
 //     svc := inputservice20protocoltest.New(myConfig)
-//
-//     // Create a InputService20ProtocolTest client with additional configuration
-//     svc := inputservice20protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService20ProtocolTest(config aws.Config) *InputService20ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -2836,6 +3412,7 @@ const opInputService20TestCaseOperation1 = "OperationName"
 type InputService20TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService20TestShapeInputService20TestCaseOperation1Input
+	Copy  func(*InputService20TestShapeInputService20TestCaseOperation1Input) InputService20TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService20TestCaseOperation1 API request.
@@ -2868,10 +3445,13 @@ func (c *InputService20ProtocolTest) InputService20TestCaseOperation1Request(inp
 		input = &InputService20TestShapeInputService20TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService20TestShapeInputService20TestCaseOperation1Output{})
+	output := &InputService20TestShapeInputService20TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService20TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService20TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService20TestCaseOperation1Request}
 }
 
 type InputService20TestShapeInputService20TestCaseOperation1Input struct {
@@ -2882,20 +3462,38 @@ type InputService20TestShapeInputService20TestCaseOperation1Input struct {
 	Key *string `location:"uri" type:"string"`
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *InputService20TestShapeInputService20TestCaseOperation1Input) SetBucket(v string) *InputService20TestShapeInputService20TestCaseOperation1Input {
-	s.Bucket = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService20TestShapeInputService20TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetKey sets the Key field's value.
-func (s *InputService20TestShapeInputService20TestCaseOperation1Input) SetKey(v string) *InputService20TestShapeInputService20TestCaseOperation1Input {
-	s.Key = &v
-	return s
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 type InputService20TestShapeInputService20TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService20TestShapeInputService20TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService20TestShapeInputService20TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService21ProtocolTest provides the API operation methods for making requests to
@@ -2909,15 +3507,10 @@ type InputService21ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService21ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService21ProtocolTest client from just a config.
 //     svc := inputservice21protocoltest.New(myConfig)
-//
-//     // Create a InputService21ProtocolTest client with additional configuration
-//     svc := inputservice21protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService21ProtocolTest(config aws.Config) *InputService21ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -2958,6 +3551,7 @@ const opInputService21TestCaseOperation1 = "OperationName"
 type InputService21TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService21TestShapeInputService21TestCaseOperation2Input
+	Copy  func(*InputService21TestShapeInputService21TestCaseOperation2Input) InputService21TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService21TestCaseOperation1 API request.
@@ -2990,10 +3584,13 @@ func (c *InputService21ProtocolTest) InputService21TestCaseOperation1Request(inp
 		input = &InputService21TestShapeInputService21TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService21TestShapeInputService21TestCaseOperation1Output{})
+	output := &InputService21TestShapeInputService21TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService21TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService21TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService21TestCaseOperation1Request}
 }
 
 const opInputService21TestCaseOperation2 = "OperationName"
@@ -3002,6 +3599,7 @@ const opInputService21TestCaseOperation2 = "OperationName"
 type InputService21TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService21TestShapeInputService21TestCaseOperation2Input
+	Copy  func(*InputService21TestShapeInputService21TestCaseOperation2Input) InputService21TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService21TestCaseOperation2 API request.
@@ -3034,14 +3632,29 @@ func (c *InputService21ProtocolTest) InputService21TestCaseOperation2Request(inp
 		input = &InputService21TestShapeInputService21TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService21TestShapeInputService21TestCaseOperation2Output{})
+	output := &InputService21TestShapeInputService21TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService21TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService21TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService21TestCaseOperation2Request}
 }
 
 type InputService21TestShapeInputService21TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService21TestShapeInputService21TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService21TestShapeInputService21TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService21TestShapeInputService21TestCaseOperation2Input struct {
@@ -3050,14 +3663,32 @@ type InputService21TestShapeInputService21TestCaseOperation2Input struct {
 	Foo *string `location:"querystring" locationName:"param-name" type:"string"`
 }
 
-// SetFoo sets the Foo field's value.
-func (s *InputService21TestShapeInputService21TestCaseOperation2Input) SetFoo(v string) *InputService21TestShapeInputService21TestCaseOperation2Input {
-	s.Foo = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService21TestShapeInputService21TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Foo != nil {
+		v := *s.Foo
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "param-name", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 type InputService21TestShapeInputService21TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService21TestShapeInputService21TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService21TestShapeInputService21TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService22ProtocolTest provides the API operation methods for making requests to
@@ -3071,15 +3702,10 @@ type InputService22ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService22ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService22ProtocolTest client from just a config.
 //     svc := inputservice22protocoltest.New(myConfig)
-//
-//     // Create a InputService22ProtocolTest client with additional configuration
-//     svc := inputservice22protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService22ProtocolTest(config aws.Config) *InputService22ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -3120,6 +3746,7 @@ const opInputService22TestCaseOperation1 = "OperationName"
 type InputService22TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService22TestShapeInputService22TestCaseOperation6Input
+	Copy  func(*InputService22TestShapeInputService22TestCaseOperation6Input) InputService22TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService22TestCaseOperation1 API request.
@@ -3152,10 +3779,13 @@ func (c *InputService22ProtocolTest) InputService22TestCaseOperation1Request(inp
 		input = &InputService22TestShapeInputService22TestCaseOperation6Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService22TestShapeInputService22TestCaseOperation1Output{})
+	output := &InputService22TestShapeInputService22TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService22TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService22TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService22TestCaseOperation1Request}
 }
 
 const opInputService22TestCaseOperation2 = "OperationName"
@@ -3164,6 +3794,7 @@ const opInputService22TestCaseOperation2 = "OperationName"
 type InputService22TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService22TestShapeInputService22TestCaseOperation6Input
+	Copy  func(*InputService22TestShapeInputService22TestCaseOperation6Input) InputService22TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService22TestCaseOperation2 API request.
@@ -3196,10 +3827,13 @@ func (c *InputService22ProtocolTest) InputService22TestCaseOperation2Request(inp
 		input = &InputService22TestShapeInputService22TestCaseOperation6Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService22TestShapeInputService22TestCaseOperation2Output{})
+	output := &InputService22TestShapeInputService22TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService22TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService22TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService22TestCaseOperation2Request}
 }
 
 const opInputService22TestCaseOperation3 = "OperationName"
@@ -3208,6 +3842,7 @@ const opInputService22TestCaseOperation3 = "OperationName"
 type InputService22TestCaseOperation3Request struct {
 	*aws.Request
 	Input *InputService22TestShapeInputService22TestCaseOperation6Input
+	Copy  func(*InputService22TestShapeInputService22TestCaseOperation6Input) InputService22TestCaseOperation3Request
 }
 
 // Send marshals and sends the InputService22TestCaseOperation3 API request.
@@ -3240,10 +3875,13 @@ func (c *InputService22ProtocolTest) InputService22TestCaseOperation3Request(inp
 		input = &InputService22TestShapeInputService22TestCaseOperation6Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService22TestShapeInputService22TestCaseOperation3Output{})
+	output := &InputService22TestShapeInputService22TestCaseOperation3Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService22TestCaseOperation3Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService22TestCaseOperation3Request{Request: req, Input: input, Copy: c.InputService22TestCaseOperation3Request}
 }
 
 const opInputService22TestCaseOperation4 = "OperationName"
@@ -3252,6 +3890,7 @@ const opInputService22TestCaseOperation4 = "OperationName"
 type InputService22TestCaseOperation4Request struct {
 	*aws.Request
 	Input *InputService22TestShapeInputService22TestCaseOperation6Input
+	Copy  func(*InputService22TestShapeInputService22TestCaseOperation6Input) InputService22TestCaseOperation4Request
 }
 
 // Send marshals and sends the InputService22TestCaseOperation4 API request.
@@ -3284,10 +3923,13 @@ func (c *InputService22ProtocolTest) InputService22TestCaseOperation4Request(inp
 		input = &InputService22TestShapeInputService22TestCaseOperation6Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService22TestShapeInputService22TestCaseOperation4Output{})
+	output := &InputService22TestShapeInputService22TestCaseOperation4Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService22TestCaseOperation4Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService22TestCaseOperation4Request{Request: req, Input: input, Copy: c.InputService22TestCaseOperation4Request}
 }
 
 const opInputService22TestCaseOperation5 = "OperationName"
@@ -3296,6 +3938,7 @@ const opInputService22TestCaseOperation5 = "OperationName"
 type InputService22TestCaseOperation5Request struct {
 	*aws.Request
 	Input *InputService22TestShapeInputService22TestCaseOperation6Input
+	Copy  func(*InputService22TestShapeInputService22TestCaseOperation6Input) InputService22TestCaseOperation5Request
 }
 
 // Send marshals and sends the InputService22TestCaseOperation5 API request.
@@ -3328,10 +3971,13 @@ func (c *InputService22ProtocolTest) InputService22TestCaseOperation5Request(inp
 		input = &InputService22TestShapeInputService22TestCaseOperation6Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService22TestShapeInputService22TestCaseOperation5Output{})
+	output := &InputService22TestShapeInputService22TestCaseOperation5Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService22TestCaseOperation5Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService22TestCaseOperation5Request{Request: req, Input: input, Copy: c.InputService22TestCaseOperation5Request}
 }
 
 const opInputService22TestCaseOperation6 = "OperationName"
@@ -3340,6 +3986,7 @@ const opInputService22TestCaseOperation6 = "OperationName"
 type InputService22TestCaseOperation6Request struct {
 	*aws.Request
 	Input *InputService22TestShapeInputService22TestCaseOperation6Input
+	Copy  func(*InputService22TestShapeInputService22TestCaseOperation6Input) InputService22TestCaseOperation6Request
 }
 
 // Send marshals and sends the InputService22TestCaseOperation6 API request.
@@ -3372,30 +4019,93 @@ func (c *InputService22ProtocolTest) InputService22TestCaseOperation6Request(inp
 		input = &InputService22TestShapeInputService22TestCaseOperation6Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService22TestShapeInputService22TestCaseOperation6Output{})
+	output := &InputService22TestShapeInputService22TestCaseOperation6Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService22TestCaseOperation6Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService22TestCaseOperation6Request{Request: req, Input: input, Copy: c.InputService22TestCaseOperation6Request}
 }
 
 type InputService22TestShapeInputService22TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService22TestShapeInputService22TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService22TestShapeInputService22TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService22TestShapeInputService22TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService22TestShapeInputService22TestCaseOperation3Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService22TestShapeInputService22TestCaseOperation3Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation3Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService22TestShapeInputService22TestCaseOperation4Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService22TestShapeInputService22TestCaseOperation4Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation4Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService22TestShapeInputService22TestCaseOperation5Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService22TestShapeInputService22TestCaseOperation5Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation5Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService22TestShapeInputService22TestCaseOperation6Input struct {
@@ -3404,14 +4114,35 @@ type InputService22TestShapeInputService22TestCaseOperation6Input struct {
 	RecursiveStruct *InputService22TestShapeRecursiveStructType `type:"structure"`
 }
 
-// SetRecursiveStruct sets the RecursiveStruct field's value.
-func (s *InputService22TestShapeInputService22TestCaseOperation6Input) SetRecursiveStruct(v *InputService22TestShapeRecursiveStructType) *InputService22TestShapeInputService22TestCaseOperation6Input {
-	s.RecursiveStruct = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation6Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	e.SetFields(protocol.BodyTarget, "OperationRequest", protocol.FieldMarshalerFunc(func(e protocol.FieldEncoder) error {
+		if s.RecursiveStruct != nil {
+			v := s.RecursiveStruct
+
+			metadata := protocol.Metadata{}
+			e.SetFields(protocol.BodyTarget, "RecursiveStruct", v, metadata)
+		}
+		return nil
+	}), protocol.Metadata{XMLNamespaceURI: "https://foo/"})
+	return nil
 }
 
 type InputService22TestShapeInputService22TestCaseOperation6Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService22TestShapeInputService22TestCaseOperation6Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeInputService22TestCaseOperation6Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService22TestShapeRecursiveStructType struct {
@@ -3419,35 +4150,52 @@ type InputService22TestShapeRecursiveStructType struct {
 
 	NoRecurse *string `type:"string"`
 
-	RecursiveList []*InputService22TestShapeRecursiveStructType `type:"list"`
+	RecursiveList []InputService22TestShapeRecursiveStructType `type:"list"`
 
-	RecursiveMap map[string]*InputService22TestShapeRecursiveStructType `type:"map"`
+	RecursiveMap map[string]InputService22TestShapeRecursiveStructType `type:"map"`
 
 	RecursiveStruct *InputService22TestShapeRecursiveStructType `type:"structure"`
 }
 
-// SetNoRecurse sets the NoRecurse field's value.
-func (s *InputService22TestShapeRecursiveStructType) SetNoRecurse(v string) *InputService22TestShapeRecursiveStructType {
-	s.NoRecurse = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService22TestShapeRecursiveStructType) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NoRecurse != nil {
+		v := *s.NoRecurse
 
-// SetRecursiveList sets the RecursiveList field's value.
-func (s *InputService22TestShapeRecursiveStructType) SetRecursiveList(v []*InputService22TestShapeRecursiveStructType) *InputService22TestShapeRecursiveStructType {
-	s.RecursiveList = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NoRecurse", protocol.StringValue(v), metadata)
+	}
+	if len(s.RecursiveList) > 0 {
+		v := s.RecursiveList
 
-// SetRecursiveMap sets the RecursiveMap field's value.
-func (s *InputService22TestShapeRecursiveStructType) SetRecursiveMap(v map[string]*InputService22TestShapeRecursiveStructType) *InputService22TestShapeRecursiveStructType {
-	s.RecursiveMap = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "RecursiveList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetRecursiveStruct sets the RecursiveStruct field's value.
-func (s *InputService22TestShapeRecursiveStructType) SetRecursiveStruct(v *InputService22TestShapeRecursiveStructType) *InputService22TestShapeRecursiveStructType {
-	s.RecursiveStruct = v
-	return s
+	}
+	if len(s.RecursiveMap) > 0 {
+		v := s.RecursiveMap
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "RecursiveMap", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if s.RecursiveStruct != nil {
+		v := s.RecursiveStruct
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RecursiveStruct", v, metadata)
+	}
+	return nil
 }
 
 // InputService23ProtocolTest provides the API operation methods for making requests to
@@ -3461,15 +4209,10 @@ type InputService23ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService23ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService23ProtocolTest client from just a config.
 //     svc := inputservice23protocoltest.New(myConfig)
-//
-//     // Create a InputService23ProtocolTest client with additional configuration
-//     svc := inputservice23protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService23ProtocolTest(config aws.Config) *InputService23ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -3510,6 +4253,7 @@ const opInputService23TestCaseOperation1 = "OperationName"
 type InputService23TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService23TestShapeInputService23TestCaseOperation1Input
+	Copy  func(*InputService23TestShapeInputService23TestCaseOperation1Input) InputService23TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService23TestCaseOperation1 API request.
@@ -3542,10 +4286,13 @@ func (c *InputService23ProtocolTest) InputService23TestCaseOperation1Request(inp
 		input = &InputService23TestShapeInputService23TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService23TestShapeInputService23TestCaseOperation1Output{})
+	output := &InputService23TestShapeInputService23TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService23TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService23TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService23TestCaseOperation1Request}
 }
 
 type InputService23TestShapeInputService23TestCaseOperation1Input struct {
@@ -3554,14 +4301,32 @@ type InputService23TestShapeInputService23TestCaseOperation1Input struct {
 	TimeArgInHeader *time.Time `location:"header" locationName:"x-amz-timearg" type:"timestamp" timestampFormat:"rfc822"`
 }
 
-// SetTimeArgInHeader sets the TimeArgInHeader field's value.
-func (s *InputService23TestShapeInputService23TestCaseOperation1Input) SetTimeArgInHeader(v time.Time) *InputService23TestShapeInputService23TestCaseOperation1Input {
-	s.TimeArgInHeader = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService23TestShapeInputService23TestCaseOperation1Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.TimeArgInHeader != nil {
+		v := *s.TimeArgInHeader
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-timearg", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	return nil
 }
 
 type InputService23TestShapeInputService23TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService23TestShapeInputService23TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService23TestShapeInputService23TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService24ProtocolTest provides the API operation methods for making requests to
@@ -3575,15 +4340,10 @@ type InputService24ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService24ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService24ProtocolTest client from just a config.
 //     svc := inputservice24protocoltest.New(myConfig)
-//
-//     // Create a InputService24ProtocolTest client with additional configuration
-//     svc := inputservice24protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService24ProtocolTest(config aws.Config) *InputService24ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -3624,6 +4384,7 @@ const opInputService24TestCaseOperation1 = "OperationName"
 type InputService24TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService24TestShapeInputService24TestCaseOperation2Input
+	Copy  func(*InputService24TestShapeInputService24TestCaseOperation2Input) InputService24TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService24TestCaseOperation1 API request.
@@ -3656,10 +4417,13 @@ func (c *InputService24ProtocolTest) InputService24TestCaseOperation1Request(inp
 		input = &InputService24TestShapeInputService24TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService24TestShapeInputService24TestCaseOperation1Output{})
+	output := &InputService24TestShapeInputService24TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService24TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService24TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService24TestCaseOperation1Request}
 }
 
 const opInputService24TestCaseOperation2 = "OperationName"
@@ -3668,6 +4432,7 @@ const opInputService24TestCaseOperation2 = "OperationName"
 type InputService24TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService24TestShapeInputService24TestCaseOperation2Input
+	Copy  func(*InputService24TestShapeInputService24TestCaseOperation2Input) InputService24TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService24TestCaseOperation2 API request.
@@ -3700,14 +4465,29 @@ func (c *InputService24ProtocolTest) InputService24TestCaseOperation2Request(inp
 		input = &InputService24TestShapeInputService24TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService24TestShapeInputService24TestCaseOperation2Output{})
+	output := &InputService24TestShapeInputService24TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService24TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService24TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService24TestCaseOperation2Request}
 }
 
 type InputService24TestShapeInputService24TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService24TestShapeInputService24TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService24TestShapeInputService24TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService24TestShapeInputService24TestCaseOperation2Input struct {
@@ -3716,14 +4496,38 @@ type InputService24TestShapeInputService24TestCaseOperation2Input struct {
 	Token *string `type:"string" idempotencyToken:"true"`
 }
 
-// SetToken sets the Token field's value.
-func (s *InputService24TestShapeInputService24TestCaseOperation2Input) SetToken(v string) *InputService24TestShapeInputService24TestCaseOperation2Input {
-	s.Token = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService24TestShapeInputService24TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
+
+	var Token string
+	if s.Token != nil {
+		Token = *s.Token
+	} else {
+		Token = protocol.GetIdempotencyToken()
+	}
+	{
+		v := Token
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Token", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 type InputService24TestShapeInputService24TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService24TestShapeInputService24TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService24TestShapeInputService24TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // InputService25ProtocolTest provides the API operation methods for making requests to
@@ -3737,15 +4541,10 @@ type InputService25ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService25ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService25ProtocolTest client from just a config.
 //     svc := inputservice25protocoltest.New(myConfig)
-//
-//     // Create a InputService25ProtocolTest client with additional configuration
-//     svc := inputservice25protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService25ProtocolTest(config aws.Config) *InputService25ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -3786,6 +4585,7 @@ const opInputService25TestCaseOperation1 = "OperationName"
 type InputService25TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService25TestShapeInputService25TestCaseOperation2Input
+	Copy  func(*InputService25TestShapeInputService25TestCaseOperation2Input) InputService25TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService25TestCaseOperation1 API request.
@@ -3818,10 +4618,13 @@ func (c *InputService25ProtocolTest) InputService25TestCaseOperation1Request(inp
 		input = &InputService25TestShapeInputService25TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService25TestShapeInputService25TestCaseOperation1Output{})
+	output := &InputService25TestShapeInputService25TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService25TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService25TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService25TestCaseOperation1Request}
 }
 
 const opInputService25TestCaseOperation2 = "OperationName"
@@ -3830,6 +4633,7 @@ const opInputService25TestCaseOperation2 = "OperationName"
 type InputService25TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService25TestShapeInputService25TestCaseOperation2Input
+	Copy  func(*InputService25TestShapeInputService25TestCaseOperation2Input) InputService25TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService25TestCaseOperation2 API request.
@@ -3862,62 +4666,107 @@ func (c *InputService25ProtocolTest) InputService25TestCaseOperation2Request(inp
 		input = &InputService25TestShapeInputService25TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService25TestShapeInputService25TestCaseOperation2Output{})
+	output := &InputService25TestShapeInputService25TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService25TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService25TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService25TestCaseOperation2Request}
 }
 
 type InputService25TestShapeInputService25TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService25TestShapeInputService25TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService25TestShapeInputService25TestCaseOperation1Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService25TestShapeInputService25TestCaseOperation2Input struct {
 	_ struct{} `type:"structure"`
 
-	FooEnum InputService25TestShapeEnumType `type:"string"`
+	FooEnum InputService25TestShapeEnumType `type:"string" enum:"true"`
 
-	HeaderEnum InputService25TestShapeEnumType `location:"header" locationName:"x-amz-enum" type:"string"`
+	HeaderEnum InputService25TestShapeEnumType `location:"header" locationName:"x-amz-enum" type:"string" enum:"true"`
 
 	ListEnums []InputService25TestShapeEnumType `type:"list"`
 
-	URIFooEnum InputService25TestShapeEnumType `location:"uri" locationName:"URIEnum" type:"string"`
+	URIFooEnum InputService25TestShapeEnumType `location:"uri" locationName:"URIEnum" type:"string" enum:"true"`
 
 	URIListEnums []InputService25TestShapeEnumType `location:"querystring" locationName:"ListEnums" type:"list"`
 }
 
-// SetFooEnum sets the FooEnum field's value.
-func (s *InputService25TestShapeInputService25TestCaseOperation2Input) SetFooEnum(v InputService25TestShapeEnumType) *InputService25TestShapeInputService25TestCaseOperation2Input {
-	s.FooEnum = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService25TestShapeInputService25TestCaseOperation2Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetHeaderEnum sets the HeaderEnum field's value.
-func (s *InputService25TestShapeInputService25TestCaseOperation2Input) SetHeaderEnum(v InputService25TestShapeEnumType) *InputService25TestShapeInputService25TestCaseOperation2Input {
-	s.HeaderEnum = v
-	return s
-}
+	if len(s.FooEnum) > 0 {
+		v := s.FooEnum
 
-// SetListEnums sets the ListEnums field's value.
-func (s *InputService25TestShapeInputService25TestCaseOperation2Input) SetListEnums(v []InputService25TestShapeEnumType) *InputService25TestShapeInputService25TestCaseOperation2Input {
-	s.ListEnums = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FooEnum", v, metadata)
+	}
+	if len(s.ListEnums) > 0 {
+		v := s.ListEnums
 
-// SetURIFooEnum sets the URIFooEnum field's value.
-func (s *InputService25TestShapeInputService25TestCaseOperation2Input) SetURIFooEnum(v InputService25TestShapeEnumType) *InputService25TestShapeInputService25TestCaseOperation2Input {
-	s.URIFooEnum = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ListEnums", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetURIListEnums sets the URIListEnums field's value.
-func (s *InputService25TestShapeInputService25TestCaseOperation2Input) SetURIListEnums(v []InputService25TestShapeEnumType) *InputService25TestShapeInputService25TestCaseOperation2Input {
-	s.URIListEnums = v
-	return s
+	}
+	if len(s.HeaderEnum) > 0 {
+		v := s.HeaderEnum
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-enum", v, metadata)
+	}
+	if len(s.URIFooEnum) > 0 {
+		v := s.URIFooEnum
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "URIEnum", v, metadata)
+	}
+	if len(s.URIListEnums) > 0 {
+		v := s.URIListEnums
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.QueryTarget, "ListEnums", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type InputService25TestShapeInputService25TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService25TestShapeInputService25TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputService25TestShapeInputService25TestCaseOperation2Output) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 type InputService25TestShapeEnumType string
@@ -3929,6 +4778,15 @@ const (
 	EnumType0   InputService25TestShapeEnumType = "0"
 	EnumType1   InputService25TestShapeEnumType = "1"
 )
+
+func (enum InputService25TestShapeEnumType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InputService25TestShapeEnumType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 //
 // Tests begin here
@@ -4168,10 +5026,10 @@ func TestInputService5ProtocolTestNonFlattenedListsCase1(t *testing.T) {
 
 	svc := NewInputService5ProtocolTest(cfg)
 	input := &InputService5TestShapeInputService5TestCaseOperation1Input{
-		ListParam: []*string{
-			aws.String("one"),
-			aws.String("two"),
-			aws.String("three"),
+		ListParam: []string{
+			"one",
+			"two",
+			"three",
 		},
 	}
 
@@ -4204,10 +5062,10 @@ func TestInputService6ProtocolTestNonFlattenedListsWithLocationNameCase1(t *test
 
 	svc := NewInputService6ProtocolTest(cfg)
 	input := &InputService6TestShapeInputService6TestCaseOperation1Input{
-		ListParam: []*string{
-			aws.String("one"),
-			aws.String("two"),
-			aws.String("three"),
+		ListParam: []string{
+			"one",
+			"two",
+			"three",
 		},
 	}
 
@@ -4240,10 +5098,10 @@ func TestInputService7ProtocolTestFlattenedListsCase1(t *testing.T) {
 
 	svc := NewInputService7ProtocolTest(cfg)
 	input := &InputService7TestShapeInputService7TestCaseOperation1Input{
-		ListParam: []*string{
-			aws.String("one"),
-			aws.String("two"),
-			aws.String("three"),
+		ListParam: []string{
+			"one",
+			"two",
+			"three",
 		},
 	}
 
@@ -4276,10 +5134,10 @@ func TestInputService8ProtocolTestFlattenedListsWithLocationNameCase1(t *testing
 
 	svc := NewInputService8ProtocolTest(cfg)
 	input := &InputService8TestShapeInputService8TestCaseOperation1Input{
-		ListParam: []*string{
-			aws.String("one"),
-			aws.String("two"),
-			aws.String("three"),
+		ListParam: []string{
+			"one",
+			"two",
+			"three",
 		},
 	}
 
@@ -4312,7 +5170,7 @@ func TestInputService9ProtocolTestListOfStructuresCase1(t *testing.T) {
 
 	svc := NewInputService9ProtocolTest(cfg)
 	input := &InputService9TestShapeInputService9TestCaseOperation1Input{
-		ListParam: []*InputService9TestShapeSingleFieldStruct{
+		ListParam: []InputService9TestShapeSingleFieldStruct{
 			{
 				Element: aws.String("one"),
 			},
@@ -4389,9 +5247,9 @@ func TestInputService11ProtocolTestHeaderMapsCase1(t *testing.T) {
 
 	svc := NewInputService11ProtocolTest(cfg)
 	input := &InputService11TestShapeInputService11TestCaseOperation1Input{
-		Foo: map[string]*string{
-			"a": aws.String("b"),
-			"c": aws.String("d"),
+		Foo: map[string]string{
+			"a": "b",
+			"c": "d",
 		},
 	}
 
@@ -4423,9 +5281,9 @@ func TestInputService12ProtocolTestQuerystringListOfStringsCase1(t *testing.T) {
 
 	svc := NewInputService12ProtocolTest(cfg)
 	input := &InputService12TestShapeInputService12TestCaseOperation1Input{
-		Items: []*string{
-			aws.String("value1"),
-			aws.String("value2"),
+		Items: []string{
+			"value1",
+			"value2",
 		},
 	}
 
@@ -4452,9 +5310,9 @@ func TestInputService13ProtocolTestStringToStringMapsInQuerystringCase1(t *testi
 	svc := NewInputService13ProtocolTest(cfg)
 	input := &InputService13TestShapeInputService13TestCaseOperation1Input{
 		PipelineId: aws.String("foo"),
-		QueryDoc: map[string]*string{
-			"bar":  aws.String("baz"),
-			"fizz": aws.String("buzz"),
+		QueryDoc: map[string]string{
+			"bar":  "baz",
+			"fizz": "buzz",
 		},
 	}
 
@@ -4481,14 +5339,14 @@ func TestInputService14ProtocolTestStringToStringListMapsInQuerystringCase1(t *t
 	svc := NewInputService14ProtocolTest(cfg)
 	input := &InputService14TestShapeInputService14TestCaseOperation1Input{
 		PipelineId: aws.String("id"),
-		QueryDoc: map[string][]*string{
+		QueryDoc: map[string][]string{
 			"fizz": {
-				aws.String("buzz"),
-				aws.String("pop"),
+				"buzz",
+				"pop",
 			},
 			"foo": {
-				aws.String("bar"),
-				aws.String("baz"),
+				"bar",
+				"baz",
 			},
 		},
 	}
@@ -4990,7 +5848,7 @@ func TestInputService22ProtocolTestRecursiveShapesCase4(t *testing.T) {
 	svc := NewInputService22ProtocolTest(cfg)
 	input := &InputService22TestShapeInputService22TestCaseOperation6Input{
 		RecursiveStruct: &InputService22TestShapeRecursiveStructType{
-			RecursiveList: []*InputService22TestShapeRecursiveStructType{
+			RecursiveList: []InputService22TestShapeRecursiveStructType{
 				{
 					NoRecurse: aws.String("foo"),
 				},
@@ -5031,7 +5889,7 @@ func TestInputService22ProtocolTestRecursiveShapesCase5(t *testing.T) {
 	svc := NewInputService22ProtocolTest(cfg)
 	input := &InputService22TestShapeInputService22TestCaseOperation6Input{
 		RecursiveStruct: &InputService22TestShapeRecursiveStructType{
-			RecursiveList: []*InputService22TestShapeRecursiveStructType{
+			RecursiveList: []InputService22TestShapeRecursiveStructType{
 				{
 					NoRecurse: aws.String("foo"),
 				},
@@ -5074,7 +5932,7 @@ func TestInputService22ProtocolTestRecursiveShapesCase6(t *testing.T) {
 	svc := NewInputService22ProtocolTest(cfg)
 	input := &InputService22TestShapeInputService22TestCaseOperation6Input{
 		RecursiveStruct: &InputService22TestShapeRecursiveStructType{
-			RecursiveMap: map[string]*InputService22TestShapeRecursiveStructType{
+			RecursiveMap: map[string]InputService22TestShapeRecursiveStructType{
 				"bar": {
 					NoRecurse: aws.String("bar"),
 				},

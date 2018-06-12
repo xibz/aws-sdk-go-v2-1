@@ -66,6 +66,8 @@ type PinpointAPI interface {
 
 	CreateCampaignRequest(*pinpoint.CreateCampaignInput) pinpoint.CreateCampaignRequest
 
+	CreateExportJobRequest(*pinpoint.CreateExportJobInput) pinpoint.CreateExportJobRequest
+
 	CreateImportJobRequest(*pinpoint.CreateImportJobInput) pinpoint.CreateImportJobRequest
 
 	CreateSegmentRequest(*pinpoint.CreateSegmentInput) pinpoint.CreateSegmentRequest
@@ -76,6 +78,10 @@ type PinpointAPI interface {
 
 	DeleteApnsSandboxChannelRequest(*pinpoint.DeleteApnsSandboxChannelInput) pinpoint.DeleteApnsSandboxChannelRequest
 
+	DeleteApnsVoipChannelRequest(*pinpoint.DeleteApnsVoipChannelInput) pinpoint.DeleteApnsVoipChannelRequest
+
+	DeleteApnsVoipSandboxChannelRequest(*pinpoint.DeleteApnsVoipSandboxChannelInput) pinpoint.DeleteApnsVoipSandboxChannelRequest
+
 	DeleteAppRequest(*pinpoint.DeleteAppInput) pinpoint.DeleteAppRequest
 
 	DeleteBaiduChannelRequest(*pinpoint.DeleteBaiduChannelInput) pinpoint.DeleteBaiduChannelRequest
@@ -83,6 +89,8 @@ type PinpointAPI interface {
 	DeleteCampaignRequest(*pinpoint.DeleteCampaignInput) pinpoint.DeleteCampaignRequest
 
 	DeleteEmailChannelRequest(*pinpoint.DeleteEmailChannelInput) pinpoint.DeleteEmailChannelRequest
+
+	DeleteEndpointRequest(*pinpoint.DeleteEndpointInput) pinpoint.DeleteEndpointRequest
 
 	DeleteEventStreamRequest(*pinpoint.DeleteEventStreamInput) pinpoint.DeleteEventStreamRequest
 
@@ -97,6 +105,10 @@ type PinpointAPI interface {
 	GetApnsChannelRequest(*pinpoint.GetApnsChannelInput) pinpoint.GetApnsChannelRequest
 
 	GetApnsSandboxChannelRequest(*pinpoint.GetApnsSandboxChannelInput) pinpoint.GetApnsSandboxChannelRequest
+
+	GetApnsVoipChannelRequest(*pinpoint.GetApnsVoipChannelInput) pinpoint.GetApnsVoipChannelRequest
+
+	GetApnsVoipSandboxChannelRequest(*pinpoint.GetApnsVoipSandboxChannelInput) pinpoint.GetApnsVoipSandboxChannelRequest
 
 	GetAppRequest(*pinpoint.GetAppInput) pinpoint.GetAppRequest
 
@@ -122,6 +134,10 @@ type PinpointAPI interface {
 
 	GetEventStreamRequest(*pinpoint.GetEventStreamInput) pinpoint.GetEventStreamRequest
 
+	GetExportJobRequest(*pinpoint.GetExportJobInput) pinpoint.GetExportJobRequest
+
+	GetExportJobsRequest(*pinpoint.GetExportJobsInput) pinpoint.GetExportJobsRequest
+
 	GetGcmChannelRequest(*pinpoint.GetGcmChannelInput) pinpoint.GetGcmChannelRequest
 
 	GetImportJobRequest(*pinpoint.GetImportJobInput) pinpoint.GetImportJobRequest
@@ -129,6 +145,8 @@ type PinpointAPI interface {
 	GetImportJobsRequest(*pinpoint.GetImportJobsInput) pinpoint.GetImportJobsRequest
 
 	GetSegmentRequest(*pinpoint.GetSegmentInput) pinpoint.GetSegmentRequest
+
+	GetSegmentExportJobsRequest(*pinpoint.GetSegmentExportJobsInput) pinpoint.GetSegmentExportJobsRequest
 
 	GetSegmentImportJobsRequest(*pinpoint.GetSegmentImportJobsInput) pinpoint.GetSegmentImportJobsRequest
 
@@ -151,6 +169,10 @@ type PinpointAPI interface {
 	UpdateApnsChannelRequest(*pinpoint.UpdateApnsChannelInput) pinpoint.UpdateApnsChannelRequest
 
 	UpdateApnsSandboxChannelRequest(*pinpoint.UpdateApnsSandboxChannelInput) pinpoint.UpdateApnsSandboxChannelRequest
+
+	UpdateApnsVoipChannelRequest(*pinpoint.UpdateApnsVoipChannelInput) pinpoint.UpdateApnsVoipChannelRequest
+
+	UpdateApnsVoipSandboxChannelRequest(*pinpoint.UpdateApnsVoipSandboxChannelInput) pinpoint.UpdateApnsVoipSandboxChannelRequest
 
 	UpdateApplicationSettingsRequest(*pinpoint.UpdateApplicationSettingsInput) pinpoint.UpdateApplicationSettingsRequest
 

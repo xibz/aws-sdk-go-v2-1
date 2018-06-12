@@ -15,6 +15,7 @@ const opCreateReplicationJob = "CreateReplicationJob"
 type CreateReplicationJobRequest struct {
 	*aws.Request
 	Input *CreateReplicationJobInput
+	Copy  func(*CreateReplicationJobInput) CreateReplicationJobRequest
 }
 
 // Send marshals and sends the CreateReplicationJob API request.
@@ -54,8 +55,11 @@ func (c *SMS) CreateReplicationJobRequest(input *CreateReplicationJobInput) Crea
 		input = &CreateReplicationJobInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateReplicationJobOutput{})
-	return CreateReplicationJobRequest{Request: req, Input: input}
+	output := &CreateReplicationJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateReplicationJobRequest{Request: req, Input: input, Copy: c.CreateReplicationJobRequest}
 }
 
 const opDeleteReplicationJob = "DeleteReplicationJob"
@@ -64,6 +68,7 @@ const opDeleteReplicationJob = "DeleteReplicationJob"
 type DeleteReplicationJobRequest struct {
 	*aws.Request
 	Input *DeleteReplicationJobInput
+	Copy  func(*DeleteReplicationJobInput) DeleteReplicationJobRequest
 }
 
 // Send marshals and sends the DeleteReplicationJob API request.
@@ -103,8 +108,11 @@ func (c *SMS) DeleteReplicationJobRequest(input *DeleteReplicationJobInput) Dele
 		input = &DeleteReplicationJobInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteReplicationJobOutput{})
-	return DeleteReplicationJobRequest{Request: req, Input: input}
+	output := &DeleteReplicationJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteReplicationJobRequest{Request: req, Input: input, Copy: c.DeleteReplicationJobRequest}
 }
 
 const opDeleteServerCatalog = "DeleteServerCatalog"
@@ -113,6 +121,7 @@ const opDeleteServerCatalog = "DeleteServerCatalog"
 type DeleteServerCatalogRequest struct {
 	*aws.Request
 	Input *DeleteServerCatalogInput
+	Copy  func(*DeleteServerCatalogInput) DeleteServerCatalogRequest
 }
 
 // Send marshals and sends the DeleteServerCatalog API request.
@@ -151,8 +160,11 @@ func (c *SMS) DeleteServerCatalogRequest(input *DeleteServerCatalogInput) Delete
 		input = &DeleteServerCatalogInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteServerCatalogOutput{})
-	return DeleteServerCatalogRequest{Request: req, Input: input}
+	output := &DeleteServerCatalogOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteServerCatalogRequest{Request: req, Input: input, Copy: c.DeleteServerCatalogRequest}
 }
 
 const opDisassociateConnector = "DisassociateConnector"
@@ -161,6 +173,7 @@ const opDisassociateConnector = "DisassociateConnector"
 type DisassociateConnectorRequest struct {
 	*aws.Request
 	Input *DisassociateConnectorInput
+	Copy  func(*DisassociateConnectorInput) DisassociateConnectorRequest
 }
 
 // Send marshals and sends the DisassociateConnector API request.
@@ -198,8 +211,11 @@ func (c *SMS) DisassociateConnectorRequest(input *DisassociateConnectorInput) Di
 		input = &DisassociateConnectorInput{}
 	}
 
-	req := c.newRequest(op, input, &DisassociateConnectorOutput{})
-	return DisassociateConnectorRequest{Request: req, Input: input}
+	output := &DisassociateConnectorOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateConnectorRequest{Request: req, Input: input, Copy: c.DisassociateConnectorRequest}
 }
 
 const opGetConnectors = "GetConnectors"
@@ -208,6 +224,7 @@ const opGetConnectors = "GetConnectors"
 type GetConnectorsRequest struct {
 	*aws.Request
 	Input *GetConnectorsInput
+	Copy  func(*GetConnectorsInput) GetConnectorsRequest
 }
 
 // Send marshals and sends the GetConnectors API request.
@@ -251,58 +268,57 @@ func (c *SMS) GetConnectorsRequest(input *GetConnectorsInput) GetConnectorsReque
 		input = &GetConnectorsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetConnectorsOutput{})
-	return GetConnectorsRequest{Request: req, Input: input}
+	output := &GetConnectorsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetConnectorsRequest{Request: req, Input: input, Copy: c.GetConnectorsRequest}
 }
 
-// GetConnectorsPages iterates over the pages of a GetConnectors operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetConnectors method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetConnectorsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetConnectors operation.
-//    pageNum := 0
-//    err := client.GetConnectorsPages(params,
-//        func(page *GetConnectorsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetConnectorsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SMS) GetConnectorsPages(input *GetConnectorsInput, fn func(*GetConnectorsOutput, bool) bool) error {
-	return c.GetConnectorsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetConnectorsRequest) Paginate(opts ...aws.Option) GetConnectorsPager {
+	return GetConnectorsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetConnectorsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetConnectorsPagesWithContext same as GetConnectorsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SMS) GetConnectorsPagesWithContext(ctx aws.Context, input *GetConnectorsInput, fn func(*GetConnectorsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetConnectorsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetConnectorsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetConnectorsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetConnectorsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetConnectorsPager struct {
+	aws.Pager
+}
+
+func (p *GetConnectorsPager) CurrentPage() *GetConnectorsOutput {
+	return p.Pager.CurrentPage().(*GetConnectorsOutput)
 }
 
 const opGetReplicationJobs = "GetReplicationJobs"
@@ -311,6 +327,7 @@ const opGetReplicationJobs = "GetReplicationJobs"
 type GetReplicationJobsRequest struct {
 	*aws.Request
 	Input *GetReplicationJobsInput
+	Copy  func(*GetReplicationJobsInput) GetReplicationJobsRequest
 }
 
 // Send marshals and sends the GetReplicationJobs API request.
@@ -355,58 +372,57 @@ func (c *SMS) GetReplicationJobsRequest(input *GetReplicationJobsInput) GetRepli
 		input = &GetReplicationJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetReplicationJobsOutput{})
-	return GetReplicationJobsRequest{Request: req, Input: input}
+	output := &GetReplicationJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetReplicationJobsRequest{Request: req, Input: input, Copy: c.GetReplicationJobsRequest}
 }
 
-// GetReplicationJobsPages iterates over the pages of a GetReplicationJobs operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetReplicationJobs method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetReplicationJobsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetReplicationJobs operation.
-//    pageNum := 0
-//    err := client.GetReplicationJobsPages(params,
-//        func(page *GetReplicationJobsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetReplicationJobsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SMS) GetReplicationJobsPages(input *GetReplicationJobsInput, fn func(*GetReplicationJobsOutput, bool) bool) error {
-	return c.GetReplicationJobsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetReplicationJobsRequest) Paginate(opts ...aws.Option) GetReplicationJobsPager {
+	return GetReplicationJobsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetReplicationJobsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetReplicationJobsPagesWithContext same as GetReplicationJobsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SMS) GetReplicationJobsPagesWithContext(ctx aws.Context, input *GetReplicationJobsInput, fn func(*GetReplicationJobsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetReplicationJobsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetReplicationJobsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetReplicationJobsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetReplicationJobsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetReplicationJobsPager struct {
+	aws.Pager
+}
+
+func (p *GetReplicationJobsPager) CurrentPage() *GetReplicationJobsOutput {
+	return p.Pager.CurrentPage().(*GetReplicationJobsOutput)
 }
 
 const opGetReplicationRuns = "GetReplicationRuns"
@@ -415,6 +431,7 @@ const opGetReplicationRuns = "GetReplicationRuns"
 type GetReplicationRunsRequest struct {
 	*aws.Request
 	Input *GetReplicationRunsInput
+	Copy  func(*GetReplicationRunsInput) GetReplicationRunsRequest
 }
 
 // Send marshals and sends the GetReplicationRuns API request.
@@ -459,58 +476,57 @@ func (c *SMS) GetReplicationRunsRequest(input *GetReplicationRunsInput) GetRepli
 		input = &GetReplicationRunsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetReplicationRunsOutput{})
-	return GetReplicationRunsRequest{Request: req, Input: input}
+	output := &GetReplicationRunsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetReplicationRunsRequest{Request: req, Input: input, Copy: c.GetReplicationRunsRequest}
 }
 
-// GetReplicationRunsPages iterates over the pages of a GetReplicationRuns operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetReplicationRuns method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetReplicationRunsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetReplicationRuns operation.
-//    pageNum := 0
-//    err := client.GetReplicationRunsPages(params,
-//        func(page *GetReplicationRunsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetReplicationRunsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SMS) GetReplicationRunsPages(input *GetReplicationRunsInput, fn func(*GetReplicationRunsOutput, bool) bool) error {
-	return c.GetReplicationRunsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetReplicationRunsRequest) Paginate(opts ...aws.Option) GetReplicationRunsPager {
+	return GetReplicationRunsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetReplicationRunsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetReplicationRunsPagesWithContext same as GetReplicationRunsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SMS) GetReplicationRunsPagesWithContext(ctx aws.Context, input *GetReplicationRunsInput, fn func(*GetReplicationRunsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetReplicationRunsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetReplicationRunsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetReplicationRunsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetReplicationRunsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetReplicationRunsPager struct {
+	aws.Pager
+}
+
+func (p *GetReplicationRunsPager) CurrentPage() *GetReplicationRunsOutput {
+	return p.Pager.CurrentPage().(*GetReplicationRunsOutput)
 }
 
 const opGetServers = "GetServers"
@@ -519,6 +535,7 @@ const opGetServers = "GetServers"
 type GetServersRequest struct {
 	*aws.Request
 	Input *GetServersInput
+	Copy  func(*GetServersInput) GetServersRequest
 }
 
 // Send marshals and sends the GetServers API request.
@@ -562,58 +579,57 @@ func (c *SMS) GetServersRequest(input *GetServersInput) GetServersRequest {
 		input = &GetServersInput{}
 	}
 
-	req := c.newRequest(op, input, &GetServersOutput{})
-	return GetServersRequest{Request: req, Input: input}
+	output := &GetServersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetServersRequest{Request: req, Input: input, Copy: c.GetServersRequest}
 }
 
-// GetServersPages iterates over the pages of a GetServers operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetServers method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetServersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetServers operation.
-//    pageNum := 0
-//    err := client.GetServersPages(params,
-//        func(page *GetServersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetServersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SMS) GetServersPages(input *GetServersInput, fn func(*GetServersOutput, bool) bool) error {
-	return c.GetServersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetServersRequest) Paginate(opts ...aws.Option) GetServersPager {
+	return GetServersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetServersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetServersPagesWithContext same as GetServersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SMS) GetServersPagesWithContext(ctx aws.Context, input *GetServersInput, fn func(*GetServersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetServersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetServersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetServersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetServersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetServersPager struct {
+	aws.Pager
+}
+
+func (p *GetServersPager) CurrentPage() *GetServersOutput {
+	return p.Pager.CurrentPage().(*GetServersOutput)
 }
 
 const opImportServerCatalog = "ImportServerCatalog"
@@ -622,6 +638,7 @@ const opImportServerCatalog = "ImportServerCatalog"
 type ImportServerCatalogRequest struct {
 	*aws.Request
 	Input *ImportServerCatalogInput
+	Copy  func(*ImportServerCatalogInput) ImportServerCatalogRequest
 }
 
 // Send marshals and sends the ImportServerCatalog API request.
@@ -661,8 +678,11 @@ func (c *SMS) ImportServerCatalogRequest(input *ImportServerCatalogInput) Import
 		input = &ImportServerCatalogInput{}
 	}
 
-	req := c.newRequest(op, input, &ImportServerCatalogOutput{})
-	return ImportServerCatalogRequest{Request: req, Input: input}
+	output := &ImportServerCatalogOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ImportServerCatalogRequest{Request: req, Input: input, Copy: c.ImportServerCatalogRequest}
 }
 
 const opStartOnDemandReplicationRun = "StartOnDemandReplicationRun"
@@ -671,6 +691,7 @@ const opStartOnDemandReplicationRun = "StartOnDemandReplicationRun"
 type StartOnDemandReplicationRunRequest struct {
 	*aws.Request
 	Input *StartOnDemandReplicationRunInput
+	Copy  func(*StartOnDemandReplicationRunInput) StartOnDemandReplicationRunRequest
 }
 
 // Send marshals and sends the StartOnDemandReplicationRun API request.
@@ -711,8 +732,11 @@ func (c *SMS) StartOnDemandReplicationRunRequest(input *StartOnDemandReplication
 		input = &StartOnDemandReplicationRunInput{}
 	}
 
-	req := c.newRequest(op, input, &StartOnDemandReplicationRunOutput{})
-	return StartOnDemandReplicationRunRequest{Request: req, Input: input}
+	output := &StartOnDemandReplicationRunOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartOnDemandReplicationRunRequest{Request: req, Input: input, Copy: c.StartOnDemandReplicationRunRequest}
 }
 
 const opUpdateReplicationJob = "UpdateReplicationJob"
@@ -721,6 +745,7 @@ const opUpdateReplicationJob = "UpdateReplicationJob"
 type UpdateReplicationJobRequest struct {
 	*aws.Request
 	Input *UpdateReplicationJobInput
+	Copy  func(*UpdateReplicationJobInput) UpdateReplicationJobRequest
 }
 
 // Send marshals and sends the UpdateReplicationJob API request.
@@ -759,8 +784,11 @@ func (c *SMS) UpdateReplicationJobRequest(input *UpdateReplicationJobInput) Upda
 		input = &UpdateReplicationJobInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateReplicationJobOutput{})
-	return UpdateReplicationJobRequest{Request: req, Input: input}
+	output := &UpdateReplicationJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateReplicationJobRequest{Request: req, Input: input, Copy: c.UpdateReplicationJobRequest}
 }
 
 // Object representing a Connector
@@ -783,8 +811,8 @@ type Connector struct {
 	// Hardware (MAC) address
 	MacAddress *string `locationName:"macAddress" type:"string"`
 
-	// Status of on-premise Connector
-	Status ConnectorStatus `locationName:"status" type:"string"`
+	// Status of on-premises Connector
+	Status ConnectorStatus `locationName:"status" type:"string" enum:"true"`
 
 	// Connector version string
 	Version *string `locationName:"version" type:"string"`
@@ -796,7 +824,7 @@ type Connector struct {
 	VmManagerName *string `locationName:"vmManagerName" type:"string"`
 
 	// VM Management Product
-	VmManagerType VmManagerType `locationName:"vmManagerType" type:"string"`
+	VmManagerType VmManagerType `locationName:"vmManagerType" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -807,66 +835,6 @@ func (s Connector) String() string {
 // GoString returns the string representation
 func (s Connector) GoString() string {
 	return s.String()
-}
-
-// SetAssociatedOn sets the AssociatedOn field's value.
-func (s *Connector) SetAssociatedOn(v time.Time) *Connector {
-	s.AssociatedOn = &v
-	return s
-}
-
-// SetCapabilityList sets the CapabilityList field's value.
-func (s *Connector) SetCapabilityList(v []ConnectorCapability) *Connector {
-	s.CapabilityList = v
-	return s
-}
-
-// SetConnectorId sets the ConnectorId field's value.
-func (s *Connector) SetConnectorId(v string) *Connector {
-	s.ConnectorId = &v
-	return s
-}
-
-// SetIpAddress sets the IpAddress field's value.
-func (s *Connector) SetIpAddress(v string) *Connector {
-	s.IpAddress = &v
-	return s
-}
-
-// SetMacAddress sets the MacAddress field's value.
-func (s *Connector) SetMacAddress(v string) *Connector {
-	s.MacAddress = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Connector) SetStatus(v ConnectorStatus) *Connector {
-	s.Status = v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *Connector) SetVersion(v string) *Connector {
-	s.Version = &v
-	return s
-}
-
-// SetVmManagerId sets the VmManagerId field's value.
-func (s *Connector) SetVmManagerId(v string) *Connector {
-	s.VmManagerId = &v
-	return s
-}
-
-// SetVmManagerName sets the VmManagerName field's value.
-func (s *Connector) SetVmManagerName(v string) *Connector {
-	s.VmManagerName = &v
-	return s
-}
-
-// SetVmManagerType sets the VmManagerType field's value.
-func (s *Connector) SetVmManagerType(v VmManagerType) *Connector {
-	s.VmManagerType = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/CreateReplicationJobRequest
@@ -884,7 +852,7 @@ type CreateReplicationJobInput struct {
 
 	// The license type to be used for the Amazon Machine Image (AMI) created after
 	// a successful ReplicationRun.
-	LicenseType LicenseType `locationName:"licenseType" type:"string"`
+	LicenseType LicenseType `locationName:"licenseType" type:"string" enum:"true"`
 
 	// Name of service role in customer's account to be used by SMS service.
 	RoleName *string `locationName:"roleName" type:"string"`
@@ -932,45 +900,11 @@ func (s *CreateReplicationJobInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateReplicationJobInput) SetDescription(v string) *CreateReplicationJobInput {
-	s.Description = &v
-	return s
-}
-
-// SetFrequency sets the Frequency field's value.
-func (s *CreateReplicationJobInput) SetFrequency(v int64) *CreateReplicationJobInput {
-	s.Frequency = &v
-	return s
-}
-
-// SetLicenseType sets the LicenseType field's value.
-func (s *CreateReplicationJobInput) SetLicenseType(v LicenseType) *CreateReplicationJobInput {
-	s.LicenseType = v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *CreateReplicationJobInput) SetRoleName(v string) *CreateReplicationJobInput {
-	s.RoleName = &v
-	return s
-}
-
-// SetSeedReplicationTime sets the SeedReplicationTime field's value.
-func (s *CreateReplicationJobInput) SetSeedReplicationTime(v time.Time) *CreateReplicationJobInput {
-	s.SeedReplicationTime = &v
-	return s
-}
-
-// SetServerId sets the ServerId field's value.
-func (s *CreateReplicationJobInput) SetServerId(v string) *CreateReplicationJobInput {
-	s.ServerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/CreateReplicationJobResponse
 type CreateReplicationJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique identifier for a Replication Job.
 	ReplicationJobId *string `locationName:"replicationJobId" type:"string"`
@@ -986,10 +920,9 @@ func (s CreateReplicationJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *CreateReplicationJobOutput) SetReplicationJobId(v string) *CreateReplicationJobOutput {
-	s.ReplicationJobId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateReplicationJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/DeleteReplicationJobRequest
@@ -1026,15 +959,11 @@ func (s *DeleteReplicationJobInput) Validate() error {
 	return nil
 }
 
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *DeleteReplicationJobInput) SetReplicationJobId(v string) *DeleteReplicationJobInput {
-	s.ReplicationJobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/DeleteReplicationJobResponse
 type DeleteReplicationJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1045,6 +974,11 @@ func (s DeleteReplicationJobOutput) String() string {
 // GoString returns the string representation
 func (s DeleteReplicationJobOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteReplicationJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/DeleteServerCatalogRequest
@@ -1065,6 +999,8 @@ func (s DeleteServerCatalogInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/DeleteServerCatalogResponse
 type DeleteServerCatalogOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1075,6 +1011,11 @@ func (s DeleteServerCatalogOutput) String() string {
 // GoString returns the string representation
 func (s DeleteServerCatalogOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteServerCatalogOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/DisassociateConnectorRequest
@@ -1111,15 +1052,11 @@ func (s *DisassociateConnectorInput) Validate() error {
 	return nil
 }
 
-// SetConnectorId sets the ConnectorId field's value.
-func (s *DisassociateConnectorInput) SetConnectorId(v string) *DisassociateConnectorInput {
-	s.ConnectorId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/DisassociateConnectorResponse
 type DisassociateConnectorOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1130,6 +1067,11 @@ func (s DisassociateConnectorOutput) String() string {
 // GoString returns the string representation
 func (s DisassociateConnectorOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateConnectorOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetConnectorsRequest
@@ -1154,24 +1096,14 @@ func (s GetConnectorsInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetConnectorsInput) SetMaxResults(v int64) *GetConnectorsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetConnectorsInput) SetNextToken(v string) *GetConnectorsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetConnectorsResponse
 type GetConnectorsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of connectors
-	ConnectorList []*Connector `locationName:"connectorList" locationNameList:"item" type:"list"`
+	ConnectorList []Connector `locationName:"connectorList" locationNameList:"item" type:"list"`
 
 	// Pagination token to pass as input to API call
 	NextToken *string `locationName:"nextToken" type:"string"`
@@ -1187,16 +1119,9 @@ func (s GetConnectorsOutput) GoString() string {
 	return s.String()
 }
 
-// SetConnectorList sets the ConnectorList field's value.
-func (s *GetConnectorsOutput) SetConnectorList(v []*Connector) *GetConnectorsOutput {
-	s.ConnectorList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetConnectorsOutput) SetNextToken(v string) *GetConnectorsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetConnectorsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetReplicationJobsRequest
@@ -1224,33 +1149,17 @@ func (s GetReplicationJobsInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetReplicationJobsInput) SetMaxResults(v int64) *GetReplicationJobsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetReplicationJobsInput) SetNextToken(v string) *GetReplicationJobsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *GetReplicationJobsInput) SetReplicationJobId(v string) *GetReplicationJobsInput {
-	s.ReplicationJobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetReplicationJobsResponse
 type GetReplicationJobsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Pagination token to pass as input to API call
 	NextToken *string `locationName:"nextToken" type:"string"`
 
 	// List of Replication Jobs
-	ReplicationJobList []*ReplicationJob `locationName:"replicationJobList" locationNameList:"item" type:"list"`
+	ReplicationJobList []ReplicationJob `locationName:"replicationJobList" locationNameList:"item" type:"list"`
 }
 
 // String returns the string representation
@@ -1263,16 +1172,9 @@ func (s GetReplicationJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetReplicationJobsOutput) SetNextToken(v string) *GetReplicationJobsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetReplicationJobList sets the ReplicationJobList field's value.
-func (s *GetReplicationJobsOutput) SetReplicationJobList(v []*ReplicationJob) *GetReplicationJobsOutput {
-	s.ReplicationJobList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetReplicationJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetReplicationRunsRequest
@@ -1316,27 +1218,11 @@ func (s *GetReplicationRunsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetReplicationRunsInput) SetMaxResults(v int64) *GetReplicationRunsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetReplicationRunsInput) SetNextToken(v string) *GetReplicationRunsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *GetReplicationRunsInput) SetReplicationJobId(v string) *GetReplicationRunsInput {
-	s.ReplicationJobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetReplicationRunsResponse
 type GetReplicationRunsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Pagination token to pass as input to API call
 	NextToken *string `locationName:"nextToken" type:"string"`
@@ -1345,7 +1231,7 @@ type GetReplicationRunsOutput struct {
 	ReplicationJob *ReplicationJob `locationName:"replicationJob" type:"structure"`
 
 	// List of Replication Runs
-	ReplicationRunList []*ReplicationRun `locationName:"replicationRunList" locationNameList:"item" type:"list"`
+	ReplicationRunList []ReplicationRun `locationName:"replicationRunList" locationNameList:"item" type:"list"`
 }
 
 // String returns the string representation
@@ -1358,22 +1244,9 @@ func (s GetReplicationRunsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetReplicationRunsOutput) SetNextToken(v string) *GetReplicationRunsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetReplicationJob sets the ReplicationJob field's value.
-func (s *GetReplicationRunsOutput) SetReplicationJob(v *ReplicationJob) *GetReplicationRunsOutput {
-	s.ReplicationJob = v
-	return s
-}
-
-// SetReplicationRunList sets the ReplicationRunList field's value.
-func (s *GetReplicationRunsOutput) SetReplicationRunList(v []*ReplicationRun) *GetReplicationRunsOutput {
-	s.ReplicationRunList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetReplicationRunsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetServersRequest
@@ -1398,21 +1271,11 @@ func (s GetServersInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetServersInput) SetMaxResults(v int64) *GetServersInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetServersInput) SetNextToken(v string) *GetServersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/GetServersResponse
 type GetServersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Timestamp of an operation
 	LastModifiedOn *time.Time `locationName:"lastModifiedOn" type:"timestamp" timestampFormat:"unix"`
@@ -1421,10 +1284,10 @@ type GetServersOutput struct {
 	NextToken *string `locationName:"nextToken" type:"string"`
 
 	// Status of Server catalog
-	ServerCatalogStatus ServerCatalogStatus `locationName:"serverCatalogStatus" type:"string"`
+	ServerCatalogStatus ServerCatalogStatus `locationName:"serverCatalogStatus" type:"string" enum:"true"`
 
 	// List of servers from catalog
-	ServerList []*Server `locationName:"serverList" locationNameList:"item" type:"list"`
+	ServerList []Server `locationName:"serverList" locationNameList:"item" type:"list"`
 }
 
 // String returns the string representation
@@ -1437,28 +1300,9 @@ func (s GetServersOutput) GoString() string {
 	return s.String()
 }
 
-// SetLastModifiedOn sets the LastModifiedOn field's value.
-func (s *GetServersOutput) SetLastModifiedOn(v time.Time) *GetServersOutput {
-	s.LastModifiedOn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetServersOutput) SetNextToken(v string) *GetServersOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetServerCatalogStatus sets the ServerCatalogStatus field's value.
-func (s *GetServersOutput) SetServerCatalogStatus(v ServerCatalogStatus) *GetServersOutput {
-	s.ServerCatalogStatus = v
-	return s
-}
-
-// SetServerList sets the ServerList field's value.
-func (s *GetServersOutput) SetServerList(v []*Server) *GetServersOutput {
-	s.ServerList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetServersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/ImportServerCatalogRequest
@@ -1479,6 +1323,8 @@ func (s ImportServerCatalogInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/ImportServerCatalogResponse
 type ImportServerCatalogOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1489,6 +1335,11 @@ func (s ImportServerCatalogOutput) String() string {
 // GoString returns the string representation
 func (s ImportServerCatalogOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ImportServerCatalogOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Object representing a Replication Job
@@ -1508,7 +1359,7 @@ type ReplicationJob struct {
 
 	// The license type to be used for the Amazon Machine Image (AMI) created after
 	// a successful ReplicationRun.
-	LicenseType LicenseType `locationName:"licenseType" type:"string"`
+	LicenseType LicenseType `locationName:"licenseType" type:"string" enum:"true"`
 
 	// Timestamp of an operation
 	NextReplicationRunStartTime *time.Time `locationName:"nextReplicationRunStartTime" type:"timestamp" timestampFormat:"unix"`
@@ -1517,7 +1368,7 @@ type ReplicationJob struct {
 	ReplicationJobId *string `locationName:"replicationJobId" type:"string"`
 
 	// List of Replication Runs
-	ReplicationRunList []*ReplicationRun `locationName:"replicationRunList" locationNameList:"item" type:"list"`
+	ReplicationRunList []ReplicationRun `locationName:"replicationRunList" locationNameList:"item" type:"list"`
 
 	// Name of service role in customer's account to be used by SMS service.
 	RoleName *string `locationName:"roleName" type:"string"`
@@ -1529,10 +1380,10 @@ type ReplicationJob struct {
 	ServerId *string `locationName:"serverId" type:"string"`
 
 	// Type of server.
-	ServerType ServerType `locationName:"serverType" type:"string"`
+	ServerType ServerType `locationName:"serverType" type:"string" enum:"true"`
 
 	// Current state of Replication Job
-	State ReplicationJobState `locationName:"state" type:"string"`
+	State ReplicationJobState `locationName:"state" type:"string" enum:"true"`
 
 	// String describing current status of Replication Job
 	StatusMessage *string `locationName:"statusMessage" type:"string"`
@@ -1549,90 +1400,6 @@ func (s ReplicationJob) String() string {
 // GoString returns the string representation
 func (s ReplicationJob) GoString() string {
 	return s.String()
-}
-
-// SetDescription sets the Description field's value.
-func (s *ReplicationJob) SetDescription(v string) *ReplicationJob {
-	s.Description = &v
-	return s
-}
-
-// SetFrequency sets the Frequency field's value.
-func (s *ReplicationJob) SetFrequency(v int64) *ReplicationJob {
-	s.Frequency = &v
-	return s
-}
-
-// SetLatestAmiId sets the LatestAmiId field's value.
-func (s *ReplicationJob) SetLatestAmiId(v string) *ReplicationJob {
-	s.LatestAmiId = &v
-	return s
-}
-
-// SetLicenseType sets the LicenseType field's value.
-func (s *ReplicationJob) SetLicenseType(v LicenseType) *ReplicationJob {
-	s.LicenseType = v
-	return s
-}
-
-// SetNextReplicationRunStartTime sets the NextReplicationRunStartTime field's value.
-func (s *ReplicationJob) SetNextReplicationRunStartTime(v time.Time) *ReplicationJob {
-	s.NextReplicationRunStartTime = &v
-	return s
-}
-
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *ReplicationJob) SetReplicationJobId(v string) *ReplicationJob {
-	s.ReplicationJobId = &v
-	return s
-}
-
-// SetReplicationRunList sets the ReplicationRunList field's value.
-func (s *ReplicationJob) SetReplicationRunList(v []*ReplicationRun) *ReplicationJob {
-	s.ReplicationRunList = v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *ReplicationJob) SetRoleName(v string) *ReplicationJob {
-	s.RoleName = &v
-	return s
-}
-
-// SetSeedReplicationTime sets the SeedReplicationTime field's value.
-func (s *ReplicationJob) SetSeedReplicationTime(v time.Time) *ReplicationJob {
-	s.SeedReplicationTime = &v
-	return s
-}
-
-// SetServerId sets the ServerId field's value.
-func (s *ReplicationJob) SetServerId(v string) *ReplicationJob {
-	s.ServerId = &v
-	return s
-}
-
-// SetServerType sets the ServerType field's value.
-func (s *ReplicationJob) SetServerType(v ServerType) *ReplicationJob {
-	s.ServerType = v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *ReplicationJob) SetState(v ReplicationJobState) *ReplicationJob {
-	s.State = v
-	return s
-}
-
-// SetStatusMessage sets the StatusMessage field's value.
-func (s *ReplicationJob) SetStatusMessage(v string) *ReplicationJob {
-	s.StatusMessage = &v
-	return s
-}
-
-// SetVmServer sets the VmServer field's value.
-func (s *ReplicationJob) SetVmServer(v *VmServer) *ReplicationJob {
-	s.VmServer = v
-	return s
 }
 
 // Object representing a Replication Run
@@ -1656,13 +1423,13 @@ type ReplicationRun struct {
 	ScheduledStartTime *time.Time `locationName:"scheduledStartTime" type:"timestamp" timestampFormat:"unix"`
 
 	// Current state of Replication Run
-	State ReplicationRunState `locationName:"state" type:"string"`
+	State ReplicationRunState `locationName:"state" type:"string" enum:"true"`
 
 	// String describing current status of Replication Run
 	StatusMessage *string `locationName:"statusMessage" type:"string"`
 
 	// Type of Replication Run
-	Type ReplicationRunType `locationName:"type" type:"string"`
+	Type ReplicationRunType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1673,54 +1440,6 @@ func (s ReplicationRun) String() string {
 // GoString returns the string representation
 func (s ReplicationRun) GoString() string {
 	return s.String()
-}
-
-// SetAmiId sets the AmiId field's value.
-func (s *ReplicationRun) SetAmiId(v string) *ReplicationRun {
-	s.AmiId = &v
-	return s
-}
-
-// SetCompletedTime sets the CompletedTime field's value.
-func (s *ReplicationRun) SetCompletedTime(v time.Time) *ReplicationRun {
-	s.CompletedTime = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ReplicationRun) SetDescription(v string) *ReplicationRun {
-	s.Description = &v
-	return s
-}
-
-// SetReplicationRunId sets the ReplicationRunId field's value.
-func (s *ReplicationRun) SetReplicationRunId(v string) *ReplicationRun {
-	s.ReplicationRunId = &v
-	return s
-}
-
-// SetScheduledStartTime sets the ScheduledStartTime field's value.
-func (s *ReplicationRun) SetScheduledStartTime(v time.Time) *ReplicationRun {
-	s.ScheduledStartTime = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *ReplicationRun) SetState(v ReplicationRunState) *ReplicationRun {
-	s.State = v
-	return s
-}
-
-// SetStatusMessage sets the StatusMessage field's value.
-func (s *ReplicationRun) SetStatusMessage(v string) *ReplicationRun {
-	s.StatusMessage = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ReplicationRun) SetType(v ReplicationRunType) *ReplicationRun {
-	s.Type = v
-	return s
 }
 
 // Object representing a server
@@ -1738,7 +1457,7 @@ type Server struct {
 	ServerId *string `locationName:"serverId" type:"string"`
 
 	// Type of server.
-	ServerType ServerType `locationName:"serverType" type:"string"`
+	ServerType ServerType `locationName:"serverType" type:"string" enum:"true"`
 
 	// Object representing a VM server
 	VmServer *VmServer `locationName:"vmServer" type:"structure"`
@@ -1752,36 +1471,6 @@ func (s Server) String() string {
 // GoString returns the string representation
 func (s Server) GoString() string {
 	return s.String()
-}
-
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *Server) SetReplicationJobId(v string) *Server {
-	s.ReplicationJobId = &v
-	return s
-}
-
-// SetReplicationJobTerminated sets the ReplicationJobTerminated field's value.
-func (s *Server) SetReplicationJobTerminated(v bool) *Server {
-	s.ReplicationJobTerminated = &v
-	return s
-}
-
-// SetServerId sets the ServerId field's value.
-func (s *Server) SetServerId(v string) *Server {
-	s.ServerId = &v
-	return s
-}
-
-// SetServerType sets the ServerType field's value.
-func (s *Server) SetServerType(v ServerType) *Server {
-	s.ServerType = v
-	return s
-}
-
-// SetVmServer sets the VmServer field's value.
-func (s *Server) SetVmServer(v *VmServer) *Server {
-	s.VmServer = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/StartOnDemandReplicationRunRequest
@@ -1821,21 +1510,11 @@ func (s *StartOnDemandReplicationRunInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *StartOnDemandReplicationRunInput) SetDescription(v string) *StartOnDemandReplicationRunInput {
-	s.Description = &v
-	return s
-}
-
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *StartOnDemandReplicationRunInput) SetReplicationJobId(v string) *StartOnDemandReplicationRunInput {
-	s.ReplicationJobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/StartOnDemandReplicationRunResponse
 type StartOnDemandReplicationRunOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique identifier for a Replication Run.
 	ReplicationRunId *string `locationName:"replicationRunId" type:"string"`
@@ -1851,10 +1530,9 @@ func (s StartOnDemandReplicationRunOutput) GoString() string {
 	return s.String()
 }
 
-// SetReplicationRunId sets the ReplicationRunId field's value.
-func (s *StartOnDemandReplicationRunOutput) SetReplicationRunId(v string) *StartOnDemandReplicationRunOutput {
-	s.ReplicationRunId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartOnDemandReplicationRunOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/UpdateReplicationJobRequest
@@ -1870,7 +1548,7 @@ type UpdateReplicationJobInput struct {
 
 	// The license type to be used for the Amazon Machine Image (AMI) created after
 	// a successful ReplicationRun.
-	LicenseType LicenseType `locationName:"licenseType" type:"string"`
+	LicenseType LicenseType `locationName:"licenseType" type:"string" enum:"true"`
 
 	// Timestamp of an operation
 	NextReplicationRunStartTime *time.Time `locationName:"nextReplicationRunStartTime" type:"timestamp" timestampFormat:"unix"`
@@ -1908,45 +1586,11 @@ func (s *UpdateReplicationJobInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateReplicationJobInput) SetDescription(v string) *UpdateReplicationJobInput {
-	s.Description = &v
-	return s
-}
-
-// SetFrequency sets the Frequency field's value.
-func (s *UpdateReplicationJobInput) SetFrequency(v int64) *UpdateReplicationJobInput {
-	s.Frequency = &v
-	return s
-}
-
-// SetLicenseType sets the LicenseType field's value.
-func (s *UpdateReplicationJobInput) SetLicenseType(v LicenseType) *UpdateReplicationJobInput {
-	s.LicenseType = v
-	return s
-}
-
-// SetNextReplicationRunStartTime sets the NextReplicationRunStartTime field's value.
-func (s *UpdateReplicationJobInput) SetNextReplicationRunStartTime(v time.Time) *UpdateReplicationJobInput {
-	s.NextReplicationRunStartTime = &v
-	return s
-}
-
-// SetReplicationJobId sets the ReplicationJobId field's value.
-func (s *UpdateReplicationJobInput) SetReplicationJobId(v string) *UpdateReplicationJobInput {
-	s.ReplicationJobId = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *UpdateReplicationJobInput) SetRoleName(v string) *UpdateReplicationJobInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/UpdateReplicationJobResponse
 type UpdateReplicationJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1959,6 +1603,11 @@ func (s UpdateReplicationJobOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateReplicationJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Object representing a VM server
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sms-2016-10-24/VmServer
 type VmServer struct {
@@ -1968,7 +1617,7 @@ type VmServer struct {
 	VmManagerName *string `locationName:"vmManagerName" type:"string"`
 
 	// VM Management Product
-	VmManagerType VmManagerType `locationName:"vmManagerType" type:"string"`
+	VmManagerType VmManagerType `locationName:"vmManagerType" type:"string" enum:"true"`
 
 	// Name of Virtual Machine
 	VmName *string `locationName:"vmName" type:"string"`
@@ -1988,36 +1637,6 @@ func (s VmServer) String() string {
 // GoString returns the string representation
 func (s VmServer) GoString() string {
 	return s.String()
-}
-
-// SetVmManagerName sets the VmManagerName field's value.
-func (s *VmServer) SetVmManagerName(v string) *VmServer {
-	s.VmManagerName = &v
-	return s
-}
-
-// SetVmManagerType sets the VmManagerType field's value.
-func (s *VmServer) SetVmManagerType(v VmManagerType) *VmServer {
-	s.VmManagerType = v
-	return s
-}
-
-// SetVmName sets the VmName field's value.
-func (s *VmServer) SetVmName(v string) *VmServer {
-	s.VmName = &v
-	return s
-}
-
-// SetVmPath sets the VmPath field's value.
-func (s *VmServer) SetVmPath(v string) *VmServer {
-	s.VmPath = &v
-	return s
-}
-
-// SetVmServerAddress sets the VmServerAddress field's value.
-func (s *VmServer) SetVmServerAddress(v *VmServerAddress) *VmServer {
-	s.VmServerAddress = v
-	return s
 }
 
 // Object representing a server's location
@@ -2042,18 +1661,6 @@ func (s VmServerAddress) GoString() string {
 	return s.String()
 }
 
-// SetVmId sets the VmId field's value.
-func (s *VmServerAddress) SetVmId(v string) *VmServerAddress {
-	s.VmId = &v
-	return s
-}
-
-// SetVmManagerId sets the VmManagerId field's value.
-func (s *VmServerAddress) SetVmManagerId(v string) *VmServerAddress {
-	s.VmManagerId = &v
-	return s
-}
-
 // Capabilities for a Connector
 type ConnectorCapability string
 
@@ -2062,7 +1669,16 @@ const (
 	ConnectorCapabilityVsphere ConnectorCapability = "VSPHERE"
 )
 
-// Status of on-premise Connector
+func (enum ConnectorCapability) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ConnectorCapability) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+// Status of on-premises Connector
 type ConnectorStatus string
 
 // Enum values for ConnectorStatus
@@ -2070,6 +1686,15 @@ const (
 	ConnectorStatusHealthy   ConnectorStatus = "HEALTHY"
 	ConnectorStatusUnhealthy ConnectorStatus = "UNHEALTHY"
 )
+
+func (enum ConnectorStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ConnectorStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The license type to be used for the Amazon Machine Image (AMI) created after
 // a successful ReplicationRun.
@@ -2080,6 +1705,15 @@ const (
 	LicenseTypeAws  LicenseType = "AWS"
 	LicenseTypeByol LicenseType = "BYOL"
 )
+
+func (enum LicenseType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LicenseType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Current state of Replication Job
 type ReplicationJobState string
@@ -2092,6 +1726,15 @@ const (
 	ReplicationJobStateDeleting ReplicationJobState = "DELETING"
 	ReplicationJobStateDeleted  ReplicationJobState = "DELETED"
 )
+
+func (enum ReplicationJobState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReplicationJobState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Current state of Replication Run
 type ReplicationRunState string
@@ -2107,6 +1750,15 @@ const (
 	ReplicationRunStateDeleted   ReplicationRunState = "DELETED"
 )
 
+func (enum ReplicationRunState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReplicationRunState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Type of Replication Run
 type ReplicationRunType string
 
@@ -2115,6 +1767,15 @@ const (
 	ReplicationRunTypeOnDemand  ReplicationRunType = "ON_DEMAND"
 	ReplicationRunTypeAutomatic ReplicationRunType = "AUTOMATIC"
 )
+
+func (enum ReplicationRunType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReplicationRunType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Status of Server catalog
 type ServerCatalogStatus string
@@ -2128,6 +1789,15 @@ const (
 	ServerCatalogStatusExpired     ServerCatalogStatus = "EXPIRED"
 )
 
+func (enum ServerCatalogStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ServerCatalogStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Type of server.
 type ServerType string
 
@@ -2136,6 +1806,15 @@ const (
 	ServerTypeVirtualMachine ServerType = "VIRTUAL_MACHINE"
 )
 
+func (enum ServerType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ServerType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // VM Management Product
 type VmManagerType string
 
@@ -2143,3 +1822,12 @@ type VmManagerType string
 const (
 	VmManagerTypeVsphere VmManagerType = "VSPHERE"
 )
+
+func (enum VmManagerType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum VmManagerType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

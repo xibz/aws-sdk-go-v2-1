@@ -15,6 +15,7 @@ const opGenerateDataSet = "GenerateDataSet"
 type GenerateDataSetRequest struct {
 	*aws.Request
 	Input *GenerateDataSetInput
+	Copy  func(*GenerateDataSetInput) GenerateDataSetRequest
 }
 
 // Send marshals and sends the GenerateDataSet API request.
@@ -60,8 +61,11 @@ func (c *MarketplaceCommerceAnalytics) GenerateDataSetRequest(input *GenerateDat
 		input = &GenerateDataSetInput{}
 	}
 
-	req := c.newRequest(op, input, &GenerateDataSetOutput{})
-	return GenerateDataSetRequest{Request: req, Input: input}
+	output := &GenerateDataSetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GenerateDataSetRequest{Request: req, Input: input, Copy: c.GenerateDataSetRequest}
 }
 
 const opStartSupportDataExport = "StartSupportDataExport"
@@ -70,6 +74,7 @@ const opStartSupportDataExport = "StartSupportDataExport"
 type StartSupportDataExportRequest struct {
 	*aws.Request
 	Input *StartSupportDataExportInput
+	Copy  func(*StartSupportDataExportInput) StartSupportDataExportRequest
 }
 
 // Send marshals and sends the StartSupportDataExport API request.
@@ -116,8 +121,11 @@ func (c *MarketplaceCommerceAnalytics) StartSupportDataExportRequest(input *Star
 		input = &StartSupportDataExportInput{}
 	}
 
-	req := c.newRequest(op, input, &StartSupportDataExportOutput{})
-	return StartSupportDataExportRequest{Request: req, Input: input}
+	output := &StartSupportDataExportOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartSupportDataExportRequest{Request: req, Input: input, Copy: c.StartSupportDataExportRequest}
 }
 
 // Container for the parameters to the GenerateDataSet operation.
@@ -129,7 +137,7 @@ type GenerateDataSetInput struct {
 	// SNS notification message and the data set metadata file. These key-value
 	// pairs can be used to correlated responses with tracking information from
 	// other systems.
-	CustomerDefinedValues map[string]*string `locationName:"customerDefinedValues" min:"1" type:"map"`
+	CustomerDefinedValues map[string]string `locationName:"customerDefinedValues" min:"1" type:"map"`
 
 	// The date a data set was published. For daily data sets, provide a date with
 	// day-level granularity for the desired day. For weekly data sets, provide
@@ -233,7 +241,7 @@ type GenerateDataSetInput struct {
 	// on the 15th day of the month by 5:00 PM Pacific Time.
 	//
 	// DataSetType is a required field
-	DataSetType DataSetType `locationName:"dataSetType" min:"1" type:"string" required:"true"`
+	DataSetType DataSetType `locationName:"dataSetType" min:"1" type:"string" required:"true" enum:"true"`
 
 	// The name (friendly name, not ARN) of the destination S3 bucket.
 	//
@@ -312,52 +320,12 @@ func (s *GenerateDataSetInput) Validate() error {
 	return nil
 }
 
-// SetCustomerDefinedValues sets the CustomerDefinedValues field's value.
-func (s *GenerateDataSetInput) SetCustomerDefinedValues(v map[string]*string) *GenerateDataSetInput {
-	s.CustomerDefinedValues = v
-	return s
-}
-
-// SetDataSetPublicationDate sets the DataSetPublicationDate field's value.
-func (s *GenerateDataSetInput) SetDataSetPublicationDate(v time.Time) *GenerateDataSetInput {
-	s.DataSetPublicationDate = &v
-	return s
-}
-
-// SetDataSetType sets the DataSetType field's value.
-func (s *GenerateDataSetInput) SetDataSetType(v DataSetType) *GenerateDataSetInput {
-	s.DataSetType = v
-	return s
-}
-
-// SetDestinationS3BucketName sets the DestinationS3BucketName field's value.
-func (s *GenerateDataSetInput) SetDestinationS3BucketName(v string) *GenerateDataSetInput {
-	s.DestinationS3BucketName = &v
-	return s
-}
-
-// SetDestinationS3Prefix sets the DestinationS3Prefix field's value.
-func (s *GenerateDataSetInput) SetDestinationS3Prefix(v string) *GenerateDataSetInput {
-	s.DestinationS3Prefix = &v
-	return s
-}
-
-// SetRoleNameArn sets the RoleNameArn field's value.
-func (s *GenerateDataSetInput) SetRoleNameArn(v string) *GenerateDataSetInput {
-	s.RoleNameArn = &v
-	return s
-}
-
-// SetSnsTopicArn sets the SnsTopicArn field's value.
-func (s *GenerateDataSetInput) SetSnsTopicArn(v string) *GenerateDataSetInput {
-	s.SnsTopicArn = &v
-	return s
-}
-
 // Container for the result of the GenerateDataSet operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/marketplacecommerceanalytics-2015-07-01/GenerateDataSetResult
 type GenerateDataSetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A unique identifier representing a specific request to the GenerateDataSet
 	// operation. This identifier can be used to correlate a request with notifications
@@ -375,10 +343,9 @@ func (s GenerateDataSetOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataSetRequestId sets the DataSetRequestId field's value.
-func (s *GenerateDataSetOutput) SetDataSetRequestId(v string) *GenerateDataSetOutput {
-	s.DataSetRequestId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GenerateDataSetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the StartSupportDataExport operation.
@@ -388,7 +355,7 @@ type StartSupportDataExportInput struct {
 
 	// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon
 	// SNS notification message and the data set metadata file.
-	CustomerDefinedValues map[string]*string `locationName:"customerDefinedValues" min:"1" type:"map"`
+	CustomerDefinedValues map[string]string `locationName:"customerDefinedValues" min:"1" type:"map"`
 
 	// Specifies the data set type to be written to the output csv file. The data
 	// set types customer_support_contacts_data and test_customer_support_contacts_data
@@ -404,7 +371,7 @@ type StartSupportDataExportInput struct {
 	// test data in the same format as customer_support_contacts_data
 	//
 	// DataSetType is a required field
-	DataSetType SupportDataSetType `locationName:"dataSetType" min:"1" type:"string" required:"true"`
+	DataSetType SupportDataSetType `locationName:"dataSetType" min:"1" type:"string" required:"true" enum:"true"`
 
 	// The name (friendly name, not ARN) of the destination S3 bucket.
 	//
@@ -489,52 +456,12 @@ func (s *StartSupportDataExportInput) Validate() error {
 	return nil
 }
 
-// SetCustomerDefinedValues sets the CustomerDefinedValues field's value.
-func (s *StartSupportDataExportInput) SetCustomerDefinedValues(v map[string]*string) *StartSupportDataExportInput {
-	s.CustomerDefinedValues = v
-	return s
-}
-
-// SetDataSetType sets the DataSetType field's value.
-func (s *StartSupportDataExportInput) SetDataSetType(v SupportDataSetType) *StartSupportDataExportInput {
-	s.DataSetType = v
-	return s
-}
-
-// SetDestinationS3BucketName sets the DestinationS3BucketName field's value.
-func (s *StartSupportDataExportInput) SetDestinationS3BucketName(v string) *StartSupportDataExportInput {
-	s.DestinationS3BucketName = &v
-	return s
-}
-
-// SetDestinationS3Prefix sets the DestinationS3Prefix field's value.
-func (s *StartSupportDataExportInput) SetDestinationS3Prefix(v string) *StartSupportDataExportInput {
-	s.DestinationS3Prefix = &v
-	return s
-}
-
-// SetFromDate sets the FromDate field's value.
-func (s *StartSupportDataExportInput) SetFromDate(v time.Time) *StartSupportDataExportInput {
-	s.FromDate = &v
-	return s
-}
-
-// SetRoleNameArn sets the RoleNameArn field's value.
-func (s *StartSupportDataExportInput) SetRoleNameArn(v string) *StartSupportDataExportInput {
-	s.RoleNameArn = &v
-	return s
-}
-
-// SetSnsTopicArn sets the SnsTopicArn field's value.
-func (s *StartSupportDataExportInput) SetSnsTopicArn(v string) *StartSupportDataExportInput {
-	s.SnsTopicArn = &v
-	return s
-}
-
 // Container for the result of the StartSupportDataExport operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/marketplacecommerceanalytics-2015-07-01/StartSupportDataExportResult
 type StartSupportDataExportOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A unique identifier representing a specific request to the StartSupportDataExport
 	// operation. This identifier can be used to correlate a request with notifications
@@ -552,10 +479,9 @@ func (s StartSupportDataExportOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataSetRequestId sets the DataSetRequestId field's value.
-func (s *StartSupportDataExportOutput) SetDataSetRequestId(v string) *StartSupportDataExportOutput {
-	s.DataSetRequestId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartSupportDataExportOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DataSetType string
@@ -585,6 +511,15 @@ const (
 	DataSetTypeUsSalesAndUseTaxRecords                      DataSetType = "us_sales_and_use_tax_records"
 )
 
+func (enum DataSetType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DataSetType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SupportDataSetType string
 
 // Enum values for SupportDataSetType
@@ -592,3 +527,12 @@ const (
 	SupportDataSetTypeCustomerSupportContactsData     SupportDataSetType = "customer_support_contacts_data"
 	SupportDataSetTypeTestCustomerSupportContactsData SupportDataSetType = "test_customer_support_contacts_data"
 )
+
+func (enum SupportDataSetType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SupportDataSetType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

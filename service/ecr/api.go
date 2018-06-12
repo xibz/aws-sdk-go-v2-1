@@ -15,6 +15,7 @@ const opBatchCheckLayerAvailability = "BatchCheckLayerAvailability"
 type BatchCheckLayerAvailabilityRequest struct {
 	*aws.Request
 	Input *BatchCheckLayerAvailabilityInput
+	Copy  func(*BatchCheckLayerAvailabilityInput) BatchCheckLayerAvailabilityRequest
 }
 
 // Send marshals and sends the BatchCheckLayerAvailability API request.
@@ -56,8 +57,11 @@ func (c *ECR) BatchCheckLayerAvailabilityRequest(input *BatchCheckLayerAvailabil
 		input = &BatchCheckLayerAvailabilityInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchCheckLayerAvailabilityOutput{})
-	return BatchCheckLayerAvailabilityRequest{Request: req, Input: input}
+	output := &BatchCheckLayerAvailabilityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchCheckLayerAvailabilityRequest{Request: req, Input: input, Copy: c.BatchCheckLayerAvailabilityRequest}
 }
 
 const opBatchDeleteImage = "BatchDeleteImage"
@@ -66,6 +70,7 @@ const opBatchDeleteImage = "BatchDeleteImage"
 type BatchDeleteImageRequest struct {
 	*aws.Request
 	Input *BatchDeleteImageInput
+	Copy  func(*BatchDeleteImageInput) BatchDeleteImageRequest
 }
 
 // Send marshals and sends the BatchDeleteImage API request.
@@ -110,8 +115,11 @@ func (c *ECR) BatchDeleteImageRequest(input *BatchDeleteImageInput) BatchDeleteI
 		input = &BatchDeleteImageInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchDeleteImageOutput{})
-	return BatchDeleteImageRequest{Request: req, Input: input}
+	output := &BatchDeleteImageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchDeleteImageRequest{Request: req, Input: input, Copy: c.BatchDeleteImageRequest}
 }
 
 const opBatchGetImage = "BatchGetImage"
@@ -120,6 +128,7 @@ const opBatchGetImage = "BatchGetImage"
 type BatchGetImageRequest struct {
 	*aws.Request
 	Input *BatchGetImageInput
+	Copy  func(*BatchGetImageInput) BatchGetImageRequest
 }
 
 // Send marshals and sends the BatchGetImage API request.
@@ -157,8 +166,11 @@ func (c *ECR) BatchGetImageRequest(input *BatchGetImageInput) BatchGetImageReque
 		input = &BatchGetImageInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchGetImageOutput{})
-	return BatchGetImageRequest{Request: req, Input: input}
+	output := &BatchGetImageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchGetImageRequest{Request: req, Input: input, Copy: c.BatchGetImageRequest}
 }
 
 const opCompleteLayerUpload = "CompleteLayerUpload"
@@ -167,6 +179,7 @@ const opCompleteLayerUpload = "CompleteLayerUpload"
 type CompleteLayerUploadRequest struct {
 	*aws.Request
 	Input *CompleteLayerUploadInput
+	Copy  func(*CompleteLayerUploadInput) CompleteLayerUploadRequest
 }
 
 // Send marshals and sends the CompleteLayerUpload API request.
@@ -182,9 +195,9 @@ func (r CompleteLayerUploadRequest) Send() (*CompleteLayerUploadOutput, error) {
 // CompleteLayerUploadRequest returns a request value for making API operation for
 // Amazon EC2 Container Registry.
 //
-// Inform Amazon ECR that the image layer upload for a specified registry, repository
-// name, and upload ID, has completed. You can optionally provide a sha256 digest
-// of the image layer for data validation purposes.
+// Informs Amazon ECR that the image layer upload has completed for a specified
+// registry, repository name, and upload ID. You can optionally provide a sha256
+// digest of the image layer for data validation purposes.
 //
 // This operation is used by the Amazon ECR proxy, and it is not intended for
 // general use by customers for pulling and pushing images. In most cases, you
@@ -209,8 +222,11 @@ func (c *ECR) CompleteLayerUploadRequest(input *CompleteLayerUploadInput) Comple
 		input = &CompleteLayerUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &CompleteLayerUploadOutput{})
-	return CompleteLayerUploadRequest{Request: req, Input: input}
+	output := &CompleteLayerUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CompleteLayerUploadRequest{Request: req, Input: input, Copy: c.CompleteLayerUploadRequest}
 }
 
 const opCreateRepository = "CreateRepository"
@@ -219,6 +235,7 @@ const opCreateRepository = "CreateRepository"
 type CreateRepositoryRequest struct {
 	*aws.Request
 	Input *CreateRepositoryInput
+	Copy  func(*CreateRepositoryInput) CreateRepositoryRequest
 }
 
 // Send marshals and sends the CreateRepository API request.
@@ -255,8 +272,61 @@ func (c *ECR) CreateRepositoryRequest(input *CreateRepositoryInput) CreateReposi
 		input = &CreateRepositoryInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateRepositoryOutput{})
-	return CreateRepositoryRequest{Request: req, Input: input}
+	output := &CreateRepositoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateRepositoryRequest{Request: req, Input: input, Copy: c.CreateRepositoryRequest}
+}
+
+const opDeleteLifecyclePolicy = "DeleteLifecyclePolicy"
+
+// DeleteLifecyclePolicyRequest is a API request type for the DeleteLifecyclePolicy API operation.
+type DeleteLifecyclePolicyRequest struct {
+	*aws.Request
+	Input *DeleteLifecyclePolicyInput
+	Copy  func(*DeleteLifecyclePolicyInput) DeleteLifecyclePolicyRequest
+}
+
+// Send marshals and sends the DeleteLifecyclePolicy API request.
+func (r DeleteLifecyclePolicyRequest) Send() (*DeleteLifecyclePolicyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteLifecyclePolicyOutput), nil
+}
+
+// DeleteLifecyclePolicyRequest returns a request value for making API operation for
+// Amazon EC2 Container Registry.
+//
+// Deletes the specified lifecycle policy.
+//
+//    // Example sending a request using the DeleteLifecyclePolicyRequest method.
+//    req := client.DeleteLifecyclePolicyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteLifecyclePolicy
+func (c *ECR) DeleteLifecyclePolicyRequest(input *DeleteLifecyclePolicyInput) DeleteLifecyclePolicyRequest {
+	op := &aws.Operation{
+		Name:       opDeleteLifecyclePolicy,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteLifecyclePolicyInput{}
+	}
+
+	output := &DeleteLifecyclePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLifecyclePolicyRequest{Request: req, Input: input, Copy: c.DeleteLifecyclePolicyRequest}
 }
 
 const opDeleteRepository = "DeleteRepository"
@@ -265,6 +335,7 @@ const opDeleteRepository = "DeleteRepository"
 type DeleteRepositoryRequest struct {
 	*aws.Request
 	Input *DeleteRepositoryInput
+	Copy  func(*DeleteRepositoryInput) DeleteRepositoryRequest
 }
 
 // Send marshals and sends the DeleteRepository API request.
@@ -302,8 +373,11 @@ func (c *ECR) DeleteRepositoryRequest(input *DeleteRepositoryInput) DeleteReposi
 		input = &DeleteRepositoryInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRepositoryOutput{})
-	return DeleteRepositoryRequest{Request: req, Input: input}
+	output := &DeleteRepositoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRepositoryRequest{Request: req, Input: input, Copy: c.DeleteRepositoryRequest}
 }
 
 const opDeleteRepositoryPolicy = "DeleteRepositoryPolicy"
@@ -312,6 +386,7 @@ const opDeleteRepositoryPolicy = "DeleteRepositoryPolicy"
 type DeleteRepositoryPolicyRequest struct {
 	*aws.Request
 	Input *DeleteRepositoryPolicyInput
+	Copy  func(*DeleteRepositoryPolicyInput) DeleteRepositoryPolicyRequest
 }
 
 // Send marshals and sends the DeleteRepositoryPolicy API request.
@@ -348,8 +423,11 @@ func (c *ECR) DeleteRepositoryPolicyRequest(input *DeleteRepositoryPolicyInput) 
 		input = &DeleteRepositoryPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRepositoryPolicyOutput{})
-	return DeleteRepositoryPolicyRequest{Request: req, Input: input}
+	output := &DeleteRepositoryPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRepositoryPolicyRequest{Request: req, Input: input, Copy: c.DeleteRepositoryPolicyRequest}
 }
 
 const opDescribeImages = "DescribeImages"
@@ -358,6 +436,7 @@ const opDescribeImages = "DescribeImages"
 type DescribeImagesRequest struct {
 	*aws.Request
 	Input *DescribeImagesInput
+	Copy  func(*DescribeImagesInput) DescribeImagesRequest
 }
 
 // Send marshals and sends the DescribeImages API request.
@@ -406,58 +485,57 @@ func (c *ECR) DescribeImagesRequest(input *DescribeImagesInput) DescribeImagesRe
 		input = &DescribeImagesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeImagesOutput{})
-	return DescribeImagesRequest{Request: req, Input: input}
+	output := &DescribeImagesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeImagesRequest{Request: req, Input: input, Copy: c.DescribeImagesRequest}
 }
 
-// DescribeImagesPages iterates over the pages of a DescribeImages operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeImages method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeImagesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeImages operation.
-//    pageNum := 0
-//    err := client.DescribeImagesPages(params,
-//        func(page *DescribeImagesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeImagesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ECR) DescribeImagesPages(input *DescribeImagesInput, fn func(*DescribeImagesOutput, bool) bool) error {
-	return c.DescribeImagesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeImagesRequest) Paginate(opts ...aws.Option) DescribeImagesPager {
+	return DescribeImagesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeImagesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeImagesPagesWithContext same as DescribeImagesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ECR) DescribeImagesPagesWithContext(ctx aws.Context, input *DescribeImagesInput, fn func(*DescribeImagesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeImagesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeImagesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeImagesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeImagesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeImagesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeImagesPager) CurrentPage() *DescribeImagesOutput {
+	return p.Pager.CurrentPage().(*DescribeImagesOutput)
 }
 
 const opDescribeRepositories = "DescribeRepositories"
@@ -466,6 +544,7 @@ const opDescribeRepositories = "DescribeRepositories"
 type DescribeRepositoriesRequest struct {
 	*aws.Request
 	Input *DescribeRepositoriesInput
+	Copy  func(*DescribeRepositoriesInput) DescribeRepositoriesRequest
 }
 
 // Send marshals and sends the DescribeRepositories API request.
@@ -508,58 +587,57 @@ func (c *ECR) DescribeRepositoriesRequest(input *DescribeRepositoriesInput) Desc
 		input = &DescribeRepositoriesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeRepositoriesOutput{})
-	return DescribeRepositoriesRequest{Request: req, Input: input}
+	output := &DescribeRepositoriesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeRepositoriesRequest{Request: req, Input: input, Copy: c.DescribeRepositoriesRequest}
 }
 
-// DescribeRepositoriesPages iterates over the pages of a DescribeRepositories operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeRepositories method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeRepositoriesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeRepositories operation.
-//    pageNum := 0
-//    err := client.DescribeRepositoriesPages(params,
-//        func(page *DescribeRepositoriesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeRepositoriesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ECR) DescribeRepositoriesPages(input *DescribeRepositoriesInput, fn func(*DescribeRepositoriesOutput, bool) bool) error {
-	return c.DescribeRepositoriesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeRepositoriesRequest) Paginate(opts ...aws.Option) DescribeRepositoriesPager {
+	return DescribeRepositoriesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeRepositoriesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeRepositoriesPagesWithContext same as DescribeRepositoriesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ECR) DescribeRepositoriesPagesWithContext(ctx aws.Context, input *DescribeRepositoriesInput, fn func(*DescribeRepositoriesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeRepositoriesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeRepositoriesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeRepositoriesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeRepositoriesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeRepositoriesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeRepositoriesPager) CurrentPage() *DescribeRepositoriesOutput {
+	return p.Pager.CurrentPage().(*DescribeRepositoriesOutput)
 }
 
 const opGetAuthorizationToken = "GetAuthorizationToken"
@@ -568,6 +646,7 @@ const opGetAuthorizationToken = "GetAuthorizationToken"
 type GetAuthorizationTokenRequest struct {
 	*aws.Request
 	Input *GetAuthorizationTokenInput
+	Copy  func(*GetAuthorizationTokenInput) GetAuthorizationTokenRequest
 }
 
 // Send marshals and sends the GetAuthorizationToken API request.
@@ -611,8 +690,11 @@ func (c *ECR) GetAuthorizationTokenRequest(input *GetAuthorizationTokenInput) Ge
 		input = &GetAuthorizationTokenInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAuthorizationTokenOutput{})
-	return GetAuthorizationTokenRequest{Request: req, Input: input}
+	output := &GetAuthorizationTokenOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAuthorizationTokenRequest{Request: req, Input: input, Copy: c.GetAuthorizationTokenRequest}
 }
 
 const opGetDownloadUrlForLayer = "GetDownloadUrlForLayer"
@@ -621,6 +703,7 @@ const opGetDownloadUrlForLayer = "GetDownloadUrlForLayer"
 type GetDownloadUrlForLayerRequest struct {
 	*aws.Request
 	Input *GetDownloadUrlForLayerInput
+	Copy  func(*GetDownloadUrlForLayerInput) GetDownloadUrlForLayerRequest
 }
 
 // Send marshals and sends the GetDownloadUrlForLayer API request.
@@ -662,8 +745,111 @@ func (c *ECR) GetDownloadUrlForLayerRequest(input *GetDownloadUrlForLayerInput) 
 		input = &GetDownloadUrlForLayerInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDownloadUrlForLayerOutput{})
-	return GetDownloadUrlForLayerRequest{Request: req, Input: input}
+	output := &GetDownloadUrlForLayerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDownloadUrlForLayerRequest{Request: req, Input: input, Copy: c.GetDownloadUrlForLayerRequest}
+}
+
+const opGetLifecyclePolicy = "GetLifecyclePolicy"
+
+// GetLifecyclePolicyRequest is a API request type for the GetLifecyclePolicy API operation.
+type GetLifecyclePolicyRequest struct {
+	*aws.Request
+	Input *GetLifecyclePolicyInput
+	Copy  func(*GetLifecyclePolicyInput) GetLifecyclePolicyRequest
+}
+
+// Send marshals and sends the GetLifecyclePolicy API request.
+func (r GetLifecyclePolicyRequest) Send() (*GetLifecyclePolicyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetLifecyclePolicyOutput), nil
+}
+
+// GetLifecyclePolicyRequest returns a request value for making API operation for
+// Amazon EC2 Container Registry.
+//
+// Retrieves the specified lifecycle policy.
+//
+//    // Example sending a request using the GetLifecyclePolicyRequest method.
+//    req := client.GetLifecyclePolicyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicy
+func (c *ECR) GetLifecyclePolicyRequest(input *GetLifecyclePolicyInput) GetLifecyclePolicyRequest {
+	op := &aws.Operation{
+		Name:       opGetLifecyclePolicy,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetLifecyclePolicyInput{}
+	}
+
+	output := &GetLifecyclePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLifecyclePolicyRequest{Request: req, Input: input, Copy: c.GetLifecyclePolicyRequest}
+}
+
+const opGetLifecyclePolicyPreview = "GetLifecyclePolicyPreview"
+
+// GetLifecyclePolicyPreviewRequest is a API request type for the GetLifecyclePolicyPreview API operation.
+type GetLifecyclePolicyPreviewRequest struct {
+	*aws.Request
+	Input *GetLifecyclePolicyPreviewInput
+	Copy  func(*GetLifecyclePolicyPreviewInput) GetLifecyclePolicyPreviewRequest
+}
+
+// Send marshals and sends the GetLifecyclePolicyPreview API request.
+func (r GetLifecyclePolicyPreviewRequest) Send() (*GetLifecyclePolicyPreviewOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetLifecyclePolicyPreviewOutput), nil
+}
+
+// GetLifecyclePolicyPreviewRequest returns a request value for making API operation for
+// Amazon EC2 Container Registry.
+//
+// Retrieves the results of the specified lifecycle policy preview request.
+//
+//    // Example sending a request using the GetLifecyclePolicyPreviewRequest method.
+//    req := client.GetLifecyclePolicyPreviewRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyPreview
+func (c *ECR) GetLifecyclePolicyPreviewRequest(input *GetLifecyclePolicyPreviewInput) GetLifecyclePolicyPreviewRequest {
+	op := &aws.Operation{
+		Name:       opGetLifecyclePolicyPreview,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetLifecyclePolicyPreviewInput{}
+	}
+
+	output := &GetLifecyclePolicyPreviewOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLifecyclePolicyPreviewRequest{Request: req, Input: input, Copy: c.GetLifecyclePolicyPreviewRequest}
 }
 
 const opGetRepositoryPolicy = "GetRepositoryPolicy"
@@ -672,6 +858,7 @@ const opGetRepositoryPolicy = "GetRepositoryPolicy"
 type GetRepositoryPolicyRequest struct {
 	*aws.Request
 	Input *GetRepositoryPolicyInput
+	Copy  func(*GetRepositoryPolicyInput) GetRepositoryPolicyRequest
 }
 
 // Send marshals and sends the GetRepositoryPolicy API request.
@@ -708,8 +895,11 @@ func (c *ECR) GetRepositoryPolicyRequest(input *GetRepositoryPolicyInput) GetRep
 		input = &GetRepositoryPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRepositoryPolicyOutput{})
-	return GetRepositoryPolicyRequest{Request: req, Input: input}
+	output := &GetRepositoryPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRepositoryPolicyRequest{Request: req, Input: input, Copy: c.GetRepositoryPolicyRequest}
 }
 
 const opInitiateLayerUpload = "InitiateLayerUpload"
@@ -718,6 +908,7 @@ const opInitiateLayerUpload = "InitiateLayerUpload"
 type InitiateLayerUploadRequest struct {
 	*aws.Request
 	Input *InitiateLayerUploadInput
+	Copy  func(*InitiateLayerUploadInput) InitiateLayerUploadRequest
 }
 
 // Send marshals and sends the InitiateLayerUpload API request.
@@ -758,8 +949,11 @@ func (c *ECR) InitiateLayerUploadRequest(input *InitiateLayerUploadInput) Initia
 		input = &InitiateLayerUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &InitiateLayerUploadOutput{})
-	return InitiateLayerUploadRequest{Request: req, Input: input}
+	output := &InitiateLayerUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InitiateLayerUploadRequest{Request: req, Input: input, Copy: c.InitiateLayerUploadRequest}
 }
 
 const opListImages = "ListImages"
@@ -768,6 +962,7 @@ const opListImages = "ListImages"
 type ListImagesRequest struct {
 	*aws.Request
 	Input *ListImagesInput
+	Copy  func(*ListImagesInput) ListImagesRequest
 }
 
 // Send marshals and sends the ListImages API request.
@@ -816,58 +1011,57 @@ func (c *ECR) ListImagesRequest(input *ListImagesInput) ListImagesRequest {
 		input = &ListImagesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListImagesOutput{})
-	return ListImagesRequest{Request: req, Input: input}
+	output := &ListImagesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListImagesRequest{Request: req, Input: input, Copy: c.ListImagesRequest}
 }
 
-// ListImagesPages iterates over the pages of a ListImages operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListImages method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListImagesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListImages operation.
-//    pageNum := 0
-//    err := client.ListImagesPages(params,
-//        func(page *ListImagesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListImagesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ECR) ListImagesPages(input *ListImagesInput, fn func(*ListImagesOutput, bool) bool) error {
-	return c.ListImagesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListImagesRequest) Paginate(opts ...aws.Option) ListImagesPager {
+	return ListImagesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListImagesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListImagesPagesWithContext same as ListImagesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ECR) ListImagesPagesWithContext(ctx aws.Context, input *ListImagesInput, fn func(*ListImagesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListImagesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListImagesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListImagesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListImagesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListImagesPager struct {
+	aws.Pager
+}
+
+func (p *ListImagesPager) CurrentPage() *ListImagesOutput {
+	return p.Pager.CurrentPage().(*ListImagesOutput)
 }
 
 const opPutImage = "PutImage"
@@ -876,6 +1070,7 @@ const opPutImage = "PutImage"
 type PutImageRequest struct {
 	*aws.Request
 	Input *PutImageInput
+	Copy  func(*PutImageInput) PutImageRequest
 }
 
 // Send marshals and sends the PutImage API request.
@@ -916,8 +1111,62 @@ func (c *ECR) PutImageRequest(input *PutImageInput) PutImageRequest {
 		input = &PutImageInput{}
 	}
 
-	req := c.newRequest(op, input, &PutImageOutput{})
-	return PutImageRequest{Request: req, Input: input}
+	output := &PutImageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutImageRequest{Request: req, Input: input, Copy: c.PutImageRequest}
+}
+
+const opPutLifecyclePolicy = "PutLifecyclePolicy"
+
+// PutLifecyclePolicyRequest is a API request type for the PutLifecyclePolicy API operation.
+type PutLifecyclePolicyRequest struct {
+	*aws.Request
+	Input *PutLifecyclePolicyInput
+	Copy  func(*PutLifecyclePolicyInput) PutLifecyclePolicyRequest
+}
+
+// Send marshals and sends the PutLifecyclePolicy API request.
+func (r PutLifecyclePolicyRequest) Send() (*PutLifecyclePolicyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*PutLifecyclePolicyOutput), nil
+}
+
+// PutLifecyclePolicyRequest returns a request value for making API operation for
+// Amazon EC2 Container Registry.
+//
+// Creates or updates a lifecycle policy. For information about lifecycle policy
+// syntax, see Lifecycle Policy Template (http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html).
+//
+//    // Example sending a request using the PutLifecyclePolicyRequest method.
+//    req := client.PutLifecyclePolicyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutLifecyclePolicy
+func (c *ECR) PutLifecyclePolicyRequest(input *PutLifecyclePolicyInput) PutLifecyclePolicyRequest {
+	op := &aws.Operation{
+		Name:       opPutLifecyclePolicy,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &PutLifecyclePolicyInput{}
+	}
+
+	output := &PutLifecyclePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutLifecyclePolicyRequest{Request: req, Input: input, Copy: c.PutLifecyclePolicyRequest}
 }
 
 const opSetRepositoryPolicy = "SetRepositoryPolicy"
@@ -926,6 +1175,7 @@ const opSetRepositoryPolicy = "SetRepositoryPolicy"
 type SetRepositoryPolicyRequest struct {
 	*aws.Request
 	Input *SetRepositoryPolicyInput
+	Copy  func(*SetRepositoryPolicyInput) SetRepositoryPolicyRequest
 }
 
 // Send marshals and sends the SetRepositoryPolicy API request.
@@ -962,8 +1212,62 @@ func (c *ECR) SetRepositoryPolicyRequest(input *SetRepositoryPolicyInput) SetRep
 		input = &SetRepositoryPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &SetRepositoryPolicyOutput{})
-	return SetRepositoryPolicyRequest{Request: req, Input: input}
+	output := &SetRepositoryPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetRepositoryPolicyRequest{Request: req, Input: input, Copy: c.SetRepositoryPolicyRequest}
+}
+
+const opStartLifecyclePolicyPreview = "StartLifecyclePolicyPreview"
+
+// StartLifecyclePolicyPreviewRequest is a API request type for the StartLifecyclePolicyPreview API operation.
+type StartLifecyclePolicyPreviewRequest struct {
+	*aws.Request
+	Input *StartLifecyclePolicyPreviewInput
+	Copy  func(*StartLifecyclePolicyPreviewInput) StartLifecyclePolicyPreviewRequest
+}
+
+// Send marshals and sends the StartLifecyclePolicyPreview API request.
+func (r StartLifecyclePolicyPreviewRequest) Send() (*StartLifecyclePolicyPreviewOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*StartLifecyclePolicyPreviewOutput), nil
+}
+
+// StartLifecyclePolicyPreviewRequest returns a request value for making API operation for
+// Amazon EC2 Container Registry.
+//
+// Starts a preview of the specified lifecycle policy. This allows you to see
+// the results before creating the lifecycle policy.
+//
+//    // Example sending a request using the StartLifecyclePolicyPreviewRequest method.
+//    req := client.StartLifecyclePolicyPreviewRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartLifecyclePolicyPreview
+func (c *ECR) StartLifecyclePolicyPreviewRequest(input *StartLifecyclePolicyPreviewInput) StartLifecyclePolicyPreviewRequest {
+	op := &aws.Operation{
+		Name:       opStartLifecyclePolicyPreview,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &StartLifecyclePolicyPreviewInput{}
+	}
+
+	output := &StartLifecyclePolicyPreviewOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartLifecyclePolicyPreviewRequest{Request: req, Input: input, Copy: c.StartLifecyclePolicyPreviewRequest}
 }
 
 const opUploadLayerPart = "UploadLayerPart"
@@ -972,6 +1276,7 @@ const opUploadLayerPart = "UploadLayerPart"
 type UploadLayerPartRequest struct {
 	*aws.Request
 	Input *UploadLayerPartInput
+	Copy  func(*UploadLayerPartInput) UploadLayerPartRequest
 }
 
 // Send marshals and sends the UploadLayerPart API request.
@@ -1012,8 +1317,11 @@ func (c *ECR) UploadLayerPartRequest(input *UploadLayerPartInput) UploadLayerPar
 		input = &UploadLayerPartInput{}
 	}
 
-	req := c.newRequest(op, input, &UploadLayerPartOutput{})
-	return UploadLayerPartRequest{Request: req, Input: input}
+	output := &UploadLayerPartOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UploadLayerPartRequest{Request: req, Input: input, Copy: c.UploadLayerPartRequest}
 }
 
 // An object representing authorization data for an Amazon ECR registry.
@@ -1046,24 +1354,6 @@ func (s AuthorizationData) GoString() string {
 	return s.String()
 }
 
-// SetAuthorizationToken sets the AuthorizationToken field's value.
-func (s *AuthorizationData) SetAuthorizationToken(v string) *AuthorizationData {
-	s.AuthorizationToken = &v
-	return s
-}
-
-// SetExpiresAt sets the ExpiresAt field's value.
-func (s *AuthorizationData) SetExpiresAt(v time.Time) *AuthorizationData {
-	s.ExpiresAt = &v
-	return s
-}
-
-// SetProxyEndpoint sets the ProxyEndpoint field's value.
-func (s *AuthorizationData) SetProxyEndpoint(v string) *AuthorizationData {
-	s.ProxyEndpoint = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchCheckLayerAvailabilityRequest
 type BatchCheckLayerAvailabilityInput struct {
 	_ struct{} `type:"structure"`
@@ -1071,7 +1361,7 @@ type BatchCheckLayerAvailabilityInput struct {
 	// The digests of the image layers to check.
 	//
 	// LayerDigests is a required field
-	LayerDigests []*string `locationName:"layerDigests" min:"1" type:"list" required:"true"`
+	LayerDigests []string `locationName:"layerDigests" min:"1" type:"list" required:"true"`
 
 	// The AWS account ID associated with the registry that contains the image layers
 	// to check. If you do not specify a registry, the default registry is assumed.
@@ -1117,34 +1407,18 @@ func (s *BatchCheckLayerAvailabilityInput) Validate() error {
 	return nil
 }
 
-// SetLayerDigests sets the LayerDigests field's value.
-func (s *BatchCheckLayerAvailabilityInput) SetLayerDigests(v []*string) *BatchCheckLayerAvailabilityInput {
-	s.LayerDigests = v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *BatchCheckLayerAvailabilityInput) SetRegistryId(v string) *BatchCheckLayerAvailabilityInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *BatchCheckLayerAvailabilityInput) SetRepositoryName(v string) *BatchCheckLayerAvailabilityInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchCheckLayerAvailabilityResponse
 type BatchCheckLayerAvailabilityOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Any failures associated with the call.
-	Failures []*LayerFailure `locationName:"failures" type:"list"`
+	Failures []LayerFailure `locationName:"failures" type:"list"`
 
 	// A list of image layer objects corresponding to the image layer references
 	// in the request.
-	Layers []*Layer `locationName:"layers" type:"list"`
+	Layers []Layer `locationName:"layers" type:"list"`
 }
 
 // String returns the string representation
@@ -1157,16 +1431,9 @@ func (s BatchCheckLayerAvailabilityOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailures sets the Failures field's value.
-func (s *BatchCheckLayerAvailabilityOutput) SetFailures(v []*LayerFailure) *BatchCheckLayerAvailabilityOutput {
-	s.Failures = v
-	return s
-}
-
-// SetLayers sets the Layers field's value.
-func (s *BatchCheckLayerAvailabilityOutput) SetLayers(v []*Layer) *BatchCheckLayerAvailabilityOutput {
-	s.Layers = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchCheckLayerAvailabilityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Deletes specified images within a specified repository. Images are specified
@@ -1179,7 +1446,7 @@ type BatchDeleteImageInput struct {
 	// of the imageIds reference is imageTag=tag or imageDigest=digest.
 	//
 	// ImageIds is a required field
-	ImageIds []*ImageIdentifier `locationName:"imageIds" min:"1" type:"list" required:"true"`
+	ImageIds []ImageIdentifier `locationName:"imageIds" min:"1" type:"list" required:"true"`
 
 	// The AWS account ID associated with the registry that contains the image to
 	// delete. If you do not specify a registry, the default registry is assumed.
@@ -1225,33 +1492,17 @@ func (s *BatchDeleteImageInput) Validate() error {
 	return nil
 }
 
-// SetImageIds sets the ImageIds field's value.
-func (s *BatchDeleteImageInput) SetImageIds(v []*ImageIdentifier) *BatchDeleteImageInput {
-	s.ImageIds = v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *BatchDeleteImageInput) SetRegistryId(v string) *BatchDeleteImageInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *BatchDeleteImageInput) SetRepositoryName(v string) *BatchDeleteImageInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchDeleteImageResponse
 type BatchDeleteImageOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Any failures associated with the call.
-	Failures []*ImageFailure `locationName:"failures" type:"list"`
+	Failures []ImageFailure `locationName:"failures" type:"list"`
 
 	// The image IDs of the deleted images.
-	ImageIds []*ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
+	ImageIds []ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -1264,16 +1515,9 @@ func (s BatchDeleteImageOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailures sets the Failures field's value.
-func (s *BatchDeleteImageOutput) SetFailures(v []*ImageFailure) *BatchDeleteImageOutput {
-	s.Failures = v
-	return s
-}
-
-// SetImageIds sets the ImageIds field's value.
-func (s *BatchDeleteImageOutput) SetImageIds(v []*ImageIdentifier) *BatchDeleteImageOutput {
-	s.ImageIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchDeleteImageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchGetImageRequest
@@ -1284,13 +1528,13 @@ type BatchGetImageInput struct {
 	//
 	// Valid values: application/vnd.docker.distribution.manifest.v1+json | application/vnd.docker.distribution.manifest.v2+json
 	// | application/vnd.oci.image.manifest.v1+json
-	AcceptedMediaTypes []*string `locationName:"acceptedMediaTypes" min:"1" type:"list"`
+	AcceptedMediaTypes []string `locationName:"acceptedMediaTypes" min:"1" type:"list"`
 
 	// A list of image ID references that correspond to images to describe. The
 	// format of the imageIds reference is imageTag=tag or imageDigest=digest.
 	//
 	// ImageIds is a required field
-	ImageIds []*ImageIdentifier `locationName:"imageIds" min:"1" type:"list" required:"true"`
+	ImageIds []ImageIdentifier `locationName:"imageIds" min:"1" type:"list" required:"true"`
 
 	// The AWS account ID associated with the registry that contains the images
 	// to describe. If you do not specify a registry, the default registry is assumed.
@@ -1339,39 +1583,17 @@ func (s *BatchGetImageInput) Validate() error {
 	return nil
 }
 
-// SetAcceptedMediaTypes sets the AcceptedMediaTypes field's value.
-func (s *BatchGetImageInput) SetAcceptedMediaTypes(v []*string) *BatchGetImageInput {
-	s.AcceptedMediaTypes = v
-	return s
-}
-
-// SetImageIds sets the ImageIds field's value.
-func (s *BatchGetImageInput) SetImageIds(v []*ImageIdentifier) *BatchGetImageInput {
-	s.ImageIds = v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *BatchGetImageInput) SetRegistryId(v string) *BatchGetImageInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *BatchGetImageInput) SetRepositoryName(v string) *BatchGetImageInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/BatchGetImageResponse
 type BatchGetImageOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Any failures associated with the call.
-	Failures []*ImageFailure `locationName:"failures" type:"list"`
+	Failures []ImageFailure `locationName:"failures" type:"list"`
 
 	// A list of image objects corresponding to the image references in the request.
-	Images []*Image `locationName:"images" type:"list"`
+	Images []Image `locationName:"images" type:"list"`
 }
 
 // String returns the string representation
@@ -1384,16 +1606,9 @@ func (s BatchGetImageOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailures sets the Failures field's value.
-func (s *BatchGetImageOutput) SetFailures(v []*ImageFailure) *BatchGetImageOutput {
-	s.Failures = v
-	return s
-}
-
-// SetImages sets the Images field's value.
-func (s *BatchGetImageOutput) SetImages(v []*Image) *BatchGetImageOutput {
-	s.Images = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchGetImageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CompleteLayerUploadRequest
@@ -1403,7 +1618,7 @@ type CompleteLayerUploadInput struct {
 	// The sha256 digest of the image layer.
 	//
 	// LayerDigests is a required field
-	LayerDigests []*string `locationName:"layerDigests" min:"1" type:"list" required:"true"`
+	LayerDigests []string `locationName:"layerDigests" min:"1" type:"list" required:"true"`
 
 	// The AWS account ID associated with the registry to which to upload layers.
 	// If you do not specify a registry, the default registry is assumed.
@@ -1459,33 +1674,11 @@ func (s *CompleteLayerUploadInput) Validate() error {
 	return nil
 }
 
-// SetLayerDigests sets the LayerDigests field's value.
-func (s *CompleteLayerUploadInput) SetLayerDigests(v []*string) *CompleteLayerUploadInput {
-	s.LayerDigests = v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *CompleteLayerUploadInput) SetRegistryId(v string) *CompleteLayerUploadInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *CompleteLayerUploadInput) SetRepositoryName(v string) *CompleteLayerUploadInput {
-	s.RepositoryName = &v
-	return s
-}
-
-// SetUploadId sets the UploadId field's value.
-func (s *CompleteLayerUploadInput) SetUploadId(v string) *CompleteLayerUploadInput {
-	s.UploadId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CompleteLayerUploadResponse
 type CompleteLayerUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The sha256 digest of the image layer.
 	LayerDigest *string `locationName:"layerDigest" type:"string"`
@@ -1510,28 +1703,9 @@ func (s CompleteLayerUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetLayerDigest sets the LayerDigest field's value.
-func (s *CompleteLayerUploadOutput) SetLayerDigest(v string) *CompleteLayerUploadOutput {
-	s.LayerDigest = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *CompleteLayerUploadOutput) SetRegistryId(v string) *CompleteLayerUploadOutput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *CompleteLayerUploadOutput) SetRepositoryName(v string) *CompleteLayerUploadOutput {
-	s.RepositoryName = &v
-	return s
-}
-
-// SetUploadId sets the UploadId field's value.
-func (s *CompleteLayerUploadOutput) SetUploadId(v string) *CompleteLayerUploadOutput {
-	s.UploadId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CompleteLayerUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CreateRepositoryRequest
@@ -1573,15 +1747,11 @@ func (s *CreateRepositoryInput) Validate() error {
 	return nil
 }
 
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *CreateRepositoryInput) SetRepositoryName(v string) *CreateRepositoryInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/CreateRepositoryResponse
 type CreateRepositoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The repository that was created.
 	Repository *Repository `locationName:"repository" type:"structure"`
@@ -1597,17 +1767,91 @@ func (s CreateRepositoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetRepository sets the Repository field's value.
-func (s *CreateRepositoryOutput) SetRepository(v *Repository) *CreateRepositoryOutput {
-	s.Repository = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateRepositoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteLifecyclePolicyRequest
+type DeleteLifecyclePolicyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID associated with the registry that contains the repository.
+	// If you do not specify a registry, the default registry is assumed.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The name of the repository.
+	//
+	// RepositoryName is a required field
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteLifecyclePolicyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteLifecyclePolicyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteLifecyclePolicyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteLifecyclePolicyInput"}
+
+	if s.RepositoryName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RepositoryName"))
+	}
+	if s.RepositoryName != nil && len(*s.RepositoryName) < 2 {
+		invalidParams.Add(aws.NewErrParamMinLen("RepositoryName", 2))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteLifecyclePolicyResponse
+type DeleteLifecyclePolicyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The time stamp of the last time that the lifecycle policy was run.
+	LastEvaluatedAt *time.Time `locationName:"lastEvaluatedAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The JSON lifecycle policy text.
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string"`
+
+	// The registry ID associated with the request.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The repository name associated with the request.
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string"`
+}
+
+// String returns the string representation
+func (s DeleteLifecyclePolicyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteLifecyclePolicyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLifecyclePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepositoryRequest
 type DeleteRepositoryInput struct {
 	_ struct{} `type:"structure"`
 
-	// Force the deletion of the repository if it contains images.
+	// If a repository contains images, forces the deletion.
 	Force *bool `locationName:"force" type:"boolean"`
 
 	// The AWS account ID associated with the registry that contains the repository
@@ -1647,27 +1891,11 @@ func (s *DeleteRepositoryInput) Validate() error {
 	return nil
 }
 
-// SetForce sets the Force field's value.
-func (s *DeleteRepositoryInput) SetForce(v bool) *DeleteRepositoryInput {
-	s.Force = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *DeleteRepositoryInput) SetRegistryId(v string) *DeleteRepositoryInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *DeleteRepositoryInput) SetRepositoryName(v string) *DeleteRepositoryInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepositoryResponse
 type DeleteRepositoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The repository that was deleted.
 	Repository *Repository `locationName:"repository" type:"structure"`
@@ -1683,10 +1911,9 @@ func (s DeleteRepositoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetRepository sets the Repository field's value.
-func (s *DeleteRepositoryOutput) SetRepository(v *Repository) *DeleteRepositoryOutput {
-	s.Repository = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRepositoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepositoryPolicyRequest
@@ -1732,21 +1959,11 @@ func (s *DeleteRepositoryPolicyInput) Validate() error {
 	return nil
 }
 
-// SetRegistryId sets the RegistryId field's value.
-func (s *DeleteRepositoryPolicyInput) SetRegistryId(v string) *DeleteRepositoryPolicyInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *DeleteRepositoryPolicyInput) SetRepositoryName(v string) *DeleteRepositoryPolicyInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DeleteRepositoryPolicyResponse
 type DeleteRepositoryPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The JSON repository policy that was deleted from the repository.
 	PolicyText *string `locationName:"policyText" type:"string"`
@@ -1768,22 +1985,9 @@ func (s DeleteRepositoryPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyText sets the PolicyText field's value.
-func (s *DeleteRepositoryPolicyOutput) SetPolicyText(v string) *DeleteRepositoryPolicyOutput {
-	s.PolicyText = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *DeleteRepositoryPolicyOutput) SetRegistryId(v string) *DeleteRepositoryPolicyOutput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *DeleteRepositoryPolicyOutput) SetRepositoryName(v string) *DeleteRepositoryPolicyOutput {
-	s.RepositoryName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRepositoryPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An object representing a filter on a DescribeImages operation.
@@ -1793,7 +1997,7 @@ type DescribeImagesFilter struct {
 
 	// The tag status with which to filter your DescribeImages results. You can
 	// filter results based on whether they are TAGGED or UNTAGGED.
-	TagStatus TagStatus `locationName:"tagStatus" type:"string"`
+	TagStatus TagStatus `locationName:"tagStatus" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1806,12 +2010,6 @@ func (s DescribeImagesFilter) GoString() string {
 	return s.String()
 }
 
-// SetTagStatus sets the TagStatus field's value.
-func (s *DescribeImagesFilter) SetTagStatus(v TagStatus) *DescribeImagesFilter {
-	s.TagStatus = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImagesRequest
 type DescribeImagesInput struct {
 	_ struct{} `type:"structure"`
@@ -1820,7 +2018,7 @@ type DescribeImagesInput struct {
 	Filter *DescribeImagesFilter `locationName:"filter" type:"structure"`
 
 	// The list of image IDs for the requested repository.
-	ImageIds []*ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
+	ImageIds []ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
 
 	// The maximum number of repository results returned by DescribeImages in paginated
 	// output. When this parameter is used, DescribeImages only returns maxResults
@@ -1828,13 +2026,15 @@ type DescribeImagesInput struct {
 	// results of the initial request can be seen by sending another DescribeImages
 	// request with the returned nextToken value. This value can be between 1 and
 	// 100. If this parameter is not used, then DescribeImages returns up to 100
-	// results and a nextToken value, if applicable.
+	// results and a nextToken value, if applicable. This option cannot be used
+	// when you specify images with imageIds.
 	MaxResults *int64 `locationName:"maxResults" min:"1" type:"integer"`
 
 	// The nextToken value returned from a previous paginated DescribeImages request
 	// where maxResults was used and the results exceeded the value of that parameter.
 	// Pagination continues from the end of the previous results that returned the
 	// nextToken value. This value is null when there are no more results to return.
+	// This option cannot be used when you specify images with imageIds.
 	NextToken *string `locationName:"nextToken" type:"string"`
 
 	// The AWS account ID associated with the registry that contains the repository
@@ -1882,48 +2082,14 @@ func (s *DescribeImagesInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *DescribeImagesInput) SetFilter(v *DescribeImagesFilter) *DescribeImagesInput {
-	s.Filter = v
-	return s
-}
-
-// SetImageIds sets the ImageIds field's value.
-func (s *DescribeImagesInput) SetImageIds(v []*ImageIdentifier) *DescribeImagesInput {
-	s.ImageIds = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeImagesInput) SetMaxResults(v int64) *DescribeImagesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeImagesInput) SetNextToken(v string) *DescribeImagesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *DescribeImagesInput) SetRegistryId(v string) *DescribeImagesInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *DescribeImagesInput) SetRepositoryName(v string) *DescribeImagesInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeImagesResponse
 type DescribeImagesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of ImageDetail objects that contain data about the image.
-	ImageDetails []*ImageDetail `locationName:"imageDetails" type:"list"`
+	ImageDetails []ImageDetail `locationName:"imageDetails" type:"list"`
 
 	// The nextToken value to include in a future DescribeImages request. When the
 	// results of a DescribeImages request exceed maxResults, this value can be
@@ -1942,16 +2108,9 @@ func (s DescribeImagesOutput) GoString() string {
 	return s.String()
 }
 
-// SetImageDetails sets the ImageDetails field's value.
-func (s *DescribeImagesOutput) SetImageDetails(v []*ImageDetail) *DescribeImagesOutput {
-	s.ImageDetails = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeImagesOutput) SetNextToken(v string) *DescribeImagesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeImagesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeRepositoriesRequest
@@ -1964,14 +2123,16 @@ type DescribeRepositoriesInput struct {
 	// element. The remaining results of the initial request can be seen by sending
 	// another DescribeRepositories request with the returned nextToken value. This
 	// value can be between 1 and 100. If this parameter is not used, then DescribeRepositories
-	// returns up to 100 results and a nextToken value, if applicable.
+	// returns up to 100 results and a nextToken value, if applicable. This option
+	// cannot be used when you specify repositories with repositoryNames.
 	MaxResults *int64 `locationName:"maxResults" min:"1" type:"integer"`
 
 	// The nextToken value returned from a previous paginated DescribeRepositories
 	// request where maxResults was used and the results exceeded the value of that
 	// parameter. Pagination continues from the end of the previous results that
 	// returned the nextToken value. This value is null when there are no more results
-	// to return.
+	// to return. This option cannot be used when you specify repositories with
+	// repositoryNames.
 	//
 	// This token should be treated as an opaque identifier that is only used to
 	// retrieve the next items in a list and not for other programmatic purposes.
@@ -1984,7 +2145,7 @@ type DescribeRepositoriesInput struct {
 
 	// A list of repositories to describe. If this parameter is omitted, then all
 	// repositories in a registry are described.
-	RepositoryNames []*string `locationName:"repositoryNames" min:"1" type:"list"`
+	RepositoryNames []string `locationName:"repositoryNames" min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -2013,33 +2174,11 @@ func (s *DescribeRepositoriesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeRepositoriesInput) SetMaxResults(v int64) *DescribeRepositoriesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeRepositoriesInput) SetNextToken(v string) *DescribeRepositoriesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *DescribeRepositoriesInput) SetRegistryId(v string) *DescribeRepositoriesInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryNames sets the RepositoryNames field's value.
-func (s *DescribeRepositoriesInput) SetRepositoryNames(v []*string) *DescribeRepositoriesInput {
-	s.RepositoryNames = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/DescribeRepositoriesResponse
 type DescribeRepositoriesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The nextToken value to include in a future DescribeRepositories request.
 	// When the results of a DescribeRepositories request exceed maxResults, this
@@ -2048,7 +2187,7 @@ type DescribeRepositoriesOutput struct {
 	NextToken *string `locationName:"nextToken" type:"string"`
 
 	// A list of repository objects corresponding to valid repositories.
-	Repositories []*Repository `locationName:"repositories" type:"list"`
+	Repositories []Repository `locationName:"repositories" type:"list"`
 }
 
 // String returns the string representation
@@ -2061,16 +2200,9 @@ func (s DescribeRepositoriesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeRepositoriesOutput) SetNextToken(v string) *DescribeRepositoriesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRepositories sets the Repositories field's value.
-func (s *DescribeRepositoriesOutput) SetRepositories(v []*Repository) *DescribeRepositoriesOutput {
-	s.Repositories = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeRepositoriesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetAuthorizationTokenRequest
@@ -2080,7 +2212,7 @@ type GetAuthorizationTokenInput struct {
 	// A list of AWS account IDs that are associated with the registries for which
 	// to get authorization tokens. If you do not specify a registry, the default
 	// registry is assumed.
-	RegistryIds []*string `locationName:"registryIds" min:"1" type:"list"`
+	RegistryIds []string `locationName:"registryIds" min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -2106,19 +2238,15 @@ func (s *GetAuthorizationTokenInput) Validate() error {
 	return nil
 }
 
-// SetRegistryIds sets the RegistryIds field's value.
-func (s *GetAuthorizationTokenInput) SetRegistryIds(v []*string) *GetAuthorizationTokenInput {
-	s.RegistryIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetAuthorizationTokenResponse
 type GetAuthorizationTokenOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of authorization token data objects that correspond to the registryIds
 	// values in the request.
-	AuthorizationData []*AuthorizationData `locationName:"authorizationData" type:"list"`
+	AuthorizationData []AuthorizationData `locationName:"authorizationData" type:"list"`
 }
 
 // String returns the string representation
@@ -2131,10 +2259,9 @@ func (s GetAuthorizationTokenOutput) GoString() string {
 	return s.String()
 }
 
-// SetAuthorizationData sets the AuthorizationData field's value.
-func (s *GetAuthorizationTokenOutput) SetAuthorizationData(v []*AuthorizationData) *GetAuthorizationTokenOutput {
-	s.AuthorizationData = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAuthorizationTokenOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetDownloadUrlForLayerRequest
@@ -2187,27 +2314,11 @@ func (s *GetDownloadUrlForLayerInput) Validate() error {
 	return nil
 }
 
-// SetLayerDigest sets the LayerDigest field's value.
-func (s *GetDownloadUrlForLayerInput) SetLayerDigest(v string) *GetDownloadUrlForLayerInput {
-	s.LayerDigest = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *GetDownloadUrlForLayerInput) SetRegistryId(v string) *GetDownloadUrlForLayerInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *GetDownloadUrlForLayerInput) SetRepositoryName(v string) *GetDownloadUrlForLayerInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetDownloadUrlForLayerResponse
 type GetDownloadUrlForLayerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The pre-signed Amazon S3 download URL for the requested layer.
 	DownloadUrl *string `locationName:"downloadUrl" type:"string"`
@@ -2226,16 +2337,203 @@ func (s GetDownloadUrlForLayerOutput) GoString() string {
 	return s.String()
 }
 
-// SetDownloadUrl sets the DownloadUrl field's value.
-func (s *GetDownloadUrlForLayerOutput) SetDownloadUrl(v string) *GetDownloadUrlForLayerOutput {
-	s.DownloadUrl = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDownloadUrlForLayerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetLayerDigest sets the LayerDigest field's value.
-func (s *GetDownloadUrlForLayerOutput) SetLayerDigest(v string) *GetDownloadUrlForLayerOutput {
-	s.LayerDigest = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyRequest
+type GetLifecyclePolicyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The AWS account ID associated with the registry that contains the repository.
+	// If you do not specify a registry, the default registry is assumed.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The name of the repository.
+	//
+	// RepositoryName is a required field
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetLifecyclePolicyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLifecyclePolicyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetLifecyclePolicyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetLifecyclePolicyInput"}
+
+	if s.RepositoryName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RepositoryName"))
+	}
+	if s.RepositoryName != nil && len(*s.RepositoryName) < 2 {
+		invalidParams.Add(aws.NewErrParamMinLen("RepositoryName", 2))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyResponse
+type GetLifecyclePolicyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The time stamp of the last time that the lifecycle policy was run.
+	LastEvaluatedAt *time.Time `locationName:"lastEvaluatedAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The JSON lifecycle policy text.
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string"`
+
+	// The registry ID associated with the request.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The repository name associated with the request.
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string"`
+}
+
+// String returns the string representation
+func (s GetLifecyclePolicyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLifecyclePolicyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLifecyclePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyPreviewRequest
+type GetLifecyclePolicyPreviewInput struct {
+	_ struct{} `type:"structure"`
+
+	// An optional parameter that filters results based on image tag status and
+	// all tags, if tagged.
+	Filter *LifecyclePolicyPreviewFilter `locationName:"filter" type:"structure"`
+
+	// The list of imageIDs to be included.
+	ImageIds []ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
+
+	// The maximum number of repository results returned by GetLifecyclePolicyPreviewRequest
+	// in  paginated output. When this parameter is used, GetLifecyclePolicyPreviewRequest
+	// only returns  maxResults results in a single page along with a nextToken
+	// response element. The remaining results of the initial request can be seen
+	// by sending  another GetLifecyclePolicyPreviewRequest request with the returned
+	// nextToken  value. This value can be between 1 and 100. If this  parameter
+	// is not used, then GetLifecyclePolicyPreviewRequest returns up to  100 results
+	// and a nextToken value, if  applicable. This option cannot be used when you
+	// specify images with imageIds.
+	MaxResults *int64 `locationName:"maxResults" min:"1" type:"integer"`
+
+	// The nextToken value returned from a previous paginated  GetLifecyclePolicyPreviewRequest
+	// request where maxResults was used and the  results exceeded the value of
+	// that parameter. Pagination continues from the end of the  previous results
+	// that returned the nextToken value. This value is  null when there are no
+	// more results to return. This option cannot be used when you specify images
+	// with imageIds.
+	NextToken *string `locationName:"nextToken" type:"string"`
+
+	// The AWS account ID associated with the registry that contains the repository.
+	// If you do not specify a registry, the default registry is assumed.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The name of the repository.
+	//
+	// RepositoryName is a required field
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetLifecyclePolicyPreviewInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLifecyclePolicyPreviewInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetLifecyclePolicyPreviewInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetLifecyclePolicyPreviewInput"}
+	if s.ImageIds != nil && len(s.ImageIds) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ImageIds", 1))
+	}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if s.RepositoryName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RepositoryName"))
+	}
+	if s.RepositoryName != nil && len(*s.RepositoryName) < 2 {
+		invalidParams.Add(aws.NewErrParamMinLen("RepositoryName", 2))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetLifecyclePolicyPreviewResponse
+type GetLifecyclePolicyPreviewOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The JSON lifecycle policy text.
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string"`
+
+	// The nextToken value to include in a future GetLifecyclePolicyPreview request.
+	// When the results of a GetLifecyclePolicyPreview request exceed maxResults,
+	// this value can be used to retrieve the next page of results. This value is
+	// null when there are no more results to return.
+	NextToken *string `locationName:"nextToken" type:"string"`
+
+	// The results of the lifecycle policy preview request.
+	PreviewResults []LifecyclePolicyPreviewResult `locationName:"previewResults" type:"list"`
+
+	// The registry ID associated with the request.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The repository name associated with the request.
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string"`
+
+	// The status of the lifecycle policy preview request.
+	Status LifecyclePolicyPreviewStatus `locationName:"status" type:"string" enum:"true"`
+
+	// The list of images that is returned as a result of the action.
+	Summary *LifecyclePolicyPreviewSummary `locationName:"summary" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetLifecyclePolicyPreviewOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLifecyclePolicyPreviewOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLifecyclePolicyPreviewOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetRepositoryPolicyRequest
@@ -2246,7 +2544,7 @@ type GetRepositoryPolicyInput struct {
 	// If you do not specify a registry, the default registry is assumed.
 	RegistryId *string `locationName:"registryId" type:"string"`
 
-	// The name of the repository whose policy you want to retrieve.
+	// The name of the repository with the policy to retrieve.
 	//
 	// RepositoryName is a required field
 	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
@@ -2279,21 +2577,11 @@ func (s *GetRepositoryPolicyInput) Validate() error {
 	return nil
 }
 
-// SetRegistryId sets the RegistryId field's value.
-func (s *GetRepositoryPolicyInput) SetRegistryId(v string) *GetRepositoryPolicyInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *GetRepositoryPolicyInput) SetRepositoryName(v string) *GetRepositoryPolicyInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/GetRepositoryPolicyResponse
 type GetRepositoryPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The JSON repository policy text associated with the repository.
 	PolicyText *string `locationName:"policyText" type:"string"`
@@ -2315,22 +2603,9 @@ func (s GetRepositoryPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyText sets the PolicyText field's value.
-func (s *GetRepositoryPolicyOutput) SetPolicyText(v string) *GetRepositoryPolicyOutput {
-	s.PolicyText = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *GetRepositoryPolicyOutput) SetRegistryId(v string) *GetRepositoryPolicyOutput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *GetRepositoryPolicyOutput) SetRepositoryName(v string) *GetRepositoryPolicyOutput {
-	s.RepositoryName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRepositoryPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An object representing an Amazon ECR image.
@@ -2361,30 +2636,6 @@ func (s Image) GoString() string {
 	return s.String()
 }
 
-// SetImageId sets the ImageId field's value.
-func (s *Image) SetImageId(v *ImageIdentifier) *Image {
-	s.ImageId = v
-	return s
-}
-
-// SetImageManifest sets the ImageManifest field's value.
-func (s *Image) SetImageManifest(v string) *Image {
-	s.ImageManifest = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *Image) SetRegistryId(v string) *Image {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *Image) SetRepositoryName(v string) *Image {
-	s.RepositoryName = &v
-	return s
-}
-
 // An object that describes an image returned by a DescribeImages operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ImageDetail
 type ImageDetail struct {
@@ -2406,7 +2657,7 @@ type ImageDetail struct {
 	ImageSizeInBytes *int64 `locationName:"imageSizeInBytes" type:"long"`
 
 	// The list of tags associated with this image.
-	ImageTags []*string `locationName:"imageTags" type:"list"`
+	ImageTags []string `locationName:"imageTags" type:"list"`
 
 	// The AWS account ID associated with the registry to which this image belongs.
 	RegistryId *string `locationName:"registryId" type:"string"`
@@ -2425,49 +2676,13 @@ func (s ImageDetail) GoString() string {
 	return s.String()
 }
 
-// SetImageDigest sets the ImageDigest field's value.
-func (s *ImageDetail) SetImageDigest(v string) *ImageDetail {
-	s.ImageDigest = &v
-	return s
-}
-
-// SetImagePushedAt sets the ImagePushedAt field's value.
-func (s *ImageDetail) SetImagePushedAt(v time.Time) *ImageDetail {
-	s.ImagePushedAt = &v
-	return s
-}
-
-// SetImageSizeInBytes sets the ImageSizeInBytes field's value.
-func (s *ImageDetail) SetImageSizeInBytes(v int64) *ImageDetail {
-	s.ImageSizeInBytes = &v
-	return s
-}
-
-// SetImageTags sets the ImageTags field's value.
-func (s *ImageDetail) SetImageTags(v []*string) *ImageDetail {
-	s.ImageTags = v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *ImageDetail) SetRegistryId(v string) *ImageDetail {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *ImageDetail) SetRepositoryName(v string) *ImageDetail {
-	s.RepositoryName = &v
-	return s
-}
-
 // An object representing an Amazon ECR image failure.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ImageFailure
 type ImageFailure struct {
 	_ struct{} `type:"structure"`
 
 	// The code associated with the failure.
-	FailureCode ImageFailureCode `locationName:"failureCode" type:"string"`
+	FailureCode ImageFailureCode `locationName:"failureCode" type:"string" enum:"true"`
 
 	// The reason for the failure.
 	FailureReason *string `locationName:"failureReason" type:"string"`
@@ -2484,24 +2699,6 @@ func (s ImageFailure) String() string {
 // GoString returns the string representation
 func (s ImageFailure) GoString() string {
 	return s.String()
-}
-
-// SetFailureCode sets the FailureCode field's value.
-func (s *ImageFailure) SetFailureCode(v ImageFailureCode) *ImageFailure {
-	s.FailureCode = v
-	return s
-}
-
-// SetFailureReason sets the FailureReason field's value.
-func (s *ImageFailure) SetFailureReason(v string) *ImageFailure {
-	s.FailureReason = &v
-	return s
-}
-
-// SetImageId sets the ImageId field's value.
-func (s *ImageFailure) SetImageId(v *ImageIdentifier) *ImageFailure {
-	s.ImageId = v
-	return s
 }
 
 // An object with identifying information for an Amazon ECR image.
@@ -2526,27 +2723,15 @@ func (s ImageIdentifier) GoString() string {
 	return s.String()
 }
 
-// SetImageDigest sets the ImageDigest field's value.
-func (s *ImageIdentifier) SetImageDigest(v string) *ImageIdentifier {
-	s.ImageDigest = &v
-	return s
-}
-
-// SetImageTag sets the ImageTag field's value.
-func (s *ImageIdentifier) SetImageTag(v string) *ImageIdentifier {
-	s.ImageTag = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/InitiateLayerUploadRequest
 type InitiateLayerUploadInput struct {
 	_ struct{} `type:"structure"`
 
-	// The AWS account ID associated with the registry that you intend to upload
-	// layers to. If you do not specify a registry, the default registry is assumed.
+	// The AWS account ID associated with the registry to which you intend to upload
+	// layers. If you do not specify a registry, the default registry is assumed.
 	RegistryId *string `locationName:"registryId" type:"string"`
 
-	// The name of the repository that you intend to upload layers to.
+	// The name of the repository to which you intend to upload layers.
 	//
 	// RepositoryName is a required field
 	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
@@ -2579,21 +2764,11 @@ func (s *InitiateLayerUploadInput) Validate() error {
 	return nil
 }
 
-// SetRegistryId sets the RegistryId field's value.
-func (s *InitiateLayerUploadInput) SetRegistryId(v string) *InitiateLayerUploadInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *InitiateLayerUploadInput) SetRepositoryName(v string) *InitiateLayerUploadInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/InitiateLayerUploadResponse
 type InitiateLayerUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The size, in bytes, that Amazon ECR expects future layer part uploads to
 	// be.
@@ -2614,16 +2789,9 @@ func (s InitiateLayerUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetPartSize sets the PartSize field's value.
-func (s *InitiateLayerUploadOutput) SetPartSize(v int64) *InitiateLayerUploadOutput {
-	s.PartSize = &v
-	return s
-}
-
-// SetUploadId sets the UploadId field's value.
-func (s *InitiateLayerUploadOutput) SetUploadId(v string) *InitiateLayerUploadOutput {
-	s.UploadId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InitiateLayerUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An object representing an Amazon ECR image layer.
@@ -2632,7 +2800,7 @@ type Layer struct {
 	_ struct{} `type:"structure"`
 
 	// The availability status of the image layer.
-	LayerAvailability LayerAvailability `locationName:"layerAvailability" type:"string"`
+	LayerAvailability LayerAvailability `locationName:"layerAvailability" type:"string" enum:"true"`
 
 	// The sha256 digest of the image layer.
 	LayerDigest *string `locationName:"layerDigest" type:"string"`
@@ -2655,37 +2823,13 @@ func (s Layer) GoString() string {
 	return s.String()
 }
 
-// SetLayerAvailability sets the LayerAvailability field's value.
-func (s *Layer) SetLayerAvailability(v LayerAvailability) *Layer {
-	s.LayerAvailability = v
-	return s
-}
-
-// SetLayerDigest sets the LayerDigest field's value.
-func (s *Layer) SetLayerDigest(v string) *Layer {
-	s.LayerDigest = &v
-	return s
-}
-
-// SetLayerSize sets the LayerSize field's value.
-func (s *Layer) SetLayerSize(v int64) *Layer {
-	s.LayerSize = &v
-	return s
-}
-
-// SetMediaType sets the MediaType field's value.
-func (s *Layer) SetMediaType(v string) *Layer {
-	s.MediaType = &v
-	return s
-}
-
 // An object representing an Amazon ECR image layer failure.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/LayerFailure
 type LayerFailure struct {
 	_ struct{} `type:"structure"`
 
 	// The failure code associated with the failure.
-	FailureCode LayerFailureCode `locationName:"failureCode" type:"string"`
+	FailureCode LayerFailureCode `locationName:"failureCode" type:"string" enum:"true"`
 
 	// The reason for the failure.
 	FailureReason *string `locationName:"failureReason" type:"string"`
@@ -2704,22 +2848,93 @@ func (s LayerFailure) GoString() string {
 	return s.String()
 }
 
-// SetFailureCode sets the FailureCode field's value.
-func (s *LayerFailure) SetFailureCode(v LayerFailureCode) *LayerFailure {
-	s.FailureCode = v
-	return s
+// The filter for the lifecycle policy preview.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/LifecyclePolicyPreviewFilter
+type LifecyclePolicyPreviewFilter struct {
+	_ struct{} `type:"structure"`
+
+	// The tag status of the image.
+	TagStatus TagStatus `locationName:"tagStatus" type:"string" enum:"true"`
 }
 
-// SetFailureReason sets the FailureReason field's value.
-func (s *LayerFailure) SetFailureReason(v string) *LayerFailure {
-	s.FailureReason = &v
-	return s
+// String returns the string representation
+func (s LifecyclePolicyPreviewFilter) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetLayerDigest sets the LayerDigest field's value.
-func (s *LayerFailure) SetLayerDigest(v string) *LayerFailure {
-	s.LayerDigest = &v
-	return s
+// GoString returns the string representation
+func (s LifecyclePolicyPreviewFilter) GoString() string {
+	return s.String()
+}
+
+// The result of the lifecycle policy preview.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/LifecyclePolicyPreviewResult
+type LifecyclePolicyPreviewResult struct {
+	_ struct{} `type:"structure"`
+
+	// The type of action to be taken.
+	Action *LifecyclePolicyRuleAction `locationName:"action" type:"structure"`
+
+	// The priority of the applied rule.
+	AppliedRulePriority *int64 `locationName:"appliedRulePriority" min:"1" type:"integer"`
+
+	// The sha256 digest of the image manifest.
+	ImageDigest *string `locationName:"imageDigest" type:"string"`
+
+	// The date and time, expressed in standard JavaScript date format, at which
+	// the current image was pushed to the repository.
+	ImagePushedAt *time.Time `locationName:"imagePushedAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The list of tags associated with this image.
+	ImageTags []string `locationName:"imageTags" type:"list"`
+}
+
+// String returns the string representation
+func (s LifecyclePolicyPreviewResult) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LifecyclePolicyPreviewResult) GoString() string {
+	return s.String()
+}
+
+// The summary of the lifecycle policy preview request.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/LifecyclePolicyPreviewSummary
+type LifecyclePolicyPreviewSummary struct {
+	_ struct{} `type:"structure"`
+
+	// The number of expiring images.
+	ExpiringImageTotalCount *int64 `locationName:"expiringImageTotalCount" type:"integer"`
+}
+
+// String returns the string representation
+func (s LifecyclePolicyPreviewSummary) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LifecyclePolicyPreviewSummary) GoString() string {
+	return s.String()
+}
+
+// The type of action to be taken.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/LifecyclePolicyRuleAction
+type LifecyclePolicyRuleAction struct {
+	_ struct{} `type:"structure"`
+
+	// The type of action to be taken.
+	Type ImageActionType `locationName:"type" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s LifecyclePolicyRuleAction) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LifecyclePolicyRuleAction) GoString() string {
+	return s.String()
 }
 
 // An object representing a filter on a ListImages operation.
@@ -2729,7 +2944,7 @@ type ListImagesFilter struct {
 
 	// The tag status with which to filter your ListImages results. You can filter
 	// results based on whether they are TAGGED or UNTAGGED.
-	TagStatus TagStatus `locationName:"tagStatus" type:"string"`
+	TagStatus TagStatus `locationName:"tagStatus" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2740,12 +2955,6 @@ func (s ListImagesFilter) String() string {
 // GoString returns the string representation
 func (s ListImagesFilter) GoString() string {
 	return s.String()
-}
-
-// SetTagStatus sets the TagStatus field's value.
-func (s *ListImagesFilter) SetTagStatus(v TagStatus) *ListImagesFilter {
-	s.TagStatus = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListImagesRequest
@@ -2774,11 +2983,11 @@ type ListImagesInput struct {
 	NextToken *string `locationName:"nextToken" type:"string"`
 
 	// The AWS account ID associated with the registry that contains the repository
-	// to list images in. If you do not specify a registry, the default registry
+	// in which to list images. If you do not specify a registry, the default registry
 	// is assumed.
 	RegistryId *string `locationName:"registryId" type:"string"`
 
-	// The repository whose image IDs are to be listed.
+	// The repository with image IDs to be listed.
 	//
 	// RepositoryName is a required field
 	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
@@ -2814,42 +3023,14 @@ func (s *ListImagesInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *ListImagesInput) SetFilter(v *ListImagesFilter) *ListImagesInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListImagesInput) SetMaxResults(v int64) *ListImagesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListImagesInput) SetNextToken(v string) *ListImagesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *ListImagesInput) SetRegistryId(v string) *ListImagesInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *ListImagesInput) SetRepositoryName(v string) *ListImagesInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/ListImagesResponse
 type ListImagesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of image IDs for the requested repository.
-	ImageIds []*ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
+	ImageIds []ImageIdentifier `locationName:"imageIds" min:"1" type:"list"`
 
 	// The nextToken value to include in a future ListImages request. When the results
 	// of a ListImages request exceed maxResults, this value can be used to retrieve
@@ -2868,16 +3049,9 @@ func (s ListImagesOutput) GoString() string {
 	return s.String()
 }
 
-// SetImageIds sets the ImageIds field's value.
-func (s *ListImagesOutput) SetImageIds(v []*ImageIdentifier) *ListImagesOutput {
-	s.ImageIds = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListImagesOutput) SetNextToken(v string) *ListImagesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListImagesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageRequest
@@ -2935,33 +3109,11 @@ func (s *PutImageInput) Validate() error {
 	return nil
 }
 
-// SetImageManifest sets the ImageManifest field's value.
-func (s *PutImageInput) SetImageManifest(v string) *PutImageInput {
-	s.ImageManifest = &v
-	return s
-}
-
-// SetImageTag sets the ImageTag field's value.
-func (s *PutImageInput) SetImageTag(v string) *PutImageInput {
-	s.ImageTag = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *PutImageInput) SetRegistryId(v string) *PutImageInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *PutImageInput) SetRepositoryName(v string) *PutImageInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutImageResponse
 type PutImageOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Details of the image uploaded.
 	Image *Image `locationName:"image" type:"structure"`
@@ -2977,10 +3129,93 @@ func (s PutImageOutput) GoString() string {
 	return s.String()
 }
 
-// SetImage sets the Image field's value.
-func (s *PutImageOutput) SetImage(v *Image) *PutImageOutput {
-	s.Image = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutImageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutLifecyclePolicyRequest
+type PutLifecyclePolicyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The JSON repository policy text to apply to the repository.
+	//
+	// LifecyclePolicyText is a required field
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string" required:"true"`
+
+	// The AWS account ID associated with the registry that contains the repository.
+	// If you do  not specify a registry, the default registry is assumed.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The name of the repository to receive the policy.
+	//
+	// RepositoryName is a required field
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s PutLifecyclePolicyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutLifecyclePolicyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutLifecyclePolicyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PutLifecyclePolicyInput"}
+
+	if s.LifecyclePolicyText == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LifecyclePolicyText"))
+	}
+	if s.LifecyclePolicyText != nil && len(*s.LifecyclePolicyText) < 100 {
+		invalidParams.Add(aws.NewErrParamMinLen("LifecyclePolicyText", 100))
+	}
+
+	if s.RepositoryName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RepositoryName"))
+	}
+	if s.RepositoryName != nil && len(*s.RepositoryName) < 2 {
+		invalidParams.Add(aws.NewErrParamMinLen("RepositoryName", 2))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/PutLifecyclePolicyResponse
+type PutLifecyclePolicyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The JSON repository policy text.
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string"`
+
+	// The registry ID associated with the request.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The repository name associated with the request.
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string"`
+}
+
+// String returns the string representation
+func (s PutLifecyclePolicyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutLifecyclePolicyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutLifecyclePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An object representing a repository.
@@ -2988,23 +3223,22 @@ func (s *PutImageOutput) SetImage(v *Image) *PutImageOutput {
 type Repository struct {
 	_ struct{} `type:"structure"`
 
-	// The date and time, in JavaScript date/time format, when the repository was
-	// created.
+	// The date and time, in JavaScript date format, when the repository was created.
 	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
 
 	// The AWS account ID associated with the registry that contains the repository.
 	RegistryId *string `locationName:"registryId" type:"string"`
 
 	// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains
-	// the arn:aws:ecr namespace, followed by the region of the repository, the
-	// AWS account ID of the repository owner, the repository namespace, and then
-	// the repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+	// the arn:aws:ecr namespace, followed by the region of the repository, AWS
+	// account ID of the repository owner, repository namespace, and repository
+	// name. For example, arn:aws:ecr:region:012345678910:repository/test.
 	RepositoryArn *string `locationName:"repositoryArn" type:"string"`
 
 	// The name of the repository.
 	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string"`
 
-	// The URI for the repository. You can use this URI for Docker push and pull
+	// The URI for the repository. You can use this URI for Docker push or pull
 	// operations.
 	RepositoryUri *string `locationName:"repositoryUri" type:"string"`
 }
@@ -3017,36 +3251,6 @@ func (s Repository) String() string {
 // GoString returns the string representation
 func (s Repository) GoString() string {
 	return s.String()
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Repository) SetCreatedAt(v time.Time) *Repository {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *Repository) SetRegistryId(v string) *Repository {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryArn sets the RepositoryArn field's value.
-func (s *Repository) SetRepositoryArn(v string) *Repository {
-	s.RepositoryArn = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *Repository) SetRepositoryName(v string) *Repository {
-	s.RepositoryName = &v
-	return s
-}
-
-// SetRepositoryUri sets the RepositoryUri field's value.
-func (s *Repository) SetRepositoryUri(v string) *Repository {
-	s.RepositoryUri = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/SetRepositoryPolicyRequest
@@ -3104,33 +3308,11 @@ func (s *SetRepositoryPolicyInput) Validate() error {
 	return nil
 }
 
-// SetForce sets the Force field's value.
-func (s *SetRepositoryPolicyInput) SetForce(v bool) *SetRepositoryPolicyInput {
-	s.Force = &v
-	return s
-}
-
-// SetPolicyText sets the PolicyText field's value.
-func (s *SetRepositoryPolicyInput) SetPolicyText(v string) *SetRepositoryPolicyInput {
-	s.PolicyText = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *SetRepositoryPolicyInput) SetRegistryId(v string) *SetRepositoryPolicyInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *SetRepositoryPolicyInput) SetRepositoryName(v string) *SetRepositoryPolicyInput {
-	s.RepositoryName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/SetRepositoryPolicyResponse
 type SetRepositoryPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The JSON repository policy text applied to the repository.
 	PolicyText *string `locationName:"policyText" type:"string"`
@@ -3152,22 +3334,91 @@ func (s SetRepositoryPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyText sets the PolicyText field's value.
-func (s *SetRepositoryPolicyOutput) SetPolicyText(v string) *SetRepositoryPolicyOutput {
-	s.PolicyText = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetRepositoryPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetRegistryId sets the RegistryId field's value.
-func (s *SetRepositoryPolicyOutput) SetRegistryId(v string) *SetRepositoryPolicyOutput {
-	s.RegistryId = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartLifecyclePolicyPreviewRequest
+type StartLifecyclePolicyPreviewInput struct {
+	_ struct{} `type:"structure"`
+
+	// The policy to be evaluated against. If you do not specify a policy, the current
+	// policy for the repository is used.
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string"`
+
+	// The AWS account ID associated with the registry that contains the repository.
+	// If you do not specify a registry, the default registry is assumed.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The name of the repository to be evaluated.
+	//
+	// RepositoryName is a required field
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
 }
 
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *SetRepositoryPolicyOutput) SetRepositoryName(v string) *SetRepositoryPolicyOutput {
-	s.RepositoryName = &v
-	return s
+// String returns the string representation
+func (s StartLifecyclePolicyPreviewInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s StartLifecyclePolicyPreviewInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *StartLifecyclePolicyPreviewInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "StartLifecyclePolicyPreviewInput"}
+	if s.LifecyclePolicyText != nil && len(*s.LifecyclePolicyText) < 100 {
+		invalidParams.Add(aws.NewErrParamMinLen("LifecyclePolicyText", 100))
+	}
+
+	if s.RepositoryName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RepositoryName"))
+	}
+	if s.RepositoryName != nil && len(*s.RepositoryName) < 2 {
+		invalidParams.Add(aws.NewErrParamMinLen("RepositoryName", 2))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/StartLifecyclePolicyPreviewResponse
+type StartLifecyclePolicyPreviewOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The JSON repository policy text.
+	LifecyclePolicyText *string `locationName:"lifecyclePolicyText" min:"100" type:"string"`
+
+	// The registry ID associated with the request.
+	RegistryId *string `locationName:"registryId" type:"string"`
+
+	// The repository name associated with the request.
+	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string"`
+
+	// The status of the lifecycle policy preview request.
+	Status LifecyclePolicyPreviewStatus `locationName:"status" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s StartLifecyclePolicyPreviewOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s StartLifecyclePolicyPreviewOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartLifecyclePolicyPreviewOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UploadLayerPartRequest
@@ -3191,11 +3442,11 @@ type UploadLayerPartInput struct {
 	// PartLastByte is a required field
 	PartLastByte *int64 `locationName:"partLastByte" type:"long" required:"true"`
 
-	// The AWS account ID associated with the registry that you are uploading layer
-	// parts to. If you do not specify a registry, the default registry is assumed.
+	// The AWS account ID associated with the registry to which you are uploading
+	// layer parts. If you do not specify a registry, the default registry is assumed.
 	RegistryId *string `locationName:"registryId" type:"string"`
 
-	// The name of the repository that you are uploading layer parts to.
+	// The name of the repository to which you are uploading layer parts.
 	//
 	// RepositoryName is a required field
 	RepositoryName *string `locationName:"repositoryName" min:"2" type:"string" required:"true"`
@@ -3250,45 +3501,11 @@ func (s *UploadLayerPartInput) Validate() error {
 	return nil
 }
 
-// SetLayerPartBlob sets the LayerPartBlob field's value.
-func (s *UploadLayerPartInput) SetLayerPartBlob(v []byte) *UploadLayerPartInput {
-	s.LayerPartBlob = v
-	return s
-}
-
-// SetPartFirstByte sets the PartFirstByte field's value.
-func (s *UploadLayerPartInput) SetPartFirstByte(v int64) *UploadLayerPartInput {
-	s.PartFirstByte = &v
-	return s
-}
-
-// SetPartLastByte sets the PartLastByte field's value.
-func (s *UploadLayerPartInput) SetPartLastByte(v int64) *UploadLayerPartInput {
-	s.PartLastByte = &v
-	return s
-}
-
-// SetRegistryId sets the RegistryId field's value.
-func (s *UploadLayerPartInput) SetRegistryId(v string) *UploadLayerPartInput {
-	s.RegistryId = &v
-	return s
-}
-
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *UploadLayerPartInput) SetRepositoryName(v string) *UploadLayerPartInput {
-	s.RepositoryName = &v
-	return s
-}
-
-// SetUploadId sets the UploadId field's value.
-func (s *UploadLayerPartInput) SetUploadId(v string) *UploadLayerPartInput {
-	s.UploadId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ecr-2015-09-21/UploadLayerPartResponse
 type UploadLayerPartOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The integer value of the last byte received in the request.
 	LastByteReceived *int64 `locationName:"lastByteReceived" type:"long"`
@@ -3313,28 +3530,25 @@ func (s UploadLayerPartOutput) GoString() string {
 	return s.String()
 }
 
-// SetLastByteReceived sets the LastByteReceived field's value.
-func (s *UploadLayerPartOutput) SetLastByteReceived(v int64) *UploadLayerPartOutput {
-	s.LastByteReceived = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UploadLayerPartOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetRegistryId sets the RegistryId field's value.
-func (s *UploadLayerPartOutput) SetRegistryId(v string) *UploadLayerPartOutput {
-	s.RegistryId = &v
-	return s
+type ImageActionType string
+
+// Enum values for ImageActionType
+const (
+	ImageActionTypeExpire ImageActionType = "EXPIRE"
+)
+
+func (enum ImageActionType) MarshalValue() (string, error) {
+	return string(enum), nil
 }
 
-// SetRepositoryName sets the RepositoryName field's value.
-func (s *UploadLayerPartOutput) SetRepositoryName(v string) *UploadLayerPartOutput {
-	s.RepositoryName = &v
-	return s
-}
-
-// SetUploadId sets the UploadId field's value.
-func (s *UploadLayerPartOutput) SetUploadId(v string) *UploadLayerPartOutput {
-	s.UploadId = &v
-	return s
+func (enum ImageActionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
 }
 
 type ImageFailureCode string
@@ -3348,6 +3562,15 @@ const (
 	ImageFailureCodeMissingDigestAndTag        ImageFailureCode = "MissingDigestAndTag"
 )
 
+func (enum ImageFailureCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ImageFailureCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type LayerAvailability string
 
 // Enum values for LayerAvailability
@@ -3355,6 +3578,15 @@ const (
 	LayerAvailabilityAvailable   LayerAvailability = "AVAILABLE"
 	LayerAvailabilityUnavailable LayerAvailability = "UNAVAILABLE"
 )
+
+func (enum LayerAvailability) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LayerAvailability) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type LayerFailureCode string
 
@@ -3364,6 +3596,34 @@ const (
 	LayerFailureCodeMissingLayerDigest LayerFailureCode = "MissingLayerDigest"
 )
 
+func (enum LayerFailureCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LayerFailureCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LifecyclePolicyPreviewStatus string
+
+// Enum values for LifecyclePolicyPreviewStatus
+const (
+	LifecyclePolicyPreviewStatusInProgress LifecyclePolicyPreviewStatus = "IN_PROGRESS"
+	LifecyclePolicyPreviewStatusComplete   LifecyclePolicyPreviewStatus = "COMPLETE"
+	LifecyclePolicyPreviewStatusExpired    LifecyclePolicyPreviewStatus = "EXPIRED"
+	LifecyclePolicyPreviewStatusFailed     LifecyclePolicyPreviewStatus = "FAILED"
+)
+
+func (enum LifecyclePolicyPreviewStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LifecyclePolicyPreviewStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TagStatus string
 
 // Enum values for TagStatus
@@ -3371,3 +3631,12 @@ const (
 	TagStatusTagged   TagStatus = "TAGGED"
 	TagStatusUntagged TagStatus = "UNTAGGED"
 )
+
+func (enum TagStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TagStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

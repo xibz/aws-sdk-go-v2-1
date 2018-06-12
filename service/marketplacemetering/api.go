@@ -16,6 +16,7 @@ const opBatchMeterUsage = "BatchMeterUsage"
 type BatchMeterUsageRequest struct {
 	*aws.Request
 	Input *BatchMeterUsageInput
+	Copy  func(*BatchMeterUsageInput) BatchMeterUsageRequest
 }
 
 // Send marshals and sends the BatchMeterUsage API request.
@@ -61,8 +62,11 @@ func (c *MarketplaceMetering) BatchMeterUsageRequest(input *BatchMeterUsageInput
 		input = &BatchMeterUsageInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchMeterUsageOutput{})
-	return BatchMeterUsageRequest{Request: req, Input: input}
+	output := &BatchMeterUsageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchMeterUsageRequest{Request: req, Input: input, Copy: c.BatchMeterUsageRequest}
 }
 
 const opMeterUsage = "MeterUsage"
@@ -71,6 +75,7 @@ const opMeterUsage = "MeterUsage"
 type MeterUsageRequest struct {
 	*aws.Request
 	Input *MeterUsageInput
+	Copy  func(*MeterUsageInput) MeterUsageRequest
 }
 
 // Send marshals and sends the MeterUsage API request.
@@ -111,8 +116,11 @@ func (c *MarketplaceMetering) MeterUsageRequest(input *MeterUsageInput) MeterUsa
 		input = &MeterUsageInput{}
 	}
 
-	req := c.newRequest(op, input, &MeterUsageOutput{})
-	return MeterUsageRequest{Request: req, Input: input}
+	output := &MeterUsageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return MeterUsageRequest{Request: req, Input: input, Copy: c.MeterUsageRequest}
 }
 
 const opResolveCustomer = "ResolveCustomer"
@@ -121,6 +129,7 @@ const opResolveCustomer = "ResolveCustomer"
 type ResolveCustomerRequest struct {
 	*aws.Request
 	Input *ResolveCustomerInput
+	Copy  func(*ResolveCustomerInput) ResolveCustomerRequest
 }
 
 // Send marshals and sends the ResolveCustomer API request.
@@ -160,8 +169,11 @@ func (c *MarketplaceMetering) ResolveCustomerRequest(input *ResolveCustomerInput
 		input = &ResolveCustomerInput{}
 	}
 
-	req := c.newRequest(op, input, &ResolveCustomerOutput{})
-	return ResolveCustomerRequest{Request: req, Input: input}
+	output := &ResolveCustomerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ResolveCustomerRequest{Request: req, Input: input, Copy: c.ResolveCustomerRequest}
 }
 
 // A BatchMeterUsageRequest contains UsageRecords, which indicate quantities
@@ -181,7 +193,7 @@ type BatchMeterUsageInput struct {
 	// at a time.
 	//
 	// UsageRecords is a required field
-	UsageRecords []*UsageRecord `type:"list" required:"true"`
+	UsageRecords []UsageRecord `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -210,9 +222,6 @@ func (s *BatchMeterUsageInput) Validate() error {
 	}
 	if s.UsageRecords != nil {
 		for i, v := range s.UsageRecords {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "UsageRecords", i), err.(aws.ErrInvalidParams))
 			}
@@ -225,32 +234,22 @@ func (s *BatchMeterUsageInput) Validate() error {
 	return nil
 }
 
-// SetProductCode sets the ProductCode field's value.
-func (s *BatchMeterUsageInput) SetProductCode(v string) *BatchMeterUsageInput {
-	s.ProductCode = &v
-	return s
-}
-
-// SetUsageRecords sets the UsageRecords field's value.
-func (s *BatchMeterUsageInput) SetUsageRecords(v []*UsageRecord) *BatchMeterUsageInput {
-	s.UsageRecords = v
-	return s
-}
-
 // Contains the UsageRecords processed by BatchMeterUsage and any records that
 // have failed due to transient error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/meteringmarketplace-2016-01-14/BatchMeterUsageResult
 type BatchMeterUsageOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Contains all UsageRecords processed by BatchMeterUsage. These records were
 	// either honored by AWS Marketplace Metering Service or were invalid.
-	Results []*UsageRecordResult `type:"list"`
+	Results []UsageRecordResult `type:"list"`
 
 	// Contains all UsageRecords that were not processed by BatchMeterUsage. This
 	// is a list of UsageRecords. You can retry the failed request by making another
 	// BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
-	UnprocessedRecords []*UsageRecord `type:"list"`
+	UnprocessedRecords []UsageRecord `type:"list"`
 }
 
 // String returns the string representation
@@ -263,16 +262,9 @@ func (s BatchMeterUsageOutput) GoString() string {
 	return s.String()
 }
 
-// SetResults sets the Results field's value.
-func (s *BatchMeterUsageOutput) SetResults(v []*UsageRecordResult) *BatchMeterUsageOutput {
-	s.Results = v
-	return s
-}
-
-// SetUnprocessedRecords sets the UnprocessedRecords field's value.
-func (s *BatchMeterUsageOutput) SetUnprocessedRecords(v []*UsageRecord) *BatchMeterUsageOutput {
-	s.UnprocessedRecords = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchMeterUsageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/meteringmarketplace-2016-01-14/MeterUsageRequest
@@ -357,39 +349,11 @@ func (s *MeterUsageInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *MeterUsageInput) SetDryRun(v bool) *MeterUsageInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetProductCode sets the ProductCode field's value.
-func (s *MeterUsageInput) SetProductCode(v string) *MeterUsageInput {
-	s.ProductCode = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *MeterUsageInput) SetTimestamp(v time.Time) *MeterUsageInput {
-	s.Timestamp = &v
-	return s
-}
-
-// SetUsageDimension sets the UsageDimension field's value.
-func (s *MeterUsageInput) SetUsageDimension(v string) *MeterUsageInput {
-	s.UsageDimension = &v
-	return s
-}
-
-// SetUsageQuantity sets the UsageQuantity field's value.
-func (s *MeterUsageInput) SetUsageQuantity(v int64) *MeterUsageInput {
-	s.UsageQuantity = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/meteringmarketplace-2016-01-14/MeterUsageResult
 type MeterUsageOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	MeteringRecordId *string `type:"string"`
 }
@@ -404,10 +368,9 @@ func (s MeterUsageOutput) GoString() string {
 	return s.String()
 }
 
-// SetMeteringRecordId sets the MeteringRecordId field's value.
-func (s *MeterUsageOutput) SetMeteringRecordId(v string) *MeterUsageOutput {
-	s.MeteringRecordId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s MeterUsageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains input to the ResolveCustomer operation.
@@ -447,17 +410,13 @@ func (s *ResolveCustomerInput) Validate() error {
 	return nil
 }
 
-// SetRegistrationToken sets the RegistrationToken field's value.
-func (s *ResolveCustomerInput) SetRegistrationToken(v string) *ResolveCustomerInput {
-	s.RegistrationToken = &v
-	return s
-}
-
 // The result of the ResolveCustomer operation. Contains the CustomerIdentifier
 // and product code.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/meteringmarketplace-2016-01-14/ResolveCustomerResult
 type ResolveCustomerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The CustomerIdentifier is used to identify an individual customer in your
 	// application. Calls to BatchMeterUsage require CustomerIdentifiers for each
@@ -480,16 +439,9 @@ func (s ResolveCustomerOutput) GoString() string {
 	return s.String()
 }
 
-// SetCustomerIdentifier sets the CustomerIdentifier field's value.
-func (s *ResolveCustomerOutput) SetCustomerIdentifier(v string) *ResolveCustomerOutput {
-	s.CustomerIdentifier = &v
-	return s
-}
-
-// SetProductCode sets the ProductCode field's value.
-func (s *ResolveCustomerOutput) SetProductCode(v string) *ResolveCustomerOutput {
-	s.ProductCode = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ResolveCustomerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A UsageRecord indicates a quantity of usage for a given product, customer,
@@ -571,30 +523,6 @@ func (s *UsageRecord) Validate() error {
 	return nil
 }
 
-// SetCustomerIdentifier sets the CustomerIdentifier field's value.
-func (s *UsageRecord) SetCustomerIdentifier(v string) *UsageRecord {
-	s.CustomerIdentifier = &v
-	return s
-}
-
-// SetDimension sets the Dimension field's value.
-func (s *UsageRecord) SetDimension(v string) *UsageRecord {
-	s.Dimension = &v
-	return s
-}
-
-// SetQuantity sets the Quantity field's value.
-func (s *UsageRecord) SetQuantity(v int64) *UsageRecord {
-	s.Quantity = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *UsageRecord) SetTimestamp(v time.Time) *UsageRecord {
-	s.Timestamp = &v
-	return s
-}
-
 // A UsageRecordResult indicates the status of a given UsageRecord processed
 // by BatchMeterUsage.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/meteringmarketplace-2016-01-14/UsageRecordResult
@@ -616,7 +544,7 @@ type UsageRecordResult struct {
 	//    * DuplicateRecord- Indicates that the UsageRecord was invalid and not
 	//    honored. A previously metered UsageRecord had the same customer, dimension,
 	//    and time, but a different quantity.
-	Status UsageRecordResultStatus `type:"string"`
+	Status UsageRecordResultStatus `type:"string" enum:"true"`
 
 	// The UsageRecord that was part of the BatchMeterUsage request.
 	UsageRecord *UsageRecord `type:"structure"`
@@ -632,24 +560,6 @@ func (s UsageRecordResult) GoString() string {
 	return s.String()
 }
 
-// SetMeteringRecordId sets the MeteringRecordId field's value.
-func (s *UsageRecordResult) SetMeteringRecordId(v string) *UsageRecordResult {
-	s.MeteringRecordId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *UsageRecordResult) SetStatus(v UsageRecordResultStatus) *UsageRecordResult {
-	s.Status = v
-	return s
-}
-
-// SetUsageRecord sets the UsageRecord field's value.
-func (s *UsageRecordResult) SetUsageRecord(v *UsageRecord) *UsageRecordResult {
-	s.UsageRecord = v
-	return s
-}
-
 type UsageRecordResultStatus string
 
 // Enum values for UsageRecordResultStatus
@@ -658,3 +568,12 @@ const (
 	UsageRecordResultStatusCustomerNotSubscribed UsageRecordResultStatus = "CustomerNotSubscribed"
 	UsageRecordResultStatusDuplicateRecord       UsageRecordResultStatus = "DuplicateRecord"
 )
+
+func (enum UsageRecordResultStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UsageRecordResultStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

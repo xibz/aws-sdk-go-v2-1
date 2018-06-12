@@ -17,6 +17,7 @@ const opAuthorizeClusterSecurityGroupIngress = "AuthorizeClusterSecurityGroupIng
 type AuthorizeClusterSecurityGroupIngressRequest struct {
 	*aws.Request
 	Input *AuthorizeClusterSecurityGroupIngressInput
+	Copy  func(*AuthorizeClusterSecurityGroupIngressInput) AuthorizeClusterSecurityGroupIngressRequest
 }
 
 // Send marshals and sends the AuthorizeClusterSecurityGroupIngress API request.
@@ -72,8 +73,11 @@ func (c *Redshift) AuthorizeClusterSecurityGroupIngressRequest(input *AuthorizeC
 		input = &AuthorizeClusterSecurityGroupIngressInput{}
 	}
 
-	req := c.newRequest(op, input, &AuthorizeClusterSecurityGroupIngressOutput{})
-	return AuthorizeClusterSecurityGroupIngressRequest{Request: req, Input: input}
+	output := &AuthorizeClusterSecurityGroupIngressOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AuthorizeClusterSecurityGroupIngressRequest{Request: req, Input: input, Copy: c.AuthorizeClusterSecurityGroupIngressRequest}
 }
 
 const opAuthorizeSnapshotAccess = "AuthorizeSnapshotAccess"
@@ -82,6 +86,7 @@ const opAuthorizeSnapshotAccess = "AuthorizeSnapshotAccess"
 type AuthorizeSnapshotAccessRequest struct {
 	*aws.Request
 	Input *AuthorizeSnapshotAccessInput
+	Copy  func(*AuthorizeSnapshotAccessInput) AuthorizeSnapshotAccessRequest
 }
 
 // Send marshals and sends the AuthorizeSnapshotAccess API request.
@@ -122,8 +127,11 @@ func (c *Redshift) AuthorizeSnapshotAccessRequest(input *AuthorizeSnapshotAccess
 		input = &AuthorizeSnapshotAccessInput{}
 	}
 
-	req := c.newRequest(op, input, &AuthorizeSnapshotAccessOutput{})
-	return AuthorizeSnapshotAccessRequest{Request: req, Input: input}
+	output := &AuthorizeSnapshotAccessOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AuthorizeSnapshotAccessRequest{Request: req, Input: input, Copy: c.AuthorizeSnapshotAccessRequest}
 }
 
 const opCopyClusterSnapshot = "CopyClusterSnapshot"
@@ -132,6 +140,7 @@ const opCopyClusterSnapshot = "CopyClusterSnapshot"
 type CopyClusterSnapshotRequest struct {
 	*aws.Request
 	Input *CopyClusterSnapshotInput
+	Copy  func(*CopyClusterSnapshotInput) CopyClusterSnapshotRequest
 }
 
 // Send marshals and sends the CopyClusterSnapshot API request.
@@ -180,8 +189,11 @@ func (c *Redshift) CopyClusterSnapshotRequest(input *CopyClusterSnapshotInput) C
 		input = &CopyClusterSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &CopyClusterSnapshotOutput{})
-	return CopyClusterSnapshotRequest{Request: req, Input: input}
+	output := &CopyClusterSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CopyClusterSnapshotRequest{Request: req, Input: input, Copy: c.CopyClusterSnapshotRequest}
 }
 
 const opCreateCluster = "CreateCluster"
@@ -190,6 +202,7 @@ const opCreateCluster = "CreateCluster"
 type CreateClusterRequest struct {
 	*aws.Request
 	Input *CreateClusterInput
+	Copy  func(*CreateClusterInput) CreateClusterRequest
 }
 
 // Send marshals and sends the CreateCluster API request.
@@ -232,8 +245,11 @@ func (c *Redshift) CreateClusterRequest(input *CreateClusterInput) CreateCluster
 		input = &CreateClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterOutput{})
-	return CreateClusterRequest{Request: req, Input: input}
+	output := &CreateClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterRequest{Request: req, Input: input, Copy: c.CreateClusterRequest}
 }
 
 const opCreateClusterParameterGroup = "CreateClusterParameterGroup"
@@ -242,6 +258,7 @@ const opCreateClusterParameterGroup = "CreateClusterParameterGroup"
 type CreateClusterParameterGroupRequest struct {
 	*aws.Request
 	Input *CreateClusterParameterGroupInput
+	Copy  func(*CreateClusterParameterGroupInput) CreateClusterParameterGroupRequest
 }
 
 // Send marshals and sends the CreateClusterParameterGroup API request.
@@ -288,8 +305,11 @@ func (c *Redshift) CreateClusterParameterGroupRequest(input *CreateClusterParame
 		input = &CreateClusterParameterGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterParameterGroupOutput{})
-	return CreateClusterParameterGroupRequest{Request: req, Input: input}
+	output := &CreateClusterParameterGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterParameterGroupRequest{Request: req, Input: input, Copy: c.CreateClusterParameterGroupRequest}
 }
 
 const opCreateClusterSecurityGroup = "CreateClusterSecurityGroup"
@@ -298,6 +318,7 @@ const opCreateClusterSecurityGroup = "CreateClusterSecurityGroup"
 type CreateClusterSecurityGroupRequest struct {
 	*aws.Request
 	Input *CreateClusterSecurityGroupInput
+	Copy  func(*CreateClusterSecurityGroupInput) CreateClusterSecurityGroupRequest
 }
 
 // Send marshals and sends the CreateClusterSecurityGroup API request.
@@ -339,8 +360,11 @@ func (c *Redshift) CreateClusterSecurityGroupRequest(input *CreateClusterSecurit
 		input = &CreateClusterSecurityGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterSecurityGroupOutput{})
-	return CreateClusterSecurityGroupRequest{Request: req, Input: input}
+	output := &CreateClusterSecurityGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterSecurityGroupRequest{Request: req, Input: input, Copy: c.CreateClusterSecurityGroupRequest}
 }
 
 const opCreateClusterSnapshot = "CreateClusterSnapshot"
@@ -349,6 +373,7 @@ const opCreateClusterSnapshot = "CreateClusterSnapshot"
 type CreateClusterSnapshotRequest struct {
 	*aws.Request
 	Input *CreateClusterSnapshotInput
+	Copy  func(*CreateClusterSnapshotInput) CreateClusterSnapshotRequest
 }
 
 // Send marshals and sends the CreateClusterSnapshot API request.
@@ -390,8 +415,11 @@ func (c *Redshift) CreateClusterSnapshotRequest(input *CreateClusterSnapshotInpu
 		input = &CreateClusterSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterSnapshotOutput{})
-	return CreateClusterSnapshotRequest{Request: req, Input: input}
+	output := &CreateClusterSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterSnapshotRequest{Request: req, Input: input, Copy: c.CreateClusterSnapshotRequest}
 }
 
 const opCreateClusterSubnetGroup = "CreateClusterSubnetGroup"
@@ -400,6 +428,7 @@ const opCreateClusterSubnetGroup = "CreateClusterSubnetGroup"
 type CreateClusterSubnetGroupRequest struct {
 	*aws.Request
 	Input *CreateClusterSubnetGroupInput
+	Copy  func(*CreateClusterSubnetGroupInput) CreateClusterSubnetGroupRequest
 }
 
 // Send marshals and sends the CreateClusterSubnetGroup API request.
@@ -442,8 +471,11 @@ func (c *Redshift) CreateClusterSubnetGroupRequest(input *CreateClusterSubnetGro
 		input = &CreateClusterSubnetGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterSubnetGroupOutput{})
-	return CreateClusterSubnetGroupRequest{Request: req, Input: input}
+	output := &CreateClusterSubnetGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterSubnetGroupRequest{Request: req, Input: input, Copy: c.CreateClusterSubnetGroupRequest}
 }
 
 const opCreateEventSubscription = "CreateEventSubscription"
@@ -452,6 +484,7 @@ const opCreateEventSubscription = "CreateEventSubscription"
 type CreateEventSubscriptionRequest struct {
 	*aws.Request
 	Input *CreateEventSubscriptionInput
+	Copy  func(*CreateEventSubscriptionInput) CreateEventSubscriptionRequest
 }
 
 // Send marshals and sends the CreateEventSubscription API request.
@@ -509,8 +542,11 @@ func (c *Redshift) CreateEventSubscriptionRequest(input *CreateEventSubscription
 		input = &CreateEventSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateEventSubscriptionOutput{})
-	return CreateEventSubscriptionRequest{Request: req, Input: input}
+	output := &CreateEventSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateEventSubscriptionRequest{Request: req, Input: input, Copy: c.CreateEventSubscriptionRequest}
 }
 
 const opCreateHsmClientCertificate = "CreateHsmClientCertificate"
@@ -519,6 +555,7 @@ const opCreateHsmClientCertificate = "CreateHsmClientCertificate"
 type CreateHsmClientCertificateRequest struct {
 	*aws.Request
 	Input *CreateHsmClientCertificateInput
+	Copy  func(*CreateHsmClientCertificateInput) CreateHsmClientCertificateRequest
 }
 
 // Send marshals and sends the CreateHsmClientCertificate API request.
@@ -563,8 +600,11 @@ func (c *Redshift) CreateHsmClientCertificateRequest(input *CreateHsmClientCerti
 		input = &CreateHsmClientCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHsmClientCertificateOutput{})
-	return CreateHsmClientCertificateRequest{Request: req, Input: input}
+	output := &CreateHsmClientCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHsmClientCertificateRequest{Request: req, Input: input, Copy: c.CreateHsmClientCertificateRequest}
 }
 
 const opCreateHsmConfiguration = "CreateHsmConfiguration"
@@ -573,6 +613,7 @@ const opCreateHsmConfiguration = "CreateHsmConfiguration"
 type CreateHsmConfigurationRequest struct {
 	*aws.Request
 	Input *CreateHsmConfigurationInput
+	Copy  func(*CreateHsmConfigurationInput) CreateHsmConfigurationRequest
 }
 
 // Send marshals and sends the CreateHsmConfiguration API request.
@@ -618,8 +659,11 @@ func (c *Redshift) CreateHsmConfigurationRequest(input *CreateHsmConfigurationIn
 		input = &CreateHsmConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHsmConfigurationOutput{})
-	return CreateHsmConfigurationRequest{Request: req, Input: input}
+	output := &CreateHsmConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHsmConfigurationRequest{Request: req, Input: input, Copy: c.CreateHsmConfigurationRequest}
 }
 
 const opCreateSnapshotCopyGrant = "CreateSnapshotCopyGrant"
@@ -628,6 +672,7 @@ const opCreateSnapshotCopyGrant = "CreateSnapshotCopyGrant"
 type CreateSnapshotCopyGrantRequest struct {
 	*aws.Request
 	Input *CreateSnapshotCopyGrantInput
+	Copy  func(*CreateSnapshotCopyGrantInput) CreateSnapshotCopyGrantRequest
 }
 
 // Send marshals and sends the CreateSnapshotCopyGrant API request.
@@ -670,8 +715,11 @@ func (c *Redshift) CreateSnapshotCopyGrantRequest(input *CreateSnapshotCopyGrant
 		input = &CreateSnapshotCopyGrantInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSnapshotCopyGrantOutput{})
-	return CreateSnapshotCopyGrantRequest{Request: req, Input: input}
+	output := &CreateSnapshotCopyGrantOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSnapshotCopyGrantRequest{Request: req, Input: input, Copy: c.CreateSnapshotCopyGrantRequest}
 }
 
 const opCreateTags = "CreateTags"
@@ -680,6 +728,7 @@ const opCreateTags = "CreateTags"
 type CreateTagsRequest struct {
 	*aws.Request
 	Input *CreateTagsInput
+	Copy  func(*CreateTagsInput) CreateTagsRequest
 }
 
 // Send marshals and sends the CreateTags API request.
@@ -697,7 +746,7 @@ func (r CreateTagsRequest) Send() (*CreateTagsOutput, error) {
 //
 // Adds one or more tags to a specified resource.
 //
-// A resource can have up to 10 tags. If you try to create more than 10 tags
+// A resource can have up to 50 tags. If you try to create more than 50 tags
 // for a resource, you will receive an error and the attempt will fail.
 //
 // If you specify a key that already exists for the resource, the value for
@@ -722,10 +771,13 @@ func (c *Redshift) CreateTagsRequest(input *CreateTagsInput) CreateTagsRequest {
 		input = &CreateTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateTagsOutput{})
+	output := &CreateTagsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateTagsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateTagsRequest{Request: req, Input: input, Copy: c.CreateTagsRequest}
 }
 
 const opDeleteCluster = "DeleteCluster"
@@ -734,6 +786,7 @@ const opDeleteCluster = "DeleteCluster"
 type DeleteClusterRequest struct {
 	*aws.Request
 	Input *DeleteClusterInput
+	Copy  func(*DeleteClusterInput) DeleteClusterRequest
 }
 
 // Send marshals and sends the DeleteCluster API request.
@@ -786,8 +839,11 @@ func (c *Redshift) DeleteClusterRequest(input *DeleteClusterInput) DeleteCluster
 		input = &DeleteClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteClusterOutput{})
-	return DeleteClusterRequest{Request: req, Input: input}
+	output := &DeleteClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteClusterRequest{Request: req, Input: input, Copy: c.DeleteClusterRequest}
 }
 
 const opDeleteClusterParameterGroup = "DeleteClusterParameterGroup"
@@ -796,6 +852,7 @@ const opDeleteClusterParameterGroup = "DeleteClusterParameterGroup"
 type DeleteClusterParameterGroupRequest struct {
 	*aws.Request
 	Input *DeleteClusterParameterGroupInput
+	Copy  func(*DeleteClusterParameterGroupInput) DeleteClusterParameterGroupRequest
 }
 
 // Send marshals and sends the DeleteClusterParameterGroup API request.
@@ -834,10 +891,13 @@ func (c *Redshift) DeleteClusterParameterGroupRequest(input *DeleteClusterParame
 		input = &DeleteClusterParameterGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteClusterParameterGroupOutput{})
+	output := &DeleteClusterParameterGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteClusterParameterGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteClusterParameterGroupRequest{Request: req, Input: input, Copy: c.DeleteClusterParameterGroupRequest}
 }
 
 const opDeleteClusterSecurityGroup = "DeleteClusterSecurityGroup"
@@ -846,6 +906,7 @@ const opDeleteClusterSecurityGroup = "DeleteClusterSecurityGroup"
 type DeleteClusterSecurityGroupRequest struct {
 	*aws.Request
 	Input *DeleteClusterSecurityGroupInput
+	Copy  func(*DeleteClusterSecurityGroupInput) DeleteClusterSecurityGroupRequest
 }
 
 // Send marshals and sends the DeleteClusterSecurityGroup API request.
@@ -889,10 +950,13 @@ func (c *Redshift) DeleteClusterSecurityGroupRequest(input *DeleteClusterSecurit
 		input = &DeleteClusterSecurityGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteClusterSecurityGroupOutput{})
+	output := &DeleteClusterSecurityGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteClusterSecurityGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteClusterSecurityGroupRequest{Request: req, Input: input, Copy: c.DeleteClusterSecurityGroupRequest}
 }
 
 const opDeleteClusterSnapshot = "DeleteClusterSnapshot"
@@ -901,6 +965,7 @@ const opDeleteClusterSnapshot = "DeleteClusterSnapshot"
 type DeleteClusterSnapshotRequest struct {
 	*aws.Request
 	Input *DeleteClusterSnapshotInput
+	Copy  func(*DeleteClusterSnapshotInput) DeleteClusterSnapshotRequest
 }
 
 // Send marshals and sends the DeleteClusterSnapshot API request.
@@ -944,8 +1009,11 @@ func (c *Redshift) DeleteClusterSnapshotRequest(input *DeleteClusterSnapshotInpu
 		input = &DeleteClusterSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteClusterSnapshotOutput{})
-	return DeleteClusterSnapshotRequest{Request: req, Input: input}
+	output := &DeleteClusterSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteClusterSnapshotRequest{Request: req, Input: input, Copy: c.DeleteClusterSnapshotRequest}
 }
 
 const opDeleteClusterSubnetGroup = "DeleteClusterSubnetGroup"
@@ -954,6 +1022,7 @@ const opDeleteClusterSubnetGroup = "DeleteClusterSubnetGroup"
 type DeleteClusterSubnetGroupRequest struct {
 	*aws.Request
 	Input *DeleteClusterSubnetGroupInput
+	Copy  func(*DeleteClusterSubnetGroupInput) DeleteClusterSubnetGroupRequest
 }
 
 // Send marshals and sends the DeleteClusterSubnetGroup API request.
@@ -990,10 +1059,13 @@ func (c *Redshift) DeleteClusterSubnetGroupRequest(input *DeleteClusterSubnetGro
 		input = &DeleteClusterSubnetGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteClusterSubnetGroupOutput{})
+	output := &DeleteClusterSubnetGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteClusterSubnetGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteClusterSubnetGroupRequest{Request: req, Input: input, Copy: c.DeleteClusterSubnetGroupRequest}
 }
 
 const opDeleteEventSubscription = "DeleteEventSubscription"
@@ -1002,6 +1074,7 @@ const opDeleteEventSubscription = "DeleteEventSubscription"
 type DeleteEventSubscriptionRequest struct {
 	*aws.Request
 	Input *DeleteEventSubscriptionInput
+	Copy  func(*DeleteEventSubscriptionInput) DeleteEventSubscriptionRequest
 }
 
 // Send marshals and sends the DeleteEventSubscription API request.
@@ -1038,10 +1111,13 @@ func (c *Redshift) DeleteEventSubscriptionRequest(input *DeleteEventSubscription
 		input = &DeleteEventSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteEventSubscriptionOutput{})
+	output := &DeleteEventSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteEventSubscriptionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEventSubscriptionRequest{Request: req, Input: input, Copy: c.DeleteEventSubscriptionRequest}
 }
 
 const opDeleteHsmClientCertificate = "DeleteHsmClientCertificate"
@@ -1050,6 +1126,7 @@ const opDeleteHsmClientCertificate = "DeleteHsmClientCertificate"
 type DeleteHsmClientCertificateRequest struct {
 	*aws.Request
 	Input *DeleteHsmClientCertificateInput
+	Copy  func(*DeleteHsmClientCertificateInput) DeleteHsmClientCertificateRequest
 }
 
 // Send marshals and sends the DeleteHsmClientCertificate API request.
@@ -1086,10 +1163,13 @@ func (c *Redshift) DeleteHsmClientCertificateRequest(input *DeleteHsmClientCerti
 		input = &DeleteHsmClientCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteHsmClientCertificateOutput{})
+	output := &DeleteHsmClientCertificateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteHsmClientCertificateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteHsmClientCertificateRequest{Request: req, Input: input, Copy: c.DeleteHsmClientCertificateRequest}
 }
 
 const opDeleteHsmConfiguration = "DeleteHsmConfiguration"
@@ -1098,6 +1178,7 @@ const opDeleteHsmConfiguration = "DeleteHsmConfiguration"
 type DeleteHsmConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteHsmConfigurationInput
+	Copy  func(*DeleteHsmConfigurationInput) DeleteHsmConfigurationRequest
 }
 
 // Send marshals and sends the DeleteHsmConfiguration API request.
@@ -1134,10 +1215,13 @@ func (c *Redshift) DeleteHsmConfigurationRequest(input *DeleteHsmConfigurationIn
 		input = &DeleteHsmConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteHsmConfigurationOutput{})
+	output := &DeleteHsmConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteHsmConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteHsmConfigurationRequest{Request: req, Input: input, Copy: c.DeleteHsmConfigurationRequest}
 }
 
 const opDeleteSnapshotCopyGrant = "DeleteSnapshotCopyGrant"
@@ -1146,6 +1230,7 @@ const opDeleteSnapshotCopyGrant = "DeleteSnapshotCopyGrant"
 type DeleteSnapshotCopyGrantRequest struct {
 	*aws.Request
 	Input *DeleteSnapshotCopyGrantInput
+	Copy  func(*DeleteSnapshotCopyGrantInput) DeleteSnapshotCopyGrantRequest
 }
 
 // Send marshals and sends the DeleteSnapshotCopyGrant API request.
@@ -1182,10 +1267,13 @@ func (c *Redshift) DeleteSnapshotCopyGrantRequest(input *DeleteSnapshotCopyGrant
 		input = &DeleteSnapshotCopyGrantInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSnapshotCopyGrantOutput{})
+	output := &DeleteSnapshotCopyGrantOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSnapshotCopyGrantRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSnapshotCopyGrantRequest{Request: req, Input: input, Copy: c.DeleteSnapshotCopyGrantRequest}
 }
 
 const opDeleteTags = "DeleteTags"
@@ -1194,6 +1282,7 @@ const opDeleteTags = "DeleteTags"
 type DeleteTagsRequest struct {
 	*aws.Request
 	Input *DeleteTagsInput
+	Copy  func(*DeleteTagsInput) DeleteTagsRequest
 }
 
 // Send marshals and sends the DeleteTags API request.
@@ -1231,10 +1320,13 @@ func (c *Redshift) DeleteTagsRequest(input *DeleteTagsInput) DeleteTagsRequest {
 		input = &DeleteTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTagsOutput{})
+	output := &DeleteTagsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteTagsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTagsRequest{Request: req, Input: input, Copy: c.DeleteTagsRequest}
 }
 
 const opDescribeClusterParameterGroups = "DescribeClusterParameterGroups"
@@ -1243,6 +1335,7 @@ const opDescribeClusterParameterGroups = "DescribeClusterParameterGroups"
 type DescribeClusterParameterGroupsRequest struct {
 	*aws.Request
 	Input *DescribeClusterParameterGroupsInput
+	Copy  func(*DescribeClusterParameterGroupsInput) DescribeClusterParameterGroupsRequest
 }
 
 // Send marshals and sends the DescribeClusterParameterGroups API request.
@@ -1303,58 +1396,57 @@ func (c *Redshift) DescribeClusterParameterGroupsRequest(input *DescribeClusterP
 		input = &DescribeClusterParameterGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterParameterGroupsOutput{})
-	return DescribeClusterParameterGroupsRequest{Request: req, Input: input}
+	output := &DescribeClusterParameterGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterParameterGroupsRequest{Request: req, Input: input, Copy: c.DescribeClusterParameterGroupsRequest}
 }
 
-// DescribeClusterParameterGroupsPages iterates over the pages of a DescribeClusterParameterGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusterParameterGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClusterParameterGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusterParameterGroups operation.
-//    pageNum := 0
-//    err := client.DescribeClusterParameterGroupsPages(params,
-//        func(page *DescribeClusterParameterGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClusterParameterGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClusterParameterGroupsPages(input *DescribeClusterParameterGroupsInput, fn func(*DescribeClusterParameterGroupsOutput, bool) bool) error {
-	return c.DescribeClusterParameterGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClusterParameterGroupsRequest) Paginate(opts ...aws.Option) DescribeClusterParameterGroupsPager {
+	return DescribeClusterParameterGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClusterParameterGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClusterParameterGroupsPagesWithContext same as DescribeClusterParameterGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClusterParameterGroupsPagesWithContext(ctx aws.Context, input *DescribeClusterParameterGroupsInput, fn func(*DescribeClusterParameterGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClusterParameterGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClusterParameterGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterParameterGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClusterParameterGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClusterParameterGroupsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClusterParameterGroupsPager) CurrentPage() *DescribeClusterParameterGroupsOutput {
+	return p.Pager.CurrentPage().(*DescribeClusterParameterGroupsOutput)
 }
 
 const opDescribeClusterParameters = "DescribeClusterParameters"
@@ -1363,6 +1455,7 @@ const opDescribeClusterParameters = "DescribeClusterParameters"
 type DescribeClusterParametersRequest struct {
 	*aws.Request
 	Input *DescribeClusterParametersInput
+	Copy  func(*DescribeClusterParametersInput) DescribeClusterParametersRequest
 }
 
 // Send marshals and sends the DescribeClusterParameters API request.
@@ -1416,58 +1509,57 @@ func (c *Redshift) DescribeClusterParametersRequest(input *DescribeClusterParame
 		input = &DescribeClusterParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterParametersOutput{})
-	return DescribeClusterParametersRequest{Request: req, Input: input}
+	output := &DescribeClusterParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterParametersRequest{Request: req, Input: input, Copy: c.DescribeClusterParametersRequest}
 }
 
-// DescribeClusterParametersPages iterates over the pages of a DescribeClusterParameters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusterParameters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClusterParametersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusterParameters operation.
-//    pageNum := 0
-//    err := client.DescribeClusterParametersPages(params,
-//        func(page *DescribeClusterParametersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClusterParametersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClusterParametersPages(input *DescribeClusterParametersInput, fn func(*DescribeClusterParametersOutput, bool) bool) error {
-	return c.DescribeClusterParametersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClusterParametersRequest) Paginate(opts ...aws.Option) DescribeClusterParametersPager {
+	return DescribeClusterParametersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClusterParametersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClusterParametersPagesWithContext same as DescribeClusterParametersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClusterParametersPagesWithContext(ctx aws.Context, input *DescribeClusterParametersInput, fn func(*DescribeClusterParametersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClusterParametersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClusterParametersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterParametersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClusterParametersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClusterParametersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClusterParametersPager) CurrentPage() *DescribeClusterParametersOutput {
+	return p.Pager.CurrentPage().(*DescribeClusterParametersOutput)
 }
 
 const opDescribeClusterSecurityGroups = "DescribeClusterSecurityGroups"
@@ -1476,6 +1568,7 @@ const opDescribeClusterSecurityGroups = "DescribeClusterSecurityGroups"
 type DescribeClusterSecurityGroupsRequest struct {
 	*aws.Request
 	Input *DescribeClusterSecurityGroupsInput
+	Copy  func(*DescribeClusterSecurityGroupsInput) DescribeClusterSecurityGroupsRequest
 }
 
 // Send marshals and sends the DescribeClusterSecurityGroups API request.
@@ -1534,58 +1627,57 @@ func (c *Redshift) DescribeClusterSecurityGroupsRequest(input *DescribeClusterSe
 		input = &DescribeClusterSecurityGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterSecurityGroupsOutput{})
-	return DescribeClusterSecurityGroupsRequest{Request: req, Input: input}
+	output := &DescribeClusterSecurityGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterSecurityGroupsRequest{Request: req, Input: input, Copy: c.DescribeClusterSecurityGroupsRequest}
 }
 
-// DescribeClusterSecurityGroupsPages iterates over the pages of a DescribeClusterSecurityGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusterSecurityGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClusterSecurityGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusterSecurityGroups operation.
-//    pageNum := 0
-//    err := client.DescribeClusterSecurityGroupsPages(params,
-//        func(page *DescribeClusterSecurityGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClusterSecurityGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClusterSecurityGroupsPages(input *DescribeClusterSecurityGroupsInput, fn func(*DescribeClusterSecurityGroupsOutput, bool) bool) error {
-	return c.DescribeClusterSecurityGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClusterSecurityGroupsRequest) Paginate(opts ...aws.Option) DescribeClusterSecurityGroupsPager {
+	return DescribeClusterSecurityGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClusterSecurityGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClusterSecurityGroupsPagesWithContext same as DescribeClusterSecurityGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClusterSecurityGroupsPagesWithContext(ctx aws.Context, input *DescribeClusterSecurityGroupsInput, fn func(*DescribeClusterSecurityGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClusterSecurityGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClusterSecurityGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterSecurityGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClusterSecurityGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClusterSecurityGroupsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClusterSecurityGroupsPager) CurrentPage() *DescribeClusterSecurityGroupsOutput {
+	return p.Pager.CurrentPage().(*DescribeClusterSecurityGroupsOutput)
 }
 
 const opDescribeClusterSnapshots = "DescribeClusterSnapshots"
@@ -1594,6 +1686,7 @@ const opDescribeClusterSnapshots = "DescribeClusterSnapshots"
 type DescribeClusterSnapshotsRequest struct {
 	*aws.Request
 	Input *DescribeClusterSnapshotsInput
+	Copy  func(*DescribeClusterSnapshotsInput) DescribeClusterSnapshotsRequest
 }
 
 // Send marshals and sends the DescribeClusterSnapshots API request.
@@ -1650,58 +1743,57 @@ func (c *Redshift) DescribeClusterSnapshotsRequest(input *DescribeClusterSnapsho
 		input = &DescribeClusterSnapshotsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterSnapshotsOutput{})
-	return DescribeClusterSnapshotsRequest{Request: req, Input: input}
+	output := &DescribeClusterSnapshotsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterSnapshotsRequest{Request: req, Input: input, Copy: c.DescribeClusterSnapshotsRequest}
 }
 
-// DescribeClusterSnapshotsPages iterates over the pages of a DescribeClusterSnapshots operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusterSnapshots method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClusterSnapshotsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusterSnapshots operation.
-//    pageNum := 0
-//    err := client.DescribeClusterSnapshotsPages(params,
-//        func(page *DescribeClusterSnapshotsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClusterSnapshotsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClusterSnapshotsPages(input *DescribeClusterSnapshotsInput, fn func(*DescribeClusterSnapshotsOutput, bool) bool) error {
-	return c.DescribeClusterSnapshotsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClusterSnapshotsRequest) Paginate(opts ...aws.Option) DescribeClusterSnapshotsPager {
+	return DescribeClusterSnapshotsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClusterSnapshotsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClusterSnapshotsPagesWithContext same as DescribeClusterSnapshotsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClusterSnapshotsPagesWithContext(ctx aws.Context, input *DescribeClusterSnapshotsInput, fn func(*DescribeClusterSnapshotsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClusterSnapshotsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClusterSnapshotsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterSnapshotsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClusterSnapshotsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClusterSnapshotsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClusterSnapshotsPager) CurrentPage() *DescribeClusterSnapshotsOutput {
+	return p.Pager.CurrentPage().(*DescribeClusterSnapshotsOutput)
 }
 
 const opDescribeClusterSubnetGroups = "DescribeClusterSubnetGroups"
@@ -1710,6 +1802,7 @@ const opDescribeClusterSubnetGroups = "DescribeClusterSubnetGroups"
 type DescribeClusterSubnetGroupsRequest struct {
 	*aws.Request
 	Input *DescribeClusterSubnetGroupsInput
+	Copy  func(*DescribeClusterSubnetGroupsInput) DescribeClusterSubnetGroupsRequest
 }
 
 // Send marshals and sends the DescribeClusterSubnetGroups API request.
@@ -1764,58 +1857,57 @@ func (c *Redshift) DescribeClusterSubnetGroupsRequest(input *DescribeClusterSubn
 		input = &DescribeClusterSubnetGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterSubnetGroupsOutput{})
-	return DescribeClusterSubnetGroupsRequest{Request: req, Input: input}
+	output := &DescribeClusterSubnetGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterSubnetGroupsRequest{Request: req, Input: input, Copy: c.DescribeClusterSubnetGroupsRequest}
 }
 
-// DescribeClusterSubnetGroupsPages iterates over the pages of a DescribeClusterSubnetGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusterSubnetGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClusterSubnetGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusterSubnetGroups operation.
-//    pageNum := 0
-//    err := client.DescribeClusterSubnetGroupsPages(params,
-//        func(page *DescribeClusterSubnetGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClusterSubnetGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClusterSubnetGroupsPages(input *DescribeClusterSubnetGroupsInput, fn func(*DescribeClusterSubnetGroupsOutput, bool) bool) error {
-	return c.DescribeClusterSubnetGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClusterSubnetGroupsRequest) Paginate(opts ...aws.Option) DescribeClusterSubnetGroupsPager {
+	return DescribeClusterSubnetGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClusterSubnetGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClusterSubnetGroupsPagesWithContext same as DescribeClusterSubnetGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClusterSubnetGroupsPagesWithContext(ctx aws.Context, input *DescribeClusterSubnetGroupsInput, fn func(*DescribeClusterSubnetGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClusterSubnetGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClusterSubnetGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterSubnetGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClusterSubnetGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClusterSubnetGroupsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClusterSubnetGroupsPager) CurrentPage() *DescribeClusterSubnetGroupsOutput {
+	return p.Pager.CurrentPage().(*DescribeClusterSubnetGroupsOutput)
 }
 
 const opDescribeClusterVersions = "DescribeClusterVersions"
@@ -1824,6 +1916,7 @@ const opDescribeClusterVersions = "DescribeClusterVersions"
 type DescribeClusterVersionsRequest struct {
 	*aws.Request
 	Input *DescribeClusterVersionsInput
+	Copy  func(*DescribeClusterVersionsInput) DescribeClusterVersionsRequest
 }
 
 // Send marshals and sends the DescribeClusterVersions API request.
@@ -1870,58 +1963,57 @@ func (c *Redshift) DescribeClusterVersionsRequest(input *DescribeClusterVersions
 		input = &DescribeClusterVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterVersionsOutput{})
-	return DescribeClusterVersionsRequest{Request: req, Input: input}
+	output := &DescribeClusterVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterVersionsRequest{Request: req, Input: input, Copy: c.DescribeClusterVersionsRequest}
 }
 
-// DescribeClusterVersionsPages iterates over the pages of a DescribeClusterVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusterVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClusterVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusterVersions operation.
-//    pageNum := 0
-//    err := client.DescribeClusterVersionsPages(params,
-//        func(page *DescribeClusterVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClusterVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClusterVersionsPages(input *DescribeClusterVersionsInput, fn func(*DescribeClusterVersionsOutput, bool) bool) error {
-	return c.DescribeClusterVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClusterVersionsRequest) Paginate(opts ...aws.Option) DescribeClusterVersionsPager {
+	return DescribeClusterVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClusterVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClusterVersionsPagesWithContext same as DescribeClusterVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClusterVersionsPagesWithContext(ctx aws.Context, input *DescribeClusterVersionsInput, fn func(*DescribeClusterVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClusterVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClusterVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClusterVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClusterVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClusterVersionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClusterVersionsPager) CurrentPage() *DescribeClusterVersionsOutput {
+	return p.Pager.CurrentPage().(*DescribeClusterVersionsOutput)
 }
 
 const opDescribeClusters = "DescribeClusters"
@@ -1930,6 +2022,7 @@ const opDescribeClusters = "DescribeClusters"
 type DescribeClustersRequest struct {
 	*aws.Request
 	Input *DescribeClustersInput
+	Copy  func(*DescribeClustersInput) DescribeClustersRequest
 }
 
 // Send marshals and sends the DescribeClusters API request.
@@ -1985,58 +2078,57 @@ func (c *Redshift) DescribeClustersRequest(input *DescribeClustersInput) Describ
 		input = &DescribeClustersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClustersOutput{})
-	return DescribeClustersRequest{Request: req, Input: input}
+	output := &DescribeClustersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClustersRequest{Request: req, Input: input, Copy: c.DescribeClustersRequest}
 }
 
-// DescribeClustersPages iterates over the pages of a DescribeClusters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClustersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusters operation.
-//    pageNum := 0
-//    err := client.DescribeClustersPages(params,
-//        func(page *DescribeClustersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClustersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeClustersPages(input *DescribeClustersInput, fn func(*DescribeClustersOutput, bool) bool) error {
-	return c.DescribeClustersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClustersRequest) Paginate(opts ...aws.Option) DescribeClustersPager {
+	return DescribeClustersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClustersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClustersPagesWithContext same as DescribeClustersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeClustersPagesWithContext(ctx aws.Context, input *DescribeClustersInput, fn func(*DescribeClustersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClustersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClustersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClustersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClustersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClustersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClustersPager) CurrentPage() *DescribeClustersOutput {
+	return p.Pager.CurrentPage().(*DescribeClustersOutput)
 }
 
 const opDescribeDefaultClusterParameters = "DescribeDefaultClusterParameters"
@@ -2045,6 +2137,7 @@ const opDescribeDefaultClusterParameters = "DescribeDefaultClusterParameters"
 type DescribeDefaultClusterParametersRequest struct {
 	*aws.Request
 	Input *DescribeDefaultClusterParametersInput
+	Copy  func(*DescribeDefaultClusterParametersInput) DescribeDefaultClusterParametersRequest
 }
 
 // Send marshals and sends the DescribeDefaultClusterParameters API request.
@@ -2091,58 +2184,57 @@ func (c *Redshift) DescribeDefaultClusterParametersRequest(input *DescribeDefaul
 		input = &DescribeDefaultClusterParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDefaultClusterParametersOutput{})
-	return DescribeDefaultClusterParametersRequest{Request: req, Input: input}
+	output := &DescribeDefaultClusterParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDefaultClusterParametersRequest{Request: req, Input: input, Copy: c.DescribeDefaultClusterParametersRequest}
 }
 
-// DescribeDefaultClusterParametersPages iterates over the pages of a DescribeDefaultClusterParameters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeDefaultClusterParameters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeDefaultClusterParametersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeDefaultClusterParameters operation.
-//    pageNum := 0
-//    err := client.DescribeDefaultClusterParametersPages(params,
-//        func(page *DescribeDefaultClusterParametersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeDefaultClusterParametersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeDefaultClusterParametersPages(input *DescribeDefaultClusterParametersInput, fn func(*DescribeDefaultClusterParametersOutput, bool) bool) error {
-	return c.DescribeDefaultClusterParametersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeDefaultClusterParametersRequest) Paginate(opts ...aws.Option) DescribeDefaultClusterParametersPager {
+	return DescribeDefaultClusterParametersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeDefaultClusterParametersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeDefaultClusterParametersPagesWithContext same as DescribeDefaultClusterParametersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeDefaultClusterParametersPagesWithContext(ctx aws.Context, input *DescribeDefaultClusterParametersInput, fn func(*DescribeDefaultClusterParametersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeDefaultClusterParametersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeDefaultClusterParametersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeDefaultClusterParametersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeDefaultClusterParametersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeDefaultClusterParametersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeDefaultClusterParametersPager) CurrentPage() *DescribeDefaultClusterParametersOutput {
+	return p.Pager.CurrentPage().(*DescribeDefaultClusterParametersOutput)
 }
 
 const opDescribeEventCategories = "DescribeEventCategories"
@@ -2151,6 +2243,7 @@ const opDescribeEventCategories = "DescribeEventCategories"
 type DescribeEventCategoriesRequest struct {
 	*aws.Request
 	Input *DescribeEventCategoriesInput
+	Copy  func(*DescribeEventCategoriesInput) DescribeEventCategoriesRequest
 }
 
 // Send marshals and sends the DescribeEventCategories API request.
@@ -2189,8 +2282,11 @@ func (c *Redshift) DescribeEventCategoriesRequest(input *DescribeEventCategories
 		input = &DescribeEventCategoriesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventCategoriesOutput{})
-	return DescribeEventCategoriesRequest{Request: req, Input: input}
+	output := &DescribeEventCategoriesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventCategoriesRequest{Request: req, Input: input, Copy: c.DescribeEventCategoriesRequest}
 }
 
 const opDescribeEventSubscriptions = "DescribeEventSubscriptions"
@@ -2199,6 +2295,7 @@ const opDescribeEventSubscriptions = "DescribeEventSubscriptions"
 type DescribeEventSubscriptionsRequest struct {
 	*aws.Request
 	Input *DescribeEventSubscriptionsInput
+	Copy  func(*DescribeEventSubscriptionsInput) DescribeEventSubscriptionsRequest
 }
 
 // Send marshals and sends the DescribeEventSubscriptions API request.
@@ -2253,58 +2350,57 @@ func (c *Redshift) DescribeEventSubscriptionsRequest(input *DescribeEventSubscri
 		input = &DescribeEventSubscriptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventSubscriptionsOutput{})
-	return DescribeEventSubscriptionsRequest{Request: req, Input: input}
+	output := &DescribeEventSubscriptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventSubscriptionsRequest{Request: req, Input: input, Copy: c.DescribeEventSubscriptionsRequest}
 }
 
-// DescribeEventSubscriptionsPages iterates over the pages of a DescribeEventSubscriptions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEventSubscriptions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEventSubscriptionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEventSubscriptions operation.
-//    pageNum := 0
-//    err := client.DescribeEventSubscriptionsPages(params,
-//        func(page *DescribeEventSubscriptionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEventSubscriptionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeEventSubscriptionsPages(input *DescribeEventSubscriptionsInput, fn func(*DescribeEventSubscriptionsOutput, bool) bool) error {
-	return c.DescribeEventSubscriptionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEventSubscriptionsRequest) Paginate(opts ...aws.Option) DescribeEventSubscriptionsPager {
+	return DescribeEventSubscriptionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEventSubscriptionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEventSubscriptionsPagesWithContext same as DescribeEventSubscriptionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeEventSubscriptionsPagesWithContext(ctx aws.Context, input *DescribeEventSubscriptionsInput, fn func(*DescribeEventSubscriptionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEventSubscriptionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEventSubscriptionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventSubscriptionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEventSubscriptionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEventSubscriptionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEventSubscriptionsPager) CurrentPage() *DescribeEventSubscriptionsOutput {
+	return p.Pager.CurrentPage().(*DescribeEventSubscriptionsOutput)
 }
 
 const opDescribeEvents = "DescribeEvents"
@@ -2313,6 +2409,7 @@ const opDescribeEvents = "DescribeEvents"
 type DescribeEventsRequest struct {
 	*aws.Request
 	Input *DescribeEventsInput
+	Copy  func(*DescribeEventsInput) DescribeEventsRequest
 }
 
 // Send marshals and sends the DescribeEvents API request.
@@ -2358,58 +2455,57 @@ func (c *Redshift) DescribeEventsRequest(input *DescribeEventsInput) DescribeEve
 		input = &DescribeEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventsOutput{})
-	return DescribeEventsRequest{Request: req, Input: input}
+	output := &DescribeEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventsRequest{Request: req, Input: input, Copy: c.DescribeEventsRequest}
 }
 
-// DescribeEventsPages iterates over the pages of a DescribeEvents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEvents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEventsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEvents operation.
-//    pageNum := 0
-//    err := client.DescribeEventsPages(params,
-//        func(page *DescribeEventsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEventsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeEventsPages(input *DescribeEventsInput, fn func(*DescribeEventsOutput, bool) bool) error {
-	return c.DescribeEventsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEventsRequest) Paginate(opts ...aws.Option) DescribeEventsPager {
+	return DescribeEventsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEventsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEventsPagesWithContext same as DescribeEventsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeEventsPagesWithContext(ctx aws.Context, input *DescribeEventsInput, fn func(*DescribeEventsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEventsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEventsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEventsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEventsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEventsPager) CurrentPage() *DescribeEventsOutput {
+	return p.Pager.CurrentPage().(*DescribeEventsOutput)
 }
 
 const opDescribeHsmClientCertificates = "DescribeHsmClientCertificates"
@@ -2418,6 +2514,7 @@ const opDescribeHsmClientCertificates = "DescribeHsmClientCertificates"
 type DescribeHsmClientCertificatesRequest struct {
 	*aws.Request
 	Input *DescribeHsmClientCertificatesInput
+	Copy  func(*DescribeHsmClientCertificatesInput) DescribeHsmClientCertificatesRequest
 }
 
 // Send marshals and sends the DescribeHsmClientCertificates API request.
@@ -2472,58 +2569,57 @@ func (c *Redshift) DescribeHsmClientCertificatesRequest(input *DescribeHsmClient
 		input = &DescribeHsmClientCertificatesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeHsmClientCertificatesOutput{})
-	return DescribeHsmClientCertificatesRequest{Request: req, Input: input}
+	output := &DescribeHsmClientCertificatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeHsmClientCertificatesRequest{Request: req, Input: input, Copy: c.DescribeHsmClientCertificatesRequest}
 }
 
-// DescribeHsmClientCertificatesPages iterates over the pages of a DescribeHsmClientCertificates operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeHsmClientCertificates method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeHsmClientCertificatesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeHsmClientCertificates operation.
-//    pageNum := 0
-//    err := client.DescribeHsmClientCertificatesPages(params,
-//        func(page *DescribeHsmClientCertificatesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeHsmClientCertificatesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeHsmClientCertificatesPages(input *DescribeHsmClientCertificatesInput, fn func(*DescribeHsmClientCertificatesOutput, bool) bool) error {
-	return c.DescribeHsmClientCertificatesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeHsmClientCertificatesRequest) Paginate(opts ...aws.Option) DescribeHsmClientCertificatesPager {
+	return DescribeHsmClientCertificatesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeHsmClientCertificatesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeHsmClientCertificatesPagesWithContext same as DescribeHsmClientCertificatesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeHsmClientCertificatesPagesWithContext(ctx aws.Context, input *DescribeHsmClientCertificatesInput, fn func(*DescribeHsmClientCertificatesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeHsmClientCertificatesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeHsmClientCertificatesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeHsmClientCertificatesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeHsmClientCertificatesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeHsmClientCertificatesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeHsmClientCertificatesPager) CurrentPage() *DescribeHsmClientCertificatesOutput {
+	return p.Pager.CurrentPage().(*DescribeHsmClientCertificatesOutput)
 }
 
 const opDescribeHsmConfigurations = "DescribeHsmConfigurations"
@@ -2532,6 +2628,7 @@ const opDescribeHsmConfigurations = "DescribeHsmConfigurations"
 type DescribeHsmConfigurationsRequest struct {
 	*aws.Request
 	Input *DescribeHsmConfigurationsInput
+	Copy  func(*DescribeHsmConfigurationsInput) DescribeHsmConfigurationsRequest
 }
 
 // Send marshals and sends the DescribeHsmConfigurations API request.
@@ -2586,58 +2683,57 @@ func (c *Redshift) DescribeHsmConfigurationsRequest(input *DescribeHsmConfigurat
 		input = &DescribeHsmConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeHsmConfigurationsOutput{})
-	return DescribeHsmConfigurationsRequest{Request: req, Input: input}
+	output := &DescribeHsmConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeHsmConfigurationsRequest{Request: req, Input: input, Copy: c.DescribeHsmConfigurationsRequest}
 }
 
-// DescribeHsmConfigurationsPages iterates over the pages of a DescribeHsmConfigurations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeHsmConfigurations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeHsmConfigurationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeHsmConfigurations operation.
-//    pageNum := 0
-//    err := client.DescribeHsmConfigurationsPages(params,
-//        func(page *DescribeHsmConfigurationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeHsmConfigurationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeHsmConfigurationsPages(input *DescribeHsmConfigurationsInput, fn func(*DescribeHsmConfigurationsOutput, bool) bool) error {
-	return c.DescribeHsmConfigurationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeHsmConfigurationsRequest) Paginate(opts ...aws.Option) DescribeHsmConfigurationsPager {
+	return DescribeHsmConfigurationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeHsmConfigurationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeHsmConfigurationsPagesWithContext same as DescribeHsmConfigurationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeHsmConfigurationsPagesWithContext(ctx aws.Context, input *DescribeHsmConfigurationsInput, fn func(*DescribeHsmConfigurationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeHsmConfigurationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeHsmConfigurationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeHsmConfigurationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeHsmConfigurationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeHsmConfigurationsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeHsmConfigurationsPager) CurrentPage() *DescribeHsmConfigurationsOutput {
+	return p.Pager.CurrentPage().(*DescribeHsmConfigurationsOutput)
 }
 
 const opDescribeLoggingStatus = "DescribeLoggingStatus"
@@ -2646,6 +2742,7 @@ const opDescribeLoggingStatus = "DescribeLoggingStatus"
 type DescribeLoggingStatusRequest struct {
 	*aws.Request
 	Input *DescribeLoggingStatusInput
+	Copy  func(*DescribeLoggingStatusInput) DescribeLoggingStatusRequest
 }
 
 // Send marshals and sends the DescribeLoggingStatus API request.
@@ -2683,8 +2780,11 @@ func (c *Redshift) DescribeLoggingStatusRequest(input *DescribeLoggingStatusInpu
 		input = &DescribeLoggingStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableLoggingOutput{})
-	return DescribeLoggingStatusRequest{Request: req, Input: input}
+	output := &EnableLoggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoggingStatusRequest{Request: req, Input: input, Copy: c.DescribeLoggingStatusRequest}
 }
 
 const opDescribeOrderableClusterOptions = "DescribeOrderableClusterOptions"
@@ -2693,6 +2793,7 @@ const opDescribeOrderableClusterOptions = "DescribeOrderableClusterOptions"
 type DescribeOrderableClusterOptionsRequest struct {
 	*aws.Request
 	Input *DescribeOrderableClusterOptionsInput
+	Copy  func(*DescribeOrderableClusterOptionsInput) DescribeOrderableClusterOptionsRequest
 }
 
 // Send marshals and sends the DescribeOrderableClusterOptions API request.
@@ -2743,58 +2844,57 @@ func (c *Redshift) DescribeOrderableClusterOptionsRequest(input *DescribeOrderab
 		input = &DescribeOrderableClusterOptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeOrderableClusterOptionsOutput{})
-	return DescribeOrderableClusterOptionsRequest{Request: req, Input: input}
+	output := &DescribeOrderableClusterOptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeOrderableClusterOptionsRequest{Request: req, Input: input, Copy: c.DescribeOrderableClusterOptionsRequest}
 }
 
-// DescribeOrderableClusterOptionsPages iterates over the pages of a DescribeOrderableClusterOptions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeOrderableClusterOptions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeOrderableClusterOptionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeOrderableClusterOptions operation.
-//    pageNum := 0
-//    err := client.DescribeOrderableClusterOptionsPages(params,
-//        func(page *DescribeOrderableClusterOptionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeOrderableClusterOptionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeOrderableClusterOptionsPages(input *DescribeOrderableClusterOptionsInput, fn func(*DescribeOrderableClusterOptionsOutput, bool) bool) error {
-	return c.DescribeOrderableClusterOptionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeOrderableClusterOptionsRequest) Paginate(opts ...aws.Option) DescribeOrderableClusterOptionsPager {
+	return DescribeOrderableClusterOptionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeOrderableClusterOptionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeOrderableClusterOptionsPagesWithContext same as DescribeOrderableClusterOptionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeOrderableClusterOptionsPagesWithContext(ctx aws.Context, input *DescribeOrderableClusterOptionsInput, fn func(*DescribeOrderableClusterOptionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeOrderableClusterOptionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeOrderableClusterOptionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeOrderableClusterOptionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeOrderableClusterOptionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeOrderableClusterOptionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeOrderableClusterOptionsPager) CurrentPage() *DescribeOrderableClusterOptionsOutput {
+	return p.Pager.CurrentPage().(*DescribeOrderableClusterOptionsOutput)
 }
 
 const opDescribeReservedNodeOfferings = "DescribeReservedNodeOfferings"
@@ -2803,6 +2903,7 @@ const opDescribeReservedNodeOfferings = "DescribeReservedNodeOfferings"
 type DescribeReservedNodeOfferingsRequest struct {
 	*aws.Request
 	Input *DescribeReservedNodeOfferingsInput
+	Copy  func(*DescribeReservedNodeOfferingsInput) DescribeReservedNodeOfferingsRequest
 }
 
 // Send marshals and sends the DescribeReservedNodeOfferings API request.
@@ -2854,58 +2955,57 @@ func (c *Redshift) DescribeReservedNodeOfferingsRequest(input *DescribeReservedN
 		input = &DescribeReservedNodeOfferingsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeReservedNodeOfferingsOutput{})
-	return DescribeReservedNodeOfferingsRequest{Request: req, Input: input}
+	output := &DescribeReservedNodeOfferingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeReservedNodeOfferingsRequest{Request: req, Input: input, Copy: c.DescribeReservedNodeOfferingsRequest}
 }
 
-// DescribeReservedNodeOfferingsPages iterates over the pages of a DescribeReservedNodeOfferings operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeReservedNodeOfferings method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeReservedNodeOfferingsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeReservedNodeOfferings operation.
-//    pageNum := 0
-//    err := client.DescribeReservedNodeOfferingsPages(params,
-//        func(page *DescribeReservedNodeOfferingsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeReservedNodeOfferingsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeReservedNodeOfferingsPages(input *DescribeReservedNodeOfferingsInput, fn func(*DescribeReservedNodeOfferingsOutput, bool) bool) error {
-	return c.DescribeReservedNodeOfferingsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeReservedNodeOfferingsRequest) Paginate(opts ...aws.Option) DescribeReservedNodeOfferingsPager {
+	return DescribeReservedNodeOfferingsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeReservedNodeOfferingsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeReservedNodeOfferingsPagesWithContext same as DescribeReservedNodeOfferingsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeReservedNodeOfferingsPagesWithContext(ctx aws.Context, input *DescribeReservedNodeOfferingsInput, fn func(*DescribeReservedNodeOfferingsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeReservedNodeOfferingsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeReservedNodeOfferingsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeReservedNodeOfferingsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeReservedNodeOfferingsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeReservedNodeOfferingsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeReservedNodeOfferingsPager) CurrentPage() *DescribeReservedNodeOfferingsOutput {
+	return p.Pager.CurrentPage().(*DescribeReservedNodeOfferingsOutput)
 }
 
 const opDescribeReservedNodes = "DescribeReservedNodes"
@@ -2914,6 +3014,7 @@ const opDescribeReservedNodes = "DescribeReservedNodes"
 type DescribeReservedNodesRequest struct {
 	*aws.Request
 	Input *DescribeReservedNodesInput
+	Copy  func(*DescribeReservedNodesInput) DescribeReservedNodesRequest
 }
 
 // Send marshals and sends the DescribeReservedNodes API request.
@@ -2956,58 +3057,57 @@ func (c *Redshift) DescribeReservedNodesRequest(input *DescribeReservedNodesInpu
 		input = &DescribeReservedNodesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeReservedNodesOutput{})
-	return DescribeReservedNodesRequest{Request: req, Input: input}
+	output := &DescribeReservedNodesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeReservedNodesRequest{Request: req, Input: input, Copy: c.DescribeReservedNodesRequest}
 }
 
-// DescribeReservedNodesPages iterates over the pages of a DescribeReservedNodes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeReservedNodes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeReservedNodesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeReservedNodes operation.
-//    pageNum := 0
-//    err := client.DescribeReservedNodesPages(params,
-//        func(page *DescribeReservedNodesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeReservedNodesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Redshift) DescribeReservedNodesPages(input *DescribeReservedNodesInput, fn func(*DescribeReservedNodesOutput, bool) bool) error {
-	return c.DescribeReservedNodesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeReservedNodesRequest) Paginate(opts ...aws.Option) DescribeReservedNodesPager {
+	return DescribeReservedNodesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeReservedNodesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeReservedNodesPagesWithContext same as DescribeReservedNodesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Redshift) DescribeReservedNodesPagesWithContext(ctx aws.Context, input *DescribeReservedNodesInput, fn func(*DescribeReservedNodesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeReservedNodesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeReservedNodesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeReservedNodesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeReservedNodesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeReservedNodesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeReservedNodesPager) CurrentPage() *DescribeReservedNodesOutput {
+	return p.Pager.CurrentPage().(*DescribeReservedNodesOutput)
 }
 
 const opDescribeResize = "DescribeResize"
@@ -3016,6 +3116,7 @@ const opDescribeResize = "DescribeResize"
 type DescribeResizeRequest struct {
 	*aws.Request
 	Input *DescribeResizeInput
+	Copy  func(*DescribeResizeInput) DescribeResizeRequest
 }
 
 // Send marshals and sends the DescribeResize API request.
@@ -3058,8 +3159,11 @@ func (c *Redshift) DescribeResizeRequest(input *DescribeResizeInput) DescribeRes
 		input = &DescribeResizeInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeResizeOutput{})
-	return DescribeResizeRequest{Request: req, Input: input}
+	output := &DescribeResizeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeResizeRequest{Request: req, Input: input, Copy: c.DescribeResizeRequest}
 }
 
 const opDescribeSnapshotCopyGrants = "DescribeSnapshotCopyGrants"
@@ -3068,6 +3172,7 @@ const opDescribeSnapshotCopyGrants = "DescribeSnapshotCopyGrants"
 type DescribeSnapshotCopyGrantsRequest struct {
 	*aws.Request
 	Input *DescribeSnapshotCopyGrantsInput
+	Copy  func(*DescribeSnapshotCopyGrantsInput) DescribeSnapshotCopyGrantsRequest
 }
 
 // Send marshals and sends the DescribeSnapshotCopyGrants API request.
@@ -3109,8 +3214,11 @@ func (c *Redshift) DescribeSnapshotCopyGrantsRequest(input *DescribeSnapshotCopy
 		input = &DescribeSnapshotCopyGrantsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSnapshotCopyGrantsOutput{})
-	return DescribeSnapshotCopyGrantsRequest{Request: req, Input: input}
+	output := &DescribeSnapshotCopyGrantsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSnapshotCopyGrantsRequest{Request: req, Input: input, Copy: c.DescribeSnapshotCopyGrantsRequest}
 }
 
 const opDescribeTableRestoreStatus = "DescribeTableRestoreStatus"
@@ -3119,6 +3227,7 @@ const opDescribeTableRestoreStatus = "DescribeTableRestoreStatus"
 type DescribeTableRestoreStatusRequest struct {
 	*aws.Request
 	Input *DescribeTableRestoreStatusInput
+	Copy  func(*DescribeTableRestoreStatusInput) DescribeTableRestoreStatusRequest
 }
 
 // Send marshals and sends the DescribeTableRestoreStatus API request.
@@ -3159,8 +3268,11 @@ func (c *Redshift) DescribeTableRestoreStatusRequest(input *DescribeTableRestore
 		input = &DescribeTableRestoreStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTableRestoreStatusOutput{})
-	return DescribeTableRestoreStatusRequest{Request: req, Input: input}
+	output := &DescribeTableRestoreStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTableRestoreStatusRequest{Request: req, Input: input, Copy: c.DescribeTableRestoreStatusRequest}
 }
 
 const opDescribeTags = "DescribeTags"
@@ -3169,6 +3281,7 @@ const opDescribeTags = "DescribeTags"
 type DescribeTagsRequest struct {
 	*aws.Request
 	Input *DescribeTagsInput
+	Copy  func(*DescribeTagsInput) DescribeTagsRequest
 }
 
 // Send marshals and sends the DescribeTags API request.
@@ -3227,8 +3340,11 @@ func (c *Redshift) DescribeTagsRequest(input *DescribeTagsInput) DescribeTagsReq
 		input = &DescribeTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTagsOutput{})
-	return DescribeTagsRequest{Request: req, Input: input}
+	output := &DescribeTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTagsRequest{Request: req, Input: input, Copy: c.DescribeTagsRequest}
 }
 
 const opDisableLogging = "DisableLogging"
@@ -3237,6 +3353,7 @@ const opDisableLogging = "DisableLogging"
 type DisableLoggingRequest struct {
 	*aws.Request
 	Input *DisableLoggingInput
+	Copy  func(*DisableLoggingInput) DisableLoggingRequest
 }
 
 // Send marshals and sends the DisableLogging API request.
@@ -3274,8 +3391,11 @@ func (c *Redshift) DisableLoggingRequest(input *DisableLoggingInput) DisableLogg
 		input = &DisableLoggingInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableLoggingOutput{})
-	return DisableLoggingRequest{Request: req, Input: input}
+	output := &EnableLoggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableLoggingRequest{Request: req, Input: input, Copy: c.DisableLoggingRequest}
 }
 
 const opDisableSnapshotCopy = "DisableSnapshotCopy"
@@ -3284,6 +3404,7 @@ const opDisableSnapshotCopy = "DisableSnapshotCopy"
 type DisableSnapshotCopyRequest struct {
 	*aws.Request
 	Input *DisableSnapshotCopyInput
+	Copy  func(*DisableSnapshotCopyInput) DisableSnapshotCopyRequest
 }
 
 // Send marshals and sends the DisableSnapshotCopy API request.
@@ -3325,8 +3446,11 @@ func (c *Redshift) DisableSnapshotCopyRequest(input *DisableSnapshotCopyInput) D
 		input = &DisableSnapshotCopyInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableSnapshotCopyOutput{})
-	return DisableSnapshotCopyRequest{Request: req, Input: input}
+	output := &DisableSnapshotCopyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableSnapshotCopyRequest{Request: req, Input: input, Copy: c.DisableSnapshotCopyRequest}
 }
 
 const opEnableLogging = "EnableLogging"
@@ -3335,6 +3459,7 @@ const opEnableLogging = "EnableLogging"
 type EnableLoggingRequest struct {
 	*aws.Request
 	Input *EnableLoggingInput
+	Copy  func(*EnableLoggingInput) EnableLoggingRequest
 }
 
 // Send marshals and sends the EnableLogging API request.
@@ -3372,8 +3497,11 @@ func (c *Redshift) EnableLoggingRequest(input *EnableLoggingInput) EnableLogging
 		input = &EnableLoggingInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableLoggingOutput{})
-	return EnableLoggingRequest{Request: req, Input: input}
+	output := &EnableLoggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableLoggingRequest{Request: req, Input: input, Copy: c.EnableLoggingRequest}
 }
 
 const opEnableSnapshotCopy = "EnableSnapshotCopy"
@@ -3382,6 +3510,7 @@ const opEnableSnapshotCopy = "EnableSnapshotCopy"
 type EnableSnapshotCopyRequest struct {
 	*aws.Request
 	Input *EnableSnapshotCopyInput
+	Copy  func(*EnableSnapshotCopyInput) EnableSnapshotCopyRequest
 }
 
 // Send marshals and sends the EnableSnapshotCopy API request.
@@ -3419,8 +3548,11 @@ func (c *Redshift) EnableSnapshotCopyRequest(input *EnableSnapshotCopyInput) Ena
 		input = &EnableSnapshotCopyInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableSnapshotCopyOutput{})
-	return EnableSnapshotCopyRequest{Request: req, Input: input}
+	output := &EnableSnapshotCopyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableSnapshotCopyRequest{Request: req, Input: input, Copy: c.EnableSnapshotCopyRequest}
 }
 
 const opGetClusterCredentials = "GetClusterCredentials"
@@ -3429,6 +3561,7 @@ const opGetClusterCredentials = "GetClusterCredentials"
 type GetClusterCredentialsRequest struct {
 	*aws.Request
 	Input *GetClusterCredentialsInput
+	Copy  func(*GetClusterCredentialsInput) GetClusterCredentialsRequest
 }
 
 // Send marshals and sends the GetClusterCredentials API request.
@@ -3488,8 +3621,11 @@ func (c *Redshift) GetClusterCredentialsRequest(input *GetClusterCredentialsInpu
 		input = &GetClusterCredentialsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetClusterCredentialsOutput{})
-	return GetClusterCredentialsRequest{Request: req, Input: input}
+	output := &GetClusterCredentialsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetClusterCredentialsRequest{Request: req, Input: input, Copy: c.GetClusterCredentialsRequest}
 }
 
 const opModifyCluster = "ModifyCluster"
@@ -3498,6 +3634,7 @@ const opModifyCluster = "ModifyCluster"
 type ModifyClusterRequest struct {
 	*aws.Request
 	Input *ModifyClusterInput
+	Copy  func(*ModifyClusterInput) ModifyClusterRequest
 }
 
 // Send marshals and sends the ModifyCluster API request.
@@ -3544,8 +3681,11 @@ func (c *Redshift) ModifyClusterRequest(input *ModifyClusterInput) ModifyCluster
 		input = &ModifyClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyClusterOutput{})
-	return ModifyClusterRequest{Request: req, Input: input}
+	output := &ModifyClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyClusterRequest{Request: req, Input: input, Copy: c.ModifyClusterRequest}
 }
 
 const opModifyClusterIamRoles = "ModifyClusterIamRoles"
@@ -3554,6 +3694,7 @@ const opModifyClusterIamRoles = "ModifyClusterIamRoles"
 type ModifyClusterIamRolesRequest struct {
 	*aws.Request
 	Input *ModifyClusterIamRolesInput
+	Copy  func(*ModifyClusterIamRolesInput) ModifyClusterIamRolesRequest
 }
 
 // Send marshals and sends the ModifyClusterIamRoles API request.
@@ -3593,8 +3734,11 @@ func (c *Redshift) ModifyClusterIamRolesRequest(input *ModifyClusterIamRolesInpu
 		input = &ModifyClusterIamRolesInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyClusterIamRolesOutput{})
-	return ModifyClusterIamRolesRequest{Request: req, Input: input}
+	output := &ModifyClusterIamRolesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyClusterIamRolesRequest{Request: req, Input: input, Copy: c.ModifyClusterIamRolesRequest}
 }
 
 const opModifyClusterParameterGroup = "ModifyClusterParameterGroup"
@@ -3603,6 +3747,7 @@ const opModifyClusterParameterGroup = "ModifyClusterParameterGroup"
 type ModifyClusterParameterGroupRequest struct {
 	*aws.Request
 	Input *ModifyClusterParameterGroupInput
+	Copy  func(*ModifyClusterParameterGroupInput) ModifyClusterParameterGroupRequest
 }
 
 // Send marshals and sends the ModifyClusterParameterGroup API request.
@@ -3643,8 +3788,11 @@ func (c *Redshift) ModifyClusterParameterGroupRequest(input *ModifyClusterParame
 		input = &ModifyClusterParameterGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &ResetClusterParameterGroupOutput{})
-	return ModifyClusterParameterGroupRequest{Request: req, Input: input}
+	output := &ResetClusterParameterGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyClusterParameterGroupRequest{Request: req, Input: input, Copy: c.ModifyClusterParameterGroupRequest}
 }
 
 const opModifyClusterSubnetGroup = "ModifyClusterSubnetGroup"
@@ -3653,6 +3801,7 @@ const opModifyClusterSubnetGroup = "ModifyClusterSubnetGroup"
 type ModifyClusterSubnetGroupRequest struct {
 	*aws.Request
 	Input *ModifyClusterSubnetGroupInput
+	Copy  func(*ModifyClusterSubnetGroupInput) ModifyClusterSubnetGroupRequest
 }
 
 // Send marshals and sends the ModifyClusterSubnetGroup API request.
@@ -3691,8 +3840,11 @@ func (c *Redshift) ModifyClusterSubnetGroupRequest(input *ModifyClusterSubnetGro
 		input = &ModifyClusterSubnetGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyClusterSubnetGroupOutput{})
-	return ModifyClusterSubnetGroupRequest{Request: req, Input: input}
+	output := &ModifyClusterSubnetGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyClusterSubnetGroupRequest{Request: req, Input: input, Copy: c.ModifyClusterSubnetGroupRequest}
 }
 
 const opModifyEventSubscription = "ModifyEventSubscription"
@@ -3701,6 +3853,7 @@ const opModifyEventSubscription = "ModifyEventSubscription"
 type ModifyEventSubscriptionRequest struct {
 	*aws.Request
 	Input *ModifyEventSubscriptionInput
+	Copy  func(*ModifyEventSubscriptionInput) ModifyEventSubscriptionRequest
 }
 
 // Send marshals and sends the ModifyEventSubscription API request.
@@ -3737,8 +3890,11 @@ func (c *Redshift) ModifyEventSubscriptionRequest(input *ModifyEventSubscription
 		input = &ModifyEventSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyEventSubscriptionOutput{})
-	return ModifyEventSubscriptionRequest{Request: req, Input: input}
+	output := &ModifyEventSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyEventSubscriptionRequest{Request: req, Input: input, Copy: c.ModifyEventSubscriptionRequest}
 }
 
 const opModifySnapshotCopyRetentionPeriod = "ModifySnapshotCopyRetentionPeriod"
@@ -3747,6 +3903,7 @@ const opModifySnapshotCopyRetentionPeriod = "ModifySnapshotCopyRetentionPeriod"
 type ModifySnapshotCopyRetentionPeriodRequest struct {
 	*aws.Request
 	Input *ModifySnapshotCopyRetentionPeriodInput
+	Copy  func(*ModifySnapshotCopyRetentionPeriodInput) ModifySnapshotCopyRetentionPeriodRequest
 }
 
 // Send marshals and sends the ModifySnapshotCopyRetentionPeriod API request.
@@ -3784,8 +3941,11 @@ func (c *Redshift) ModifySnapshotCopyRetentionPeriodRequest(input *ModifySnapsho
 		input = &ModifySnapshotCopyRetentionPeriodInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifySnapshotCopyRetentionPeriodOutput{})
-	return ModifySnapshotCopyRetentionPeriodRequest{Request: req, Input: input}
+	output := &ModifySnapshotCopyRetentionPeriodOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifySnapshotCopyRetentionPeriodRequest{Request: req, Input: input, Copy: c.ModifySnapshotCopyRetentionPeriodRequest}
 }
 
 const opPurchaseReservedNodeOffering = "PurchaseReservedNodeOffering"
@@ -3794,6 +3954,7 @@ const opPurchaseReservedNodeOffering = "PurchaseReservedNodeOffering"
 type PurchaseReservedNodeOfferingRequest struct {
 	*aws.Request
 	Input *PurchaseReservedNodeOfferingInput
+	Copy  func(*PurchaseReservedNodeOfferingInput) PurchaseReservedNodeOfferingRequest
 }
 
 // Send marshals and sends the PurchaseReservedNodeOffering API request.
@@ -3838,8 +3999,11 @@ func (c *Redshift) PurchaseReservedNodeOfferingRequest(input *PurchaseReservedNo
 		input = &PurchaseReservedNodeOfferingInput{}
 	}
 
-	req := c.newRequest(op, input, &PurchaseReservedNodeOfferingOutput{})
-	return PurchaseReservedNodeOfferingRequest{Request: req, Input: input}
+	output := &PurchaseReservedNodeOfferingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PurchaseReservedNodeOfferingRequest{Request: req, Input: input, Copy: c.PurchaseReservedNodeOfferingRequest}
 }
 
 const opRebootCluster = "RebootCluster"
@@ -3848,6 +4012,7 @@ const opRebootCluster = "RebootCluster"
 type RebootClusterRequest struct {
 	*aws.Request
 	Input *RebootClusterInput
+	Copy  func(*RebootClusterInput) RebootClusterRequest
 }
 
 // Send marshals and sends the RebootCluster API request.
@@ -3890,8 +4055,11 @@ func (c *Redshift) RebootClusterRequest(input *RebootClusterInput) RebootCluster
 		input = &RebootClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &RebootClusterOutput{})
-	return RebootClusterRequest{Request: req, Input: input}
+	output := &RebootClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RebootClusterRequest{Request: req, Input: input, Copy: c.RebootClusterRequest}
 }
 
 const opResetClusterParameterGroup = "ResetClusterParameterGroup"
@@ -3900,6 +4068,7 @@ const opResetClusterParameterGroup = "ResetClusterParameterGroup"
 type ResetClusterParameterGroupRequest struct {
 	*aws.Request
 	Input *ResetClusterParameterGroupInput
+	Copy  func(*ResetClusterParameterGroupInput) ResetClusterParameterGroupRequest
 }
 
 // Send marshals and sends the ResetClusterParameterGroup API request.
@@ -3939,8 +4108,11 @@ func (c *Redshift) ResetClusterParameterGroupRequest(input *ResetClusterParamete
 		input = &ResetClusterParameterGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &ResetClusterParameterGroupOutput{})
-	return ResetClusterParameterGroupRequest{Request: req, Input: input}
+	output := &ResetClusterParameterGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ResetClusterParameterGroupRequest{Request: req, Input: input, Copy: c.ResetClusterParameterGroupRequest}
 }
 
 const opRestoreFromClusterSnapshot = "RestoreFromClusterSnapshot"
@@ -3949,6 +4121,7 @@ const opRestoreFromClusterSnapshot = "RestoreFromClusterSnapshot"
 type RestoreFromClusterSnapshotRequest struct {
 	*aws.Request
 	Input *RestoreFromClusterSnapshotInput
+	Copy  func(*RestoreFromClusterSnapshotInput) RestoreFromClusterSnapshotRequest
 }
 
 // Send marshals and sends the RestoreFromClusterSnapshot API request.
@@ -3999,8 +4172,11 @@ func (c *Redshift) RestoreFromClusterSnapshotRequest(input *RestoreFromClusterSn
 		input = &RestoreFromClusterSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &RestoreFromClusterSnapshotOutput{})
-	return RestoreFromClusterSnapshotRequest{Request: req, Input: input}
+	output := &RestoreFromClusterSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RestoreFromClusterSnapshotRequest{Request: req, Input: input, Copy: c.RestoreFromClusterSnapshotRequest}
 }
 
 const opRestoreTableFromClusterSnapshot = "RestoreTableFromClusterSnapshot"
@@ -4009,6 +4185,7 @@ const opRestoreTableFromClusterSnapshot = "RestoreTableFromClusterSnapshot"
 type RestoreTableFromClusterSnapshotRequest struct {
 	*aws.Request
 	Input *RestoreTableFromClusterSnapshotInput
+	Copy  func(*RestoreTableFromClusterSnapshotInput) RestoreTableFromClusterSnapshotRequest
 }
 
 // Send marshals and sends the RestoreTableFromClusterSnapshot API request.
@@ -4057,8 +4234,11 @@ func (c *Redshift) RestoreTableFromClusterSnapshotRequest(input *RestoreTableFro
 		input = &RestoreTableFromClusterSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &RestoreTableFromClusterSnapshotOutput{})
-	return RestoreTableFromClusterSnapshotRequest{Request: req, Input: input}
+	output := &RestoreTableFromClusterSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RestoreTableFromClusterSnapshotRequest{Request: req, Input: input, Copy: c.RestoreTableFromClusterSnapshotRequest}
 }
 
 const opRevokeClusterSecurityGroupIngress = "RevokeClusterSecurityGroupIngress"
@@ -4067,6 +4247,7 @@ const opRevokeClusterSecurityGroupIngress = "RevokeClusterSecurityGroupIngress"
 type RevokeClusterSecurityGroupIngressRequest struct {
 	*aws.Request
 	Input *RevokeClusterSecurityGroupIngressInput
+	Copy  func(*RevokeClusterSecurityGroupIngressInput) RevokeClusterSecurityGroupIngressRequest
 }
 
 // Send marshals and sends the RevokeClusterSecurityGroupIngress API request.
@@ -4107,8 +4288,11 @@ func (c *Redshift) RevokeClusterSecurityGroupIngressRequest(input *RevokeCluster
 		input = &RevokeClusterSecurityGroupIngressInput{}
 	}
 
-	req := c.newRequest(op, input, &RevokeClusterSecurityGroupIngressOutput{})
-	return RevokeClusterSecurityGroupIngressRequest{Request: req, Input: input}
+	output := &RevokeClusterSecurityGroupIngressOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RevokeClusterSecurityGroupIngressRequest{Request: req, Input: input, Copy: c.RevokeClusterSecurityGroupIngressRequest}
 }
 
 const opRevokeSnapshotAccess = "RevokeSnapshotAccess"
@@ -4117,6 +4301,7 @@ const opRevokeSnapshotAccess = "RevokeSnapshotAccess"
 type RevokeSnapshotAccessRequest struct {
 	*aws.Request
 	Input *RevokeSnapshotAccessInput
+	Copy  func(*RevokeSnapshotAccessInput) RevokeSnapshotAccessRequest
 }
 
 // Send marshals and sends the RevokeSnapshotAccess API request.
@@ -4159,8 +4344,11 @@ func (c *Redshift) RevokeSnapshotAccessRequest(input *RevokeSnapshotAccessInput)
 		input = &RevokeSnapshotAccessInput{}
 	}
 
-	req := c.newRequest(op, input, &RevokeSnapshotAccessOutput{})
-	return RevokeSnapshotAccessRequest{Request: req, Input: input}
+	output := &RevokeSnapshotAccessOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RevokeSnapshotAccessRequest{Request: req, Input: input, Copy: c.RevokeSnapshotAccessRequest}
 }
 
 const opRotateEncryptionKey = "RotateEncryptionKey"
@@ -4169,6 +4357,7 @@ const opRotateEncryptionKey = "RotateEncryptionKey"
 type RotateEncryptionKeyRequest struct {
 	*aws.Request
 	Input *RotateEncryptionKeyInput
+	Copy  func(*RotateEncryptionKeyInput) RotateEncryptionKeyRequest
 }
 
 // Send marshals and sends the RotateEncryptionKey API request.
@@ -4205,8 +4394,11 @@ func (c *Redshift) RotateEncryptionKeyRequest(input *RotateEncryptionKeyInput) R
 		input = &RotateEncryptionKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &RotateEncryptionKeyOutput{})
-	return RotateEncryptionKeyRequest{Request: req, Input: input}
+	output := &RotateEncryptionKeyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RotateEncryptionKeyRequest{Request: req, Input: input, Copy: c.RotateEncryptionKeyRequest}
 }
 
 // Describes an AWS customer account authorized to restore a snapshot.
@@ -4230,18 +4422,6 @@ func (s AccountWithRestoreAccess) String() string {
 // GoString returns the string representation
 func (s AccountWithRestoreAccess) GoString() string {
 	return s.String()
-}
-
-// SetAccountAlias sets the AccountAlias field's value.
-func (s *AccountWithRestoreAccess) SetAccountAlias(v string) *AccountWithRestoreAccess {
-	s.AccountAlias = &v
-	return s
-}
-
-// SetAccountId sets the AccountId field's value.
-func (s *AccountWithRestoreAccess) SetAccountId(v string) *AccountWithRestoreAccess {
-	s.AccountId = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeClusterSecurityGroupIngressMessage
@@ -4291,33 +4471,11 @@ func (s *AuthorizeClusterSecurityGroupIngressInput) Validate() error {
 	return nil
 }
 
-// SetCIDRIP sets the CIDRIP field's value.
-func (s *AuthorizeClusterSecurityGroupIngressInput) SetCIDRIP(v string) *AuthorizeClusterSecurityGroupIngressInput {
-	s.CIDRIP = &v
-	return s
-}
-
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *AuthorizeClusterSecurityGroupIngressInput) SetClusterSecurityGroupName(v string) *AuthorizeClusterSecurityGroupIngressInput {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
-// SetEC2SecurityGroupName sets the EC2SecurityGroupName field's value.
-func (s *AuthorizeClusterSecurityGroupIngressInput) SetEC2SecurityGroupName(v string) *AuthorizeClusterSecurityGroupIngressInput {
-	s.EC2SecurityGroupName = &v
-	return s
-}
-
-// SetEC2SecurityGroupOwnerId sets the EC2SecurityGroupOwnerId field's value.
-func (s *AuthorizeClusterSecurityGroupIngressInput) SetEC2SecurityGroupOwnerId(v string) *AuthorizeClusterSecurityGroupIngressInput {
-	s.EC2SecurityGroupOwnerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeClusterSecurityGroupIngressResult
 type AuthorizeClusterSecurityGroupIngressOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a security group.
 	ClusterSecurityGroup *ClusterSecurityGroup `type:"structure"`
@@ -4333,10 +4491,9 @@ func (s AuthorizeClusterSecurityGroupIngressOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSecurityGroup sets the ClusterSecurityGroup field's value.
-func (s *AuthorizeClusterSecurityGroupIngressOutput) SetClusterSecurityGroup(v *ClusterSecurityGroup) *AuthorizeClusterSecurityGroupIngressOutput {
-	s.ClusterSecurityGroup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AuthorizeClusterSecurityGroupIngressOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeSnapshotAccessMessage
@@ -4390,27 +4547,11 @@ func (s *AuthorizeSnapshotAccessInput) Validate() error {
 	return nil
 }
 
-// SetAccountWithRestoreAccess sets the AccountWithRestoreAccess field's value.
-func (s *AuthorizeSnapshotAccessInput) SetAccountWithRestoreAccess(v string) *AuthorizeSnapshotAccessInput {
-	s.AccountWithRestoreAccess = &v
-	return s
-}
-
-// SetSnapshotClusterIdentifier sets the SnapshotClusterIdentifier field's value.
-func (s *AuthorizeSnapshotAccessInput) SetSnapshotClusterIdentifier(v string) *AuthorizeSnapshotAccessInput {
-	s.SnapshotClusterIdentifier = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *AuthorizeSnapshotAccessInput) SetSnapshotIdentifier(v string) *AuthorizeSnapshotAccessInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeSnapshotAccessResult
 type AuthorizeSnapshotAccessOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a snapshot.
 	Snapshot *Snapshot `type:"structure"`
@@ -4426,10 +4567,9 @@ func (s AuthorizeSnapshotAccessOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshot sets the Snapshot field's value.
-func (s *AuthorizeSnapshotAccessOutput) SetSnapshot(v *Snapshot) *AuthorizeSnapshotAccessOutput {
-	s.Snapshot = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AuthorizeSnapshotAccessOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an availability zone.
@@ -4439,6 +4579,8 @@ type AvailabilityZone struct {
 
 	// The name of the availability zone.
 	Name *string `type:"string"`
+
+	SupportedPlatforms []SupportedPlatform `locationNameList:"SupportedPlatform" type:"list"`
 }
 
 // String returns the string representation
@@ -4449,12 +4591,6 @@ func (s AvailabilityZone) String() string {
 // GoString returns the string representation
 func (s AvailabilityZone) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *AvailabilityZone) SetName(v string) *AvailabilityZone {
-	s.Name = &v
-	return s
 }
 
 // Describes a cluster.
@@ -4479,11 +4615,11 @@ type Cluster struct {
 	ClusterIdentifier *string `type:"string"`
 
 	// The nodes in the cluster.
-	ClusterNodes []*ClusterNode `type:"list"`
+	ClusterNodes []ClusterNode `type:"list"`
 
 	// The list of cluster parameter groups that are associated with this cluster.
 	// Each parameter group in the list is returned with its status.
-	ClusterParameterGroups []*ClusterParameterGroupStatus `locationNameList:"ClusterParameterGroup" type:"list"`
+	ClusterParameterGroups []ClusterParameterGroupStatus `locationNameList:"ClusterParameterGroup" type:"list"`
 
 	// The public key for the cluster.
 	ClusterPublicKey *string `type:"string"`
@@ -4498,7 +4634,7 @@ type Cluster struct {
 	// Cluster security groups are used when the cluster is not created in an Amazon
 	// Virtual Private Cloud (VPC). Clusters that are created in a VPC use VPC security
 	// groups, which are listed by the VpcSecurityGroups parameter.
-	ClusterSecurityGroups []*ClusterSecurityGroupMembership `locationNameList:"ClusterSecurityGroup" type:"list"`
+	ClusterSecurityGroups []ClusterSecurityGroupMembership `locationNameList:"ClusterSecurityGroup" type:"list"`
 
 	// A value that returns the destination region and retention period that are
 	// configured for cross-region snapshot copy.
@@ -4581,7 +4717,7 @@ type Cluster struct {
 
 	// A list of AWS Identity and Access Management (IAM) roles that can be used
 	// by the cluster to access other AWS services.
-	IamRoles []*ClusterIamRole `locationNameList:"ClusterIamRole" type:"list"`
+	IamRoles []ClusterIamRole `locationNameList:"ClusterIamRole" type:"list"`
 
 	// The AWS Key Management Service (AWS KMS) key ID of the encryption key used
 	// to encrypt data in the cluster.
@@ -4617,7 +4753,7 @@ type Cluster struct {
 	RestoreStatus *RestoreStatus `type:"structure"`
 
 	// The list of tags for the cluster.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 
 	// The identifier of the VPC the cluster is in, if the cluster is in a VPC.
 	VpcId *string `type:"string"`
@@ -4625,7 +4761,7 @@ type Cluster struct {
 	// A list of Amazon Virtual Private Cloud (Amazon VPC) security groups that
 	// are associated with the cluster. This parameter is returned only if the cluster
 	// is in a VPC.
-	VpcSecurityGroups []*VpcSecurityGroupMembership `locationNameList:"VpcSecurityGroup" type:"list"`
+	VpcSecurityGroups []VpcSecurityGroupMembership `locationNameList:"VpcSecurityGroup" type:"list"`
 }
 
 // String returns the string representation
@@ -4636,204 +4772,6 @@ func (s Cluster) String() string {
 // GoString returns the string representation
 func (s Cluster) GoString() string {
 	return s.String()
-}
-
-// SetAllowVersionUpgrade sets the AllowVersionUpgrade field's value.
-func (s *Cluster) SetAllowVersionUpgrade(v bool) *Cluster {
-	s.AllowVersionUpgrade = &v
-	return s
-}
-
-// SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
-func (s *Cluster) SetAutomatedSnapshotRetentionPeriod(v int64) *Cluster {
-	s.AutomatedSnapshotRetentionPeriod = &v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *Cluster) SetAvailabilityZone(v string) *Cluster {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetClusterCreateTime sets the ClusterCreateTime field's value.
-func (s *Cluster) SetClusterCreateTime(v time.Time) *Cluster {
-	s.ClusterCreateTime = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *Cluster) SetClusterIdentifier(v string) *Cluster {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetClusterNodes sets the ClusterNodes field's value.
-func (s *Cluster) SetClusterNodes(v []*ClusterNode) *Cluster {
-	s.ClusterNodes = v
-	return s
-}
-
-// SetClusterParameterGroups sets the ClusterParameterGroups field's value.
-func (s *Cluster) SetClusterParameterGroups(v []*ClusterParameterGroupStatus) *Cluster {
-	s.ClusterParameterGroups = v
-	return s
-}
-
-// SetClusterPublicKey sets the ClusterPublicKey field's value.
-func (s *Cluster) SetClusterPublicKey(v string) *Cluster {
-	s.ClusterPublicKey = &v
-	return s
-}
-
-// SetClusterRevisionNumber sets the ClusterRevisionNumber field's value.
-func (s *Cluster) SetClusterRevisionNumber(v string) *Cluster {
-	s.ClusterRevisionNumber = &v
-	return s
-}
-
-// SetClusterSecurityGroups sets the ClusterSecurityGroups field's value.
-func (s *Cluster) SetClusterSecurityGroups(v []*ClusterSecurityGroupMembership) *Cluster {
-	s.ClusterSecurityGroups = v
-	return s
-}
-
-// SetClusterSnapshotCopyStatus sets the ClusterSnapshotCopyStatus field's value.
-func (s *Cluster) SetClusterSnapshotCopyStatus(v *ClusterSnapshotCopyStatus) *Cluster {
-	s.ClusterSnapshotCopyStatus = v
-	return s
-}
-
-// SetClusterStatus sets the ClusterStatus field's value.
-func (s *Cluster) SetClusterStatus(v string) *Cluster {
-	s.ClusterStatus = &v
-	return s
-}
-
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *Cluster) SetClusterSubnetGroupName(v string) *Cluster {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *Cluster) SetClusterVersion(v string) *Cluster {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetDBName sets the DBName field's value.
-func (s *Cluster) SetDBName(v string) *Cluster {
-	s.DBName = &v
-	return s
-}
-
-// SetElasticIpStatus sets the ElasticIpStatus field's value.
-func (s *Cluster) SetElasticIpStatus(v *ElasticIpStatus) *Cluster {
-	s.ElasticIpStatus = v
-	return s
-}
-
-// SetEncrypted sets the Encrypted field's value.
-func (s *Cluster) SetEncrypted(v bool) *Cluster {
-	s.Encrypted = &v
-	return s
-}
-
-// SetEndpoint sets the Endpoint field's value.
-func (s *Cluster) SetEndpoint(v *Endpoint) *Cluster {
-	s.Endpoint = v
-	return s
-}
-
-// SetEnhancedVpcRouting sets the EnhancedVpcRouting field's value.
-func (s *Cluster) SetEnhancedVpcRouting(v bool) *Cluster {
-	s.EnhancedVpcRouting = &v
-	return s
-}
-
-// SetHsmStatus sets the HsmStatus field's value.
-func (s *Cluster) SetHsmStatus(v *HsmStatus) *Cluster {
-	s.HsmStatus = v
-	return s
-}
-
-// SetIamRoles sets the IamRoles field's value.
-func (s *Cluster) SetIamRoles(v []*ClusterIamRole) *Cluster {
-	s.IamRoles = v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *Cluster) SetKmsKeyId(v string) *Cluster {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetMasterUsername sets the MasterUsername field's value.
-func (s *Cluster) SetMasterUsername(v string) *Cluster {
-	s.MasterUsername = &v
-	return s
-}
-
-// SetModifyStatus sets the ModifyStatus field's value.
-func (s *Cluster) SetModifyStatus(v string) *Cluster {
-	s.ModifyStatus = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *Cluster) SetNodeType(v string) *Cluster {
-	s.NodeType = &v
-	return s
-}
-
-// SetNumberOfNodes sets the NumberOfNodes field's value.
-func (s *Cluster) SetNumberOfNodes(v int64) *Cluster {
-	s.NumberOfNodes = &v
-	return s
-}
-
-// SetPendingModifiedValues sets the PendingModifiedValues field's value.
-func (s *Cluster) SetPendingModifiedValues(v *PendingModifiedValues) *Cluster {
-	s.PendingModifiedValues = v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *Cluster) SetPreferredMaintenanceWindow(v string) *Cluster {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetPubliclyAccessible sets the PubliclyAccessible field's value.
-func (s *Cluster) SetPubliclyAccessible(v bool) *Cluster {
-	s.PubliclyAccessible = &v
-	return s
-}
-
-// SetRestoreStatus sets the RestoreStatus field's value.
-func (s *Cluster) SetRestoreStatus(v *RestoreStatus) *Cluster {
-	s.RestoreStatus = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *Cluster) SetTags(v []*Tag) *Cluster {
-	s.Tags = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *Cluster) SetVpcId(v string) *Cluster {
-	s.VpcId = &v
-	return s
-}
-
-// SetVpcSecurityGroups sets the VpcSecurityGroups field's value.
-func (s *Cluster) SetVpcSecurityGroups(v []*VpcSecurityGroupMembership) *Cluster {
-	s.VpcSecurityGroups = v
-	return s
 }
 
 // An AWS Identity and Access Management (IAM) role that can be used by the
@@ -4869,18 +4807,6 @@ func (s ClusterIamRole) GoString() string {
 	return s.String()
 }
 
-// SetApplyStatus sets the ApplyStatus field's value.
-func (s *ClusterIamRole) SetApplyStatus(v string) *ClusterIamRole {
-	s.ApplyStatus = &v
-	return s
-}
-
-// SetIamRoleArn sets the IamRoleArn field's value.
-func (s *ClusterIamRole) SetIamRoleArn(v string) *ClusterIamRole {
-	s.IamRoleArn = &v
-	return s
-}
-
 // The identifier of a node in a cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterNode
 type ClusterNode struct {
@@ -4906,24 +4832,6 @@ func (s ClusterNode) GoString() string {
 	return s.String()
 }
 
-// SetNodeRole sets the NodeRole field's value.
-func (s *ClusterNode) SetNodeRole(v string) *ClusterNode {
-	s.NodeRole = &v
-	return s
-}
-
-// SetPrivateIPAddress sets the PrivateIPAddress field's value.
-func (s *ClusterNode) SetPrivateIPAddress(v string) *ClusterNode {
-	s.PrivateIPAddress = &v
-	return s
-}
-
-// SetPublicIPAddress sets the PublicIPAddress field's value.
-func (s *ClusterNode) SetPublicIPAddress(v string) *ClusterNode {
-	s.PublicIPAddress = &v
-	return s
-}
-
 // Describes a parameter group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterParameterGroup
 type ClusterParameterGroup struct {
@@ -4940,7 +4848,7 @@ type ClusterParameterGroup struct {
 	ParameterGroupName *string `type:"string"`
 
 	// The list of tags for the cluster parameter group.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -4953,30 +4861,6 @@ func (s ClusterParameterGroup) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *ClusterParameterGroup) SetDescription(v string) *ClusterParameterGroup {
-	s.Description = &v
-	return s
-}
-
-// SetParameterGroupFamily sets the ParameterGroupFamily field's value.
-func (s *ClusterParameterGroup) SetParameterGroupFamily(v string) *ClusterParameterGroup {
-	s.ParameterGroupFamily = &v
-	return s
-}
-
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *ClusterParameterGroup) SetParameterGroupName(v string) *ClusterParameterGroup {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *ClusterParameterGroup) SetTags(v []*Tag) *ClusterParameterGroup {
-	s.Tags = v
-	return s
-}
-
 // Describes the status of a parameter group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterParameterGroupStatus
 type ClusterParameterGroupStatus struct {
@@ -4987,7 +4871,7 @@ type ClusterParameterGroupStatus struct {
 	// For more information about parameters and parameter groups, go to Amazon
 	// Redshift Parameter Groups (http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html)
 	// in the Amazon Redshift Cluster Management Guide.
-	ClusterParameterStatusList []*ClusterParameterStatus `type:"list"`
+	ClusterParameterStatusList []ClusterParameterStatus `type:"list"`
 
 	// The status of parameter updates.
 	ParameterApplyStatus *string `type:"string"`
@@ -5004,24 +4888,6 @@ func (s ClusterParameterGroupStatus) String() string {
 // GoString returns the string representation
 func (s ClusterParameterGroupStatus) GoString() string {
 	return s.String()
-}
-
-// SetClusterParameterStatusList sets the ClusterParameterStatusList field's value.
-func (s *ClusterParameterGroupStatus) SetClusterParameterStatusList(v []*ClusterParameterStatus) *ClusterParameterGroupStatus {
-	s.ClusterParameterStatusList = v
-	return s
-}
-
-// SetParameterApplyStatus sets the ParameterApplyStatus field's value.
-func (s *ClusterParameterGroupStatus) SetParameterApplyStatus(v string) *ClusterParameterGroupStatus {
-	s.ParameterApplyStatus = &v
-	return s
-}
-
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *ClusterParameterGroupStatus) SetParameterGroupName(v string) *ClusterParameterGroupStatus {
-	s.ParameterGroupName = &v
-	return s
 }
 
 // Describes the status of a parameter group.
@@ -5072,24 +4938,6 @@ func (s ClusterParameterStatus) GoString() string {
 	return s.String()
 }
 
-// SetParameterApplyErrorDescription sets the ParameterApplyErrorDescription field's value.
-func (s *ClusterParameterStatus) SetParameterApplyErrorDescription(v string) *ClusterParameterStatus {
-	s.ParameterApplyErrorDescription = &v
-	return s
-}
-
-// SetParameterApplyStatus sets the ParameterApplyStatus field's value.
-func (s *ClusterParameterStatus) SetParameterApplyStatus(v string) *ClusterParameterStatus {
-	s.ParameterApplyStatus = &v
-	return s
-}
-
-// SetParameterName sets the ParameterName field's value.
-func (s *ClusterParameterStatus) SetParameterName(v string) *ClusterParameterStatus {
-	s.ParameterName = &v
-	return s
-}
-
 // Describes a security group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterSecurityGroup
 type ClusterSecurityGroup struct {
@@ -5103,14 +4951,14 @@ type ClusterSecurityGroup struct {
 
 	// A list of EC2 security groups that are permitted to access clusters associated
 	// with this cluster security group.
-	EC2SecurityGroups []*EC2SecurityGroup `locationNameList:"EC2SecurityGroup" type:"list"`
+	EC2SecurityGroups []EC2SecurityGroup `locationNameList:"EC2SecurityGroup" type:"list"`
 
 	// A list of IP ranges (CIDR blocks) that are permitted to access clusters associated
 	// with this cluster security group.
-	IPRanges []*IPRange `locationNameList:"IPRange" type:"list"`
+	IPRanges []IPRange `locationNameList:"IPRange" type:"list"`
 
 	// The list of tags for the cluster security group.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -5121,36 +4969,6 @@ func (s ClusterSecurityGroup) String() string {
 // GoString returns the string representation
 func (s ClusterSecurityGroup) GoString() string {
 	return s.String()
-}
-
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *ClusterSecurityGroup) SetClusterSecurityGroupName(v string) *ClusterSecurityGroup {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ClusterSecurityGroup) SetDescription(v string) *ClusterSecurityGroup {
-	s.Description = &v
-	return s
-}
-
-// SetEC2SecurityGroups sets the EC2SecurityGroups field's value.
-func (s *ClusterSecurityGroup) SetEC2SecurityGroups(v []*EC2SecurityGroup) *ClusterSecurityGroup {
-	s.EC2SecurityGroups = v
-	return s
-}
-
-// SetIPRanges sets the IPRanges field's value.
-func (s *ClusterSecurityGroup) SetIPRanges(v []*IPRange) *ClusterSecurityGroup {
-	s.IPRanges = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *ClusterSecurityGroup) SetTags(v []*Tag) *ClusterSecurityGroup {
-	s.Tags = v
-	return s
 }
 
 // Describes a cluster security group.
@@ -5173,18 +4991,6 @@ func (s ClusterSecurityGroupMembership) String() string {
 // GoString returns the string representation
 func (s ClusterSecurityGroupMembership) GoString() string {
 	return s.String()
-}
-
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *ClusterSecurityGroupMembership) SetClusterSecurityGroupName(v string) *ClusterSecurityGroupMembership {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ClusterSecurityGroupMembership) SetStatus(v string) *ClusterSecurityGroupMembership {
-	s.Status = &v
-	return s
 }
 
 // Returns the destination region and retention period that are configured for
@@ -5215,24 +5021,6 @@ func (s ClusterSnapshotCopyStatus) GoString() string {
 	return s.String()
 }
 
-// SetDestinationRegion sets the DestinationRegion field's value.
-func (s *ClusterSnapshotCopyStatus) SetDestinationRegion(v string) *ClusterSnapshotCopyStatus {
-	s.DestinationRegion = &v
-	return s
-}
-
-// SetRetentionPeriod sets the RetentionPeriod field's value.
-func (s *ClusterSnapshotCopyStatus) SetRetentionPeriod(v int64) *ClusterSnapshotCopyStatus {
-	s.RetentionPeriod = &v
-	return s
-}
-
-// SetSnapshotCopyGrantName sets the SnapshotCopyGrantName field's value.
-func (s *ClusterSnapshotCopyStatus) SetSnapshotCopyGrantName(v string) *ClusterSnapshotCopyStatus {
-	s.SnapshotCopyGrantName = &v
-	return s
-}
-
 // Describes a subnet group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterSubnetGroup
 type ClusterSubnetGroup struct {
@@ -5249,10 +5037,10 @@ type ClusterSubnetGroup struct {
 	SubnetGroupStatus *string `type:"string"`
 
 	// A list of the VPC Subnet elements.
-	Subnets []*Subnet `locationNameList:"Subnet" type:"list"`
+	Subnets []Subnet `locationNameList:"Subnet" type:"list"`
 
 	// The list of tags for the cluster subnet group.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 
 	// The VPC ID of the cluster subnet group.
 	VpcId *string `type:"string"`
@@ -5266,42 +5054,6 @@ func (s ClusterSubnetGroup) String() string {
 // GoString returns the string representation
 func (s ClusterSubnetGroup) GoString() string {
 	return s.String()
-}
-
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *ClusterSubnetGroup) SetClusterSubnetGroupName(v string) *ClusterSubnetGroup {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ClusterSubnetGroup) SetDescription(v string) *ClusterSubnetGroup {
-	s.Description = &v
-	return s
-}
-
-// SetSubnetGroupStatus sets the SubnetGroupStatus field's value.
-func (s *ClusterSubnetGroup) SetSubnetGroupStatus(v string) *ClusterSubnetGroup {
-	s.SubnetGroupStatus = &v
-	return s
-}
-
-// SetSubnets sets the Subnets field's value.
-func (s *ClusterSubnetGroup) SetSubnets(v []*Subnet) *ClusterSubnetGroup {
-	s.Subnets = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *ClusterSubnetGroup) SetTags(v []*Tag) *ClusterSubnetGroup {
-	s.Tags = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *ClusterSubnetGroup) SetVpcId(v string) *ClusterSubnetGroup {
-	s.VpcId = &v
-	return s
 }
 
 // Describes a cluster version, including the parameter group family and description
@@ -5328,24 +5080,6 @@ func (s ClusterVersion) String() string {
 // GoString returns the string representation
 func (s ClusterVersion) GoString() string {
 	return s.String()
-}
-
-// SetClusterParameterGroupFamily sets the ClusterParameterGroupFamily field's value.
-func (s *ClusterVersion) SetClusterParameterGroupFamily(v string) *ClusterVersion {
-	s.ClusterParameterGroupFamily = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *ClusterVersion) SetClusterVersion(v string) *ClusterVersion {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ClusterVersion) SetDescription(v string) *ClusterVersion {
-	s.Description = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CopyClusterSnapshotMessage
@@ -5417,27 +5151,11 @@ func (s *CopyClusterSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetSourceSnapshotClusterIdentifier sets the SourceSnapshotClusterIdentifier field's value.
-func (s *CopyClusterSnapshotInput) SetSourceSnapshotClusterIdentifier(v string) *CopyClusterSnapshotInput {
-	s.SourceSnapshotClusterIdentifier = &v
-	return s
-}
-
-// SetSourceSnapshotIdentifier sets the SourceSnapshotIdentifier field's value.
-func (s *CopyClusterSnapshotInput) SetSourceSnapshotIdentifier(v string) *CopyClusterSnapshotInput {
-	s.SourceSnapshotIdentifier = &v
-	return s
-}
-
-// SetTargetSnapshotIdentifier sets the TargetSnapshotIdentifier field's value.
-func (s *CopyClusterSnapshotInput) SetTargetSnapshotIdentifier(v string) *CopyClusterSnapshotInput {
-	s.TargetSnapshotIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CopyClusterSnapshotResult
 type CopyClusterSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a snapshot.
 	Snapshot *Snapshot `type:"structure"`
@@ -5453,10 +5171,9 @@ func (s CopyClusterSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshot sets the Snapshot field's value.
-func (s *CopyClusterSnapshotOutput) SetSnapshot(v *Snapshot) *CopyClusterSnapshotOutput {
-	s.Snapshot = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CopyClusterSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterMessage
@@ -5538,7 +5255,7 @@ type CreateClusterInput struct {
 	// A list of security groups to be associated with this cluster.
 	//
 	// Default: The default cluster security group for Amazon Redshift.
-	ClusterSecurityGroups []*string `locationNameList:"ClusterSecurityGroupName" type:"list"`
+	ClusterSecurityGroups []string `locationNameList:"ClusterSecurityGroupName" type:"list"`
 
 	// The name of a cluster subnet group to be associated with this cluster.
 	//
@@ -5625,7 +5342,7 @@ type CreateClusterInput struct {
 	// in a single request.
 	//
 	// A cluster can have up to 10 IAM roles associated with it at any time.
-	IamRoles []*string `locationNameList:"IamRoleArn" type:"list"`
+	IamRoles []string `locationNameList:"IamRoleArn" type:"list"`
 
 	// The AWS Key Management Service (KMS) key ID of the encryption key that you
 	// want to use to encrypt data in the cluster.
@@ -5655,7 +5372,7 @@ type CreateClusterInput struct {
 	//
 	// Constraints:
 	//
-	//    * Must be 1 - 128 alphanumeric characters.
+	//    * Must be 1 - 128 alphanumeric characters. The user name can't be PUBLIC.
 	//
 	//    * First character must be a letter.
 	//
@@ -5670,8 +5387,8 @@ type CreateClusterInput struct {
 	// types, go to  Working with Clusters (http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes)
 	// in the Amazon Redshift Cluster Management Guide.
 	//
-	// Valid Values: ds1.xlarge | ds1.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large
-	// | dc1.8xlarge.
+	// Valid Values: ds2.xlarge | ds2.8xlarge | ds2.xlarge | ds2.8xlarge | dc1.large
+	// | dc1.8xlarge | dc2.large | dc2.8xlarge
 	//
 	// NodeType is a required field
 	NodeType *string `type:"string" required:"true"`
@@ -5722,13 +5439,13 @@ type CreateClusterInput struct {
 	PubliclyAccessible *bool `type:"boolean"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 
 	// A list of Virtual Private Cloud (VPC) security groups to be associated with
 	// the cluster.
 	//
 	// Default: The default VPC security group is associated with the cluster.
-	VpcSecurityGroupIds []*string `locationNameList:"VpcSecurityGroupId" type:"list"`
+	VpcSecurityGroupIds []string `locationNameList:"VpcSecurityGroupId" type:"list"`
 }
 
 // String returns the string representation
@@ -5767,171 +5484,11 @@ func (s *CreateClusterInput) Validate() error {
 	return nil
 }
 
-// SetAdditionalInfo sets the AdditionalInfo field's value.
-func (s *CreateClusterInput) SetAdditionalInfo(v string) *CreateClusterInput {
-	s.AdditionalInfo = &v
-	return s
-}
-
-// SetAllowVersionUpgrade sets the AllowVersionUpgrade field's value.
-func (s *CreateClusterInput) SetAllowVersionUpgrade(v bool) *CreateClusterInput {
-	s.AllowVersionUpgrade = &v
-	return s
-}
-
-// SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
-func (s *CreateClusterInput) SetAutomatedSnapshotRetentionPeriod(v int64) *CreateClusterInput {
-	s.AutomatedSnapshotRetentionPeriod = &v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *CreateClusterInput) SetAvailabilityZone(v string) *CreateClusterInput {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *CreateClusterInput) SetClusterIdentifier(v string) *CreateClusterInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetClusterParameterGroupName sets the ClusterParameterGroupName field's value.
-func (s *CreateClusterInput) SetClusterParameterGroupName(v string) *CreateClusterInput {
-	s.ClusterParameterGroupName = &v
-	return s
-}
-
-// SetClusterSecurityGroups sets the ClusterSecurityGroups field's value.
-func (s *CreateClusterInput) SetClusterSecurityGroups(v []*string) *CreateClusterInput {
-	s.ClusterSecurityGroups = v
-	return s
-}
-
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *CreateClusterInput) SetClusterSubnetGroupName(v string) *CreateClusterInput {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetClusterType sets the ClusterType field's value.
-func (s *CreateClusterInput) SetClusterType(v string) *CreateClusterInput {
-	s.ClusterType = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *CreateClusterInput) SetClusterVersion(v string) *CreateClusterInput {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetDBName sets the DBName field's value.
-func (s *CreateClusterInput) SetDBName(v string) *CreateClusterInput {
-	s.DBName = &v
-	return s
-}
-
-// SetElasticIp sets the ElasticIp field's value.
-func (s *CreateClusterInput) SetElasticIp(v string) *CreateClusterInput {
-	s.ElasticIp = &v
-	return s
-}
-
-// SetEncrypted sets the Encrypted field's value.
-func (s *CreateClusterInput) SetEncrypted(v bool) *CreateClusterInput {
-	s.Encrypted = &v
-	return s
-}
-
-// SetEnhancedVpcRouting sets the EnhancedVpcRouting field's value.
-func (s *CreateClusterInput) SetEnhancedVpcRouting(v bool) *CreateClusterInput {
-	s.EnhancedVpcRouting = &v
-	return s
-}
-
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *CreateClusterInput) SetHsmClientCertificateIdentifier(v string) *CreateClusterInput {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *CreateClusterInput) SetHsmConfigurationIdentifier(v string) *CreateClusterInput {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetIamRoles sets the IamRoles field's value.
-func (s *CreateClusterInput) SetIamRoles(v []*string) *CreateClusterInput {
-	s.IamRoles = v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *CreateClusterInput) SetKmsKeyId(v string) *CreateClusterInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetMasterUserPassword sets the MasterUserPassword field's value.
-func (s *CreateClusterInput) SetMasterUserPassword(v string) *CreateClusterInput {
-	s.MasterUserPassword = &v
-	return s
-}
-
-// SetMasterUsername sets the MasterUsername field's value.
-func (s *CreateClusterInput) SetMasterUsername(v string) *CreateClusterInput {
-	s.MasterUsername = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *CreateClusterInput) SetNodeType(v string) *CreateClusterInput {
-	s.NodeType = &v
-	return s
-}
-
-// SetNumberOfNodes sets the NumberOfNodes field's value.
-func (s *CreateClusterInput) SetNumberOfNodes(v int64) *CreateClusterInput {
-	s.NumberOfNodes = &v
-	return s
-}
-
-// SetPort sets the Port field's value.
-func (s *CreateClusterInput) SetPort(v int64) *CreateClusterInput {
-	s.Port = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *CreateClusterInput) SetPreferredMaintenanceWindow(v string) *CreateClusterInput {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetPubliclyAccessible sets the PubliclyAccessible field's value.
-func (s *CreateClusterInput) SetPubliclyAccessible(v bool) *CreateClusterInput {
-	s.PubliclyAccessible = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateClusterInput) SetTags(v []*Tag) *CreateClusterInput {
-	s.Tags = v
-	return s
-}
-
-// SetVpcSecurityGroupIds sets the VpcSecurityGroupIds field's value.
-func (s *CreateClusterInput) SetVpcSecurityGroupIds(v []*string) *CreateClusterInput {
-	s.VpcSecurityGroupIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterResult
 type CreateClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -5947,10 +5504,9 @@ func (s CreateClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *CreateClusterOutput) SetCluster(v *Cluster) *CreateClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterParameterGroupMessage
@@ -5993,7 +5549,7 @@ type CreateClusterParameterGroupInput struct {
 	ParameterGroupName *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6028,33 +5584,11 @@ func (s *CreateClusterParameterGroupInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateClusterParameterGroupInput) SetDescription(v string) *CreateClusterParameterGroupInput {
-	s.Description = &v
-	return s
-}
-
-// SetParameterGroupFamily sets the ParameterGroupFamily field's value.
-func (s *CreateClusterParameterGroupInput) SetParameterGroupFamily(v string) *CreateClusterParameterGroupInput {
-	s.ParameterGroupFamily = &v
-	return s
-}
-
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *CreateClusterParameterGroupInput) SetParameterGroupName(v string) *CreateClusterParameterGroupInput {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateClusterParameterGroupInput) SetTags(v []*Tag) *CreateClusterParameterGroupInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterParameterGroupResult
 type CreateClusterParameterGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a parameter group.
 	ClusterParameterGroup *ClusterParameterGroup `type:"structure"`
@@ -6070,10 +5604,9 @@ func (s CreateClusterParameterGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterParameterGroup sets the ClusterParameterGroup field's value.
-func (s *CreateClusterParameterGroupOutput) SetClusterParameterGroup(v *ClusterParameterGroup) *CreateClusterParameterGroupOutput {
-	s.ClusterParameterGroup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterParameterGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSecurityGroupMessage
@@ -6103,7 +5636,7 @@ type CreateClusterSecurityGroupInput struct {
 	Description *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6134,27 +5667,11 @@ func (s *CreateClusterSecurityGroupInput) Validate() error {
 	return nil
 }
 
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *CreateClusterSecurityGroupInput) SetClusterSecurityGroupName(v string) *CreateClusterSecurityGroupInput {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateClusterSecurityGroupInput) SetDescription(v string) *CreateClusterSecurityGroupInput {
-	s.Description = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateClusterSecurityGroupInput) SetTags(v []*Tag) *CreateClusterSecurityGroupInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSecurityGroupResult
 type CreateClusterSecurityGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a security group.
 	ClusterSecurityGroup *ClusterSecurityGroup `type:"structure"`
@@ -6170,10 +5687,9 @@ func (s CreateClusterSecurityGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSecurityGroup sets the ClusterSecurityGroup field's value.
-func (s *CreateClusterSecurityGroupOutput) SetClusterSecurityGroup(v *ClusterSecurityGroup) *CreateClusterSecurityGroupOutput {
-	s.ClusterSecurityGroup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterSecurityGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSnapshotMessage
@@ -6204,7 +5720,7 @@ type CreateClusterSnapshotInput struct {
 	SnapshotIdentifier *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6235,27 +5751,11 @@ func (s *CreateClusterSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *CreateClusterSnapshotInput) SetClusterIdentifier(v string) *CreateClusterSnapshotInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *CreateClusterSnapshotInput) SetSnapshotIdentifier(v string) *CreateClusterSnapshotInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateClusterSnapshotInput) SetTags(v []*Tag) *CreateClusterSnapshotInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSnapshotResult
 type CreateClusterSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a snapshot.
 	Snapshot *Snapshot `type:"structure"`
@@ -6271,10 +5771,9 @@ func (s CreateClusterSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshot sets the Snapshot field's value.
-func (s *CreateClusterSnapshotOutput) SetSnapshot(v *Snapshot) *CreateClusterSnapshotOutput {
-	s.Snapshot = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSubnetGroupMessage
@@ -6306,10 +5805,10 @@ type CreateClusterSubnetGroupInput struct {
 	// single request.
 	//
 	// SubnetIds is a required field
-	SubnetIds []*string `locationNameList:"SubnetIdentifier" type:"list" required:"true"`
+	SubnetIds []string `locationNameList:"SubnetIdentifier" type:"list" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6344,33 +5843,11 @@ func (s *CreateClusterSubnetGroupInput) Validate() error {
 	return nil
 }
 
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *CreateClusterSubnetGroupInput) SetClusterSubnetGroupName(v string) *CreateClusterSubnetGroupInput {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateClusterSubnetGroupInput) SetDescription(v string) *CreateClusterSubnetGroupInput {
-	s.Description = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *CreateClusterSubnetGroupInput) SetSubnetIds(v []*string) *CreateClusterSubnetGroupInput {
-	s.SubnetIds = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateClusterSubnetGroupInput) SetTags(v []*Tag) *CreateClusterSubnetGroupInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSubnetGroupResult
 type CreateClusterSubnetGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a subnet group.
 	ClusterSubnetGroup *ClusterSubnetGroup `type:"structure"`
@@ -6386,10 +5863,9 @@ func (s CreateClusterSubnetGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSubnetGroup sets the ClusterSubnetGroup field's value.
-func (s *CreateClusterSubnetGroupOutput) SetClusterSubnetGroup(v *ClusterSubnetGroup) *CreateClusterSubnetGroupOutput {
-	s.ClusterSubnetGroup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterSubnetGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEventSubscriptionMessage
@@ -6404,7 +5880,7 @@ type CreateEventSubscriptionInput struct {
 	// notification subscription.
 	//
 	// Values: Configuration, Management, Monitoring, Security
-	EventCategories []*string `locationNameList:"EventCategory" type:"list"`
+	EventCategories []string `locationNameList:"EventCategory" type:"list"`
 
 	// Specifies the Amazon Redshift event severity to be published by the event
 	// notification subscription.
@@ -6428,7 +5904,7 @@ type CreateEventSubscriptionInput struct {
 	// Example: my-cluster-1, my-cluster-2
 	//
 	// Example: my-snapshot-20131010
-	SourceIds []*string `locationNameList:"SourceId" type:"list"`
+	SourceIds []string `locationNameList:"SourceId" type:"list"`
 
 	// The type of source that will be generating the events. For example, if you
 	// want to be notified of events generated by a cluster, you would set this
@@ -6456,7 +5932,7 @@ type CreateEventSubscriptionInput struct {
 	SubscriptionName *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6487,57 +5963,11 @@ func (s *CreateEventSubscriptionInput) Validate() error {
 	return nil
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *CreateEventSubscriptionInput) SetEnabled(v bool) *CreateEventSubscriptionInput {
-	s.Enabled = &v
-	return s
-}
-
-// SetEventCategories sets the EventCategories field's value.
-func (s *CreateEventSubscriptionInput) SetEventCategories(v []*string) *CreateEventSubscriptionInput {
-	s.EventCategories = v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *CreateEventSubscriptionInput) SetSeverity(v string) *CreateEventSubscriptionInput {
-	s.Severity = &v
-	return s
-}
-
-// SetSnsTopicArn sets the SnsTopicArn field's value.
-func (s *CreateEventSubscriptionInput) SetSnsTopicArn(v string) *CreateEventSubscriptionInput {
-	s.SnsTopicArn = &v
-	return s
-}
-
-// SetSourceIds sets the SourceIds field's value.
-func (s *CreateEventSubscriptionInput) SetSourceIds(v []*string) *CreateEventSubscriptionInput {
-	s.SourceIds = v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *CreateEventSubscriptionInput) SetSourceType(v string) *CreateEventSubscriptionInput {
-	s.SourceType = &v
-	return s
-}
-
-// SetSubscriptionName sets the SubscriptionName field's value.
-func (s *CreateEventSubscriptionInput) SetSubscriptionName(v string) *CreateEventSubscriptionInput {
-	s.SubscriptionName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateEventSubscriptionInput) SetTags(v []*Tag) *CreateEventSubscriptionInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEventSubscriptionResult
 type CreateEventSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes event subscriptions.
 	EventSubscription *EventSubscription `type:"structure"`
@@ -6553,10 +5983,9 @@ func (s CreateEventSubscriptionOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventSubscription sets the EventSubscription field's value.
-func (s *CreateEventSubscriptionOutput) SetEventSubscription(v *EventSubscription) *CreateEventSubscriptionOutput {
-	s.EventSubscription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateEventSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmClientCertificateMessage
@@ -6570,7 +5999,7 @@ type CreateHsmClientCertificateInput struct {
 	HsmClientCertificateIdentifier *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6597,21 +6026,11 @@ func (s *CreateHsmClientCertificateInput) Validate() error {
 	return nil
 }
 
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *CreateHsmClientCertificateInput) SetHsmClientCertificateIdentifier(v string) *CreateHsmClientCertificateInput {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateHsmClientCertificateInput) SetTags(v []*Tag) *CreateHsmClientCertificateInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmClientCertificateResult
 type CreateHsmClientCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Returns information about an HSM client certificate. The certificate is stored
 	// in a secure Hardware Storage Module (HSM), and used by the Amazon Redshift
@@ -6629,10 +6048,9 @@ func (s CreateHsmClientCertificateOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmClientCertificate sets the HsmClientCertificate field's value.
-func (s *CreateHsmClientCertificateOutput) SetHsmClientCertificate(v *HsmClientCertificate) *CreateHsmClientCertificateOutput {
-	s.HsmClientCertificate = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHsmClientCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmConfigurationMessage
@@ -6672,7 +6090,7 @@ type CreateHsmConfigurationInput struct {
 	HsmServerPublicCertificate *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6719,51 +6137,11 @@ func (s *CreateHsmConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateHsmConfigurationInput) SetDescription(v string) *CreateHsmConfigurationInput {
-	s.Description = &v
-	return s
-}
-
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *CreateHsmConfigurationInput) SetHsmConfigurationIdentifier(v string) *CreateHsmConfigurationInput {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetHsmIpAddress sets the HsmIpAddress field's value.
-func (s *CreateHsmConfigurationInput) SetHsmIpAddress(v string) *CreateHsmConfigurationInput {
-	s.HsmIpAddress = &v
-	return s
-}
-
-// SetHsmPartitionName sets the HsmPartitionName field's value.
-func (s *CreateHsmConfigurationInput) SetHsmPartitionName(v string) *CreateHsmConfigurationInput {
-	s.HsmPartitionName = &v
-	return s
-}
-
-// SetHsmPartitionPassword sets the HsmPartitionPassword field's value.
-func (s *CreateHsmConfigurationInput) SetHsmPartitionPassword(v string) *CreateHsmConfigurationInput {
-	s.HsmPartitionPassword = &v
-	return s
-}
-
-// SetHsmServerPublicCertificate sets the HsmServerPublicCertificate field's value.
-func (s *CreateHsmConfigurationInput) SetHsmServerPublicCertificate(v string) *CreateHsmConfigurationInput {
-	s.HsmServerPublicCertificate = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateHsmConfigurationInput) SetTags(v []*Tag) *CreateHsmConfigurationInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateHsmConfigurationResult
 type CreateHsmConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Returns information about an HSM configuration, which is an object that describes
 	// to Amazon Redshift clusters the information they require to connect to an
@@ -6781,10 +6159,9 @@ func (s CreateHsmConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmConfiguration sets the HsmConfiguration field's value.
-func (s *CreateHsmConfigurationOutput) SetHsmConfiguration(v *HsmConfiguration) *CreateHsmConfigurationOutput {
-	s.HsmConfiguration = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHsmConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The result of the CreateSnapshotCopyGrant action.
@@ -6815,7 +6192,7 @@ type CreateSnapshotCopyGrantInput struct {
 	SnapshotCopyGrantName *string `type:"string" required:"true"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -6842,27 +6219,11 @@ func (s *CreateSnapshotCopyGrantInput) Validate() error {
 	return nil
 }
 
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *CreateSnapshotCopyGrantInput) SetKmsKeyId(v string) *CreateSnapshotCopyGrantInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetSnapshotCopyGrantName sets the SnapshotCopyGrantName field's value.
-func (s *CreateSnapshotCopyGrantInput) SetSnapshotCopyGrantName(v string) *CreateSnapshotCopyGrantInput {
-	s.SnapshotCopyGrantName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateSnapshotCopyGrantInput) SetTags(v []*Tag) *CreateSnapshotCopyGrantInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateSnapshotCopyGrantResult
 type CreateSnapshotCopyGrantOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The snapshot copy grant that grants Amazon Redshift permission to encrypt
 	// copied snapshots with the specified customer master key (CMK) from AWS KMS
@@ -6884,10 +6245,9 @@ func (s CreateSnapshotCopyGrantOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshotCopyGrant sets the SnapshotCopyGrant field's value.
-func (s *CreateSnapshotCopyGrantOutput) SetSnapshotCopyGrant(v *SnapshotCopyGrant) *CreateSnapshotCopyGrantOutput {
-	s.SnapshotCopyGrant = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSnapshotCopyGrantOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the output from the CreateTags action.
@@ -6908,7 +6268,7 @@ type CreateTagsInput struct {
 	// "Key"="owner","Value"="admin" "Key"="environment","Value"="test" "Key"="version","Value"="1.0".
 	//
 	// Tags is a required field
-	Tags []*Tag `locationNameList:"Tag" type:"list" required:"true"`
+	Tags []Tag `locationNameList:"Tag" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6939,21 +6299,11 @@ func (s *CreateTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceName sets the ResourceName field's value.
-func (s *CreateTagsInput) SetResourceName(v string) *CreateTagsInput {
-	s.ResourceName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateTagsInput) SetTags(v []*Tag) *CreateTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateTagsOutput
 type CreateTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6964,6 +6314,11 @@ func (s CreateTagsOutput) String() string {
 // GoString returns the string representation
 func (s CreateTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the default cluster parameters for a parameter group family.
@@ -6983,7 +6338,7 @@ type DefaultClusterParameters struct {
 	ParameterGroupFamily *string `type:"string"`
 
 	// The list of cluster default parameters.
-	Parameters []*Parameter `locationNameList:"Parameter" type:"list"`
+	Parameters []Parameter `locationNameList:"Parameter" type:"list"`
 }
 
 // String returns the string representation
@@ -6994,24 +6349,6 @@ func (s DefaultClusterParameters) String() string {
 // GoString returns the string representation
 func (s DefaultClusterParameters) GoString() string {
 	return s.String()
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DefaultClusterParameters) SetMarker(v string) *DefaultClusterParameters {
-	s.Marker = &v
-	return s
-}
-
-// SetParameterGroupFamily sets the ParameterGroupFamily field's value.
-func (s *DefaultClusterParameters) SetParameterGroupFamily(v string) *DefaultClusterParameters {
-	s.ParameterGroupFamily = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *DefaultClusterParameters) SetParameters(v []*Parameter) *DefaultClusterParameters {
-	s.Parameters = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterMessage
@@ -7081,27 +6418,11 @@ func (s *DeleteClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DeleteClusterInput) SetClusterIdentifier(v string) *DeleteClusterInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetFinalClusterSnapshotIdentifier sets the FinalClusterSnapshotIdentifier field's value.
-func (s *DeleteClusterInput) SetFinalClusterSnapshotIdentifier(v string) *DeleteClusterInput {
-	s.FinalClusterSnapshotIdentifier = &v
-	return s
-}
-
-// SetSkipFinalClusterSnapshot sets the SkipFinalClusterSnapshot field's value.
-func (s *DeleteClusterInput) SetSkipFinalClusterSnapshot(v bool) *DeleteClusterInput {
-	s.SkipFinalClusterSnapshot = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterResult
 type DeleteClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -7117,10 +6438,9 @@ func (s DeleteClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *DeleteClusterOutput) SetCluster(v *Cluster) *DeleteClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterParameterGroupMessage
@@ -7163,15 +6483,11 @@ func (s *DeleteClusterParameterGroupInput) Validate() error {
 	return nil
 }
 
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *DeleteClusterParameterGroupInput) SetParameterGroupName(v string) *DeleteClusterParameterGroupInput {
-	s.ParameterGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterParameterGroupOutput
 type DeleteClusterParameterGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7182,6 +6498,11 @@ func (s DeleteClusterParameterGroupOutput) String() string {
 // GoString returns the string representation
 func (s DeleteClusterParameterGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteClusterParameterGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSecurityGroupMessage
@@ -7218,15 +6539,11 @@ func (s *DeleteClusterSecurityGroupInput) Validate() error {
 	return nil
 }
 
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *DeleteClusterSecurityGroupInput) SetClusterSecurityGroupName(v string) *DeleteClusterSecurityGroupInput {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSecurityGroupOutput
 type DeleteClusterSecurityGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7237,6 +6554,11 @@ func (s DeleteClusterSecurityGroupOutput) String() string {
 // GoString returns the string representation
 func (s DeleteClusterSecurityGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteClusterSecurityGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSnapshotMessage
@@ -7283,21 +6605,11 @@ func (s *DeleteClusterSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetSnapshotClusterIdentifier sets the SnapshotClusterIdentifier field's value.
-func (s *DeleteClusterSnapshotInput) SetSnapshotClusterIdentifier(v string) *DeleteClusterSnapshotInput {
-	s.SnapshotClusterIdentifier = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *DeleteClusterSnapshotInput) SetSnapshotIdentifier(v string) *DeleteClusterSnapshotInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSnapshotResult
 type DeleteClusterSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a snapshot.
 	Snapshot *Snapshot `type:"structure"`
@@ -7313,10 +6625,9 @@ func (s DeleteClusterSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshot sets the Snapshot field's value.
-func (s *DeleteClusterSnapshotOutput) SetSnapshot(v *Snapshot) *DeleteClusterSnapshotOutput {
-	s.Snapshot = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteClusterSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSubnetGroupMessage
@@ -7353,15 +6664,11 @@ func (s *DeleteClusterSubnetGroupInput) Validate() error {
 	return nil
 }
 
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *DeleteClusterSubnetGroupInput) SetClusterSubnetGroupName(v string) *DeleteClusterSubnetGroupInput {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSubnetGroupOutput
 type DeleteClusterSubnetGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7372,6 +6679,11 @@ func (s DeleteClusterSubnetGroupOutput) String() string {
 // GoString returns the string representation
 func (s DeleteClusterSubnetGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteClusterSubnetGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEventSubscriptionMessage
@@ -7408,15 +6720,11 @@ func (s *DeleteEventSubscriptionInput) Validate() error {
 	return nil
 }
 
-// SetSubscriptionName sets the SubscriptionName field's value.
-func (s *DeleteEventSubscriptionInput) SetSubscriptionName(v string) *DeleteEventSubscriptionInput {
-	s.SubscriptionName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEventSubscriptionOutput
 type DeleteEventSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7427,6 +6735,11 @@ func (s DeleteEventSubscriptionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteEventSubscriptionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEventSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmClientCertificateMessage
@@ -7463,15 +6776,11 @@ func (s *DeleteHsmClientCertificateInput) Validate() error {
 	return nil
 }
 
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *DeleteHsmClientCertificateInput) SetHsmClientCertificateIdentifier(v string) *DeleteHsmClientCertificateInput {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmClientCertificateOutput
 type DeleteHsmClientCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7482,6 +6791,11 @@ func (s DeleteHsmClientCertificateOutput) String() string {
 // GoString returns the string representation
 func (s DeleteHsmClientCertificateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteHsmClientCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmConfigurationMessage
@@ -7518,15 +6832,11 @@ func (s *DeleteHsmConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *DeleteHsmConfigurationInput) SetHsmConfigurationIdentifier(v string) *DeleteHsmConfigurationInput {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteHsmConfigurationOutput
 type DeleteHsmConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7537,6 +6847,11 @@ func (s DeleteHsmConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteHsmConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteHsmConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The result of the DeleteSnapshotCopyGrant action.
@@ -7574,15 +6889,11 @@ func (s *DeleteSnapshotCopyGrantInput) Validate() error {
 	return nil
 }
 
-// SetSnapshotCopyGrantName sets the SnapshotCopyGrantName field's value.
-func (s *DeleteSnapshotCopyGrantInput) SetSnapshotCopyGrantName(v string) *DeleteSnapshotCopyGrantInput {
-	s.SnapshotCopyGrantName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteSnapshotCopyGrantOutput
 type DeleteSnapshotCopyGrantOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7593,6 +6904,11 @@ func (s DeleteSnapshotCopyGrantOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSnapshotCopyGrantOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSnapshotCopyGrantOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the output from the DeleteTags action.
@@ -7609,7 +6925,7 @@ type DeleteTagsInput struct {
 	// The tag key that you want to delete.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `locationNameList:"TagKey" type:"list" required:"true"`
+	TagKeys []string `locationNameList:"TagKey" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -7640,21 +6956,11 @@ func (s *DeleteTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceName sets the ResourceName field's value.
-func (s *DeleteTagsInput) SetResourceName(v string) *DeleteTagsInput {
-	s.ResourceName = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DeleteTagsInput) SetTagKeys(v []*string) *DeleteTagsInput {
-	s.TagKeys = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteTagsOutput
 type DeleteTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7665,6 +6971,11 @@ func (s DeleteTagsOutput) String() string {
 // GoString returns the string representation
 func (s DeleteTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterParameterGroupsMessage
@@ -7699,7 +7010,7 @@ type DescribeClusterParameterGroupsInput struct {
 	// environment. If you specify both of these tag keys in the request, Amazon
 	// Redshift returns a response with the parameter groups that have either or
 	// both of these tag keys associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching cluster parameter
 	// groups that are associated with the specified tag value or values. For example,
@@ -7707,7 +7018,7 @@ type DescribeClusterParameterGroupsInput struct {
 	// admin and test. If you specify both of these tag values in the request, Amazon
 	// Redshift returns a response with the parameter groups that have either or
 	// both of these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -7720,40 +7031,12 @@ func (s DescribeClusterParameterGroupsInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterParameterGroupsInput) SetMarker(v string) *DescribeClusterParameterGroupsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClusterParameterGroupsInput) SetMaxRecords(v int64) *DescribeClusterParameterGroupsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *DescribeClusterParameterGroupsInput) SetParameterGroupName(v string) *DescribeClusterParameterGroupsInput {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeClusterParameterGroupsInput) SetTagKeys(v []*string) *DescribeClusterParameterGroupsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeClusterParameterGroupsInput) SetTagValues(v []*string) *DescribeClusterParameterGroupsInput {
-	s.TagValues = v
-	return s
-}
-
 // Contains the output from the DescribeClusterParameterGroups action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterParameterGroupsMessage
 type DescribeClusterParameterGroupsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -7764,7 +7047,7 @@ type DescribeClusterParameterGroupsOutput struct {
 
 	// A list of ClusterParameterGroup instances. Each instance describes one cluster
 	// parameter group.
-	ParameterGroups []*ClusterParameterGroup `locationNameList:"ClusterParameterGroup" type:"list"`
+	ParameterGroups []ClusterParameterGroup `locationNameList:"ClusterParameterGroup" type:"list"`
 }
 
 // String returns the string representation
@@ -7777,16 +7060,9 @@ func (s DescribeClusterParameterGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterParameterGroupsOutput) SetMarker(v string) *DescribeClusterParameterGroupsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetParameterGroups sets the ParameterGroups field's value.
-func (s *DescribeClusterParameterGroupsOutput) SetParameterGroups(v []*ClusterParameterGroup) *DescribeClusterParameterGroupsOutput {
-	s.ParameterGroups = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterParameterGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterParametersMessage
@@ -7850,34 +7126,12 @@ func (s *DescribeClusterParametersInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterParametersInput) SetMarker(v string) *DescribeClusterParametersInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClusterParametersInput) SetMaxRecords(v int64) *DescribeClusterParametersInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *DescribeClusterParametersInput) SetParameterGroupName(v string) *DescribeClusterParametersInput {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetSource sets the Source field's value.
-func (s *DescribeClusterParametersInput) SetSource(v string) *DescribeClusterParametersInput {
-	s.Source = &v
-	return s
-}
-
 // Contains the output from the DescribeClusterParameters action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterParameterGroupDetails
 type DescribeClusterParametersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -7888,7 +7142,7 @@ type DescribeClusterParametersOutput struct {
 
 	// A list of Parameter instances. Each instance lists the parameters of one
 	// cluster parameter group.
-	Parameters []*Parameter `locationNameList:"Parameter" type:"list"`
+	Parameters []Parameter `locationNameList:"Parameter" type:"list"`
 }
 
 // String returns the string representation
@@ -7901,16 +7155,9 @@ func (s DescribeClusterParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterParametersOutput) SetMarker(v string) *DescribeClusterParametersOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *DescribeClusterParametersOutput) SetParameters(v []*Parameter) *DescribeClusterParametersOutput {
-	s.Parameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSecurityGroupsMessage
@@ -7951,7 +7198,7 @@ type DescribeClusterSecurityGroupsInput struct {
 	// environment. If you specify both of these tag keys in the request, Amazon
 	// Redshift returns a response with the security groups that have either or
 	// both of these tag keys associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching cluster security
 	// groups that are associated with the specified tag value or values. For example,
@@ -7959,7 +7206,7 @@ type DescribeClusterSecurityGroupsInput struct {
 	// admin and test. If you specify both of these tag values in the request, Amazon
 	// Redshift returns a response with the security groups that have either or
 	// both of these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -7972,42 +7219,14 @@ func (s DescribeClusterSecurityGroupsInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *DescribeClusterSecurityGroupsInput) SetClusterSecurityGroupName(v string) *DescribeClusterSecurityGroupsInput {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterSecurityGroupsInput) SetMarker(v string) *DescribeClusterSecurityGroupsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClusterSecurityGroupsInput) SetMaxRecords(v int64) *DescribeClusterSecurityGroupsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeClusterSecurityGroupsInput) SetTagKeys(v []*string) *DescribeClusterSecurityGroupsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeClusterSecurityGroupsInput) SetTagValues(v []*string) *DescribeClusterSecurityGroupsInput {
-	s.TagValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterSecurityGroupMessage
 type DescribeClusterSecurityGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of ClusterSecurityGroup instances.
-	ClusterSecurityGroups []*ClusterSecurityGroup `locationNameList:"ClusterSecurityGroup" type:"list"`
+	ClusterSecurityGroups []ClusterSecurityGroup `locationNameList:"ClusterSecurityGroup" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8027,21 +7246,20 @@ func (s DescribeClusterSecurityGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSecurityGroups sets the ClusterSecurityGroups field's value.
-func (s *DescribeClusterSecurityGroupsOutput) SetClusterSecurityGroups(v []*ClusterSecurityGroup) *DescribeClusterSecurityGroupsOutput {
-	s.ClusterSecurityGroups = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterSecurityGroupsOutput) SetMarker(v string) *DescribeClusterSecurityGroupsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterSecurityGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSnapshotsMessage
 type DescribeClusterSnapshotsInput struct {
 	_ struct{} `type:"structure"`
+
+	// A value that indicates whether to return snapshots only for an existing cluster.
+	// Table-level restore can be performed only using a snapshot of an existing
+	// cluster, that is, a cluster that has not been deleted. If ClusterExists is
+	// set to true, ClusterIdentifier is required.
+	ClusterExists *bool `type:"boolean"`
 
 	// The identifier of the cluster for which information about snapshots is requested.
 	ClusterIdentifier *string `type:"string"`
@@ -8099,7 +7317,7 @@ type DescribeClusterSnapshotsInput struct {
 	// If you specify both of these tag keys in the request, Amazon Redshift returns
 	// a response with the snapshots that have either or both of these tag keys
 	// associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching cluster snapshots
 	// that are associated with the specified tag value or values. For example,
@@ -8107,7 +7325,7 @@ type DescribeClusterSnapshotsInput struct {
 	// and test. If you specify both of these tag values in the request, Amazon
 	// Redshift returns a response with the snapshots that have either or both of
 	// these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -8120,70 +7338,12 @@ func (s DescribeClusterSnapshotsInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DescribeClusterSnapshotsInput) SetClusterIdentifier(v string) *DescribeClusterSnapshotsInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *DescribeClusterSnapshotsInput) SetEndTime(v time.Time) *DescribeClusterSnapshotsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterSnapshotsInput) SetMarker(v string) *DescribeClusterSnapshotsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClusterSnapshotsInput) SetMaxRecords(v int64) *DescribeClusterSnapshotsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetOwnerAccount sets the OwnerAccount field's value.
-func (s *DescribeClusterSnapshotsInput) SetOwnerAccount(v string) *DescribeClusterSnapshotsInput {
-	s.OwnerAccount = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *DescribeClusterSnapshotsInput) SetSnapshotIdentifier(v string) *DescribeClusterSnapshotsInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
-// SetSnapshotType sets the SnapshotType field's value.
-func (s *DescribeClusterSnapshotsInput) SetSnapshotType(v string) *DescribeClusterSnapshotsInput {
-	s.SnapshotType = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *DescribeClusterSnapshotsInput) SetStartTime(v time.Time) *DescribeClusterSnapshotsInput {
-	s.StartTime = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeClusterSnapshotsInput) SetTagKeys(v []*string) *DescribeClusterSnapshotsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeClusterSnapshotsInput) SetTagValues(v []*string) *DescribeClusterSnapshotsInput {
-	s.TagValues = v
-	return s
-}
-
 // Contains the output from the DescribeClusterSnapshots action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/SnapshotMessage
 type DescribeClusterSnapshotsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8193,7 +7353,7 @@ type DescribeClusterSnapshotsOutput struct {
 	Marker *string `type:"string"`
 
 	// A list of Snapshot instances.
-	Snapshots []*Snapshot `locationNameList:"Snapshot" type:"list"`
+	Snapshots []Snapshot `locationNameList:"Snapshot" type:"list"`
 }
 
 // String returns the string representation
@@ -8206,16 +7366,9 @@ func (s DescribeClusterSnapshotsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterSnapshotsOutput) SetMarker(v string) *DescribeClusterSnapshotsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetSnapshots sets the Snapshots field's value.
-func (s *DescribeClusterSnapshotsOutput) SetSnapshots(v []*Snapshot) *DescribeClusterSnapshotsOutput {
-	s.Snapshots = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterSnapshotsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSubnetGroupsMessage
@@ -8249,7 +7402,7 @@ type DescribeClusterSubnetGroupsInput struct {
 	// If you specify both of these tag keys in the request, Amazon Redshift returns
 	// a response with the subnet groups that have either or both of these tag keys
 	// associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching cluster subnet
 	// groups that are associated with the specified tag value or values. For example,
@@ -8257,7 +7410,7 @@ type DescribeClusterSubnetGroupsInput struct {
 	// and test. If you specify both of these tag values in the request, Amazon
 	// Redshift returns a response with the subnet groups that have either or both
 	// of these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -8270,43 +7423,15 @@ func (s DescribeClusterSubnetGroupsInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *DescribeClusterSubnetGroupsInput) SetClusterSubnetGroupName(v string) *DescribeClusterSubnetGroupsInput {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterSubnetGroupsInput) SetMarker(v string) *DescribeClusterSubnetGroupsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClusterSubnetGroupsInput) SetMaxRecords(v int64) *DescribeClusterSubnetGroupsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeClusterSubnetGroupsInput) SetTagKeys(v []*string) *DescribeClusterSubnetGroupsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeClusterSubnetGroupsInput) SetTagValues(v []*string) *DescribeClusterSubnetGroupsInput {
-	s.TagValues = v
-	return s
-}
-
 // Contains the output from the DescribeClusterSubnetGroups action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterSubnetGroupMessage
 type DescribeClusterSubnetGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of ClusterSubnetGroup instances.
-	ClusterSubnetGroups []*ClusterSubnetGroup `locationNameList:"ClusterSubnetGroup" type:"list"`
+	ClusterSubnetGroups []ClusterSubnetGroup `locationNameList:"ClusterSubnetGroup" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8326,16 +7451,9 @@ func (s DescribeClusterSubnetGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSubnetGroups sets the ClusterSubnetGroups field's value.
-func (s *DescribeClusterSubnetGroupsOutput) SetClusterSubnetGroups(v []*ClusterSubnetGroup) *DescribeClusterSubnetGroupsOutput {
-	s.ClusterSubnetGroups = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterSubnetGroupsOutput) SetMarker(v string) *DescribeClusterSubnetGroupsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterSubnetGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterVersionsMessage
@@ -8386,37 +7504,15 @@ func (s DescribeClusterVersionsInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterParameterGroupFamily sets the ClusterParameterGroupFamily field's value.
-func (s *DescribeClusterVersionsInput) SetClusterParameterGroupFamily(v string) *DescribeClusterVersionsInput {
-	s.ClusterParameterGroupFamily = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *DescribeClusterVersionsInput) SetClusterVersion(v string) *DescribeClusterVersionsInput {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterVersionsInput) SetMarker(v string) *DescribeClusterVersionsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClusterVersionsInput) SetMaxRecords(v int64) *DescribeClusterVersionsInput {
-	s.MaxRecords = &v
-	return s
-}
-
 // Contains the output from the DescribeClusterVersions action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterVersionsMessage
 type DescribeClusterVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of Version elements.
-	ClusterVersions []*ClusterVersion `locationNameList:"ClusterVersion" type:"list"`
+	ClusterVersions []ClusterVersion `locationNameList:"ClusterVersion" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8436,16 +7532,9 @@ func (s DescribeClusterVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterVersions sets the ClusterVersions field's value.
-func (s *DescribeClusterVersionsOutput) SetClusterVersions(v []*ClusterVersion) *DescribeClusterVersionsOutput {
-	s.ClusterVersions = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClusterVersionsOutput) SetMarker(v string) *DescribeClusterVersionsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClustersMessage
@@ -8484,7 +7573,7 @@ type DescribeClustersInput struct {
 	// If you specify both of these tag keys in the request, Amazon Redshift returns
 	// a response with the clusters that have either or both of these tag keys associated
 	// with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching clusters
 	// that are associated with the specified tag value or values. For example,
@@ -8492,7 +7581,7 @@ type DescribeClustersInput struct {
 	// test. If you specify both of these tag values in the request, Amazon Redshift
 	// returns a response with the clusters that have either or both of these tag
 	// values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -8505,43 +7594,15 @@ func (s DescribeClustersInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DescribeClustersInput) SetClusterIdentifier(v string) *DescribeClustersInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClustersInput) SetMarker(v string) *DescribeClustersInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeClustersInput) SetMaxRecords(v int64) *DescribeClustersInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeClustersInput) SetTagKeys(v []*string) *DescribeClustersInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeClustersInput) SetTagValues(v []*string) *DescribeClustersInput {
-	s.TagValues = v
-	return s
-}
-
 // Contains the output from the DescribeClusters action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClustersMessage
 type DescribeClustersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of Cluster objects, where each object describes one cluster.
-	Clusters []*Cluster `locationNameList:"Cluster" type:"list"`
+	Clusters []Cluster `locationNameList:"Cluster" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8561,16 +7622,9 @@ func (s DescribeClustersOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusters sets the Clusters field's value.
-func (s *DescribeClustersOutput) SetClusters(v []*Cluster) *DescribeClustersOutput {
-	s.Clusters = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeClustersOutput) SetMarker(v string) *DescribeClustersOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClustersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDefaultClusterParametersMessage
@@ -8625,27 +7679,11 @@ func (s *DescribeDefaultClusterParametersInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeDefaultClusterParametersInput) SetMarker(v string) *DescribeDefaultClusterParametersInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeDefaultClusterParametersInput) SetMaxRecords(v int64) *DescribeDefaultClusterParametersInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetParameterGroupFamily sets the ParameterGroupFamily field's value.
-func (s *DescribeDefaultClusterParametersInput) SetParameterGroupFamily(v string) *DescribeDefaultClusterParametersInput {
-	s.ParameterGroupFamily = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDefaultClusterParametersResult
 type DescribeDefaultClusterParametersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes the default cluster parameters for a parameter group family.
 	DefaultClusterParameters *DefaultClusterParameters `type:"structure"`
@@ -8661,10 +7699,9 @@ func (s DescribeDefaultClusterParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetDefaultClusterParameters sets the DefaultClusterParameters field's value.
-func (s *DescribeDefaultClusterParametersOutput) SetDefaultClusterParameters(v *DefaultClusterParameters) *DescribeDefaultClusterParametersOutput {
-	s.DefaultClusterParameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDefaultClusterParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventCategoriesMessage
@@ -8688,18 +7725,14 @@ func (s DescribeEventCategoriesInput) GoString() string {
 	return s.String()
 }
 
-// SetSourceType sets the SourceType field's value.
-func (s *DescribeEventCategoriesInput) SetSourceType(v string) *DescribeEventCategoriesInput {
-	s.SourceType = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EventCategoriesMessage
 type DescribeEventCategoriesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of event categories descriptions.
-	EventCategoriesMapList []*EventCategoriesMap `locationNameList:"EventCategoriesMap" type:"list"`
+	EventCategoriesMapList []EventCategoriesMap `locationNameList:"EventCategoriesMap" type:"list"`
 }
 
 // String returns the string representation
@@ -8712,10 +7745,9 @@ func (s DescribeEventCategoriesOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventCategoriesMapList sets the EventCategoriesMapList field's value.
-func (s *DescribeEventCategoriesOutput) SetEventCategoriesMapList(v []*EventCategoriesMap) *DescribeEventCategoriesOutput {
-	s.EventCategoriesMapList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventCategoriesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventSubscriptionsMessage
@@ -8749,7 +7781,7 @@ type DescribeEventSubscriptionsInput struct {
 	// and environment. If you specify both of these tag keys in the request, Amazon
 	// Redshift returns a response with the subscriptions that have either or both
 	// of these tag keys associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching event notification
 	// subscriptions that are associated with the specified tag value or values.
@@ -8757,7 +7789,7 @@ type DescribeEventSubscriptionsInput struct {
 	// called admin and test. If you specify both of these tag values in the request,
 	// Amazon Redshift returns a response with the subscriptions that have either
 	// or both of these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -8770,42 +7802,14 @@ func (s DescribeEventSubscriptionsInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeEventSubscriptionsInput) SetMarker(v string) *DescribeEventSubscriptionsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeEventSubscriptionsInput) SetMaxRecords(v int64) *DescribeEventSubscriptionsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetSubscriptionName sets the SubscriptionName field's value.
-func (s *DescribeEventSubscriptionsInput) SetSubscriptionName(v string) *DescribeEventSubscriptionsInput {
-	s.SubscriptionName = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeEventSubscriptionsInput) SetTagKeys(v []*string) *DescribeEventSubscriptionsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeEventSubscriptionsInput) SetTagValues(v []*string) *DescribeEventSubscriptionsInput {
-	s.TagValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EventSubscriptionsMessage
 type DescribeEventSubscriptionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of event subscriptions.
-	EventSubscriptionsList []*EventSubscription `locationNameList:"EventSubscription" type:"list"`
+	EventSubscriptionsList []EventSubscription `locationNameList:"EventSubscription" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8825,16 +7829,9 @@ func (s DescribeEventSubscriptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventSubscriptionsList sets the EventSubscriptionsList field's value.
-func (s *DescribeEventSubscriptionsOutput) SetEventSubscriptionsList(v []*EventSubscription) *DescribeEventSubscriptionsOutput {
-	s.EventSubscriptionsList = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeEventSubscriptionsOutput) SetMarker(v string) *DescribeEventSubscriptionsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventSubscriptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEventsMessage
@@ -8905,7 +7902,7 @@ type DescribeEventsInput struct {
 	//
 	//    * Specify cluster-snapshot when SourceIdentifier is a cluster snapshot
 	//    identifier.
-	SourceType SourceType `type:"string"`
+	SourceType SourceType `type:"string" enum:"true"`
 
 	// The beginning of the time interval to retrieve events for, specified in ISO
 	// 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia
@@ -8925,54 +7922,14 @@ func (s DescribeEventsInput) GoString() string {
 	return s.String()
 }
 
-// SetDuration sets the Duration field's value.
-func (s *DescribeEventsInput) SetDuration(v int64) *DescribeEventsInput {
-	s.Duration = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *DescribeEventsInput) SetEndTime(v time.Time) *DescribeEventsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeEventsInput) SetMarker(v string) *DescribeEventsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeEventsInput) SetMaxRecords(v int64) *DescribeEventsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetSourceIdentifier sets the SourceIdentifier field's value.
-func (s *DescribeEventsInput) SetSourceIdentifier(v string) *DescribeEventsInput {
-	s.SourceIdentifier = &v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *DescribeEventsInput) SetSourceType(v SourceType) *DescribeEventsInput {
-	s.SourceType = v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *DescribeEventsInput) SetStartTime(v time.Time) *DescribeEventsInput {
-	s.StartTime = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EventsMessage
 type DescribeEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of Event instances.
-	Events []*Event `locationNameList:"Event" type:"list"`
+	Events []Event `locationNameList:"Event" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -8992,16 +7949,9 @@ func (s DescribeEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *DescribeEventsOutput) SetEvents(v []*Event) *DescribeEventsOutput {
-	s.Events = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeEventsOutput) SetMarker(v string) *DescribeEventsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeHsmClientCertificatesMessage
@@ -9037,7 +7987,7 @@ type DescribeHsmClientCertificatesInput struct {
 	// and environment. If you specify both of these tag keys in the request, Amazon
 	// Redshift returns a response with the HSM client certificates that have either
 	// or both of these tag keys associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching HSM client
 	// certificates that are associated with the specified tag value or values.
@@ -9045,7 +7995,7 @@ type DescribeHsmClientCertificatesInput struct {
 	// with values called admin and test. If you specify both of these tag values
 	// in the request, Amazon Redshift returns a response with the HSM client certificates
 	// that have either or both of these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -9058,44 +8008,16 @@ func (s DescribeHsmClientCertificatesInput) GoString() string {
 	return s.String()
 }
 
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *DescribeHsmClientCertificatesInput) SetHsmClientCertificateIdentifier(v string) *DescribeHsmClientCertificatesInput {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeHsmClientCertificatesInput) SetMarker(v string) *DescribeHsmClientCertificatesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeHsmClientCertificatesInput) SetMaxRecords(v int64) *DescribeHsmClientCertificatesInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeHsmClientCertificatesInput) SetTagKeys(v []*string) *DescribeHsmClientCertificatesInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeHsmClientCertificatesInput) SetTagValues(v []*string) *DescribeHsmClientCertificatesInput {
-	s.TagValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/HsmClientCertificateMessage
 type DescribeHsmClientCertificatesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the identifiers for one or more HSM client certificates used by
 	// Amazon Redshift clusters to store and retrieve database encryption keys in
 	// an HSM.
-	HsmClientCertificates []*HsmClientCertificate `locationNameList:"HsmClientCertificate" type:"list"`
+	HsmClientCertificates []HsmClientCertificate `locationNameList:"HsmClientCertificate" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -9115,16 +8037,9 @@ func (s DescribeHsmClientCertificatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmClientCertificates sets the HsmClientCertificates field's value.
-func (s *DescribeHsmClientCertificatesOutput) SetHsmClientCertificates(v []*HsmClientCertificate) *DescribeHsmClientCertificatesOutput {
-	s.HsmClientCertificates = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeHsmClientCertificatesOutput) SetMarker(v string) *DescribeHsmClientCertificatesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeHsmClientCertificatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeHsmConfigurationsMessage
@@ -9160,7 +8075,7 @@ type DescribeHsmConfigurationsInput struct {
 	// environment. If you specify both of these tag keys in the request, Amazon
 	// Redshift returns a response with the HSM configurations that have either
 	// or both of these tag keys associated with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching HSM configurations
 	// that are associated with the specified tag value or values. For example,
@@ -9168,7 +8083,7 @@ type DescribeHsmConfigurationsInput struct {
 	// admin and test. If you specify both of these tag values in the request, Amazon
 	// Redshift returns a response with the HSM configurations that have either
 	// or both of these tag values associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -9181,42 +8096,14 @@ func (s DescribeHsmConfigurationsInput) GoString() string {
 	return s.String()
 }
 
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *DescribeHsmConfigurationsInput) SetHsmConfigurationIdentifier(v string) *DescribeHsmConfigurationsInput {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeHsmConfigurationsInput) SetMarker(v string) *DescribeHsmConfigurationsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeHsmConfigurationsInput) SetMaxRecords(v int64) *DescribeHsmConfigurationsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeHsmConfigurationsInput) SetTagKeys(v []*string) *DescribeHsmConfigurationsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeHsmConfigurationsInput) SetTagValues(v []*string) *DescribeHsmConfigurationsInput {
-	s.TagValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/HsmConfigurationMessage
 type DescribeHsmConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of HsmConfiguration objects.
-	HsmConfigurations []*HsmConfiguration `locationNameList:"HsmConfiguration" type:"list"`
+	HsmConfigurations []HsmConfiguration `locationNameList:"HsmConfiguration" type:"list"`
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -9236,16 +8123,9 @@ func (s DescribeHsmConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmConfigurations sets the HsmConfigurations field's value.
-func (s *DescribeHsmConfigurationsOutput) SetHsmConfigurations(v []*HsmConfiguration) *DescribeHsmConfigurationsOutput {
-	s.HsmConfigurations = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeHsmConfigurationsOutput) SetMarker(v string) *DescribeHsmConfigurationsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeHsmConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeLoggingStatusMessage
@@ -9282,12 +8162,6 @@ func (s *DescribeLoggingStatusInput) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DescribeLoggingStatusInput) SetClusterIdentifier(v string) *DescribeLoggingStatusInput {
-	s.ClusterIdentifier = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeOrderableClusterOptionsMessage
@@ -9335,34 +8209,12 @@ func (s DescribeOrderableClusterOptionsInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *DescribeOrderableClusterOptionsInput) SetClusterVersion(v string) *DescribeOrderableClusterOptionsInput {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeOrderableClusterOptionsInput) SetMarker(v string) *DescribeOrderableClusterOptionsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeOrderableClusterOptionsInput) SetMaxRecords(v int64) *DescribeOrderableClusterOptionsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *DescribeOrderableClusterOptionsInput) SetNodeType(v string) *DescribeOrderableClusterOptionsInput {
-	s.NodeType = &v
-	return s
-}
-
 // Contains the output from the DescribeOrderableClusterOptions action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/OrderableClusterOptionsMessage
 type DescribeOrderableClusterOptionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -9373,7 +8225,7 @@ type DescribeOrderableClusterOptionsOutput struct {
 
 	// An OrderableClusterOption structure containing information about orderable
 	// options for the cluster.
-	OrderableClusterOptions []*OrderableClusterOption `locationNameList:"OrderableClusterOption" type:"list"`
+	OrderableClusterOptions []OrderableClusterOption `locationNameList:"OrderableClusterOption" type:"list"`
 }
 
 // String returns the string representation
@@ -9386,16 +8238,9 @@ func (s DescribeOrderableClusterOptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeOrderableClusterOptionsOutput) SetMarker(v string) *DescribeOrderableClusterOptionsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetOrderableClusterOptions sets the OrderableClusterOptions field's value.
-func (s *DescribeOrderableClusterOptionsOutput) SetOrderableClusterOptions(v []*OrderableClusterOption) *DescribeOrderableClusterOptionsOutput {
-	s.OrderableClusterOptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeOrderableClusterOptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeReservedNodeOfferingsMessage
@@ -9434,27 +8279,11 @@ func (s DescribeReservedNodeOfferingsInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeReservedNodeOfferingsInput) SetMarker(v string) *DescribeReservedNodeOfferingsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeReservedNodeOfferingsInput) SetMaxRecords(v int64) *DescribeReservedNodeOfferingsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetReservedNodeOfferingId sets the ReservedNodeOfferingId field's value.
-func (s *DescribeReservedNodeOfferingsInput) SetReservedNodeOfferingId(v string) *DescribeReservedNodeOfferingsInput {
-	s.ReservedNodeOfferingId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ReservedNodeOfferingsMessage
 type DescribeReservedNodeOfferingsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -9464,7 +8293,7 @@ type DescribeReservedNodeOfferingsOutput struct {
 	Marker *string `type:"string"`
 
 	// A list of ReservedNodeOffering objects.
-	ReservedNodeOfferings []*ReservedNodeOffering `locationNameList:"ReservedNodeOffering" type:"list"`
+	ReservedNodeOfferings []ReservedNodeOffering `locationNameList:"ReservedNodeOffering" type:"list"`
 }
 
 // String returns the string representation
@@ -9477,16 +8306,9 @@ func (s DescribeReservedNodeOfferingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeReservedNodeOfferingsOutput) SetMarker(v string) *DescribeReservedNodeOfferingsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetReservedNodeOfferings sets the ReservedNodeOfferings field's value.
-func (s *DescribeReservedNodeOfferingsOutput) SetReservedNodeOfferings(v []*ReservedNodeOffering) *DescribeReservedNodeOfferingsOutput {
-	s.ReservedNodeOfferings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeReservedNodeOfferingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeReservedNodesMessage
@@ -9524,27 +8346,11 @@ func (s DescribeReservedNodesInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeReservedNodesInput) SetMarker(v string) *DescribeReservedNodesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeReservedNodesInput) SetMaxRecords(v int64) *DescribeReservedNodesInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetReservedNodeId sets the ReservedNodeId field's value.
-func (s *DescribeReservedNodesInput) SetReservedNodeId(v string) *DescribeReservedNodesInput {
-	s.ReservedNodeId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ReservedNodesMessage
 type DescribeReservedNodesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -9554,7 +8360,7 @@ type DescribeReservedNodesOutput struct {
 	Marker *string `type:"string"`
 
 	// The list of ReservedNode objects.
-	ReservedNodes []*ReservedNode `locationNameList:"ReservedNode" type:"list"`
+	ReservedNodes []ReservedNode `locationNameList:"ReservedNode" type:"list"`
 }
 
 // String returns the string representation
@@ -9567,16 +8373,9 @@ func (s DescribeReservedNodesOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeReservedNodesOutput) SetMarker(v string) *DescribeReservedNodesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetReservedNodes sets the ReservedNodes field's value.
-func (s *DescribeReservedNodesOutput) SetReservedNodes(v []*ReservedNode) *DescribeReservedNodesOutput {
-	s.ReservedNodes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeReservedNodesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeResizeMessage
@@ -9617,16 +8416,12 @@ func (s *DescribeResizeInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DescribeResizeInput) SetClusterIdentifier(v string) *DescribeResizeInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
 // Describes the result of a cluster resize operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResizeProgressMessage
 type DescribeResizeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The average rate of the resize operation over the last few minutes, measured
 	// in megabytes per second. After the resize operation completes, this value
@@ -9647,17 +8442,17 @@ type DescribeResizeOutput struct {
 	// The names of tables that have been completely imported .
 	//
 	// Valid Values: List of table names.
-	ImportTablesCompleted []*string `type:"list"`
+	ImportTablesCompleted []string `type:"list"`
 
 	// The names of tables that are being currently imported.
 	//
 	// Valid Values: List of table names.
-	ImportTablesInProgress []*string `type:"list"`
+	ImportTablesInProgress []string `type:"list"`
 
 	// The names of tables that have not been yet imported.
 	//
 	// Valid Values: List of table names
-	ImportTablesNotStarted []*string `type:"list"`
+	ImportTablesNotStarted []string `type:"list"`
 
 	// While the resize operation is in progress, this value shows the current amount
 	// of data, in megabytes, that has been processed so far. When the resize operation
@@ -9698,76 +8493,9 @@ func (s DescribeResizeOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvgResizeRateInMegaBytesPerSecond sets the AvgResizeRateInMegaBytesPerSecond field's value.
-func (s *DescribeResizeOutput) SetAvgResizeRateInMegaBytesPerSecond(v float64) *DescribeResizeOutput {
-	s.AvgResizeRateInMegaBytesPerSecond = &v
-	return s
-}
-
-// SetElapsedTimeInSeconds sets the ElapsedTimeInSeconds field's value.
-func (s *DescribeResizeOutput) SetElapsedTimeInSeconds(v int64) *DescribeResizeOutput {
-	s.ElapsedTimeInSeconds = &v
-	return s
-}
-
-// SetEstimatedTimeToCompletionInSeconds sets the EstimatedTimeToCompletionInSeconds field's value.
-func (s *DescribeResizeOutput) SetEstimatedTimeToCompletionInSeconds(v int64) *DescribeResizeOutput {
-	s.EstimatedTimeToCompletionInSeconds = &v
-	return s
-}
-
-// SetImportTablesCompleted sets the ImportTablesCompleted field's value.
-func (s *DescribeResizeOutput) SetImportTablesCompleted(v []*string) *DescribeResizeOutput {
-	s.ImportTablesCompleted = v
-	return s
-}
-
-// SetImportTablesInProgress sets the ImportTablesInProgress field's value.
-func (s *DescribeResizeOutput) SetImportTablesInProgress(v []*string) *DescribeResizeOutput {
-	s.ImportTablesInProgress = v
-	return s
-}
-
-// SetImportTablesNotStarted sets the ImportTablesNotStarted field's value.
-func (s *DescribeResizeOutput) SetImportTablesNotStarted(v []*string) *DescribeResizeOutput {
-	s.ImportTablesNotStarted = v
-	return s
-}
-
-// SetProgressInMegaBytes sets the ProgressInMegaBytes field's value.
-func (s *DescribeResizeOutput) SetProgressInMegaBytes(v int64) *DescribeResizeOutput {
-	s.ProgressInMegaBytes = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DescribeResizeOutput) SetStatus(v string) *DescribeResizeOutput {
-	s.Status = &v
-	return s
-}
-
-// SetTargetClusterType sets the TargetClusterType field's value.
-func (s *DescribeResizeOutput) SetTargetClusterType(v string) *DescribeResizeOutput {
-	s.TargetClusterType = &v
-	return s
-}
-
-// SetTargetNodeType sets the TargetNodeType field's value.
-func (s *DescribeResizeOutput) SetTargetNodeType(v string) *DescribeResizeOutput {
-	s.TargetNodeType = &v
-	return s
-}
-
-// SetTargetNumberOfNodes sets the TargetNumberOfNodes field's value.
-func (s *DescribeResizeOutput) SetTargetNumberOfNodes(v int64) *DescribeResizeOutput {
-	s.TargetNumberOfNodes = &v
-	return s
-}
-
-// SetTotalResizeDataInMegaBytes sets the TotalResizeDataInMegaBytes field's value.
-func (s *DescribeResizeOutput) SetTotalResizeDataInMegaBytes(v int64) *DescribeResizeOutput {
-	s.TotalResizeDataInMegaBytes = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeResizeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The result of the DescribeSnapshotCopyGrants action.
@@ -9805,7 +8533,7 @@ type DescribeSnapshotCopyGrantsInput struct {
 	// specify both of these tag keys in the request, Amazon Redshift returns a
 	// response with all resources that have either or both of these tag keys associated
 	// with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching resources
 	// that are associated with the specified value or values. For example, suppose
@@ -9813,7 +8541,7 @@ type DescribeSnapshotCopyGrantsInput struct {
 	// specify both of these tag values in the request, Amazon Redshift returns
 	// a response with all resources that have either or both of these tag values
 	// associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -9826,39 +8554,11 @@ func (s DescribeSnapshotCopyGrantsInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeSnapshotCopyGrantsInput) SetMarker(v string) *DescribeSnapshotCopyGrantsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeSnapshotCopyGrantsInput) SetMaxRecords(v int64) *DescribeSnapshotCopyGrantsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetSnapshotCopyGrantName sets the SnapshotCopyGrantName field's value.
-func (s *DescribeSnapshotCopyGrantsInput) SetSnapshotCopyGrantName(v string) *DescribeSnapshotCopyGrantsInput {
-	s.SnapshotCopyGrantName = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeSnapshotCopyGrantsInput) SetTagKeys(v []*string) *DescribeSnapshotCopyGrantsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeSnapshotCopyGrantsInput) SetTagValues(v []*string) *DescribeSnapshotCopyGrantsInput {
-	s.TagValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/SnapshotCopyGrantMessage
 type DescribeSnapshotCopyGrantsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An optional parameter that specifies the starting point to return a set of
 	// response records. When the results of a DescribeSnapshotCopyGrant request
@@ -9872,7 +8572,7 @@ type DescribeSnapshotCopyGrantsOutput struct {
 	Marker *string `type:"string"`
 
 	// The list of SnapshotCopyGrant objects.
-	SnapshotCopyGrants []*SnapshotCopyGrant `locationNameList:"SnapshotCopyGrant" type:"list"`
+	SnapshotCopyGrants []SnapshotCopyGrant `locationNameList:"SnapshotCopyGrant" type:"list"`
 }
 
 // String returns the string representation
@@ -9885,16 +8585,9 @@ func (s DescribeSnapshotCopyGrantsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeSnapshotCopyGrantsOutput) SetMarker(v string) *DescribeSnapshotCopyGrantsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetSnapshotCopyGrants sets the SnapshotCopyGrants field's value.
-func (s *DescribeSnapshotCopyGrantsOutput) SetSnapshotCopyGrants(v []*SnapshotCopyGrant) *DescribeSnapshotCopyGrantsOutput {
-	s.SnapshotCopyGrants = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSnapshotCopyGrantsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeTableRestoreStatusMessage
@@ -9930,40 +8623,18 @@ func (s DescribeTableRestoreStatusInput) GoString() string {
 	return s.String()
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DescribeTableRestoreStatusInput) SetClusterIdentifier(v string) *DescribeTableRestoreStatusInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *DescribeTableRestoreStatusInput) SetMarker(v string) *DescribeTableRestoreStatusInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeTableRestoreStatusInput) SetMaxRecords(v int64) *DescribeTableRestoreStatusInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetTableRestoreRequestId sets the TableRestoreRequestId field's value.
-func (s *DescribeTableRestoreStatusInput) SetTableRestoreRequestId(v string) *DescribeTableRestoreStatusInput {
-	s.TableRestoreRequestId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/TableRestoreStatusMessage
 type DescribeTableRestoreStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A pagination token that can be used in a subsequent DescribeTableRestoreStatus
 	// request.
 	Marker *string `type:"string"`
 
 	// A list of status details for one or more table restore requests.
-	TableRestoreStatusDetails []*TableRestoreStatus `locationNameList:"TableRestoreStatus" type:"list"`
+	TableRestoreStatusDetails []TableRestoreStatus `locationNameList:"TableRestoreStatus" type:"list"`
 }
 
 // String returns the string representation
@@ -9976,16 +8647,9 @@ func (s DescribeTableRestoreStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeTableRestoreStatusOutput) SetMarker(v string) *DescribeTableRestoreStatusOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetTableRestoreStatusDetails sets the TableRestoreStatusDetails field's value.
-func (s *DescribeTableRestoreStatusOutput) SetTableRestoreStatusDetails(v []*TableRestoreStatus) *DescribeTableRestoreStatusOutput {
-	s.TableRestoreStatusDetails = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTableRestoreStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeTagsMessage
@@ -10044,7 +8708,7 @@ type DescribeTagsInput struct {
 	// specify both of these tag keys in the request, Amazon Redshift returns a
 	// response with all resources that have either or both of these tag keys associated
 	// with them.
-	TagKeys []*string `locationNameList:"TagKey" type:"list"`
+	TagKeys []string `locationNameList:"TagKey" type:"list"`
 
 	// A tag value or values for which you want to return all matching resources
 	// that are associated with the specified value or values. For example, suppose
@@ -10052,7 +8716,7 @@ type DescribeTagsInput struct {
 	// specify both of these tag values in the request, Amazon Redshift returns
 	// a response with all resources that have either or both of these tag values
 	// associated with them.
-	TagValues []*string `locationNameList:"TagValue" type:"list"`
+	TagValues []string `locationNameList:"TagValue" type:"list"`
 }
 
 // String returns the string representation
@@ -10065,45 +8729,11 @@ func (s DescribeTagsInput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeTagsInput) SetMarker(v string) *DescribeTagsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeTagsInput) SetMaxRecords(v int64) *DescribeTagsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetResourceName sets the ResourceName field's value.
-func (s *DescribeTagsInput) SetResourceName(v string) *DescribeTagsInput {
-	s.ResourceName = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *DescribeTagsInput) SetResourceType(v string) *DescribeTagsInput {
-	s.ResourceType = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DescribeTagsInput) SetTagKeys(v []*string) *DescribeTagsInput {
-	s.TagKeys = v
-	return s
-}
-
-// SetTagValues sets the TagValues field's value.
-func (s *DescribeTagsInput) SetTagValues(v []*string) *DescribeTagsInput {
-	s.TagValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/TaggedResourceListMessage
 type DescribeTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A value that indicates the starting point for the next set of response records
 	// in a subsequent request. If a value is returned in a response, you can retrieve
@@ -10113,7 +8743,7 @@ type DescribeTagsOutput struct {
 	Marker *string `type:"string"`
 
 	// A list of tags with their associated resources.
-	TaggedResources []*TaggedResource `locationNameList:"TaggedResource" type:"list"`
+	TaggedResources []TaggedResource `locationNameList:"TaggedResource" type:"list"`
 }
 
 // String returns the string representation
@@ -10126,16 +8756,9 @@ func (s DescribeTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMarker sets the Marker field's value.
-func (s *DescribeTagsOutput) SetMarker(v string) *DescribeTagsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetTaggedResources sets the TaggedResources field's value.
-func (s *DescribeTagsOutput) SetTaggedResources(v []*TaggedResource) *DescribeTagsOutput {
-	s.TaggedResources = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableLoggingMessage
@@ -10172,12 +8795,6 @@ func (s *DisableLoggingInput) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DisableLoggingInput) SetClusterIdentifier(v string) *DisableLoggingInput {
-	s.ClusterIdentifier = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableSnapshotCopyMessage
@@ -10218,15 +8835,11 @@ func (s *DisableSnapshotCopyInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *DisableSnapshotCopyInput) SetClusterIdentifier(v string) *DisableSnapshotCopyInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableSnapshotCopyResult
 type DisableSnapshotCopyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -10242,10 +8855,9 @@ func (s DisableSnapshotCopyOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *DisableSnapshotCopyOutput) SetCluster(v *Cluster) *DisableSnapshotCopyOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableSnapshotCopyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an Amazon EC2 security group.
@@ -10264,7 +8876,7 @@ type EC2SecurityGroup struct {
 	Status *string `type:"string"`
 
 	// The list of tags for the EC2 security group.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -10275,30 +8887,6 @@ func (s EC2SecurityGroup) String() string {
 // GoString returns the string representation
 func (s EC2SecurityGroup) GoString() string {
 	return s.String()
-}
-
-// SetEC2SecurityGroupName sets the EC2SecurityGroupName field's value.
-func (s *EC2SecurityGroup) SetEC2SecurityGroupName(v string) *EC2SecurityGroup {
-	s.EC2SecurityGroupName = &v
-	return s
-}
-
-// SetEC2SecurityGroupOwnerId sets the EC2SecurityGroupOwnerId field's value.
-func (s *EC2SecurityGroup) SetEC2SecurityGroupOwnerId(v string) *EC2SecurityGroup {
-	s.EC2SecurityGroupOwnerId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *EC2SecurityGroup) SetStatus(v string) *EC2SecurityGroup {
-	s.Status = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *EC2SecurityGroup) SetTags(v []*Tag) *EC2SecurityGroup {
-	s.Tags = v
-	return s
 }
 
 // Describes the status of the elastic IP (EIP) address.
@@ -10321,18 +8909,6 @@ func (s ElasticIpStatus) String() string {
 // GoString returns the string representation
 func (s ElasticIpStatus) GoString() string {
 	return s.String()
-}
-
-// SetElasticIp sets the ElasticIp field's value.
-func (s *ElasticIpStatus) SetElasticIp(v string) *ElasticIpStatus {
-	s.ElasticIp = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ElasticIpStatus) SetStatus(v string) *ElasticIpStatus {
-	s.Status = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableLoggingMessage
@@ -10407,28 +8983,12 @@ func (s *EnableLoggingInput) Validate() error {
 	return nil
 }
 
-// SetBucketName sets the BucketName field's value.
-func (s *EnableLoggingInput) SetBucketName(v string) *EnableLoggingInput {
-	s.BucketName = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *EnableLoggingInput) SetClusterIdentifier(v string) *EnableLoggingInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *EnableLoggingInput) SetS3KeyPrefix(v string) *EnableLoggingInput {
-	s.S3KeyPrefix = &v
-	return s
-}
-
 // Describes the status of logging for a cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableLoggingOutput
 type EnableLoggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the S3 bucket where the log files are stored.
 	BucketName *string `type:"string"`
@@ -10459,40 +9019,9 @@ func (s EnableLoggingOutput) GoString() string {
 	return s.String()
 }
 
-// SetBucketName sets the BucketName field's value.
-func (s *EnableLoggingOutput) SetBucketName(v string) *EnableLoggingOutput {
-	s.BucketName = &v
-	return s
-}
-
-// SetLastFailureMessage sets the LastFailureMessage field's value.
-func (s *EnableLoggingOutput) SetLastFailureMessage(v string) *EnableLoggingOutput {
-	s.LastFailureMessage = &v
-	return s
-}
-
-// SetLastFailureTime sets the LastFailureTime field's value.
-func (s *EnableLoggingOutput) SetLastFailureTime(v time.Time) *EnableLoggingOutput {
-	s.LastFailureTime = &v
-	return s
-}
-
-// SetLastSuccessfulDeliveryTime sets the LastSuccessfulDeliveryTime field's value.
-func (s *EnableLoggingOutput) SetLastSuccessfulDeliveryTime(v time.Time) *EnableLoggingOutput {
-	s.LastSuccessfulDeliveryTime = &v
-	return s
-}
-
-// SetLoggingEnabled sets the LoggingEnabled field's value.
-func (s *EnableLoggingOutput) SetLoggingEnabled(v bool) *EnableLoggingOutput {
-	s.LoggingEnabled = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *EnableLoggingOutput) SetS3KeyPrefix(v string) *EnableLoggingOutput {
-	s.S3KeyPrefix = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableLoggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableSnapshotCopyMessage
@@ -10557,33 +9086,11 @@ func (s *EnableSnapshotCopyInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *EnableSnapshotCopyInput) SetClusterIdentifier(v string) *EnableSnapshotCopyInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetDestinationRegion sets the DestinationRegion field's value.
-func (s *EnableSnapshotCopyInput) SetDestinationRegion(v string) *EnableSnapshotCopyInput {
-	s.DestinationRegion = &v
-	return s
-}
-
-// SetRetentionPeriod sets the RetentionPeriod field's value.
-func (s *EnableSnapshotCopyInput) SetRetentionPeriod(v int64) *EnableSnapshotCopyInput {
-	s.RetentionPeriod = &v
-	return s
-}
-
-// SetSnapshotCopyGrantName sets the SnapshotCopyGrantName field's value.
-func (s *EnableSnapshotCopyInput) SetSnapshotCopyGrantName(v string) *EnableSnapshotCopyInput {
-	s.SnapshotCopyGrantName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableSnapshotCopyResult
 type EnableSnapshotCopyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -10599,10 +9106,9 @@ func (s EnableSnapshotCopyOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *EnableSnapshotCopyOutput) SetCluster(v *Cluster) *EnableSnapshotCopyOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableSnapshotCopyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a connection endpoint.
@@ -10627,18 +9133,6 @@ func (s Endpoint) GoString() string {
 	return s.String()
 }
 
-// SetAddress sets the Address field's value.
-func (s *Endpoint) SetAddress(v string) *Endpoint {
-	s.Address = &v
-	return s
-}
-
-// SetPort sets the Port field's value.
-func (s *Endpoint) SetPort(v int64) *Endpoint {
-	s.Port = &v
-	return s
-}
-
 // Describes an event.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Event
 type Event struct {
@@ -10650,7 +9144,7 @@ type Event struct {
 	// A list of the event categories.
 	//
 	// Values: Configuration, Management, Monitoring, Security
-	EventCategories []*string `locationNameList:"EventCategory" type:"list"`
+	EventCategories []string `locationNameList:"EventCategory" type:"list"`
 
 	// The identifier of the event.
 	EventId *string `type:"string"`
@@ -10667,7 +9161,7 @@ type Event struct {
 	SourceIdentifier *string `type:"string"`
 
 	// The source type for this event.
-	SourceType SourceType `type:"string"`
+	SourceType SourceType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -10680,55 +9174,13 @@ func (s Event) GoString() string {
 	return s.String()
 }
 
-// SetDate sets the Date field's value.
-func (s *Event) SetDate(v time.Time) *Event {
-	s.Date = &v
-	return s
-}
-
-// SetEventCategories sets the EventCategories field's value.
-func (s *Event) SetEventCategories(v []*string) *Event {
-	s.EventCategories = v
-	return s
-}
-
-// SetEventId sets the EventId field's value.
-func (s *Event) SetEventId(v string) *Event {
-	s.EventId = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Event) SetMessage(v string) *Event {
-	s.Message = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *Event) SetSeverity(v string) *Event {
-	s.Severity = &v
-	return s
-}
-
-// SetSourceIdentifier sets the SourceIdentifier field's value.
-func (s *Event) SetSourceIdentifier(v string) *Event {
-	s.SourceIdentifier = &v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *Event) SetSourceType(v SourceType) *Event {
-	s.SourceType = v
-	return s
-}
-
 // Describes event categories.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EventCategoriesMap
 type EventCategoriesMap struct {
 	_ struct{} `type:"structure"`
 
 	// The events in the event category.
-	Events []*EventInfoMap `locationNameList:"EventInfoMap" type:"list"`
+	Events []EventInfoMap `locationNameList:"EventInfoMap" type:"list"`
 
 	// The source type, such as cluster or cluster-snapshot, that the returned categories
 	// belong to.
@@ -10745,25 +9197,13 @@ func (s EventCategoriesMap) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *EventCategoriesMap) SetEvents(v []*EventInfoMap) *EventCategoriesMap {
-	s.Events = v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *EventCategoriesMap) SetSourceType(v string) *EventCategoriesMap {
-	s.SourceType = &v
-	return s
-}
-
 // Describes event information.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EventInfoMap
 type EventInfoMap struct {
 	_ struct{} `type:"structure"`
 
 	// The category of an Amazon Redshift event.
-	EventCategories []*string `locationNameList:"EventCategory" type:"list"`
+	EventCategories []string `locationNameList:"EventCategory" type:"list"`
 
 	// The description of an Amazon Redshift event.
 	EventDescription *string `type:"string"`
@@ -10787,30 +9227,6 @@ func (s EventInfoMap) GoString() string {
 	return s.String()
 }
 
-// SetEventCategories sets the EventCategories field's value.
-func (s *EventInfoMap) SetEventCategories(v []*string) *EventInfoMap {
-	s.EventCategories = v
-	return s
-}
-
-// SetEventDescription sets the EventDescription field's value.
-func (s *EventInfoMap) SetEventDescription(v string) *EventInfoMap {
-	s.EventDescription = &v
-	return s
-}
-
-// SetEventId sets the EventId field's value.
-func (s *EventInfoMap) SetEventId(v string) *EventInfoMap {
-	s.EventId = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *EventInfoMap) SetSeverity(v string) *EventInfoMap {
-	s.Severity = &v
-	return s
-}
-
 // Describes event subscriptions.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EventSubscription
 type EventSubscription struct {
@@ -10831,7 +9247,7 @@ type EventSubscription struct {
 	// subscription.
 	//
 	// Values: Configuration, Management, Monitoring, Security
-	EventCategoriesList []*string `locationNameList:"EventCategory" type:"list"`
+	EventCategoriesList []string `locationNameList:"EventCategory" type:"list"`
 
 	// The event severity specified in the Amazon Redshift event notification subscription.
 	//
@@ -10844,7 +9260,7 @@ type EventSubscription struct {
 
 	// A list of the sources that publish events to the Amazon Redshift event notification
 	// subscription.
-	SourceIdsList []*string `locationNameList:"SourceId" type:"list"`
+	SourceIdsList []string `locationNameList:"SourceId" type:"list"`
 
 	// The source type of the events returned the Amazon Redshift event notification,
 	// such as cluster, or cluster-snapshot.
@@ -10866,7 +9282,7 @@ type EventSubscription struct {
 	SubscriptionCreationTime *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	// The list of tags for the event subscription.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -10877,72 +9293,6 @@ func (s EventSubscription) String() string {
 // GoString returns the string representation
 func (s EventSubscription) GoString() string {
 	return s.String()
-}
-
-// SetCustSubscriptionId sets the CustSubscriptionId field's value.
-func (s *EventSubscription) SetCustSubscriptionId(v string) *EventSubscription {
-	s.CustSubscriptionId = &v
-	return s
-}
-
-// SetCustomerAwsId sets the CustomerAwsId field's value.
-func (s *EventSubscription) SetCustomerAwsId(v string) *EventSubscription {
-	s.CustomerAwsId = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *EventSubscription) SetEnabled(v bool) *EventSubscription {
-	s.Enabled = &v
-	return s
-}
-
-// SetEventCategoriesList sets the EventCategoriesList field's value.
-func (s *EventSubscription) SetEventCategoriesList(v []*string) *EventSubscription {
-	s.EventCategoriesList = v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *EventSubscription) SetSeverity(v string) *EventSubscription {
-	s.Severity = &v
-	return s
-}
-
-// SetSnsTopicArn sets the SnsTopicArn field's value.
-func (s *EventSubscription) SetSnsTopicArn(v string) *EventSubscription {
-	s.SnsTopicArn = &v
-	return s
-}
-
-// SetSourceIdsList sets the SourceIdsList field's value.
-func (s *EventSubscription) SetSourceIdsList(v []*string) *EventSubscription {
-	s.SourceIdsList = v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *EventSubscription) SetSourceType(v string) *EventSubscription {
-	s.SourceType = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *EventSubscription) SetStatus(v string) *EventSubscription {
-	s.Status = &v
-	return s
-}
-
-// SetSubscriptionCreationTime sets the SubscriptionCreationTime field's value.
-func (s *EventSubscription) SetSubscriptionCreationTime(v time.Time) *EventSubscription {
-	s.SubscriptionCreationTime = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *EventSubscription) SetTags(v []*Tag) *EventSubscription {
-	s.Tags = v
-	return s
 }
 
 // The request parameters to get cluster credentials.
@@ -10978,7 +9328,7 @@ type GetClusterCredentialsInput struct {
 	//    * Cannot be a reserved word. A list of reserved words can be found in
 	//    Reserved Words (http://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html)
 	//    in the Amazon Redshift Database Developer Guide.
-	DbGroups []*string `locationNameList:"DbGroup" type:"list"`
+	DbGroups []string `locationNameList:"DbGroup" type:"list"`
 
 	// The name of a database that DbUser is authorized to log on to. If DbName
 	// is not specified, DbUser can log on to any existing database.
@@ -11012,7 +9362,8 @@ type GetClusterCredentialsInput struct {
 	//
 	// Constraints:
 	//
-	//    * Must be 1 to 64 alphanumeric characters or hyphens
+	//    * Must be 1 to 64 alphanumeric characters or hyphens. The user name can't
+	//    be PUBLIC.
 	//
 	//    * Must contain only lowercase letters, numbers, underscore, plus sign,
 	//    period (dot), at symbol (@), or hyphen.
@@ -11064,47 +9415,13 @@ func (s *GetClusterCredentialsInput) Validate() error {
 	return nil
 }
 
-// SetAutoCreate sets the AutoCreate field's value.
-func (s *GetClusterCredentialsInput) SetAutoCreate(v bool) *GetClusterCredentialsInput {
-	s.AutoCreate = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *GetClusterCredentialsInput) SetClusterIdentifier(v string) *GetClusterCredentialsInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetDbGroups sets the DbGroups field's value.
-func (s *GetClusterCredentialsInput) SetDbGroups(v []*string) *GetClusterCredentialsInput {
-	s.DbGroups = v
-	return s
-}
-
-// SetDbName sets the DbName field's value.
-func (s *GetClusterCredentialsInput) SetDbName(v string) *GetClusterCredentialsInput {
-	s.DbName = &v
-	return s
-}
-
-// SetDbUser sets the DbUser field's value.
-func (s *GetClusterCredentialsInput) SetDbUser(v string) *GetClusterCredentialsInput {
-	s.DbUser = &v
-	return s
-}
-
-// SetDurationSeconds sets the DurationSeconds field's value.
-func (s *GetClusterCredentialsInput) SetDurationSeconds(v int64) *GetClusterCredentialsInput {
-	s.DurationSeconds = &v
-	return s
-}
-
 // Temporary credentials with authorization to log on to an Amazon Redshift
 // database.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterCredentials
 type GetClusterCredentialsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A temporary password that authorizes the user name returned by DbUser to
 	// log on to the database DbName.
@@ -11132,22 +9449,9 @@ func (s GetClusterCredentialsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDbPassword sets the DbPassword field's value.
-func (s *GetClusterCredentialsOutput) SetDbPassword(v string) *GetClusterCredentialsOutput {
-	s.DbPassword = &v
-	return s
-}
-
-// SetDbUser sets the DbUser field's value.
-func (s *GetClusterCredentialsOutput) SetDbUser(v string) *GetClusterCredentialsOutput {
-	s.DbUser = &v
-	return s
-}
-
-// SetExpiration sets the Expiration field's value.
-func (s *GetClusterCredentialsOutput) SetExpiration(v time.Time) *GetClusterCredentialsOutput {
-	s.Expiration = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetClusterCredentialsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Returns information about an HSM client certificate. The certificate is stored
@@ -11165,7 +9469,7 @@ type HsmClientCertificate struct {
 	HsmClientCertificatePublicKey *string `type:"string"`
 
 	// The list of tags for the HSM client certificate.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -11176,24 +9480,6 @@ func (s HsmClientCertificate) String() string {
 // GoString returns the string representation
 func (s HsmClientCertificate) GoString() string {
 	return s.String()
-}
-
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *HsmClientCertificate) SetHsmClientCertificateIdentifier(v string) *HsmClientCertificate {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetHsmClientCertificatePublicKey sets the HsmClientCertificatePublicKey field's value.
-func (s *HsmClientCertificate) SetHsmClientCertificatePublicKey(v string) *HsmClientCertificate {
-	s.HsmClientCertificatePublicKey = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *HsmClientCertificate) SetTags(v []*Tag) *HsmClientCertificate {
-	s.Tags = v
-	return s
 }
 
 // Returns information about an HSM configuration, which is an object that describes
@@ -11217,7 +9503,7 @@ type HsmConfiguration struct {
 	HsmPartitionName *string `type:"string"`
 
 	// The list of tags for the HSM configuration.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -11228,36 +9514,6 @@ func (s HsmConfiguration) String() string {
 // GoString returns the string representation
 func (s HsmConfiguration) GoString() string {
 	return s.String()
-}
-
-// SetDescription sets the Description field's value.
-func (s *HsmConfiguration) SetDescription(v string) *HsmConfiguration {
-	s.Description = &v
-	return s
-}
-
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *HsmConfiguration) SetHsmConfigurationIdentifier(v string) *HsmConfiguration {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetHsmIpAddress sets the HsmIpAddress field's value.
-func (s *HsmConfiguration) SetHsmIpAddress(v string) *HsmConfiguration {
-	s.HsmIpAddress = &v
-	return s
-}
-
-// SetHsmPartitionName sets the HsmPartitionName field's value.
-func (s *HsmConfiguration) SetHsmPartitionName(v string) *HsmConfiguration {
-	s.HsmPartitionName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *HsmConfiguration) SetTags(v []*Tag) *HsmConfiguration {
-	s.Tags = v
-	return s
 }
 
 // Describes the status of changes to HSM settings.
@@ -11290,24 +9546,6 @@ func (s HsmStatus) GoString() string {
 	return s.String()
 }
 
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *HsmStatus) SetHsmClientCertificateIdentifier(v string) *HsmStatus {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *HsmStatus) SetHsmConfigurationIdentifier(v string) *HsmStatus {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *HsmStatus) SetStatus(v string) *HsmStatus {
-	s.Status = &v
-	return s
-}
-
 // Describes an IP range used in a security group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IPRange
 type IPRange struct {
@@ -11320,7 +9558,7 @@ type IPRange struct {
 	Status *string `type:"string"`
 
 	// The list of tags for the IP range.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -11333,24 +9571,6 @@ func (s IPRange) GoString() string {
 	return s.String()
 }
 
-// SetCIDRIP sets the CIDRIP field's value.
-func (s *IPRange) SetCIDRIP(v string) *IPRange {
-	s.CIDRIP = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *IPRange) SetStatus(v string) *IPRange {
-	s.Status = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *IPRange) SetTags(v []*Tag) *IPRange {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterIamRolesMessage
 type ModifyClusterIamRolesInput struct {
 	_ struct{} `type:"structure"`
@@ -11358,7 +9578,7 @@ type ModifyClusterIamRolesInput struct {
 	// Zero or more IAM roles to associate with the cluster. The roles must be in
 	// their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles
 	// with a single cluster in a single request.
-	AddIamRoles []*string `locationNameList:"IamRoleArn" type:"list"`
+	AddIamRoles []string `locationNameList:"IamRoleArn" type:"list"`
 
 	// The unique identifier of the cluster for which you want to associate or disassociate
 	// IAM roles.
@@ -11368,7 +9588,7 @@ type ModifyClusterIamRolesInput struct {
 
 	// Zero or more IAM roles in ARN format to disassociate from the cluster. You
 	// can disassociate up to 10 IAM roles from a single cluster in a single request.
-	RemoveIamRoles []*string `locationNameList:"IamRoleArn" type:"list"`
+	RemoveIamRoles []string `locationNameList:"IamRoleArn" type:"list"`
 }
 
 // String returns the string representation
@@ -11395,27 +9615,11 @@ func (s *ModifyClusterIamRolesInput) Validate() error {
 	return nil
 }
 
-// SetAddIamRoles sets the AddIamRoles field's value.
-func (s *ModifyClusterIamRolesInput) SetAddIamRoles(v []*string) *ModifyClusterIamRolesInput {
-	s.AddIamRoles = v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *ModifyClusterIamRolesInput) SetClusterIdentifier(v string) *ModifyClusterIamRolesInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetRemoveIamRoles sets the RemoveIamRoles field's value.
-func (s *ModifyClusterIamRolesInput) SetRemoveIamRoles(v []*string) *ModifyClusterIamRolesInput {
-	s.RemoveIamRoles = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterIamRolesResult
 type ModifyClusterIamRolesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -11431,10 +9635,9 @@ func (s ModifyClusterIamRolesOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *ModifyClusterIamRolesOutput) SetCluster(v *Cluster) *ModifyClusterIamRolesOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyClusterIamRolesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMessage
@@ -11489,7 +9692,7 @@ type ModifyClusterInput struct {
 	//    * First character must be a letter
 	//
 	//    * Cannot end with a hyphen or contain two consecutive hyphens
-	ClusterSecurityGroups []*string `locationNameList:"ClusterSecurityGroupName" type:"list"`
+	ClusterSecurityGroups []string `locationNameList:"ClusterSecurityGroupName" type:"list"`
 
 	// The new cluster type.
 	//
@@ -11595,8 +9798,8 @@ type ModifyClusterInput struct {
 	// permissions for the cluster are restored. You can use DescribeResize to track
 	// the progress of the resize request.
 	//
-	// Valid Values:  ds1.xlarge | ds1.8xlarge |  ds2.xlarge | ds2.8xlarge | dc1.large
-	// | dc1.8xlarge.
+	// Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large
+	// | dc2.8xlarge
 	NodeType *string `type:"string"`
 
 	// The new number of nodes of the cluster. If you specify a new number of nodes,
@@ -11636,8 +9839,8 @@ type ModifyClusterInput struct {
 	PubliclyAccessible *bool `type:"boolean"`
 
 	// A list of virtual private cloud (VPC) security groups to be associated with
-	// the cluster.
-	VpcSecurityGroupIds []*string `locationNameList:"VpcSecurityGroupId" type:"list"`
+	// the cluster. This change is asynchronously applied as soon as possible.
+	VpcSecurityGroupIds []string `locationNameList:"VpcSecurityGroupId" type:"list"`
 }
 
 // String returns the string representation
@@ -11664,117 +9867,11 @@ func (s *ModifyClusterInput) Validate() error {
 	return nil
 }
 
-// SetAllowVersionUpgrade sets the AllowVersionUpgrade field's value.
-func (s *ModifyClusterInput) SetAllowVersionUpgrade(v bool) *ModifyClusterInput {
-	s.AllowVersionUpgrade = &v
-	return s
-}
-
-// SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
-func (s *ModifyClusterInput) SetAutomatedSnapshotRetentionPeriod(v int64) *ModifyClusterInput {
-	s.AutomatedSnapshotRetentionPeriod = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *ModifyClusterInput) SetClusterIdentifier(v string) *ModifyClusterInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetClusterParameterGroupName sets the ClusterParameterGroupName field's value.
-func (s *ModifyClusterInput) SetClusterParameterGroupName(v string) *ModifyClusterInput {
-	s.ClusterParameterGroupName = &v
-	return s
-}
-
-// SetClusterSecurityGroups sets the ClusterSecurityGroups field's value.
-func (s *ModifyClusterInput) SetClusterSecurityGroups(v []*string) *ModifyClusterInput {
-	s.ClusterSecurityGroups = v
-	return s
-}
-
-// SetClusterType sets the ClusterType field's value.
-func (s *ModifyClusterInput) SetClusterType(v string) *ModifyClusterInput {
-	s.ClusterType = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *ModifyClusterInput) SetClusterVersion(v string) *ModifyClusterInput {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetElasticIp sets the ElasticIp field's value.
-func (s *ModifyClusterInput) SetElasticIp(v string) *ModifyClusterInput {
-	s.ElasticIp = &v
-	return s
-}
-
-// SetEnhancedVpcRouting sets the EnhancedVpcRouting field's value.
-func (s *ModifyClusterInput) SetEnhancedVpcRouting(v bool) *ModifyClusterInput {
-	s.EnhancedVpcRouting = &v
-	return s
-}
-
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *ModifyClusterInput) SetHsmClientCertificateIdentifier(v string) *ModifyClusterInput {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *ModifyClusterInput) SetHsmConfigurationIdentifier(v string) *ModifyClusterInput {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetMasterUserPassword sets the MasterUserPassword field's value.
-func (s *ModifyClusterInput) SetMasterUserPassword(v string) *ModifyClusterInput {
-	s.MasterUserPassword = &v
-	return s
-}
-
-// SetNewClusterIdentifier sets the NewClusterIdentifier field's value.
-func (s *ModifyClusterInput) SetNewClusterIdentifier(v string) *ModifyClusterInput {
-	s.NewClusterIdentifier = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *ModifyClusterInput) SetNodeType(v string) *ModifyClusterInput {
-	s.NodeType = &v
-	return s
-}
-
-// SetNumberOfNodes sets the NumberOfNodes field's value.
-func (s *ModifyClusterInput) SetNumberOfNodes(v int64) *ModifyClusterInput {
-	s.NumberOfNodes = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *ModifyClusterInput) SetPreferredMaintenanceWindow(v string) *ModifyClusterInput {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetPubliclyAccessible sets the PubliclyAccessible field's value.
-func (s *ModifyClusterInput) SetPubliclyAccessible(v bool) *ModifyClusterInput {
-	s.PubliclyAccessible = &v
-	return s
-}
-
-// SetVpcSecurityGroupIds sets the VpcSecurityGroupIds field's value.
-func (s *ModifyClusterInput) SetVpcSecurityGroupIds(v []*string) *ModifyClusterInput {
-	s.VpcSecurityGroupIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterResult
 type ModifyClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -11790,10 +9887,9 @@ func (s ModifyClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *ModifyClusterOutput) SetCluster(v *Cluster) *ModifyClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterParameterGroupMessage
@@ -11815,7 +9911,7 @@ type ModifyClusterParameterGroupInput struct {
 	// name-value pairs in the wlm_json_configuration parameter.
 	//
 	// Parameters is a required field
-	Parameters []*Parameter `locationNameList:"Parameter" type:"list" required:"true"`
+	Parameters []Parameter `locationNameList:"Parameter" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -11846,18 +9942,6 @@ func (s *ModifyClusterParameterGroupInput) Validate() error {
 	return nil
 }
 
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *ModifyClusterParameterGroupInput) SetParameterGroupName(v string) *ModifyClusterParameterGroupInput {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *ModifyClusterParameterGroupInput) SetParameters(v []*Parameter) *ModifyClusterParameterGroupInput {
-	s.Parameters = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSubnetGroupMessage
 type ModifyClusterSubnetGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -11874,7 +9958,7 @@ type ModifyClusterSubnetGroupInput struct {
 	// single request.
 	//
 	// SubnetIds is a required field
-	SubnetIds []*string `locationNameList:"SubnetIdentifier" type:"list" required:"true"`
+	SubnetIds []string `locationNameList:"SubnetIdentifier" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -11905,27 +9989,11 @@ func (s *ModifyClusterSubnetGroupInput) Validate() error {
 	return nil
 }
 
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *ModifyClusterSubnetGroupInput) SetClusterSubnetGroupName(v string) *ModifyClusterSubnetGroupInput {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ModifyClusterSubnetGroupInput) SetDescription(v string) *ModifyClusterSubnetGroupInput {
-	s.Description = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *ModifyClusterSubnetGroupInput) SetSubnetIds(v []*string) *ModifyClusterSubnetGroupInput {
-	s.SubnetIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSubnetGroupResult
 type ModifyClusterSubnetGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a subnet group.
 	ClusterSubnetGroup *ClusterSubnetGroup `type:"structure"`
@@ -11941,10 +10009,9 @@ func (s ModifyClusterSubnetGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSubnetGroup sets the ClusterSubnetGroup field's value.
-func (s *ModifyClusterSubnetGroupOutput) SetClusterSubnetGroup(v *ClusterSubnetGroup) *ModifyClusterSubnetGroupOutput {
-	s.ClusterSubnetGroup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyClusterSubnetGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEventSubscriptionMessage
@@ -11959,7 +10026,7 @@ type ModifyEventSubscriptionInput struct {
 	// notification subscription.
 	//
 	// Values: Configuration, Management, Monitoring, Security
-	EventCategories []*string `locationNameList:"EventCategory" type:"list"`
+	EventCategories []string `locationNameList:"EventCategory" type:"list"`
 
 	// Specifies the Amazon Redshift event severity to be published by the event
 	// notification subscription.
@@ -11980,7 +10047,7 @@ type ModifyEventSubscriptionInput struct {
 	// Example: my-cluster-1, my-cluster-2
 	//
 	// Example: my-snapshot-20131010
-	SourceIds []*string `locationNameList:"SourceId" type:"list"`
+	SourceIds []string `locationNameList:"SourceId" type:"list"`
 
 	// The type of source that will be generating the events. For example, if you
 	// want to be notified of events generated by a cluster, you would set this
@@ -12022,51 +10089,11 @@ func (s *ModifyEventSubscriptionInput) Validate() error {
 	return nil
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *ModifyEventSubscriptionInput) SetEnabled(v bool) *ModifyEventSubscriptionInput {
-	s.Enabled = &v
-	return s
-}
-
-// SetEventCategories sets the EventCategories field's value.
-func (s *ModifyEventSubscriptionInput) SetEventCategories(v []*string) *ModifyEventSubscriptionInput {
-	s.EventCategories = v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *ModifyEventSubscriptionInput) SetSeverity(v string) *ModifyEventSubscriptionInput {
-	s.Severity = &v
-	return s
-}
-
-// SetSnsTopicArn sets the SnsTopicArn field's value.
-func (s *ModifyEventSubscriptionInput) SetSnsTopicArn(v string) *ModifyEventSubscriptionInput {
-	s.SnsTopicArn = &v
-	return s
-}
-
-// SetSourceIds sets the SourceIds field's value.
-func (s *ModifyEventSubscriptionInput) SetSourceIds(v []*string) *ModifyEventSubscriptionInput {
-	s.SourceIds = v
-	return s
-}
-
-// SetSourceType sets the SourceType field's value.
-func (s *ModifyEventSubscriptionInput) SetSourceType(v string) *ModifyEventSubscriptionInput {
-	s.SourceType = &v
-	return s
-}
-
-// SetSubscriptionName sets the SubscriptionName field's value.
-func (s *ModifyEventSubscriptionInput) SetSubscriptionName(v string) *ModifyEventSubscriptionInput {
-	s.SubscriptionName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEventSubscriptionResult
 type ModifyEventSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes event subscriptions.
 	EventSubscription *EventSubscription `type:"structure"`
@@ -12082,10 +10109,9 @@ func (s ModifyEventSubscriptionOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventSubscription sets the EventSubscription field's value.
-func (s *ModifyEventSubscriptionOutput) SetEventSubscription(v *EventSubscription) *ModifyEventSubscriptionOutput {
-	s.EventSubscription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyEventSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotCopyRetentionPeriodMessage
@@ -12143,21 +10169,11 @@ func (s *ModifySnapshotCopyRetentionPeriodInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *ModifySnapshotCopyRetentionPeriodInput) SetClusterIdentifier(v string) *ModifySnapshotCopyRetentionPeriodInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetRetentionPeriod sets the RetentionPeriod field's value.
-func (s *ModifySnapshotCopyRetentionPeriodInput) SetRetentionPeriod(v int64) *ModifySnapshotCopyRetentionPeriodInput {
-	s.RetentionPeriod = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotCopyRetentionPeriodResult
 type ModifySnapshotCopyRetentionPeriodOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -12173,10 +10189,9 @@ func (s ModifySnapshotCopyRetentionPeriodOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *ModifySnapshotCopyRetentionPeriodOutput) SetCluster(v *Cluster) *ModifySnapshotCopyRetentionPeriodOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifySnapshotCopyRetentionPeriodOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an orderable cluster option.
@@ -12185,7 +10200,7 @@ type OrderableClusterOption struct {
 	_ struct{} `type:"structure"`
 
 	// A list of availability zones for the orderable cluster.
-	AvailabilityZones []*AvailabilityZone `locationNameList:"AvailabilityZone" type:"list"`
+	AvailabilityZones []AvailabilityZone `locationNameList:"AvailabilityZone" type:"list"`
 
 	// The cluster type, for example multi-node.
 	ClusterType *string `type:"string"`
@@ -12207,30 +10222,6 @@ func (s OrderableClusterOption) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *OrderableClusterOption) SetAvailabilityZones(v []*AvailabilityZone) *OrderableClusterOption {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetClusterType sets the ClusterType field's value.
-func (s *OrderableClusterOption) SetClusterType(v string) *OrderableClusterOption {
-	s.ClusterType = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *OrderableClusterOption) SetClusterVersion(v string) *OrderableClusterOption {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *OrderableClusterOption) SetNodeType(v string) *OrderableClusterOption {
-	s.NodeType = &v
-	return s
-}
-
 // Describes a parameter in a cluster parameter group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Parameter
 type Parameter struct {
@@ -12245,7 +10236,7 @@ type Parameter struct {
 	// information about parameters and parameter groups, go to Amazon Redshift
 	// Parameter Groups (http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html)
 	// in the Amazon Redshift Cluster Management Guide.
-	ApplyType ParameterApplyType `type:"string"`
+	ApplyType ParameterApplyType `type:"string" enum:"true"`
 
 	// The data type of the parameter.
 	DataType *string `type:"string"`
@@ -12278,60 +10269,6 @@ func (s Parameter) String() string {
 // GoString returns the string representation
 func (s Parameter) GoString() string {
 	return s.String()
-}
-
-// SetAllowedValues sets the AllowedValues field's value.
-func (s *Parameter) SetAllowedValues(v string) *Parameter {
-	s.AllowedValues = &v
-	return s
-}
-
-// SetApplyType sets the ApplyType field's value.
-func (s *Parameter) SetApplyType(v ParameterApplyType) *Parameter {
-	s.ApplyType = v
-	return s
-}
-
-// SetDataType sets the DataType field's value.
-func (s *Parameter) SetDataType(v string) *Parameter {
-	s.DataType = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Parameter) SetDescription(v string) *Parameter {
-	s.Description = &v
-	return s
-}
-
-// SetIsModifiable sets the IsModifiable field's value.
-func (s *Parameter) SetIsModifiable(v bool) *Parameter {
-	s.IsModifiable = &v
-	return s
-}
-
-// SetMinimumEngineVersion sets the MinimumEngineVersion field's value.
-func (s *Parameter) SetMinimumEngineVersion(v string) *Parameter {
-	s.MinimumEngineVersion = &v
-	return s
-}
-
-// SetParameterName sets the ParameterName field's value.
-func (s *Parameter) SetParameterName(v string) *Parameter {
-	s.ParameterName = &v
-	return s
-}
-
-// SetParameterValue sets the ParameterValue field's value.
-func (s *Parameter) SetParameterValue(v string) *Parameter {
-	s.ParameterValue = &v
-	return s
-}
-
-// SetSource sets the Source field's value.
-func (s *Parameter) SetSource(v string) *Parameter {
-	s.Source = &v
-	return s
 }
 
 // Describes cluster attributes that are in a pending state. A change to one
@@ -12387,60 +10324,6 @@ func (s PendingModifiedValues) GoString() string {
 	return s.String()
 }
 
-// SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
-func (s *PendingModifiedValues) SetAutomatedSnapshotRetentionPeriod(v int64) *PendingModifiedValues {
-	s.AutomatedSnapshotRetentionPeriod = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *PendingModifiedValues) SetClusterIdentifier(v string) *PendingModifiedValues {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetClusterType sets the ClusterType field's value.
-func (s *PendingModifiedValues) SetClusterType(v string) *PendingModifiedValues {
-	s.ClusterType = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *PendingModifiedValues) SetClusterVersion(v string) *PendingModifiedValues {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetEnhancedVpcRouting sets the EnhancedVpcRouting field's value.
-func (s *PendingModifiedValues) SetEnhancedVpcRouting(v bool) *PendingModifiedValues {
-	s.EnhancedVpcRouting = &v
-	return s
-}
-
-// SetMasterUserPassword sets the MasterUserPassword field's value.
-func (s *PendingModifiedValues) SetMasterUserPassword(v string) *PendingModifiedValues {
-	s.MasterUserPassword = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *PendingModifiedValues) SetNodeType(v string) *PendingModifiedValues {
-	s.NodeType = &v
-	return s
-}
-
-// SetNumberOfNodes sets the NumberOfNodes field's value.
-func (s *PendingModifiedValues) SetNumberOfNodes(v int64) *PendingModifiedValues {
-	s.NumberOfNodes = &v
-	return s
-}
-
-// SetPubliclyAccessible sets the PubliclyAccessible field's value.
-func (s *PendingModifiedValues) SetPubliclyAccessible(v bool) *PendingModifiedValues {
-	s.PubliclyAccessible = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PurchaseReservedNodeOfferingMessage
 type PurchaseReservedNodeOfferingInput struct {
 	_ struct{} `type:"structure"`
@@ -12480,21 +10363,11 @@ func (s *PurchaseReservedNodeOfferingInput) Validate() error {
 	return nil
 }
 
-// SetNodeCount sets the NodeCount field's value.
-func (s *PurchaseReservedNodeOfferingInput) SetNodeCount(v int64) *PurchaseReservedNodeOfferingInput {
-	s.NodeCount = &v
-	return s
-}
-
-// SetReservedNodeOfferingId sets the ReservedNodeOfferingId field's value.
-func (s *PurchaseReservedNodeOfferingInput) SetReservedNodeOfferingId(v string) *PurchaseReservedNodeOfferingInput {
-	s.ReservedNodeOfferingId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PurchaseReservedNodeOfferingResult
 type PurchaseReservedNodeOfferingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a reserved node. You can call the DescribeReservedNodeOfferings
 	// API to obtain the available reserved node offerings.
@@ -12511,10 +10384,9 @@ func (s PurchaseReservedNodeOfferingOutput) GoString() string {
 	return s.String()
 }
 
-// SetReservedNode sets the ReservedNode field's value.
-func (s *PurchaseReservedNodeOfferingOutput) SetReservedNode(v *ReservedNode) *PurchaseReservedNodeOfferingOutput {
-	s.ReservedNode = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PurchaseReservedNodeOfferingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RebootClusterMessage
@@ -12551,15 +10423,11 @@ func (s *RebootClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *RebootClusterInput) SetClusterIdentifier(v string) *RebootClusterInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RebootClusterResult
 type RebootClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -12575,10 +10443,9 @@ func (s RebootClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *RebootClusterOutput) SetCluster(v *Cluster) *RebootClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RebootClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a recurring charge.
@@ -12602,18 +10469,6 @@ func (s RecurringCharge) String() string {
 // GoString returns the string representation
 func (s RecurringCharge) GoString() string {
 	return s.String()
-}
-
-// SetRecurringChargeAmount sets the RecurringChargeAmount field's value.
-func (s *RecurringCharge) SetRecurringChargeAmount(v float64) *RecurringCharge {
-	s.RecurringChargeAmount = &v
-	return s
-}
-
-// SetRecurringChargeFrequency sets the RecurringChargeFrequency field's value.
-func (s *RecurringCharge) SetRecurringChargeFrequency(v string) *RecurringCharge {
-	s.RecurringChargeFrequency = &v
-	return s
 }
 
 // Describes a reserved node. You can call the DescribeReservedNodeOfferings
@@ -12642,13 +10497,15 @@ type ReservedNode struct {
 	OfferingType *string `type:"string"`
 
 	// The recurring charges for the reserved node.
-	RecurringCharges []*RecurringCharge `locationNameList:"RecurringCharge" type:"list"`
+	RecurringCharges []RecurringCharge `locationNameList:"RecurringCharge" type:"list"`
 
 	// The unique identifier for the reservation.
 	ReservedNodeId *string `type:"string"`
 
 	// The identifier for the reserved node offering.
 	ReservedNodeOfferingId *string `type:"string"`
+
+	ReservedNodeOfferingType ReservedNodeOfferingType `type:"string" enum:"true"`
 
 	// The time the reservation started. You purchase a reserved node offering for
 	// a duration. This is the start time of that duration.
@@ -12681,78 +10538,6 @@ func (s ReservedNode) GoString() string {
 	return s.String()
 }
 
-// SetCurrencyCode sets the CurrencyCode field's value.
-func (s *ReservedNode) SetCurrencyCode(v string) *ReservedNode {
-	s.CurrencyCode = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *ReservedNode) SetDuration(v int64) *ReservedNode {
-	s.Duration = &v
-	return s
-}
-
-// SetFixedPrice sets the FixedPrice field's value.
-func (s *ReservedNode) SetFixedPrice(v float64) *ReservedNode {
-	s.FixedPrice = &v
-	return s
-}
-
-// SetNodeCount sets the NodeCount field's value.
-func (s *ReservedNode) SetNodeCount(v int64) *ReservedNode {
-	s.NodeCount = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *ReservedNode) SetNodeType(v string) *ReservedNode {
-	s.NodeType = &v
-	return s
-}
-
-// SetOfferingType sets the OfferingType field's value.
-func (s *ReservedNode) SetOfferingType(v string) *ReservedNode {
-	s.OfferingType = &v
-	return s
-}
-
-// SetRecurringCharges sets the RecurringCharges field's value.
-func (s *ReservedNode) SetRecurringCharges(v []*RecurringCharge) *ReservedNode {
-	s.RecurringCharges = v
-	return s
-}
-
-// SetReservedNodeId sets the ReservedNodeId field's value.
-func (s *ReservedNode) SetReservedNodeId(v string) *ReservedNode {
-	s.ReservedNodeId = &v
-	return s
-}
-
-// SetReservedNodeOfferingId sets the ReservedNodeOfferingId field's value.
-func (s *ReservedNode) SetReservedNodeOfferingId(v string) *ReservedNode {
-	s.ReservedNodeOfferingId = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *ReservedNode) SetStartTime(v time.Time) *ReservedNode {
-	s.StartTime = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *ReservedNode) SetState(v string) *ReservedNode {
-	s.State = &v
-	return s
-}
-
-// SetUsagePrice sets the UsagePrice field's value.
-func (s *ReservedNode) SetUsagePrice(v float64) *ReservedNode {
-	s.UsagePrice = &v
-	return s
-}
-
 // Describes a reserved node offering.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ReservedNodeOffering
 type ReservedNodeOffering struct {
@@ -12778,10 +10563,12 @@ type ReservedNodeOffering struct {
 	// The charge to your account regardless of whether you are creating any clusters
 	// using the node offering. Recurring charges are only in effect for heavy-utilization
 	// reserved nodes.
-	RecurringCharges []*RecurringCharge `locationNameList:"RecurringCharge" type:"list"`
+	RecurringCharges []RecurringCharge `locationNameList:"RecurringCharge" type:"list"`
 
 	// The offering identifier.
 	ReservedNodeOfferingId *string `type:"string"`
+
+	ReservedNodeOfferingType ReservedNodeOfferingType `type:"string" enum:"true"`
 
 	// The rate you are charged for each hour the cluster that is using the offering
 	// is running.
@@ -12798,54 +10585,6 @@ func (s ReservedNodeOffering) GoString() string {
 	return s.String()
 }
 
-// SetCurrencyCode sets the CurrencyCode field's value.
-func (s *ReservedNodeOffering) SetCurrencyCode(v string) *ReservedNodeOffering {
-	s.CurrencyCode = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *ReservedNodeOffering) SetDuration(v int64) *ReservedNodeOffering {
-	s.Duration = &v
-	return s
-}
-
-// SetFixedPrice sets the FixedPrice field's value.
-func (s *ReservedNodeOffering) SetFixedPrice(v float64) *ReservedNodeOffering {
-	s.FixedPrice = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *ReservedNodeOffering) SetNodeType(v string) *ReservedNodeOffering {
-	s.NodeType = &v
-	return s
-}
-
-// SetOfferingType sets the OfferingType field's value.
-func (s *ReservedNodeOffering) SetOfferingType(v string) *ReservedNodeOffering {
-	s.OfferingType = &v
-	return s
-}
-
-// SetRecurringCharges sets the RecurringCharges field's value.
-func (s *ReservedNodeOffering) SetRecurringCharges(v []*RecurringCharge) *ReservedNodeOffering {
-	s.RecurringCharges = v
-	return s
-}
-
-// SetReservedNodeOfferingId sets the ReservedNodeOfferingId field's value.
-func (s *ReservedNodeOffering) SetReservedNodeOfferingId(v string) *ReservedNodeOffering {
-	s.ReservedNodeOfferingId = &v
-	return s
-}
-
-// SetUsagePrice sets the UsagePrice field's value.
-func (s *ReservedNodeOffering) SetUsagePrice(v float64) *ReservedNodeOffering {
-	s.UsagePrice = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResetClusterParameterGroupMessage
 type ResetClusterParameterGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -12859,7 +10598,7 @@ type ResetClusterParameterGroupInput struct {
 	// is not used, then at least one parameter name must be supplied.
 	//
 	// Constraints: A maximum of 20 parameters can be reset in a single request.
-	Parameters []*Parameter `locationNameList:"Parameter" type:"list"`
+	Parameters []Parameter `locationNameList:"Parameter" type:"list"`
 
 	// If true, all parameters in the specified parameter group will be reset to
 	// their default values.
@@ -12892,27 +10631,11 @@ func (s *ResetClusterParameterGroupInput) Validate() error {
 	return nil
 }
 
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *ResetClusterParameterGroupInput) SetParameterGroupName(v string) *ResetClusterParameterGroupInput {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *ResetClusterParameterGroupInput) SetParameters(v []*Parameter) *ResetClusterParameterGroupInput {
-	s.Parameters = v
-	return s
-}
-
-// SetResetAllParameters sets the ResetAllParameters field's value.
-func (s *ResetClusterParameterGroupInput) SetResetAllParameters(v bool) *ResetClusterParameterGroupInput {
-	s.ResetAllParameters = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterParameterGroupOutput
 type ResetClusterParameterGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The name of the cluster parameter group.
 	ParameterGroupName *string `type:"string"`
@@ -12933,16 +10656,9 @@ func (s ResetClusterParameterGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetParameterGroupName sets the ParameterGroupName field's value.
-func (s *ResetClusterParameterGroupOutput) SetParameterGroupName(v string) *ResetClusterParameterGroupOutput {
-	s.ParameterGroupName = &v
-	return s
-}
-
-// SetParameterGroupStatus sets the ParameterGroupStatus field's value.
-func (s *ResetClusterParameterGroupOutput) SetParameterGroupStatus(v string) *ResetClusterParameterGroupOutput {
-	s.ParameterGroupStatus = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ResetClusterParameterGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreFromClusterSnapshotMessage
@@ -13011,7 +10727,7 @@ type RestoreFromClusterSnapshotInput struct {
 	// Default: The default cluster security group for Amazon Redshift.
 	//
 	// Cluster security groups only apply to clusters outside of VPCs.
-	ClusterSecurityGroups []*string `locationNameList:"ClusterSecurityGroupName" type:"list"`
+	ClusterSecurityGroups []string `locationNameList:"ClusterSecurityGroupName" type:"list"`
 
 	// The name of the subnet group where you want to cluster restored.
 	//
@@ -13047,7 +10763,7 @@ type RestoreFromClusterSnapshotInput struct {
 	// in a single request.
 	//
 	// A cluster can have up to 10 IAM roles associated at any time.
-	IamRoles []*string `locationNameList:"IamRoleArn" type:"list"`
+	IamRoles []string `locationNameList:"IamRoleArn" type:"list"`
 
 	// The AWS Key Management Service (KMS) key ID of the encryption key that you
 	// want to use to encrypt data in the cluster that you restore from a shared
@@ -13059,12 +10775,14 @@ type RestoreFromClusterSnapshotInput struct {
 	// Default: The node type of the cluster from which the snapshot was taken.
 	// You can modify this if you are using any DS node type. In that case, you
 	// can choose to restore into another DS node type of the same size. For example,
-	// you can restore ds1.8xlarge into ds2.8xlarge, or ds2.xlarge into ds1.xlarge.
+	// you can restore ds1.8xlarge into ds2.8xlarge, or ds1.xlarge into ds2.xlarge.
 	// If you have a DC instance type, you must restore into that same instance
 	// type and size. In other words, you can only restore a dc1.large instance
-	// type into another dc1.large instance type. For more information about node
-	// types, see  About Clusters and Nodes (http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes)
-	// in the Amazon Redshift Cluster Management Guide
+	// type into another dc1.large instance type or dc2.large instance type. You
+	// can't restore dc1.8xlarge to dc2.8xlarge. First restore to a dc1.8xlareg
+	// cluster, then resize to a dc2.8large cluster. For more information about
+	// node types, see  About Clusters and Nodes (http://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes)
+	// in the Amazon Redshift Cluster Management Guide.
 	NodeType *string `type:"string"`
 
 	// The AWS customer account used to create or copy the snapshot. Required if
@@ -13115,7 +10833,7 @@ type RestoreFromClusterSnapshotInput struct {
 	// Default: The default VPC security group is associated with the cluster.
 	//
 	// VPC security groups only apply to clusters in VPCs.
-	VpcSecurityGroupIds []*string `locationNameList:"VpcSecurityGroupId" type:"list"`
+	VpcSecurityGroupIds []string `locationNameList:"VpcSecurityGroupId" type:"list"`
 }
 
 // String returns the string representation
@@ -13146,141 +10864,11 @@ func (s *RestoreFromClusterSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetAdditionalInfo sets the AdditionalInfo field's value.
-func (s *RestoreFromClusterSnapshotInput) SetAdditionalInfo(v string) *RestoreFromClusterSnapshotInput {
-	s.AdditionalInfo = &v
-	return s
-}
-
-// SetAllowVersionUpgrade sets the AllowVersionUpgrade field's value.
-func (s *RestoreFromClusterSnapshotInput) SetAllowVersionUpgrade(v bool) *RestoreFromClusterSnapshotInput {
-	s.AllowVersionUpgrade = &v
-	return s
-}
-
-// SetAutomatedSnapshotRetentionPeriod sets the AutomatedSnapshotRetentionPeriod field's value.
-func (s *RestoreFromClusterSnapshotInput) SetAutomatedSnapshotRetentionPeriod(v int64) *RestoreFromClusterSnapshotInput {
-	s.AutomatedSnapshotRetentionPeriod = &v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *RestoreFromClusterSnapshotInput) SetAvailabilityZone(v string) *RestoreFromClusterSnapshotInput {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *RestoreFromClusterSnapshotInput) SetClusterIdentifier(v string) *RestoreFromClusterSnapshotInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetClusterParameterGroupName sets the ClusterParameterGroupName field's value.
-func (s *RestoreFromClusterSnapshotInput) SetClusterParameterGroupName(v string) *RestoreFromClusterSnapshotInput {
-	s.ClusterParameterGroupName = &v
-	return s
-}
-
-// SetClusterSecurityGroups sets the ClusterSecurityGroups field's value.
-func (s *RestoreFromClusterSnapshotInput) SetClusterSecurityGroups(v []*string) *RestoreFromClusterSnapshotInput {
-	s.ClusterSecurityGroups = v
-	return s
-}
-
-// SetClusterSubnetGroupName sets the ClusterSubnetGroupName field's value.
-func (s *RestoreFromClusterSnapshotInput) SetClusterSubnetGroupName(v string) *RestoreFromClusterSnapshotInput {
-	s.ClusterSubnetGroupName = &v
-	return s
-}
-
-// SetElasticIp sets the ElasticIp field's value.
-func (s *RestoreFromClusterSnapshotInput) SetElasticIp(v string) *RestoreFromClusterSnapshotInput {
-	s.ElasticIp = &v
-	return s
-}
-
-// SetEnhancedVpcRouting sets the EnhancedVpcRouting field's value.
-func (s *RestoreFromClusterSnapshotInput) SetEnhancedVpcRouting(v bool) *RestoreFromClusterSnapshotInput {
-	s.EnhancedVpcRouting = &v
-	return s
-}
-
-// SetHsmClientCertificateIdentifier sets the HsmClientCertificateIdentifier field's value.
-func (s *RestoreFromClusterSnapshotInput) SetHsmClientCertificateIdentifier(v string) *RestoreFromClusterSnapshotInput {
-	s.HsmClientCertificateIdentifier = &v
-	return s
-}
-
-// SetHsmConfigurationIdentifier sets the HsmConfigurationIdentifier field's value.
-func (s *RestoreFromClusterSnapshotInput) SetHsmConfigurationIdentifier(v string) *RestoreFromClusterSnapshotInput {
-	s.HsmConfigurationIdentifier = &v
-	return s
-}
-
-// SetIamRoles sets the IamRoles field's value.
-func (s *RestoreFromClusterSnapshotInput) SetIamRoles(v []*string) *RestoreFromClusterSnapshotInput {
-	s.IamRoles = v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *RestoreFromClusterSnapshotInput) SetKmsKeyId(v string) *RestoreFromClusterSnapshotInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *RestoreFromClusterSnapshotInput) SetNodeType(v string) *RestoreFromClusterSnapshotInput {
-	s.NodeType = &v
-	return s
-}
-
-// SetOwnerAccount sets the OwnerAccount field's value.
-func (s *RestoreFromClusterSnapshotInput) SetOwnerAccount(v string) *RestoreFromClusterSnapshotInput {
-	s.OwnerAccount = &v
-	return s
-}
-
-// SetPort sets the Port field's value.
-func (s *RestoreFromClusterSnapshotInput) SetPort(v int64) *RestoreFromClusterSnapshotInput {
-	s.Port = &v
-	return s
-}
-
-// SetPreferredMaintenanceWindow sets the PreferredMaintenanceWindow field's value.
-func (s *RestoreFromClusterSnapshotInput) SetPreferredMaintenanceWindow(v string) *RestoreFromClusterSnapshotInput {
-	s.PreferredMaintenanceWindow = &v
-	return s
-}
-
-// SetPubliclyAccessible sets the PubliclyAccessible field's value.
-func (s *RestoreFromClusterSnapshotInput) SetPubliclyAccessible(v bool) *RestoreFromClusterSnapshotInput {
-	s.PubliclyAccessible = &v
-	return s
-}
-
-// SetSnapshotClusterIdentifier sets the SnapshotClusterIdentifier field's value.
-func (s *RestoreFromClusterSnapshotInput) SetSnapshotClusterIdentifier(v string) *RestoreFromClusterSnapshotInput {
-	s.SnapshotClusterIdentifier = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *RestoreFromClusterSnapshotInput) SetSnapshotIdentifier(v string) *RestoreFromClusterSnapshotInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
-// SetVpcSecurityGroupIds sets the VpcSecurityGroupIds field's value.
-func (s *RestoreFromClusterSnapshotInput) SetVpcSecurityGroupIds(v []*string) *RestoreFromClusterSnapshotInput {
-	s.VpcSecurityGroupIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreFromClusterSnapshotResult
 type RestoreFromClusterSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -13296,10 +10884,9 @@ func (s RestoreFromClusterSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *RestoreFromClusterSnapshotOutput) SetCluster(v *Cluster) *RestoreFromClusterSnapshotOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RestoreFromClusterSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the status of a cluster restore action. Returns null if the cluster
@@ -13339,42 +10926,6 @@ func (s RestoreStatus) String() string {
 // GoString returns the string representation
 func (s RestoreStatus) GoString() string {
 	return s.String()
-}
-
-// SetCurrentRestoreRateInMegaBytesPerSecond sets the CurrentRestoreRateInMegaBytesPerSecond field's value.
-func (s *RestoreStatus) SetCurrentRestoreRateInMegaBytesPerSecond(v float64) *RestoreStatus {
-	s.CurrentRestoreRateInMegaBytesPerSecond = &v
-	return s
-}
-
-// SetElapsedTimeInSeconds sets the ElapsedTimeInSeconds field's value.
-func (s *RestoreStatus) SetElapsedTimeInSeconds(v int64) *RestoreStatus {
-	s.ElapsedTimeInSeconds = &v
-	return s
-}
-
-// SetEstimatedTimeToCompletionInSeconds sets the EstimatedTimeToCompletionInSeconds field's value.
-func (s *RestoreStatus) SetEstimatedTimeToCompletionInSeconds(v int64) *RestoreStatus {
-	s.EstimatedTimeToCompletionInSeconds = &v
-	return s
-}
-
-// SetProgressInMegaBytes sets the ProgressInMegaBytes field's value.
-func (s *RestoreStatus) SetProgressInMegaBytes(v int64) *RestoreStatus {
-	s.ProgressInMegaBytes = &v
-	return s
-}
-
-// SetSnapshotSizeInMegaBytes sets the SnapshotSizeInMegaBytes field's value.
-func (s *RestoreStatus) SetSnapshotSizeInMegaBytes(v int64) *RestoreStatus {
-	s.SnapshotSizeInMegaBytes = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *RestoreStatus) SetStatus(v string) *RestoreStatus {
-	s.Status = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreTableFromClusterSnapshotMessage
@@ -13459,57 +11010,11 @@ func (s *RestoreTableFromClusterSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetClusterIdentifier(v string) *RestoreTableFromClusterSnapshotInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetNewTableName sets the NewTableName field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetNewTableName(v string) *RestoreTableFromClusterSnapshotInput {
-	s.NewTableName = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetSnapshotIdentifier(v string) *RestoreTableFromClusterSnapshotInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
-// SetSourceDatabaseName sets the SourceDatabaseName field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetSourceDatabaseName(v string) *RestoreTableFromClusterSnapshotInput {
-	s.SourceDatabaseName = &v
-	return s
-}
-
-// SetSourceSchemaName sets the SourceSchemaName field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetSourceSchemaName(v string) *RestoreTableFromClusterSnapshotInput {
-	s.SourceSchemaName = &v
-	return s
-}
-
-// SetSourceTableName sets the SourceTableName field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetSourceTableName(v string) *RestoreTableFromClusterSnapshotInput {
-	s.SourceTableName = &v
-	return s
-}
-
-// SetTargetDatabaseName sets the TargetDatabaseName field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetTargetDatabaseName(v string) *RestoreTableFromClusterSnapshotInput {
-	s.TargetDatabaseName = &v
-	return s
-}
-
-// SetTargetSchemaName sets the TargetSchemaName field's value.
-func (s *RestoreTableFromClusterSnapshotInput) SetTargetSchemaName(v string) *RestoreTableFromClusterSnapshotInput {
-	s.TargetSchemaName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreTableFromClusterSnapshotResult
 type RestoreTableFromClusterSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes the status of a RestoreTableFromClusterSnapshot operation.
 	TableRestoreStatus *TableRestoreStatus `type:"structure"`
@@ -13525,10 +11030,9 @@ func (s RestoreTableFromClusterSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetTableRestoreStatus sets the TableRestoreStatus field's value.
-func (s *RestoreTableFromClusterSnapshotOutput) SetTableRestoreStatus(v *TableRestoreStatus) *RestoreTableFromClusterSnapshotOutput {
-	s.TableRestoreStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RestoreTableFromClusterSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeClusterSecurityGroupIngressMessage
@@ -13583,33 +11087,11 @@ func (s *RevokeClusterSecurityGroupIngressInput) Validate() error {
 	return nil
 }
 
-// SetCIDRIP sets the CIDRIP field's value.
-func (s *RevokeClusterSecurityGroupIngressInput) SetCIDRIP(v string) *RevokeClusterSecurityGroupIngressInput {
-	s.CIDRIP = &v
-	return s
-}
-
-// SetClusterSecurityGroupName sets the ClusterSecurityGroupName field's value.
-func (s *RevokeClusterSecurityGroupIngressInput) SetClusterSecurityGroupName(v string) *RevokeClusterSecurityGroupIngressInput {
-	s.ClusterSecurityGroupName = &v
-	return s
-}
-
-// SetEC2SecurityGroupName sets the EC2SecurityGroupName field's value.
-func (s *RevokeClusterSecurityGroupIngressInput) SetEC2SecurityGroupName(v string) *RevokeClusterSecurityGroupIngressInput {
-	s.EC2SecurityGroupName = &v
-	return s
-}
-
-// SetEC2SecurityGroupOwnerId sets the EC2SecurityGroupOwnerId field's value.
-func (s *RevokeClusterSecurityGroupIngressInput) SetEC2SecurityGroupOwnerId(v string) *RevokeClusterSecurityGroupIngressInput {
-	s.EC2SecurityGroupOwnerId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeClusterSecurityGroupIngressResult
 type RevokeClusterSecurityGroupIngressOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a security group.
 	ClusterSecurityGroup *ClusterSecurityGroup `type:"structure"`
@@ -13625,10 +11107,9 @@ func (s RevokeClusterSecurityGroupIngressOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterSecurityGroup sets the ClusterSecurityGroup field's value.
-func (s *RevokeClusterSecurityGroupIngressOutput) SetClusterSecurityGroup(v *ClusterSecurityGroup) *RevokeClusterSecurityGroupIngressOutput {
-	s.ClusterSecurityGroup = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RevokeClusterSecurityGroupIngressOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeSnapshotAccessMessage
@@ -13680,27 +11161,11 @@ func (s *RevokeSnapshotAccessInput) Validate() error {
 	return nil
 }
 
-// SetAccountWithRestoreAccess sets the AccountWithRestoreAccess field's value.
-func (s *RevokeSnapshotAccessInput) SetAccountWithRestoreAccess(v string) *RevokeSnapshotAccessInput {
-	s.AccountWithRestoreAccess = &v
-	return s
-}
-
-// SetSnapshotClusterIdentifier sets the SnapshotClusterIdentifier field's value.
-func (s *RevokeSnapshotAccessInput) SetSnapshotClusterIdentifier(v string) *RevokeSnapshotAccessInput {
-	s.SnapshotClusterIdentifier = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *RevokeSnapshotAccessInput) SetSnapshotIdentifier(v string) *RevokeSnapshotAccessInput {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeSnapshotAccessResult
 type RevokeSnapshotAccessOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a snapshot.
 	Snapshot *Snapshot `type:"structure"`
@@ -13716,10 +11181,9 @@ func (s RevokeSnapshotAccessOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshot sets the Snapshot field's value.
-func (s *RevokeSnapshotAccessOutput) SetSnapshot(v *Snapshot) *RevokeSnapshotAccessOutput {
-	s.Snapshot = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RevokeSnapshotAccessOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RotateEncryptionKeyMessage
@@ -13759,15 +11223,11 @@ func (s *RotateEncryptionKeyInput) Validate() error {
 	return nil
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *RotateEncryptionKeyInput) SetClusterIdentifier(v string) *RotateEncryptionKeyInput {
-	s.ClusterIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RotateEncryptionKeyResult
 type RotateEncryptionKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes a cluster.
 	Cluster *Cluster `type:"structure"`
@@ -13783,10 +11243,9 @@ func (s RotateEncryptionKeyOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *RotateEncryptionKeyOutput) SetCluster(v *Cluster) *RotateEncryptionKeyOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RotateEncryptionKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a snapshot.
@@ -13796,7 +11255,7 @@ type Snapshot struct {
 
 	// A list of the AWS customer accounts authorized to restore the snapshot. Returns
 	// null if no accounts are authorized. Visible only to the snapshot owner.
-	AccountsWithRestoreAccess []*AccountWithRestoreAccess `locationNameList:"AccountWithRestoreAccess" type:"list"`
+	AccountsWithRestoreAccess []AccountWithRestoreAccess `locationNameList:"AccountWithRestoreAccess" type:"list"`
 
 	// The size of the incremental backup.
 	ActualIncrementalBackupSizeInMegaBytes *float64 `type:"double"`
@@ -13872,7 +11331,7 @@ type Snapshot struct {
 	Port *int64 `type:"integer"`
 
 	// The list of node types that this cluster snapshot is able to restore into.
-	RestorableNodeTypes []*string `locationNameList:"NodeType" type:"list"`
+	RestorableNodeTypes []string `locationNameList:"NodeType" type:"list"`
 
 	// The time (UTC) when Amazon Redshift began the snapshot. A snapshot contains
 	// a copy of the cluster data as of this exact time.
@@ -13901,7 +11360,7 @@ type Snapshot struct {
 	Status *string `type:"string"`
 
 	// The list of tags for the cluster snapshot.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 
 	// The size of the complete set of backup data that would be used to restore
 	// the cluster.
@@ -13920,180 +11379,6 @@ func (s Snapshot) String() string {
 // GoString returns the string representation
 func (s Snapshot) GoString() string {
 	return s.String()
-}
-
-// SetAccountsWithRestoreAccess sets the AccountsWithRestoreAccess field's value.
-func (s *Snapshot) SetAccountsWithRestoreAccess(v []*AccountWithRestoreAccess) *Snapshot {
-	s.AccountsWithRestoreAccess = v
-	return s
-}
-
-// SetActualIncrementalBackupSizeInMegaBytes sets the ActualIncrementalBackupSizeInMegaBytes field's value.
-func (s *Snapshot) SetActualIncrementalBackupSizeInMegaBytes(v float64) *Snapshot {
-	s.ActualIncrementalBackupSizeInMegaBytes = &v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *Snapshot) SetAvailabilityZone(v string) *Snapshot {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetBackupProgressInMegaBytes sets the BackupProgressInMegaBytes field's value.
-func (s *Snapshot) SetBackupProgressInMegaBytes(v float64) *Snapshot {
-	s.BackupProgressInMegaBytes = &v
-	return s
-}
-
-// SetClusterCreateTime sets the ClusterCreateTime field's value.
-func (s *Snapshot) SetClusterCreateTime(v time.Time) *Snapshot {
-	s.ClusterCreateTime = &v
-	return s
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *Snapshot) SetClusterIdentifier(v string) *Snapshot {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetClusterVersion sets the ClusterVersion field's value.
-func (s *Snapshot) SetClusterVersion(v string) *Snapshot {
-	s.ClusterVersion = &v
-	return s
-}
-
-// SetCurrentBackupRateInMegaBytesPerSecond sets the CurrentBackupRateInMegaBytesPerSecond field's value.
-func (s *Snapshot) SetCurrentBackupRateInMegaBytesPerSecond(v float64) *Snapshot {
-	s.CurrentBackupRateInMegaBytesPerSecond = &v
-	return s
-}
-
-// SetDBName sets the DBName field's value.
-func (s *Snapshot) SetDBName(v string) *Snapshot {
-	s.DBName = &v
-	return s
-}
-
-// SetElapsedTimeInSeconds sets the ElapsedTimeInSeconds field's value.
-func (s *Snapshot) SetElapsedTimeInSeconds(v int64) *Snapshot {
-	s.ElapsedTimeInSeconds = &v
-	return s
-}
-
-// SetEncrypted sets the Encrypted field's value.
-func (s *Snapshot) SetEncrypted(v bool) *Snapshot {
-	s.Encrypted = &v
-	return s
-}
-
-// SetEncryptedWithHSM sets the EncryptedWithHSM field's value.
-func (s *Snapshot) SetEncryptedWithHSM(v bool) *Snapshot {
-	s.EncryptedWithHSM = &v
-	return s
-}
-
-// SetEnhancedVpcRouting sets the EnhancedVpcRouting field's value.
-func (s *Snapshot) SetEnhancedVpcRouting(v bool) *Snapshot {
-	s.EnhancedVpcRouting = &v
-	return s
-}
-
-// SetEstimatedSecondsToCompletion sets the EstimatedSecondsToCompletion field's value.
-func (s *Snapshot) SetEstimatedSecondsToCompletion(v int64) *Snapshot {
-	s.EstimatedSecondsToCompletion = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *Snapshot) SetKmsKeyId(v string) *Snapshot {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetMasterUsername sets the MasterUsername field's value.
-func (s *Snapshot) SetMasterUsername(v string) *Snapshot {
-	s.MasterUsername = &v
-	return s
-}
-
-// SetNodeType sets the NodeType field's value.
-func (s *Snapshot) SetNodeType(v string) *Snapshot {
-	s.NodeType = &v
-	return s
-}
-
-// SetNumberOfNodes sets the NumberOfNodes field's value.
-func (s *Snapshot) SetNumberOfNodes(v int64) *Snapshot {
-	s.NumberOfNodes = &v
-	return s
-}
-
-// SetOwnerAccount sets the OwnerAccount field's value.
-func (s *Snapshot) SetOwnerAccount(v string) *Snapshot {
-	s.OwnerAccount = &v
-	return s
-}
-
-// SetPort sets the Port field's value.
-func (s *Snapshot) SetPort(v int64) *Snapshot {
-	s.Port = &v
-	return s
-}
-
-// SetRestorableNodeTypes sets the RestorableNodeTypes field's value.
-func (s *Snapshot) SetRestorableNodeTypes(v []*string) *Snapshot {
-	s.RestorableNodeTypes = v
-	return s
-}
-
-// SetSnapshotCreateTime sets the SnapshotCreateTime field's value.
-func (s *Snapshot) SetSnapshotCreateTime(v time.Time) *Snapshot {
-	s.SnapshotCreateTime = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *Snapshot) SetSnapshotIdentifier(v string) *Snapshot {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
-// SetSnapshotType sets the SnapshotType field's value.
-func (s *Snapshot) SetSnapshotType(v string) *Snapshot {
-	s.SnapshotType = &v
-	return s
-}
-
-// SetSourceRegion sets the SourceRegion field's value.
-func (s *Snapshot) SetSourceRegion(v string) *Snapshot {
-	s.SourceRegion = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Snapshot) SetStatus(v string) *Snapshot {
-	s.Status = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *Snapshot) SetTags(v []*Tag) *Snapshot {
-	s.Tags = v
-	return s
-}
-
-// SetTotalBackupSizeInMegaBytes sets the TotalBackupSizeInMegaBytes field's value.
-func (s *Snapshot) SetTotalBackupSizeInMegaBytes(v float64) *Snapshot {
-	s.TotalBackupSizeInMegaBytes = &v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *Snapshot) SetVpcId(v string) *Snapshot {
-	s.VpcId = &v
-	return s
 }
 
 // The snapshot copy grant that grants Amazon Redshift permission to encrypt
@@ -14115,7 +11400,7 @@ type SnapshotCopyGrant struct {
 	SnapshotCopyGrantName *string `type:"string"`
 
 	// A list of tag instances.
-	Tags []*Tag `locationNameList:"Tag" type:"list"`
+	Tags []Tag `locationNameList:"Tag" type:"list"`
 }
 
 // String returns the string representation
@@ -14126,24 +11411,6 @@ func (s SnapshotCopyGrant) String() string {
 // GoString returns the string representation
 func (s SnapshotCopyGrant) GoString() string {
 	return s.String()
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *SnapshotCopyGrant) SetKmsKeyId(v string) *SnapshotCopyGrant {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetSnapshotCopyGrantName sets the SnapshotCopyGrantName field's value.
-func (s *SnapshotCopyGrant) SetSnapshotCopyGrantName(v string) *SnapshotCopyGrant {
-	s.SnapshotCopyGrantName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *SnapshotCopyGrant) SetTags(v []*Tag) *SnapshotCopyGrant {
-	s.Tags = v
-	return s
 }
 
 // Describes a subnet.
@@ -14171,22 +11438,22 @@ func (s Subnet) GoString() string {
 	return s.String()
 }
 
-// SetSubnetAvailabilityZone sets the SubnetAvailabilityZone field's value.
-func (s *Subnet) SetSubnetAvailabilityZone(v *AvailabilityZone) *Subnet {
-	s.SubnetAvailabilityZone = v
-	return s
+// A list of supported platforms for orderable clusters.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/SupportedPlatform
+type SupportedPlatform struct {
+	_ struct{} `type:"structure"`
+
+	Name *string `type:"string"`
 }
 
-// SetSubnetIdentifier sets the SubnetIdentifier field's value.
-func (s *Subnet) SetSubnetIdentifier(v string) *Subnet {
-	s.SubnetIdentifier = &v
-	return s
+// String returns the string representation
+func (s SupportedPlatform) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetSubnetStatus sets the SubnetStatus field's value.
-func (s *Subnet) SetSubnetStatus(v string) *Subnet {
-	s.SubnetStatus = &v
-	return s
+// GoString returns the string representation
+func (s SupportedPlatform) GoString() string {
+	return s.String()
 }
 
 // Describes the status of a RestoreTableFromClusterSnapshot operation.
@@ -14227,7 +11494,7 @@ type TableRestoreStatus struct {
 	// A value that describes the current state of the table restore request.
 	//
 	// Valid Values: SUCCEEDED, FAILED, CANCELED, PENDING, IN_PROGRESS
-	Status TableRestoreStatusType `type:"string"`
+	Status TableRestoreStatusType `type:"string" enum:"true"`
 
 	// The unique identifier for the table restore request.
 	TableRestoreRequestId *string `type:"string"`
@@ -14252,90 +11519,6 @@ func (s TableRestoreStatus) GoString() string {
 	return s.String()
 }
 
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *TableRestoreStatus) SetClusterIdentifier(v string) *TableRestoreStatus {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *TableRestoreStatus) SetMessage(v string) *TableRestoreStatus {
-	s.Message = &v
-	return s
-}
-
-// SetNewTableName sets the NewTableName field's value.
-func (s *TableRestoreStatus) SetNewTableName(v string) *TableRestoreStatus {
-	s.NewTableName = &v
-	return s
-}
-
-// SetProgressInMegaBytes sets the ProgressInMegaBytes field's value.
-func (s *TableRestoreStatus) SetProgressInMegaBytes(v int64) *TableRestoreStatus {
-	s.ProgressInMegaBytes = &v
-	return s
-}
-
-// SetRequestTime sets the RequestTime field's value.
-func (s *TableRestoreStatus) SetRequestTime(v time.Time) *TableRestoreStatus {
-	s.RequestTime = &v
-	return s
-}
-
-// SetSnapshotIdentifier sets the SnapshotIdentifier field's value.
-func (s *TableRestoreStatus) SetSnapshotIdentifier(v string) *TableRestoreStatus {
-	s.SnapshotIdentifier = &v
-	return s
-}
-
-// SetSourceDatabaseName sets the SourceDatabaseName field's value.
-func (s *TableRestoreStatus) SetSourceDatabaseName(v string) *TableRestoreStatus {
-	s.SourceDatabaseName = &v
-	return s
-}
-
-// SetSourceSchemaName sets the SourceSchemaName field's value.
-func (s *TableRestoreStatus) SetSourceSchemaName(v string) *TableRestoreStatus {
-	s.SourceSchemaName = &v
-	return s
-}
-
-// SetSourceTableName sets the SourceTableName field's value.
-func (s *TableRestoreStatus) SetSourceTableName(v string) *TableRestoreStatus {
-	s.SourceTableName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *TableRestoreStatus) SetStatus(v TableRestoreStatusType) *TableRestoreStatus {
-	s.Status = v
-	return s
-}
-
-// SetTableRestoreRequestId sets the TableRestoreRequestId field's value.
-func (s *TableRestoreStatus) SetTableRestoreRequestId(v string) *TableRestoreStatus {
-	s.TableRestoreRequestId = &v
-	return s
-}
-
-// SetTargetDatabaseName sets the TargetDatabaseName field's value.
-func (s *TableRestoreStatus) SetTargetDatabaseName(v string) *TableRestoreStatus {
-	s.TargetDatabaseName = &v
-	return s
-}
-
-// SetTargetSchemaName sets the TargetSchemaName field's value.
-func (s *TableRestoreStatus) SetTargetSchemaName(v string) *TableRestoreStatus {
-	s.TargetSchemaName = &v
-	return s
-}
-
-// SetTotalDataInMegaBytes sets the TotalDataInMegaBytes field's value.
-func (s *TableRestoreStatus) SetTotalDataInMegaBytes(v int64) *TableRestoreStatus {
-	s.TotalDataInMegaBytes = &v
-	return s
-}
-
 // A tag consisting of a name/value pair for a resource.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Tag
 type Tag struct {
@@ -14356,18 +11539,6 @@ func (s Tag) String() string {
 // GoString returns the string representation
 func (s Tag) GoString() string {
 	return s.String()
-}
-
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
 }
 
 // A tag and its associated resource.
@@ -14419,24 +11590,6 @@ func (s TaggedResource) GoString() string {
 	return s.String()
 }
 
-// SetResourceName sets the ResourceName field's value.
-func (s *TaggedResource) SetResourceName(v string) *TaggedResource {
-	s.ResourceName = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *TaggedResource) SetResourceType(v string) *TaggedResource {
-	s.ResourceType = &v
-	return s
-}
-
-// SetTag sets the Tag field's value.
-func (s *TaggedResource) SetTag(v *Tag) *TaggedResource {
-	s.Tag = v
-	return s
-}
-
 // Describes the members of a VPC security group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/VpcSecurityGroupMembership
 type VpcSecurityGroupMembership struct {
@@ -14459,18 +11612,6 @@ func (s VpcSecurityGroupMembership) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *VpcSecurityGroupMembership) SetStatus(v string) *VpcSecurityGroupMembership {
-	s.Status = &v
-	return s
-}
-
-// SetVpcSecurityGroupId sets the VpcSecurityGroupId field's value.
-func (s *VpcSecurityGroupMembership) SetVpcSecurityGroupId(v string) *VpcSecurityGroupMembership {
-	s.VpcSecurityGroupId = &v
-	return s
-}
-
 type ParameterApplyType string
 
 // Enum values for ParameterApplyType
@@ -14478,6 +11619,32 @@ const (
 	ParameterApplyTypeStatic  ParameterApplyType = "static"
 	ParameterApplyTypeDynamic ParameterApplyType = "dynamic"
 )
+
+func (enum ParameterApplyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ParameterApplyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type ReservedNodeOfferingType string
+
+// Enum values for ReservedNodeOfferingType
+const (
+	ReservedNodeOfferingTypeRegular    ReservedNodeOfferingType = "Regular"
+	ReservedNodeOfferingTypeUpgradable ReservedNodeOfferingType = "Upgradable"
+)
+
+func (enum ReservedNodeOfferingType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReservedNodeOfferingType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SourceType string
 
@@ -14489,6 +11656,15 @@ const (
 	SourceTypeClusterSnapshot       SourceType = "cluster-snapshot"
 )
 
+func (enum SourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TableRestoreStatusType string
 
 // Enum values for TableRestoreStatusType
@@ -14499,3 +11675,12 @@ const (
 	TableRestoreStatusTypeFailed     TableRestoreStatusType = "FAILED"
 	TableRestoreStatusTypeCanceled   TableRestoreStatusType = "CANCELED"
 )
+
+func (enum TableRestoreStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TableRestoreStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

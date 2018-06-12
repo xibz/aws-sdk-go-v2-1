@@ -17,6 +17,7 @@ const opAddPermission = "AddPermission"
 type AddPermissionRequest struct {
 	*aws.Request
 	Input *AddPermissionInput
+	Copy  func(*AddPermissionInput) AddPermissionRequest
 }
 
 // Send marshals and sends the AddPermission API request.
@@ -54,10 +55,13 @@ func (c *SNS) AddPermissionRequest(input *AddPermissionInput) AddPermissionReque
 		input = &AddPermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &AddPermissionOutput{})
+	output := &AddPermissionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AddPermissionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddPermissionRequest{Request: req, Input: input, Copy: c.AddPermissionRequest}
 }
 
 const opCheckIfPhoneNumberIsOptedOut = "CheckIfPhoneNumberIsOptedOut"
@@ -66,6 +70,7 @@ const opCheckIfPhoneNumberIsOptedOut = "CheckIfPhoneNumberIsOptedOut"
 type CheckIfPhoneNumberIsOptedOutRequest struct {
 	*aws.Request
 	Input *CheckIfPhoneNumberIsOptedOutInput
+	Copy  func(*CheckIfPhoneNumberIsOptedOutInput) CheckIfPhoneNumberIsOptedOutRequest
 }
 
 // Send marshals and sends the CheckIfPhoneNumberIsOptedOut API request.
@@ -107,8 +112,11 @@ func (c *SNS) CheckIfPhoneNumberIsOptedOutRequest(input *CheckIfPhoneNumberIsOpt
 		input = &CheckIfPhoneNumberIsOptedOutInput{}
 	}
 
-	req := c.newRequest(op, input, &CheckIfPhoneNumberIsOptedOutOutput{})
-	return CheckIfPhoneNumberIsOptedOutRequest{Request: req, Input: input}
+	output := &CheckIfPhoneNumberIsOptedOutOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CheckIfPhoneNumberIsOptedOutRequest{Request: req, Input: input, Copy: c.CheckIfPhoneNumberIsOptedOutRequest}
 }
 
 const opConfirmSubscription = "ConfirmSubscription"
@@ -117,6 +125,7 @@ const opConfirmSubscription = "ConfirmSubscription"
 type ConfirmSubscriptionRequest struct {
 	*aws.Request
 	Input *ConfirmSubscriptionInput
+	Copy  func(*ConfirmSubscriptionInput) ConfirmSubscriptionRequest
 }
 
 // Send marshals and sends the ConfirmSubscription API request.
@@ -157,8 +166,11 @@ func (c *SNS) ConfirmSubscriptionRequest(input *ConfirmSubscriptionInput) Confir
 		input = &ConfirmSubscriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &ConfirmSubscriptionOutput{})
-	return ConfirmSubscriptionRequest{Request: req, Input: input}
+	output := &ConfirmSubscriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ConfirmSubscriptionRequest{Request: req, Input: input, Copy: c.ConfirmSubscriptionRequest}
 }
 
 const opCreatePlatformApplication = "CreatePlatformApplication"
@@ -167,6 +179,7 @@ const opCreatePlatformApplication = "CreatePlatformApplication"
 type CreatePlatformApplicationRequest struct {
 	*aws.Request
 	Input *CreatePlatformApplicationInput
+	Copy  func(*CreatePlatformApplicationInput) CreatePlatformApplicationRequest
 }
 
 // Send marshals and sends the CreatePlatformApplication API request.
@@ -228,8 +241,11 @@ func (c *SNS) CreatePlatformApplicationRequest(input *CreatePlatformApplicationI
 		input = &CreatePlatformApplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePlatformApplicationOutput{})
-	return CreatePlatformApplicationRequest{Request: req, Input: input}
+	output := &CreatePlatformApplicationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePlatformApplicationRequest{Request: req, Input: input, Copy: c.CreatePlatformApplicationRequest}
 }
 
 const opCreatePlatformEndpoint = "CreatePlatformEndpoint"
@@ -238,6 +254,7 @@ const opCreatePlatformEndpoint = "CreatePlatformEndpoint"
 type CreatePlatformEndpointRequest struct {
 	*aws.Request
 	Input *CreatePlatformEndpointInput
+	Copy  func(*CreatePlatformEndpointInput) CreatePlatformEndpointRequest
 }
 
 // Send marshals and sends the CreatePlatformEndpoint API request.
@@ -287,8 +304,11 @@ func (c *SNS) CreatePlatformEndpointRequest(input *CreatePlatformEndpointInput) 
 		input = &CreatePlatformEndpointInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePlatformEndpointOutput{})
-	return CreatePlatformEndpointRequest{Request: req, Input: input}
+	output := &CreatePlatformEndpointOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePlatformEndpointRequest{Request: req, Input: input, Copy: c.CreatePlatformEndpointRequest}
 }
 
 const opCreateTopic = "CreateTopic"
@@ -297,6 +317,7 @@ const opCreateTopic = "CreateTopic"
 type CreateTopicRequest struct {
 	*aws.Request
 	Input *CreateTopicInput
+	Copy  func(*CreateTopicInput) CreateTopicRequest
 }
 
 // Send marshals and sends the CreateTopic API request.
@@ -337,8 +358,11 @@ func (c *SNS) CreateTopicRequest(input *CreateTopicInput) CreateTopicRequest {
 		input = &CreateTopicInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateTopicOutput{})
-	return CreateTopicRequest{Request: req, Input: input}
+	output := &CreateTopicOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateTopicRequest{Request: req, Input: input, Copy: c.CreateTopicRequest}
 }
 
 const opDeleteEndpoint = "DeleteEndpoint"
@@ -347,6 +371,7 @@ const opDeleteEndpoint = "DeleteEndpoint"
 type DeleteEndpointRequest struct {
 	*aws.Request
 	Input *DeleteEndpointInput
+	Copy  func(*DeleteEndpointInput) DeleteEndpointRequest
 }
 
 // Send marshals and sends the DeleteEndpoint API request.
@@ -388,10 +413,13 @@ func (c *SNS) DeleteEndpointRequest(input *DeleteEndpointInput) DeleteEndpointRe
 		input = &DeleteEndpointInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteEndpointOutput{})
+	output := &DeleteEndpointOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteEndpointRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEndpointRequest{Request: req, Input: input, Copy: c.DeleteEndpointRequest}
 }
 
 const opDeletePlatformApplication = "DeletePlatformApplication"
@@ -400,6 +428,7 @@ const opDeletePlatformApplication = "DeletePlatformApplication"
 type DeletePlatformApplicationRequest struct {
 	*aws.Request
 	Input *DeletePlatformApplicationInput
+	Copy  func(*DeletePlatformApplicationInput) DeletePlatformApplicationRequest
 }
 
 // Send marshals and sends the DeletePlatformApplication API request.
@@ -438,10 +467,13 @@ func (c *SNS) DeletePlatformApplicationRequest(input *DeletePlatformApplicationI
 		input = &DeletePlatformApplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePlatformApplicationOutput{})
+	output := &DeletePlatformApplicationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePlatformApplicationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePlatformApplicationRequest{Request: req, Input: input, Copy: c.DeletePlatformApplicationRequest}
 }
 
 const opDeleteTopic = "DeleteTopic"
@@ -450,6 +482,7 @@ const opDeleteTopic = "DeleteTopic"
 type DeleteTopicRequest struct {
 	*aws.Request
 	Input *DeleteTopicInput
+	Copy  func(*DeleteTopicInput) DeleteTopicRequest
 }
 
 // Send marshals and sends the DeleteTopic API request.
@@ -489,10 +522,13 @@ func (c *SNS) DeleteTopicRequest(input *DeleteTopicInput) DeleteTopicRequest {
 		input = &DeleteTopicInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTopicOutput{})
+	output := &DeleteTopicOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteTopicRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTopicRequest{Request: req, Input: input, Copy: c.DeleteTopicRequest}
 }
 
 const opGetEndpointAttributes = "GetEndpointAttributes"
@@ -501,6 +537,7 @@ const opGetEndpointAttributes = "GetEndpointAttributes"
 type GetEndpointAttributesRequest struct {
 	*aws.Request
 	Input *GetEndpointAttributesInput
+	Copy  func(*GetEndpointAttributesInput) GetEndpointAttributesRequest
 }
 
 // Send marshals and sends the GetEndpointAttributes API request.
@@ -539,8 +576,11 @@ func (c *SNS) GetEndpointAttributesRequest(input *GetEndpointAttributesInput) Ge
 		input = &GetEndpointAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEndpointAttributesOutput{})
-	return GetEndpointAttributesRequest{Request: req, Input: input}
+	output := &GetEndpointAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEndpointAttributesRequest{Request: req, Input: input, Copy: c.GetEndpointAttributesRequest}
 }
 
 const opGetPlatformApplicationAttributes = "GetPlatformApplicationAttributes"
@@ -549,6 +589,7 @@ const opGetPlatformApplicationAttributes = "GetPlatformApplicationAttributes"
 type GetPlatformApplicationAttributesRequest struct {
 	*aws.Request
 	Input *GetPlatformApplicationAttributesInput
+	Copy  func(*GetPlatformApplicationAttributesInput) GetPlatformApplicationAttributesRequest
 }
 
 // Send marshals and sends the GetPlatformApplicationAttributes API request.
@@ -587,8 +628,11 @@ func (c *SNS) GetPlatformApplicationAttributesRequest(input *GetPlatformApplicat
 		input = &GetPlatformApplicationAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPlatformApplicationAttributesOutput{})
-	return GetPlatformApplicationAttributesRequest{Request: req, Input: input}
+	output := &GetPlatformApplicationAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPlatformApplicationAttributesRequest{Request: req, Input: input, Copy: c.GetPlatformApplicationAttributesRequest}
 }
 
 const opGetSMSAttributes = "GetSMSAttributes"
@@ -597,6 +641,7 @@ const opGetSMSAttributes = "GetSMSAttributes"
 type GetSMSAttributesRequest struct {
 	*aws.Request
 	Input *GetSMSAttributesInput
+	Copy  func(*GetSMSAttributesInput) GetSMSAttributesRequest
 }
 
 // Send marshals and sends the GetSMSAttributes API request.
@@ -635,8 +680,11 @@ func (c *SNS) GetSMSAttributesRequest(input *GetSMSAttributesInput) GetSMSAttrib
 		input = &GetSMSAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSMSAttributesOutput{})
-	return GetSMSAttributesRequest{Request: req, Input: input}
+	output := &GetSMSAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSMSAttributesRequest{Request: req, Input: input, Copy: c.GetSMSAttributesRequest}
 }
 
 const opGetSubscriptionAttributes = "GetSubscriptionAttributes"
@@ -645,6 +693,7 @@ const opGetSubscriptionAttributes = "GetSubscriptionAttributes"
 type GetSubscriptionAttributesRequest struct {
 	*aws.Request
 	Input *GetSubscriptionAttributesInput
+	Copy  func(*GetSubscriptionAttributesInput) GetSubscriptionAttributesRequest
 }
 
 // Send marshals and sends the GetSubscriptionAttributes API request.
@@ -681,8 +730,11 @@ func (c *SNS) GetSubscriptionAttributesRequest(input *GetSubscriptionAttributesI
 		input = &GetSubscriptionAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSubscriptionAttributesOutput{})
-	return GetSubscriptionAttributesRequest{Request: req, Input: input}
+	output := &GetSubscriptionAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSubscriptionAttributesRequest{Request: req, Input: input, Copy: c.GetSubscriptionAttributesRequest}
 }
 
 const opGetTopicAttributes = "GetTopicAttributes"
@@ -691,6 +743,7 @@ const opGetTopicAttributes = "GetTopicAttributes"
 type GetTopicAttributesRequest struct {
 	*aws.Request
 	Input *GetTopicAttributesInput
+	Copy  func(*GetTopicAttributesInput) GetTopicAttributesRequest
 }
 
 // Send marshals and sends the GetTopicAttributes API request.
@@ -728,8 +781,11 @@ func (c *SNS) GetTopicAttributesRequest(input *GetTopicAttributesInput) GetTopic
 		input = &GetTopicAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTopicAttributesOutput{})
-	return GetTopicAttributesRequest{Request: req, Input: input}
+	output := &GetTopicAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTopicAttributesRequest{Request: req, Input: input, Copy: c.GetTopicAttributesRequest}
 }
 
 const opListEndpointsByPlatformApplication = "ListEndpointsByPlatformApplication"
@@ -738,6 +794,7 @@ const opListEndpointsByPlatformApplication = "ListEndpointsByPlatformApplication
 type ListEndpointsByPlatformApplicationRequest struct {
 	*aws.Request
 	Input *ListEndpointsByPlatformApplicationInput
+	Copy  func(*ListEndpointsByPlatformApplicationInput) ListEndpointsByPlatformApplicationRequest
 }
 
 // Send marshals and sends the ListEndpointsByPlatformApplication API request.
@@ -761,6 +818,8 @@ func (r ListEndpointsByPlatformApplicationRequest) Send() (*ListEndpointsByPlatf
 // again using the NextToken string received from the previous call. When there
 // are no more records to return, NextToken will be null. For more information,
 // see Using Amazon SNS Mobile Push Notifications (http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+//
+// This action is throttled at 30 transactions per second (TPS).
 //
 //    // Example sending a request using the ListEndpointsByPlatformApplicationRequest method.
 //    req := client.ListEndpointsByPlatformApplicationRequest(params)
@@ -787,58 +846,57 @@ func (c *SNS) ListEndpointsByPlatformApplicationRequest(input *ListEndpointsByPl
 		input = &ListEndpointsByPlatformApplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &ListEndpointsByPlatformApplicationOutput{})
-	return ListEndpointsByPlatformApplicationRequest{Request: req, Input: input}
+	output := &ListEndpointsByPlatformApplicationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListEndpointsByPlatformApplicationRequest{Request: req, Input: input, Copy: c.ListEndpointsByPlatformApplicationRequest}
 }
 
-// ListEndpointsByPlatformApplicationPages iterates over the pages of a ListEndpointsByPlatformApplication operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListEndpointsByPlatformApplication method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListEndpointsByPlatformApplicationRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListEndpointsByPlatformApplication operation.
-//    pageNum := 0
-//    err := client.ListEndpointsByPlatformApplicationPages(params,
-//        func(page *ListEndpointsByPlatformApplicationOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListEndpointsByPlatformApplicationRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SNS) ListEndpointsByPlatformApplicationPages(input *ListEndpointsByPlatformApplicationInput, fn func(*ListEndpointsByPlatformApplicationOutput, bool) bool) error {
-	return c.ListEndpointsByPlatformApplicationPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListEndpointsByPlatformApplicationRequest) Paginate(opts ...aws.Option) ListEndpointsByPlatformApplicationPager {
+	return ListEndpointsByPlatformApplicationPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListEndpointsByPlatformApplicationInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListEndpointsByPlatformApplicationPagesWithContext same as ListEndpointsByPlatformApplicationPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SNS) ListEndpointsByPlatformApplicationPagesWithContext(ctx aws.Context, input *ListEndpointsByPlatformApplicationInput, fn func(*ListEndpointsByPlatformApplicationOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListEndpointsByPlatformApplicationInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListEndpointsByPlatformApplicationRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListEndpointsByPlatformApplicationOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListEndpointsByPlatformApplicationPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListEndpointsByPlatformApplicationPager struct {
+	aws.Pager
+}
+
+func (p *ListEndpointsByPlatformApplicationPager) CurrentPage() *ListEndpointsByPlatformApplicationOutput {
+	return p.Pager.CurrentPage().(*ListEndpointsByPlatformApplicationOutput)
 }
 
 const opListPhoneNumbersOptedOut = "ListPhoneNumbersOptedOut"
@@ -847,6 +905,7 @@ const opListPhoneNumbersOptedOut = "ListPhoneNumbersOptedOut"
 type ListPhoneNumbersOptedOutRequest struct {
 	*aws.Request
 	Input *ListPhoneNumbersOptedOutInput
+	Copy  func(*ListPhoneNumbersOptedOutInput) ListPhoneNumbersOptedOutRequest
 }
 
 // Send marshals and sends the ListPhoneNumbersOptedOut API request.
@@ -891,8 +950,11 @@ func (c *SNS) ListPhoneNumbersOptedOutRequest(input *ListPhoneNumbersOptedOutInp
 		input = &ListPhoneNumbersOptedOutInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPhoneNumbersOptedOutOutput{})
-	return ListPhoneNumbersOptedOutRequest{Request: req, Input: input}
+	output := &ListPhoneNumbersOptedOutOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPhoneNumbersOptedOutRequest{Request: req, Input: input, Copy: c.ListPhoneNumbersOptedOutRequest}
 }
 
 const opListPlatformApplications = "ListPlatformApplications"
@@ -901,6 +963,7 @@ const opListPlatformApplications = "ListPlatformApplications"
 type ListPlatformApplicationsRequest struct {
 	*aws.Request
 	Input *ListPlatformApplicationsInput
+	Copy  func(*ListPlatformApplicationsInput) ListPlatformApplicationsRequest
 }
 
 // Send marshals and sends the ListPlatformApplications API request.
@@ -924,6 +987,8 @@ func (r ListPlatformApplicationsRequest) Send() (*ListPlatformApplicationsOutput
 // using the NextToken string received from the previous call. When there are
 // no more records to return, NextToken will be null. For more information,
 // see Using Amazon SNS Mobile Push Notifications (http://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+//
+// This action is throttled at 15 transactions per second (TPS).
 //
 //    // Example sending a request using the ListPlatformApplicationsRequest method.
 //    req := client.ListPlatformApplicationsRequest(params)
@@ -950,58 +1015,57 @@ func (c *SNS) ListPlatformApplicationsRequest(input *ListPlatformApplicationsInp
 		input = &ListPlatformApplicationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPlatformApplicationsOutput{})
-	return ListPlatformApplicationsRequest{Request: req, Input: input}
+	output := &ListPlatformApplicationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPlatformApplicationsRequest{Request: req, Input: input, Copy: c.ListPlatformApplicationsRequest}
 }
 
-// ListPlatformApplicationsPages iterates over the pages of a ListPlatformApplications operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPlatformApplications method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPlatformApplicationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPlatformApplications operation.
-//    pageNum := 0
-//    err := client.ListPlatformApplicationsPages(params,
-//        func(page *ListPlatformApplicationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPlatformApplicationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SNS) ListPlatformApplicationsPages(input *ListPlatformApplicationsInput, fn func(*ListPlatformApplicationsOutput, bool) bool) error {
-	return c.ListPlatformApplicationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPlatformApplicationsRequest) Paginate(opts ...aws.Option) ListPlatformApplicationsPager {
+	return ListPlatformApplicationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPlatformApplicationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPlatformApplicationsPagesWithContext same as ListPlatformApplicationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SNS) ListPlatformApplicationsPagesWithContext(ctx aws.Context, input *ListPlatformApplicationsInput, fn func(*ListPlatformApplicationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPlatformApplicationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPlatformApplicationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPlatformApplicationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPlatformApplicationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPlatformApplicationsPager struct {
+	aws.Pager
+}
+
+func (p *ListPlatformApplicationsPager) CurrentPage() *ListPlatformApplicationsOutput {
+	return p.Pager.CurrentPage().(*ListPlatformApplicationsOutput)
 }
 
 const opListSubscriptions = "ListSubscriptions"
@@ -1010,6 +1074,7 @@ const opListSubscriptions = "ListSubscriptions"
 type ListSubscriptionsRequest struct {
 	*aws.Request
 	Input *ListSubscriptionsInput
+	Copy  func(*ListSubscriptionsInput) ListSubscriptionsRequest
 }
 
 // Send marshals and sends the ListSubscriptions API request.
@@ -1029,6 +1094,8 @@ func (r ListSubscriptionsRequest) Send() (*ListSubscriptionsOutput, error) {
 // list of subscriptions, up to 100. If there are more subscriptions, a NextToken
 // is also returned. Use the NextToken parameter in a new ListSubscriptions
 // call to get further results.
+//
+// This action is throttled at 30 transactions per second (TPS).
 //
 //    // Example sending a request using the ListSubscriptionsRequest method.
 //    req := client.ListSubscriptionsRequest(params)
@@ -1055,58 +1122,57 @@ func (c *SNS) ListSubscriptionsRequest(input *ListSubscriptionsInput) ListSubscr
 		input = &ListSubscriptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSubscriptionsOutput{})
-	return ListSubscriptionsRequest{Request: req, Input: input}
+	output := &ListSubscriptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSubscriptionsRequest{Request: req, Input: input, Copy: c.ListSubscriptionsRequest}
 }
 
-// ListSubscriptionsPages iterates over the pages of a ListSubscriptions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSubscriptions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListSubscriptionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSubscriptions operation.
-//    pageNum := 0
-//    err := client.ListSubscriptionsPages(params,
-//        func(page *ListSubscriptionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListSubscriptionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SNS) ListSubscriptionsPages(input *ListSubscriptionsInput, fn func(*ListSubscriptionsOutput, bool) bool) error {
-	return c.ListSubscriptionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListSubscriptionsRequest) Paginate(opts ...aws.Option) ListSubscriptionsPager {
+	return ListSubscriptionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListSubscriptionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListSubscriptionsPagesWithContext same as ListSubscriptionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SNS) ListSubscriptionsPagesWithContext(ctx aws.Context, input *ListSubscriptionsInput, fn func(*ListSubscriptionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListSubscriptionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListSubscriptionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListSubscriptionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListSubscriptionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListSubscriptionsPager struct {
+	aws.Pager
+}
+
+func (p *ListSubscriptionsPager) CurrentPage() *ListSubscriptionsOutput {
+	return p.Pager.CurrentPage().(*ListSubscriptionsOutput)
 }
 
 const opListSubscriptionsByTopic = "ListSubscriptionsByTopic"
@@ -1115,6 +1181,7 @@ const opListSubscriptionsByTopic = "ListSubscriptionsByTopic"
 type ListSubscriptionsByTopicRequest struct {
 	*aws.Request
 	Input *ListSubscriptionsByTopicInput
+	Copy  func(*ListSubscriptionsByTopicInput) ListSubscriptionsByTopicRequest
 }
 
 // Send marshals and sends the ListSubscriptionsByTopic API request.
@@ -1134,6 +1201,8 @@ func (r ListSubscriptionsByTopicRequest) Send() (*ListSubscriptionsByTopicOutput
 // a limited list of subscriptions, up to 100. If there are more subscriptions,
 // a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic
 // call to get further results.
+//
+// This action is throttled at 30 transactions per second (TPS).
 //
 //    // Example sending a request using the ListSubscriptionsByTopicRequest method.
 //    req := client.ListSubscriptionsByTopicRequest(params)
@@ -1160,58 +1229,57 @@ func (c *SNS) ListSubscriptionsByTopicRequest(input *ListSubscriptionsByTopicInp
 		input = &ListSubscriptionsByTopicInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSubscriptionsByTopicOutput{})
-	return ListSubscriptionsByTopicRequest{Request: req, Input: input}
+	output := &ListSubscriptionsByTopicOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSubscriptionsByTopicRequest{Request: req, Input: input, Copy: c.ListSubscriptionsByTopicRequest}
 }
 
-// ListSubscriptionsByTopicPages iterates over the pages of a ListSubscriptionsByTopic operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSubscriptionsByTopic method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListSubscriptionsByTopicRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSubscriptionsByTopic operation.
-//    pageNum := 0
-//    err := client.ListSubscriptionsByTopicPages(params,
-//        func(page *ListSubscriptionsByTopicOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListSubscriptionsByTopicRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SNS) ListSubscriptionsByTopicPages(input *ListSubscriptionsByTopicInput, fn func(*ListSubscriptionsByTopicOutput, bool) bool) error {
-	return c.ListSubscriptionsByTopicPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListSubscriptionsByTopicRequest) Paginate(opts ...aws.Option) ListSubscriptionsByTopicPager {
+	return ListSubscriptionsByTopicPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListSubscriptionsByTopicInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListSubscriptionsByTopicPagesWithContext same as ListSubscriptionsByTopicPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SNS) ListSubscriptionsByTopicPagesWithContext(ctx aws.Context, input *ListSubscriptionsByTopicInput, fn func(*ListSubscriptionsByTopicOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListSubscriptionsByTopicInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListSubscriptionsByTopicRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListSubscriptionsByTopicOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListSubscriptionsByTopicPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListSubscriptionsByTopicPager struct {
+	aws.Pager
+}
+
+func (p *ListSubscriptionsByTopicPager) CurrentPage() *ListSubscriptionsByTopicOutput {
+	return p.Pager.CurrentPage().(*ListSubscriptionsByTopicOutput)
 }
 
 const opListTopics = "ListTopics"
@@ -1220,6 +1288,7 @@ const opListTopics = "ListTopics"
 type ListTopicsRequest struct {
 	*aws.Request
 	Input *ListTopicsInput
+	Copy  func(*ListTopicsInput) ListTopicsRequest
 }
 
 // Send marshals and sends the ListTopics API request.
@@ -1238,6 +1307,8 @@ func (r ListTopicsRequest) Send() (*ListTopicsOutput, error) {
 // Returns a list of the requester's topics. Each call returns a limited list
 // of topics, up to 100. If there are more topics, a NextToken is also returned.
 // Use the NextToken parameter in a new ListTopics call to get further results.
+//
+// This action is throttled at 30 transactions per second (TPS).
 //
 //    // Example sending a request using the ListTopicsRequest method.
 //    req := client.ListTopicsRequest(params)
@@ -1264,58 +1335,57 @@ func (c *SNS) ListTopicsRequest(input *ListTopicsInput) ListTopicsRequest {
 		input = &ListTopicsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTopicsOutput{})
-	return ListTopicsRequest{Request: req, Input: input}
+	output := &ListTopicsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTopicsRequest{Request: req, Input: input, Copy: c.ListTopicsRequest}
 }
 
-// ListTopicsPages iterates over the pages of a ListTopics operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTopics method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTopicsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTopics operation.
-//    pageNum := 0
-//    err := client.ListTopicsPages(params,
-//        func(page *ListTopicsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTopicsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SNS) ListTopicsPages(input *ListTopicsInput, fn func(*ListTopicsOutput, bool) bool) error {
-	return c.ListTopicsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTopicsRequest) Paginate(opts ...aws.Option) ListTopicsPager {
+	return ListTopicsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTopicsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTopicsPagesWithContext same as ListTopicsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SNS) ListTopicsPagesWithContext(ctx aws.Context, input *ListTopicsInput, fn func(*ListTopicsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTopicsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTopicsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTopicsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTopicsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTopicsPager struct {
+	aws.Pager
+}
+
+func (p *ListTopicsPager) CurrentPage() *ListTopicsOutput {
+	return p.Pager.CurrentPage().(*ListTopicsOutput)
 }
 
 const opOptInPhoneNumber = "OptInPhoneNumber"
@@ -1324,6 +1394,7 @@ const opOptInPhoneNumber = "OptInPhoneNumber"
 type OptInPhoneNumberRequest struct {
 	*aws.Request
 	Input *OptInPhoneNumberInput
+	Copy  func(*OptInPhoneNumberInput) OptInPhoneNumberRequest
 }
 
 // Send marshals and sends the OptInPhoneNumber API request.
@@ -1363,8 +1434,11 @@ func (c *SNS) OptInPhoneNumberRequest(input *OptInPhoneNumberInput) OptInPhoneNu
 		input = &OptInPhoneNumberInput{}
 	}
 
-	req := c.newRequest(op, input, &OptInPhoneNumberOutput{})
-	return OptInPhoneNumberRequest{Request: req, Input: input}
+	output := &OptInPhoneNumberOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return OptInPhoneNumberRequest{Request: req, Input: input, Copy: c.OptInPhoneNumberRequest}
 }
 
 const opPublish = "Publish"
@@ -1373,6 +1447,7 @@ const opPublish = "Publish"
 type PublishRequest struct {
 	*aws.Request
 	Input *PublishInput
+	Copy  func(*PublishInput) PublishRequest
 }
 
 // Send marshals and sends the Publish API request.
@@ -1388,10 +1463,15 @@ func (r PublishRequest) Send() (*PublishOutput, error) {
 // PublishRequest returns a request value for making API operation for
 // Amazon Simple Notification Service.
 //
-// Sends a message to all of a topic's subscribed endpoints. When a messageId
-// is returned, the message has been saved and Amazon SNS will attempt to deliver
-// it to the topic's subscribers shortly. The format of the outgoing message
-// to each subscribed endpoint depends on the notification protocol.
+// Sends a message to an Amazon SNS topic or sends a text message (SMS message)
+// directly to a phone number.
+//
+// If you send a message to a topic, Amazon SNS delivers the message to each
+// endpoint that is subscribed to the topic. The format of the message depends
+// on the notification protocol for each subscribed endpoint.
+//
+// When a messageId is returned, the message has been saved and Amazon SNS will
+// attempt to deliver it shortly.
 //
 // To use the Publish action for sending a message to a mobile endpoint, such
 // as an app on a Kindle device or mobile phone, you must specify the EndpointArn
@@ -1420,8 +1500,11 @@ func (c *SNS) PublishRequest(input *PublishInput) PublishRequest {
 		input = &PublishInput{}
 	}
 
-	req := c.newRequest(op, input, &PublishOutput{})
-	return PublishRequest{Request: req, Input: input}
+	output := &PublishOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PublishRequest{Request: req, Input: input, Copy: c.PublishRequest}
 }
 
 const opRemovePermission = "RemovePermission"
@@ -1430,6 +1513,7 @@ const opRemovePermission = "RemovePermission"
 type RemovePermissionRequest struct {
 	*aws.Request
 	Input *RemovePermissionInput
+	Copy  func(*RemovePermissionInput) RemovePermissionRequest
 }
 
 // Send marshals and sends the RemovePermission API request.
@@ -1466,10 +1550,13 @@ func (c *SNS) RemovePermissionRequest(input *RemovePermissionInput) RemovePermis
 		input = &RemovePermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &RemovePermissionOutput{})
+	output := &RemovePermissionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemovePermissionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemovePermissionRequest{Request: req, Input: input, Copy: c.RemovePermissionRequest}
 }
 
 const opSetEndpointAttributes = "SetEndpointAttributes"
@@ -1478,6 +1565,7 @@ const opSetEndpointAttributes = "SetEndpointAttributes"
 type SetEndpointAttributesRequest struct {
 	*aws.Request
 	Input *SetEndpointAttributesInput
+	Copy  func(*SetEndpointAttributesInput) SetEndpointAttributesRequest
 }
 
 // Send marshals and sends the SetEndpointAttributes API request.
@@ -1516,10 +1604,13 @@ func (c *SNS) SetEndpointAttributesRequest(input *SetEndpointAttributesInput) Se
 		input = &SetEndpointAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &SetEndpointAttributesOutput{})
+	output := &SetEndpointAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetEndpointAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetEndpointAttributesRequest{Request: req, Input: input, Copy: c.SetEndpointAttributesRequest}
 }
 
 const opSetPlatformApplicationAttributes = "SetPlatformApplicationAttributes"
@@ -1528,6 +1619,7 @@ const opSetPlatformApplicationAttributes = "SetPlatformApplicationAttributes"
 type SetPlatformApplicationAttributesRequest struct {
 	*aws.Request
 	Input *SetPlatformApplicationAttributesInput
+	Copy  func(*SetPlatformApplicationAttributesInput) SetPlatformApplicationAttributesRequest
 }
 
 // Send marshals and sends the SetPlatformApplicationAttributes API request.
@@ -1568,10 +1660,13 @@ func (c *SNS) SetPlatformApplicationAttributesRequest(input *SetPlatformApplicat
 		input = &SetPlatformApplicationAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &SetPlatformApplicationAttributesOutput{})
+	output := &SetPlatformApplicationAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetPlatformApplicationAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetPlatformApplicationAttributesRequest{Request: req, Input: input, Copy: c.SetPlatformApplicationAttributesRequest}
 }
 
 const opSetSMSAttributes = "SetSMSAttributes"
@@ -1580,6 +1675,7 @@ const opSetSMSAttributes = "SetSMSAttributes"
 type SetSMSAttributesRequest struct {
 	*aws.Request
 	Input *SetSMSAttributesInput
+	Copy  func(*SetSMSAttributesInput) SetSMSAttributesRequest
 }
 
 // Send marshals and sends the SetSMSAttributes API request.
@@ -1622,8 +1718,11 @@ func (c *SNS) SetSMSAttributesRequest(input *SetSMSAttributesInput) SetSMSAttrib
 		input = &SetSMSAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &SetSMSAttributesOutput{})
-	return SetSMSAttributesRequest{Request: req, Input: input}
+	output := &SetSMSAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetSMSAttributesRequest{Request: req, Input: input, Copy: c.SetSMSAttributesRequest}
 }
 
 const opSetSubscriptionAttributes = "SetSubscriptionAttributes"
@@ -1632,6 +1731,7 @@ const opSetSubscriptionAttributes = "SetSubscriptionAttributes"
 type SetSubscriptionAttributesRequest struct {
 	*aws.Request
 	Input *SetSubscriptionAttributesInput
+	Copy  func(*SetSubscriptionAttributesInput) SetSubscriptionAttributesRequest
 }
 
 // Send marshals and sends the SetSubscriptionAttributes API request.
@@ -1647,7 +1747,8 @@ func (r SetSubscriptionAttributesRequest) Send() (*SetSubscriptionAttributesOutp
 // SetSubscriptionAttributesRequest returns a request value for making API operation for
 // Amazon Simple Notification Service.
 //
-// Allows a subscription owner to set an attribute of the topic to a new value.
+// Allows a subscription owner to set an attribute of the subscription to a
+// new value.
 //
 //    // Example sending a request using the SetSubscriptionAttributesRequest method.
 //    req := client.SetSubscriptionAttributesRequest(params)
@@ -1668,10 +1769,13 @@ func (c *SNS) SetSubscriptionAttributesRequest(input *SetSubscriptionAttributesI
 		input = &SetSubscriptionAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &SetSubscriptionAttributesOutput{})
+	output := &SetSubscriptionAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetSubscriptionAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetSubscriptionAttributesRequest{Request: req, Input: input, Copy: c.SetSubscriptionAttributesRequest}
 }
 
 const opSetTopicAttributes = "SetTopicAttributes"
@@ -1680,6 +1784,7 @@ const opSetTopicAttributes = "SetTopicAttributes"
 type SetTopicAttributesRequest struct {
 	*aws.Request
 	Input *SetTopicAttributesInput
+	Copy  func(*SetTopicAttributesInput) SetTopicAttributesRequest
 }
 
 // Send marshals and sends the SetTopicAttributes API request.
@@ -1716,10 +1821,13 @@ func (c *SNS) SetTopicAttributesRequest(input *SetTopicAttributesInput) SetTopic
 		input = &SetTopicAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &SetTopicAttributesOutput{})
+	output := &SetTopicAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetTopicAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetTopicAttributesRequest{Request: req, Input: input, Copy: c.SetTopicAttributesRequest}
 }
 
 const opSubscribe = "Subscribe"
@@ -1728,6 +1836,7 @@ const opSubscribe = "Subscribe"
 type SubscribeRequest struct {
 	*aws.Request
 	Input *SubscribeInput
+	Copy  func(*SubscribeInput) SubscribeRequest
 }
 
 // Send marshals and sends the Subscribe API request.
@@ -1748,6 +1857,8 @@ func (r SubscribeRequest) Send() (*SubscribeOutput, error) {
 // the ConfirmSubscription action with the token from the confirmation message.
 // Confirmation tokens are valid for three days.
 //
+// This action is throttled at 100 transactions per second (TPS).
+//
 //    // Example sending a request using the SubscribeRequest method.
 //    req := client.SubscribeRequest(params)
 //    resp, err := req.Send()
@@ -1767,8 +1878,11 @@ func (c *SNS) SubscribeRequest(input *SubscribeInput) SubscribeRequest {
 		input = &SubscribeInput{}
 	}
 
-	req := c.newRequest(op, input, &SubscribeOutput{})
-	return SubscribeRequest{Request: req, Input: input}
+	output := &SubscribeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SubscribeRequest{Request: req, Input: input, Copy: c.SubscribeRequest}
 }
 
 const opUnsubscribe = "Unsubscribe"
@@ -1777,6 +1891,7 @@ const opUnsubscribe = "Unsubscribe"
 type UnsubscribeRequest struct {
 	*aws.Request
 	Input *UnsubscribeInput
+	Copy  func(*UnsubscribeInput) UnsubscribeRequest
 }
 
 // Send marshals and sends the Unsubscribe API request.
@@ -1799,6 +1914,8 @@ func (r UnsubscribeRequest) Send() (*UnsubscribeOutput, error) {
 // message is delivered to the endpoint, so that the endpoint owner can easily
 // resubscribe to the topic if the Unsubscribe request was unintended.
 //
+// This action is throttled at 100 transactions per second (TPS).
+//
 //    // Example sending a request using the UnsubscribeRequest method.
 //    req := client.UnsubscribeRequest(params)
 //    resp, err := req.Send()
@@ -1818,10 +1935,13 @@ func (c *SNS) UnsubscribeRequest(input *UnsubscribeInput) UnsubscribeRequest {
 		input = &UnsubscribeInput{}
 	}
 
-	req := c.newRequest(op, input, &UnsubscribeOutput{})
+	output := &UnsubscribeOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UnsubscribeRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UnsubscribeRequest{Request: req, Input: input, Copy: c.UnsubscribeRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/AddPermissionInput
@@ -1833,14 +1953,14 @@ type AddPermissionInput struct {
 	// to be signed up for this service.
 	//
 	// AWSAccountId is a required field
-	AWSAccountId []*string `type:"list" required:"true"`
+	AWSAccountId []string `type:"list" required:"true"`
 
 	// The action you want to allow for the specified principal(s).
 	//
 	// Valid values: any Amazon SNS action name.
 	//
 	// ActionName is a required field
-	ActionName []*string `type:"list" required:"true"`
+	ActionName []string `type:"list" required:"true"`
 
 	// A unique identifier for the new policy statement.
 	//
@@ -1889,33 +2009,11 @@ func (s *AddPermissionInput) Validate() error {
 	return nil
 }
 
-// SetAWSAccountId sets the AWSAccountId field's value.
-func (s *AddPermissionInput) SetAWSAccountId(v []*string) *AddPermissionInput {
-	s.AWSAccountId = v
-	return s
-}
-
-// SetActionName sets the ActionName field's value.
-func (s *AddPermissionInput) SetActionName(v []*string) *AddPermissionInput {
-	s.ActionName = v
-	return s
-}
-
-// SetLabel sets the Label field's value.
-func (s *AddPermissionInput) SetLabel(v string) *AddPermissionInput {
-	s.Label = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *AddPermissionInput) SetTopicArn(v string) *AddPermissionInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/AddPermissionOutput
 type AddPermissionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1926,6 +2024,11 @@ func (s AddPermissionOutput) String() string {
 // GoString returns the string representation
 func (s AddPermissionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddPermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The input for the CheckIfPhoneNumberIsOptedOut action.
@@ -1963,16 +2066,12 @@ func (s *CheckIfPhoneNumberIsOptedOutInput) Validate() error {
 	return nil
 }
 
-// SetPhoneNumber sets the PhoneNumber field's value.
-func (s *CheckIfPhoneNumberIsOptedOutInput) SetPhoneNumber(v string) *CheckIfPhoneNumberIsOptedOutInput {
-	s.PhoneNumber = &v
-	return s
-}
-
 // The response from the CheckIfPhoneNumberIsOptedOut action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/CheckIfPhoneNumberIsOptedOutResponse
 type CheckIfPhoneNumberIsOptedOutOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether the phone number is opted out:
 	//
@@ -1994,10 +2093,9 @@ func (s CheckIfPhoneNumberIsOptedOutOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsOptedOut sets the IsOptedOut field's value.
-func (s *CheckIfPhoneNumberIsOptedOutOutput) SetIsOptedOut(v bool) *CheckIfPhoneNumberIsOptedOutOutput {
-	s.IsOptedOut = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CheckIfPhoneNumberIsOptedOutOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for ConfirmSubscription action.
@@ -2050,28 +2148,12 @@ func (s *ConfirmSubscriptionInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticateOnUnsubscribe sets the AuthenticateOnUnsubscribe field's value.
-func (s *ConfirmSubscriptionInput) SetAuthenticateOnUnsubscribe(v string) *ConfirmSubscriptionInput {
-	s.AuthenticateOnUnsubscribe = &v
-	return s
-}
-
-// SetToken sets the Token field's value.
-func (s *ConfirmSubscriptionInput) SetToken(v string) *ConfirmSubscriptionInput {
-	s.Token = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *ConfirmSubscriptionInput) SetTopicArn(v string) *ConfirmSubscriptionInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Response for ConfirmSubscriptions action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ConfirmSubscriptionResponse
 type ConfirmSubscriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the created subscription.
 	SubscriptionArn *string `type:"string"`
@@ -2087,10 +2169,9 @@ func (s ConfirmSubscriptionOutput) GoString() string {
 	return s.String()
 }
 
-// SetSubscriptionArn sets the SubscriptionArn field's value.
-func (s *ConfirmSubscriptionOutput) SetSubscriptionArn(v string) *ConfirmSubscriptionOutput {
-	s.SubscriptionArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ConfirmSubscriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for CreatePlatformApplication action.
@@ -2101,7 +2182,7 @@ type CreatePlatformApplicationInput struct {
 	// For a list of attributes, see SetPlatformApplicationAttributes (http://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html)
 	//
 	// Attributes is a required field
-	Attributes map[string]*string `type:"map" required:"true"`
+	Attributes map[string]string `type:"map" required:"true"`
 
 	// Application names must be made up of only uppercase and lowercase ASCII letters,
 	// numbers, underscores, hyphens, and periods, and must be between 1 and 256
@@ -2149,28 +2230,12 @@ func (s *CreatePlatformApplicationInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *CreatePlatformApplicationInput) SetAttributes(v map[string]*string) *CreatePlatformApplicationInput {
-	s.Attributes = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreatePlatformApplicationInput) SetName(v string) *CreatePlatformApplicationInput {
-	s.Name = &v
-	return s
-}
-
-// SetPlatform sets the Platform field's value.
-func (s *CreatePlatformApplicationInput) SetPlatform(v string) *CreatePlatformApplicationInput {
-	s.Platform = &v
-	return s
-}
-
 // Response from CreatePlatformApplication action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/CreatePlatformApplicationResponse
 type CreatePlatformApplicationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// PlatformApplicationArn is returned.
 	PlatformApplicationArn *string `type:"string"`
@@ -2186,10 +2251,9 @@ func (s CreatePlatformApplicationOutput) GoString() string {
 	return s.String()
 }
 
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *CreatePlatformApplicationOutput) SetPlatformApplicationArn(v string) *CreatePlatformApplicationOutput {
-	s.PlatformApplicationArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePlatformApplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for CreatePlatformEndpoint action.
@@ -2198,7 +2262,7 @@ type CreatePlatformEndpointInput struct {
 	_ struct{} `type:"structure"`
 
 	// For a list of attributes, see SetEndpointAttributes (http://docs.aws.amazon.com/sns/latest/api/API_SetEndpointAttributes.html).
-	Attributes map[string]*string `type:"map"`
+	Attributes map[string]string `type:"map"`
 
 	// Arbitrary user data to associate with the endpoint. Amazon SNS does not use
 	// this data. The data must be in UTF-8 format and less than 2KB.
@@ -2248,34 +2312,12 @@ func (s *CreatePlatformEndpointInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *CreatePlatformEndpointInput) SetAttributes(v map[string]*string) *CreatePlatformEndpointInput {
-	s.Attributes = v
-	return s
-}
-
-// SetCustomUserData sets the CustomUserData field's value.
-func (s *CreatePlatformEndpointInput) SetCustomUserData(v string) *CreatePlatformEndpointInput {
-	s.CustomUserData = &v
-	return s
-}
-
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *CreatePlatformEndpointInput) SetPlatformApplicationArn(v string) *CreatePlatformEndpointInput {
-	s.PlatformApplicationArn = &v
-	return s
-}
-
-// SetToken sets the Token field's value.
-func (s *CreatePlatformEndpointInput) SetToken(v string) *CreatePlatformEndpointInput {
-	s.Token = &v
-	return s
-}
-
 // Response from CreateEndpoint action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/CreateEndpointResponse
 type CreatePlatformEndpointOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// EndpointArn returned from CreateEndpoint action.
 	EndpointArn *string `type:"string"`
@@ -2291,10 +2333,9 @@ func (s CreatePlatformEndpointOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndpointArn sets the EndpointArn field's value.
-func (s *CreatePlatformEndpointOutput) SetEndpointArn(v string) *CreatePlatformEndpointOutput {
-	s.EndpointArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePlatformEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for CreateTopic action.
@@ -2336,16 +2377,12 @@ func (s *CreateTopicInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateTopicInput) SetName(v string) *CreateTopicInput {
-	s.Name = &v
-	return s
-}
-
 // Response from CreateTopic action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/CreateTopicResponse
 type CreateTopicOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) assigned to the created topic.
 	TopicArn *string `type:"string"`
@@ -2361,10 +2398,9 @@ func (s CreateTopicOutput) GoString() string {
 	return s.String()
 }
 
-// SetTopicArn sets the TopicArn field's value.
-func (s *CreateTopicOutput) SetTopicArn(v string) *CreateTopicOutput {
-	s.TopicArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateTopicOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for DeleteEndpoint action.
@@ -2402,15 +2438,11 @@ func (s *DeleteEndpointInput) Validate() error {
 	return nil
 }
 
-// SetEndpointArn sets the EndpointArn field's value.
-func (s *DeleteEndpointInput) SetEndpointArn(v string) *DeleteEndpointInput {
-	s.EndpointArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/DeleteEndpointOutput
 type DeleteEndpointOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2421,6 +2453,11 @@ func (s DeleteEndpointOutput) String() string {
 // GoString returns the string representation
 func (s DeleteEndpointOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for DeletePlatformApplication action.
@@ -2458,15 +2495,11 @@ func (s *DeletePlatformApplicationInput) Validate() error {
 	return nil
 }
 
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *DeletePlatformApplicationInput) SetPlatformApplicationArn(v string) *DeletePlatformApplicationInput {
-	s.PlatformApplicationArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/DeletePlatformApplicationOutput
 type DeletePlatformApplicationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2477,6 +2510,11 @@ func (s DeletePlatformApplicationOutput) String() string {
 // GoString returns the string representation
 func (s DeletePlatformApplicationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePlatformApplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/DeleteTopicInput
@@ -2513,15 +2551,11 @@ func (s *DeleteTopicInput) Validate() error {
 	return nil
 }
 
-// SetTopicArn sets the TopicArn field's value.
-func (s *DeleteTopicInput) SetTopicArn(v string) *DeleteTopicInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/DeleteTopicOutput
 type DeleteTopicOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2534,13 +2568,18 @@ func (s DeleteTopicOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTopicOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Endpoint for mobile app and device.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/Endpoint
 type Endpoint struct {
 	_ struct{} `type:"structure"`
 
 	// Attributes for endpoint.
-	Attributes map[string]*string `type:"map"`
+	Attributes map[string]string `type:"map"`
 
 	// EndpointArn for mobile app and device.
 	EndpointArn *string `type:"string"`
@@ -2554,18 +2593,6 @@ func (s Endpoint) String() string {
 // GoString returns the string representation
 func (s Endpoint) GoString() string {
 	return s.String()
-}
-
-// SetAttributes sets the Attributes field's value.
-func (s *Endpoint) SetAttributes(v map[string]*string) *Endpoint {
-	s.Attributes = v
-	return s
-}
-
-// SetEndpointArn sets the EndpointArn field's value.
-func (s *Endpoint) SetEndpointArn(v string) *Endpoint {
-	s.EndpointArn = &v
-	return s
 }
 
 // Input for GetEndpointAttributes action.
@@ -2603,16 +2630,12 @@ func (s *GetEndpointAttributesInput) Validate() error {
 	return nil
 }
 
-// SetEndpointArn sets the EndpointArn field's value.
-func (s *GetEndpointAttributesInput) SetEndpointArn(v string) *GetEndpointAttributesInput {
-	s.EndpointArn = &v
-	return s
-}
-
 // Response from GetEndpointAttributes of the EndpointArn.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/GetEndpointAttributesResponse
 type GetEndpointAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Attributes include the following:
 	//
@@ -2628,7 +2651,7 @@ type GetEndpointAttributesOutput struct {
 	//    * Token -- device token, also referred to as a registration id, for an
 	//    app and mobile device. This is returned from the notification service
 	//    when an app and mobile device are registered with the notification service.
-	Attributes map[string]*string `type:"map"`
+	Attributes map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -2641,10 +2664,9 @@ func (s GetEndpointAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetEndpointAttributesOutput) SetAttributes(v map[string]*string) *GetEndpointAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEndpointAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for GetPlatformApplicationAttributes action.
@@ -2682,16 +2704,12 @@ func (s *GetPlatformApplicationAttributesInput) Validate() error {
 	return nil
 }
 
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *GetPlatformApplicationAttributesInput) SetPlatformApplicationArn(v string) *GetPlatformApplicationAttributesInput {
-	s.PlatformApplicationArn = &v
-	return s
-}
-
 // Response for GetPlatformApplicationAttributes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/GetPlatformApplicationAttributesResponse
 type GetPlatformApplicationAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Attributes include the following:
 	//
@@ -2707,7 +2725,7 @@ type GetPlatformApplicationAttributesOutput struct {
 	//    * EventDeliveryFailure -- Topic ARN to which DeliveryFailure event notifications
 	//    should be sent upon Direct Publish delivery failure (permanent) to one
 	//    of the application's endpoints.
-	Attributes map[string]*string `type:"map"`
+	Attributes map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -2720,10 +2738,9 @@ func (s GetPlatformApplicationAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetPlatformApplicationAttributesOutput) SetAttributes(v map[string]*string) *GetPlatformApplicationAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPlatformApplicationAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The input for the GetSMSAttributes request.
@@ -2737,7 +2754,7 @@ type GetSMSAttributesInput struct {
 	// For all attribute names, see SetSMSAttributes (http://docs.aws.amazon.com/sns/latest/api/API_SetSMSAttributes.html).
 	//
 	// If you don't use this parameter, Amazon SNS returns all SMS attributes.
-	Attributes []*string `locationName:"attributes" type:"list"`
+	Attributes []string `locationName:"attributes" type:"list"`
 }
 
 // String returns the string representation
@@ -2750,19 +2767,15 @@ func (s GetSMSAttributesInput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetSMSAttributesInput) SetAttributes(v []*string) *GetSMSAttributesInput {
-	s.Attributes = v
-	return s
-}
-
 // The response from the GetSMSAttributes request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/GetSMSAttributesResponse
 type GetSMSAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The SMS attribute names and their values.
-	Attributes map[string]*string `locationName:"attributes" type:"map"`
+	Attributes map[string]string `locationName:"attributes" type:"map"`
 }
 
 // String returns the string representation
@@ -2775,10 +2788,9 @@ func (s GetSMSAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetSMSAttributesOutput) SetAttributes(v map[string]*string) *GetSMSAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSMSAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for GetSubscriptionAttributes.
@@ -2816,36 +2828,42 @@ func (s *GetSubscriptionAttributesInput) Validate() error {
 	return nil
 }
 
-// SetSubscriptionArn sets the SubscriptionArn field's value.
-func (s *GetSubscriptionAttributesInput) SetSubscriptionArn(v string) *GetSubscriptionAttributesInput {
-	s.SubscriptionArn = &v
-	return s
-}
-
 // Response for GetSubscriptionAttributes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/GetSubscriptionAttributesResponse
 type GetSubscriptionAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A map of the subscription's attributes. Attributes in this map include the
 	// following:
 	//
-	//    * SubscriptionArn -- the subscription's ARN
-	//
-	//    * TopicArn -- the topic ARN that the subscription is associated with
-	//
-	//    * Owner -- the AWS account ID of the subscription's owner
-	//
 	//    * ConfirmationWasAuthenticated -- true if the subscription confirmation
-	//    request was authenticated
+	//    request was authenticated.
 	//
-	//    * DeliveryPolicy -- the JSON serialization of the subscription's delivery
-	//    policy
+	//    * DeliveryPolicy -- The JSON serialization of the subscription's delivery
+	//    policy.
 	//
-	//    * EffectiveDeliveryPolicy -- the JSON serialization of the effective delivery
+	//    * EffectiveDeliveryPolicy -- The JSON serialization of the effective delivery
 	//    policy that takes into account the topic delivery policy and account system
-	//    defaults
-	Attributes map[string]*string `type:"map"`
+	//    defaults.
+	//
+	//    * FilterPolicy -- The filter policy JSON that is assigned to the subscription.
+	//
+	//    * Owner -- The AWS account ID of the subscription's owner.
+	//
+	//    * PendingConfirmation -- true if the subscription hasn't been confirmed.
+	//    To confirm a pending subscription, call the ConfirmSubscription action
+	//    with a confirmation token.
+	//
+	//    * RawMessageDelivery -- true if raw message delivery is enabled for the
+	//    subscription. Raw messages are free of JSON formatting and can be sent
+	//    to HTTP/S and Amazon SQS endpoints.
+	//
+	//    * SubscriptionArn -- The subscription's ARN.
+	//
+	//    * TopicArn -- The topic ARN that the subscription is associated with.
+	Attributes map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -2858,10 +2876,9 @@ func (s GetSubscriptionAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetSubscriptionAttributesOutput) SetAttributes(v map[string]*string) *GetSubscriptionAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSubscriptionAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for GetTopicAttributes action.
@@ -2899,16 +2916,12 @@ func (s *GetTopicAttributesInput) Validate() error {
 	return nil
 }
 
-// SetTopicArn sets the TopicArn field's value.
-func (s *GetTopicAttributesInput) SetTopicArn(v string) *GetTopicAttributesInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Response for GetTopicAttributes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/GetTopicAttributesResponse
 type GetTopicAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A map of the topic's attributes. Attributes in this map include the following:
 	//
@@ -2934,7 +2947,7 @@ type GetTopicAttributesOutput struct {
 	//
 	//    * EffectiveDeliveryPolicy -- the JSON serialization of the effective delivery
 	//    policy that takes into account system defaults
-	Attributes map[string]*string `type:"map"`
+	Attributes map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -2947,10 +2960,9 @@ func (s GetTopicAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetTopicAttributesOutput) SetAttributes(v map[string]*string) *GetTopicAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTopicAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for ListEndpointsByPlatformApplication action.
@@ -2993,25 +3005,15 @@ func (s *ListEndpointsByPlatformApplicationInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListEndpointsByPlatformApplicationInput) SetNextToken(v string) *ListEndpointsByPlatformApplicationInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *ListEndpointsByPlatformApplicationInput) SetPlatformApplicationArn(v string) *ListEndpointsByPlatformApplicationInput {
-	s.PlatformApplicationArn = &v
-	return s
-}
-
 // Response for ListEndpointsByPlatformApplication action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListEndpointsByPlatformApplicationResponse
 type ListEndpointsByPlatformApplicationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Endpoints returned for ListEndpointsByPlatformApplication action.
-	Endpoints []*Endpoint `type:"list"`
+	Endpoints []Endpoint `type:"list"`
 
 	// NextToken string is returned when calling ListEndpointsByPlatformApplication
 	// action if additional records are available after the first page results.
@@ -3028,16 +3030,9 @@ func (s ListEndpointsByPlatformApplicationOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndpoints sets the Endpoints field's value.
-func (s *ListEndpointsByPlatformApplicationOutput) SetEndpoints(v []*Endpoint) *ListEndpointsByPlatformApplicationOutput {
-	s.Endpoints = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListEndpointsByPlatformApplicationOutput) SetNextToken(v string) *ListEndpointsByPlatformApplicationOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListEndpointsByPlatformApplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The input for the ListPhoneNumbersOptedOut action.
@@ -3061,16 +3056,12 @@ func (s ListPhoneNumbersOptedOutInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPhoneNumbersOptedOutInput) SetNextToken(v string) *ListPhoneNumbersOptedOutInput {
-	s.NextToken = &v
-	return s
-}
-
 // The response from the ListPhoneNumbersOptedOut action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListPhoneNumbersOptedOutResponse
 type ListPhoneNumbersOptedOutOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A NextToken string is returned when you call the ListPhoneNumbersOptedOut
 	// action if additional records are available after the first page of results.
@@ -3078,7 +3069,7 @@ type ListPhoneNumbersOptedOutOutput struct {
 
 	// A list of phone numbers that are opted out of receiving SMS messages. The
 	// list is paginated, and each page can contain up to 100 phone numbers.
-	PhoneNumbers []*string `locationName:"phoneNumbers" type:"list"`
+	PhoneNumbers []string `locationName:"phoneNumbers" type:"list"`
 }
 
 // String returns the string representation
@@ -3091,16 +3082,9 @@ func (s ListPhoneNumbersOptedOutOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPhoneNumbersOptedOutOutput) SetNextToken(v string) *ListPhoneNumbersOptedOutOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPhoneNumbers sets the PhoneNumbers field's value.
-func (s *ListPhoneNumbersOptedOutOutput) SetPhoneNumbers(v []*string) *ListPhoneNumbersOptedOutOutput {
-	s.PhoneNumbers = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPhoneNumbersOptedOutOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for ListPlatformApplications action.
@@ -3123,23 +3107,19 @@ func (s ListPlatformApplicationsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPlatformApplicationsInput) SetNextToken(v string) *ListPlatformApplicationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Response for ListPlatformApplications action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListPlatformApplicationsResponse
 type ListPlatformApplicationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// NextToken string is returned when calling ListPlatformApplications action
 	// if additional records are available after the first page results.
 	NextToken *string `type:"string"`
 
 	// Platform applications returned when calling ListPlatformApplications action.
-	PlatformApplications []*PlatformApplication `type:"list"`
+	PlatformApplications []PlatformApplication `type:"list"`
 }
 
 // String returns the string representation
@@ -3152,16 +3132,9 @@ func (s ListPlatformApplicationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPlatformApplicationsOutput) SetNextToken(v string) *ListPlatformApplicationsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPlatformApplications sets the PlatformApplications field's value.
-func (s *ListPlatformApplicationsOutput) SetPlatformApplications(v []*PlatformApplication) *ListPlatformApplicationsOutput {
-	s.PlatformApplications = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPlatformApplicationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for ListSubscriptionsByTopic action.
@@ -3202,29 +3175,19 @@ func (s *ListSubscriptionsByTopicInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSubscriptionsByTopicInput) SetNextToken(v string) *ListSubscriptionsByTopicInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *ListSubscriptionsByTopicInput) SetTopicArn(v string) *ListSubscriptionsByTopicInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Response for ListSubscriptionsByTopic action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListSubscriptionsByTopicResponse
 type ListSubscriptionsByTopicOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Token to pass along to the next ListSubscriptionsByTopic request. This element
 	// is returned if there are more subscriptions to retrieve.
 	NextToken *string `type:"string"`
 
 	// A list of subscriptions.
-	Subscriptions []*Subscription `type:"list"`
+	Subscriptions []Subscription `type:"list"`
 }
 
 // String returns the string representation
@@ -3237,16 +3200,9 @@ func (s ListSubscriptionsByTopicOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSubscriptionsByTopicOutput) SetNextToken(v string) *ListSubscriptionsByTopicOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSubscriptions sets the Subscriptions field's value.
-func (s *ListSubscriptionsByTopicOutput) SetSubscriptions(v []*Subscription) *ListSubscriptionsByTopicOutput {
-	s.Subscriptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSubscriptionsByTopicOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for ListSubscriptions action.
@@ -3268,23 +3224,19 @@ func (s ListSubscriptionsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSubscriptionsInput) SetNextToken(v string) *ListSubscriptionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Response for ListSubscriptions action
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListSubscriptionsResponse
 type ListSubscriptionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Token to pass along to the next ListSubscriptions request. This element is
 	// returned if there are more subscriptions to retrieve.
 	NextToken *string `type:"string"`
 
 	// A list of subscriptions.
-	Subscriptions []*Subscription `type:"list"`
+	Subscriptions []Subscription `type:"list"`
 }
 
 // String returns the string representation
@@ -3297,16 +3249,9 @@ func (s ListSubscriptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSubscriptionsOutput) SetNextToken(v string) *ListSubscriptionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSubscriptions sets the Subscriptions field's value.
-func (s *ListSubscriptionsOutput) SetSubscriptions(v []*Subscription) *ListSubscriptionsOutput {
-	s.Subscriptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSubscriptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListTopicsInput
@@ -3327,23 +3272,19 @@ func (s ListTopicsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTopicsInput) SetNextToken(v string) *ListTopicsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Response for ListTopics action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/ListTopicsResponse
 type ListTopicsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Token to pass along to the next ListTopics request. This element is returned
 	// if there are additional topics to retrieve.
 	NextToken *string `type:"string"`
 
 	// A list of topic ARNs.
-	Topics []*Topic `type:"list"`
+	Topics []Topic `type:"list"`
 }
 
 // String returns the string representation
@@ -3356,16 +3297,9 @@ func (s ListTopicsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTopicsOutput) SetNextToken(v string) *ListTopicsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTopics sets the Topics field's value.
-func (s *ListTopicsOutput) SetTopics(v []*Topic) *ListTopicsOutput {
-	s.Topics = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTopicsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The user-specified message attribute value. For string data types, the value
@@ -3387,8 +3321,9 @@ type MessageAttributeValue struct {
 	// BinaryValue is automatically base64 encoded/decoded by the SDK.
 	BinaryValue []byte `type:"blob"`
 
-	// Amazon SNS supports the following logical data types: String, Number, and
-	// Binary. For more information, see Message Attribute Data Types (http://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html#SNSMessageAttributes.DataTypes).
+	// Amazon SNS supports the following logical data types: String, String.Array,
+	// Number, and Binary. For more information, see Message Attribute Data Types
+	// (http://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html#SNSMessageAttributes.DataTypes).
 	//
 	// DataType is a required field
 	DataType *string `type:"string" required:"true"`
@@ -3420,24 +3355,6 @@ func (s *MessageAttributeValue) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetBinaryValue sets the BinaryValue field's value.
-func (s *MessageAttributeValue) SetBinaryValue(v []byte) *MessageAttributeValue {
-	s.BinaryValue = v
-	return s
-}
-
-// SetDataType sets the DataType field's value.
-func (s *MessageAttributeValue) SetDataType(v string) *MessageAttributeValue {
-	s.DataType = &v
-	return s
-}
-
-// SetStringValue sets the StringValue field's value.
-func (s *MessageAttributeValue) SetStringValue(v string) *MessageAttributeValue {
-	s.StringValue = &v
-	return s
 }
 
 // Input for the OptInPhoneNumber action.
@@ -3475,16 +3392,12 @@ func (s *OptInPhoneNumberInput) Validate() error {
 	return nil
 }
 
-// SetPhoneNumber sets the PhoneNumber field's value.
-func (s *OptInPhoneNumberInput) SetPhoneNumber(v string) *OptInPhoneNumberInput {
-	s.PhoneNumber = &v
-	return s
-}
-
 // The response for the OptInPhoneNumber action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/OptInPhoneNumberResponse
 type OptInPhoneNumberOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3497,13 +3410,18 @@ func (s OptInPhoneNumberOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s OptInPhoneNumberOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Platform application object.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/PlatformApplication
 type PlatformApplication struct {
 	_ struct{} `type:"structure"`
 
 	// Attributes for platform application object.
-	Attributes map[string]*string `type:"map"`
+	Attributes map[string]string `type:"map"`
 
 	// PlatformApplicationArn for platform application object.
 	PlatformApplicationArn *string `type:"string"`
@@ -3519,34 +3437,31 @@ func (s PlatformApplication) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *PlatformApplication) SetAttributes(v map[string]*string) *PlatformApplication {
-	s.Attributes = v
-	return s
-}
-
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *PlatformApplication) SetPlatformApplicationArn(v string) *PlatformApplication {
-	s.PlatformApplicationArn = &v
-	return s
-}
-
 // Input for Publish action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/PublishInput
 type PublishInput struct {
 	_ struct{} `type:"structure"`
 
-	// The message you want to send to the topic.
+	// The message you want to send.
 	//
-	// If you want to send the same message to all transport protocols, include
-	// the text of the message as a String value.
-	//
+	// If you are publishing to a topic and you want to send the same message to
+	// all transport protocols, include the text of the message as a String value.
 	// If you want to send different messages for each transport protocol, set the
 	// value of the MessageStructure parameter to json and use a JSON object for
 	// the Message parameter.
 	//
-	// Constraints: Messages must be UTF-8 encoded strings at most 256 KB in size
-	// (262144 bytes, not 262144 characters).
+	// Constraints:
+	//
+	// With the exception of SMS, messages must be UTF-8 encoded strings and at
+	// most 256 KB in size (262144 bytes, not 262144 characters).
+	//
+	//    * For SMS, each message can contain up to 140 bytes, and the character
+	//    limit depends on the encoding scheme. For example, an SMS message can
+	//    contain 160 GSM characters, 140 ASCII characters, or 70 UCS-2 characters.
+	//    If you publish a message that exceeds the size limit, Amazon SNS sends
+	//    it as multiple messages, each fitting within the size limit. Messages
+	//    are not cut off in the middle of a word but on whole-word boundaries.
+	//    The total size limit for a single SMS publish action is 1600 bytes.
 	//
 	// JSON-specific constraints:
 	//
@@ -3577,7 +3492,7 @@ type PublishInput struct {
 	Message *string `type:"string" required:"true"`
 
 	// Message attributes for Publish action.
-	MessageAttributes map[string]*MessageAttributeValue `locationNameKey:"Name" locationNameValue:"Value" type:"map"`
+	MessageAttributes map[string]MessageAttributeValue `locationNameKey:"Name" locationNameValue:"Value" type:"map"`
 
 	// Set MessageStructure to json if you want to send a different message for
 	// each protocol. For example, using one publish action, you can send a short
@@ -3647,9 +3562,6 @@ func (s *PublishInput) Validate() error {
 	}
 	if s.MessageAttributes != nil {
 		for i, v := range s.MessageAttributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "MessageAttributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -3662,52 +3574,12 @@ func (s *PublishInput) Validate() error {
 	return nil
 }
 
-// SetMessage sets the Message field's value.
-func (s *PublishInput) SetMessage(v string) *PublishInput {
-	s.Message = &v
-	return s
-}
-
-// SetMessageAttributes sets the MessageAttributes field's value.
-func (s *PublishInput) SetMessageAttributes(v map[string]*MessageAttributeValue) *PublishInput {
-	s.MessageAttributes = v
-	return s
-}
-
-// SetMessageStructure sets the MessageStructure field's value.
-func (s *PublishInput) SetMessageStructure(v string) *PublishInput {
-	s.MessageStructure = &v
-	return s
-}
-
-// SetPhoneNumber sets the PhoneNumber field's value.
-func (s *PublishInput) SetPhoneNumber(v string) *PublishInput {
-	s.PhoneNumber = &v
-	return s
-}
-
-// SetSubject sets the Subject field's value.
-func (s *PublishInput) SetSubject(v string) *PublishInput {
-	s.Subject = &v
-	return s
-}
-
-// SetTargetArn sets the TargetArn field's value.
-func (s *PublishInput) SetTargetArn(v string) *PublishInput {
-	s.TargetArn = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *PublishInput) SetTopicArn(v string) *PublishInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Response for Publish action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/PublishResponse
 type PublishOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Unique identifier assigned to the published message.
 	//
@@ -3725,10 +3597,9 @@ func (s PublishOutput) GoString() string {
 	return s.String()
 }
 
-// SetMessageId sets the MessageId field's value.
-func (s *PublishOutput) SetMessageId(v string) *PublishOutput {
-	s.MessageId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PublishOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for RemovePermission action.
@@ -3775,21 +3646,11 @@ func (s *RemovePermissionInput) Validate() error {
 	return nil
 }
 
-// SetLabel sets the Label field's value.
-func (s *RemovePermissionInput) SetLabel(v string) *RemovePermissionInput {
-	s.Label = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *RemovePermissionInput) SetTopicArn(v string) *RemovePermissionInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/RemovePermissionOutput
 type RemovePermissionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3800,6 +3661,11 @@ func (s RemovePermissionOutput) String() string {
 // GoString returns the string representation
 func (s RemovePermissionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemovePermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for SetEndpointAttributes action.
@@ -3823,7 +3689,7 @@ type SetEndpointAttributesInput struct {
 	//    when an app and mobile device are registered with the notification service.
 	//
 	// Attributes is a required field
-	Attributes map[string]*string `type:"map" required:"true"`
+	Attributes map[string]string `type:"map" required:"true"`
 
 	// EndpointArn used for SetEndpointAttributes action.
 	//
@@ -3859,21 +3725,11 @@ func (s *SetEndpointAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *SetEndpointAttributesInput) SetAttributes(v map[string]*string) *SetEndpointAttributesInput {
-	s.Attributes = v
-	return s
-}
-
-// SetEndpointArn sets the EndpointArn field's value.
-func (s *SetEndpointAttributesInput) SetEndpointArn(v string) *SetEndpointAttributesInput {
-	s.EndpointArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SetEndpointAttributesOutput
 type SetEndpointAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3884,6 +3740,11 @@ func (s SetEndpointAttributesOutput) String() string {
 // GoString returns the string representation
 func (s SetEndpointAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetEndpointAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for SetPlatformApplicationAttributes action.
@@ -3927,7 +3788,7 @@ type SetPlatformApplicationAttributesInput struct {
 	//    delivered messages.
 	//
 	// Attributes is a required field
-	Attributes map[string]*string `type:"map" required:"true"`
+	Attributes map[string]string `type:"map" required:"true"`
 
 	// PlatformApplicationArn for SetPlatformApplicationAttributes action.
 	//
@@ -3963,21 +3824,11 @@ func (s *SetPlatformApplicationAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *SetPlatformApplicationAttributesInput) SetAttributes(v map[string]*string) *SetPlatformApplicationAttributesInput {
-	s.Attributes = v
-	return s
-}
-
-// SetPlatformApplicationArn sets the PlatformApplicationArn field's value.
-func (s *SetPlatformApplicationAttributesInput) SetPlatformApplicationArn(v string) *SetPlatformApplicationAttributesInput {
-	s.PlatformApplicationArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SetPlatformApplicationAttributesOutput
 type SetPlatformApplicationAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3988,6 +3839,11 @@ func (s SetPlatformApplicationAttributesOutput) String() string {
 // GoString returns the string representation
 func (s SetPlatformApplicationAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetPlatformApplicationAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The input for the SetSMSAttributes action.
@@ -4008,8 +3864,10 @@ type SetSMSAttributesInput struct {
 	// costs that exceed your limit.
 	//
 	// By default, the spend limit is set to the maximum allowed by Amazon SNS.
-	// If you want to exceed the maximum, contact AWS Support (https://aws.amazon.com/premiumsupport/)
-	// or your AWS sales representative for a service limit increase.
+	// If you want to raise the limit, submit an SNS Limit Increase case (https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-sns).
+	// For New limit value, enter your desired monthly spend limit. In the Use Case
+	// Description field, explain that you are requesting an SMS monthly spend limit
+	// increase.
 	//
 	// DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to
 	// write logs about SMS deliveries in CloudWatch Logs. For each SMS message
@@ -4069,7 +3927,7 @@ type SetSMSAttributesInput struct {
 	// Developer Guide.
 	//
 	// Attributes is a required field
-	Attributes map[string]*string `locationName:"attributes" type:"map" required:"true"`
+	Attributes map[string]string `locationName:"attributes" type:"map" required:"true"`
 }
 
 // String returns the string representation
@@ -4096,16 +3954,12 @@ func (s *SetSMSAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *SetSMSAttributesInput) SetAttributes(v map[string]*string) *SetSMSAttributesInput {
-	s.Attributes = v
-	return s
-}
-
 // The response for the SetSMSAttributes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SetSMSAttributesResponse
 type SetSMSAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4118,6 +3972,11 @@ func (s SetSMSAttributesOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetSMSAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Input for SetSubscriptionAttributes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SetSubscriptionAttributesInput
 type SetSubscriptionAttributesInput struct {
@@ -4126,7 +3985,7 @@ type SetSubscriptionAttributesInput struct {
 	// The name of the attribute you want to set. Only a subset of the subscriptions
 	// attributes are mutable.
 	//
-	// Valid values: DeliveryPolicy | RawMessageDelivery
+	// Valid values: DeliveryPolicy | FilterPolicy | RawMessageDelivery
 	//
 	// AttributeName is a required field
 	AttributeName *string `type:"string" required:"true"`
@@ -4168,27 +4027,11 @@ func (s *SetSubscriptionAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *SetSubscriptionAttributesInput) SetAttributeName(v string) *SetSubscriptionAttributesInput {
-	s.AttributeName = &v
-	return s
-}
-
-// SetAttributeValue sets the AttributeValue field's value.
-func (s *SetSubscriptionAttributesInput) SetAttributeValue(v string) *SetSubscriptionAttributesInput {
-	s.AttributeValue = &v
-	return s
-}
-
-// SetSubscriptionArn sets the SubscriptionArn field's value.
-func (s *SetSubscriptionAttributesInput) SetSubscriptionArn(v string) *SetSubscriptionAttributesInput {
-	s.SubscriptionArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SetSubscriptionAttributesOutput
 type SetSubscriptionAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4199,6 +4042,11 @@ func (s SetSubscriptionAttributesOutput) String() string {
 // GoString returns the string representation
 func (s SetSubscriptionAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetSubscriptionAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Input for SetTopicAttributes action.
@@ -4251,27 +4099,11 @@ func (s *SetTopicAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *SetTopicAttributesInput) SetAttributeName(v string) *SetTopicAttributesInput {
-	s.AttributeName = &v
-	return s
-}
-
-// SetAttributeValue sets the AttributeValue field's value.
-func (s *SetTopicAttributesInput) SetAttributeValue(v string) *SetTopicAttributesInput {
-	s.AttributeValue = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *SetTopicAttributesInput) SetTopicArn(v string) *SetTopicAttributesInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SetTopicAttributesOutput
 type SetTopicAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4284,10 +4116,19 @@ func (s SetTopicAttributesOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetTopicAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Input for Subscribe action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SubscribeInput
 type SubscribeInput struct {
 	_ struct{} `type:"structure"`
+
+	// Assigns attributes to the subscription as a map of key-value pairs. You can
+	// assign any attribute that is supported by the SetSubscriptionAttributes action.
+	Attributes map[string]string `type:"map"`
 
 	// The endpoint that you want to receive notifications. Endpoints vary by protocol:
 	//
@@ -4332,6 +4173,21 @@ type SubscribeInput struct {
 	// Protocol is a required field
 	Protocol *string `type:"string" required:"true"`
 
+	// Sets whether the response from the Subscribe request includes the subscription
+	// ARN, even if the subscription is not yet confirmed.
+	//
+	// If you set this parameter to false, the response includes the ARN for confirmed
+	// subscriptions, but it includes an ARN value of "pending subscription" for
+	// subscriptions that are not yet confirmed. A subscription becomes confirmed
+	// when the subscriber calls the ConfirmSubscription action with a confirmation
+	// token.
+	//
+	// If you set this parameter to true, the response includes the ARN in all cases,
+	// even if the subscription is not yet confirmed.
+	//
+	// The default value is false.
+	ReturnSubscriptionArn *bool `type:"boolean"`
+
 	// The ARN of the topic you want to subscribe to.
 	//
 	// TopicArn is a required field
@@ -4366,31 +4222,17 @@ func (s *SubscribeInput) Validate() error {
 	return nil
 }
 
-// SetEndpoint sets the Endpoint field's value.
-func (s *SubscribeInput) SetEndpoint(v string) *SubscribeInput {
-	s.Endpoint = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *SubscribeInput) SetProtocol(v string) *SubscribeInput {
-	s.Protocol = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *SubscribeInput) SetTopicArn(v string) *SubscribeInput {
-	s.TopicArn = &v
-	return s
-}
-
 // Response for Subscribe action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/SubscribeResponse
 type SubscribeOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The ARN of the subscription, if the service was able to create a subscription
-	// immediately (without requiring endpoint owner confirmation).
+	responseMetadata aws.Response
+
+	// The ARN of the subscription if it is confirmed, or the string "pending confirmation"
+	// if the subscription requires confirmation. However, if the API request parameter
+	// ReturnSubscriptionArn is true, then the value is always the subscription
+	// ARN, even if the subscription requires confirmation.
 	SubscriptionArn *string `type:"string"`
 }
 
@@ -4404,10 +4246,9 @@ func (s SubscribeOutput) GoString() string {
 	return s.String()
 }
 
-// SetSubscriptionArn sets the SubscriptionArn field's value.
-func (s *SubscribeOutput) SetSubscriptionArn(v string) *SubscribeOutput {
-	s.SubscriptionArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SubscribeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A wrapper type for the attributes of an Amazon SNS subscription.
@@ -4441,36 +4282,6 @@ func (s Subscription) GoString() string {
 	return s.String()
 }
 
-// SetEndpoint sets the Endpoint field's value.
-func (s *Subscription) SetEndpoint(v string) *Subscription {
-	s.Endpoint = &v
-	return s
-}
-
-// SetOwner sets the Owner field's value.
-func (s *Subscription) SetOwner(v string) *Subscription {
-	s.Owner = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *Subscription) SetProtocol(v string) *Subscription {
-	s.Protocol = &v
-	return s
-}
-
-// SetSubscriptionArn sets the SubscriptionArn field's value.
-func (s *Subscription) SetSubscriptionArn(v string) *Subscription {
-	s.SubscriptionArn = &v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *Subscription) SetTopicArn(v string) *Subscription {
-	s.TopicArn = &v
-	return s
-}
-
 // A wrapper type for the topic's Amazon Resource Name (ARN). To retrieve a
 // topic's attributes, use GetTopicAttributes.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/Topic
@@ -4489,12 +4300,6 @@ func (s Topic) String() string {
 // GoString returns the string representation
 func (s Topic) GoString() string {
 	return s.String()
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *Topic) SetTopicArn(v string) *Topic {
-	s.TopicArn = &v
-	return s
 }
 
 // Input for Unsubscribe action.
@@ -4532,15 +4337,11 @@ func (s *UnsubscribeInput) Validate() error {
 	return nil
 }
 
-// SetSubscriptionArn sets the SubscriptionArn field's value.
-func (s *UnsubscribeInput) SetSubscriptionArn(v string) *UnsubscribeInput {
-	s.SubscriptionArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sns-2010-03-31/UnsubscribeOutput
 type UnsubscribeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4551,4 +4352,9 @@ func (s UnsubscribeOutput) String() string {
 // GoString returns the string representation
 func (s UnsubscribeOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UnsubscribeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }

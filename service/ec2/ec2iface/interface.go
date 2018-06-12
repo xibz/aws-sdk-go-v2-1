@@ -65,6 +65,8 @@ import (
 type EC2API interface {
 	AcceptReservedInstancesExchangeQuoteRequest(*ec2.AcceptReservedInstancesExchangeQuoteInput) ec2.AcceptReservedInstancesExchangeQuoteRequest
 
+	AcceptVpcEndpointConnectionsRequest(*ec2.AcceptVpcEndpointConnectionsInput) ec2.AcceptVpcEndpointConnectionsRequest
+
 	AcceptVpcPeeringConnectionRequest(*ec2.AcceptVpcPeeringConnectionInput) ec2.AcceptVpcPeeringConnectionRequest
 
 	AllocateAddressRequest(*ec2.AllocateAddressInput) ec2.AllocateAddressRequest
@@ -127,11 +129,15 @@ type EC2API interface {
 
 	CreateCustomerGatewayRequest(*ec2.CreateCustomerGatewayInput) ec2.CreateCustomerGatewayRequest
 
+	CreateDefaultSubnetRequest(*ec2.CreateDefaultSubnetInput) ec2.CreateDefaultSubnetRequest
+
 	CreateDefaultVpcRequest(*ec2.CreateDefaultVpcInput) ec2.CreateDefaultVpcRequest
 
 	CreateDhcpOptionsRequest(*ec2.CreateDhcpOptionsInput) ec2.CreateDhcpOptionsRequest
 
 	CreateEgressOnlyInternetGatewayRequest(*ec2.CreateEgressOnlyInternetGatewayInput) ec2.CreateEgressOnlyInternetGatewayRequest
+
+	CreateFleetRequest(*ec2.CreateFleetInput) ec2.CreateFleetRequest
 
 	CreateFlowLogsRequest(*ec2.CreateFlowLogsInput) ec2.CreateFlowLogsRequest
 
@@ -144,6 +150,10 @@ type EC2API interface {
 	CreateInternetGatewayRequest(*ec2.CreateInternetGatewayInput) ec2.CreateInternetGatewayRequest
 
 	CreateKeyPairRequest(*ec2.CreateKeyPairInput) ec2.CreateKeyPairRequest
+
+	CreateLaunchTemplateRequest(*ec2.CreateLaunchTemplateInput) ec2.CreateLaunchTemplateRequest
+
+	CreateLaunchTemplateVersionRequest(*ec2.CreateLaunchTemplateVersionInput) ec2.CreateLaunchTemplateVersionRequest
 
 	CreateNatGatewayRequest(*ec2.CreateNatGatewayInput) ec2.CreateNatGatewayRequest
 
@@ -179,6 +189,10 @@ type EC2API interface {
 
 	CreateVpcEndpointRequest(*ec2.CreateVpcEndpointInput) ec2.CreateVpcEndpointRequest
 
+	CreateVpcEndpointConnectionNotificationRequest(*ec2.CreateVpcEndpointConnectionNotificationInput) ec2.CreateVpcEndpointConnectionNotificationRequest
+
+	CreateVpcEndpointServiceConfigurationRequest(*ec2.CreateVpcEndpointServiceConfigurationInput) ec2.CreateVpcEndpointServiceConfigurationRequest
+
 	CreateVpcPeeringConnectionRequest(*ec2.CreateVpcPeeringConnectionInput) ec2.CreateVpcPeeringConnectionRequest
 
 	CreateVpnConnectionRequest(*ec2.CreateVpnConnectionInput) ec2.CreateVpnConnectionRequest
@@ -193,6 +207,8 @@ type EC2API interface {
 
 	DeleteEgressOnlyInternetGatewayRequest(*ec2.DeleteEgressOnlyInternetGatewayInput) ec2.DeleteEgressOnlyInternetGatewayRequest
 
+	DeleteFleetsRequest(*ec2.DeleteFleetsInput) ec2.DeleteFleetsRequest
+
 	DeleteFlowLogsRequest(*ec2.DeleteFlowLogsInput) ec2.DeleteFlowLogsRequest
 
 	DeleteFpgaImageRequest(*ec2.DeleteFpgaImageInput) ec2.DeleteFpgaImageRequest
@@ -200,6 +216,10 @@ type EC2API interface {
 	DeleteInternetGatewayRequest(*ec2.DeleteInternetGatewayInput) ec2.DeleteInternetGatewayRequest
 
 	DeleteKeyPairRequest(*ec2.DeleteKeyPairInput) ec2.DeleteKeyPairRequest
+
+	DeleteLaunchTemplateRequest(*ec2.DeleteLaunchTemplateInput) ec2.DeleteLaunchTemplateRequest
+
+	DeleteLaunchTemplateVersionsRequest(*ec2.DeleteLaunchTemplateVersionsInput) ec2.DeleteLaunchTemplateVersionsRequest
 
 	DeleteNatGatewayRequest(*ec2.DeleteNatGatewayInput) ec2.DeleteNatGatewayRequest
 
@@ -231,6 +251,10 @@ type EC2API interface {
 
 	DeleteVpcRequest(*ec2.DeleteVpcInput) ec2.DeleteVpcRequest
 
+	DeleteVpcEndpointConnectionNotificationsRequest(*ec2.DeleteVpcEndpointConnectionNotificationsInput) ec2.DeleteVpcEndpointConnectionNotificationsRequest
+
+	DeleteVpcEndpointServiceConfigurationsRequest(*ec2.DeleteVpcEndpointServiceConfigurationsInput) ec2.DeleteVpcEndpointServiceConfigurationsRequest
+
 	DeleteVpcEndpointsRequest(*ec2.DeleteVpcEndpointsInput) ec2.DeleteVpcEndpointsRequest
 
 	DeleteVpcPeeringConnectionRequest(*ec2.DeleteVpcPeeringConnectionInput) ec2.DeleteVpcPeeringConnectionRequest
@@ -246,6 +270,8 @@ type EC2API interface {
 	DescribeAccountAttributesRequest(*ec2.DescribeAccountAttributesInput) ec2.DescribeAccountAttributesRequest
 
 	DescribeAddressesRequest(*ec2.DescribeAddressesInput) ec2.DescribeAddressesRequest
+
+	DescribeAggregateIdFormatRequest(*ec2.DescribeAggregateIdFormatInput) ec2.DescribeAggregateIdFormatRequest
 
 	DescribeAvailabilityZonesRequest(*ec2.DescribeAvailabilityZonesInput) ec2.DescribeAvailabilityZonesRequest
 
@@ -264,6 +290,12 @@ type EC2API interface {
 	DescribeElasticGpusRequest(*ec2.DescribeElasticGpusInput) ec2.DescribeElasticGpusRequest
 
 	DescribeExportTasksRequest(*ec2.DescribeExportTasksInput) ec2.DescribeExportTasksRequest
+
+	DescribeFleetHistoryRequest(*ec2.DescribeFleetHistoryInput) ec2.DescribeFleetHistoryRequest
+
+	DescribeFleetInstancesRequest(*ec2.DescribeFleetInstancesInput) ec2.DescribeFleetInstancesRequest
+
+	DescribeFleetsRequest(*ec2.DescribeFleetsInput) ec2.DescribeFleetsRequest
 
 	DescribeFlowLogsRequest(*ec2.DescribeFlowLogsInput) ec2.DescribeFlowLogsRequest
 
@@ -293,26 +325,23 @@ type EC2API interface {
 
 	DescribeInstanceAttributeRequest(*ec2.DescribeInstanceAttributeInput) ec2.DescribeInstanceAttributeRequest
 
+	DescribeInstanceCreditSpecificationsRequest(*ec2.DescribeInstanceCreditSpecificationsInput) ec2.DescribeInstanceCreditSpecificationsRequest
+
 	DescribeInstanceStatusRequest(*ec2.DescribeInstanceStatusInput) ec2.DescribeInstanceStatusRequest
 
-	DescribeInstanceStatusPages(*ec2.DescribeInstanceStatusInput, func(*ec2.DescribeInstanceStatusOutput, bool) bool) error
-	DescribeInstanceStatusPagesWithContext(aws.Context, *ec2.DescribeInstanceStatusInput, func(*ec2.DescribeInstanceStatusOutput, bool) bool, ...aws.Option) error
-
 	DescribeInstancesRequest(*ec2.DescribeInstancesInput) ec2.DescribeInstancesRequest
-
-	DescribeInstancesPages(*ec2.DescribeInstancesInput, func(*ec2.DescribeInstancesOutput, bool) bool) error
-	DescribeInstancesPagesWithContext(aws.Context, *ec2.DescribeInstancesInput, func(*ec2.DescribeInstancesOutput, bool) bool, ...aws.Option) error
 
 	DescribeInternetGatewaysRequest(*ec2.DescribeInternetGatewaysInput) ec2.DescribeInternetGatewaysRequest
 
 	DescribeKeyPairsRequest(*ec2.DescribeKeyPairsInput) ec2.DescribeKeyPairsRequest
 
+	DescribeLaunchTemplateVersionsRequest(*ec2.DescribeLaunchTemplateVersionsInput) ec2.DescribeLaunchTemplateVersionsRequest
+
+	DescribeLaunchTemplatesRequest(*ec2.DescribeLaunchTemplatesInput) ec2.DescribeLaunchTemplatesRequest
+
 	DescribeMovingAddressesRequest(*ec2.DescribeMovingAddressesInput) ec2.DescribeMovingAddressesRequest
 
 	DescribeNatGatewaysRequest(*ec2.DescribeNatGatewaysInput) ec2.DescribeNatGatewaysRequest
-
-	DescribeNatGatewaysPages(*ec2.DescribeNatGatewaysInput, func(*ec2.DescribeNatGatewaysOutput, bool) bool) error
-	DescribeNatGatewaysPagesWithContext(aws.Context, *ec2.DescribeNatGatewaysInput, func(*ec2.DescribeNatGatewaysOutput, bool) bool, ...aws.Option) error
 
 	DescribeNetworkAclsRequest(*ec2.DescribeNetworkAclsInput) ec2.DescribeNetworkAclsRequest
 
@@ -326,6 +355,8 @@ type EC2API interface {
 
 	DescribePrefixListsRequest(*ec2.DescribePrefixListsInput) ec2.DescribePrefixListsRequest
 
+	DescribePrincipalIdFormatRequest(*ec2.DescribePrincipalIdFormatInput) ec2.DescribePrincipalIdFormatRequest
+
 	DescribeRegionsRequest(*ec2.DescribeRegionsInput) ec2.DescribeRegionsRequest
 
 	DescribeReservedInstancesRequest(*ec2.DescribeReservedInstancesInput) ec2.DescribeReservedInstancesRequest
@@ -334,13 +365,7 @@ type EC2API interface {
 
 	DescribeReservedInstancesModificationsRequest(*ec2.DescribeReservedInstancesModificationsInput) ec2.DescribeReservedInstancesModificationsRequest
 
-	DescribeReservedInstancesModificationsPages(*ec2.DescribeReservedInstancesModificationsInput, func(*ec2.DescribeReservedInstancesModificationsOutput, bool) bool) error
-	DescribeReservedInstancesModificationsPagesWithContext(aws.Context, *ec2.DescribeReservedInstancesModificationsInput, func(*ec2.DescribeReservedInstancesModificationsOutput, bool) bool, ...aws.Option) error
-
 	DescribeReservedInstancesOfferingsRequest(*ec2.DescribeReservedInstancesOfferingsInput) ec2.DescribeReservedInstancesOfferingsRequest
-
-	DescribeReservedInstancesOfferingsPages(*ec2.DescribeReservedInstancesOfferingsInput, func(*ec2.DescribeReservedInstancesOfferingsOutput, bool) bool) error
-	DescribeReservedInstancesOfferingsPagesWithContext(aws.Context, *ec2.DescribeReservedInstancesOfferingsInput, func(*ec2.DescribeReservedInstancesOfferingsOutput, bool) bool, ...aws.Option) error
 
 	DescribeRouteTablesRequest(*ec2.DescribeRouteTablesInput) ec2.DescribeRouteTablesRequest
 
@@ -356,9 +381,6 @@ type EC2API interface {
 
 	DescribeSnapshotsRequest(*ec2.DescribeSnapshotsInput) ec2.DescribeSnapshotsRequest
 
-	DescribeSnapshotsPages(*ec2.DescribeSnapshotsInput, func(*ec2.DescribeSnapshotsOutput, bool) bool) error
-	DescribeSnapshotsPagesWithContext(aws.Context, *ec2.DescribeSnapshotsInput, func(*ec2.DescribeSnapshotsOutput, bool) bool, ...aws.Option) error
-
 	DescribeSpotDatafeedSubscriptionRequest(*ec2.DescribeSpotDatafeedSubscriptionInput) ec2.DescribeSpotDatafeedSubscriptionRequest
 
 	DescribeSpotFleetInstancesRequest(*ec2.DescribeSpotFleetInstancesInput) ec2.DescribeSpotFleetInstancesRequest
@@ -367,15 +389,9 @@ type EC2API interface {
 
 	DescribeSpotFleetRequestsRequest(*ec2.DescribeSpotFleetRequestsInput) ec2.DescribeSpotFleetRequestsRequest
 
-	DescribeSpotFleetRequestsPages(*ec2.DescribeSpotFleetRequestsInput, func(*ec2.DescribeSpotFleetRequestsOutput, bool) bool) error
-	DescribeSpotFleetRequestsPagesWithContext(aws.Context, *ec2.DescribeSpotFleetRequestsInput, func(*ec2.DescribeSpotFleetRequestsOutput, bool) bool, ...aws.Option) error
-
 	DescribeSpotInstanceRequestsRequest(*ec2.DescribeSpotInstanceRequestsInput) ec2.DescribeSpotInstanceRequestsRequest
 
 	DescribeSpotPriceHistoryRequest(*ec2.DescribeSpotPriceHistoryInput) ec2.DescribeSpotPriceHistoryRequest
-
-	DescribeSpotPriceHistoryPages(*ec2.DescribeSpotPriceHistoryInput, func(*ec2.DescribeSpotPriceHistoryOutput, bool) bool) error
-	DescribeSpotPriceHistoryPagesWithContext(aws.Context, *ec2.DescribeSpotPriceHistoryInput, func(*ec2.DescribeSpotPriceHistoryOutput, bool) bool, ...aws.Option) error
 
 	DescribeStaleSecurityGroupsRequest(*ec2.DescribeStaleSecurityGroupsInput) ec2.DescribeStaleSecurityGroupsRequest
 
@@ -383,20 +399,11 @@ type EC2API interface {
 
 	DescribeTagsRequest(*ec2.DescribeTagsInput) ec2.DescribeTagsRequest
 
-	DescribeTagsPages(*ec2.DescribeTagsInput, func(*ec2.DescribeTagsOutput, bool) bool) error
-	DescribeTagsPagesWithContext(aws.Context, *ec2.DescribeTagsInput, func(*ec2.DescribeTagsOutput, bool) bool, ...aws.Option) error
-
 	DescribeVolumeAttributeRequest(*ec2.DescribeVolumeAttributeInput) ec2.DescribeVolumeAttributeRequest
 
 	DescribeVolumeStatusRequest(*ec2.DescribeVolumeStatusInput) ec2.DescribeVolumeStatusRequest
 
-	DescribeVolumeStatusPages(*ec2.DescribeVolumeStatusInput, func(*ec2.DescribeVolumeStatusOutput, bool) bool) error
-	DescribeVolumeStatusPagesWithContext(aws.Context, *ec2.DescribeVolumeStatusInput, func(*ec2.DescribeVolumeStatusOutput, bool) bool, ...aws.Option) error
-
 	DescribeVolumesRequest(*ec2.DescribeVolumesInput) ec2.DescribeVolumesRequest
-
-	DescribeVolumesPages(*ec2.DescribeVolumesInput, func(*ec2.DescribeVolumesOutput, bool) bool) error
-	DescribeVolumesPagesWithContext(aws.Context, *ec2.DescribeVolumesInput, func(*ec2.DescribeVolumesOutput, bool) bool, ...aws.Option) error
 
 	DescribeVolumesModificationsRequest(*ec2.DescribeVolumesModificationsInput) ec2.DescribeVolumesModificationsRequest
 
@@ -405,6 +412,14 @@ type EC2API interface {
 	DescribeVpcClassicLinkRequest(*ec2.DescribeVpcClassicLinkInput) ec2.DescribeVpcClassicLinkRequest
 
 	DescribeVpcClassicLinkDnsSupportRequest(*ec2.DescribeVpcClassicLinkDnsSupportInput) ec2.DescribeVpcClassicLinkDnsSupportRequest
+
+	DescribeVpcEndpointConnectionNotificationsRequest(*ec2.DescribeVpcEndpointConnectionNotificationsInput) ec2.DescribeVpcEndpointConnectionNotificationsRequest
+
+	DescribeVpcEndpointConnectionsRequest(*ec2.DescribeVpcEndpointConnectionsInput) ec2.DescribeVpcEndpointConnectionsRequest
+
+	DescribeVpcEndpointServiceConfigurationsRequest(*ec2.DescribeVpcEndpointServiceConfigurationsInput) ec2.DescribeVpcEndpointServiceConfigurationsRequest
+
+	DescribeVpcEndpointServicePermissionsRequest(*ec2.DescribeVpcEndpointServicePermissionsInput) ec2.DescribeVpcEndpointServicePermissionsRequest
 
 	DescribeVpcEndpointServicesRequest(*ec2.DescribeVpcEndpointServicesInput) ec2.DescribeVpcEndpointServicesRequest
 
@@ -458,6 +473,8 @@ type EC2API interface {
 
 	GetHostReservationPurchasePreviewRequest(*ec2.GetHostReservationPurchasePreviewInput) ec2.GetHostReservationPurchasePreviewRequest
 
+	GetLaunchTemplateDataRequest(*ec2.GetLaunchTemplateDataInput) ec2.GetLaunchTemplateDataRequest
+
 	GetPasswordDataRequest(*ec2.GetPasswordDataInput) ec2.GetPasswordDataRequest
 
 	GetReservedInstancesExchangeQuoteRequest(*ec2.GetReservedInstancesExchangeQuoteInput) ec2.GetReservedInstancesExchangeQuoteRequest
@@ -472,6 +489,8 @@ type EC2API interface {
 
 	ImportVolumeRequest(*ec2.ImportVolumeInput) ec2.ImportVolumeRequest
 
+	ModifyFleetRequest(*ec2.ModifyFleetInput) ec2.ModifyFleetRequest
+
 	ModifyFpgaImageAttributeRequest(*ec2.ModifyFpgaImageAttributeInput) ec2.ModifyFpgaImageAttributeRequest
 
 	ModifyHostsRequest(*ec2.ModifyHostsInput) ec2.ModifyHostsRequest
@@ -484,7 +503,11 @@ type EC2API interface {
 
 	ModifyInstanceAttributeRequest(*ec2.ModifyInstanceAttributeInput) ec2.ModifyInstanceAttributeRequest
 
+	ModifyInstanceCreditSpecificationRequest(*ec2.ModifyInstanceCreditSpecificationInput) ec2.ModifyInstanceCreditSpecificationRequest
+
 	ModifyInstancePlacementRequest(*ec2.ModifyInstancePlacementInput) ec2.ModifyInstancePlacementRequest
+
+	ModifyLaunchTemplateRequest(*ec2.ModifyLaunchTemplateInput) ec2.ModifyLaunchTemplateRequest
 
 	ModifyNetworkInterfaceAttributeRequest(*ec2.ModifyNetworkInterfaceAttributeInput) ec2.ModifyNetworkInterfaceAttributeRequest
 
@@ -504,7 +527,15 @@ type EC2API interface {
 
 	ModifyVpcEndpointRequest(*ec2.ModifyVpcEndpointInput) ec2.ModifyVpcEndpointRequest
 
+	ModifyVpcEndpointConnectionNotificationRequest(*ec2.ModifyVpcEndpointConnectionNotificationInput) ec2.ModifyVpcEndpointConnectionNotificationRequest
+
+	ModifyVpcEndpointServiceConfigurationRequest(*ec2.ModifyVpcEndpointServiceConfigurationInput) ec2.ModifyVpcEndpointServiceConfigurationRequest
+
+	ModifyVpcEndpointServicePermissionsRequest(*ec2.ModifyVpcEndpointServicePermissionsInput) ec2.ModifyVpcEndpointServicePermissionsRequest
+
 	ModifyVpcPeeringConnectionOptionsRequest(*ec2.ModifyVpcPeeringConnectionOptionsInput) ec2.ModifyVpcPeeringConnectionOptionsRequest
+
+	ModifyVpcTenancyRequest(*ec2.ModifyVpcTenancyInput) ec2.ModifyVpcTenancyRequest
 
 	MonitorInstancesRequest(*ec2.MonitorInstancesInput) ec2.MonitorInstancesRequest
 
@@ -519,6 +550,8 @@ type EC2API interface {
 	RebootInstancesRequest(*ec2.RebootInstancesInput) ec2.RebootInstancesRequest
 
 	RegisterImageRequest(*ec2.RegisterImageInput) ec2.RegisterImageRequest
+
+	RejectVpcEndpointConnectionsRequest(*ec2.RejectVpcEndpointConnectionsInput) ec2.RejectVpcEndpointConnectionsRequest
 
 	RejectVpcPeeringConnectionRequest(*ec2.RejectVpcPeeringConnectionInput) ec2.RejectVpcPeeringConnectionRequest
 

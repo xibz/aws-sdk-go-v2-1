@@ -37,14 +37,14 @@ func ExampleInspector_AddAttributesToFindingsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.AddAttributesToFindingsInput{
-		Attributes: []*inspector.Attribute{
+		Attributes: []inspector.Attribute{
 			{
 				Key:   aws.String("Example"),
 				Value: aws.String("example"),
 			},
 		},
-		FindingArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-8l1VIE0D/run/0-Z02cjjug/finding/0-T8yM9mEU"),
+		FindingArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-8l1VIE0D/run/0-Z02cjjug/finding/0-T8yM9mEU",
 		},
 	}
 
@@ -107,6 +107,8 @@ func ExampleInspector_CreateAssessmentTargetRequest_shared00() {
 				fmt.Println(inspector.ErrCodeAccessDeniedException, aerr.Error())
 			case inspector.ErrCodeNoSuchEntityException:
 				fmt.Println(inspector.ErrCodeNoSuchEntityException, aerr.Error())
+			case inspector.ErrCodeInvalidCrossAccountRoleException:
+				fmt.Println(inspector.ErrCodeInvalidCrossAccountRoleException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -136,10 +138,10 @@ func ExampleInspector_CreateAssessmentTemplateRequest_shared00() {
 		AssessmentTargetArn:    aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-nvgVhaxX"),
 		AssessmentTemplateName: aws.String("ExampleAssessmentTemplate"),
 		DurationInSeconds:      aws.Int64(180),
-		RulesPackageArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:758058086616:rulespackage/0-11B9DBXp"),
+		RulesPackageArns: []string{
+			"arn:aws:inspector:us-west-2:758058086616:rulespackage/0-11B9DBXp",
 		},
-		UserAttributesForFindings: []*inspector.Attribute{
+		UserAttributesForFindings: []inspector.Attribute{
 			{
 				Key:   aws.String("Example"),
 				Value: aws.String("example"),
@@ -190,7 +192,7 @@ func ExampleInspector_CreateResourceGroupRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.CreateResourceGroupInput{
-		ResourceGroupTags: []*inspector.ResourceGroupTag{
+		ResourceGroupTags: []inspector.ResourceGroupTag{
 			{
 				Key:   aws.String("Name"),
 				Value: aws.String("example"),
@@ -365,8 +367,8 @@ func ExampleInspector_DescribeAssessmentRunsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.DescribeAssessmentRunsInput{
-		AssessmentRunArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw/run/0-MKkpXXPE"),
+		AssessmentRunArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw/run/0-MKkpXXPE",
 		},
 	}
 
@@ -405,8 +407,8 @@ func ExampleInspector_DescribeAssessmentTargetsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.DescribeAssessmentTargetsInput{
-		AssessmentTargetArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq"),
+		AssessmentTargetArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq",
 		},
 	}
 
@@ -445,8 +447,8 @@ func ExampleInspector_DescribeAssessmentTemplatesRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.DescribeAssessmentTemplatesInput{
-		AssessmentTemplateArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw"),
+		AssessmentTemplateArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw",
 		},
 	}
 
@@ -517,8 +519,8 @@ func ExampleInspector_DescribeFindingsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.DescribeFindingsInput{
-		FindingArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw/run/0-MKkpXXPE/finding/0-HwPnsDm4"),
+		FindingArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw/run/0-MKkpXXPE/finding/0-HwPnsDm4",
 		},
 	}
 
@@ -556,8 +558,8 @@ func ExampleInspector_DescribeResourceGroupsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.DescribeResourceGroupsInput{
-		ResourceGroupArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:resourcegroup/0-PyGXopAI"),
+		ResourceGroupArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:resourcegroup/0-PyGXopAI",
 		},
 	}
 
@@ -595,8 +597,8 @@ func ExampleInspector_DescribeRulesPackagesRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.DescribeRulesPackagesInput{
-		RulesPackageArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:758058086616:rulespackage/0-JJOtZiqQ"),
+		RulesPackageArns: []string{
+			"arn:aws:inspector:us-west-2:758058086616:rulespackage/0-JJOtZiqQ",
 		},
 	}
 
@@ -719,8 +721,8 @@ func ExampleInspector_ListAssessmentRunsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.ListAssessmentRunsInput{
-		AssessmentTemplateArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw"),
+		AssessmentTemplateArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw",
 		},
 		MaxResults: aws.Int64(123),
 	}
@@ -803,8 +805,8 @@ func ExampleInspector_ListAssessmentTemplatesRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.ListAssessmentTemplatesInput{
-		AssessmentTargetArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq"),
+		AssessmentTargetArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq",
 		},
 		MaxResults: aws.Int64(123),
 	}
@@ -891,8 +893,8 @@ func ExampleInspector_ListFindingsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.ListFindingsInput{
-		AssessmentRunArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw/run/0-MKkpXXPE"),
+		AssessmentRunArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-4r1V2mAw/run/0-MKkpXXPE",
 		},
 		MaxResults: aws.Int64(123),
 	}
@@ -1103,11 +1105,11 @@ func ExampleInspector_RemoveAttributesFromFindingsRequest_shared00() {
 
 	svc := inspector.New(cfg)
 	input := &inspector.RemoveAttributesFromFindingsInput{
-		AttributeKeys: []*string{
-			aws.String("key=Example,value=example"),
+		AttributeKeys: []string{
+			"key=Example,value=example",
 		},
-		FindingArns: []*string{
-			aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-8l1VIE0D/run/0-Z02cjjug/finding/0-T8yM9mEU"),
+		FindingArns: []string{
+			"arn:aws:inspector:us-west-2:123456789012:target/0-0kFIPusq/template/0-8l1VIE0D/run/0-Z02cjjug/finding/0-T8yM9mEU",
 		},
 	}
 
@@ -1151,7 +1153,7 @@ func ExampleInspector_SetTagsForResourceRequest_shared00() {
 	svc := inspector.New(cfg)
 	input := &inspector.SetTagsForResourceInput{
 		ResourceArn: aws.String("arn:aws:inspector:us-west-2:123456789012:target/0-nvgVhaxX/template/0-7sbz2Kz0"),
-		Tags: []*inspector.Tag{
+		Tags: []inspector.Tag{
 			{
 				Key:   aws.String("Example"),
 				Value: aws.String("example"),

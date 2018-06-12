@@ -1,13 +1,17 @@
 package s3_test
 
 import (
+	"encoding/json"
 	"net/url"
+	"os"
+	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/aws/awserr"
-	"github.com/aws/aws-sdk-go-v2/aws/modeledendpoints"
+	"github.com/aws/aws-sdk-go-v2/aws/endpoints"
 	"github.com/aws/aws-sdk-go-v2/internal/awstesting/unit"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 )
@@ -63,15 +67,20 @@ func runTests(t *testing.T, svc *s3.S3, tests []s3BucketTest) {
 	for i, test := range tests {
 		req := svc.ListObjectsRequest(&s3.ListObjectsInput{Bucket: &test.bucket})
 		req.Build()
-		if e, a := test.url, req.HTTPRequest.URL.String(); e != a {
-			t.Errorf("%d, expect url %s, got %s", i, e, a)
-		}
+
 		if test.errCode != "" {
 			if err := req.Error; err == nil {
-				t.Fatalf("%d, expect no error", i)
+				t.Fatalf("%d, expect error, got none", i)
 			}
 			if a, e := req.Error.(awserr.Error).Code(), test.errCode; !strings.Contains(a, e) {
 				t.Errorf("%d, expect error code to contain %q, got %q", i, e, a)
+			}
+		} else {
+			if err := req.Error; err != nil {
+				t.Fatalf("%d, expect no error, got %v", i, err)
+			}
+			if e, a := test.url, req.HTTPRequest.URL.String(); e != a {
+				t.Errorf("%d, expect url %s, got %s", i, e, a)
 			}
 		}
 	}
@@ -79,38 +88,38 @@ func runTests(t *testing.T, svc *s3.S3, tests []s3BucketTest) {
 
 func TestAccelerateBucketBuild(t *testing.T) {
 	cfg := unit.Config()
-	cfg.S3UseAccelerate = true
-	cfg.EndpointResolver = modeledendpoints.NewDefaultResolver()
+	cfg.EndpointResolver = endpoints.NewDefaultResolver()
 
 	s := s3.New(cfg)
+	s.UseAccelerate = true
 	runTests(t, s, accelerateTests)
 }
 
 func TestAccelerateNoSSLBucketBuild(t *testing.T) {
 	cfg := unit.Config()
-	cfg.S3UseAccelerate = true
-	resolver := modeledendpoints.NewDefaultResolver()
+	resolver := endpoints.NewDefaultResolver()
 	resolver.DisableSSL = true
 	cfg.EndpointResolver = resolver
 
 	s := s3.New(cfg)
+	s.UseAccelerate = true
 	runTests(t, s, accelerateNoSSLTests)
 }
 
 func TestAccelerateDualstackBucketBuild(t *testing.T) {
 	cfg := unit.Config()
-	cfg.S3UseAccelerate = true
-	resolver := modeledendpoints.NewDefaultResolver()
+	resolver := endpoints.NewDefaultResolver()
 	resolver.UseDualStack = true
 	cfg.EndpointResolver = resolver
 
 	s := s3.New(cfg)
+	s.UseAccelerate = true
 	runTests(t, s, accelerateDualstack)
 }
 
 func TestHostStyleBucketBuild(t *testing.T) {
 	cfg := unit.Config()
-	cfg.EndpointResolver = modeledendpoints.NewDefaultResolver()
+	cfg.EndpointResolver = endpoints.NewDefaultResolver()
 
 	s := s3.New(cfg)
 	runTests(t, s, sslTests)
@@ -118,7 +127,7 @@ func TestHostStyleBucketBuild(t *testing.T) {
 
 func TestHostStyleBucketBuildNoSSL(t *testing.T) {
 	cfg := unit.Config()
-	resolver := modeledendpoints.NewDefaultResolver()
+	resolver := endpoints.NewDefaultResolver()
 	resolver.DisableSSL = true
 	cfg.EndpointResolver = resolver
 
@@ -128,16 +137,16 @@ func TestHostStyleBucketBuildNoSSL(t *testing.T) {
 
 func TestPathStyleBucketBuild(t *testing.T) {
 	cfg := unit.Config()
-	cfg.S3ForcePathStyle = true
-	cfg.EndpointResolver = modeledendpoints.NewDefaultResolver()
+	cfg.EndpointResolver = endpoints.NewDefaultResolver()
 
 	s := s3.New(cfg)
+	s.ForcePathStyle = true
 	runTests(t, s, forcepathTests)
 }
 
 func TestHostStyleBucketGetBucketLocation(t *testing.T) {
 	cfg := unit.Config()
-	cfg.EndpointResolver = modeledendpoints.NewDefaultResolver()
+	cfg.EndpointResolver = endpoints.NewDefaultResolver()
 
 	s := s3.New(cfg)
 	req := s.GetBucketLocationRequest(&s3.GetBucketLocationInput{
@@ -154,5 +163,58 @@ func TestHostStyleBucketGetBucketLocation(t *testing.T) {
 	}
 	if e, a := "bucket", u.Path; !strings.Contains(a, e) {
 		t.Errorf("expect %s to be in %s", e, a)
+	}
+}
+func TestVirtualHostStyleSuite(t *testing.T) {
+	f, err := os.Open(filepath.Join("testdata", "virtual_host.json"))
+	if err != nil {
+		t.Fatalf("expect no error, %v", err)
+	}
+
+	cases := []struct {
+		Bucket                    string
+		Region                    string
+		UseDualStack              bool
+		UseS3Accelerate           bool
+		ConfiguredAddressingStyle string
+
+		ExpectedURI string
+	}{}
+
+	decoder := json.NewDecoder(f)
+	if err := decoder.Decode(&cases); err != nil {
+		t.Fatalf("expect no error, %v", err)
+	}
+
+	const testPathStyle = "path"
+	for i, c := range cases {
+		t.Run(strconv.Itoa(i), func(t *testing.T) {
+			cfg := unit.Config()
+			resolver := endpoints.NewDefaultResolver()
+			resolver.UseDualStack = c.UseDualStack
+			cfg.EndpointResolver = resolver
+			cfg.Region = c.Region
+
+			svc := s3.New(cfg)
+			svc.ForcePathStyle = c.ConfiguredAddressingStyle == testPathStyle
+			svc.UseAccelerate = c.UseS3Accelerate
+
+			req := svc.HeadBucketRequest(&s3.HeadBucketInput{
+				Bucket: &c.Bucket,
+			})
+			req.Build()
+			if req.Error != nil {
+				t.Fatalf("expect no error, got %v", req.Error)
+			}
+
+			// Trim trailing '/' that are added by the SDK but not in the tests.
+			actualURI := strings.TrimRightFunc(
+				req.HTTPRequest.URL.String(),
+				func(r rune) bool { return r == '/' },
+			)
+			if e, a := c.ExpectedURI, actualURI; e != a {
+				t.Errorf("expect\n%s\nurl to be\n%s", e, a)
+			}
+		})
 	}
 }

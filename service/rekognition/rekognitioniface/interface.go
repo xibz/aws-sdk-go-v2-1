@@ -9,7 +9,6 @@
 package rekognitioniface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/rekognition"
 )
 
@@ -67,9 +66,15 @@ type RekognitionAPI interface {
 
 	CreateCollectionRequest(*rekognition.CreateCollectionInput) rekognition.CreateCollectionRequest
 
+	CreateStreamProcessorRequest(*rekognition.CreateStreamProcessorInput) rekognition.CreateStreamProcessorRequest
+
 	DeleteCollectionRequest(*rekognition.DeleteCollectionInput) rekognition.DeleteCollectionRequest
 
 	DeleteFacesRequest(*rekognition.DeleteFacesInput) rekognition.DeleteFacesRequest
+
+	DeleteStreamProcessorRequest(*rekognition.DeleteStreamProcessorInput) rekognition.DeleteStreamProcessorRequest
+
+	DescribeStreamProcessorRequest(*rekognition.DescribeStreamProcessorInput) rekognition.DescribeStreamProcessorRequest
 
 	DetectFacesRequest(*rekognition.DetectFacesInput) rekognition.DetectFacesRequest
 
@@ -77,25 +82,51 @@ type RekognitionAPI interface {
 
 	DetectModerationLabelsRequest(*rekognition.DetectModerationLabelsInput) rekognition.DetectModerationLabelsRequest
 
+	DetectTextRequest(*rekognition.DetectTextInput) rekognition.DetectTextRequest
+
 	GetCelebrityInfoRequest(*rekognition.GetCelebrityInfoInput) rekognition.GetCelebrityInfoRequest
+
+	GetCelebrityRecognitionRequest(*rekognition.GetCelebrityRecognitionInput) rekognition.GetCelebrityRecognitionRequest
+
+	GetContentModerationRequest(*rekognition.GetContentModerationInput) rekognition.GetContentModerationRequest
+
+	GetFaceDetectionRequest(*rekognition.GetFaceDetectionInput) rekognition.GetFaceDetectionRequest
+
+	GetFaceSearchRequest(*rekognition.GetFaceSearchInput) rekognition.GetFaceSearchRequest
+
+	GetLabelDetectionRequest(*rekognition.GetLabelDetectionInput) rekognition.GetLabelDetectionRequest
+
+	GetPersonTrackingRequest(*rekognition.GetPersonTrackingInput) rekognition.GetPersonTrackingRequest
 
 	IndexFacesRequest(*rekognition.IndexFacesInput) rekognition.IndexFacesRequest
 
 	ListCollectionsRequest(*rekognition.ListCollectionsInput) rekognition.ListCollectionsRequest
 
-	ListCollectionsPages(*rekognition.ListCollectionsInput, func(*rekognition.ListCollectionsOutput, bool) bool) error
-	ListCollectionsPagesWithContext(aws.Context, *rekognition.ListCollectionsInput, func(*rekognition.ListCollectionsOutput, bool) bool, ...aws.Option) error
-
 	ListFacesRequest(*rekognition.ListFacesInput) rekognition.ListFacesRequest
 
-	ListFacesPages(*rekognition.ListFacesInput, func(*rekognition.ListFacesOutput, bool) bool) error
-	ListFacesPagesWithContext(aws.Context, *rekognition.ListFacesInput, func(*rekognition.ListFacesOutput, bool) bool, ...aws.Option) error
+	ListStreamProcessorsRequest(*rekognition.ListStreamProcessorsInput) rekognition.ListStreamProcessorsRequest
 
 	RecognizeCelebritiesRequest(*rekognition.RecognizeCelebritiesInput) rekognition.RecognizeCelebritiesRequest
 
 	SearchFacesRequest(*rekognition.SearchFacesInput) rekognition.SearchFacesRequest
 
 	SearchFacesByImageRequest(*rekognition.SearchFacesByImageInput) rekognition.SearchFacesByImageRequest
+
+	StartCelebrityRecognitionRequest(*rekognition.StartCelebrityRecognitionInput) rekognition.StartCelebrityRecognitionRequest
+
+	StartContentModerationRequest(*rekognition.StartContentModerationInput) rekognition.StartContentModerationRequest
+
+	StartFaceDetectionRequest(*rekognition.StartFaceDetectionInput) rekognition.StartFaceDetectionRequest
+
+	StartFaceSearchRequest(*rekognition.StartFaceSearchInput) rekognition.StartFaceSearchRequest
+
+	StartLabelDetectionRequest(*rekognition.StartLabelDetectionInput) rekognition.StartLabelDetectionRequest
+
+	StartPersonTrackingRequest(*rekognition.StartPersonTrackingInput) rekognition.StartPersonTrackingRequest
+
+	StartStreamProcessorRequest(*rekognition.StartStreamProcessorInput) rekognition.StartStreamProcessorRequest
+
+	StopStreamProcessorRequest(*rekognition.StopStreamProcessorInput) rekognition.StopStreamProcessorRequest
 }
 
 var _ RekognitionAPI = (*rekognition.Rekognition)(nil)

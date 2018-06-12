@@ -17,6 +17,7 @@ const opPutEvents = "PutEvents"
 type PutEventsRequest struct {
 	*aws.Request
 	Input *PutEventsInput
+	Copy  func(*PutEventsInput) PutEventsRequest
 }
 
 // Send marshals and sends the PutEvents API request.
@@ -53,10 +54,13 @@ func (c *MobileAnalytics) PutEventsRequest(input *PutEventsInput) PutEventsReque
 		input = &PutEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutEventsOutput{})
+	output := &PutEventsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutEventsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutEventsRequest{Request: req, Input: input, Copy: c.PutEventsRequest}
 }
 
 // A JSON object representing a batch of unique event occurrences in your app.
@@ -67,7 +71,7 @@ type Event struct {
 	// The key-value pairs are specified by the developer.
 	//
 	// This collection can be empty or the attribute object can be omitted.
-	Attributes map[string]*string `locationName:"attributes" type:"map"`
+	Attributes map[string]string `locationName:"attributes" type:"map"`
 
 	// A name signifying an event that occurred in your app. This is used for grouping
 	// and aggregating like events together for reporting purposes.
@@ -79,7 +83,7 @@ type Event struct {
 	// to the event. The key-value pairs are specified by the developer.
 	//
 	// This collection can be empty or the attribute object can be omitted.
-	Metrics map[string]*float64 `locationName:"metrics" type:"map"`
+	Metrics map[string]float64 `locationName:"metrics" type:"map"`
 
 	// The session the event occured within.
 	Session *Session `locationName:"session" type:"structure"`
@@ -133,40 +137,57 @@ func (s *Event) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *Event) SetAttributes(v map[string]*string) *Event {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Event) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetEventType sets the EventType field's value.
-func (s *Event) SetEventType(v string) *Event {
-	s.EventType = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "attributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetMetrics sets the Metrics field's value.
-func (s *Event) SetMetrics(v map[string]*float64) *Event {
-	s.Metrics = v
-	return s
-}
+	}
+	if s.EventType != nil {
+		v := *s.EventType
 
-// SetSession sets the Session field's value.
-func (s *Event) SetSession(v *Session) *Event {
-	s.Session = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "eventType", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Metrics) > 0 {
+		v := s.Metrics
 
-// SetTimestamp sets the Timestamp field's value.
-func (s *Event) SetTimestamp(v string) *Event {
-	s.Timestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "metrics", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.Float64Value(v1))
+		}
+		ms0.End()
 
-// SetVersion sets the Version field's value.
-func (s *Event) SetVersion(v string) *Event {
-	s.Version = &v
-	return s
+	}
+	if s.Session != nil {
+		v := s.Session
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "session", v, metadata)
+	}
+	if s.Timestamp != nil {
+		v := *s.Timestamp
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "timestamp", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A container for the data needed for a PutEvent operation
@@ -185,7 +206,7 @@ type PutEventsInput struct {
 	// An array of Event JSON objects
 	//
 	// Events is a required field
-	Events []*Event `locationName:"events" type:"list" required:"true"`
+	Events []Event `locationName:"events" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -211,9 +232,6 @@ func (s *PutEventsInput) Validate() error {
 	}
 	if s.Events != nil {
 		for i, v := range s.Events {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Events", i), err.(aws.ErrInvalidParams))
 			}
@@ -226,26 +244,40 @@ func (s *PutEventsInput) Validate() error {
 	return nil
 }
 
-// SetClientContext sets the ClientContext field's value.
-func (s *PutEventsInput) SetClientContext(v string) *PutEventsInput {
-	s.ClientContext = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutEventsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetClientContextEncoding sets the ClientContextEncoding field's value.
-func (s *PutEventsInput) SetClientContextEncoding(v string) *PutEventsInput {
-	s.ClientContextEncoding = &v
-	return s
-}
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetEvents sets the Events field's value.
-func (s *PutEventsInput) SetEvents(v []*Event) *PutEventsInput {
-	s.Events = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "events", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ClientContext != nil {
+		v := *s.ClientContext
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-Client-Context", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ClientContextEncoding != nil {
+		v := *s.ClientContextEncoding
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-Client-Context-Encoding", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 type PutEventsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -256,6 +288,16 @@ func (s PutEventsOutput) String() string {
 // GoString returns the string representation
 func (s PutEventsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutEventsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Describes the session. Session information is required on ALL events.
@@ -300,26 +342,31 @@ func (s *Session) Validate() error {
 	return nil
 }
 
-// SetDuration sets the Duration field's value.
-func (s *Session) SetDuration(v int64) *Session {
-	s.Duration = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Session) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Duration != nil {
+		v := *s.Duration
 
-// SetId sets the Id field's value.
-func (s *Session) SetId(v string) *Session {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "duration", protocol.Int64Value(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetStartTimestamp sets the StartTimestamp field's value.
-func (s *Session) SetStartTimestamp(v string) *Session {
-	s.StartTimestamp = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StartTimestamp != nil {
+		v := *s.StartTimestamp
 
-// SetStopTimestamp sets the StopTimestamp field's value.
-func (s *Session) SetStopTimestamp(v string) *Session {
-	s.StopTimestamp = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "startTimestamp", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StopTimestamp != nil {
+		v := *s.StopTimestamp
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "stopTimestamp", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }

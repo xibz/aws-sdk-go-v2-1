@@ -79,6 +79,8 @@ type S3API interface {
 
 	DeleteBucketCorsRequest(*s3.DeleteBucketCorsInput) s3.DeleteBucketCorsRequest
 
+	DeleteBucketEncryptionRequest(*s3.DeleteBucketEncryptionInput) s3.DeleteBucketEncryptionRequest
+
 	DeleteBucketInventoryConfigurationRequest(*s3.DeleteBucketInventoryConfigurationInput) s3.DeleteBucketInventoryConfigurationRequest
 
 	DeleteBucketLifecycleRequest(*s3.DeleteBucketLifecycleInput) s3.DeleteBucketLifecycleRequest
@@ -106,6 +108,8 @@ type S3API interface {
 	GetBucketAnalyticsConfigurationRequest(*s3.GetBucketAnalyticsConfigurationInput) s3.GetBucketAnalyticsConfigurationRequest
 
 	GetBucketCorsRequest(*s3.GetBucketCorsInput) s3.GetBucketCorsRequest
+
+	GetBucketEncryptionRequest(*s3.GetBucketEncryptionInput) s3.GetBucketEncryptionRequest
 
 	GetBucketInventoryConfigurationRequest(*s3.GetBucketInventoryConfigurationInput) s3.GetBucketInventoryConfigurationRequest
 
@@ -157,28 +161,13 @@ type S3API interface {
 
 	ListMultipartUploadsRequest(*s3.ListMultipartUploadsInput) s3.ListMultipartUploadsRequest
 
-	ListMultipartUploadsPages(*s3.ListMultipartUploadsInput, func(*s3.ListMultipartUploadsOutput, bool) bool) error
-	ListMultipartUploadsPagesWithContext(aws.Context, *s3.ListMultipartUploadsInput, func(*s3.ListMultipartUploadsOutput, bool) bool, ...aws.Option) error
-
 	ListObjectVersionsRequest(*s3.ListObjectVersionsInput) s3.ListObjectVersionsRequest
-
-	ListObjectVersionsPages(*s3.ListObjectVersionsInput, func(*s3.ListObjectVersionsOutput, bool) bool) error
-	ListObjectVersionsPagesWithContext(aws.Context, *s3.ListObjectVersionsInput, func(*s3.ListObjectVersionsOutput, bool) bool, ...aws.Option) error
 
 	ListObjectsRequest(*s3.ListObjectsInput) s3.ListObjectsRequest
 
-	ListObjectsPages(*s3.ListObjectsInput, func(*s3.ListObjectsOutput, bool) bool) error
-	ListObjectsPagesWithContext(aws.Context, *s3.ListObjectsInput, func(*s3.ListObjectsOutput, bool) bool, ...aws.Option) error
-
 	ListObjectsV2Request(*s3.ListObjectsV2Input) s3.ListObjectsV2Request
 
-	ListObjectsV2Pages(*s3.ListObjectsV2Input, func(*s3.ListObjectsV2Output, bool) bool) error
-	ListObjectsV2PagesWithContext(aws.Context, *s3.ListObjectsV2Input, func(*s3.ListObjectsV2Output, bool) bool, ...aws.Option) error
-
 	ListPartsRequest(*s3.ListPartsInput) s3.ListPartsRequest
-
-	ListPartsPages(*s3.ListPartsInput, func(*s3.ListPartsOutput, bool) bool) error
-	ListPartsPagesWithContext(aws.Context, *s3.ListPartsInput, func(*s3.ListPartsOutput, bool) bool, ...aws.Option) error
 
 	PutBucketAccelerateConfigurationRequest(*s3.PutBucketAccelerateConfigurationInput) s3.PutBucketAccelerateConfigurationRequest
 
@@ -187,6 +176,8 @@ type S3API interface {
 	PutBucketAnalyticsConfigurationRequest(*s3.PutBucketAnalyticsConfigurationInput) s3.PutBucketAnalyticsConfigurationRequest
 
 	PutBucketCorsRequest(*s3.PutBucketCorsInput) s3.PutBucketCorsRequest
+
+	PutBucketEncryptionRequest(*s3.PutBucketEncryptionInput) s3.PutBucketEncryptionRequest
 
 	PutBucketInventoryConfigurationRequest(*s3.PutBucketInventoryConfigurationInput) s3.PutBucketInventoryConfigurationRequest
 

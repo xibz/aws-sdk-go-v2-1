@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/aws/signer/v4"
 	"github.com/aws/aws-sdk-go-v2/internal/awsutil"
+	"github.com/aws/aws-sdk-go-v2/private/protocol"
 )
 
 const opPostContent = "PostContent"
@@ -16,6 +17,7 @@ const opPostContent = "PostContent"
 type PostContentRequest struct {
 	*aws.Request
 	Input *PostContentInput
+	Copy  func(*PostContentInput) PostContentRequest
 }
 
 // Send marshals and sends the PostContent API request.
@@ -106,11 +108,14 @@ func (c *LexRuntimeService) PostContentRequest(input *PostContentInput) PostCont
 		input = &PostContentInput{}
 	}
 
-	req := c.newRequest(op, input, &PostContentOutput{})
+	output := &PostContentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
 	req.Handlers.Sign.Remove(v4.SignRequestHandler)
 	handler := v4.BuildNamedHandler("v4.CustomSignerHandler", v4.WithUnsignedPayload)
 	req.Handlers.Sign.PushFrontNamed(handler)
-	return PostContentRequest{Request: req, Input: input}
+	return PostContentRequest{Request: req, Input: input, Copy: c.PostContentRequest}
 }
 
 const opPostText = "PostText"
@@ -119,6 +124,7 @@ const opPostText = "PostText"
 type PostTextRequest struct {
 	*aws.Request
 	Input *PostTextInput
+	Copy  func(*PostTextInput) PostTextRequest
 }
 
 // Send marshals and sends the PostText API request.
@@ -203,8 +209,11 @@ func (c *LexRuntimeService) PostTextRequest(input *PostTextInput) PostTextReques
 		input = &PostTextInput{}
 	}
 
-	req := c.newRequest(op, input, &PostTextOutput{})
-	return PostTextRequest{Request: req, Input: input}
+	output := &PostTextOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PostTextRequest{Request: req, Input: input, Copy: c.PostTextRequest}
 }
 
 // Represents an option to be shown on the client platform (Facebook, Slack,
@@ -236,16 +245,21 @@ func (s Button) GoString() string {
 	return s.String()
 }
 
-// SetText sets the Text field's value.
-func (s *Button) SetText(v string) *Button {
-	s.Text = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Button) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Text != nil {
+		v := *s.Text
 
-// SetValue sets the Value field's value.
-func (s *Button) SetValue(v string) *Button {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "text", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "value", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents an option rendered to the user when a prompt is shown. It could
@@ -258,7 +272,7 @@ type GenericAttachment struct {
 	AttachmentLinkUrl *string `locationName:"attachmentLinkUrl" min:"1" type:"string"`
 
 	// The list of options to show to the user.
-	Buttons []*Button `locationName:"buttons" type:"list"`
+	Buttons []Button `locationName:"buttons" type:"list"`
 
 	// The URL of an image that is displayed to the user.
 	ImageUrl *string `locationName:"imageUrl" min:"1" type:"string"`
@@ -280,34 +294,45 @@ func (s GenericAttachment) GoString() string {
 	return s.String()
 }
 
-// SetAttachmentLinkUrl sets the AttachmentLinkUrl field's value.
-func (s *GenericAttachment) SetAttachmentLinkUrl(v string) *GenericAttachment {
-	s.AttachmentLinkUrl = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GenericAttachment) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttachmentLinkUrl != nil {
+		v := *s.AttachmentLinkUrl
 
-// SetButtons sets the Buttons field's value.
-func (s *GenericAttachment) SetButtons(v []*Button) *GenericAttachment {
-	s.Buttons = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "attachmentLinkUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Buttons) > 0 {
+		v := s.Buttons
 
-// SetImageUrl sets the ImageUrl field's value.
-func (s *GenericAttachment) SetImageUrl(v string) *GenericAttachment {
-	s.ImageUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "buttons", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSubTitle sets the SubTitle field's value.
-func (s *GenericAttachment) SetSubTitle(v string) *GenericAttachment {
-	s.SubTitle = &v
-	return s
-}
+	}
+	if s.ImageUrl != nil {
+		v := *s.ImageUrl
 
-// SetTitle sets the Title field's value.
-func (s *GenericAttachment) SetTitle(v string) *GenericAttachment {
-	s.Title = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "imageUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SubTitle != nil {
+		v := *s.SubTitle
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "subTitle", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/runtime.lex-2016-11-28/PostContentRequest
@@ -479,57 +504,65 @@ func (s *PostContentInput) Validate() error {
 	return nil
 }
 
-// SetAccept sets the Accept field's value.
-func (s *PostContentInput) SetAccept(v string) *PostContentInput {
-	s.Accept = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PostContentInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *PostContentInput) SetBotAlias(v string) *PostContentInput {
-	s.BotAlias = &v
-	return s
-}
+	if s.Accept != nil {
+		v := *s.Accept
 
-// SetBotName sets the BotName field's value.
-func (s *PostContentInput) SetBotName(v string) *PostContentInput {
-	s.BotName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Accept", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetContentType sets the ContentType field's value.
-func (s *PostContentInput) SetContentType(v string) *PostContentInput {
-	s.ContentType = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RequestAttributes != nil {
+		v := s.RequestAttributes
 
-// SetInputStream sets the InputStream field's value.
-func (s *PostContentInput) SetInputStream(v io.ReadSeeker) *PostContentInput {
-	s.InputStream = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-request-attributes", protocol.JSONValue{V: v, EscapeMode: protocol.Base64Escape}, metadata)
+	}
+	if s.SessionAttributes != nil {
+		v := s.SessionAttributes
 
-// SetRequestAttributes sets the RequestAttributes field's value.
-func (s *PostContentInput) SetRequestAttributes(v aws.JSONValue) *PostContentInput {
-	s.RequestAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-session-attributes", protocol.JSONValue{V: v, EscapeMode: protocol.Base64Escape}, metadata)
+	}
+	if s.BotAlias != nil {
+		v := *s.BotAlias
 
-// SetSessionAttributes sets the SessionAttributes field's value.
-func (s *PostContentInput) SetSessionAttributes(v aws.JSONValue) *PostContentInput {
-	s.SessionAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botAlias", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotName != nil {
+		v := *s.BotName
 
-// SetUserId sets the UserId field's value.
-func (s *PostContentInput) SetUserId(v string) *PostContentInput {
-	s.UserId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "userId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.InputStream != nil {
+		v := s.InputStream
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "inputStream", protocol.ReadSeekerStream{V: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/runtime.lex-2016-11-28/PostContentResponse
 type PostContentOutput struct {
 	_ struct{} `type:"structure" payload:"AudioStream"`
+
+	responseMetadata aws.Response
 
 	// The prompt (or statement) to convey to the user. This is based on the bot
 	// configuration and context. For example, if Amazon Lex did not understand
@@ -584,7 +617,7 @@ type PostContentOutput struct {
 	//    an appropriate response to prompts from the service (you can configure
 	//    how many times Amazon Lex can prompt a user for specific information),
 	//    or if the Lambda function fails to fulfill the intent.
-	DialogState DialogState `location:"header" locationName:"x-amz-lex-dialog-state" type:"string"`
+	DialogState DialogState `location:"header" locationName:"x-amz-lex-dialog-state" type:"string" enum:"true"`
 
 	// The text used to process the request.
 	//
@@ -597,19 +630,38 @@ type PostContentOutput struct {
 	// Current user intent that Amazon Lex is aware of.
 	IntentName *string `location:"header" locationName:"x-amz-lex-intent-name" type:"string"`
 
-	// Message to convey to the user. It can come from the bot's configuration or
-	// a code hook (Lambda function). If the current intent is not configured with
-	// a code hook or if the code hook returned Delegate as the dialogAction.type
-	// in its response, then Amazon Lex decides the next course of action and selects
-	// an appropriate message from the bot configuration based on the current user
-	// interaction context. For example, if Amazon Lex is not able to understand
-	// the user input, it uses a clarification prompt message (For more information,
-	// see the Error Handling section in the Amazon Lex console). Another example:
-	// if the intent requires confirmation before fulfillment, then Amazon Lex uses
-	// the confirmation prompt message in the intent configuration. If the code
-	// hook returns a message, Amazon Lex passes it as-is in its response to the
-	// client.
+	// The message to convey to the user. The message can come from the bot's configuration
+	// or from a Lambda function.
+	//
+	// If the intent is not configured with a Lambda function, or if the Lambda
+	// function returned Delegate as the dialogAction.type its response, Amazon
+	// Lex decides on the next course of action and selects an appropriate message
+	// from the bot's configuration based on the current interaction context. For
+	// example, if Amazon Lex isn't able to understand user input, it uses a clarification
+	// prompt message.
+	//
+	// When you create an intent you can assign messages to groups. When messages
+	// are assigned to groups Amazon Lex returns one message from each group in
+	// the response. The message field is an escaped JSON string containing the
+	// messages. For more information about the structure of the JSON string returned,
+	// see msg-prompts-formats.
+	//
+	// If the Lambda function returns a message, Amazon Lex passes it to the client
+	// in its response.
 	Message *string `location:"header" locationName:"x-amz-lex-message" min:"1" type:"string"`
+
+	// The format of the response message. One of the following values:
+	//
+	//    * PlainText - The message contains plain UTF-8 text.
+	//
+	//    * CustomPayload - The message is a custom format for the client.
+	//
+	//    * SSML - The message contains text formatted for voice output.
+	//
+	//    * Composite - The message contains an escaped JSON object containing one
+	//    or more messages from the groups that messages were assigned to when the
+	//    intent was created.
+	MessageFormat MessageFormatType `location:"header" locationName:"x-amz-lex-message-format" type:"string" enum:"true"`
 
 	// Map of key/value pairs representing the session-specific context information.
 	SessionAttributes aws.JSONValue `location:"header" locationName:"x-amz-lex-session-attributes" type:"jsonvalue"`
@@ -642,58 +694,69 @@ func (s PostContentOutput) GoString() string {
 	return s.String()
 }
 
-// SetAudioStream sets the AudioStream field's value.
-func (s *PostContentOutput) SetAudioStream(v io.ReadCloser) *PostContentOutput {
-	s.AudioStream = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PostContentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetContentType sets the ContentType field's value.
-func (s *PostContentOutput) SetContentType(v string) *PostContentOutput {
-	s.ContentType = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PostContentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetDialogState sets the DialogState field's value.
-func (s *PostContentOutput) SetDialogState(v DialogState) *PostContentOutput {
-	s.DialogState = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.DialogState) > 0 {
+		v := s.DialogState
 
-// SetInputTranscript sets the InputTranscript field's value.
-func (s *PostContentOutput) SetInputTranscript(v string) *PostContentOutput {
-	s.InputTranscript = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-dialog-state", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.InputTranscript != nil {
+		v := *s.InputTranscript
 
-// SetIntentName sets the IntentName field's value.
-func (s *PostContentOutput) SetIntentName(v string) *PostContentOutput {
-	s.IntentName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-input-transcript", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IntentName != nil {
+		v := *s.IntentName
 
-// SetMessage sets the Message field's value.
-func (s *PostContentOutput) SetMessage(v string) *PostContentOutput {
-	s.Message = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-intent-name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Message != nil {
+		v := *s.Message
 
-// SetSessionAttributes sets the SessionAttributes field's value.
-func (s *PostContentOutput) SetSessionAttributes(v aws.JSONValue) *PostContentOutput {
-	s.SessionAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-message", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.MessageFormat) > 0 {
+		v := s.MessageFormat
 
-// SetSlotToElicit sets the SlotToElicit field's value.
-func (s *PostContentOutput) SetSlotToElicit(v string) *PostContentOutput {
-	s.SlotToElicit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-message-format", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SessionAttributes != nil {
+		v := s.SessionAttributes
 
-// SetSlots sets the Slots field's value.
-func (s *PostContentOutput) SetSlots(v aws.JSONValue) *PostContentOutput {
-	s.Slots = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-session-attributes", protocol.JSONValue{V: v, EscapeMode: protocol.Base64Escape}, metadata)
+	}
+	if s.SlotToElicit != nil {
+		v := *s.SlotToElicit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-slot-to-elicit", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Slots != nil {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-lex-slots", protocol.JSONValue{V: v, EscapeMode: protocol.Base64Escape}, metadata)
+	}
+	// Skipping AudioStream Output type's body not valid.
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/runtime.lex-2016-11-28/PostTextRequest
@@ -721,12 +784,12 @@ type PostTextInput struct {
 	// any request attributes with the prefix x-amz-lex:.
 	//
 	// For more information, see Setting Request Attributes (http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-request-attribs).
-	RequestAttributes map[string]*string `locationName:"requestAttributes" type:"map"`
+	RequestAttributes map[string]string `locationName:"requestAttributes" type:"map"`
 
 	// Application-specific information passed between Amazon Lex and a client application.
 	//
 	// For more information, see Setting Session Attributes (http://docs.aws.amazon.com/lex/latest/dg/context-mgmt.html#context-mgmt-session-attribs).
-	SessionAttributes map[string]*string `locationName:"sessionAttributes" type:"map"`
+	SessionAttributes map[string]string `locationName:"sessionAttributes" type:"map"`
 
 	// The ID of the client application user. Amazon Lex uses this to identify a
 	// user's conversation with your bot. At runtime, each request must contain
@@ -798,45 +861,66 @@ func (s *PostTextInput) Validate() error {
 	return nil
 }
 
-// SetBotAlias sets the BotAlias field's value.
-func (s *PostTextInput) SetBotAlias(v string) *PostTextInput {
-	s.BotAlias = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PostTextInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetBotName sets the BotName field's value.
-func (s *PostTextInput) SetBotName(v string) *PostTextInput {
-	s.BotName = &v
-	return s
-}
+	if s.InputText != nil {
+		v := *s.InputText
 
-// SetInputText sets the InputText field's value.
-func (s *PostTextInput) SetInputText(v string) *PostTextInput {
-	s.InputText = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "inputText", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.RequestAttributes) > 0 {
+		v := s.RequestAttributes
 
-// SetRequestAttributes sets the RequestAttributes field's value.
-func (s *PostTextInput) SetRequestAttributes(v map[string]*string) *PostTextInput {
-	s.RequestAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "requestAttributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetSessionAttributes sets the SessionAttributes field's value.
-func (s *PostTextInput) SetSessionAttributes(v map[string]*string) *PostTextInput {
-	s.SessionAttributes = v
-	return s
-}
+	}
+	if len(s.SessionAttributes) > 0 {
+		v := s.SessionAttributes
 
-// SetUserId sets the UserId field's value.
-func (s *PostTextInput) SetUserId(v string) *PostTextInput {
-	s.UserId = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "sessionAttributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.BotAlias != nil {
+		v := *s.BotAlias
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botAlias", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.BotName != nil {
+		v := *s.BotName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "botName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserId != nil {
+		v := *s.UserId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "userId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/runtime.lex-2016-11-28/PostTextResponse
 type PostTextOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Identifies the current state of the user interaction. Amazon Lex returns
 	// one of the following values as dialogState. The client can optionally use
@@ -880,24 +964,44 @@ type PostTextOutput struct {
 	//    an appropriate response to prompts from the service (you can configure
 	//    how many times Amazon Lex can prompt a user for specific information),
 	//    or the Lambda function failed to fulfill the intent.
-	DialogState DialogState `locationName:"dialogState" type:"string"`
+	DialogState DialogState `locationName:"dialogState" type:"string" enum:"true"`
 
 	// The current user intent that Amazon Lex is aware of.
 	IntentName *string `locationName:"intentName" type:"string"`
 
-	// A message to convey to the user. It can come from the bot's configuration
-	// or a code hook (Lambda function). If the current intent is not configured
-	// with a code hook or the code hook returned Delegate as the dialogAction.type
-	// in its response, then Amazon Lex decides the next course of action and selects
-	// an appropriate message from the bot configuration based on the current user
-	// interaction context. For example, if Amazon Lex is not able to understand
-	// the user input, it uses a clarification prompt message (for more information,
-	// see the Error Handling section in the Amazon Lex console). Another example:
-	// if the intent requires confirmation before fulfillment, then Amazon Lex uses
-	// the confirmation prompt message in the intent configuration. If the code
-	// hook returns a message, Amazon Lex passes it as-is in its response to the
-	// client.
+	// The message to convey to the user. The message can come from the bot's configuration
+	// or from a Lambda function.
+	//
+	// If the intent is not configured with a Lambda function, or if the Lambda
+	// function returned Delegate as the dialogAction.type its response, Amazon
+	// Lex decides on the next course of action and selects an appropriate message
+	// from the bot's configuration based on the current interaction context. For
+	// example, if Amazon Lex isn't able to understand user input, it uses a clarification
+	// prompt message.
+	//
+	// When you create an intent you can assign messages to groups. When messages
+	// are assigned to groups Amazon Lex returns one message from each group in
+	// the response. The message field is an escaped JSON string containing the
+	// messages. For more information about the structure of the JSON string returned,
+	// see msg-prompts-formats.
+	//
+	// If the Lambda function returns a message, Amazon Lex passes it to the client
+	// in its response.
 	Message *string `locationName:"message" min:"1" type:"string"`
+
+	// The format of the response message. One of the following values:
+	//
+	//    * PlainText - The message contains plain UTF-8 text.
+	//
+	//    * CustomPayload - The message is a custom format defined by the Lambda
+	//    function.
+	//
+	//    * SSML - The message contains text formatted for voice output.
+	//
+	//    * Composite - The message contains an escaped JSON object containing one
+	//    or more messages from the groups that messages were assigned to when the
+	//    intent was created.
+	MessageFormat MessageFormatType `locationName:"messageFormat" type:"string" enum:"true"`
 
 	// Represents the options that the user has to respond to the current prompt.
 	// Response Card can come from the bot configuration (in the Amazon Lex console,
@@ -905,7 +1009,7 @@ type PostTextOutput struct {
 	ResponseCard *ResponseCard `locationName:"responseCard" type:"structure"`
 
 	// A map of key-value pairs representing the session-specific context information.
-	SessionAttributes map[string]*string `locationName:"sessionAttributes" type:"map"`
+	SessionAttributes map[string]string `locationName:"sessionAttributes" type:"map"`
 
 	// If the dialogState value is ElicitSlot, returns the name of the slot for
 	// which Amazon Lex is eliciting a value.
@@ -921,7 +1025,7 @@ type PostTextOutput struct {
 	// TOP_RESOLUTION Amazon Lex returns the first value in the resolution list
 	// or, if there is no resolution list, null. If you don't specify a valueSelectionStrategy,
 	// the default is ORIGINAL_VALUE.
-	Slots map[string]*string `locationName:"slots" type:"map"`
+	Slots map[string]string `locationName:"slots" type:"map"`
 }
 
 // String returns the string representation
@@ -934,46 +1038,74 @@ func (s PostTextOutput) GoString() string {
 	return s.String()
 }
 
-// SetDialogState sets the DialogState field's value.
-func (s *PostTextOutput) SetDialogState(v DialogState) *PostTextOutput {
-	s.DialogState = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PostTextOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetIntentName sets the IntentName field's value.
-func (s *PostTextOutput) SetIntentName(v string) *PostTextOutput {
-	s.IntentName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PostTextOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DialogState) > 0 {
+		v := s.DialogState
 
-// SetMessage sets the Message field's value.
-func (s *PostTextOutput) SetMessage(v string) *PostTextOutput {
-	s.Message = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "dialogState", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.IntentName != nil {
+		v := *s.IntentName
 
-// SetResponseCard sets the ResponseCard field's value.
-func (s *PostTextOutput) SetResponseCard(v *ResponseCard) *PostTextOutput {
-	s.ResponseCard = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "intentName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Message != nil {
+		v := *s.Message
 
-// SetSessionAttributes sets the SessionAttributes field's value.
-func (s *PostTextOutput) SetSessionAttributes(v map[string]*string) *PostTextOutput {
-	s.SessionAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "message", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.MessageFormat) > 0 {
+		v := s.MessageFormat
 
-// SetSlotToElicit sets the SlotToElicit field's value.
-func (s *PostTextOutput) SetSlotToElicit(v string) *PostTextOutput {
-	s.SlotToElicit = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "messageFormat", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.ResponseCard != nil {
+		v := s.ResponseCard
 
-// SetSlots sets the Slots field's value.
-func (s *PostTextOutput) SetSlots(v map[string]*string) *PostTextOutput {
-	s.Slots = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "responseCard", v, metadata)
+	}
+	if len(s.SessionAttributes) > 0 {
+		v := s.SessionAttributes
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "sessionAttributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.SlotToElicit != nil {
+		v := *s.SlotToElicit
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "slotToElicit", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Slots) > 0 {
+		v := s.Slots
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "slots", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // If you configure a response card when creating your bots, Amazon Lex substitutes
@@ -985,10 +1117,10 @@ type ResponseCard struct {
 	_ struct{} `type:"structure"`
 
 	// The content type of the response.
-	ContentType ContentType `locationName:"contentType" type:"string"`
+	ContentType ContentType `locationName:"contentType" type:"string" enum:"true"`
 
 	// An array of attachment objects representing options.
-	GenericAttachments []*GenericAttachment `locationName:"genericAttachments" type:"list"`
+	GenericAttachments []GenericAttachment `locationName:"genericAttachments" type:"list"`
 
 	// The version of the response card format.
 	Version *string `locationName:"version" type:"string"`
@@ -1004,22 +1136,33 @@ func (s ResponseCard) GoString() string {
 	return s.String()
 }
 
-// SetContentType sets the ContentType field's value.
-func (s *ResponseCard) SetContentType(v ContentType) *ResponseCard {
-	s.ContentType = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ResponseCard) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ContentType) > 0 {
+		v := s.ContentType
 
-// SetGenericAttachments sets the GenericAttachments field's value.
-func (s *ResponseCard) SetGenericAttachments(v []*GenericAttachment) *ResponseCard {
-	s.GenericAttachments = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "contentType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.GenericAttachments) > 0 {
+		v := s.GenericAttachments
 
-// SetVersion sets the Version field's value.
-func (s *ResponseCard) SetVersion(v string) *ResponseCard {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "genericAttachments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 type ContentType string
@@ -1028,6 +1171,15 @@ type ContentType string
 const (
 	ContentTypeApplicationVndAmazonawsCardGeneric ContentType = "application/vnd.amazonaws.card.generic"
 )
+
+func (enum ContentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ContentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DialogState string
 
@@ -1040,3 +1192,31 @@ const (
 	DialogStateReadyForFulfillment DialogState = "ReadyForFulfillment"
 	DialogStateFailed              DialogState = "Failed"
 )
+
+func (enum DialogState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DialogState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type MessageFormatType string
+
+// Enum values for MessageFormatType
+const (
+	MessageFormatTypePlainText     MessageFormatType = "PlainText"
+	MessageFormatTypeCustomPayload MessageFormatType = "CustomPayload"
+	MessageFormatTypeSsml          MessageFormatType = "SSML"
+	MessageFormatTypeComposite     MessageFormatType = "Composite"
+)
+
+func (enum MessageFormatType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MessageFormatType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

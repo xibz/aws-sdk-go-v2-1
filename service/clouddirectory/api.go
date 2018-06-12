@@ -18,6 +18,7 @@ const opAddFacetToObject = "AddFacetToObject"
 type AddFacetToObjectRequest struct {
 	*aws.Request
 	Input *AddFacetToObjectInput
+	Copy  func(*AddFacetToObjectInput) AddFacetToObjectRequest
 }
 
 // Send marshals and sends the AddFacetToObject API request.
@@ -33,7 +34,8 @@ func (r AddFacetToObjectRequest) Send() (*AddFacetToObjectOutput, error) {
 // AddFacetToObjectRequest returns a request value for making API operation for
 // Amazon CloudDirectory.
 //
-// Adds a new Facet to an object.
+// Adds a new Facet to an object. An object can have more than one facet applied
+// on it.
 //
 //    // Example sending a request using the AddFacetToObjectRequest method.
 //    req := client.AddFacetToObjectRequest(params)
@@ -54,8 +56,11 @@ func (c *CloudDirectory) AddFacetToObjectRequest(input *AddFacetToObjectInput) A
 		input = &AddFacetToObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &AddFacetToObjectOutput{})
-	return AddFacetToObjectRequest{Request: req, Input: input}
+	output := &AddFacetToObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddFacetToObjectRequest{Request: req, Input: input, Copy: c.AddFacetToObjectRequest}
 }
 
 const opApplySchema = "ApplySchema"
@@ -64,6 +69,7 @@ const opApplySchema = "ApplySchema"
 type ApplySchemaRequest struct {
 	*aws.Request
 	Input *ApplySchemaInput
+	Copy  func(*ApplySchemaInput) ApplySchemaRequest
 }
 
 // Send marshals and sends the ApplySchema API request.
@@ -79,8 +85,8 @@ func (r ApplySchemaRequest) Send() (*ApplySchemaOutput, error) {
 // ApplySchemaRequest returns a request value for making API operation for
 // Amazon CloudDirectory.
 //
-// Copies the input published schema into the Directory with the same name and
-// version as that of the published schema .
+// Copies the input published schema, at the specified version, into the Directory
+// with the same name and version as that of the published schema.
 //
 //    // Example sending a request using the ApplySchemaRequest method.
 //    req := client.ApplySchemaRequest(params)
@@ -101,8 +107,11 @@ func (c *CloudDirectory) ApplySchemaRequest(input *ApplySchemaInput) ApplySchema
 		input = &ApplySchemaInput{}
 	}
 
-	req := c.newRequest(op, input, &ApplySchemaOutput{})
-	return ApplySchemaRequest{Request: req, Input: input}
+	output := &ApplySchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ApplySchemaRequest{Request: req, Input: input, Copy: c.ApplySchemaRequest}
 }
 
 const opAttachObject = "AttachObject"
@@ -111,6 +120,7 @@ const opAttachObject = "AttachObject"
 type AttachObjectRequest struct {
 	*aws.Request
 	Input *AttachObjectInput
+	Copy  func(*AttachObjectInput) AttachObjectRequest
 }
 
 // Send marshals and sends the AttachObject API request.
@@ -152,8 +162,11 @@ func (c *CloudDirectory) AttachObjectRequest(input *AttachObjectInput) AttachObj
 		input = &AttachObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachObjectOutput{})
-	return AttachObjectRequest{Request: req, Input: input}
+	output := &AttachObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachObjectRequest{Request: req, Input: input, Copy: c.AttachObjectRequest}
 }
 
 const opAttachPolicy = "AttachPolicy"
@@ -162,6 +175,7 @@ const opAttachPolicy = "AttachPolicy"
 type AttachPolicyRequest struct {
 	*aws.Request
 	Input *AttachPolicyInput
+	Copy  func(*AttachPolicyInput) AttachPolicyRequest
 }
 
 // Send marshals and sends the AttachPolicy API request.
@@ -199,8 +213,11 @@ func (c *CloudDirectory) AttachPolicyRequest(input *AttachPolicyInput) AttachPol
 		input = &AttachPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachPolicyOutput{})
-	return AttachPolicyRequest{Request: req, Input: input}
+	output := &AttachPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachPolicyRequest{Request: req, Input: input, Copy: c.AttachPolicyRequest}
 }
 
 const opAttachToIndex = "AttachToIndex"
@@ -209,6 +226,7 @@ const opAttachToIndex = "AttachToIndex"
 type AttachToIndexRequest struct {
 	*aws.Request
 	Input *AttachToIndexInput
+	Copy  func(*AttachToIndexInput) AttachToIndexRequest
 }
 
 // Send marshals and sends the AttachToIndex API request.
@@ -245,8 +263,11 @@ func (c *CloudDirectory) AttachToIndexRequest(input *AttachToIndexInput) AttachT
 		input = &AttachToIndexInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachToIndexOutput{})
-	return AttachToIndexRequest{Request: req, Input: input}
+	output := &AttachToIndexOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachToIndexRequest{Request: req, Input: input, Copy: c.AttachToIndexRequest}
 }
 
 const opAttachTypedLink = "AttachTypedLink"
@@ -255,6 +276,7 @@ const opAttachTypedLink = "AttachTypedLink"
 type AttachTypedLinkRequest struct {
 	*aws.Request
 	Input *AttachTypedLinkInput
+	Copy  func(*AttachTypedLinkInput) AttachTypedLinkRequest
 }
 
 // Send marshals and sends the AttachTypedLink API request.
@@ -292,8 +314,11 @@ func (c *CloudDirectory) AttachTypedLinkRequest(input *AttachTypedLinkInput) Att
 		input = &AttachTypedLinkInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachTypedLinkOutput{})
-	return AttachTypedLinkRequest{Request: req, Input: input}
+	output := &AttachTypedLinkOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachTypedLinkRequest{Request: req, Input: input, Copy: c.AttachTypedLinkRequest}
 }
 
 const opBatchRead = "BatchRead"
@@ -302,6 +327,7 @@ const opBatchRead = "BatchRead"
 type BatchReadRequest struct {
 	*aws.Request
 	Input *BatchReadInput
+	Copy  func(*BatchReadInput) BatchReadRequest
 }
 
 // Send marshals and sends the BatchRead API request.
@@ -338,8 +364,11 @@ func (c *CloudDirectory) BatchReadRequest(input *BatchReadInput) BatchReadReques
 		input = &BatchReadInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchReadOutput{})
-	return BatchReadRequest{Request: req, Input: input}
+	output := &BatchReadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchReadRequest{Request: req, Input: input, Copy: c.BatchReadRequest}
 }
 
 const opBatchWrite = "BatchWrite"
@@ -348,6 +377,7 @@ const opBatchWrite = "BatchWrite"
 type BatchWriteRequest struct {
 	*aws.Request
 	Input *BatchWriteInput
+	Copy  func(*BatchWriteInput) BatchWriteRequest
 }
 
 // Send marshals and sends the BatchWrite API request.
@@ -364,7 +394,7 @@ func (r BatchWriteRequest) Send() (*BatchWriteOutput, error) {
 // Amazon CloudDirectory.
 //
 // Performs all the write operations in a batch. Either all the operations succeed
-// or none. Batch writes supports only object-related operations.
+// or none.
 //
 //    // Example sending a request using the BatchWriteRequest method.
 //    req := client.BatchWriteRequest(params)
@@ -385,8 +415,11 @@ func (c *CloudDirectory) BatchWriteRequest(input *BatchWriteInput) BatchWriteReq
 		input = &BatchWriteInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchWriteOutput{})
-	return BatchWriteRequest{Request: req, Input: input}
+	output := &BatchWriteOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchWriteRequest{Request: req, Input: input, Copy: c.BatchWriteRequest}
 }
 
 const opCreateDirectory = "CreateDirectory"
@@ -395,6 +428,7 @@ const opCreateDirectory = "CreateDirectory"
 type CreateDirectoryRequest struct {
 	*aws.Request
 	Input *CreateDirectoryInput
+	Copy  func(*CreateDirectoryInput) CreateDirectoryRequest
 }
 
 // Send marshals and sends the CreateDirectory API request.
@@ -432,8 +466,11 @@ func (c *CloudDirectory) CreateDirectoryRequest(input *CreateDirectoryInput) Cre
 		input = &CreateDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDirectoryOutput{})
-	return CreateDirectoryRequest{Request: req, Input: input}
+	output := &CreateDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDirectoryRequest{Request: req, Input: input, Copy: c.CreateDirectoryRequest}
 }
 
 const opCreateFacet = "CreateFacet"
@@ -442,6 +479,7 @@ const opCreateFacet = "CreateFacet"
 type CreateFacetRequest struct {
 	*aws.Request
 	Input *CreateFacetInput
+	Copy  func(*CreateFacetInput) CreateFacetRequest
 }
 
 // Send marshals and sends the CreateFacet API request.
@@ -479,8 +517,11 @@ func (c *CloudDirectory) CreateFacetRequest(input *CreateFacetInput) CreateFacet
 		input = &CreateFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateFacetOutput{})
-	return CreateFacetRequest{Request: req, Input: input}
+	output := &CreateFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateFacetRequest{Request: req, Input: input, Copy: c.CreateFacetRequest}
 }
 
 const opCreateIndex = "CreateIndex"
@@ -489,6 +530,7 @@ const opCreateIndex = "CreateIndex"
 type CreateIndexRequest struct {
 	*aws.Request
 	Input *CreateIndexInput
+	Copy  func(*CreateIndexInput) CreateIndexRequest
 }
 
 // Send marshals and sends the CreateIndex API request.
@@ -526,8 +568,11 @@ func (c *CloudDirectory) CreateIndexRequest(input *CreateIndexInput) CreateIndex
 		input = &CreateIndexInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateIndexOutput{})
-	return CreateIndexRequest{Request: req, Input: input}
+	output := &CreateIndexOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateIndexRequest{Request: req, Input: input, Copy: c.CreateIndexRequest}
 }
 
 const opCreateObject = "CreateObject"
@@ -536,6 +581,7 @@ const opCreateObject = "CreateObject"
 type CreateObjectRequest struct {
 	*aws.Request
 	Input *CreateObjectInput
+	Copy  func(*CreateObjectInput) CreateObjectRequest
 }
 
 // Send marshals and sends the CreateObject API request.
@@ -575,8 +621,11 @@ func (c *CloudDirectory) CreateObjectRequest(input *CreateObjectInput) CreateObj
 		input = &CreateObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateObjectOutput{})
-	return CreateObjectRequest{Request: req, Input: input}
+	output := &CreateObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateObjectRequest{Request: req, Input: input, Copy: c.CreateObjectRequest}
 }
 
 const opCreateSchema = "CreateSchema"
@@ -585,6 +634,7 @@ const opCreateSchema = "CreateSchema"
 type CreateSchemaRequest struct {
 	*aws.Request
 	Input *CreateSchemaInput
+	Copy  func(*CreateSchemaInput) CreateSchemaRequest
 }
 
 // Send marshals and sends the CreateSchema API request.
@@ -633,8 +683,11 @@ func (c *CloudDirectory) CreateSchemaRequest(input *CreateSchemaInput) CreateSch
 		input = &CreateSchemaInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSchemaOutput{})
-	return CreateSchemaRequest{Request: req, Input: input}
+	output := &CreateSchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSchemaRequest{Request: req, Input: input, Copy: c.CreateSchemaRequest}
 }
 
 const opCreateTypedLinkFacet = "CreateTypedLinkFacet"
@@ -643,6 +696,7 @@ const opCreateTypedLinkFacet = "CreateTypedLinkFacet"
 type CreateTypedLinkFacetRequest struct {
 	*aws.Request
 	Input *CreateTypedLinkFacetInput
+	Copy  func(*CreateTypedLinkFacetInput) CreateTypedLinkFacetRequest
 }
 
 // Send marshals and sends the CreateTypedLinkFacet API request.
@@ -679,8 +733,11 @@ func (c *CloudDirectory) CreateTypedLinkFacetRequest(input *CreateTypedLinkFacet
 		input = &CreateTypedLinkFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateTypedLinkFacetOutput{})
-	return CreateTypedLinkFacetRequest{Request: req, Input: input}
+	output := &CreateTypedLinkFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateTypedLinkFacetRequest{Request: req, Input: input, Copy: c.CreateTypedLinkFacetRequest}
 }
 
 const opDeleteDirectory = "DeleteDirectory"
@@ -689,6 +746,7 @@ const opDeleteDirectory = "DeleteDirectory"
 type DeleteDirectoryRequest struct {
 	*aws.Request
 	Input *DeleteDirectoryInput
+	Copy  func(*DeleteDirectoryInput) DeleteDirectoryRequest
 }
 
 // Send marshals and sends the DeleteDirectory API request.
@@ -726,8 +784,11 @@ func (c *CloudDirectory) DeleteDirectoryRequest(input *DeleteDirectoryInput) Del
 		input = &DeleteDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDirectoryOutput{})
-	return DeleteDirectoryRequest{Request: req, Input: input}
+	output := &DeleteDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDirectoryRequest{Request: req, Input: input, Copy: c.DeleteDirectoryRequest}
 }
 
 const opDeleteFacet = "DeleteFacet"
@@ -736,6 +797,7 @@ const opDeleteFacet = "DeleteFacet"
 type DeleteFacetRequest struct {
 	*aws.Request
 	Input *DeleteFacetInput
+	Copy  func(*DeleteFacetInput) DeleteFacetRequest
 }
 
 // Send marshals and sends the DeleteFacet API request.
@@ -773,8 +835,11 @@ func (c *CloudDirectory) DeleteFacetRequest(input *DeleteFacetInput) DeleteFacet
 		input = &DeleteFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteFacetOutput{})
-	return DeleteFacetRequest{Request: req, Input: input}
+	output := &DeleteFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteFacetRequest{Request: req, Input: input, Copy: c.DeleteFacetRequest}
 }
 
 const opDeleteObject = "DeleteObject"
@@ -783,6 +848,7 @@ const opDeleteObject = "DeleteObject"
 type DeleteObjectRequest struct {
 	*aws.Request
 	Input *DeleteObjectInput
+	Copy  func(*DeleteObjectInput) DeleteObjectRequest
 }
 
 // Send marshals and sends the DeleteObject API request.
@@ -820,8 +886,11 @@ func (c *CloudDirectory) DeleteObjectRequest(input *DeleteObjectInput) DeleteObj
 		input = &DeleteObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteObjectOutput{})
-	return DeleteObjectRequest{Request: req, Input: input}
+	output := &DeleteObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteObjectRequest{Request: req, Input: input, Copy: c.DeleteObjectRequest}
 }
 
 const opDeleteSchema = "DeleteSchema"
@@ -830,6 +899,7 @@ const opDeleteSchema = "DeleteSchema"
 type DeleteSchemaRequest struct {
 	*aws.Request
 	Input *DeleteSchemaInput
+	Copy  func(*DeleteSchemaInput) DeleteSchemaRequest
 }
 
 // Send marshals and sends the DeleteSchema API request.
@@ -867,8 +937,11 @@ func (c *CloudDirectory) DeleteSchemaRequest(input *DeleteSchemaInput) DeleteSch
 		input = &DeleteSchemaInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSchemaOutput{})
-	return DeleteSchemaRequest{Request: req, Input: input}
+	output := &DeleteSchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSchemaRequest{Request: req, Input: input, Copy: c.DeleteSchemaRequest}
 }
 
 const opDeleteTypedLinkFacet = "DeleteTypedLinkFacet"
@@ -877,6 +950,7 @@ const opDeleteTypedLinkFacet = "DeleteTypedLinkFacet"
 type DeleteTypedLinkFacetRequest struct {
 	*aws.Request
 	Input *DeleteTypedLinkFacetInput
+	Copy  func(*DeleteTypedLinkFacetInput) DeleteTypedLinkFacetRequest
 }
 
 // Send marshals and sends the DeleteTypedLinkFacet API request.
@@ -913,8 +987,11 @@ func (c *CloudDirectory) DeleteTypedLinkFacetRequest(input *DeleteTypedLinkFacet
 		input = &DeleteTypedLinkFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTypedLinkFacetOutput{})
-	return DeleteTypedLinkFacetRequest{Request: req, Input: input}
+	output := &DeleteTypedLinkFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTypedLinkFacetRequest{Request: req, Input: input, Copy: c.DeleteTypedLinkFacetRequest}
 }
 
 const opDetachFromIndex = "DetachFromIndex"
@@ -923,6 +1000,7 @@ const opDetachFromIndex = "DetachFromIndex"
 type DetachFromIndexRequest struct {
 	*aws.Request
 	Input *DetachFromIndexInput
+	Copy  func(*DetachFromIndexInput) DetachFromIndexRequest
 }
 
 // Send marshals and sends the DetachFromIndex API request.
@@ -959,8 +1037,11 @@ func (c *CloudDirectory) DetachFromIndexRequest(input *DetachFromIndexInput) Det
 		input = &DetachFromIndexInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachFromIndexOutput{})
-	return DetachFromIndexRequest{Request: req, Input: input}
+	output := &DetachFromIndexOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachFromIndexRequest{Request: req, Input: input, Copy: c.DetachFromIndexRequest}
 }
 
 const opDetachObject = "DetachObject"
@@ -969,6 +1050,7 @@ const opDetachObject = "DetachObject"
 type DetachObjectRequest struct {
 	*aws.Request
 	Input *DetachObjectInput
+	Copy  func(*DetachObjectInput) DetachObjectRequest
 }
 
 // Send marshals and sends the DetachObject API request.
@@ -1006,8 +1088,11 @@ func (c *CloudDirectory) DetachObjectRequest(input *DetachObjectInput) DetachObj
 		input = &DetachObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachObjectOutput{})
-	return DetachObjectRequest{Request: req, Input: input}
+	output := &DetachObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachObjectRequest{Request: req, Input: input, Copy: c.DetachObjectRequest}
 }
 
 const opDetachPolicy = "DetachPolicy"
@@ -1016,6 +1101,7 @@ const opDetachPolicy = "DetachPolicy"
 type DetachPolicyRequest struct {
 	*aws.Request
 	Input *DetachPolicyInput
+	Copy  func(*DetachPolicyInput) DetachPolicyRequest
 }
 
 // Send marshals and sends the DetachPolicy API request.
@@ -1052,8 +1138,11 @@ func (c *CloudDirectory) DetachPolicyRequest(input *DetachPolicyInput) DetachPol
 		input = &DetachPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachPolicyOutput{})
-	return DetachPolicyRequest{Request: req, Input: input}
+	output := &DetachPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachPolicyRequest{Request: req, Input: input, Copy: c.DetachPolicyRequest}
 }
 
 const opDetachTypedLink = "DetachTypedLink"
@@ -1062,6 +1151,7 @@ const opDetachTypedLink = "DetachTypedLink"
 type DetachTypedLinkRequest struct {
 	*aws.Request
 	Input *DetachTypedLinkInput
+	Copy  func(*DetachTypedLinkInput) DetachTypedLinkRequest
 }
 
 // Send marshals and sends the DetachTypedLink API request.
@@ -1099,10 +1189,13 @@ func (c *CloudDirectory) DetachTypedLinkRequest(input *DetachTypedLinkInput) Det
 		input = &DetachTypedLinkInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachTypedLinkOutput{})
+	output := &DetachTypedLinkOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DetachTypedLinkRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachTypedLinkRequest{Request: req, Input: input, Copy: c.DetachTypedLinkRequest}
 }
 
 const opDisableDirectory = "DisableDirectory"
@@ -1111,6 +1204,7 @@ const opDisableDirectory = "DisableDirectory"
 type DisableDirectoryRequest struct {
 	*aws.Request
 	Input *DisableDirectoryInput
+	Copy  func(*DisableDirectoryInput) DisableDirectoryRequest
 }
 
 // Send marshals and sends the DisableDirectory API request.
@@ -1149,8 +1243,11 @@ func (c *CloudDirectory) DisableDirectoryRequest(input *DisableDirectoryInput) D
 		input = &DisableDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableDirectoryOutput{})
-	return DisableDirectoryRequest{Request: req, Input: input}
+	output := &DisableDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableDirectoryRequest{Request: req, Input: input, Copy: c.DisableDirectoryRequest}
 }
 
 const opEnableDirectory = "EnableDirectory"
@@ -1159,6 +1256,7 @@ const opEnableDirectory = "EnableDirectory"
 type EnableDirectoryRequest struct {
 	*aws.Request
 	Input *EnableDirectoryInput
+	Copy  func(*EnableDirectoryInput) EnableDirectoryRequest
 }
 
 // Send marshals and sends the EnableDirectory API request.
@@ -1196,8 +1294,62 @@ func (c *CloudDirectory) EnableDirectoryRequest(input *EnableDirectoryInput) Ena
 		input = &EnableDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableDirectoryOutput{})
-	return EnableDirectoryRequest{Request: req, Input: input}
+	output := &EnableDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableDirectoryRequest{Request: req, Input: input, Copy: c.EnableDirectoryRequest}
+}
+
+const opGetAppliedSchemaVersion = "GetAppliedSchemaVersion"
+
+// GetAppliedSchemaVersionRequest is a API request type for the GetAppliedSchemaVersion API operation.
+type GetAppliedSchemaVersionRequest struct {
+	*aws.Request
+	Input *GetAppliedSchemaVersionInput
+	Copy  func(*GetAppliedSchemaVersionInput) GetAppliedSchemaVersionRequest
+}
+
+// Send marshals and sends the GetAppliedSchemaVersion API request.
+func (r GetAppliedSchemaVersionRequest) Send() (*GetAppliedSchemaVersionOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetAppliedSchemaVersionOutput), nil
+}
+
+// GetAppliedSchemaVersionRequest returns a request value for making API operation for
+// Amazon CloudDirectory.
+//
+// Returns current applied schema version ARN, including the minor version in
+// use.
+//
+//    // Example sending a request using the GetAppliedSchemaVersionRequest method.
+//    req := client.GetAppliedSchemaVersionRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetAppliedSchemaVersion
+func (c *CloudDirectory) GetAppliedSchemaVersionRequest(input *GetAppliedSchemaVersionInput) GetAppliedSchemaVersionRequest {
+	op := &aws.Operation{
+		Name:       opGetAppliedSchemaVersion,
+		HTTPMethod: "POST",
+		HTTPPath:   "/amazonclouddirectory/2017-01-11/schema/getappliedschema",
+	}
+
+	if input == nil {
+		input = &GetAppliedSchemaVersionInput{}
+	}
+
+	output := &GetAppliedSchemaVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAppliedSchemaVersionRequest{Request: req, Input: input, Copy: c.GetAppliedSchemaVersionRequest}
 }
 
 const opGetDirectory = "GetDirectory"
@@ -1206,6 +1358,7 @@ const opGetDirectory = "GetDirectory"
 type GetDirectoryRequest struct {
 	*aws.Request
 	Input *GetDirectoryInput
+	Copy  func(*GetDirectoryInput) GetDirectoryRequest
 }
 
 // Send marshals and sends the GetDirectory API request.
@@ -1242,8 +1395,11 @@ func (c *CloudDirectory) GetDirectoryRequest(input *GetDirectoryInput) GetDirect
 		input = &GetDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDirectoryOutput{})
-	return GetDirectoryRequest{Request: req, Input: input}
+	output := &GetDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDirectoryRequest{Request: req, Input: input, Copy: c.GetDirectoryRequest}
 }
 
 const opGetFacet = "GetFacet"
@@ -1252,6 +1408,7 @@ const opGetFacet = "GetFacet"
 type GetFacetRequest struct {
 	*aws.Request
 	Input *GetFacetInput
+	Copy  func(*GetFacetInput) GetFacetRequest
 }
 
 // Send marshals and sends the GetFacet API request.
@@ -1290,8 +1447,61 @@ func (c *CloudDirectory) GetFacetRequest(input *GetFacetInput) GetFacetRequest {
 		input = &GetFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &GetFacetOutput{})
-	return GetFacetRequest{Request: req, Input: input}
+	output := &GetFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFacetRequest{Request: req, Input: input, Copy: c.GetFacetRequest}
+}
+
+const opGetObjectAttributes = "GetObjectAttributes"
+
+// GetObjectAttributesRequest is a API request type for the GetObjectAttributes API operation.
+type GetObjectAttributesRequest struct {
+	*aws.Request
+	Input *GetObjectAttributesInput
+	Copy  func(*GetObjectAttributesInput) GetObjectAttributesRequest
+}
+
+// Send marshals and sends the GetObjectAttributes API request.
+func (r GetObjectAttributesRequest) Send() (*GetObjectAttributesOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetObjectAttributesOutput), nil
+}
+
+// GetObjectAttributesRequest returns a request value for making API operation for
+// Amazon CloudDirectory.
+//
+// Retrieves attributes within a facet that are associated with an object.
+//
+//    // Example sending a request using the GetObjectAttributesRequest method.
+//    req := client.GetObjectAttributesRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectAttributes
+func (c *CloudDirectory) GetObjectAttributesRequest(input *GetObjectAttributesInput) GetObjectAttributesRequest {
+	op := &aws.Operation{
+		Name:       opGetObjectAttributes,
+		HTTPMethod: "POST",
+		HTTPPath:   "/amazonclouddirectory/2017-01-11/object/attributes/get",
+	}
+
+	if input == nil {
+		input = &GetObjectAttributesInput{}
+	}
+
+	output := &GetObjectAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetObjectAttributesRequest{Request: req, Input: input, Copy: c.GetObjectAttributesRequest}
 }
 
 const opGetObjectInformation = "GetObjectInformation"
@@ -1300,6 +1510,7 @@ const opGetObjectInformation = "GetObjectInformation"
 type GetObjectInformationRequest struct {
 	*aws.Request
 	Input *GetObjectInformationInput
+	Copy  func(*GetObjectInformationInput) GetObjectInformationRequest
 }
 
 // Send marshals and sends the GetObjectInformation API request.
@@ -1336,8 +1547,11 @@ func (c *CloudDirectory) GetObjectInformationRequest(input *GetObjectInformation
 		input = &GetObjectInformationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetObjectInformationOutput{})
-	return GetObjectInformationRequest{Request: req, Input: input}
+	output := &GetObjectInformationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetObjectInformationRequest{Request: req, Input: input, Copy: c.GetObjectInformationRequest}
 }
 
 const opGetSchemaAsJson = "GetSchemaAsJson"
@@ -1346,6 +1560,7 @@ const opGetSchemaAsJson = "GetSchemaAsJson"
 type GetSchemaAsJsonRequest struct {
 	*aws.Request
 	Input *GetSchemaAsJsonInput
+	Copy  func(*GetSchemaAsJsonInput) GetSchemaAsJsonRequest
 }
 
 // Send marshals and sends the GetSchemaAsJson API request.
@@ -1383,8 +1598,11 @@ func (c *CloudDirectory) GetSchemaAsJsonRequest(input *GetSchemaAsJsonInput) Get
 		input = &GetSchemaAsJsonInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSchemaAsJsonOutput{})
-	return GetSchemaAsJsonRequest{Request: req, Input: input}
+	output := &GetSchemaAsJsonOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSchemaAsJsonRequest{Request: req, Input: input, Copy: c.GetSchemaAsJsonRequest}
 }
 
 const opGetTypedLinkFacetInformation = "GetTypedLinkFacetInformation"
@@ -1393,6 +1611,7 @@ const opGetTypedLinkFacetInformation = "GetTypedLinkFacetInformation"
 type GetTypedLinkFacetInformationRequest struct {
 	*aws.Request
 	Input *GetTypedLinkFacetInformationInput
+	Copy  func(*GetTypedLinkFacetInformationInput) GetTypedLinkFacetInformationRequest
 }
 
 // Send marshals and sends the GetTypedLinkFacetInformation API request.
@@ -1430,8 +1649,11 @@ func (c *CloudDirectory) GetTypedLinkFacetInformationRequest(input *GetTypedLink
 		input = &GetTypedLinkFacetInformationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTypedLinkFacetInformationOutput{})
-	return GetTypedLinkFacetInformationRequest{Request: req, Input: input}
+	output := &GetTypedLinkFacetInformationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTypedLinkFacetInformationRequest{Request: req, Input: input, Copy: c.GetTypedLinkFacetInformationRequest}
 }
 
 const opListAppliedSchemaArns = "ListAppliedSchemaArns"
@@ -1440,6 +1662,7 @@ const opListAppliedSchemaArns = "ListAppliedSchemaArns"
 type ListAppliedSchemaArnsRequest struct {
 	*aws.Request
 	Input *ListAppliedSchemaArnsInput
+	Copy  func(*ListAppliedSchemaArnsInput) ListAppliedSchemaArnsRequest
 }
 
 // Send marshals and sends the ListAppliedSchemaArns API request.
@@ -1455,7 +1678,8 @@ func (r ListAppliedSchemaArnsRequest) Send() (*ListAppliedSchemaArnsOutput, erro
 // ListAppliedSchemaArnsRequest returns a request value for making API operation for
 // Amazon CloudDirectory.
 //
-// Lists schemas applied to a directory.
+// Lists schema major versions applied to a directory. If SchemaArn is provided,
+// lists the minor version.
 //
 //    // Example sending a request using the ListAppliedSchemaArnsRequest method.
 //    req := client.ListAppliedSchemaArnsRequest(params)
@@ -1482,58 +1706,57 @@ func (c *CloudDirectory) ListAppliedSchemaArnsRequest(input *ListAppliedSchemaAr
 		input = &ListAppliedSchemaArnsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAppliedSchemaArnsOutput{})
-	return ListAppliedSchemaArnsRequest{Request: req, Input: input}
+	output := &ListAppliedSchemaArnsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAppliedSchemaArnsRequest{Request: req, Input: input, Copy: c.ListAppliedSchemaArnsRequest}
 }
 
-// ListAppliedSchemaArnsPages iterates over the pages of a ListAppliedSchemaArns operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAppliedSchemaArns method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAppliedSchemaArnsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAppliedSchemaArns operation.
-//    pageNum := 0
-//    err := client.ListAppliedSchemaArnsPages(params,
-//        func(page *ListAppliedSchemaArnsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAppliedSchemaArnsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListAppliedSchemaArnsPages(input *ListAppliedSchemaArnsInput, fn func(*ListAppliedSchemaArnsOutput, bool) bool) error {
-	return c.ListAppliedSchemaArnsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAppliedSchemaArnsRequest) Paginate(opts ...aws.Option) ListAppliedSchemaArnsPager {
+	return ListAppliedSchemaArnsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAppliedSchemaArnsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAppliedSchemaArnsPagesWithContext same as ListAppliedSchemaArnsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListAppliedSchemaArnsPagesWithContext(ctx aws.Context, input *ListAppliedSchemaArnsInput, fn func(*ListAppliedSchemaArnsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAppliedSchemaArnsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAppliedSchemaArnsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAppliedSchemaArnsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAppliedSchemaArnsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAppliedSchemaArnsPager struct {
+	aws.Pager
+}
+
+func (p *ListAppliedSchemaArnsPager) CurrentPage() *ListAppliedSchemaArnsOutput {
+	return p.Pager.CurrentPage().(*ListAppliedSchemaArnsOutput)
 }
 
 const opListAttachedIndices = "ListAttachedIndices"
@@ -1542,6 +1765,7 @@ const opListAttachedIndices = "ListAttachedIndices"
 type ListAttachedIndicesRequest struct {
 	*aws.Request
 	Input *ListAttachedIndicesInput
+	Copy  func(*ListAttachedIndicesInput) ListAttachedIndicesRequest
 }
 
 // Send marshals and sends the ListAttachedIndices API request.
@@ -1557,7 +1781,7 @@ func (r ListAttachedIndicesRequest) Send() (*ListAttachedIndicesOutput, error) {
 // ListAttachedIndicesRequest returns a request value for making API operation for
 // Amazon CloudDirectory.
 //
-// Lists indices attached to an object.
+// Lists indices attached to the specified object.
 //
 //    // Example sending a request using the ListAttachedIndicesRequest method.
 //    req := client.ListAttachedIndicesRequest(params)
@@ -1584,58 +1808,57 @@ func (c *CloudDirectory) ListAttachedIndicesRequest(input *ListAttachedIndicesIn
 		input = &ListAttachedIndicesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAttachedIndicesOutput{})
-	return ListAttachedIndicesRequest{Request: req, Input: input}
+	output := &ListAttachedIndicesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAttachedIndicesRequest{Request: req, Input: input, Copy: c.ListAttachedIndicesRequest}
 }
 
-// ListAttachedIndicesPages iterates over the pages of a ListAttachedIndices operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAttachedIndices method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAttachedIndicesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAttachedIndices operation.
-//    pageNum := 0
-//    err := client.ListAttachedIndicesPages(params,
-//        func(page *ListAttachedIndicesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAttachedIndicesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListAttachedIndicesPages(input *ListAttachedIndicesInput, fn func(*ListAttachedIndicesOutput, bool) bool) error {
-	return c.ListAttachedIndicesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAttachedIndicesRequest) Paginate(opts ...aws.Option) ListAttachedIndicesPager {
+	return ListAttachedIndicesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAttachedIndicesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAttachedIndicesPagesWithContext same as ListAttachedIndicesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListAttachedIndicesPagesWithContext(ctx aws.Context, input *ListAttachedIndicesInput, fn func(*ListAttachedIndicesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAttachedIndicesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAttachedIndicesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAttachedIndicesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAttachedIndicesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAttachedIndicesPager struct {
+	aws.Pager
+}
+
+func (p *ListAttachedIndicesPager) CurrentPage() *ListAttachedIndicesOutput {
+	return p.Pager.CurrentPage().(*ListAttachedIndicesOutput)
 }
 
 const opListDevelopmentSchemaArns = "ListDevelopmentSchemaArns"
@@ -1644,6 +1867,7 @@ const opListDevelopmentSchemaArns = "ListDevelopmentSchemaArns"
 type ListDevelopmentSchemaArnsRequest struct {
 	*aws.Request
 	Input *ListDevelopmentSchemaArnsInput
+	Copy  func(*ListDevelopmentSchemaArnsInput) ListDevelopmentSchemaArnsRequest
 }
 
 // Send marshals and sends the ListDevelopmentSchemaArns API request.
@@ -1686,58 +1910,57 @@ func (c *CloudDirectory) ListDevelopmentSchemaArnsRequest(input *ListDevelopment
 		input = &ListDevelopmentSchemaArnsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDevelopmentSchemaArnsOutput{})
-	return ListDevelopmentSchemaArnsRequest{Request: req, Input: input}
+	output := &ListDevelopmentSchemaArnsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDevelopmentSchemaArnsRequest{Request: req, Input: input, Copy: c.ListDevelopmentSchemaArnsRequest}
 }
 
-// ListDevelopmentSchemaArnsPages iterates over the pages of a ListDevelopmentSchemaArns operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListDevelopmentSchemaArns method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListDevelopmentSchemaArnsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListDevelopmentSchemaArns operation.
-//    pageNum := 0
-//    err := client.ListDevelopmentSchemaArnsPages(params,
-//        func(page *ListDevelopmentSchemaArnsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListDevelopmentSchemaArnsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListDevelopmentSchemaArnsPages(input *ListDevelopmentSchemaArnsInput, fn func(*ListDevelopmentSchemaArnsOutput, bool) bool) error {
-	return c.ListDevelopmentSchemaArnsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListDevelopmentSchemaArnsRequest) Paginate(opts ...aws.Option) ListDevelopmentSchemaArnsPager {
+	return ListDevelopmentSchemaArnsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListDevelopmentSchemaArnsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListDevelopmentSchemaArnsPagesWithContext same as ListDevelopmentSchemaArnsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListDevelopmentSchemaArnsPagesWithContext(ctx aws.Context, input *ListDevelopmentSchemaArnsInput, fn func(*ListDevelopmentSchemaArnsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListDevelopmentSchemaArnsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListDevelopmentSchemaArnsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListDevelopmentSchemaArnsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListDevelopmentSchemaArnsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListDevelopmentSchemaArnsPager struct {
+	aws.Pager
+}
+
+func (p *ListDevelopmentSchemaArnsPager) CurrentPage() *ListDevelopmentSchemaArnsOutput {
+	return p.Pager.CurrentPage().(*ListDevelopmentSchemaArnsOutput)
 }
 
 const opListDirectories = "ListDirectories"
@@ -1746,6 +1969,7 @@ const opListDirectories = "ListDirectories"
 type ListDirectoriesRequest struct {
 	*aws.Request
 	Input *ListDirectoriesInput
+	Copy  func(*ListDirectoriesInput) ListDirectoriesRequest
 }
 
 // Send marshals and sends the ListDirectories API request.
@@ -1788,58 +2012,57 @@ func (c *CloudDirectory) ListDirectoriesRequest(input *ListDirectoriesInput) Lis
 		input = &ListDirectoriesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDirectoriesOutput{})
-	return ListDirectoriesRequest{Request: req, Input: input}
+	output := &ListDirectoriesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDirectoriesRequest{Request: req, Input: input, Copy: c.ListDirectoriesRequest}
 }
 
-// ListDirectoriesPages iterates over the pages of a ListDirectories operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListDirectories method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListDirectoriesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListDirectories operation.
-//    pageNum := 0
-//    err := client.ListDirectoriesPages(params,
-//        func(page *ListDirectoriesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListDirectoriesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListDirectoriesPages(input *ListDirectoriesInput, fn func(*ListDirectoriesOutput, bool) bool) error {
-	return c.ListDirectoriesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListDirectoriesRequest) Paginate(opts ...aws.Option) ListDirectoriesPager {
+	return ListDirectoriesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListDirectoriesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListDirectoriesPagesWithContext same as ListDirectoriesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListDirectoriesPagesWithContext(ctx aws.Context, input *ListDirectoriesInput, fn func(*ListDirectoriesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListDirectoriesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListDirectoriesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListDirectoriesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListDirectoriesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListDirectoriesPager struct {
+	aws.Pager
+}
+
+func (p *ListDirectoriesPager) CurrentPage() *ListDirectoriesOutput {
+	return p.Pager.CurrentPage().(*ListDirectoriesOutput)
 }
 
 const opListFacetAttributes = "ListFacetAttributes"
@@ -1848,6 +2071,7 @@ const opListFacetAttributes = "ListFacetAttributes"
 type ListFacetAttributesRequest struct {
 	*aws.Request
 	Input *ListFacetAttributesInput
+	Copy  func(*ListFacetAttributesInput) ListFacetAttributesRequest
 }
 
 // Send marshals and sends the ListFacetAttributes API request.
@@ -1890,58 +2114,57 @@ func (c *CloudDirectory) ListFacetAttributesRequest(input *ListFacetAttributesIn
 		input = &ListFacetAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListFacetAttributesOutput{})
-	return ListFacetAttributesRequest{Request: req, Input: input}
+	output := &ListFacetAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListFacetAttributesRequest{Request: req, Input: input, Copy: c.ListFacetAttributesRequest}
 }
 
-// ListFacetAttributesPages iterates over the pages of a ListFacetAttributes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListFacetAttributes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListFacetAttributesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListFacetAttributes operation.
-//    pageNum := 0
-//    err := client.ListFacetAttributesPages(params,
-//        func(page *ListFacetAttributesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListFacetAttributesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListFacetAttributesPages(input *ListFacetAttributesInput, fn func(*ListFacetAttributesOutput, bool) bool) error {
-	return c.ListFacetAttributesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListFacetAttributesRequest) Paginate(opts ...aws.Option) ListFacetAttributesPager {
+	return ListFacetAttributesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListFacetAttributesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListFacetAttributesPagesWithContext same as ListFacetAttributesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListFacetAttributesPagesWithContext(ctx aws.Context, input *ListFacetAttributesInput, fn func(*ListFacetAttributesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListFacetAttributesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListFacetAttributesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListFacetAttributesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListFacetAttributesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListFacetAttributesPager struct {
+	aws.Pager
+}
+
+func (p *ListFacetAttributesPager) CurrentPage() *ListFacetAttributesOutput {
+	return p.Pager.CurrentPage().(*ListFacetAttributesOutput)
 }
 
 const opListFacetNames = "ListFacetNames"
@@ -1950,6 +2173,7 @@ const opListFacetNames = "ListFacetNames"
 type ListFacetNamesRequest struct {
 	*aws.Request
 	Input *ListFacetNamesInput
+	Copy  func(*ListFacetNamesInput) ListFacetNamesRequest
 }
 
 // Send marshals and sends the ListFacetNames API request.
@@ -1992,58 +2216,57 @@ func (c *CloudDirectory) ListFacetNamesRequest(input *ListFacetNamesInput) ListF
 		input = &ListFacetNamesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListFacetNamesOutput{})
-	return ListFacetNamesRequest{Request: req, Input: input}
+	output := &ListFacetNamesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListFacetNamesRequest{Request: req, Input: input, Copy: c.ListFacetNamesRequest}
 }
 
-// ListFacetNamesPages iterates over the pages of a ListFacetNames operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListFacetNames method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListFacetNamesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListFacetNames operation.
-//    pageNum := 0
-//    err := client.ListFacetNamesPages(params,
-//        func(page *ListFacetNamesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListFacetNamesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListFacetNamesPages(input *ListFacetNamesInput, fn func(*ListFacetNamesOutput, bool) bool) error {
-	return c.ListFacetNamesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListFacetNamesRequest) Paginate(opts ...aws.Option) ListFacetNamesPager {
+	return ListFacetNamesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListFacetNamesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListFacetNamesPagesWithContext same as ListFacetNamesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListFacetNamesPagesWithContext(ctx aws.Context, input *ListFacetNamesInput, fn func(*ListFacetNamesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListFacetNamesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListFacetNamesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListFacetNamesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListFacetNamesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListFacetNamesPager struct {
+	aws.Pager
+}
+
+func (p *ListFacetNamesPager) CurrentPage() *ListFacetNamesOutput {
+	return p.Pager.CurrentPage().(*ListFacetNamesOutput)
 }
 
 const opListIncomingTypedLinks = "ListIncomingTypedLinks"
@@ -2052,6 +2275,7 @@ const opListIncomingTypedLinks = "ListIncomingTypedLinks"
 type ListIncomingTypedLinksRequest struct {
 	*aws.Request
 	Input *ListIncomingTypedLinksInput
+	Copy  func(*ListIncomingTypedLinksInput) ListIncomingTypedLinksRequest
 }
 
 // Send marshals and sends the ListIncomingTypedLinks API request.
@@ -2090,8 +2314,11 @@ func (c *CloudDirectory) ListIncomingTypedLinksRequest(input *ListIncomingTypedL
 		input = &ListIncomingTypedLinksInput{}
 	}
 
-	req := c.newRequest(op, input, &ListIncomingTypedLinksOutput{})
-	return ListIncomingTypedLinksRequest{Request: req, Input: input}
+	output := &ListIncomingTypedLinksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListIncomingTypedLinksRequest{Request: req, Input: input, Copy: c.ListIncomingTypedLinksRequest}
 }
 
 const opListIndex = "ListIndex"
@@ -2100,6 +2327,7 @@ const opListIndex = "ListIndex"
 type ListIndexRequest struct {
 	*aws.Request
 	Input *ListIndexInput
+	Copy  func(*ListIndexInput) ListIndexRequest
 }
 
 // Send marshals and sends the ListIndex API request.
@@ -2142,58 +2370,57 @@ func (c *CloudDirectory) ListIndexRequest(input *ListIndexInput) ListIndexReques
 		input = &ListIndexInput{}
 	}
 
-	req := c.newRequest(op, input, &ListIndexOutput{})
-	return ListIndexRequest{Request: req, Input: input}
+	output := &ListIndexOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListIndexRequest{Request: req, Input: input, Copy: c.ListIndexRequest}
 }
 
-// ListIndexPages iterates over the pages of a ListIndex operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListIndex method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListIndexRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListIndex operation.
-//    pageNum := 0
-//    err := client.ListIndexPages(params,
-//        func(page *ListIndexOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListIndexRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListIndexPages(input *ListIndexInput, fn func(*ListIndexOutput, bool) bool) error {
-	return c.ListIndexPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListIndexRequest) Paginate(opts ...aws.Option) ListIndexPager {
+	return ListIndexPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListIndexInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListIndexPagesWithContext same as ListIndexPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListIndexPagesWithContext(ctx aws.Context, input *ListIndexInput, fn func(*ListIndexOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListIndexInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListIndexRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListIndexOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListIndexPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListIndexPager struct {
+	aws.Pager
+}
+
+func (p *ListIndexPager) CurrentPage() *ListIndexOutput {
+	return p.Pager.CurrentPage().(*ListIndexOutput)
 }
 
 const opListObjectAttributes = "ListObjectAttributes"
@@ -2202,6 +2429,7 @@ const opListObjectAttributes = "ListObjectAttributes"
 type ListObjectAttributesRequest struct {
 	*aws.Request
 	Input *ListObjectAttributesInput
+	Copy  func(*ListObjectAttributesInput) ListObjectAttributesRequest
 }
 
 // Send marshals and sends the ListObjectAttributes API request.
@@ -2244,58 +2472,57 @@ func (c *CloudDirectory) ListObjectAttributesRequest(input *ListObjectAttributes
 		input = &ListObjectAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectAttributesOutput{})
-	return ListObjectAttributesRequest{Request: req, Input: input}
+	output := &ListObjectAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectAttributesRequest{Request: req, Input: input, Copy: c.ListObjectAttributesRequest}
 }
 
-// ListObjectAttributesPages iterates over the pages of a ListObjectAttributes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectAttributes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectAttributesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectAttributes operation.
-//    pageNum := 0
-//    err := client.ListObjectAttributesPages(params,
-//        func(page *ListObjectAttributesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectAttributesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListObjectAttributesPages(input *ListObjectAttributesInput, fn func(*ListObjectAttributesOutput, bool) bool) error {
-	return c.ListObjectAttributesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectAttributesRequest) Paginate(opts ...aws.Option) ListObjectAttributesPager {
+	return ListObjectAttributesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectAttributesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectAttributesPagesWithContext same as ListObjectAttributesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListObjectAttributesPagesWithContext(ctx aws.Context, input *ListObjectAttributesInput, fn func(*ListObjectAttributesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectAttributesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectAttributesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectAttributesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectAttributesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectAttributesPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectAttributesPager) CurrentPage() *ListObjectAttributesOutput {
+	return p.Pager.CurrentPage().(*ListObjectAttributesOutput)
 }
 
 const opListObjectChildren = "ListObjectChildren"
@@ -2304,6 +2531,7 @@ const opListObjectChildren = "ListObjectChildren"
 type ListObjectChildrenRequest struct {
 	*aws.Request
 	Input *ListObjectChildrenInput
+	Copy  func(*ListObjectChildrenInput) ListObjectChildrenRequest
 }
 
 // Send marshals and sends the ListObjectChildren API request.
@@ -2347,58 +2575,57 @@ func (c *CloudDirectory) ListObjectChildrenRequest(input *ListObjectChildrenInpu
 		input = &ListObjectChildrenInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectChildrenOutput{})
-	return ListObjectChildrenRequest{Request: req, Input: input}
+	output := &ListObjectChildrenOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectChildrenRequest{Request: req, Input: input, Copy: c.ListObjectChildrenRequest}
 }
 
-// ListObjectChildrenPages iterates over the pages of a ListObjectChildren operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectChildren method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectChildrenRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectChildren operation.
-//    pageNum := 0
-//    err := client.ListObjectChildrenPages(params,
-//        func(page *ListObjectChildrenOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectChildrenRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListObjectChildrenPages(input *ListObjectChildrenInput, fn func(*ListObjectChildrenOutput, bool) bool) error {
-	return c.ListObjectChildrenPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectChildrenRequest) Paginate(opts ...aws.Option) ListObjectChildrenPager {
+	return ListObjectChildrenPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectChildrenInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectChildrenPagesWithContext same as ListObjectChildrenPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListObjectChildrenPagesWithContext(ctx aws.Context, input *ListObjectChildrenInput, fn func(*ListObjectChildrenOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectChildrenInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectChildrenRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectChildrenOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectChildrenPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectChildrenPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectChildrenPager) CurrentPage() *ListObjectChildrenOutput {
+	return p.Pager.CurrentPage().(*ListObjectChildrenOutput)
 }
 
 const opListObjectParentPaths = "ListObjectParentPaths"
@@ -2407,6 +2634,7 @@ const opListObjectParentPaths = "ListObjectParentPaths"
 type ListObjectParentPathsRequest struct {
 	*aws.Request
 	Input *ListObjectParentPathsInput
+	Copy  func(*ListObjectParentPathsInput) ListObjectParentPathsRequest
 }
 
 // Send marshals and sends the ListObjectParentPaths API request.
@@ -2459,58 +2687,57 @@ func (c *CloudDirectory) ListObjectParentPathsRequest(input *ListObjectParentPat
 		input = &ListObjectParentPathsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectParentPathsOutput{})
-	return ListObjectParentPathsRequest{Request: req, Input: input}
+	output := &ListObjectParentPathsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectParentPathsRequest{Request: req, Input: input, Copy: c.ListObjectParentPathsRequest}
 }
 
-// ListObjectParentPathsPages iterates over the pages of a ListObjectParentPaths operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectParentPaths method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectParentPathsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectParentPaths operation.
-//    pageNum := 0
-//    err := client.ListObjectParentPathsPages(params,
-//        func(page *ListObjectParentPathsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectParentPathsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListObjectParentPathsPages(input *ListObjectParentPathsInput, fn func(*ListObjectParentPathsOutput, bool) bool) error {
-	return c.ListObjectParentPathsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectParentPathsRequest) Paginate(opts ...aws.Option) ListObjectParentPathsPager {
+	return ListObjectParentPathsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectParentPathsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectParentPathsPagesWithContext same as ListObjectParentPathsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListObjectParentPathsPagesWithContext(ctx aws.Context, input *ListObjectParentPathsInput, fn func(*ListObjectParentPathsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectParentPathsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectParentPathsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectParentPathsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectParentPathsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectParentPathsPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectParentPathsPager) CurrentPage() *ListObjectParentPathsOutput {
+	return p.Pager.CurrentPage().(*ListObjectParentPathsOutput)
 }
 
 const opListObjectParents = "ListObjectParents"
@@ -2519,6 +2746,7 @@ const opListObjectParents = "ListObjectParents"
 type ListObjectParentsRequest struct {
 	*aws.Request
 	Input *ListObjectParentsInput
+	Copy  func(*ListObjectParentsInput) ListObjectParentsRequest
 }
 
 // Send marshals and sends the ListObjectParents API request.
@@ -2562,58 +2790,57 @@ func (c *CloudDirectory) ListObjectParentsRequest(input *ListObjectParentsInput)
 		input = &ListObjectParentsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectParentsOutput{})
-	return ListObjectParentsRequest{Request: req, Input: input}
+	output := &ListObjectParentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectParentsRequest{Request: req, Input: input, Copy: c.ListObjectParentsRequest}
 }
 
-// ListObjectParentsPages iterates over the pages of a ListObjectParents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectParents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectParentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectParents operation.
-//    pageNum := 0
-//    err := client.ListObjectParentsPages(params,
-//        func(page *ListObjectParentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectParentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListObjectParentsPages(input *ListObjectParentsInput, fn func(*ListObjectParentsOutput, bool) bool) error {
-	return c.ListObjectParentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectParentsRequest) Paginate(opts ...aws.Option) ListObjectParentsPager {
+	return ListObjectParentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectParentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectParentsPagesWithContext same as ListObjectParentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListObjectParentsPagesWithContext(ctx aws.Context, input *ListObjectParentsInput, fn func(*ListObjectParentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectParentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectParentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectParentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectParentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectParentsPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectParentsPager) CurrentPage() *ListObjectParentsOutput {
+	return p.Pager.CurrentPage().(*ListObjectParentsOutput)
 }
 
 const opListObjectPolicies = "ListObjectPolicies"
@@ -2622,6 +2849,7 @@ const opListObjectPolicies = "ListObjectPolicies"
 type ListObjectPoliciesRequest struct {
 	*aws.Request
 	Input *ListObjectPoliciesInput
+	Copy  func(*ListObjectPoliciesInput) ListObjectPoliciesRequest
 }
 
 // Send marshals and sends the ListObjectPolicies API request.
@@ -2664,58 +2892,57 @@ func (c *CloudDirectory) ListObjectPoliciesRequest(input *ListObjectPoliciesInpu
 		input = &ListObjectPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectPoliciesOutput{})
-	return ListObjectPoliciesRequest{Request: req, Input: input}
+	output := &ListObjectPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectPoliciesRequest{Request: req, Input: input, Copy: c.ListObjectPoliciesRequest}
 }
 
-// ListObjectPoliciesPages iterates over the pages of a ListObjectPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectPolicies operation.
-//    pageNum := 0
-//    err := client.ListObjectPoliciesPages(params,
-//        func(page *ListObjectPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListObjectPoliciesPages(input *ListObjectPoliciesInput, fn func(*ListObjectPoliciesOutput, bool) bool) error {
-	return c.ListObjectPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectPoliciesRequest) Paginate(opts ...aws.Option) ListObjectPoliciesPager {
+	return ListObjectPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectPoliciesPagesWithContext same as ListObjectPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListObjectPoliciesPagesWithContext(ctx aws.Context, input *ListObjectPoliciesInput, fn func(*ListObjectPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectPoliciesPager) CurrentPage() *ListObjectPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListObjectPoliciesOutput)
 }
 
 const opListOutgoingTypedLinks = "ListOutgoingTypedLinks"
@@ -2724,6 +2951,7 @@ const opListOutgoingTypedLinks = "ListOutgoingTypedLinks"
 type ListOutgoingTypedLinksRequest struct {
 	*aws.Request
 	Input *ListOutgoingTypedLinksInput
+	Copy  func(*ListOutgoingTypedLinksInput) ListOutgoingTypedLinksRequest
 }
 
 // Send marshals and sends the ListOutgoingTypedLinks API request.
@@ -2762,8 +2990,11 @@ func (c *CloudDirectory) ListOutgoingTypedLinksRequest(input *ListOutgoingTypedL
 		input = &ListOutgoingTypedLinksInput{}
 	}
 
-	req := c.newRequest(op, input, &ListOutgoingTypedLinksOutput{})
-	return ListOutgoingTypedLinksRequest{Request: req, Input: input}
+	output := &ListOutgoingTypedLinksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListOutgoingTypedLinksRequest{Request: req, Input: input, Copy: c.ListOutgoingTypedLinksRequest}
 }
 
 const opListPolicyAttachments = "ListPolicyAttachments"
@@ -2772,6 +3003,7 @@ const opListPolicyAttachments = "ListPolicyAttachments"
 type ListPolicyAttachmentsRequest struct {
 	*aws.Request
 	Input *ListPolicyAttachmentsInput
+	Copy  func(*ListPolicyAttachmentsInput) ListPolicyAttachmentsRequest
 }
 
 // Send marshals and sends the ListPolicyAttachments API request.
@@ -2814,58 +3046,57 @@ func (c *CloudDirectory) ListPolicyAttachmentsRequest(input *ListPolicyAttachmen
 		input = &ListPolicyAttachmentsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPolicyAttachmentsOutput{})
-	return ListPolicyAttachmentsRequest{Request: req, Input: input}
+	output := &ListPolicyAttachmentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPolicyAttachmentsRequest{Request: req, Input: input, Copy: c.ListPolicyAttachmentsRequest}
 }
 
-// ListPolicyAttachmentsPages iterates over the pages of a ListPolicyAttachments operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPolicyAttachments method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPolicyAttachmentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPolicyAttachments operation.
-//    pageNum := 0
-//    err := client.ListPolicyAttachmentsPages(params,
-//        func(page *ListPolicyAttachmentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPolicyAttachmentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListPolicyAttachmentsPages(input *ListPolicyAttachmentsInput, fn func(*ListPolicyAttachmentsOutput, bool) bool) error {
-	return c.ListPolicyAttachmentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPolicyAttachmentsRequest) Paginate(opts ...aws.Option) ListPolicyAttachmentsPager {
+	return ListPolicyAttachmentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPolicyAttachmentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPolicyAttachmentsPagesWithContext same as ListPolicyAttachmentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListPolicyAttachmentsPagesWithContext(ctx aws.Context, input *ListPolicyAttachmentsInput, fn func(*ListPolicyAttachmentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPolicyAttachmentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPolicyAttachmentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPolicyAttachmentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPolicyAttachmentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPolicyAttachmentsPager struct {
+	aws.Pager
+}
+
+func (p *ListPolicyAttachmentsPager) CurrentPage() *ListPolicyAttachmentsOutput {
+	return p.Pager.CurrentPage().(*ListPolicyAttachmentsOutput)
 }
 
 const opListPublishedSchemaArns = "ListPublishedSchemaArns"
@@ -2874,6 +3105,7 @@ const opListPublishedSchemaArns = "ListPublishedSchemaArns"
 type ListPublishedSchemaArnsRequest struct {
 	*aws.Request
 	Input *ListPublishedSchemaArnsInput
+	Copy  func(*ListPublishedSchemaArnsInput) ListPublishedSchemaArnsRequest
 }
 
 // Send marshals and sends the ListPublishedSchemaArns API request.
@@ -2889,7 +3121,9 @@ func (r ListPublishedSchemaArnsRequest) Send() (*ListPublishedSchemaArnsOutput, 
 // ListPublishedSchemaArnsRequest returns a request value for making API operation for
 // Amazon CloudDirectory.
 //
-// Retrieves each published schema Amazon Resource Name (ARN).
+// Lists the major version families of each published schema. If a major version
+// ARN is provided as SchemaArn, the minor version revisions in that family
+// are listed instead.
 //
 //    // Example sending a request using the ListPublishedSchemaArnsRequest method.
 //    req := client.ListPublishedSchemaArnsRequest(params)
@@ -2916,58 +3150,57 @@ func (c *CloudDirectory) ListPublishedSchemaArnsRequest(input *ListPublishedSche
 		input = &ListPublishedSchemaArnsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPublishedSchemaArnsOutput{})
-	return ListPublishedSchemaArnsRequest{Request: req, Input: input}
+	output := &ListPublishedSchemaArnsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPublishedSchemaArnsRequest{Request: req, Input: input, Copy: c.ListPublishedSchemaArnsRequest}
 }
 
-// ListPublishedSchemaArnsPages iterates over the pages of a ListPublishedSchemaArns operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPublishedSchemaArns method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPublishedSchemaArnsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPublishedSchemaArns operation.
-//    pageNum := 0
-//    err := client.ListPublishedSchemaArnsPages(params,
-//        func(page *ListPublishedSchemaArnsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPublishedSchemaArnsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListPublishedSchemaArnsPages(input *ListPublishedSchemaArnsInput, fn func(*ListPublishedSchemaArnsOutput, bool) bool) error {
-	return c.ListPublishedSchemaArnsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPublishedSchemaArnsRequest) Paginate(opts ...aws.Option) ListPublishedSchemaArnsPager {
+	return ListPublishedSchemaArnsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPublishedSchemaArnsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPublishedSchemaArnsPagesWithContext same as ListPublishedSchemaArnsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListPublishedSchemaArnsPagesWithContext(ctx aws.Context, input *ListPublishedSchemaArnsInput, fn func(*ListPublishedSchemaArnsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPublishedSchemaArnsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPublishedSchemaArnsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPublishedSchemaArnsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPublishedSchemaArnsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPublishedSchemaArnsPager struct {
+	aws.Pager
+}
+
+func (p *ListPublishedSchemaArnsPager) CurrentPage() *ListPublishedSchemaArnsOutput {
+	return p.Pager.CurrentPage().(*ListPublishedSchemaArnsOutput)
 }
 
 const opListTagsForResource = "ListTagsForResource"
@@ -2976,6 +3209,7 @@ const opListTagsForResource = "ListTagsForResource"
 type ListTagsForResourceRequest struct {
 	*aws.Request
 	Input *ListTagsForResourceInput
+	Copy  func(*ListTagsForResourceInput) ListTagsForResourceRequest
 }
 
 // Send marshals and sends the ListTagsForResource API request.
@@ -3020,58 +3254,57 @@ func (c *CloudDirectory) ListTagsForResourceRequest(input *ListTagsForResourceIn
 		input = &ListTagsForResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsForResourceOutput{})
-	return ListTagsForResourceRequest{Request: req, Input: input}
+	output := &ListTagsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsForResourceRequest{Request: req, Input: input, Copy: c.ListTagsForResourceRequest}
 }
 
-// ListTagsForResourcePages iterates over the pages of a ListTagsForResource operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTagsForResource method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTagsForResourceRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTagsForResource operation.
-//    pageNum := 0
-//    err := client.ListTagsForResourcePages(params,
-//        func(page *ListTagsForResourceOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTagsForResourceRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListTagsForResourcePages(input *ListTagsForResourceInput, fn func(*ListTagsForResourceOutput, bool) bool) error {
-	return c.ListTagsForResourcePagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTagsForResourceRequest) Paginate(opts ...aws.Option) ListTagsForResourcePager {
+	return ListTagsForResourcePager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTagsForResourceInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTagsForResourcePagesWithContext same as ListTagsForResourcePages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListTagsForResourcePagesWithContext(ctx aws.Context, input *ListTagsForResourceInput, fn func(*ListTagsForResourceOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTagsForResourceInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTagsForResourceRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTagsForResourceOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTagsForResourcePager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTagsForResourcePager struct {
+	aws.Pager
+}
+
+func (p *ListTagsForResourcePager) CurrentPage() *ListTagsForResourceOutput {
+	return p.Pager.CurrentPage().(*ListTagsForResourceOutput)
 }
 
 const opListTypedLinkFacetAttributes = "ListTypedLinkFacetAttributes"
@@ -3080,6 +3313,7 @@ const opListTypedLinkFacetAttributes = "ListTypedLinkFacetAttributes"
 type ListTypedLinkFacetAttributesRequest struct {
 	*aws.Request
 	Input *ListTypedLinkFacetAttributesInput
+	Copy  func(*ListTypedLinkFacetAttributesInput) ListTypedLinkFacetAttributesRequest
 }
 
 // Send marshals and sends the ListTypedLinkFacetAttributes API request.
@@ -3123,58 +3357,57 @@ func (c *CloudDirectory) ListTypedLinkFacetAttributesRequest(input *ListTypedLin
 		input = &ListTypedLinkFacetAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTypedLinkFacetAttributesOutput{})
-	return ListTypedLinkFacetAttributesRequest{Request: req, Input: input}
+	output := &ListTypedLinkFacetAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTypedLinkFacetAttributesRequest{Request: req, Input: input, Copy: c.ListTypedLinkFacetAttributesRequest}
 }
 
-// ListTypedLinkFacetAttributesPages iterates over the pages of a ListTypedLinkFacetAttributes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTypedLinkFacetAttributes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTypedLinkFacetAttributesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTypedLinkFacetAttributes operation.
-//    pageNum := 0
-//    err := client.ListTypedLinkFacetAttributesPages(params,
-//        func(page *ListTypedLinkFacetAttributesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTypedLinkFacetAttributesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListTypedLinkFacetAttributesPages(input *ListTypedLinkFacetAttributesInput, fn func(*ListTypedLinkFacetAttributesOutput, bool) bool) error {
-	return c.ListTypedLinkFacetAttributesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTypedLinkFacetAttributesRequest) Paginate(opts ...aws.Option) ListTypedLinkFacetAttributesPager {
+	return ListTypedLinkFacetAttributesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTypedLinkFacetAttributesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTypedLinkFacetAttributesPagesWithContext same as ListTypedLinkFacetAttributesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListTypedLinkFacetAttributesPagesWithContext(ctx aws.Context, input *ListTypedLinkFacetAttributesInput, fn func(*ListTypedLinkFacetAttributesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTypedLinkFacetAttributesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTypedLinkFacetAttributesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTypedLinkFacetAttributesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTypedLinkFacetAttributesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTypedLinkFacetAttributesPager struct {
+	aws.Pager
+}
+
+func (p *ListTypedLinkFacetAttributesPager) CurrentPage() *ListTypedLinkFacetAttributesOutput {
+	return p.Pager.CurrentPage().(*ListTypedLinkFacetAttributesOutput)
 }
 
 const opListTypedLinkFacetNames = "ListTypedLinkFacetNames"
@@ -3183,6 +3416,7 @@ const opListTypedLinkFacetNames = "ListTypedLinkFacetNames"
 type ListTypedLinkFacetNamesRequest struct {
 	*aws.Request
 	Input *ListTypedLinkFacetNamesInput
+	Copy  func(*ListTypedLinkFacetNamesInput) ListTypedLinkFacetNamesRequest
 }
 
 // Send marshals and sends the ListTypedLinkFacetNames API request.
@@ -3226,58 +3460,57 @@ func (c *CloudDirectory) ListTypedLinkFacetNamesRequest(input *ListTypedLinkFace
 		input = &ListTypedLinkFacetNamesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTypedLinkFacetNamesOutput{})
-	return ListTypedLinkFacetNamesRequest{Request: req, Input: input}
+	output := &ListTypedLinkFacetNamesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTypedLinkFacetNamesRequest{Request: req, Input: input, Copy: c.ListTypedLinkFacetNamesRequest}
 }
 
-// ListTypedLinkFacetNamesPages iterates over the pages of a ListTypedLinkFacetNames operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTypedLinkFacetNames method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTypedLinkFacetNamesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTypedLinkFacetNames operation.
-//    pageNum := 0
-//    err := client.ListTypedLinkFacetNamesPages(params,
-//        func(page *ListTypedLinkFacetNamesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTypedLinkFacetNamesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) ListTypedLinkFacetNamesPages(input *ListTypedLinkFacetNamesInput, fn func(*ListTypedLinkFacetNamesOutput, bool) bool) error {
-	return c.ListTypedLinkFacetNamesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTypedLinkFacetNamesRequest) Paginate(opts ...aws.Option) ListTypedLinkFacetNamesPager {
+	return ListTypedLinkFacetNamesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTypedLinkFacetNamesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTypedLinkFacetNamesPagesWithContext same as ListTypedLinkFacetNamesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) ListTypedLinkFacetNamesPagesWithContext(ctx aws.Context, input *ListTypedLinkFacetNamesInput, fn func(*ListTypedLinkFacetNamesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTypedLinkFacetNamesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTypedLinkFacetNamesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTypedLinkFacetNamesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTypedLinkFacetNamesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTypedLinkFacetNamesPager struct {
+	aws.Pager
+}
+
+func (p *ListTypedLinkFacetNamesPager) CurrentPage() *ListTypedLinkFacetNamesOutput {
+	return p.Pager.CurrentPage().(*ListTypedLinkFacetNamesOutput)
 }
 
 const opLookupPolicy = "LookupPolicy"
@@ -3286,6 +3519,7 @@ const opLookupPolicy = "LookupPolicy"
 type LookupPolicyRequest struct {
 	*aws.Request
 	Input *LookupPolicyInput
+	Copy  func(*LookupPolicyInput) LookupPolicyRequest
 }
 
 // Send marshals and sends the LookupPolicy API request.
@@ -3334,58 +3568,57 @@ func (c *CloudDirectory) LookupPolicyRequest(input *LookupPolicyInput) LookupPol
 		input = &LookupPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &LookupPolicyOutput{})
-	return LookupPolicyRequest{Request: req, Input: input}
+	output := &LookupPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return LookupPolicyRequest{Request: req, Input: input, Copy: c.LookupPolicyRequest}
 }
 
-// LookupPolicyPages iterates over the pages of a LookupPolicy operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See LookupPolicy method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a LookupPolicyRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a LookupPolicy operation.
-//    pageNum := 0
-//    err := client.LookupPolicyPages(params,
-//        func(page *LookupPolicyOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.LookupPolicyRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudDirectory) LookupPolicyPages(input *LookupPolicyInput, fn func(*LookupPolicyOutput, bool) bool) error {
-	return c.LookupPolicyPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *LookupPolicyRequest) Paginate(opts ...aws.Option) LookupPolicyPager {
+	return LookupPolicyPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *LookupPolicyInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// LookupPolicyPagesWithContext same as LookupPolicyPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudDirectory) LookupPolicyPagesWithContext(ctx aws.Context, input *LookupPolicyInput, fn func(*LookupPolicyOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *LookupPolicyInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.LookupPolicyRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*LookupPolicyOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// LookupPolicyPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type LookupPolicyPager struct {
+	aws.Pager
+}
+
+func (p *LookupPolicyPager) CurrentPage() *LookupPolicyOutput {
+	return p.Pager.CurrentPage().(*LookupPolicyOutput)
 }
 
 const opPublishSchema = "PublishSchema"
@@ -3394,6 +3627,7 @@ const opPublishSchema = "PublishSchema"
 type PublishSchemaRequest struct {
 	*aws.Request
 	Input *PublishSchemaInput
+	Copy  func(*PublishSchemaInput) PublishSchemaRequest
 }
 
 // Send marshals and sends the PublishSchema API request.
@@ -3409,10 +3643,8 @@ func (r PublishSchemaRequest) Send() (*PublishSchemaOutput, error) {
 // PublishSchemaRequest returns a request value for making API operation for
 // Amazon CloudDirectory.
 //
-// Publishes a development schema with a version. If description and attributes
-// are specified, PublishSchema overrides the development schema description
-// and attributes. If not, the development schema description and attributes
-// are used.
+// Publishes a development schema with a major version and a recommended minor
+// version.
 //
 //    // Example sending a request using the PublishSchemaRequest method.
 //    req := client.PublishSchemaRequest(params)
@@ -3433,8 +3665,11 @@ func (c *CloudDirectory) PublishSchemaRequest(input *PublishSchemaInput) Publish
 		input = &PublishSchemaInput{}
 	}
 
-	req := c.newRequest(op, input, &PublishSchemaOutput{})
-	return PublishSchemaRequest{Request: req, Input: input}
+	output := &PublishSchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PublishSchemaRequest{Request: req, Input: input, Copy: c.PublishSchemaRequest}
 }
 
 const opPutSchemaFromJson = "PutSchemaFromJson"
@@ -3443,6 +3678,7 @@ const opPutSchemaFromJson = "PutSchemaFromJson"
 type PutSchemaFromJsonRequest struct {
 	*aws.Request
 	Input *PutSchemaFromJsonInput
+	Copy  func(*PutSchemaFromJsonInput) PutSchemaFromJsonRequest
 }
 
 // Send marshals and sends the PutSchemaFromJson API request.
@@ -3481,8 +3717,11 @@ func (c *CloudDirectory) PutSchemaFromJsonRequest(input *PutSchemaFromJsonInput)
 		input = &PutSchemaFromJsonInput{}
 	}
 
-	req := c.newRequest(op, input, &PutSchemaFromJsonOutput{})
-	return PutSchemaFromJsonRequest{Request: req, Input: input}
+	output := &PutSchemaFromJsonOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutSchemaFromJsonRequest{Request: req, Input: input, Copy: c.PutSchemaFromJsonRequest}
 }
 
 const opRemoveFacetFromObject = "RemoveFacetFromObject"
@@ -3491,6 +3730,7 @@ const opRemoveFacetFromObject = "RemoveFacetFromObject"
 type RemoveFacetFromObjectRequest struct {
 	*aws.Request
 	Input *RemoveFacetFromObjectInput
+	Copy  func(*RemoveFacetFromObjectInput) RemoveFacetFromObjectRequest
 }
 
 // Send marshals and sends the RemoveFacetFromObject API request.
@@ -3527,8 +3767,11 @@ func (c *CloudDirectory) RemoveFacetFromObjectRequest(input *RemoveFacetFromObje
 		input = &RemoveFacetFromObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveFacetFromObjectOutput{})
-	return RemoveFacetFromObjectRequest{Request: req, Input: input}
+	output := &RemoveFacetFromObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveFacetFromObjectRequest{Request: req, Input: input, Copy: c.RemoveFacetFromObjectRequest}
 }
 
 const opTagResource = "TagResource"
@@ -3537,6 +3780,7 @@ const opTagResource = "TagResource"
 type TagResourceRequest struct {
 	*aws.Request
 	Input *TagResourceInput
+	Copy  func(*TagResourceInput) TagResourceRequest
 }
 
 // Send marshals and sends the TagResource API request.
@@ -3573,8 +3817,11 @@ func (c *CloudDirectory) TagResourceRequest(input *TagResourceInput) TagResource
 		input = &TagResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &TagResourceOutput{})
-	return TagResourceRequest{Request: req, Input: input}
+	output := &TagResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TagResourceRequest{Request: req, Input: input, Copy: c.TagResourceRequest}
 }
 
 const opUntagResource = "UntagResource"
@@ -3583,6 +3830,7 @@ const opUntagResource = "UntagResource"
 type UntagResourceRequest struct {
 	*aws.Request
 	Input *UntagResourceInput
+	Copy  func(*UntagResourceInput) UntagResourceRequest
 }
 
 // Send marshals and sends the UntagResource API request.
@@ -3619,8 +3867,11 @@ func (c *CloudDirectory) UntagResourceRequest(input *UntagResourceInput) UntagRe
 		input = &UntagResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &UntagResourceOutput{})
-	return UntagResourceRequest{Request: req, Input: input}
+	output := &UntagResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UntagResourceRequest{Request: req, Input: input, Copy: c.UntagResourceRequest}
 }
 
 const opUpdateFacet = "UpdateFacet"
@@ -3629,6 +3880,7 @@ const opUpdateFacet = "UpdateFacet"
 type UpdateFacetRequest struct {
 	*aws.Request
 	Input *UpdateFacetInput
+	Copy  func(*UpdateFacetInput) UpdateFacetRequest
 }
 
 // Send marshals and sends the UpdateFacet API request.
@@ -3671,8 +3923,11 @@ func (c *CloudDirectory) UpdateFacetRequest(input *UpdateFacetInput) UpdateFacet
 		input = &UpdateFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateFacetOutput{})
-	return UpdateFacetRequest{Request: req, Input: input}
+	output := &UpdateFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateFacetRequest{Request: req, Input: input, Copy: c.UpdateFacetRequest}
 }
 
 const opUpdateObjectAttributes = "UpdateObjectAttributes"
@@ -3681,6 +3936,7 @@ const opUpdateObjectAttributes = "UpdateObjectAttributes"
 type UpdateObjectAttributesRequest struct {
 	*aws.Request
 	Input *UpdateObjectAttributesInput
+	Copy  func(*UpdateObjectAttributesInput) UpdateObjectAttributesRequest
 }
 
 // Send marshals and sends the UpdateObjectAttributes API request.
@@ -3717,8 +3973,11 @@ func (c *CloudDirectory) UpdateObjectAttributesRequest(input *UpdateObjectAttrib
 		input = &UpdateObjectAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateObjectAttributesOutput{})
-	return UpdateObjectAttributesRequest{Request: req, Input: input}
+	output := &UpdateObjectAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateObjectAttributesRequest{Request: req, Input: input, Copy: c.UpdateObjectAttributesRequest}
 }
 
 const opUpdateSchema = "UpdateSchema"
@@ -3727,6 +3986,7 @@ const opUpdateSchema = "UpdateSchema"
 type UpdateSchemaRequest struct {
 	*aws.Request
 	Input *UpdateSchemaInput
+	Copy  func(*UpdateSchemaInput) UpdateSchemaRequest
 }
 
 // Send marshals and sends the UpdateSchema API request.
@@ -3764,8 +4024,11 @@ func (c *CloudDirectory) UpdateSchemaRequest(input *UpdateSchemaInput) UpdateSch
 		input = &UpdateSchemaInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSchemaOutput{})
-	return UpdateSchemaRequest{Request: req, Input: input}
+	output := &UpdateSchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSchemaRequest{Request: req, Input: input, Copy: c.UpdateSchemaRequest}
 }
 
 const opUpdateTypedLinkFacet = "UpdateTypedLinkFacet"
@@ -3774,6 +4037,7 @@ const opUpdateTypedLinkFacet = "UpdateTypedLinkFacet"
 type UpdateTypedLinkFacetRequest struct {
 	*aws.Request
 	Input *UpdateTypedLinkFacetInput
+	Copy  func(*UpdateTypedLinkFacetInput) UpdateTypedLinkFacetRequest
 }
 
 // Send marshals and sends the UpdateTypedLinkFacet API request.
@@ -3810,8 +4074,117 @@ func (c *CloudDirectory) UpdateTypedLinkFacetRequest(input *UpdateTypedLinkFacet
 		input = &UpdateTypedLinkFacetInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateTypedLinkFacetOutput{})
-	return UpdateTypedLinkFacetRequest{Request: req, Input: input}
+	output := &UpdateTypedLinkFacetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateTypedLinkFacetRequest{Request: req, Input: input, Copy: c.UpdateTypedLinkFacetRequest}
+}
+
+const opUpgradeAppliedSchema = "UpgradeAppliedSchema"
+
+// UpgradeAppliedSchemaRequest is a API request type for the UpgradeAppliedSchema API operation.
+type UpgradeAppliedSchemaRequest struct {
+	*aws.Request
+	Input *UpgradeAppliedSchemaInput
+	Copy  func(*UpgradeAppliedSchemaInput) UpgradeAppliedSchemaRequest
+}
+
+// Send marshals and sends the UpgradeAppliedSchema API request.
+func (r UpgradeAppliedSchemaRequest) Send() (*UpgradeAppliedSchemaOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpgradeAppliedSchemaOutput), nil
+}
+
+// UpgradeAppliedSchemaRequest returns a request value for making API operation for
+// Amazon CloudDirectory.
+//
+// Upgrades a single directory in-place using the PublishedSchemaArn with schema
+// updates found in MinorVersion. Backwards-compatible minor version upgrades
+// are instantaneously available for readers on all objects in the directory.
+// Note: This is a synchronous API call and upgrades only one schema on a given
+// directory per call. To upgrade multiple directories from one schema, you
+// would need to call this API on each directory.
+//
+//    // Example sending a request using the UpgradeAppliedSchemaRequest method.
+//    req := client.UpgradeAppliedSchemaRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradeAppliedSchema
+func (c *CloudDirectory) UpgradeAppliedSchemaRequest(input *UpgradeAppliedSchemaInput) UpgradeAppliedSchemaRequest {
+	op := &aws.Operation{
+		Name:       opUpgradeAppliedSchema,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/amazonclouddirectory/2017-01-11/schema/upgradeapplied",
+	}
+
+	if input == nil {
+		input = &UpgradeAppliedSchemaInput{}
+	}
+
+	output := &UpgradeAppliedSchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpgradeAppliedSchemaRequest{Request: req, Input: input, Copy: c.UpgradeAppliedSchemaRequest}
+}
+
+const opUpgradePublishedSchema = "UpgradePublishedSchema"
+
+// UpgradePublishedSchemaRequest is a API request type for the UpgradePublishedSchema API operation.
+type UpgradePublishedSchemaRequest struct {
+	*aws.Request
+	Input *UpgradePublishedSchemaInput
+	Copy  func(*UpgradePublishedSchemaInput) UpgradePublishedSchemaRequest
+}
+
+// Send marshals and sends the UpgradePublishedSchema API request.
+func (r UpgradePublishedSchemaRequest) Send() (*UpgradePublishedSchemaOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpgradePublishedSchemaOutput), nil
+}
+
+// UpgradePublishedSchemaRequest returns a request value for making API operation for
+// Amazon CloudDirectory.
+//
+// Upgrades a published schema under a new minor version revision using the
+// current contents of DevelopmentSchemaArn.
+//
+//    // Example sending a request using the UpgradePublishedSchemaRequest method.
+//    req := client.UpgradePublishedSchemaRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradePublishedSchema
+func (c *CloudDirectory) UpgradePublishedSchemaRequest(input *UpgradePublishedSchemaInput) UpgradePublishedSchemaRequest {
+	op := &aws.Operation{
+		Name:       opUpgradePublishedSchema,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/amazonclouddirectory/2017-01-11/schema/upgradepublished",
+	}
+
+	if input == nil {
+		input = &UpgradePublishedSchemaInput{}
+	}
+
+	output := &UpgradePublishedSchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpgradePublishedSchemaRequest{Request: req, Input: input, Copy: c.UpgradePublishedSchemaRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AddFacetToObjectRequest
@@ -3825,14 +4198,15 @@ type AddFacetToObjectInput struct {
 	DirectoryArn *string `location:"header" locationName:"x-amz-data-partition" type:"string" required:"true"`
 
 	// Attributes on the facet that you are adding to the object.
-	ObjectAttributeList []*AttributeKeyAndValue `type:"list"`
+	ObjectAttributeList []AttributeKeyAndValue `type:"list"`
 
 	// A reference to the object you are adding the specified facet to.
 	//
 	// ObjectReference is a required field
 	ObjectReference *ObjectReference `type:"structure" required:"true"`
 
-	// Identifiers for the facet that you are adding to the object.
+	// Identifiers for the facet that you are adding to the object. See SchemaFacet
+	// for details.
 	//
 	// SchemaFacet is a required field
 	SchemaFacet *SchemaFacet `type:"structure" required:"true"`
@@ -3865,9 +4239,6 @@ func (s *AddFacetToObjectInput) Validate() error {
 	}
 	if s.ObjectAttributeList != nil {
 		for i, v := range s.ObjectAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ObjectAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -3885,33 +4256,47 @@ func (s *AddFacetToObjectInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *AddFacetToObjectInput) SetDirectoryArn(v string) *AddFacetToObjectInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddFacetToObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetObjectAttributeList sets the ObjectAttributeList field's value.
-func (s *AddFacetToObjectInput) SetObjectAttributeList(v []*AttributeKeyAndValue) *AddFacetToObjectInput {
-	s.ObjectAttributeList = v
-	return s
-}
+	if len(s.ObjectAttributeList) > 0 {
+		v := s.ObjectAttributeList
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *AddFacetToObjectInput) SetObjectReference(v *ObjectReference) *AddFacetToObjectInput {
-	s.ObjectReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectAttributeList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaFacet sets the SchemaFacet field's value.
-func (s *AddFacetToObjectInput) SetSchemaFacet(v *SchemaFacet) *AddFacetToObjectInput {
-	s.SchemaFacet = v
-	return s
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.SchemaFacet != nil {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SchemaFacet", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AddFacetToObjectResponse
 type AddFacetToObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3922,6 +4307,16 @@ func (s AddFacetToObjectOutput) String() string {
 // GoString returns the string representation
 func (s AddFacetToObjectOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddFacetToObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddFacetToObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ApplySchemaRequest
@@ -3969,21 +4364,29 @@ func (s *ApplySchemaInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ApplySchemaInput) SetDirectoryArn(v string) *ApplySchemaInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ApplySchemaInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetPublishedSchemaArn sets the PublishedSchemaArn field's value.
-func (s *ApplySchemaInput) SetPublishedSchemaArn(v string) *ApplySchemaInput {
-	s.PublishedSchemaArn = &v
-	return s
+	if s.PublishedSchemaArn != nil {
+		v := *s.PublishedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PublishedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ApplySchemaResponse
 type ApplySchemaOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The applied schema ARN that is associated with the copied schema in the Directory.
 	// You can use this ARN to describe the schema information applied on this directory.
@@ -4005,16 +4408,26 @@ func (s ApplySchemaOutput) GoString() string {
 	return s.String()
 }
 
-// SetAppliedSchemaArn sets the AppliedSchemaArn field's value.
-func (s *ApplySchemaOutput) SetAppliedSchemaArn(v string) *ApplySchemaOutput {
-	s.AppliedSchemaArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ApplySchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ApplySchemaOutput) SetDirectoryArn(v string) *ApplySchemaOutput {
-	s.DirectoryArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ApplySchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppliedSchemaArn != nil {
+		v := *s.AppliedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AppliedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachObjectRequest
@@ -4082,33 +4495,41 @@ func (s *AttachObjectInput) Validate() error {
 	return nil
 }
 
-// SetChildReference sets the ChildReference field's value.
-func (s *AttachObjectInput) SetChildReference(v *ObjectReference) *AttachObjectInput {
-	s.ChildReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *AttachObjectInput) SetDirectoryArn(v string) *AttachObjectInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.ChildReference != nil {
+		v := s.ChildReference
 
-// SetLinkName sets the LinkName field's value.
-func (s *AttachObjectInput) SetLinkName(v string) *AttachObjectInput {
-	s.LinkName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ChildReference", v, metadata)
+	}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetParentReference sets the ParentReference field's value.
-func (s *AttachObjectInput) SetParentReference(v *ObjectReference) *AttachObjectInput {
-	s.ParentReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachObjectResponse
 type AttachObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The attached ObjectIdentifier, which is the child ObjectIdentifier.
 	AttachedObjectIdentifier *string `type:"string"`
@@ -4124,10 +4545,20 @@ func (s AttachObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttachedObjectIdentifier sets the AttachedObjectIdentifier field's value.
-func (s *AttachObjectOutput) SetAttachedObjectIdentifier(v string) *AttachObjectOutput {
-	s.AttachedObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttachedObjectIdentifier != nil {
+		v := *s.AttachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AttachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachPolicyRequest
@@ -4136,7 +4567,9 @@ type AttachPolicyInput struct {
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// both objects reside. For more information, see arns.
-	DirectoryArn *string `location:"header" locationName:"x-amz-data-partition" type:"string"`
+	//
+	// DirectoryArn is a required field
+	DirectoryArn *string `location:"header" locationName:"x-amz-data-partition" type:"string" required:"true"`
 
 	// The reference that identifies the object to which the policy will be attached.
 	//
@@ -4163,6 +4596,10 @@ func (s AttachPolicyInput) GoString() string {
 func (s *AttachPolicyInput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "AttachPolicyInput"}
 
+	if s.DirectoryArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DirectoryArn"))
+	}
+
 	if s.ObjectReference == nil {
 		invalidParams.Add(aws.NewErrParamRequired("ObjectReference"))
 	}
@@ -4177,27 +4614,35 @@ func (s *AttachPolicyInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *AttachPolicyInput) SetDirectoryArn(v string) *AttachPolicyInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *AttachPolicyInput) SetObjectReference(v *ObjectReference) *AttachPolicyInput {
-	s.ObjectReference = v
-	return s
-}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetPolicyReference sets the PolicyReference field's value.
-func (s *AttachPolicyInput) SetPolicyReference(v *ObjectReference) *AttachPolicyInput {
-	s.PolicyReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.PolicyReference != nil {
+		v := s.PolicyReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PolicyReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachPolicyResponse
 type AttachPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4208,6 +4653,16 @@ func (s AttachPolicyOutput) String() string {
 // GoString returns the string representation
 func (s AttachPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachToIndexRequest
@@ -4263,27 +4718,35 @@ func (s *AttachToIndexInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *AttachToIndexInput) SetDirectoryArn(v string) *AttachToIndexInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachToIndexInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetIndexReference sets the IndexReference field's value.
-func (s *AttachToIndexInput) SetIndexReference(v *ObjectReference) *AttachToIndexInput {
-	s.IndexReference = v
-	return s
-}
+	if s.IndexReference != nil {
+		v := s.IndexReference
 
-// SetTargetReference sets the TargetReference field's value.
-func (s *AttachToIndexInput) SetTargetReference(v *ObjectReference) *AttachToIndexInput {
-	s.TargetReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexReference", v, metadata)
+	}
+	if s.TargetReference != nil {
+		v := s.TargetReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachToIndexResponse
 type AttachToIndexOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ObjectIdentifier of the object that was attached to the index.
 	AttachedObjectIdentifier *string `type:"string"`
@@ -4299,10 +4762,20 @@ func (s AttachToIndexOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttachedObjectIdentifier sets the AttachedObjectIdentifier field's value.
-func (s *AttachToIndexOutput) SetAttachedObjectIdentifier(v string) *AttachToIndexOutput {
-	s.AttachedObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachToIndexOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachToIndexOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttachedObjectIdentifier != nil {
+		v := *s.AttachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AttachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachTypedLinkRequest
@@ -4312,7 +4785,7 @@ type AttachTypedLinkInput struct {
 	// A set of attributes that are associated with the typed link.
 	//
 	// Attributes is a required field
-	Attributes []*AttributeNameAndValue `type:"list" required:"true"`
+	Attributes []AttributeNameAndValue `type:"list" required:"true"`
 
 	// The Amazon Resource Name (ARN) of the directory where you want to attach
 	// the typed link.
@@ -4371,9 +4844,6 @@ func (s *AttachTypedLinkInput) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -4391,39 +4861,53 @@ func (s *AttachTypedLinkInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *AttachTypedLinkInput) SetAttributes(v []*AttributeNameAndValue) *AttachTypedLinkInput {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachTypedLinkInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *AttachTypedLinkInput) SetDirectoryArn(v string) *AttachTypedLinkInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetSourceObjectReference sets the SourceObjectReference field's value.
-func (s *AttachTypedLinkInput) SetSourceObjectReference(v *ObjectReference) *AttachTypedLinkInput {
-	s.SourceObjectReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetTargetObjectReference sets the TargetObjectReference field's value.
-func (s *AttachTypedLinkInput) SetTargetObjectReference(v *ObjectReference) *AttachTypedLinkInput {
-	s.TargetObjectReference = v
-	return s
-}
+	}
+	if s.SourceObjectReference != nil {
+		v := s.SourceObjectReference
 
-// SetTypedLinkFacet sets the TypedLinkFacet field's value.
-func (s *AttachTypedLinkInput) SetTypedLinkFacet(v *TypedLinkSchemaAndFacetName) *AttachTypedLinkInput {
-	s.TypedLinkFacet = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SourceObjectReference", v, metadata)
+	}
+	if s.TargetObjectReference != nil {
+		v := s.TargetObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetObjectReference", v, metadata)
+	}
+	if s.TypedLinkFacet != nil {
+		v := s.TypedLinkFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkFacet", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/AttachTypedLinkResponse
 type AttachTypedLinkOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Returns a typed link specifier as output.
 	TypedLinkSpecifier *TypedLinkSpecifier `type:"structure"`
@@ -4439,10 +4923,20 @@ func (s AttachTypedLinkOutput) GoString() string {
 	return s.String()
 }
 
-// SetTypedLinkSpecifier sets the TypedLinkSpecifier field's value.
-func (s *AttachTypedLinkOutput) SetTypedLinkSpecifier(v *TypedLinkSpecifier) *AttachTypedLinkOutput {
-	s.TypedLinkSpecifier = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachTypedLinkOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttachTypedLinkOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TypedLinkSpecifier != nil {
+		v := s.TypedLinkSpecifier
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkSpecifier", v, metadata)
+	}
+	return nil
 }
 
 // A unique identifier for an attribute.
@@ -4505,22 +4999,27 @@ func (s *AttributeKey) Validate() error {
 	return nil
 }
 
-// SetFacetName sets the FacetName field's value.
-func (s *AttributeKey) SetFacetName(v string) *AttributeKey {
-	s.FacetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttributeKey) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FacetName != nil {
+		v := *s.FacetName
 
-// SetName sets the Name field's value.
-func (s *AttributeKey) SetName(v string) *AttributeKey {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FacetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *AttributeKey) SetSchemaArn(v string) *AttributeKey {
-	s.SchemaArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The combination of an attribute key and an attribute value.
@@ -4572,16 +5071,21 @@ func (s *AttributeKeyAndValue) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *AttributeKeyAndValue) SetKey(v *AttributeKey) *AttributeKeyAndValue {
-	s.Key = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttributeKeyAndValue) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := s.Key
 
-// SetValue sets the Value field's value.
-func (s *AttributeKeyAndValue) SetValue(v *TypedAttributeValue) *AttributeKeyAndValue {
-	s.Value = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Key", v, metadata)
+	}
+	if s.Value != nil {
+		v := s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Value", v, metadata)
+	}
+	return nil
 }
 
 // Identifies the attribute name and value for a typed link.
@@ -4631,16 +5135,21 @@ func (s *AttributeNameAndValue) Validate() error {
 	return nil
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *AttributeNameAndValue) SetAttributeName(v string) *AttributeNameAndValue {
-	s.AttributeName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AttributeNameAndValue) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttributeName != nil {
+		v := *s.AttributeName
 
-// SetValue sets the Value field's value.
-func (s *AttributeNameAndValue) SetValue(v *TypedAttributeValue) *AttributeNameAndValue {
-	s.Value = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AttributeName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Value != nil {
+		v := s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Value", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a batch add facet to object operation.
@@ -4651,7 +5160,7 @@ type BatchAddFacetToObject struct {
 	// The attributes to set on the object.
 	//
 	// ObjectAttributeList is a required field
-	ObjectAttributeList []*AttributeKeyAndValue `type:"list" required:"true"`
+	ObjectAttributeList []AttributeKeyAndValue `type:"list" required:"true"`
 
 	// A reference to the object being mutated.
 	//
@@ -4691,9 +5200,6 @@ func (s *BatchAddFacetToObject) Validate() error {
 	}
 	if s.ObjectAttributeList != nil {
 		for i, v := range s.ObjectAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ObjectAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -4711,22 +5217,33 @@ func (s *BatchAddFacetToObject) Validate() error {
 	return nil
 }
 
-// SetObjectAttributeList sets the ObjectAttributeList field's value.
-func (s *BatchAddFacetToObject) SetObjectAttributeList(v []*AttributeKeyAndValue) *BatchAddFacetToObject {
-	s.ObjectAttributeList = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAddFacetToObject) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ObjectAttributeList) > 0 {
+		v := s.ObjectAttributeList
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchAddFacetToObject) SetObjectReference(v *ObjectReference) *BatchAddFacetToObject {
-	s.ObjectReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectAttributeList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaFacet sets the SchemaFacet field's value.
-func (s *BatchAddFacetToObject) SetSchemaFacet(v *SchemaFacet) *BatchAddFacetToObject {
-	s.SchemaFacet = v
-	return s
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.SchemaFacet != nil {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SchemaFacet", v, metadata)
+	}
+	return nil
 }
 
 // The result of a batch add facet to object operation.
@@ -4743,6 +5260,11 @@ func (s BatchAddFacetToObjectResponse) String() string {
 // GoString returns the string representation
 func (s BatchAddFacetToObjectResponse) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAddFacetToObjectResponse) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Represents the output of an AttachObject operation.
@@ -4801,22 +5323,27 @@ func (s *BatchAttachObject) Validate() error {
 	return nil
 }
 
-// SetChildReference sets the ChildReference field's value.
-func (s *BatchAttachObject) SetChildReference(v *ObjectReference) *BatchAttachObject {
-	s.ChildReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachObject) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ChildReference != nil {
+		v := s.ChildReference
 
-// SetLinkName sets the LinkName field's value.
-func (s *BatchAttachObject) SetLinkName(v string) *BatchAttachObject {
-	s.LinkName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ChildReference", v, metadata)
+	}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetParentReference sets the ParentReference field's value.
-func (s *BatchAttachObject) SetParentReference(v *ObjectReference) *BatchAttachObject {
-	s.ParentReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output batch AttachObject response operation.
@@ -4838,10 +5365,15 @@ func (s BatchAttachObjectResponse) GoString() string {
 	return s.String()
 }
 
-// SetAttachedObjectIdentifier sets the AttachedObjectIdentifier field's value.
-func (s *BatchAttachObjectResponse) SetAttachedObjectIdentifier(v string) *BatchAttachObjectResponse {
-	s.AttachedObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachObjectResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttachedObjectIdentifier != nil {
+		v := *s.AttachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "attachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Attaches a policy object to a regular object inside a BatchRead operation. For
@@ -4889,16 +5421,21 @@ func (s *BatchAttachPolicy) Validate() error {
 	return nil
 }
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchAttachPolicy) SetObjectReference(v *ObjectReference) *BatchAttachPolicy {
-	s.ObjectReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachPolicy) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetPolicyReference sets the PolicyReference field's value.
-func (s *BatchAttachPolicy) SetPolicyReference(v *ObjectReference) *BatchAttachPolicy {
-	s.PolicyReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.PolicyReference != nil {
+		v := s.PolicyReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PolicyReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of an AttachPolicy response operation.
@@ -4915,6 +5452,11 @@ func (s BatchAttachPolicyResponse) String() string {
 // GoString returns the string representation
 func (s BatchAttachPolicyResponse) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachPolicyResponse) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Attaches the specified object to the specified index inside a BatchRead operation.
@@ -4962,16 +5504,21 @@ func (s *BatchAttachToIndex) Validate() error {
 	return nil
 }
 
-// SetIndexReference sets the IndexReference field's value.
-func (s *BatchAttachToIndex) SetIndexReference(v *ObjectReference) *BatchAttachToIndex {
-	s.IndexReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachToIndex) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IndexReference != nil {
+		v := s.IndexReference
 
-// SetTargetReference sets the TargetReference field's value.
-func (s *BatchAttachToIndex) SetTargetReference(v *ObjectReference) *BatchAttachToIndex {
-	s.TargetReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexReference", v, metadata)
+	}
+	if s.TargetReference != nil {
+		v := s.TargetReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a AttachToIndex response operation.
@@ -4993,10 +5540,15 @@ func (s BatchAttachToIndexResponse) GoString() string {
 	return s.String()
 }
 
-// SetAttachedObjectIdentifier sets the AttachedObjectIdentifier field's value.
-func (s *BatchAttachToIndexResponse) SetAttachedObjectIdentifier(v string) *BatchAttachToIndexResponse {
-	s.AttachedObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachToIndexResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttachedObjectIdentifier != nil {
+		v := *s.AttachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AttachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Attaches a typed link to a specified source and target object inside a BatchRead
@@ -5008,7 +5560,7 @@ type BatchAttachTypedLink struct {
 	// A set of attributes that are associated with the typed link.
 	//
 	// Attributes is a required field
-	Attributes []*AttributeNameAndValue `type:"list" required:"true"`
+	Attributes []AttributeNameAndValue `type:"list" required:"true"`
 
 	// Identifies the source object that the typed link will attach to.
 	//
@@ -5057,9 +5609,6 @@ func (s *BatchAttachTypedLink) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -5077,28 +5626,39 @@ func (s *BatchAttachTypedLink) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *BatchAttachTypedLink) SetAttributes(v []*AttributeNameAndValue) *BatchAttachTypedLink {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachTypedLink) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetSourceObjectReference sets the SourceObjectReference field's value.
-func (s *BatchAttachTypedLink) SetSourceObjectReference(v *ObjectReference) *BatchAttachTypedLink {
-	s.SourceObjectReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetTargetObjectReference sets the TargetObjectReference field's value.
-func (s *BatchAttachTypedLink) SetTargetObjectReference(v *ObjectReference) *BatchAttachTypedLink {
-	s.TargetObjectReference = v
-	return s
-}
+	}
+	if s.SourceObjectReference != nil {
+		v := s.SourceObjectReference
 
-// SetTypedLinkFacet sets the TypedLinkFacet field's value.
-func (s *BatchAttachTypedLink) SetTypedLinkFacet(v *TypedLinkSchemaAndFacetName) *BatchAttachTypedLink {
-	s.TypedLinkFacet = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SourceObjectReference", v, metadata)
+	}
+	if s.TargetObjectReference != nil {
+		v := s.TargetObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetObjectReference", v, metadata)
+	}
+	if s.TypedLinkFacet != nil {
+		v := s.TypedLinkFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkFacet", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a AttachTypedLink response operation.
@@ -5120,10 +5680,15 @@ func (s BatchAttachTypedLinkResponse) GoString() string {
 	return s.String()
 }
 
-// SetTypedLinkSpecifier sets the TypedLinkSpecifier field's value.
-func (s *BatchAttachTypedLinkResponse) SetTypedLinkSpecifier(v *TypedLinkSpecifier) *BatchAttachTypedLinkResponse {
-	s.TypedLinkSpecifier = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchAttachTypedLinkResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TypedLinkSpecifier != nil {
+		v := s.TypedLinkSpecifier
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkSpecifier", v, metadata)
+	}
+	return nil
 }
 
 // Creates an index object inside of a BatchRead operation. For more information,
@@ -5149,7 +5714,7 @@ type BatchCreateIndex struct {
 	// attribute is supported.
 	//
 	// OrderedIndexedAttributeList is a required field
-	OrderedIndexedAttributeList []*AttributeKey `type:"list" required:"true"`
+	OrderedIndexedAttributeList []AttributeKey `type:"list" required:"true"`
 
 	// A reference to the parent object that contains the index object.
 	ParentReference *ObjectReference `type:"structure"`
@@ -5181,9 +5746,6 @@ func (s *BatchCreateIndex) Validate() error {
 	}
 	if s.OrderedIndexedAttributeList != nil {
 		for i, v := range s.OrderedIndexedAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OrderedIndexedAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -5196,34 +5758,45 @@ func (s *BatchCreateIndex) Validate() error {
 	return nil
 }
 
-// SetBatchReferenceName sets the BatchReferenceName field's value.
-func (s *BatchCreateIndex) SetBatchReferenceName(v string) *BatchCreateIndex {
-	s.BatchReferenceName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchCreateIndex) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchReferenceName != nil {
+		v := *s.BatchReferenceName
 
-// SetIsUnique sets the IsUnique field's value.
-func (s *BatchCreateIndex) SetIsUnique(v bool) *BatchCreateIndex {
-	s.IsUnique = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BatchReferenceName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsUnique != nil {
+		v := *s.IsUnique
 
-// SetLinkName sets the LinkName field's value.
-func (s *BatchCreateIndex) SetLinkName(v string) *BatchCreateIndex {
-	s.LinkName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsUnique", protocol.BoolValue(v), metadata)
+	}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetOrderedIndexedAttributeList sets the OrderedIndexedAttributeList field's value.
-func (s *BatchCreateIndex) SetOrderedIndexedAttributeList(v []*AttributeKey) *BatchCreateIndex {
-	s.OrderedIndexedAttributeList = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.OrderedIndexedAttributeList) > 0 {
+		v := s.OrderedIndexedAttributeList
 
-// SetParentReference sets the ParentReference field's value.
-func (s *BatchCreateIndex) SetParentReference(v *ObjectReference) *BatchCreateIndex {
-	s.ParentReference = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "OrderedIndexedAttributeList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a CreateIndex response operation.
@@ -5245,10 +5818,15 @@ func (s BatchCreateIndexResponse) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *BatchCreateIndexResponse) SetObjectIdentifier(v string) *BatchCreateIndexResponse {
-	s.ObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchCreateIndexResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a CreateObject operation.
@@ -5258,31 +5836,25 @@ type BatchCreateObject struct {
 
 	// The batch reference name. See Batches (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#batches)
 	// for more information.
-	//
-	// BatchReferenceName is a required field
-	BatchReferenceName *string `type:"string" required:"true"`
+	BatchReferenceName *string `type:"string"`
 
 	// The name of the link.
-	//
-	// LinkName is a required field
-	LinkName *string `min:"1" type:"string" required:"true"`
+	LinkName *string `min:"1" type:"string"`
 
 	// An attribute map, which contains an attribute ARN as the key and attribute
 	// value as the map value.
 	//
 	// ObjectAttributeList is a required field
-	ObjectAttributeList []*AttributeKeyAndValue `type:"list" required:"true"`
+	ObjectAttributeList []AttributeKeyAndValue `type:"list" required:"true"`
 
 	// If specified, the parent reference to which this object will be attached.
-	//
-	// ParentReference is a required field
-	ParentReference *ObjectReference `type:"structure" required:"true"`
+	ParentReference *ObjectReference `type:"structure"`
 
 	// A list of FacetArns that will be associated with the object. For more information,
 	// see arns.
 	//
 	// SchemaFacet is a required field
-	SchemaFacet []*SchemaFacet `type:"list" required:"true"`
+	SchemaFacet []SchemaFacet `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5298,14 +5870,6 @@ func (s BatchCreateObject) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *BatchCreateObject) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "BatchCreateObject"}
-
-	if s.BatchReferenceName == nil {
-		invalidParams.Add(aws.NewErrParamRequired("BatchReferenceName"))
-	}
-
-	if s.LinkName == nil {
-		invalidParams.Add(aws.NewErrParamRequired("LinkName"))
-	}
 	if s.LinkName != nil && len(*s.LinkName) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("LinkName", 1))
 	}
@@ -5314,18 +5878,11 @@ func (s *BatchCreateObject) Validate() error {
 		invalidParams.Add(aws.NewErrParamRequired("ObjectAttributeList"))
 	}
 
-	if s.ParentReference == nil {
-		invalidParams.Add(aws.NewErrParamRequired("ParentReference"))
-	}
-
 	if s.SchemaFacet == nil {
 		invalidParams.Add(aws.NewErrParamRequired("SchemaFacet"))
 	}
 	if s.ObjectAttributeList != nil {
 		for i, v := range s.ObjectAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ObjectAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -5333,9 +5890,6 @@ func (s *BatchCreateObject) Validate() error {
 	}
 	if s.SchemaFacet != nil {
 		for i, v := range s.SchemaFacet {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "SchemaFacet", i), err.(aws.ErrInvalidParams))
 			}
@@ -5348,34 +5902,51 @@ func (s *BatchCreateObject) Validate() error {
 	return nil
 }
 
-// SetBatchReferenceName sets the BatchReferenceName field's value.
-func (s *BatchCreateObject) SetBatchReferenceName(v string) *BatchCreateObject {
-	s.BatchReferenceName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchCreateObject) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchReferenceName != nil {
+		v := *s.BatchReferenceName
 
-// SetLinkName sets the LinkName field's value.
-func (s *BatchCreateObject) SetLinkName(v string) *BatchCreateObject {
-	s.LinkName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BatchReferenceName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetObjectAttributeList sets the ObjectAttributeList field's value.
-func (s *BatchCreateObject) SetObjectAttributeList(v []*AttributeKeyAndValue) *BatchCreateObject {
-	s.ObjectAttributeList = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectAttributeList) > 0 {
+		v := s.ObjectAttributeList
 
-// SetParentReference sets the ParentReference field's value.
-func (s *BatchCreateObject) SetParentReference(v *ObjectReference) *BatchCreateObject {
-	s.ParentReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectAttributeList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaFacet sets the SchemaFacet field's value.
-func (s *BatchCreateObject) SetSchemaFacet(v []*SchemaFacet) *BatchCreateObject {
-	s.SchemaFacet = v
-	return s
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	if len(s.SchemaFacet) > 0 {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaFacet", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Represents the output of a CreateObject response operation.
@@ -5397,10 +5968,15 @@ func (s BatchCreateObjectResponse) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *BatchCreateObjectResponse) SetObjectIdentifier(v string) *BatchCreateObjectResponse {
-	s.ObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchCreateObjectResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DeleteObject operation.
@@ -5438,10 +6014,15 @@ func (s *BatchDeleteObject) Validate() error {
 	return nil
 }
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchDeleteObject) SetObjectReference(v *ObjectReference) *BatchDeleteObject {
-	s.ObjectReference = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDeleteObject) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DeleteObject response operation.
@@ -5458,6 +6039,11 @@ func (s BatchDeleteObjectResponse) String() string {
 // GoString returns the string representation
 func (s BatchDeleteObjectResponse) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDeleteObjectResponse) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Detaches the specified object from the specified index inside a BatchRead
@@ -5505,16 +6091,21 @@ func (s *BatchDetachFromIndex) Validate() error {
 	return nil
 }
 
-// SetIndexReference sets the IndexReference field's value.
-func (s *BatchDetachFromIndex) SetIndexReference(v *ObjectReference) *BatchDetachFromIndex {
-	s.IndexReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachFromIndex) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IndexReference != nil {
+		v := s.IndexReference
 
-// SetTargetReference sets the TargetReference field's value.
-func (s *BatchDetachFromIndex) SetTargetReference(v *ObjectReference) *BatchDetachFromIndex {
-	s.TargetReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexReference", v, metadata)
+	}
+	if s.TargetReference != nil {
+		v := s.TargetReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DetachFromIndex response operation.
@@ -5536,10 +6127,15 @@ func (s BatchDetachFromIndexResponse) GoString() string {
 	return s.String()
 }
 
-// SetDetachedObjectIdentifier sets the DetachedObjectIdentifier field's value.
-func (s *BatchDetachFromIndexResponse) SetDetachedObjectIdentifier(v string) *BatchDetachFromIndexResponse {
-	s.DetachedObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachFromIndexResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DetachedObjectIdentifier != nil {
+		v := *s.DetachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DetachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DetachObject operation.
@@ -5549,9 +6145,7 @@ type BatchDetachObject struct {
 
 	// The batch reference name. See Batches (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#batches)
 	// for more information.
-	//
-	// BatchReferenceName is a required field
-	BatchReferenceName *string `type:"string" required:"true"`
+	BatchReferenceName *string `type:"string"`
 
 	// The name of the link.
 	//
@@ -5578,10 +6172,6 @@ func (s BatchDetachObject) GoString() string {
 func (s *BatchDetachObject) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "BatchDetachObject"}
 
-	if s.BatchReferenceName == nil {
-		invalidParams.Add(aws.NewErrParamRequired("BatchReferenceName"))
-	}
-
 	if s.LinkName == nil {
 		invalidParams.Add(aws.NewErrParamRequired("LinkName"))
 	}
@@ -5599,22 +6189,27 @@ func (s *BatchDetachObject) Validate() error {
 	return nil
 }
 
-// SetBatchReferenceName sets the BatchReferenceName field's value.
-func (s *BatchDetachObject) SetBatchReferenceName(v string) *BatchDetachObject {
-	s.BatchReferenceName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachObject) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BatchReferenceName != nil {
+		v := *s.BatchReferenceName
 
-// SetLinkName sets the LinkName field's value.
-func (s *BatchDetachObject) SetLinkName(v string) *BatchDetachObject {
-	s.LinkName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BatchReferenceName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetParentReference sets the ParentReference field's value.
-func (s *BatchDetachObject) SetParentReference(v *ObjectReference) *BatchDetachObject {
-	s.ParentReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DetachObject response operation.
@@ -5636,14 +6231,19 @@ func (s BatchDetachObjectResponse) GoString() string {
 	return s.String()
 }
 
-// SetDetachedObjectIdentifier sets the DetachedObjectIdentifier field's value.
-func (s *BatchDetachObjectResponse) SetDetachedObjectIdentifier(v string) *BatchDetachObjectResponse {
-	s.DetachedObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachObjectResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DetachedObjectIdentifier != nil {
+		v := *s.DetachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "detachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// Detaches the specified policy from the specified directory inside a BatchRead
-// operation. For more information, see DetachPolicy and BatchReadRequest$Operations.
+// Detaches the specified policy from the specified directory inside a BatchWrite
+// operation. For more information, see DetachPolicy and BatchWriteRequest$Operations.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchDetachPolicy
 type BatchDetachPolicy struct {
 	_ struct{} `type:"structure"`
@@ -5687,16 +6287,21 @@ func (s *BatchDetachPolicy) Validate() error {
 	return nil
 }
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchDetachPolicy) SetObjectReference(v *ObjectReference) *BatchDetachPolicy {
-	s.ObjectReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachPolicy) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetPolicyReference sets the PolicyReference field's value.
-func (s *BatchDetachPolicy) SetPolicyReference(v *ObjectReference) *BatchDetachPolicy {
-	s.PolicyReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.PolicyReference != nil {
+		v := s.PolicyReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PolicyReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DetachPolicy response operation.
@@ -5713,6 +6318,11 @@ func (s BatchDetachPolicyResponse) String() string {
 // GoString returns the string representation
 func (s BatchDetachPolicyResponse) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachPolicyResponse) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Detaches a typed link from a specified source and target object inside a
@@ -5756,10 +6366,15 @@ func (s *BatchDetachTypedLink) Validate() error {
 	return nil
 }
 
-// SetTypedLinkSpecifier sets the TypedLinkSpecifier field's value.
-func (s *BatchDetachTypedLink) SetTypedLinkSpecifier(v *TypedLinkSpecifier) *BatchDetachTypedLink {
-	s.TypedLinkSpecifier = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachTypedLink) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TypedLinkSpecifier != nil {
+		v := s.TypedLinkSpecifier
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkSpecifier", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a DetachTypedLink response operation.
@@ -5776,6 +6391,137 @@ func (s BatchDetachTypedLinkResponse) String() string {
 // GoString returns the string representation
 func (s BatchDetachTypedLinkResponse) GoString() string {
 	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchDetachTypedLinkResponse) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
+// Retrieves attributes within a facet that are associated with an object inside
+// an BatchRead operation. For more information, see GetObjectAttributes and
+// BatchReadRequest$Operations.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchGetObjectAttributes
+type BatchGetObjectAttributes struct {
+	_ struct{} `type:"structure"`
+
+	// List of attribute names whose values will be retrieved.
+	//
+	// AttributeNames is a required field
+	AttributeNames []string `type:"list" required:"true"`
+
+	// Reference that identifies the object whose attributes will be retrieved.
+	//
+	// ObjectReference is a required field
+	ObjectReference *ObjectReference `type:"structure" required:"true"`
+
+	// Identifier for the facet whose attributes will be retrieved. See SchemaFacet
+	// for details.
+	//
+	// SchemaFacet is a required field
+	SchemaFacet *SchemaFacet `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s BatchGetObjectAttributes) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s BatchGetObjectAttributes) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *BatchGetObjectAttributes) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "BatchGetObjectAttributes"}
+
+	if s.AttributeNames == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AttributeNames"))
+	}
+
+	if s.ObjectReference == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ObjectReference"))
+	}
+
+	if s.SchemaFacet == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SchemaFacet"))
+	}
+	if s.SchemaFacet != nil {
+		if err := s.SchemaFacet.Validate(); err != nil {
+			invalidParams.AddNested("SchemaFacet", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchGetObjectAttributes) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AttributeNames) > 0 {
+		v := s.AttributeNames
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttributeNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.SchemaFacet != nil {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SchemaFacet", v, metadata)
+	}
+	return nil
+}
+
+// Represents the output of a GetObjectAttributes response operation.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchGetObjectAttributesResponse
+type BatchGetObjectAttributesResponse struct {
+	_ struct{} `type:"structure"`
+
+	// The attribute values that are associated with an object.
+	Attributes []AttributeKeyAndValue `type:"list"`
+}
+
+// String returns the string representation
+func (s BatchGetObjectAttributesResponse) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s BatchGetObjectAttributesResponse) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchGetObjectAttributesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Retrieves metadata about an object inside a BatchRead operation. For more
@@ -5814,10 +6560,15 @@ func (s *BatchGetObjectInformation) Validate() error {
 	return nil
 }
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchGetObjectInformation) SetObjectReference(v *ObjectReference) *BatchGetObjectInformation {
-	s.ObjectReference = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchGetObjectInformation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a GetObjectInformation response operation.
@@ -5829,7 +6580,7 @@ type BatchGetObjectInformationResponse struct {
 	ObjectIdentifier *string `type:"string"`
 
 	// The facets attached to the specified object.
-	SchemaFacets []*SchemaFacet `type:"list"`
+	SchemaFacets []SchemaFacet `type:"list"`
 }
 
 // String returns the string representation
@@ -5842,16 +6593,27 @@ func (s BatchGetObjectInformationResponse) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *BatchGetObjectInformationResponse) SetObjectIdentifier(v string) *BatchGetObjectInformationResponse {
-	s.ObjectIdentifier = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchGetObjectInformationResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
 
-// SetSchemaFacets sets the SchemaFacets field's value.
-func (s *BatchGetObjectInformationResponse) SetSchemaFacets(v []*SchemaFacet) *BatchGetObjectInformationResponse {
-	s.SchemaFacets = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SchemaFacets) > 0 {
+		v := s.SchemaFacets
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaFacets", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Lists indices attached to an object inside a BatchRead operation. For more
@@ -5899,22 +6661,27 @@ func (s *BatchListAttachedIndices) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListAttachedIndices) SetMaxResults(v int64) *BatchListAttachedIndices {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListAttachedIndices) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListAttachedIndices) SetNextToken(v string) *BatchListAttachedIndices {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetTargetReference sets the TargetReference field's value.
-func (s *BatchListAttachedIndices) SetTargetReference(v *ObjectReference) *BatchListAttachedIndices {
-	s.TargetReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TargetReference != nil {
+		v := s.TargetReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListAttachedIndices response operation.
@@ -5923,7 +6690,7 @@ type BatchListAttachedIndicesResponse struct {
 	_ struct{} `type:"structure"`
 
 	// The indices attached to the specified object.
-	IndexAttachments []*IndexAttachment `type:"list"`
+	IndexAttachments []IndexAttachment `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -5939,16 +6706,27 @@ func (s BatchListAttachedIndicesResponse) GoString() string {
 	return s.String()
 }
 
-// SetIndexAttachments sets the IndexAttachments field's value.
-func (s *BatchListAttachedIndicesResponse) SetIndexAttachments(v []*IndexAttachment) *BatchListAttachedIndicesResponse {
-	s.IndexAttachments = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListAttachedIndicesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IndexAttachments) > 0 {
+		v := s.IndexAttachments
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListAttachedIndicesResponse) SetNextToken(v string) *BatchListAttachedIndicesResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IndexAttachments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returns a paginated list of all the incoming TypedLinkSpecifier information
@@ -5962,7 +6740,7 @@ type BatchListIncomingTypedLinks struct {
 	// typed link selection, any inexact ranges must be specified at the end. Any
 	// attributes that do not have a range specified are presumed to match the entire
 	// range.
-	FilterAttributeRanges []*TypedLinkAttributeRange `type:"list"`
+	FilterAttributeRanges []TypedLinkAttributeRange `type:"list"`
 
 	// Filters are interpreted in the order of the attributes on the typed link
 	// facet, not the order in which they are supplied to any API calls.
@@ -6002,9 +6780,6 @@ func (s *BatchListIncomingTypedLinks) Validate() error {
 	}
 	if s.FilterAttributeRanges != nil {
 		for i, v := range s.FilterAttributeRanges {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "FilterAttributeRanges", i), err.(aws.ErrInvalidParams))
 			}
@@ -6022,34 +6797,45 @@ func (s *BatchListIncomingTypedLinks) Validate() error {
 	return nil
 }
 
-// SetFilterAttributeRanges sets the FilterAttributeRanges field's value.
-func (s *BatchListIncomingTypedLinks) SetFilterAttributeRanges(v []*TypedLinkAttributeRange) *BatchListIncomingTypedLinks {
-	s.FilterAttributeRanges = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListIncomingTypedLinks) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.FilterAttributeRanges) > 0 {
+		v := s.FilterAttributeRanges
 
-// SetFilterTypedLink sets the FilterTypedLink field's value.
-func (s *BatchListIncomingTypedLinks) SetFilterTypedLink(v *TypedLinkSchemaAndFacetName) *BatchListIncomingTypedLinks {
-	s.FilterTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "FilterAttributeRanges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListIncomingTypedLinks) SetMaxResults(v int64) *BatchListIncomingTypedLinks {
-	s.MaxResults = &v
-	return s
-}
+	}
+	if s.FilterTypedLink != nil {
+		v := s.FilterTypedLink
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListIncomingTypedLinks) SetNextToken(v string) *BatchListIncomingTypedLinks {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FilterTypedLink", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchListIncomingTypedLinks) SetObjectReference(v *ObjectReference) *BatchListIncomingTypedLinks {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListIncomingTypedLinks response operation.
@@ -6058,7 +6844,7 @@ type BatchListIncomingTypedLinksResponse struct {
 	_ struct{} `type:"structure"`
 
 	// Returns one or more typed link specifiers as output.
-	LinkSpecifiers []*TypedLinkSpecifier `type:"list"`
+	LinkSpecifiers []TypedLinkSpecifier `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -6074,16 +6860,27 @@ func (s BatchListIncomingTypedLinksResponse) GoString() string {
 	return s.String()
 }
 
-// SetLinkSpecifiers sets the LinkSpecifiers field's value.
-func (s *BatchListIncomingTypedLinksResponse) SetLinkSpecifiers(v []*TypedLinkSpecifier) *BatchListIncomingTypedLinksResponse {
-	s.LinkSpecifiers = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListIncomingTypedLinksResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.LinkSpecifiers) > 0 {
+		v := s.LinkSpecifiers
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListIncomingTypedLinksResponse) SetNextToken(v string) *BatchListIncomingTypedLinksResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "LinkSpecifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Lists objects attached to the specified index inside a BatchRead operation.
@@ -6104,7 +6901,7 @@ type BatchListIndex struct {
 	NextToken *string `type:"string"`
 
 	// Specifies the ranges of indexed values that you want to query.
-	RangesOnIndexedValues []*ObjectAttributeRange `type:"list"`
+	RangesOnIndexedValues []ObjectAttributeRange `type:"list"`
 }
 
 // String returns the string representation
@@ -6129,9 +6926,6 @@ func (s *BatchListIndex) Validate() error {
 	}
 	if s.RangesOnIndexedValues != nil {
 		for i, v := range s.RangesOnIndexedValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "RangesOnIndexedValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -6144,28 +6938,39 @@ func (s *BatchListIndex) Validate() error {
 	return nil
 }
 
-// SetIndexReference sets the IndexReference field's value.
-func (s *BatchListIndex) SetIndexReference(v *ObjectReference) *BatchListIndex {
-	s.IndexReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListIndex) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IndexReference != nil {
+		v := s.IndexReference
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListIndex) SetMaxResults(v int64) *BatchListIndex {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexReference", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListIndex) SetNextToken(v string) *BatchListIndex {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetRangesOnIndexedValues sets the RangesOnIndexedValues field's value.
-func (s *BatchListIndex) SetRangesOnIndexedValues(v []*ObjectAttributeRange) *BatchListIndex {
-	s.RangesOnIndexedValues = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.RangesOnIndexedValues) > 0 {
+		v := s.RangesOnIndexedValues
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "RangesOnIndexedValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Represents the output of a ListIndex response operation.
@@ -6174,7 +6979,7 @@ type BatchListIndexResponse struct {
 	_ struct{} `type:"structure"`
 
 	// The objects and indexed values attached to the index.
-	IndexAttachments []*IndexAttachment `type:"list"`
+	IndexAttachments []IndexAttachment `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -6190,16 +6995,27 @@ func (s BatchListIndexResponse) GoString() string {
 	return s.String()
 }
 
-// SetIndexAttachments sets the IndexAttachments field's value.
-func (s *BatchListIndexResponse) SetIndexAttachments(v []*IndexAttachment) *BatchListIndexResponse {
-	s.IndexAttachments = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListIndexResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IndexAttachments) > 0 {
+		v := s.IndexAttachments
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListIndexResponse) SetNextToken(v string) *BatchListIndexResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IndexAttachments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListObjectAttributes operation.
@@ -6256,28 +7072,33 @@ func (s *BatchListObjectAttributes) Validate() error {
 	return nil
 }
 
-// SetFacetFilter sets the FacetFilter field's value.
-func (s *BatchListObjectAttributes) SetFacetFilter(v *SchemaFacet) *BatchListObjectAttributes {
-	s.FacetFilter = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectAttributes) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FacetFilter != nil {
+		v := s.FacetFilter
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListObjectAttributes) SetMaxResults(v int64) *BatchListObjectAttributes {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FacetFilter", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectAttributes) SetNextToken(v string) *BatchListObjectAttributes {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchListObjectAttributes) SetObjectReference(v *ObjectReference) *BatchListObjectAttributes {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListObjectAttributes response operation.
@@ -6287,7 +7108,7 @@ type BatchListObjectAttributesResponse struct {
 
 	// The attributes map that is associated with the object. AttributeArn is the
 	// key; attribute value is the value.
-	Attributes []*AttributeKeyAndValue `type:"list"`
+	Attributes []AttributeKeyAndValue `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -6303,16 +7124,27 @@ func (s BatchListObjectAttributesResponse) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *BatchListObjectAttributesResponse) SetAttributes(v []*AttributeKeyAndValue) *BatchListObjectAttributesResponse {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectAttributesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectAttributesResponse) SetNextToken(v string) *BatchListObjectAttributesResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListObjectChildren operation.
@@ -6360,22 +7192,27 @@ func (s *BatchListObjectChildren) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListObjectChildren) SetMaxResults(v int64) *BatchListObjectChildren {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectChildren) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectChildren) SetNextToken(v string) *BatchListObjectChildren {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchListObjectChildren) SetObjectReference(v *ObjectReference) *BatchListObjectChildren {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListObjectChildren response operation.
@@ -6385,7 +7222,7 @@ type BatchListObjectChildrenResponse struct {
 
 	// The children structure, which is a map with the key as the LinkName and ObjectIdentifier
 	// as the value.
-	Children map[string]*string `type:"map"`
+	Children map[string]string `type:"map"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -6401,16 +7238,27 @@ func (s BatchListObjectChildrenResponse) GoString() string {
 	return s.String()
 }
 
-// SetChildren sets the Children field's value.
-func (s *BatchListObjectChildrenResponse) SetChildren(v map[string]*string) *BatchListObjectChildrenResponse {
-	s.Children = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectChildrenResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Children) > 0 {
+		v := s.Children
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectChildrenResponse) SetNextToken(v string) *BatchListObjectChildrenResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Children", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Retrieves all available parent paths for any object type such as node, leaf
@@ -6459,22 +7307,27 @@ func (s *BatchListObjectParentPaths) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListObjectParentPaths) SetMaxResults(v int64) *BatchListObjectParentPaths {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectParentPaths) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectParentPaths) SetNextToken(v string) *BatchListObjectParentPaths {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchListObjectParentPaths) SetObjectReference(v *ObjectReference) *BatchListObjectParentPaths {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListObjectParentPaths response operation.
@@ -6486,7 +7339,7 @@ type BatchListObjectParentPathsResponse struct {
 	NextToken *string `type:"string"`
 
 	// Returns the path to the ObjectIdentifiers that are associated with the directory.
-	PathToObjectIdentifiersList []*PathToObjectIdentifiers `type:"list"`
+	PathToObjectIdentifiersList []PathToObjectIdentifiers `type:"list"`
 }
 
 // String returns the string representation
@@ -6499,16 +7352,27 @@ func (s BatchListObjectParentPathsResponse) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectParentPathsResponse) SetNextToken(v string) *BatchListObjectParentPathsResponse {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectParentPathsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetPathToObjectIdentifiersList sets the PathToObjectIdentifiersList field's value.
-func (s *BatchListObjectParentPathsResponse) SetPathToObjectIdentifiersList(v []*PathToObjectIdentifiers) *BatchListObjectParentPathsResponse {
-	s.PathToObjectIdentifiersList = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.PathToObjectIdentifiersList) > 0 {
+		v := s.PathToObjectIdentifiersList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "PathToObjectIdentifiersList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Returns policies attached to an object in pagination fashion inside a BatchRead
@@ -6556,22 +7420,27 @@ func (s *BatchListObjectPolicies) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListObjectPolicies) SetMaxResults(v int64) *BatchListObjectPolicies {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectPolicies) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectPolicies) SetNextToken(v string) *BatchListObjectPolicies {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchListObjectPolicies) SetObjectReference(v *ObjectReference) *BatchListObjectPolicies {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListObjectPolicies response operation.
@@ -6580,7 +7449,7 @@ type BatchListObjectPoliciesResponse struct {
 	_ struct{} `type:"structure"`
 
 	// A list of policy ObjectIdentifiers, that are attached to the object.
-	AttachedPolicyIds []*string `type:"list"`
+	AttachedPolicyIds []string `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -6596,16 +7465,27 @@ func (s BatchListObjectPoliciesResponse) GoString() string {
 	return s.String()
 }
 
-// SetAttachedPolicyIds sets the AttachedPolicyIds field's value.
-func (s *BatchListObjectPoliciesResponse) SetAttachedPolicyIds(v []*string) *BatchListObjectPoliciesResponse {
-	s.AttachedPolicyIds = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListObjectPoliciesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AttachedPolicyIds) > 0 {
+		v := s.AttachedPolicyIds
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListObjectPoliciesResponse) SetNextToken(v string) *BatchListObjectPoliciesResponse {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttachedPolicyIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returns a paginated list of all the outgoing TypedLinkSpecifier information
@@ -6619,7 +7499,7 @@ type BatchListOutgoingTypedLinks struct {
 	// typed link selection, any inexact ranges must be specified at the end. Any
 	// attributes that do not have a range specified are presumed to match the entire
 	// range.
-	FilterAttributeRanges []*TypedLinkAttributeRange `type:"list"`
+	FilterAttributeRanges []TypedLinkAttributeRange `type:"list"`
 
 	// Filters are interpreted in the order of the attributes defined on the typed
 	// link facet, not the order they are supplied to any API calls.
@@ -6659,9 +7539,6 @@ func (s *BatchListOutgoingTypedLinks) Validate() error {
 	}
 	if s.FilterAttributeRanges != nil {
 		for i, v := range s.FilterAttributeRanges {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "FilterAttributeRanges", i), err.(aws.ErrInvalidParams))
 			}
@@ -6679,34 +7556,45 @@ func (s *BatchListOutgoingTypedLinks) Validate() error {
 	return nil
 }
 
-// SetFilterAttributeRanges sets the FilterAttributeRanges field's value.
-func (s *BatchListOutgoingTypedLinks) SetFilterAttributeRanges(v []*TypedLinkAttributeRange) *BatchListOutgoingTypedLinks {
-	s.FilterAttributeRanges = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListOutgoingTypedLinks) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.FilterAttributeRanges) > 0 {
+		v := s.FilterAttributeRanges
 
-// SetFilterTypedLink sets the FilterTypedLink field's value.
-func (s *BatchListOutgoingTypedLinks) SetFilterTypedLink(v *TypedLinkSchemaAndFacetName) *BatchListOutgoingTypedLinks {
-	s.FilterTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "FilterAttributeRanges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListOutgoingTypedLinks) SetMaxResults(v int64) *BatchListOutgoingTypedLinks {
-	s.MaxResults = &v
-	return s
-}
+	}
+	if s.FilterTypedLink != nil {
+		v := s.FilterTypedLink
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListOutgoingTypedLinks) SetNextToken(v string) *BatchListOutgoingTypedLinks {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FilterTypedLink", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchListOutgoingTypedLinks) SetObjectReference(v *ObjectReference) *BatchListOutgoingTypedLinks {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListOutgoingTypedLinks response operation.
@@ -6718,7 +7606,7 @@ type BatchListOutgoingTypedLinksResponse struct {
 	NextToken *string `type:"string"`
 
 	// Returns a typed link specifier as output.
-	TypedLinkSpecifiers []*TypedLinkSpecifier `type:"list"`
+	TypedLinkSpecifiers []TypedLinkSpecifier `type:"list"`
 }
 
 // String returns the string representation
@@ -6731,16 +7619,27 @@ func (s BatchListOutgoingTypedLinksResponse) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListOutgoingTypedLinksResponse) SetNextToken(v string) *BatchListOutgoingTypedLinksResponse {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListOutgoingTypedLinksResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetTypedLinkSpecifiers sets the TypedLinkSpecifiers field's value.
-func (s *BatchListOutgoingTypedLinksResponse) SetTypedLinkSpecifiers(v []*TypedLinkSpecifier) *BatchListOutgoingTypedLinksResponse {
-	s.TypedLinkSpecifiers = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TypedLinkSpecifiers) > 0 {
+		v := s.TypedLinkSpecifiers
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TypedLinkSpecifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Returns all of the ObjectIdentifiers to which a given policy is attached
@@ -6789,22 +7688,27 @@ func (s *BatchListPolicyAttachments) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchListPolicyAttachments) SetMaxResults(v int64) *BatchListPolicyAttachments {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListPolicyAttachments) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListPolicyAttachments) SetNextToken(v string) *BatchListPolicyAttachments {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetPolicyReference sets the PolicyReference field's value.
-func (s *BatchListPolicyAttachments) SetPolicyReference(v *ObjectReference) *BatchListPolicyAttachments {
-	s.PolicyReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PolicyReference != nil {
+		v := s.PolicyReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PolicyReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a ListPolicyAttachments response operation.
@@ -6816,7 +7720,7 @@ type BatchListPolicyAttachmentsResponse struct {
 	NextToken *string `type:"string"`
 
 	// A list of ObjectIdentifiers to which the policy is attached.
-	ObjectIdentifiers []*string `type:"list"`
+	ObjectIdentifiers []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6829,16 +7733,27 @@ func (s BatchListPolicyAttachmentsResponse) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchListPolicyAttachmentsResponse) SetNextToken(v string) *BatchListPolicyAttachmentsResponse {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchListPolicyAttachmentsResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectIdentifiers sets the ObjectIdentifiers field's value.
-func (s *BatchListPolicyAttachmentsResponse) SetObjectIdentifiers(v []*string) *BatchListPolicyAttachmentsResponse {
-	s.ObjectIdentifiers = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectIdentifiers) > 0 {
+		v := s.ObjectIdentifiers
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectIdentifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Lists all policies from the root of the Directory to the object specified
@@ -6887,22 +7802,27 @@ func (s *BatchLookupPolicy) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *BatchLookupPolicy) SetMaxResults(v int64) *BatchLookupPolicy {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchLookupPolicy) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchLookupPolicy) SetNextToken(v string) *BatchLookupPolicy {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchLookupPolicy) SetObjectReference(v *ObjectReference) *BatchLookupPolicy {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a LookupPolicy response operation.
@@ -6915,7 +7835,7 @@ type BatchLookupPolicyResponse struct {
 
 	// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier,
 	// and PolicyType. For more information, see Policies (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies).
-	PolicyToPathList []*PolicyToPath `type:"list"`
+	PolicyToPathList []PolicyToPath `type:"list"`
 }
 
 // String returns the string representation
@@ -6928,16 +7848,27 @@ func (s BatchLookupPolicyResponse) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchLookupPolicyResponse) SetNextToken(v string) *BatchLookupPolicyResponse {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchLookupPolicyResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetPolicyToPathList sets the PolicyToPathList field's value.
-func (s *BatchLookupPolicyResponse) SetPolicyToPathList(v []*PolicyToPath) *BatchLookupPolicyResponse {
-	s.PolicyToPathList = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.PolicyToPathList) > 0 {
+		v := s.PolicyToPathList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "PolicyToPathList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // The batch read exception structure, which contains the exception type and
@@ -6950,7 +7881,7 @@ type BatchReadException struct {
 	Message *string `type:"string"`
 
 	// A type of exception, such as InvalidArnException.
-	Type BatchReadExceptionType `type:"string"`
+	Type BatchReadExceptionType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6963,16 +7894,21 @@ func (s BatchReadException) GoString() string {
 	return s.String()
 }
 
-// SetMessage sets the Message field's value.
-func (s *BatchReadException) SetMessage(v string) *BatchReadException {
-	s.Message = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchReadException) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Message != nil {
+		v := *s.Message
 
-// SetType sets the Type field's value.
-func (s *BatchReadException) SetType(v BatchReadExceptionType) *BatchReadException {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Message", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchReadRequest
@@ -6981,7 +7917,7 @@ type BatchReadInput struct {
 
 	// Represents the manner and timing in which the successful write or update
 	// of an object is reflected in a subsequent read operation of that same object.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory. For
 	// more information, see arns.
@@ -6992,7 +7928,7 @@ type BatchReadInput struct {
 	// A list of operations that are part of the batch.
 	//
 	// Operations is a required field
-	Operations []*BatchReadOperation `type:"list" required:"true"`
+	Operations []BatchReadOperation `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -7018,9 +7954,6 @@ func (s *BatchReadInput) Validate() error {
 	}
 	if s.Operations != nil {
 		for i, v := range s.Operations {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Operations", i), err.(aws.ErrInvalidParams))
 			}
@@ -7033,28 +7966,43 @@ func (s *BatchReadInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *BatchReadInput) SetConsistencyLevel(v ConsistencyLevel) *BatchReadInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchReadInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *BatchReadInput) SetDirectoryArn(v string) *BatchReadInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if len(s.Operations) > 0 {
+		v := s.Operations
 
-// SetOperations sets the Operations field's value.
-func (s *BatchReadInput) SetOperations(v []*BatchReadOperation) *BatchReadInput {
-	s.Operations = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Operations", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a BatchRead operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchReadOperation
 type BatchReadOperation struct {
 	_ struct{} `type:"structure"`
+
+	// Retrieves attributes within a facet that are associated with an object.
+	GetObjectAttributes *BatchGetObjectAttributes `type:"structure"`
 
 	// Retrieves metadata about an object.
 	GetObjectInformation *BatchGetObjectInformation `type:"structure"`
@@ -7116,6 +8064,11 @@ func (s BatchReadOperation) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *BatchReadOperation) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "BatchReadOperation"}
+	if s.GetObjectAttributes != nil {
+		if err := s.GetObjectAttributes.Validate(); err != nil {
+			invalidParams.AddNested("GetObjectAttributes", err.(aws.ErrInvalidParams))
+		}
+	}
 	if s.GetObjectInformation != nil {
 		if err := s.GetObjectInformation.Validate(); err != nil {
 			invalidParams.AddNested("GetObjectInformation", err.(aws.ErrInvalidParams))
@@ -7178,70 +8131,81 @@ func (s *BatchReadOperation) Validate() error {
 	return nil
 }
 
-// SetGetObjectInformation sets the GetObjectInformation field's value.
-func (s *BatchReadOperation) SetGetObjectInformation(v *BatchGetObjectInformation) *BatchReadOperation {
-	s.GetObjectInformation = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchReadOperation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GetObjectAttributes != nil {
+		v := s.GetObjectAttributes
 
-// SetListAttachedIndices sets the ListAttachedIndices field's value.
-func (s *BatchReadOperation) SetListAttachedIndices(v *BatchListAttachedIndices) *BatchReadOperation {
-	s.ListAttachedIndices = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GetObjectAttributes", v, metadata)
+	}
+	if s.GetObjectInformation != nil {
+		v := s.GetObjectInformation
 
-// SetListIncomingTypedLinks sets the ListIncomingTypedLinks field's value.
-func (s *BatchReadOperation) SetListIncomingTypedLinks(v *BatchListIncomingTypedLinks) *BatchReadOperation {
-	s.ListIncomingTypedLinks = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GetObjectInformation", v, metadata)
+	}
+	if s.ListAttachedIndices != nil {
+		v := s.ListAttachedIndices
 
-// SetListIndex sets the ListIndex field's value.
-func (s *BatchReadOperation) SetListIndex(v *BatchListIndex) *BatchReadOperation {
-	s.ListIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListAttachedIndices", v, metadata)
+	}
+	if s.ListIncomingTypedLinks != nil {
+		v := s.ListIncomingTypedLinks
 
-// SetListObjectAttributes sets the ListObjectAttributes field's value.
-func (s *BatchReadOperation) SetListObjectAttributes(v *BatchListObjectAttributes) *BatchReadOperation {
-	s.ListObjectAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListIncomingTypedLinks", v, metadata)
+	}
+	if s.ListIndex != nil {
+		v := s.ListIndex
 
-// SetListObjectChildren sets the ListObjectChildren field's value.
-func (s *BatchReadOperation) SetListObjectChildren(v *BatchListObjectChildren) *BatchReadOperation {
-	s.ListObjectChildren = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListIndex", v, metadata)
+	}
+	if s.ListObjectAttributes != nil {
+		v := s.ListObjectAttributes
 
-// SetListObjectParentPaths sets the ListObjectParentPaths field's value.
-func (s *BatchReadOperation) SetListObjectParentPaths(v *BatchListObjectParentPaths) *BatchReadOperation {
-	s.ListObjectParentPaths = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectAttributes", v, metadata)
+	}
+	if s.ListObjectChildren != nil {
+		v := s.ListObjectChildren
 
-// SetListObjectPolicies sets the ListObjectPolicies field's value.
-func (s *BatchReadOperation) SetListObjectPolicies(v *BatchListObjectPolicies) *BatchReadOperation {
-	s.ListObjectPolicies = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectChildren", v, metadata)
+	}
+	if s.ListObjectParentPaths != nil {
+		v := s.ListObjectParentPaths
 
-// SetListOutgoingTypedLinks sets the ListOutgoingTypedLinks field's value.
-func (s *BatchReadOperation) SetListOutgoingTypedLinks(v *BatchListOutgoingTypedLinks) *BatchReadOperation {
-	s.ListOutgoingTypedLinks = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectParentPaths", v, metadata)
+	}
+	if s.ListObjectPolicies != nil {
+		v := s.ListObjectPolicies
 
-// SetListPolicyAttachments sets the ListPolicyAttachments field's value.
-func (s *BatchReadOperation) SetListPolicyAttachments(v *BatchListPolicyAttachments) *BatchReadOperation {
-	s.ListPolicyAttachments = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectPolicies", v, metadata)
+	}
+	if s.ListOutgoingTypedLinks != nil {
+		v := s.ListOutgoingTypedLinks
 
-// SetLookupPolicy sets the LookupPolicy field's value.
-func (s *BatchReadOperation) SetLookupPolicy(v *BatchLookupPolicy) *BatchReadOperation {
-	s.LookupPolicy = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListOutgoingTypedLinks", v, metadata)
+	}
+	if s.ListPolicyAttachments != nil {
+		v := s.ListPolicyAttachments
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListPolicyAttachments", v, metadata)
+	}
+	if s.LookupPolicy != nil {
+		v := s.LookupPolicy
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LookupPolicy", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a BatchRead response operation.
@@ -7266,24 +8230,31 @@ func (s BatchReadOperationResponse) GoString() string {
 	return s.String()
 }
 
-// SetExceptionResponse sets the ExceptionResponse field's value.
-func (s *BatchReadOperationResponse) SetExceptionResponse(v *BatchReadException) *BatchReadOperationResponse {
-	s.ExceptionResponse = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchReadOperationResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ExceptionResponse != nil {
+		v := s.ExceptionResponse
 
-// SetSuccessfulResponse sets the SuccessfulResponse field's value.
-func (s *BatchReadOperationResponse) SetSuccessfulResponse(v *BatchReadSuccessfulResponse) *BatchReadOperationResponse {
-	s.SuccessfulResponse = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ExceptionResponse", v, metadata)
+	}
+	if s.SuccessfulResponse != nil {
+		v := s.SuccessfulResponse
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SuccessfulResponse", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchReadResponse
 type BatchReadOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of all the responses for each batch read.
-	Responses []*BatchReadOperationResponse `type:"list"`
+	Responses []BatchReadOperationResponse `type:"list"`
 }
 
 // String returns the string representation
@@ -7296,16 +8267,35 @@ func (s BatchReadOutput) GoString() string {
 	return s.String()
 }
 
-// SetResponses sets the Responses field's value.
-func (s *BatchReadOutput) SetResponses(v []*BatchReadOperationResponse) *BatchReadOutput {
-	s.Responses = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchReadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchReadOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Responses) > 0 {
+		v := s.Responses
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Responses", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Represents the output of a BatchRead success response operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchReadSuccessfulResponse
 type BatchReadSuccessfulResponse struct {
 	_ struct{} `type:"structure"`
+
+	// Retrieves attributes within a facet that are associated with an object.
+	GetObjectAttributes *BatchGetObjectAttributesResponse `type:"structure"`
 
 	// Retrieves metadata about an object.
 	GetObjectInformation *BatchGetObjectInformationResponse `type:"structure"`
@@ -7364,70 +8354,81 @@ func (s BatchReadSuccessfulResponse) GoString() string {
 	return s.String()
 }
 
-// SetGetObjectInformation sets the GetObjectInformation field's value.
-func (s *BatchReadSuccessfulResponse) SetGetObjectInformation(v *BatchGetObjectInformationResponse) *BatchReadSuccessfulResponse {
-	s.GetObjectInformation = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchReadSuccessfulResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.GetObjectAttributes != nil {
+		v := s.GetObjectAttributes
 
-// SetListAttachedIndices sets the ListAttachedIndices field's value.
-func (s *BatchReadSuccessfulResponse) SetListAttachedIndices(v *BatchListAttachedIndicesResponse) *BatchReadSuccessfulResponse {
-	s.ListAttachedIndices = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GetObjectAttributes", v, metadata)
+	}
+	if s.GetObjectInformation != nil {
+		v := s.GetObjectInformation
 
-// SetListIncomingTypedLinks sets the ListIncomingTypedLinks field's value.
-func (s *BatchReadSuccessfulResponse) SetListIncomingTypedLinks(v *BatchListIncomingTypedLinksResponse) *BatchReadSuccessfulResponse {
-	s.ListIncomingTypedLinks = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GetObjectInformation", v, metadata)
+	}
+	if s.ListAttachedIndices != nil {
+		v := s.ListAttachedIndices
 
-// SetListIndex sets the ListIndex field's value.
-func (s *BatchReadSuccessfulResponse) SetListIndex(v *BatchListIndexResponse) *BatchReadSuccessfulResponse {
-	s.ListIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListAttachedIndices", v, metadata)
+	}
+	if s.ListIncomingTypedLinks != nil {
+		v := s.ListIncomingTypedLinks
 
-// SetListObjectAttributes sets the ListObjectAttributes field's value.
-func (s *BatchReadSuccessfulResponse) SetListObjectAttributes(v *BatchListObjectAttributesResponse) *BatchReadSuccessfulResponse {
-	s.ListObjectAttributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListIncomingTypedLinks", v, metadata)
+	}
+	if s.ListIndex != nil {
+		v := s.ListIndex
 
-// SetListObjectChildren sets the ListObjectChildren field's value.
-func (s *BatchReadSuccessfulResponse) SetListObjectChildren(v *BatchListObjectChildrenResponse) *BatchReadSuccessfulResponse {
-	s.ListObjectChildren = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListIndex", v, metadata)
+	}
+	if s.ListObjectAttributes != nil {
+		v := s.ListObjectAttributes
 
-// SetListObjectParentPaths sets the ListObjectParentPaths field's value.
-func (s *BatchReadSuccessfulResponse) SetListObjectParentPaths(v *BatchListObjectParentPathsResponse) *BatchReadSuccessfulResponse {
-	s.ListObjectParentPaths = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectAttributes", v, metadata)
+	}
+	if s.ListObjectChildren != nil {
+		v := s.ListObjectChildren
 
-// SetListObjectPolicies sets the ListObjectPolicies field's value.
-func (s *BatchReadSuccessfulResponse) SetListObjectPolicies(v *BatchListObjectPoliciesResponse) *BatchReadSuccessfulResponse {
-	s.ListObjectPolicies = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectChildren", v, metadata)
+	}
+	if s.ListObjectParentPaths != nil {
+		v := s.ListObjectParentPaths
 
-// SetListOutgoingTypedLinks sets the ListOutgoingTypedLinks field's value.
-func (s *BatchReadSuccessfulResponse) SetListOutgoingTypedLinks(v *BatchListOutgoingTypedLinksResponse) *BatchReadSuccessfulResponse {
-	s.ListOutgoingTypedLinks = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectParentPaths", v, metadata)
+	}
+	if s.ListObjectPolicies != nil {
+		v := s.ListObjectPolicies
 
-// SetListPolicyAttachments sets the ListPolicyAttachments field's value.
-func (s *BatchReadSuccessfulResponse) SetListPolicyAttachments(v *BatchListPolicyAttachmentsResponse) *BatchReadSuccessfulResponse {
-	s.ListPolicyAttachments = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListObjectPolicies", v, metadata)
+	}
+	if s.ListOutgoingTypedLinks != nil {
+		v := s.ListOutgoingTypedLinks
 
-// SetLookupPolicy sets the LookupPolicy field's value.
-func (s *BatchReadSuccessfulResponse) SetLookupPolicy(v *BatchLookupPolicyResponse) *BatchReadSuccessfulResponse {
-	s.LookupPolicy = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListOutgoingTypedLinks", v, metadata)
+	}
+	if s.ListPolicyAttachments != nil {
+		v := s.ListPolicyAttachments
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ListPolicyAttachments", v, metadata)
+	}
+	if s.LookupPolicy != nil {
+		v := s.LookupPolicy
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LookupPolicy", v, metadata)
+	}
+	return nil
 }
 
 // A batch operation to remove a facet from an object.
@@ -7479,16 +8480,21 @@ func (s *BatchRemoveFacetFromObject) Validate() error {
 	return nil
 }
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchRemoveFacetFromObject) SetObjectReference(v *ObjectReference) *BatchRemoveFacetFromObject {
-	s.ObjectReference = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchRemoveFacetFromObject) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetSchemaFacet sets the SchemaFacet field's value.
-func (s *BatchRemoveFacetFromObject) SetSchemaFacet(v *SchemaFacet) *BatchRemoveFacetFromObject {
-	s.SchemaFacet = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.SchemaFacet != nil {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SchemaFacet", v, metadata)
+	}
+	return nil
 }
 
 // An empty result that represents success.
@@ -7507,6 +8513,11 @@ func (s BatchRemoveFacetFromObjectResponse) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchRemoveFacetFromObjectResponse) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Represents the output of a BatchUpdate operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchUpdateObjectAttributes
 type BatchUpdateObjectAttributes struct {
@@ -7515,7 +8526,7 @@ type BatchUpdateObjectAttributes struct {
 	// Attributes update structure.
 	//
 	// AttributeUpdates is a required field
-	AttributeUpdates []*ObjectAttributeUpdate `type:"list" required:"true"`
+	AttributeUpdates []ObjectAttributeUpdate `type:"list" required:"true"`
 
 	// Reference that identifies the object.
 	//
@@ -7546,9 +8557,6 @@ func (s *BatchUpdateObjectAttributes) Validate() error {
 	}
 	if s.AttributeUpdates != nil {
 		for i, v := range s.AttributeUpdates {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AttributeUpdates", i), err.(aws.ErrInvalidParams))
 			}
@@ -7561,16 +8569,27 @@ func (s *BatchUpdateObjectAttributes) Validate() error {
 	return nil
 }
 
-// SetAttributeUpdates sets the AttributeUpdates field's value.
-func (s *BatchUpdateObjectAttributes) SetAttributeUpdates(v []*ObjectAttributeUpdate) *BatchUpdateObjectAttributes {
-	s.AttributeUpdates = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchUpdateObjectAttributes) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AttributeUpdates) > 0 {
+		v := s.AttributeUpdates
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *BatchUpdateObjectAttributes) SetObjectReference(v *ObjectReference) *BatchUpdateObjectAttributes {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttributeUpdates", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a BatchUpdate response operation.
@@ -7592,10 +8611,15 @@ func (s BatchUpdateObjectAttributesResponse) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *BatchUpdateObjectAttributesResponse) SetObjectIdentifier(v string) *BatchUpdateObjectAttributesResponse {
-	s.ObjectIdentifier = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchUpdateObjectAttributesResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchWriteRequest
@@ -7611,7 +8635,7 @@ type BatchWriteInput struct {
 	// A list of operations that are part of the batch.
 	//
 	// Operations is a required field
-	Operations []*BatchWriteOperation `type:"list" required:"true"`
+	Operations []BatchWriteOperation `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -7637,9 +8661,6 @@ func (s *BatchWriteInput) Validate() error {
 	}
 	if s.Operations != nil {
 		for i, v := range s.Operations {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Operations", i), err.(aws.ErrInvalidParams))
 			}
@@ -7652,16 +8673,28 @@ func (s *BatchWriteInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *BatchWriteInput) SetDirectoryArn(v string) *BatchWriteInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchWriteInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetOperations sets the Operations field's value.
-func (s *BatchWriteInput) SetOperations(v []*BatchWriteOperation) *BatchWriteInput {
-	s.Operations = v
-	return s
+	if len(s.Operations) > 0 {
+		v := s.Operations
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Operations", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a BatchWrite operation.
@@ -7806,88 +8839,93 @@ func (s *BatchWriteOperation) Validate() error {
 	return nil
 }
 
-// SetAddFacetToObject sets the AddFacetToObject field's value.
-func (s *BatchWriteOperation) SetAddFacetToObject(v *BatchAddFacetToObject) *BatchWriteOperation {
-	s.AddFacetToObject = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchWriteOperation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AddFacetToObject != nil {
+		v := s.AddFacetToObject
 
-// SetAttachObject sets the AttachObject field's value.
-func (s *BatchWriteOperation) SetAttachObject(v *BatchAttachObject) *BatchWriteOperation {
-	s.AttachObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AddFacetToObject", v, metadata)
+	}
+	if s.AttachObject != nil {
+		v := s.AttachObject
 
-// SetAttachPolicy sets the AttachPolicy field's value.
-func (s *BatchWriteOperation) SetAttachPolicy(v *BatchAttachPolicy) *BatchWriteOperation {
-	s.AttachPolicy = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachObject", v, metadata)
+	}
+	if s.AttachPolicy != nil {
+		v := s.AttachPolicy
 
-// SetAttachToIndex sets the AttachToIndex field's value.
-func (s *BatchWriteOperation) SetAttachToIndex(v *BatchAttachToIndex) *BatchWriteOperation {
-	s.AttachToIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachPolicy", v, metadata)
+	}
+	if s.AttachToIndex != nil {
+		v := s.AttachToIndex
 
-// SetAttachTypedLink sets the AttachTypedLink field's value.
-func (s *BatchWriteOperation) SetAttachTypedLink(v *BatchAttachTypedLink) *BatchWriteOperation {
-	s.AttachTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachToIndex", v, metadata)
+	}
+	if s.AttachTypedLink != nil {
+		v := s.AttachTypedLink
 
-// SetCreateIndex sets the CreateIndex field's value.
-func (s *BatchWriteOperation) SetCreateIndex(v *BatchCreateIndex) *BatchWriteOperation {
-	s.CreateIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachTypedLink", v, metadata)
+	}
+	if s.CreateIndex != nil {
+		v := s.CreateIndex
 
-// SetCreateObject sets the CreateObject field's value.
-func (s *BatchWriteOperation) SetCreateObject(v *BatchCreateObject) *BatchWriteOperation {
-	s.CreateObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CreateIndex", v, metadata)
+	}
+	if s.CreateObject != nil {
+		v := s.CreateObject
 
-// SetDeleteObject sets the DeleteObject field's value.
-func (s *BatchWriteOperation) SetDeleteObject(v *BatchDeleteObject) *BatchWriteOperation {
-	s.DeleteObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CreateObject", v, metadata)
+	}
+	if s.DeleteObject != nil {
+		v := s.DeleteObject
 
-// SetDetachFromIndex sets the DetachFromIndex field's value.
-func (s *BatchWriteOperation) SetDetachFromIndex(v *BatchDetachFromIndex) *BatchWriteOperation {
-	s.DetachFromIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DeleteObject", v, metadata)
+	}
+	if s.DetachFromIndex != nil {
+		v := s.DetachFromIndex
 
-// SetDetachObject sets the DetachObject field's value.
-func (s *BatchWriteOperation) SetDetachObject(v *BatchDetachObject) *BatchWriteOperation {
-	s.DetachObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachFromIndex", v, metadata)
+	}
+	if s.DetachObject != nil {
+		v := s.DetachObject
 
-// SetDetachPolicy sets the DetachPolicy field's value.
-func (s *BatchWriteOperation) SetDetachPolicy(v *BatchDetachPolicy) *BatchWriteOperation {
-	s.DetachPolicy = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachObject", v, metadata)
+	}
+	if s.DetachPolicy != nil {
+		v := s.DetachPolicy
 
-// SetDetachTypedLink sets the DetachTypedLink field's value.
-func (s *BatchWriteOperation) SetDetachTypedLink(v *BatchDetachTypedLink) *BatchWriteOperation {
-	s.DetachTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachPolicy", v, metadata)
+	}
+	if s.DetachTypedLink != nil {
+		v := s.DetachTypedLink
 
-// SetRemoveFacetFromObject sets the RemoveFacetFromObject field's value.
-func (s *BatchWriteOperation) SetRemoveFacetFromObject(v *BatchRemoveFacetFromObject) *BatchWriteOperation {
-	s.RemoveFacetFromObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachTypedLink", v, metadata)
+	}
+	if s.RemoveFacetFromObject != nil {
+		v := s.RemoveFacetFromObject
 
-// SetUpdateObjectAttributes sets the UpdateObjectAttributes field's value.
-func (s *BatchWriteOperation) SetUpdateObjectAttributes(v *BatchUpdateObjectAttributes) *BatchWriteOperation {
-	s.UpdateObjectAttributes = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RemoveFacetFromObject", v, metadata)
+	}
+	if s.UpdateObjectAttributes != nil {
+		v := s.UpdateObjectAttributes
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "UpdateObjectAttributes", v, metadata)
+	}
+	return nil
 }
 
 // Represents the output of a BatchWrite response operation.
@@ -7952,96 +8990,103 @@ func (s BatchWriteOperationResponse) GoString() string {
 	return s.String()
 }
 
-// SetAddFacetToObject sets the AddFacetToObject field's value.
-func (s *BatchWriteOperationResponse) SetAddFacetToObject(v *BatchAddFacetToObjectResponse) *BatchWriteOperationResponse {
-	s.AddFacetToObject = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchWriteOperationResponse) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AddFacetToObject != nil {
+		v := s.AddFacetToObject
 
-// SetAttachObject sets the AttachObject field's value.
-func (s *BatchWriteOperationResponse) SetAttachObject(v *BatchAttachObjectResponse) *BatchWriteOperationResponse {
-	s.AttachObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AddFacetToObject", v, metadata)
+	}
+	if s.AttachObject != nil {
+		v := s.AttachObject
 
-// SetAttachPolicy sets the AttachPolicy field's value.
-func (s *BatchWriteOperationResponse) SetAttachPolicy(v *BatchAttachPolicyResponse) *BatchWriteOperationResponse {
-	s.AttachPolicy = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachObject", v, metadata)
+	}
+	if s.AttachPolicy != nil {
+		v := s.AttachPolicy
 
-// SetAttachToIndex sets the AttachToIndex field's value.
-func (s *BatchWriteOperationResponse) SetAttachToIndex(v *BatchAttachToIndexResponse) *BatchWriteOperationResponse {
-	s.AttachToIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachPolicy", v, metadata)
+	}
+	if s.AttachToIndex != nil {
+		v := s.AttachToIndex
 
-// SetAttachTypedLink sets the AttachTypedLink field's value.
-func (s *BatchWriteOperationResponse) SetAttachTypedLink(v *BatchAttachTypedLinkResponse) *BatchWriteOperationResponse {
-	s.AttachTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachToIndex", v, metadata)
+	}
+	if s.AttachTypedLink != nil {
+		v := s.AttachTypedLink
 
-// SetCreateIndex sets the CreateIndex field's value.
-func (s *BatchWriteOperationResponse) SetCreateIndex(v *BatchCreateIndexResponse) *BatchWriteOperationResponse {
-	s.CreateIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttachTypedLink", v, metadata)
+	}
+	if s.CreateIndex != nil {
+		v := s.CreateIndex
 
-// SetCreateObject sets the CreateObject field's value.
-func (s *BatchWriteOperationResponse) SetCreateObject(v *BatchCreateObjectResponse) *BatchWriteOperationResponse {
-	s.CreateObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CreateIndex", v, metadata)
+	}
+	if s.CreateObject != nil {
+		v := s.CreateObject
 
-// SetDeleteObject sets the DeleteObject field's value.
-func (s *BatchWriteOperationResponse) SetDeleteObject(v *BatchDeleteObjectResponse) *BatchWriteOperationResponse {
-	s.DeleteObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CreateObject", v, metadata)
+	}
+	if s.DeleteObject != nil {
+		v := s.DeleteObject
 
-// SetDetachFromIndex sets the DetachFromIndex field's value.
-func (s *BatchWriteOperationResponse) SetDetachFromIndex(v *BatchDetachFromIndexResponse) *BatchWriteOperationResponse {
-	s.DetachFromIndex = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DeleteObject", v, metadata)
+	}
+	if s.DetachFromIndex != nil {
+		v := s.DetachFromIndex
 
-// SetDetachObject sets the DetachObject field's value.
-func (s *BatchWriteOperationResponse) SetDetachObject(v *BatchDetachObjectResponse) *BatchWriteOperationResponse {
-	s.DetachObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachFromIndex", v, metadata)
+	}
+	if s.DetachObject != nil {
+		v := s.DetachObject
 
-// SetDetachPolicy sets the DetachPolicy field's value.
-func (s *BatchWriteOperationResponse) SetDetachPolicy(v *BatchDetachPolicyResponse) *BatchWriteOperationResponse {
-	s.DetachPolicy = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachObject", v, metadata)
+	}
+	if s.DetachPolicy != nil {
+		v := s.DetachPolicy
 
-// SetDetachTypedLink sets the DetachTypedLink field's value.
-func (s *BatchWriteOperationResponse) SetDetachTypedLink(v *BatchDetachTypedLinkResponse) *BatchWriteOperationResponse {
-	s.DetachTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachPolicy", v, metadata)
+	}
+	if s.DetachTypedLink != nil {
+		v := s.DetachTypedLink
 
-// SetRemoveFacetFromObject sets the RemoveFacetFromObject field's value.
-func (s *BatchWriteOperationResponse) SetRemoveFacetFromObject(v *BatchRemoveFacetFromObjectResponse) *BatchWriteOperationResponse {
-	s.RemoveFacetFromObject = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DetachTypedLink", v, metadata)
+	}
+	if s.RemoveFacetFromObject != nil {
+		v := s.RemoveFacetFromObject
 
-// SetUpdateObjectAttributes sets the UpdateObjectAttributes field's value.
-func (s *BatchWriteOperationResponse) SetUpdateObjectAttributes(v *BatchUpdateObjectAttributesResponse) *BatchWriteOperationResponse {
-	s.UpdateObjectAttributes = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RemoveFacetFromObject", v, metadata)
+	}
+	if s.UpdateObjectAttributes != nil {
+		v := s.UpdateObjectAttributes
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "UpdateObjectAttributes", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/BatchWriteResponse
 type BatchWriteOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of all the responses for each batch write.
-	Responses []*BatchWriteOperationResponse `type:"list"`
+	Responses []BatchWriteOperationResponse `type:"list"`
 }
 
 // String returns the string representation
@@ -8054,10 +9099,26 @@ func (s BatchWriteOutput) GoString() string {
 	return s.String()
 }
 
-// SetResponses sets the Responses field's value.
-func (s *BatchWriteOutput) SetResponses(v []*BatchWriteOperationResponse) *BatchWriteOutput {
-	s.Responses = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchWriteOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchWriteOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Responses) > 0 {
+		v := s.Responses
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Responses", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateDirectoryRequest
@@ -8107,21 +9168,29 @@ func (s *CreateDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateDirectoryInput) SetName(v string) *CreateDirectoryInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateDirectoryInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *CreateDirectoryInput) SetSchemaArn(v string) *CreateDirectoryInput {
-	s.SchemaArn = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateDirectoryResponse
 type CreateDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the published schema in the Directory. Once a published schema
 	// is copied into the directory, it has its own ARN, which is referred to applied
@@ -8157,28 +9226,38 @@ func (s CreateDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetAppliedSchemaArn sets the AppliedSchemaArn field's value.
-func (s *CreateDirectoryOutput) SetAppliedSchemaArn(v string) *CreateDirectoryOutput {
-	s.AppliedSchemaArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *CreateDirectoryOutput) SetDirectoryArn(v string) *CreateDirectoryOutput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateDirectoryOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppliedSchemaArn != nil {
+		v := *s.AppliedSchemaArn
 
-// SetName sets the Name field's value.
-func (s *CreateDirectoryOutput) SetName(v string) *CreateDirectoryOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AppliedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *CreateDirectoryOutput) SetObjectIdentifier(v string) *CreateDirectoryOutput {
-	s.ObjectIdentifier = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateFacetRequest
@@ -8186,7 +9265,7 @@ type CreateFacetInput struct {
 	_ struct{} `type:"structure"`
 
 	// The attributes that are associated with the Facet.
-	Attributes []*FacetAttribute `type:"list"`
+	Attributes []FacetAttribute `type:"list"`
 
 	// The name of the Facet, which is unique for a given schema.
 	//
@@ -8206,7 +9285,7 @@ type CreateFacetInput struct {
 	//    * Index: Can be created with the Index API.
 	//
 	// ObjectType is a required field
-	ObjectType ObjectType `type:"string" required:"true"`
+	ObjectType ObjectType `type:"string" required:"true" enum:"true"`
 
 	// The schema ARN in which the new Facet will be created. For more information,
 	// see arns.
@@ -8244,9 +9323,6 @@ func (s *CreateFacetInput) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -8259,33 +9335,47 @@ func (s *CreateFacetInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *CreateFacetInput) SetAttributes(v []*FacetAttribute) *CreateFacetInput {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *CreateFacetInput) SetName(v string) *CreateFacetInput {
-	s.Name = &v
-	return s
-}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetObjectType sets the ObjectType field's value.
-func (s *CreateFacetInput) SetObjectType(v ObjectType) *CreateFacetInput {
-	s.ObjectType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *CreateFacetInput) SetSchemaArn(v string) *CreateFacetInput {
-	s.SchemaArn = &v
-	return s
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectType) > 0 {
+		v := s.ObjectType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateFacetResponse
 type CreateFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8296,6 +9386,16 @@ func (s CreateFacetOutput) String() string {
 // GoString returns the string representation
 func (s CreateFacetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateIndexRequest
@@ -8320,7 +9420,7 @@ type CreateIndexInput struct {
 	// attribute is supported.
 	//
 	// OrderedIndexedAttributeList is a required field
-	OrderedIndexedAttributeList []*AttributeKey `type:"list" required:"true"`
+	OrderedIndexedAttributeList []AttributeKey `type:"list" required:"true"`
 
 	// A reference to the parent object that contains the index object.
 	ParentReference *ObjectReference `type:"structure"`
@@ -8356,9 +9456,6 @@ func (s *CreateIndexInput) Validate() error {
 	}
 	if s.OrderedIndexedAttributeList != nil {
 		for i, v := range s.OrderedIndexedAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OrderedIndexedAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -8371,39 +9468,53 @@ func (s *CreateIndexInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *CreateIndexInput) SetDirectoryArn(v string) *CreateIndexInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateIndexInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetIsUnique sets the IsUnique field's value.
-func (s *CreateIndexInput) SetIsUnique(v bool) *CreateIndexInput {
-	s.IsUnique = &v
-	return s
-}
+	if s.IsUnique != nil {
+		v := *s.IsUnique
 
-// SetLinkName sets the LinkName field's value.
-func (s *CreateIndexInput) SetLinkName(v string) *CreateIndexInput {
-	s.LinkName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsUnique", protocol.BoolValue(v), metadata)
+	}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetOrderedIndexedAttributeList sets the OrderedIndexedAttributeList field's value.
-func (s *CreateIndexInput) SetOrderedIndexedAttributeList(v []*AttributeKey) *CreateIndexInput {
-	s.OrderedIndexedAttributeList = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.OrderedIndexedAttributeList) > 0 {
+		v := s.OrderedIndexedAttributeList
 
-// SetParentReference sets the ParentReference field's value.
-func (s *CreateIndexInput) SetParentReference(v *ObjectReference) *CreateIndexInput {
-	s.ParentReference = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "OrderedIndexedAttributeList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateIndexResponse
 type CreateIndexOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ObjectIdentifier of the index created by this operation.
 	ObjectIdentifier *string `type:"string"`
@@ -8419,10 +9530,20 @@ func (s CreateIndexOutput) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *CreateIndexOutput) SetObjectIdentifier(v string) *CreateIndexOutput {
-	s.ObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateIndexOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateIndexOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateObjectRequest
@@ -8440,16 +9561,16 @@ type CreateObjectInput struct {
 
 	// The attribute map whose attribute ARN contains the key and attribute value
 	// as the map value.
-	ObjectAttributeList []*AttributeKeyAndValue `type:"list"`
+	ObjectAttributeList []AttributeKeyAndValue `type:"list"`
 
 	// If specified, the parent reference to which this object will be attached.
 	ParentReference *ObjectReference `type:"structure"`
 
-	// A list of schema facets to be associated with the object that contains SchemaArn
-	// and facet name. For more information, see arns.
+	// A list of schema facets to be associated with the object. Do not provide
+	// minor version components. See SchemaFacet for details.
 	//
 	// SchemaFacets is a required field
-	SchemaFacets []*SchemaFacet `type:"list" required:"true"`
+	SchemaFacets []SchemaFacet `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -8478,9 +9599,6 @@ func (s *CreateObjectInput) Validate() error {
 	}
 	if s.ObjectAttributeList != nil {
 		for i, v := range s.ObjectAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ObjectAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -8488,9 +9606,6 @@ func (s *CreateObjectInput) Validate() error {
 	}
 	if s.SchemaFacets != nil {
 		for i, v := range s.SchemaFacets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "SchemaFacets", i), err.(aws.ErrInvalidParams))
 			}
@@ -8503,39 +9618,59 @@ func (s *CreateObjectInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *CreateObjectInput) SetDirectoryArn(v string) *CreateObjectInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetLinkName sets the LinkName field's value.
-func (s *CreateObjectInput) SetLinkName(v string) *CreateObjectInput {
-	s.LinkName = &v
-	return s
-}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetObjectAttributeList sets the ObjectAttributeList field's value.
-func (s *CreateObjectInput) SetObjectAttributeList(v []*AttributeKeyAndValue) *CreateObjectInput {
-	s.ObjectAttributeList = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectAttributeList) > 0 {
+		v := s.ObjectAttributeList
 
-// SetParentReference sets the ParentReference field's value.
-func (s *CreateObjectInput) SetParentReference(v *ObjectReference) *CreateObjectInput {
-	s.ParentReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectAttributeList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaFacets sets the SchemaFacets field's value.
-func (s *CreateObjectInput) SetSchemaFacets(v []*SchemaFacet) *CreateObjectInput {
-	s.SchemaFacets = v
-	return s
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	if len(s.SchemaFacets) > 0 {
+		v := s.SchemaFacets
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaFacets", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateObjectResponse
 type CreateObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier that is associated with the object.
 	ObjectIdentifier *string `type:"string"`
@@ -8551,10 +9686,20 @@ func (s CreateObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *CreateObjectOutput) SetObjectIdentifier(v string) *CreateObjectOutput {
-	s.ObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateSchemaRequest
@@ -8595,15 +9740,23 @@ func (s *CreateSchemaInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateSchemaInput) SetName(v string) *CreateSchemaInput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateSchemaInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateSchemaResponse
 type CreateSchemaOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) that is associated with the schema. For more
 	// information, see arns.
@@ -8620,10 +9773,20 @@ func (s CreateSchemaOutput) GoString() string {
 	return s.String()
 }
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *CreateSchemaOutput) SetSchemaArn(v string) *CreateSchemaOutput {
-	s.SchemaArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateSchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateTypedLinkFacetRequest
@@ -8675,21 +9838,29 @@ func (s *CreateTypedLinkFacetInput) Validate() error {
 	return nil
 }
 
-// SetFacet sets the Facet field's value.
-func (s *CreateTypedLinkFacetInput) SetFacet(v *TypedLinkFacet) *CreateTypedLinkFacetInput {
-	s.Facet = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateTypedLinkFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *CreateTypedLinkFacetInput) SetSchemaArn(v string) *CreateTypedLinkFacetInput {
-	s.SchemaArn = &v
-	return s
+	if s.Facet != nil {
+		v := s.Facet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Facet", v, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/CreateTypedLinkFacetResponse
 type CreateTypedLinkFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8700,6 +9871,16 @@ func (s CreateTypedLinkFacetOutput) String() string {
 // GoString returns the string representation
 func (s CreateTypedLinkFacetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateTypedLinkFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateTypedLinkFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteDirectoryRequest
@@ -8736,15 +9917,23 @@ func (s *DeleteDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DeleteDirectoryInput) SetDirectoryArn(v string) *DeleteDirectoryInput {
-	s.DirectoryArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteDirectoryInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteDirectoryResponse
 type DeleteDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the deleted directory.
 	//
@@ -8762,10 +9951,20 @@ func (s DeleteDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DeleteDirectoryOutput) SetDirectoryArn(v string) *DeleteDirectoryOutput {
-	s.DirectoryArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteDirectoryOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteFacetRequest
@@ -8815,21 +10014,29 @@ func (s *DeleteFacetInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteFacetInput) SetName(v string) *DeleteFacetInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *DeleteFacetInput) SetSchemaArn(v string) *DeleteFacetInput {
-	s.SchemaArn = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteFacetResponse
 type DeleteFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8840,6 +10047,16 @@ func (s DeleteFacetOutput) String() string {
 // GoString returns the string representation
 func (s DeleteFacetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteObjectRequest
@@ -8886,21 +10103,29 @@ func (s *DeleteObjectInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DeleteObjectInput) SetDirectoryArn(v string) *DeleteObjectInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *DeleteObjectInput) SetObjectReference(v *ObjectReference) *DeleteObjectInput {
-	s.ObjectReference = v
-	return s
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteObjectResponse
 type DeleteObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8911,6 +10136,16 @@ func (s DeleteObjectOutput) String() string {
 // GoString returns the string representation
 func (s DeleteObjectOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteSchemaRequest
@@ -8948,15 +10183,23 @@ func (s *DeleteSchemaInput) Validate() error {
 	return nil
 }
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *DeleteSchemaInput) SetSchemaArn(v string) *DeleteSchemaInput {
-	s.SchemaArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSchemaInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteSchemaResponse
 type DeleteSchemaOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The input ARN that is returned as part of the response. For more information,
 	// see arns.
@@ -8973,10 +10216,20 @@ func (s DeleteSchemaOutput) GoString() string {
 	return s.String()
 }
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *DeleteSchemaOutput) SetSchemaArn(v string) *DeleteSchemaOutput {
-	s.SchemaArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteSchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteTypedLinkFacetRequest
@@ -9023,21 +10276,29 @@ func (s *DeleteTypedLinkFacetInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteTypedLinkFacetInput) SetName(v string) *DeleteTypedLinkFacetInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteTypedLinkFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *DeleteTypedLinkFacetInput) SetSchemaArn(v string) *DeleteTypedLinkFacetInput {
-	s.SchemaArn = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DeleteTypedLinkFacetResponse
 type DeleteTypedLinkFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9048,6 +10309,16 @@ func (s DeleteTypedLinkFacetOutput) String() string {
 // GoString returns the string representation
 func (s DeleteTypedLinkFacetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTypedLinkFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteTypedLinkFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachFromIndexRequest
@@ -9103,27 +10374,35 @@ func (s *DetachFromIndexInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DetachFromIndexInput) SetDirectoryArn(v string) *DetachFromIndexInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachFromIndexInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetIndexReference sets the IndexReference field's value.
-func (s *DetachFromIndexInput) SetIndexReference(v *ObjectReference) *DetachFromIndexInput {
-	s.IndexReference = v
-	return s
-}
+	if s.IndexReference != nil {
+		v := s.IndexReference
 
-// SetTargetReference sets the TargetReference field's value.
-func (s *DetachFromIndexInput) SetTargetReference(v *ObjectReference) *DetachFromIndexInput {
-	s.TargetReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexReference", v, metadata)
+	}
+	if s.TargetReference != nil {
+		v := s.TargetReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachFromIndexResponse
 type DetachFromIndexOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ObjectIdentifier of the object that was detached from the index.
 	DetachedObjectIdentifier *string `type:"string"`
@@ -9139,10 +10418,20 @@ func (s DetachFromIndexOutput) GoString() string {
 	return s.String()
 }
 
-// SetDetachedObjectIdentifier sets the DetachedObjectIdentifier field's value.
-func (s *DetachFromIndexOutput) SetDetachedObjectIdentifier(v string) *DetachFromIndexOutput {
-	s.DetachedObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachFromIndexOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachFromIndexOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DetachedObjectIdentifier != nil {
+		v := *s.DetachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DetachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachObjectRequest
@@ -9202,27 +10491,35 @@ func (s *DetachObjectInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DetachObjectInput) SetDirectoryArn(v string) *DetachObjectInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetLinkName sets the LinkName field's value.
-func (s *DetachObjectInput) SetLinkName(v string) *DetachObjectInput {
-	s.LinkName = &v
-	return s
-}
+	if s.LinkName != nil {
+		v := *s.LinkName
 
-// SetParentReference sets the ParentReference field's value.
-func (s *DetachObjectInput) SetParentReference(v *ObjectReference) *DetachObjectInput {
-	s.ParentReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ParentReference != nil {
+		v := s.ParentReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ParentReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachObjectResponse
 type DetachObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ObjectIdentifier that was detached from the object.
 	DetachedObjectIdentifier *string `type:"string"`
@@ -9238,10 +10535,20 @@ func (s DetachObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDetachedObjectIdentifier sets the DetachedObjectIdentifier field's value.
-func (s *DetachObjectOutput) SetDetachedObjectIdentifier(v string) *DetachObjectOutput {
-	s.DetachedObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DetachedObjectIdentifier != nil {
+		v := *s.DetachedObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DetachedObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachPolicyRequest
@@ -9297,27 +10604,35 @@ func (s *DetachPolicyInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DetachPolicyInput) SetDirectoryArn(v string) *DetachPolicyInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *DetachPolicyInput) SetObjectReference(v *ObjectReference) *DetachPolicyInput {
-	s.ObjectReference = v
-	return s
-}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetPolicyReference sets the PolicyReference field's value.
-func (s *DetachPolicyInput) SetPolicyReference(v *ObjectReference) *DetachPolicyInput {
-	s.PolicyReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.PolicyReference != nil {
+		v := s.PolicyReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PolicyReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachPolicyResponse
 type DetachPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9328,6 +10643,16 @@ func (s DetachPolicyOutput) String() string {
 // GoString returns the string representation
 func (s DetachPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachTypedLinkRequest
@@ -9379,21 +10704,29 @@ func (s *DetachTypedLinkInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DetachTypedLinkInput) SetDirectoryArn(v string) *DetachTypedLinkInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachTypedLinkInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTypedLinkSpecifier sets the TypedLinkSpecifier field's value.
-func (s *DetachTypedLinkInput) SetTypedLinkSpecifier(v *TypedLinkSpecifier) *DetachTypedLinkInput {
-	s.TypedLinkSpecifier = v
-	return s
+	if s.TypedLinkSpecifier != nil {
+		v := s.TypedLinkSpecifier
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkSpecifier", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DetachTypedLinkOutput
 type DetachTypedLinkOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9404,6 +10737,16 @@ func (s DetachTypedLinkOutput) String() string {
 // GoString returns the string representation
 func (s DetachTypedLinkOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachTypedLinkOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DetachTypedLinkOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Directory structure that includes the directory name and directory ARN.
@@ -9422,7 +10765,7 @@ type Directory struct {
 	Name *string `min:"1" type:"string"`
 
 	// The state of the directory. Can be either Enabled, Disabled, or Deleted.
-	State DirectoryState `type:"string"`
+	State DirectoryState `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9435,28 +10778,33 @@ func (s Directory) GoString() string {
 	return s.String()
 }
 
-// SetCreationDateTime sets the CreationDateTime field's value.
-func (s *Directory) SetCreationDateTime(v time.Time) *Directory {
-	s.CreationDateTime = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Directory) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationDateTime != nil {
+		v := *s.CreationDateTime
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *Directory) SetDirectoryArn(v string) *Directory {
-	s.DirectoryArn = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDateTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
 
-// SetName sets the Name field's value.
-func (s *Directory) SetName(v string) *Directory {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetState sets the State field's value.
-func (s *Directory) SetState(v DirectoryState) *Directory {
-	s.State = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.State) > 0 {
+		v := s.State
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "State", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DisableDirectoryRequest
@@ -9493,15 +10841,23 @@ func (s *DisableDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DisableDirectoryInput) SetDirectoryArn(v string) *DisableDirectoryInput {
-	s.DirectoryArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DisableDirectoryInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/DisableDirectoryResponse
 type DisableDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the directory that has been disabled.
 	//
@@ -9519,10 +10875,20 @@ func (s DisableDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *DisableDirectoryOutput) SetDirectoryArn(v string) *DisableDirectoryOutput {
-	s.DirectoryArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DisableDirectoryOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/EnableDirectoryRequest
@@ -9559,15 +10925,23 @@ func (s *EnableDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *EnableDirectoryInput) SetDirectoryArn(v string) *EnableDirectoryInput {
-	s.DirectoryArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EnableDirectoryInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/EnableDirectoryResponse
 type EnableDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the enabled directory.
 	//
@@ -9585,13 +10959,25 @@ func (s EnableDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *EnableDirectoryOutput) SetDirectoryArn(v string) *EnableDirectoryOutput {
-	s.DirectoryArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EnableDirectoryOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A structure that contains Name, ARN, Attributes, Rules, and ObjectTypes.
+// See Facets (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/whatarefacets.html)
+// for more information.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/Facet
 type Facet struct {
 	_ struct{} `type:"structure"`
@@ -9601,7 +10987,7 @@ type Facet struct {
 
 	// The object type that is associated with the facet. See CreateFacetRequest$ObjectType
 	// for more details.
-	ObjectType ObjectType `type:"string"`
+	ObjectType ObjectType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9614,16 +11000,21 @@ func (s Facet) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *Facet) SetName(v string) *Facet {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Facet) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
 
-// SetObjectType sets the ObjectType field's value.
-func (s *Facet) SetObjectType(v ObjectType) *Facet {
-	s.ObjectType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectType) > 0 {
+		v := s.ObjectType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // An attribute that is associated with the Facet.
@@ -9647,7 +11038,7 @@ type FacetAttribute struct {
 	Name *string `min:"1" type:"string" required:"true"`
 
 	// The required behavior of the FacetAttribute.
-	RequiredBehavior RequiredAttributeBehavior `type:"string"`
+	RequiredBehavior RequiredAttributeBehavior `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9687,28 +11078,33 @@ func (s *FacetAttribute) Validate() error {
 	return nil
 }
 
-// SetAttributeDefinition sets the AttributeDefinition field's value.
-func (s *FacetAttribute) SetAttributeDefinition(v *FacetAttributeDefinition) *FacetAttribute {
-	s.AttributeDefinition = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FacetAttribute) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttributeDefinition != nil {
+		v := s.AttributeDefinition
 
-// SetAttributeReference sets the AttributeReference field's value.
-func (s *FacetAttribute) SetAttributeReference(v *FacetAttributeReference) *FacetAttribute {
-	s.AttributeReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttributeDefinition", v, metadata)
+	}
+	if s.AttributeReference != nil {
+		v := s.AttributeReference
 
-// SetName sets the Name field's value.
-func (s *FacetAttribute) SetName(v string) *FacetAttribute {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttributeReference", v, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetRequiredBehavior sets the RequiredBehavior field's value.
-func (s *FacetAttribute) SetRequiredBehavior(v RequiredAttributeBehavior) *FacetAttribute {
-	s.RequiredBehavior = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.RequiredBehavior) > 0 {
+		v := s.RequiredBehavior
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequiredBehavior", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // A facet attribute definition. See Attribute References (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_advanced.html#attributereferences)
@@ -9724,12 +11120,12 @@ type FacetAttributeDefinition struct {
 	IsImmutable *bool `type:"boolean"`
 
 	// Validation rules attached to the attribute definition.
-	Rules map[string]*Rule `type:"map"`
+	Rules map[string]Rule `type:"map"`
 
 	// The type of the attribute.
 	//
 	// Type is a required field
-	Type FacetAttributeType `type:"string" required:"true"`
+	Type FacetAttributeType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -9755,28 +11151,39 @@ func (s *FacetAttributeDefinition) Validate() error {
 	return nil
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *FacetAttributeDefinition) SetDefaultValue(v *TypedAttributeValue) *FacetAttributeDefinition {
-	s.DefaultValue = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FacetAttributeDefinition) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DefaultValue != nil {
+		v := s.DefaultValue
 
-// SetIsImmutable sets the IsImmutable field's value.
-func (s *FacetAttributeDefinition) SetIsImmutable(v bool) *FacetAttributeDefinition {
-	s.IsImmutable = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DefaultValue", v, metadata)
+	}
+	if s.IsImmutable != nil {
+		v := *s.IsImmutable
 
-// SetRules sets the Rules field's value.
-func (s *FacetAttributeDefinition) SetRules(v map[string]*Rule) *FacetAttributeDefinition {
-	s.Rules = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsImmutable", protocol.BoolValue(v), metadata)
+	}
+	if len(s.Rules) > 0 {
+		v := s.Rules
 
-// SetType sets the Type field's value.
-func (s *FacetAttributeDefinition) SetType(v FacetAttributeType) *FacetAttributeDefinition {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Rules", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // The facet attribute reference that specifies the attribute definition that
@@ -9834,16 +11241,21 @@ func (s *FacetAttributeReference) Validate() error {
 	return nil
 }
 
-// SetTargetAttributeName sets the TargetAttributeName field's value.
-func (s *FacetAttributeReference) SetTargetAttributeName(v string) *FacetAttributeReference {
-	s.TargetAttributeName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FacetAttributeReference) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TargetAttributeName != nil {
+		v := *s.TargetAttributeName
 
-// SetTargetFacetName sets the TargetFacetName field's value.
-func (s *FacetAttributeReference) SetTargetFacetName(v string) *FacetAttributeReference {
-	s.TargetFacetName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TargetAttributeName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TargetFacetName != nil {
+		v := *s.TargetFacetName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TargetFacetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A structure that contains information used to update an attribute.
@@ -9852,7 +11264,7 @@ type FacetAttributeUpdate struct {
 	_ struct{} `type:"structure"`
 
 	// The action to perform when updating the attribute.
-	Action UpdateActionType `type:"string"`
+	Action UpdateActionType `type:"string" enum:"true"`
 
 	// The attribute to update.
 	Attribute *FacetAttribute `type:"structure"`
@@ -9883,16 +11295,104 @@ func (s *FacetAttributeUpdate) Validate() error {
 	return nil
 }
 
-// SetAction sets the Action field's value.
-func (s *FacetAttributeUpdate) SetAction(v UpdateActionType) *FacetAttributeUpdate {
-	s.Action = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FacetAttributeUpdate) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Attribute != nil {
+		v := s.Attribute
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Attribute", v, metadata)
+	}
+	return nil
 }
 
-// SetAttribute sets the Attribute field's value.
-func (s *FacetAttributeUpdate) SetAttribute(v *FacetAttribute) *FacetAttributeUpdate {
-	s.Attribute = v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetAppliedSchemaVersionRequest
+type GetAppliedSchemaVersionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The ARN of the applied schema.
+	//
+	// SchemaArn is a required field
+	SchemaArn *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetAppliedSchemaVersionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetAppliedSchemaVersionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetAppliedSchemaVersionInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetAppliedSchemaVersionInput"}
+
+	if s.SchemaArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SchemaArn"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAppliedSchemaVersionInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetAppliedSchemaVersionResponse
+type GetAppliedSchemaVersionOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// Current applied schema ARN, including the minor version in use if one was
+	// provided.
+	AppliedSchemaArn *string `type:"string"`
+}
+
+// String returns the string representation
+func (s GetAppliedSchemaVersionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetAppliedSchemaVersionOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAppliedSchemaVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetAppliedSchemaVersionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AppliedSchemaArn != nil {
+		v := *s.AppliedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AppliedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetDirectoryRequest
@@ -9929,15 +11429,23 @@ func (s *GetDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *GetDirectoryInput) SetDirectoryArn(v string) *GetDirectoryInput {
-	s.DirectoryArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDirectoryInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetDirectoryResponse
 type GetDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Metadata about the directory.
 	//
@@ -9955,10 +11463,20 @@ func (s GetDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectory sets the Directory field's value.
-func (s *GetDirectoryOutput) SetDirectory(v *Directory) *GetDirectoryOutput {
-	s.Directory = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetDirectoryOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Directory != nil {
+		v := s.Directory
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Directory", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetFacetRequest
@@ -10008,21 +11526,29 @@ func (s *GetFacetInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetFacetInput) SetName(v string) *GetFacetInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *GetFacetInput) SetSchemaArn(v string) *GetFacetInput {
-	s.SchemaArn = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetFacetResponse
 type GetFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Facet structure that is associated with the facet.
 	Facet *Facet `type:"structure"`
@@ -10038,10 +11564,175 @@ func (s GetFacetOutput) GoString() string {
 	return s.String()
 }
 
-// SetFacet sets the Facet field's value.
-func (s *GetFacetOutput) SetFacet(v *Facet) *GetFacetOutput {
-	s.Facet = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Facet != nil {
+		v := s.Facet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Facet", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectAttributesRequest
+type GetObjectAttributesInput struct {
+	_ struct{} `type:"structure"`
+
+	// List of attribute names whose values will be retrieved.
+	//
+	// AttributeNames is a required field
+	AttributeNames []string `type:"list" required:"true"`
+
+	// The consistency level at which to retrieve the attributes on an object.
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
+
+	// The Amazon Resource Name (ARN) that is associated with the Directory where
+	// the object resides.
+	//
+	// DirectoryArn is a required field
+	DirectoryArn *string `location:"header" locationName:"x-amz-data-partition" type:"string" required:"true"`
+
+	// Reference that identifies the object whose attributes will be retrieved.
+	//
+	// ObjectReference is a required field
+	ObjectReference *ObjectReference `type:"structure" required:"true"`
+
+	// Identifier for the facet whose attributes will be retrieved. See SchemaFacet
+	// for details.
+	//
+	// SchemaFacet is a required field
+	SchemaFacet *SchemaFacet `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s GetObjectAttributesInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetObjectAttributesInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetObjectAttributesInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetObjectAttributesInput"}
+
+	if s.AttributeNames == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AttributeNames"))
+	}
+
+	if s.DirectoryArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DirectoryArn"))
+	}
+
+	if s.ObjectReference == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ObjectReference"))
+	}
+
+	if s.SchemaFacet == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SchemaFacet"))
+	}
+	if s.SchemaFacet != nil {
+		if err := s.SchemaFacet.Validate(); err != nil {
+			invalidParams.AddNested("SchemaFacet", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectAttributesInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if len(s.AttributeNames) > 0 {
+		v := s.AttributeNames
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttributeNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.SchemaFacet != nil {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SchemaFacet", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectAttributesResponse
+type GetObjectAttributesOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The attributes that are associated with the object.
+	Attributes []AttributeKeyAndValue `type:"list"`
+}
+
+// String returns the string representation
+func (s GetObjectAttributesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetObjectAttributesOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetObjectAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectAttributesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectInformationRequest
@@ -10049,7 +11740,7 @@ type GetObjectInformationInput struct {
 	_ struct{} `type:"structure"`
 
 	// The consistency level at which to retrieve the object information.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The ARN of the directory being retrieved.
 	//
@@ -10090,33 +11781,43 @@ func (s *GetObjectInformationInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *GetObjectInformationInput) SetConsistencyLevel(v ConsistencyLevel) *GetObjectInformationInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectInformationInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *GetObjectInformationInput) SetDirectoryArn(v string) *GetObjectInformationInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *GetObjectInformationInput) SetObjectReference(v *ObjectReference) *GetObjectInformationInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetObjectInformationResponse
 type GetObjectInformationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The ObjectIdentifier of the specified object.
 	ObjectIdentifier *string `type:"string"`
 
-	// The facets attached to the specified object.
-	SchemaFacets []*SchemaFacet `type:"list"`
+	// The facets attached to the specified object. Although the response does not
+	// include minor version information, the most recently applied minor version
+	// of each Facet is in effect. See GetAppliedSchemaVersion for details.
+	SchemaFacets []SchemaFacet `type:"list"`
 }
 
 // String returns the string representation
@@ -10129,16 +11830,32 @@ func (s GetObjectInformationOutput) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *GetObjectInformationOutput) SetObjectIdentifier(v string) *GetObjectInformationOutput {
-	s.ObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetObjectInformationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSchemaFacets sets the SchemaFacets field's value.
-func (s *GetObjectInformationOutput) SetSchemaFacets(v []*SchemaFacet) *GetObjectInformationOutput {
-	s.SchemaFacets = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectInformationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SchemaFacets) > 0 {
+		v := s.SchemaFacets
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaFacets", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetSchemaAsJsonRequest
@@ -10175,15 +11892,23 @@ func (s *GetSchemaAsJsonInput) Validate() error {
 	return nil
 }
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *GetSchemaAsJsonInput) SetSchemaArn(v string) *GetSchemaAsJsonInput {
-	s.SchemaArn = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSchemaAsJsonInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetSchemaAsJsonResponse
 type GetSchemaAsJsonOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The JSON representation of the schema document.
 	Document *string `type:"string"`
@@ -10202,16 +11927,26 @@ func (s GetSchemaAsJsonOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocument sets the Document field's value.
-func (s *GetSchemaAsJsonOutput) SetDocument(v string) *GetSchemaAsJsonOutput {
-	s.Document = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSchemaAsJsonOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetName sets the Name field's value.
-func (s *GetSchemaAsJsonOutput) SetName(v string) *GetSchemaAsJsonOutput {
-	s.Name = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetSchemaAsJsonOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Document != nil {
+		v := *s.Document
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Document", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetTypedLinkFacetInformationRequest
@@ -10258,21 +11993,29 @@ func (s *GetTypedLinkFacetInformationInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetTypedLinkFacetInformationInput) SetName(v string) *GetTypedLinkFacetInformationInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetTypedLinkFacetInformationInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *GetTypedLinkFacetInformationInput) SetSchemaArn(v string) *GetTypedLinkFacetInformationInput {
-	s.SchemaArn = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/GetTypedLinkFacetInformationResponse
 type GetTypedLinkFacetInformationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The order of identity attributes for the facet, from most significant to
 	// least significant. The ability to filter typed links considers the order
@@ -10282,7 +12025,7 @@ type GetTypedLinkFacetInformationOutput struct {
 	// entire range. Filters are interpreted in the order of the attributes on the
 	// typed link facet, not the order in which they are supplied to any API calls.
 	// For more information about identity attributes, see Typed link (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink).
-	IdentityAttributeOrder []*string `type:"list"`
+	IdentityAttributeOrder []string `type:"list"`
 }
 
 // String returns the string representation
@@ -10295,10 +12038,26 @@ func (s GetTypedLinkFacetInformationOutput) GoString() string {
 	return s.String()
 }
 
-// SetIdentityAttributeOrder sets the IdentityAttributeOrder field's value.
-func (s *GetTypedLinkFacetInformationOutput) SetIdentityAttributeOrder(v []*string) *GetTypedLinkFacetInformationOutput {
-	s.IdentityAttributeOrder = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTypedLinkFacetInformationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetTypedLinkFacetInformationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IdentityAttributeOrder) > 0 {
+		v := s.IdentityAttributeOrder
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IdentityAttributeOrder", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Represents an index and an attached object.
@@ -10307,9 +12066,12 @@ type IndexAttachment struct {
 	_ struct{} `type:"structure"`
 
 	// The indexed attribute values.
-	IndexedAttributes []*AttributeKeyAndValue `type:"list"`
+	IndexedAttributes []AttributeKeyAndValue `type:"list"`
 
-	// The ObjectIdentifier of the object attached to the index.
+	// In response to ListIndex, the ObjectIdentifier of the object attached to
+	// the index. In response to ListAttachedIndices, the ObjectIdentifier of the
+	// index attached to the object. This field will always contain the ObjectIdentifier
+	// of the object on the opposite side of the attachment specified in the query.
 	ObjectIdentifier *string `type:"string"`
 }
 
@@ -10323,16 +12085,27 @@ func (s IndexAttachment) GoString() string {
 	return s.String()
 }
 
-// SetIndexedAttributes sets the IndexedAttributes field's value.
-func (s *IndexAttachment) SetIndexedAttributes(v []*AttributeKeyAndValue) *IndexAttachment {
-	s.IndexedAttributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s IndexAttachment) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IndexedAttributes) > 0 {
+		v := s.IndexedAttributes
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *IndexAttachment) SetObjectIdentifier(v string) *IndexAttachment {
-	s.ObjectIdentifier = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IndexedAttributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAppliedSchemaArnsRequest
@@ -10349,6 +12122,10 @@ type ListAppliedSchemaArnsInput struct {
 
 	// The pagination token.
 	NextToken *string `type:"string"`
+
+	// The response for ListAppliedSchemaArns when this parameter is used will list
+	// all minor version ARNs for a major version.
+	SchemaArn *string `type:"string"`
 }
 
 // String returns the string representation
@@ -10378,33 +12155,47 @@ func (s *ListAppliedSchemaArnsInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListAppliedSchemaArnsInput) SetDirectoryArn(v string) *ListAppliedSchemaArnsInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListAppliedSchemaArnsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAppliedSchemaArnsInput) SetMaxResults(v int64) *ListAppliedSchemaArnsInput {
-	s.MaxResults = &v
-	return s
-}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListAppliedSchemaArnsInput) SetNextToken(v string) *ListAppliedSchemaArnsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAppliedSchemaArnsResponse
 type ListAppliedSchemaArnsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// The ARNs of schemas that are applied to the directory.
-	SchemaArns []*string `type:"list"`
+	SchemaArns []string `type:"list"`
 }
 
 // String returns the string representation
@@ -10417,16 +12208,32 @@ func (s ListAppliedSchemaArnsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListAppliedSchemaArnsOutput) SetNextToken(v string) *ListAppliedSchemaArnsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAppliedSchemaArnsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSchemaArns sets the SchemaArns field's value.
-func (s *ListAppliedSchemaArnsOutput) SetSchemaArns(v []*string) *ListAppliedSchemaArnsOutput {
-	s.SchemaArns = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListAppliedSchemaArnsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SchemaArns) > 0 {
+		v := s.SchemaArns
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaArns", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAttachedIndicesRequest
@@ -10434,7 +12241,7 @@ type ListAttachedIndicesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The consistency level to use for this operation.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The ARN of the directory.
 	//
@@ -10484,42 +12291,50 @@ func (s *ListAttachedIndicesInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListAttachedIndicesInput) SetConsistencyLevel(v ConsistencyLevel) *ListAttachedIndicesInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListAttachedIndicesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListAttachedIndicesInput) SetDirectoryArn(v string) *ListAttachedIndicesInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAttachedIndicesInput) SetMaxResults(v int64) *ListAttachedIndicesInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListAttachedIndicesInput) SetNextToken(v string) *ListAttachedIndicesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TargetReference != nil {
+		v := s.TargetReference
 
-// SetTargetReference sets the TargetReference field's value.
-func (s *ListAttachedIndicesInput) SetTargetReference(v *ObjectReference) *ListAttachedIndicesInput {
-	s.TargetReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListAttachedIndicesResponse
 type ListAttachedIndicesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The indices attached to the specified object.
-	IndexAttachments []*IndexAttachment `type:"list"`
+	IndexAttachments []IndexAttachment `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -10535,16 +12350,32 @@ func (s ListAttachedIndicesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIndexAttachments sets the IndexAttachments field's value.
-func (s *ListAttachedIndicesOutput) SetIndexAttachments(v []*IndexAttachment) *ListAttachedIndicesOutput {
-	s.IndexAttachments = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAttachedIndicesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListAttachedIndicesOutput) SetNextToken(v string) *ListAttachedIndicesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListAttachedIndicesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IndexAttachments) > 0 {
+		v := s.IndexAttachments
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IndexAttachments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDevelopmentSchemaArnsRequest
@@ -10581,27 +12412,35 @@ func (s *ListDevelopmentSchemaArnsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListDevelopmentSchemaArnsInput) SetMaxResults(v int64) *ListDevelopmentSchemaArnsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDevelopmentSchemaArnsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDevelopmentSchemaArnsInput) SetNextToken(v string) *ListDevelopmentSchemaArnsInput {
-	s.NextToken = &v
-	return s
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDevelopmentSchemaArnsResponse
 type ListDevelopmentSchemaArnsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// The ARNs of retrieved development schemas.
-	SchemaArns []*string `type:"list"`
+	SchemaArns []string `type:"list"`
 }
 
 // String returns the string representation
@@ -10614,16 +12453,32 @@ func (s ListDevelopmentSchemaArnsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDevelopmentSchemaArnsOutput) SetNextToken(v string) *ListDevelopmentSchemaArnsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDevelopmentSchemaArnsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSchemaArns sets the SchemaArns field's value.
-func (s *ListDevelopmentSchemaArnsOutput) SetSchemaArns(v []*string) *ListDevelopmentSchemaArnsOutput {
-	s.SchemaArns = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDevelopmentSchemaArnsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SchemaArns) > 0 {
+		v := s.SchemaArns
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaArns", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDirectoriesRequest
@@ -10638,7 +12493,7 @@ type ListDirectoriesInput struct {
 
 	// The state of the directories in the list. Can be either Enabled, Disabled,
 	// or Deleted.
-	State DirectoryState `locationName:"state" type:"string"`
+	State DirectoryState `locationName:"state" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -10664,33 +12519,41 @@ func (s *ListDirectoriesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListDirectoriesInput) SetMaxResults(v int64) *ListDirectoriesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDirectoriesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDirectoriesInput) SetNextToken(v string) *ListDirectoriesInput {
-	s.NextToken = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetState sets the State field's value.
-func (s *ListDirectoriesInput) SetState(v DirectoryState) *ListDirectoriesInput {
-	s.State = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.State) > 0 {
+		v := s.State
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "state", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListDirectoriesResponse
 type ListDirectoriesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Lists all directories that are associated with your account in pagination
 	// fashion.
 	//
 	// Directories is a required field
-	Directories []*Directory `type:"list" required:"true"`
+	Directories []Directory `type:"list" required:"true"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -10706,16 +12569,32 @@ func (s ListDirectoriesOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectories sets the Directories field's value.
-func (s *ListDirectoriesOutput) SetDirectories(v []*Directory) *ListDirectoriesOutput {
-	s.Directories = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDirectoriesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDirectoriesOutput) SetNextToken(v string) *ListDirectoriesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDirectoriesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Directories) > 0 {
+		v := s.Directories
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Directories", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetAttributesRequest
@@ -10773,36 +12652,44 @@ func (s *ListFacetAttributesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListFacetAttributesInput) SetMaxResults(v int64) *ListFacetAttributesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListFacetAttributesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *ListFacetAttributesInput) SetName(v string) *ListFacetAttributesInput {
-	s.Name = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListFacetAttributesInput) SetNextToken(v string) *ListFacetAttributesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *ListFacetAttributesInput) SetSchemaArn(v string) *ListFacetAttributesInput {
-	s.SchemaArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetAttributesResponse
 type ListFacetAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The attributes attached to the facet.
-	Attributes []*FacetAttribute `type:"list"`
+	Attributes []FacetAttribute `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -10818,16 +12705,32 @@ func (s ListFacetAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *ListFacetAttributesOutput) SetAttributes(v []*FacetAttribute) *ListFacetAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListFacetAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListFacetAttributesOutput) SetNextToken(v string) *ListFacetAttributesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListFacetAttributesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetNamesRequest
@@ -10873,30 +12776,38 @@ func (s *ListFacetNamesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListFacetNamesInput) SetMaxResults(v int64) *ListFacetNamesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListFacetNamesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListFacetNamesInput) SetNextToken(v string) *ListFacetNamesInput {
-	s.NextToken = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *ListFacetNamesInput) SetSchemaArn(v string) *ListFacetNamesInput {
-	s.SchemaArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListFacetNamesResponse
 type ListFacetNamesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of facets that exist within the schema.
-	FacetNames []*string `type:"list"`
+	FacetNames []string `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -10912,16 +12823,32 @@ func (s ListFacetNamesOutput) GoString() string {
 	return s.String()
 }
 
-// SetFacetNames sets the FacetNames field's value.
-func (s *ListFacetNamesOutput) SetFacetNames(v []*string) *ListFacetNamesOutput {
-	s.FacetNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListFacetNamesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListFacetNamesOutput) SetNextToken(v string) *ListFacetNamesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListFacetNamesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.FacetNames) > 0 {
+		v := s.FacetNames
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "FacetNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIncomingTypedLinksRequest
@@ -10929,7 +12856,7 @@ type ListIncomingTypedLinksInput struct {
 	_ struct{} `type:"structure"`
 
 	// The consistency level to execute the request at.
-	ConsistencyLevel ConsistencyLevel `type:"string"`
+	ConsistencyLevel ConsistencyLevel `type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) of the directory where you want to list the
 	// typed links.
@@ -10941,7 +12868,7 @@ type ListIncomingTypedLinksInput struct {
 	// typed link selection, any inexact ranges must be specified at the end. Any
 	// attributes that do not have a range specified are presumed to match the entire
 	// range.
-	FilterAttributeRanges []*TypedLinkAttributeRange `type:"list"`
+	FilterAttributeRanges []TypedLinkAttributeRange `type:"list"`
 
 	// Filters are interpreted in the order of the attributes on the typed link
 	// facet, not the order in which they are supplied to any API calls.
@@ -10985,9 +12912,6 @@ func (s *ListIncomingTypedLinksInput) Validate() error {
 	}
 	if s.FilterAttributeRanges != nil {
 		for i, v := range s.FilterAttributeRanges {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "FilterAttributeRanges", i), err.(aws.ErrInvalidParams))
 			}
@@ -11005,54 +12929,68 @@ func (s *ListIncomingTypedLinksInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListIncomingTypedLinksInput) SetConsistencyLevel(v ConsistencyLevel) *ListIncomingTypedLinksInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListIncomingTypedLinksInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListIncomingTypedLinksInput) SetDirectoryArn(v string) *ListIncomingTypedLinksInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
 
-// SetFilterAttributeRanges sets the FilterAttributeRanges field's value.
-func (s *ListIncomingTypedLinksInput) SetFilterAttributeRanges(v []*TypedLinkAttributeRange) *ListIncomingTypedLinksInput {
-	s.FilterAttributeRanges = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ConsistencyLevel", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.FilterAttributeRanges) > 0 {
+		v := s.FilterAttributeRanges
 
-// SetFilterTypedLink sets the FilterTypedLink field's value.
-func (s *ListIncomingTypedLinksInput) SetFilterTypedLink(v *TypedLinkSchemaAndFacetName) *ListIncomingTypedLinksInput {
-	s.FilterTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "FilterAttributeRanges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListIncomingTypedLinksInput) SetMaxResults(v int64) *ListIncomingTypedLinksInput {
-	s.MaxResults = &v
-	return s
-}
+	}
+	if s.FilterTypedLink != nil {
+		v := s.FilterTypedLink
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListIncomingTypedLinksInput) SetNextToken(v string) *ListIncomingTypedLinksInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FilterTypedLink", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListIncomingTypedLinksInput) SetObjectReference(v *ObjectReference) *ListIncomingTypedLinksInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIncomingTypedLinksResponse
 type ListIncomingTypedLinksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Returns one or more typed link specifiers as output.
-	LinkSpecifiers []*TypedLinkSpecifier `type:"list"`
+	LinkSpecifiers []TypedLinkSpecifier `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -11068,16 +13006,32 @@ func (s ListIncomingTypedLinksOutput) GoString() string {
 	return s.String()
 }
 
-// SetLinkSpecifiers sets the LinkSpecifiers field's value.
-func (s *ListIncomingTypedLinksOutput) SetLinkSpecifiers(v []*TypedLinkSpecifier) *ListIncomingTypedLinksOutput {
-	s.LinkSpecifiers = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListIncomingTypedLinksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListIncomingTypedLinksOutput) SetNextToken(v string) *ListIncomingTypedLinksOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListIncomingTypedLinksOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.LinkSpecifiers) > 0 {
+		v := s.LinkSpecifiers
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "LinkSpecifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIndexRequest
@@ -11085,7 +13039,7 @@ type ListIndexInput struct {
 	_ struct{} `type:"structure"`
 
 	// The consistency level to execute the request at.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The ARN of the directory that the index exists in.
 	//
@@ -11097,14 +13051,16 @@ type ListIndexInput struct {
 	// IndexReference is a required field
 	IndexReference *ObjectReference `type:"structure" required:"true"`
 
-	// The maximum number of results to retrieve from the index.
+	// The maximum number of objects in a single page to retrieve from the index
+	// during a request. For more information, see AWS Directory Service Limits
+	// (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/limits.html#limits_cd).
 	MaxResults *int64 `min:"1" type:"integer"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// Specifies the ranges of indexed values that you want to query.
-	RangesOnIndexedValues []*ObjectAttributeRange `type:"list"`
+	RangesOnIndexedValues []ObjectAttributeRange `type:"list"`
 }
 
 // String returns the string representation
@@ -11133,9 +13089,6 @@ func (s *ListIndexInput) Validate() error {
 	}
 	if s.RangesOnIndexedValues != nil {
 		for i, v := range s.RangesOnIndexedValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "RangesOnIndexedValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -11148,48 +13101,62 @@ func (s *ListIndexInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListIndexInput) SetConsistencyLevel(v ConsistencyLevel) *ListIndexInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListIndexInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListIndexInput) SetDirectoryArn(v string) *ListIndexInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.IndexReference != nil {
+		v := s.IndexReference
 
-// SetIndexReference sets the IndexReference field's value.
-func (s *ListIndexInput) SetIndexReference(v *ObjectReference) *ListIndexInput {
-	s.IndexReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexReference", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListIndexInput) SetMaxResults(v int64) *ListIndexInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListIndexInput) SetNextToken(v string) *ListIndexInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.RangesOnIndexedValues) > 0 {
+		v := s.RangesOnIndexedValues
 
-// SetRangesOnIndexedValues sets the RangesOnIndexedValues field's value.
-func (s *ListIndexInput) SetRangesOnIndexedValues(v []*ObjectAttributeRange) *ListIndexInput {
-	s.RangesOnIndexedValues = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "RangesOnIndexedValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListIndexResponse
 type ListIndexOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The objects and indexed values attached to the index.
-	IndexAttachments []*IndexAttachment `type:"list"`
+	IndexAttachments []IndexAttachment `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -11205,16 +13172,32 @@ func (s ListIndexOutput) GoString() string {
 	return s.String()
 }
 
-// SetIndexAttachments sets the IndexAttachments field's value.
-func (s *ListIndexOutput) SetIndexAttachments(v []*IndexAttachment) *ListIndexOutput {
-	s.IndexAttachments = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListIndexOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListIndexOutput) SetNextToken(v string) *ListIndexOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListIndexOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IndexAttachments) > 0 {
+		v := s.IndexAttachments
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IndexAttachments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectAttributesRequest
@@ -11223,7 +13206,7 @@ type ListObjectAttributesInput struct {
 
 	// Represents the manner and timing in which the successful write or update
 	// of an object is reflected in a subsequent read operation of that same object.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// the object resides. For more information, see arns.
@@ -11284,49 +13267,57 @@ func (s *ListObjectAttributesInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListObjectAttributesInput) SetConsistencyLevel(v ConsistencyLevel) *ListObjectAttributesInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectAttributesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListObjectAttributesInput) SetDirectoryArn(v string) *ListObjectAttributesInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.FacetFilter != nil {
+		v := s.FacetFilter
 
-// SetFacetFilter sets the FacetFilter field's value.
-func (s *ListObjectAttributesInput) SetFacetFilter(v *SchemaFacet) *ListObjectAttributesInput {
-	s.FacetFilter = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FacetFilter", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListObjectAttributesInput) SetMaxResults(v int64) *ListObjectAttributesInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectAttributesInput) SetNextToken(v string) *ListObjectAttributesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListObjectAttributesInput) SetObjectReference(v *ObjectReference) *ListObjectAttributesInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectAttributesResponse
 type ListObjectAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Attributes map that is associated with the object. AttributeArn is the key,
 	// and attribute value is the value.
-	Attributes []*AttributeKeyAndValue `type:"list"`
+	Attributes []AttributeKeyAndValue `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -11342,16 +13333,32 @@ func (s ListObjectAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *ListObjectAttributesOutput) SetAttributes(v []*AttributeKeyAndValue) *ListObjectAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectAttributesOutput) SetNextToken(v string) *ListObjectAttributesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectAttributesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectChildrenRequest
@@ -11360,7 +13367,7 @@ type ListObjectChildrenInput struct {
 
 	// Represents the manner and timing in which the successful write or update
 	// of an object is reflected in a subsequent read operation of that same object.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// the object resides. For more information, see arns.
@@ -11413,43 +13420,51 @@ func (s *ListObjectChildrenInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListObjectChildrenInput) SetConsistencyLevel(v ConsistencyLevel) *ListObjectChildrenInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectChildrenInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListObjectChildrenInput) SetDirectoryArn(v string) *ListObjectChildrenInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListObjectChildrenInput) SetMaxResults(v int64) *ListObjectChildrenInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectChildrenInput) SetNextToken(v string) *ListObjectChildrenInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListObjectChildrenInput) SetObjectReference(v *ObjectReference) *ListObjectChildrenInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectChildrenResponse
 type ListObjectChildrenOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Children structure, which is a map with key as the LinkName and ObjectIdentifier
 	// as the value.
-	Children map[string]*string `type:"map"`
+	Children map[string]string `type:"map"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -11465,16 +13480,32 @@ func (s ListObjectChildrenOutput) GoString() string {
 	return s.String()
 }
 
-// SetChildren sets the Children field's value.
-func (s *ListObjectChildrenOutput) SetChildren(v map[string]*string) *ListObjectChildrenOutput {
-	s.Children = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectChildrenOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectChildrenOutput) SetNextToken(v string) *ListObjectChildrenOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectChildrenOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Children) > 0 {
+		v := s.Children
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Children", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentPathsRequest
@@ -11530,39 +13561,47 @@ func (s *ListObjectParentPathsInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListObjectParentPathsInput) SetDirectoryArn(v string) *ListObjectParentPathsInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectParentPathsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListObjectParentPathsInput) SetMaxResults(v int64) *ListObjectParentPathsInput {
-	s.MaxResults = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectParentPathsInput) SetNextToken(v string) *ListObjectParentPathsInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListObjectParentPathsInput) SetObjectReference(v *ObjectReference) *ListObjectParentPathsInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentPathsResponse
 type ListObjectParentPathsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// Returns the path to the ObjectIdentifiers that are associated with the directory.
-	PathToObjectIdentifiersList []*PathToObjectIdentifiers `type:"list"`
+	PathToObjectIdentifiersList []PathToObjectIdentifiers `type:"list"`
 }
 
 // String returns the string representation
@@ -11575,16 +13614,32 @@ func (s ListObjectParentPathsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectParentPathsOutput) SetNextToken(v string) *ListObjectParentPathsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectParentPathsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetPathToObjectIdentifiersList sets the PathToObjectIdentifiersList field's value.
-func (s *ListObjectParentPathsOutput) SetPathToObjectIdentifiersList(v []*PathToObjectIdentifiers) *ListObjectParentPathsOutput {
-	s.PathToObjectIdentifiersList = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectParentPathsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.PathToObjectIdentifiersList) > 0 {
+		v := s.PathToObjectIdentifiersList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "PathToObjectIdentifiersList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentsRequest
@@ -11593,7 +13648,7 @@ type ListObjectParentsInput struct {
 
 	// Represents the manner and timing in which the successful write or update
 	// of an object is reflected in a subsequent read operation of that same object.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// the object resides. For more information, see arns.
@@ -11646,46 +13701,54 @@ func (s *ListObjectParentsInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListObjectParentsInput) SetConsistencyLevel(v ConsistencyLevel) *ListObjectParentsInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectParentsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListObjectParentsInput) SetDirectoryArn(v string) *ListObjectParentsInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListObjectParentsInput) SetMaxResults(v int64) *ListObjectParentsInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectParentsInput) SetNextToken(v string) *ListObjectParentsInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListObjectParentsInput) SetObjectReference(v *ObjectReference) *ListObjectParentsInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectParentsResponse
 type ListObjectParentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// The parent structure, which is a map with key as the ObjectIdentifier and
 	// LinkName as the value.
-	Parents map[string]*string `type:"map"`
+	Parents map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -11698,16 +13761,32 @@ func (s ListObjectParentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectParentsOutput) SetNextToken(v string) *ListObjectParentsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectParentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetParents sets the Parents field's value.
-func (s *ListObjectParentsOutput) SetParents(v map[string]*string) *ListObjectParentsOutput {
-	s.Parents = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectParentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Parents) > 0 {
+		v := s.Parents
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Parents", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectPoliciesRequest
@@ -11716,7 +13795,7 @@ type ListObjectPoliciesInput struct {
 
 	// Represents the manner and timing in which the successful write or update
 	// of an object is reflected in a subsequent read operation of that same object.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// objects reside. For more information, see arns.
@@ -11768,42 +13847,50 @@ func (s *ListObjectPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListObjectPoliciesInput) SetConsistencyLevel(v ConsistencyLevel) *ListObjectPoliciesInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectPoliciesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListObjectPoliciesInput) SetDirectoryArn(v string) *ListObjectPoliciesInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListObjectPoliciesInput) SetMaxResults(v int64) *ListObjectPoliciesInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectPoliciesInput) SetNextToken(v string) *ListObjectPoliciesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListObjectPoliciesInput) SetObjectReference(v *ObjectReference) *ListObjectPoliciesInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListObjectPoliciesResponse
 type ListObjectPoliciesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of policy ObjectIdentifiers, that are attached to the object.
-	AttachedPolicyIds []*string `type:"list"`
+	AttachedPolicyIds []string `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -11819,16 +13906,32 @@ func (s ListObjectPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttachedPolicyIds sets the AttachedPolicyIds field's value.
-func (s *ListObjectPoliciesOutput) SetAttachedPolicyIds(v []*string) *ListObjectPoliciesOutput {
-	s.AttachedPolicyIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListObjectPoliciesOutput) SetNextToken(v string) *ListObjectPoliciesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectPoliciesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AttachedPolicyIds) > 0 {
+		v := s.AttachedPolicyIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttachedPolicyIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListOutgoingTypedLinksRequest
@@ -11836,7 +13939,7 @@ type ListOutgoingTypedLinksInput struct {
 	_ struct{} `type:"structure"`
 
 	// The consistency level to execute the request at.
-	ConsistencyLevel ConsistencyLevel `type:"string"`
+	ConsistencyLevel ConsistencyLevel `type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) of the directory where you want to list the
 	// typed links.
@@ -11848,7 +13951,7 @@ type ListOutgoingTypedLinksInput struct {
 	// typed link selection, any inexact ranges must be specified at the end. Any
 	// attributes that do not have a range specified are presumed to match the entire
 	// range.
-	FilterAttributeRanges []*TypedLinkAttributeRange `type:"list"`
+	FilterAttributeRanges []TypedLinkAttributeRange `type:"list"`
 
 	// Filters are interpreted in the order of the attributes defined on the typed
 	// link facet, not the order they are supplied to any API calls.
@@ -11892,9 +13995,6 @@ func (s *ListOutgoingTypedLinksInput) Validate() error {
 	}
 	if s.FilterAttributeRanges != nil {
 		for i, v := range s.FilterAttributeRanges {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "FilterAttributeRanges", i), err.(aws.ErrInvalidParams))
 			}
@@ -11912,57 +14012,71 @@ func (s *ListOutgoingTypedLinksInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListOutgoingTypedLinksInput) SetConsistencyLevel(v ConsistencyLevel) *ListOutgoingTypedLinksInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListOutgoingTypedLinksInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListOutgoingTypedLinksInput) SetDirectoryArn(v string) *ListOutgoingTypedLinksInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
 
-// SetFilterAttributeRanges sets the FilterAttributeRanges field's value.
-func (s *ListOutgoingTypedLinksInput) SetFilterAttributeRanges(v []*TypedLinkAttributeRange) *ListOutgoingTypedLinksInput {
-	s.FilterAttributeRanges = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ConsistencyLevel", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.FilterAttributeRanges) > 0 {
+		v := s.FilterAttributeRanges
 
-// SetFilterTypedLink sets the FilterTypedLink field's value.
-func (s *ListOutgoingTypedLinksInput) SetFilterTypedLink(v *TypedLinkSchemaAndFacetName) *ListOutgoingTypedLinksInput {
-	s.FilterTypedLink = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "FilterAttributeRanges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListOutgoingTypedLinksInput) SetMaxResults(v int64) *ListOutgoingTypedLinksInput {
-	s.MaxResults = &v
-	return s
-}
+	}
+	if s.FilterTypedLink != nil {
+		v := s.FilterTypedLink
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOutgoingTypedLinksInput) SetNextToken(v string) *ListOutgoingTypedLinksInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FilterTypedLink", v, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *ListOutgoingTypedLinksInput) SetObjectReference(v *ObjectReference) *ListOutgoingTypedLinksInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListOutgoingTypedLinksResponse
 type ListOutgoingTypedLinksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// Returns a typed link specifier as output.
-	TypedLinkSpecifiers []*TypedLinkSpecifier `type:"list"`
+	TypedLinkSpecifiers []TypedLinkSpecifier `type:"list"`
 }
 
 // String returns the string representation
@@ -11975,16 +14089,32 @@ func (s ListOutgoingTypedLinksOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOutgoingTypedLinksOutput) SetNextToken(v string) *ListOutgoingTypedLinksOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListOutgoingTypedLinksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetTypedLinkSpecifiers sets the TypedLinkSpecifiers field's value.
-func (s *ListOutgoingTypedLinksOutput) SetTypedLinkSpecifiers(v []*TypedLinkSpecifier) *ListOutgoingTypedLinksOutput {
-	s.TypedLinkSpecifiers = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListOutgoingTypedLinksOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TypedLinkSpecifiers) > 0 {
+		v := s.TypedLinkSpecifiers
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TypedLinkSpecifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPolicyAttachmentsRequest
@@ -11993,7 +14123,7 @@ type ListPolicyAttachmentsInput struct {
 
 	// Represents the manner and timing in which the successful write or update
 	// of an object is reflected in a subsequent read operation of that same object.
-	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string"`
+	ConsistencyLevel ConsistencyLevel `location:"header" locationName:"x-amz-consistency-level" type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// objects reside. For more information, see arns.
@@ -12045,45 +14175,53 @@ func (s *ListPolicyAttachmentsInput) Validate() error {
 	return nil
 }
 
-// SetConsistencyLevel sets the ConsistencyLevel field's value.
-func (s *ListPolicyAttachmentsInput) SetConsistencyLevel(v ConsistencyLevel) *ListPolicyAttachmentsInput {
-	s.ConsistencyLevel = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListPolicyAttachmentsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *ListPolicyAttachmentsInput) SetDirectoryArn(v string) *ListPolicyAttachmentsInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListPolicyAttachmentsInput) SetMaxResults(v int64) *ListPolicyAttachmentsInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPolicyAttachmentsInput) SetNextToken(v string) *ListPolicyAttachmentsInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PolicyReference != nil {
+		v := s.PolicyReference
 
-// SetPolicyReference sets the PolicyReference field's value.
-func (s *ListPolicyAttachmentsInput) SetPolicyReference(v *ObjectReference) *ListPolicyAttachmentsInput {
-	s.PolicyReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PolicyReference", v, metadata)
+	}
+	if len(s.ConsistencyLevel) > 0 {
+		v := s.ConsistencyLevel
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-consistency-level", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPolicyAttachmentsResponse
 type ListPolicyAttachmentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// A list of ObjectIdentifiers to which the policy is attached.
-	ObjectIdentifiers []*string `type:"list"`
+	ObjectIdentifiers []string `type:"list"`
 }
 
 // String returns the string representation
@@ -12096,16 +14234,32 @@ func (s ListPolicyAttachmentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPolicyAttachmentsOutput) SetNextToken(v string) *ListPolicyAttachmentsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPolicyAttachmentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetObjectIdentifiers sets the ObjectIdentifiers field's value.
-func (s *ListPolicyAttachmentsOutput) SetObjectIdentifiers(v []*string) *ListPolicyAttachmentsOutput {
-	s.ObjectIdentifiers = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListPolicyAttachmentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectIdentifiers) > 0 {
+		v := s.ObjectIdentifiers
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectIdentifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPublishedSchemaArnsRequest
@@ -12117,6 +14271,10 @@ type ListPublishedSchemaArnsInput struct {
 
 	// The pagination token.
 	NextToken *string `type:"string"`
+
+	// The response for ListPublishedSchemaArns when this parameter is used will
+	// list all minor version ARNs for a major version.
+	SchemaArn *string `type:"string"`
 }
 
 // String returns the string representation
@@ -12142,27 +14300,41 @@ func (s *ListPublishedSchemaArnsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListPublishedSchemaArnsInput) SetMaxResults(v int64) *ListPublishedSchemaArnsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListPublishedSchemaArnsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPublishedSchemaArnsInput) SetNextToken(v string) *ListPublishedSchemaArnsInput {
-	s.NextToken = &v
-	return s
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListPublishedSchemaArnsResponse
 type ListPublishedSchemaArnsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// The ARNs of published schemas.
-	SchemaArns []*string `type:"list"`
+	SchemaArns []string `type:"list"`
 }
 
 // String returns the string representation
@@ -12175,16 +14347,32 @@ func (s ListPublishedSchemaArnsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPublishedSchemaArnsOutput) SetNextToken(v string) *ListPublishedSchemaArnsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPublishedSchemaArnsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSchemaArns sets the SchemaArns field's value.
-func (s *ListPublishedSchemaArnsOutput) SetSchemaArns(v []*string) *ListPublishedSchemaArnsOutput {
-	s.SchemaArns = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListPublishedSchemaArnsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.SchemaArns) > 0 {
+		v := s.SchemaArns
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SchemaArns", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTagsForResourceRequest
@@ -12233,34 +14421,42 @@ func (s *ListTagsForResourceInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListTagsForResourceInput) SetMaxResults(v int64) *ListTagsForResourceInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTagsForResourceInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsForResourceInput) SetNextToken(v string) *ListTagsForResourceInput {
-	s.NextToken = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetResourceArn sets the ResourceArn field's value.
-func (s *ListTagsForResourceInput) SetResourceArn(v string) *ListTagsForResourceInput {
-	s.ResourceArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceArn != nil {
+		v := *s.ResourceArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTagsForResourceResponse
 type ListTagsForResourceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The token to use to retrieve the next page of results. This value is null
 	// when there are no more results to return.
 	NextToken *string `type:"string"`
 
 	// A list of tag key value pairs that are associated with the response.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -12273,16 +14469,32 @@ func (s ListTagsForResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsForResourceOutput) SetNextToken(v string) *ListTagsForResourceOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetTags sets the Tags field's value.
-func (s *ListTagsForResourceOutput) SetTags(v []*Tag) *ListTagsForResourceOutput {
-	s.Tags = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTagsForResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Tags", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetAttributesRequest
@@ -12338,36 +14550,44 @@ func (s *ListTypedLinkFacetAttributesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListTypedLinkFacetAttributesInput) SetMaxResults(v int64) *ListTypedLinkFacetAttributesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTypedLinkFacetAttributesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *ListTypedLinkFacetAttributesInput) SetName(v string) *ListTypedLinkFacetAttributesInput {
-	s.Name = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTypedLinkFacetAttributesInput) SetNextToken(v string) *ListTypedLinkFacetAttributesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *ListTypedLinkFacetAttributesInput) SetSchemaArn(v string) *ListTypedLinkFacetAttributesInput {
-	s.SchemaArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetAttributesResponse
 type ListTypedLinkFacetAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An ordered set of attributes associate with the typed link.
-	Attributes []*TypedLinkAttributeDefinition `type:"list"`
+	Attributes []TypedLinkAttributeDefinition `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -12383,16 +14603,32 @@ func (s ListTypedLinkFacetAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *ListTypedLinkFacetAttributesOutput) SetAttributes(v []*TypedLinkAttributeDefinition) *ListTypedLinkFacetAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTypedLinkFacetAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTypedLinkFacetAttributesOutput) SetNextToken(v string) *ListTypedLinkFacetAttributesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTypedLinkFacetAttributesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetNamesRequest
@@ -12439,30 +14675,38 @@ func (s *ListTypedLinkFacetNamesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListTypedLinkFacetNamesInput) SetMaxResults(v int64) *ListTypedLinkFacetNamesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTypedLinkFacetNamesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTypedLinkFacetNamesInput) SetNextToken(v string) *ListTypedLinkFacetNamesInput {
-	s.NextToken = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *ListTypedLinkFacetNamesInput) SetSchemaArn(v string) *ListTypedLinkFacetNamesInput {
-	s.SchemaArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/ListTypedLinkFacetNamesResponse
 type ListTypedLinkFacetNamesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of typed link facets that exist within the schema.
-	FacetNames []*string `type:"list"`
+	FacetNames []string `type:"list"`
 
 	// The pagination token.
 	NextToken *string `type:"string"`
@@ -12478,16 +14722,32 @@ func (s ListTypedLinkFacetNamesOutput) GoString() string {
 	return s.String()
 }
 
-// SetFacetNames sets the FacetNames field's value.
-func (s *ListTypedLinkFacetNamesOutput) SetFacetNames(v []*string) *ListTypedLinkFacetNamesOutput {
-	s.FacetNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTypedLinkFacetNamesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTypedLinkFacetNamesOutput) SetNextToken(v string) *ListTypedLinkFacetNamesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTypedLinkFacetNamesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.FacetNames) > 0 {
+		v := s.FacetNames
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "FacetNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/LookupPolicyRequest
@@ -12544,40 +14804,48 @@ func (s *LookupPolicyInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *LookupPolicyInput) SetDirectoryArn(v string) *LookupPolicyInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LookupPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *LookupPolicyInput) SetMaxResults(v int64) *LookupPolicyInput {
-	s.MaxResults = &v
-	return s
-}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetNextToken sets the NextToken field's value.
-func (s *LookupPolicyInput) SetNextToken(v string) *LookupPolicyInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *LookupPolicyInput) SetObjectReference(v *ObjectReference) *LookupPolicyInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/LookupPolicyResponse
 type LookupPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The pagination token.
 	NextToken *string `type:"string"`
 
 	// Provides list of path to policies. Policies contain PolicyId, ObjectIdentifier,
 	// and PolicyType. For more information, see Policies (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/cd_key_concepts.html#policies).
-	PolicyToPathList []*PolicyToPath `type:"list"`
+	PolicyToPathList []PolicyToPath `type:"list"`
 }
 
 // String returns the string representation
@@ -12590,16 +14858,32 @@ func (s LookupPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *LookupPolicyOutput) SetNextToken(v string) *LookupPolicyOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s LookupPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetPolicyToPathList sets the PolicyToPathList field's value.
-func (s *LookupPolicyOutput) SetPolicyToPathList(v []*PolicyToPath) *LookupPolicyOutput {
-	s.PolicyToPathList = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LookupPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.PolicyToPathList) > 0 {
+		v := s.PolicyToPathList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "PolicyToPathList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // The action to take on the object attribute.
@@ -12608,7 +14892,7 @@ type ObjectAttributeAction struct {
 	_ struct{} `type:"structure"`
 
 	// A type that can be either Update or Delete.
-	ObjectAttributeActionType UpdateActionType `type:"string"`
+	ObjectAttributeActionType UpdateActionType `type:"string" enum:"true"`
 
 	// The value that you want to update to.
 	ObjectAttributeUpdateValue *TypedAttributeValue `type:"structure"`
@@ -12624,16 +14908,21 @@ func (s ObjectAttributeAction) GoString() string {
 	return s.String()
 }
 
-// SetObjectAttributeActionType sets the ObjectAttributeActionType field's value.
-func (s *ObjectAttributeAction) SetObjectAttributeActionType(v UpdateActionType) *ObjectAttributeAction {
-	s.ObjectAttributeActionType = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ObjectAttributeAction) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ObjectAttributeActionType) > 0 {
+		v := s.ObjectAttributeActionType
 
-// SetObjectAttributeUpdateValue sets the ObjectAttributeUpdateValue field's value.
-func (s *ObjectAttributeAction) SetObjectAttributeUpdateValue(v *TypedAttributeValue) *ObjectAttributeAction {
-	s.ObjectAttributeUpdateValue = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectAttributeActionType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.ObjectAttributeUpdateValue != nil {
+		v := s.ObjectAttributeUpdateValue
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectAttributeUpdateValue", v, metadata)
+	}
+	return nil
 }
 
 // A range of attributes.
@@ -12678,16 +14967,21 @@ func (s *ObjectAttributeRange) Validate() error {
 	return nil
 }
 
-// SetAttributeKey sets the AttributeKey field's value.
-func (s *ObjectAttributeRange) SetAttributeKey(v *AttributeKey) *ObjectAttributeRange {
-	s.AttributeKey = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ObjectAttributeRange) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttributeKey != nil {
+		v := s.AttributeKey
 
-// SetRange sets the Range field's value.
-func (s *ObjectAttributeRange) SetRange(v *TypedAttributeValueRange) *ObjectAttributeRange {
-	s.Range = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AttributeKey", v, metadata)
+	}
+	if s.Range != nil {
+		v := s.Range
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Range", v, metadata)
+	}
+	return nil
 }
 
 // Structure that contains attribute update information.
@@ -12727,16 +15021,21 @@ func (s *ObjectAttributeUpdate) Validate() error {
 	return nil
 }
 
-// SetObjectAttributeAction sets the ObjectAttributeAction field's value.
-func (s *ObjectAttributeUpdate) SetObjectAttributeAction(v *ObjectAttributeAction) *ObjectAttributeUpdate {
-	s.ObjectAttributeAction = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ObjectAttributeUpdate) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectAttributeAction != nil {
+		v := s.ObjectAttributeAction
 
-// SetObjectAttributeKey sets the ObjectAttributeKey field's value.
-func (s *ObjectAttributeUpdate) SetObjectAttributeKey(v *AttributeKey) *ObjectAttributeUpdate {
-	s.ObjectAttributeKey = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectAttributeAction", v, metadata)
+	}
+	if s.ObjectAttributeKey != nil {
+		v := s.ObjectAttributeKey
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectAttributeKey", v, metadata)
+	}
+	return nil
 }
 
 // The reference that identifies an object.
@@ -12772,10 +15071,15 @@ func (s ObjectReference) GoString() string {
 	return s.String()
 }
 
-// SetSelector sets the Selector field's value.
-func (s *ObjectReference) SetSelector(v string) *ObjectReference {
-	s.Selector = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ObjectReference) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Selector != nil {
+		v := *s.Selector
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Selector", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returns the path to the ObjectIdentifiers that is associated with the directory.
@@ -12785,7 +15089,7 @@ type PathToObjectIdentifiers struct {
 
 	// Lists ObjectIdentifiers starting from directory root to the object in the
 	// request.
-	ObjectIdentifiers []*string `type:"list"`
+	ObjectIdentifiers []string `type:"list"`
 
 	// The path that is used to identify the object starting from directory root.
 	Path *string `type:"string"`
@@ -12801,16 +15105,27 @@ func (s PathToObjectIdentifiers) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifiers sets the ObjectIdentifiers field's value.
-func (s *PathToObjectIdentifiers) SetObjectIdentifiers(v []*string) *PathToObjectIdentifiers {
-	s.ObjectIdentifiers = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PathToObjectIdentifiers) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ObjectIdentifiers) > 0 {
+		v := s.ObjectIdentifiers
 
-// SetPath sets the Path field's value.
-func (s *PathToObjectIdentifiers) SetPath(v string) *PathToObjectIdentifiers {
-	s.Path = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ObjectIdentifiers", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Path != nil {
+		v := *s.Path
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Path", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Contains the PolicyType, PolicyId, and the ObjectIdentifier to which it is
@@ -12839,22 +15154,27 @@ func (s PolicyAttachment) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *PolicyAttachment) SetObjectIdentifier(v string) *PolicyAttachment {
-	s.ObjectIdentifier = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PolicyAttachment) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
 
-// SetPolicyId sets the PolicyId field's value.
-func (s *PolicyAttachment) SetPolicyId(v string) *PolicyAttachment {
-	s.PolicyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PolicyId != nil {
+		v := *s.PolicyId
 
-// SetPolicyType sets the PolicyType field's value.
-func (s *PolicyAttachment) SetPolicyType(v string) *PolicyAttachment {
-	s.PolicyType = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PolicyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PolicyType != nil {
+		v := *s.PolicyType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PolicyType", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Used when a regular object exists in a Directory and you want to find all
@@ -12868,7 +15188,7 @@ type PolicyToPath struct {
 	Path *string `type:"string"`
 
 	// List of policy objects.
-	Policies []*PolicyAttachment `type:"list"`
+	Policies []PolicyAttachment `type:"list"`
 }
 
 // String returns the string representation
@@ -12881,16 +15201,27 @@ func (s PolicyToPath) GoString() string {
 	return s.String()
 }
 
-// SetPath sets the Path field's value.
-func (s *PolicyToPath) SetPath(v string) *PolicyToPath {
-	s.Path = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PolicyToPath) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Path != nil {
+		v := *s.Path
 
-// SetPolicies sets the Policies field's value.
-func (s *PolicyToPath) SetPolicies(v []*PolicyAttachment) *PolicyToPath {
-	s.Policies = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Path", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Policies) > 0 {
+		v := s.Policies
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Policies", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PublishSchemaRequest
@@ -12903,11 +15234,17 @@ type PublishSchemaInput struct {
 	// DevelopmentSchemaArn is a required field
 	DevelopmentSchemaArn *string `location:"header" locationName:"x-amz-data-partition" type:"string" required:"true"`
 
+	// The minor version under which the schema will be published. This parameter
+	// is recommended. Schemas have both a major and minor version associated with
+	// them.
+	MinorVersion *string `min:"1" type:"string"`
+
 	// The new name under which the schema will be published. If this is not provided,
 	// the development schema is considered.
 	Name *string `min:"1" type:"string"`
 
-	// The version under which the schema will be published.
+	// The major version under which the schema will be published. Schemas have
+	// both a major and minor version associated with them.
 	//
 	// Version is a required field
 	Version *string `min:"1" type:"string" required:"true"`
@@ -12930,6 +15267,9 @@ func (s *PublishSchemaInput) Validate() error {
 	if s.DevelopmentSchemaArn == nil {
 		invalidParams.Add(aws.NewErrParamRequired("DevelopmentSchemaArn"))
 	}
+	if s.MinorVersion != nil && len(*s.MinorVersion) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("MinorVersion", 1))
+	}
 	if s.Name != nil && len(*s.Name) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("Name", 1))
 	}
@@ -12947,27 +15287,41 @@ func (s *PublishSchemaInput) Validate() error {
 	return nil
 }
 
-// SetDevelopmentSchemaArn sets the DevelopmentSchemaArn field's value.
-func (s *PublishSchemaInput) SetDevelopmentSchemaArn(v string) *PublishSchemaInput {
-	s.DevelopmentSchemaArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PublishSchemaInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *PublishSchemaInput) SetName(v string) *PublishSchemaInput {
-	s.Name = &v
-	return s
-}
+	if s.MinorVersion != nil {
+		v := *s.MinorVersion
 
-// SetVersion sets the Version field's value.
-func (s *PublishSchemaInput) SetVersion(v string) *PublishSchemaInput {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MinorVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DevelopmentSchemaArn != nil {
+		v := *s.DevelopmentSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PublishSchemaResponse
 type PublishSchemaOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN that is associated with the published schema. For more information,
 	// see arns.
@@ -12984,10 +15338,20 @@ func (s PublishSchemaOutput) GoString() string {
 	return s.String()
 }
 
-// SetPublishedSchemaArn sets the PublishedSchemaArn field's value.
-func (s *PublishSchemaOutput) SetPublishedSchemaArn(v string) *PublishSchemaOutput {
-	s.PublishedSchemaArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PublishSchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PublishSchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.PublishedSchemaArn != nil {
+		v := *s.PublishedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PublishedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PutSchemaFromJsonRequest
@@ -13033,21 +15397,29 @@ func (s *PutSchemaFromJsonInput) Validate() error {
 	return nil
 }
 
-// SetDocument sets the Document field's value.
-func (s *PutSchemaFromJsonInput) SetDocument(v string) *PutSchemaFromJsonInput {
-	s.Document = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutSchemaFromJsonInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *PutSchemaFromJsonInput) SetSchemaArn(v string) *PutSchemaFromJsonInput {
-	s.SchemaArn = &v
-	return s
+	if s.Document != nil {
+		v := *s.Document
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Document", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/PutSchemaFromJsonResponse
 type PutSchemaFromJsonOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the schema to update.
 	Arn *string `type:"string"`
@@ -13063,10 +15435,20 @@ func (s PutSchemaFromJsonOutput) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *PutSchemaFromJsonOutput) SetArn(v string) *PutSchemaFromJsonOutput {
-	s.Arn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutSchemaFromJsonOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutSchemaFromJsonOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Arn != nil {
+		v := *s.Arn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Arn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/RemoveFacetFromObjectRequest
@@ -13083,7 +15465,7 @@ type RemoveFacetFromObjectInput struct {
 	// ObjectReference is a required field
 	ObjectReference *ObjectReference `type:"structure" required:"true"`
 
-	// The facet to remove.
+	// The facet to remove. See SchemaFacet for details.
 	//
 	// SchemaFacet is a required field
 	SchemaFacet *SchemaFacet `type:"structure" required:"true"`
@@ -13126,27 +15508,35 @@ func (s *RemoveFacetFromObjectInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *RemoveFacetFromObjectInput) SetDirectoryArn(v string) *RemoveFacetFromObjectInput {
-	s.DirectoryArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveFacetFromObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *RemoveFacetFromObjectInput) SetObjectReference(v *ObjectReference) *RemoveFacetFromObjectInput {
-	s.ObjectReference = v
-	return s
-}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
 
-// SetSchemaFacet sets the SchemaFacet field's value.
-func (s *RemoveFacetFromObjectInput) SetSchemaFacet(v *SchemaFacet) *RemoveFacetFromObjectInput {
-	s.SchemaFacet = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.SchemaFacet != nil {
+		v := s.SchemaFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SchemaFacet", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/RemoveFacetFromObjectResponse
 type RemoveFacetFromObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13159,6 +15549,16 @@ func (s RemoveFacetFromObjectOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveFacetFromObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveFacetFromObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Contains an Amazon Resource Name (ARN) and parameters that are associated
 // with the rule.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/Rule
@@ -13166,10 +15566,10 @@ type Rule struct {
 	_ struct{} `type:"structure"`
 
 	// The minimum and maximum parameters that are associated with the rule.
-	Parameters map[string]*string `type:"map"`
+	Parameters map[string]string `type:"map"`
 
 	// The type of attribute validation rule.
-	Type RuleType `type:"string"`
+	Type RuleType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -13182,16 +15582,27 @@ func (s Rule) GoString() string {
 	return s.String()
 }
 
-// SetParameters sets the Parameters field's value.
-func (s *Rule) SetParameters(v map[string]*string) *Rule {
-	s.Parameters = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Rule) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Parameters) > 0 {
+		v := s.Parameters
 
-// SetType sets the Type field's value.
-func (s *Rule) SetType(v RuleType) *Rule {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Parameters", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // A facet.
@@ -13202,7 +15613,9 @@ type SchemaFacet struct {
 	// The name of the facet.
 	FacetName *string `min:"1" type:"string"`
 
-	// The ARN of the schema that contains the facet.
+	// The ARN of the schema that contains the facet with no minor component. See
+	// arns and In-Place Schema Upgrade (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/inplaceschemaupgrade.html)
+	// for a description of when to provide minor versions.
 	SchemaArn *string `type:"string"`
 }
 
@@ -13229,16 +15642,21 @@ func (s *SchemaFacet) Validate() error {
 	return nil
 }
 
-// SetFacetName sets the FacetName field's value.
-func (s *SchemaFacet) SetFacetName(v string) *SchemaFacet {
-	s.FacetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SchemaFacet) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FacetName != nil {
+		v := *s.FacetName
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *SchemaFacet) SetSchemaArn(v string) *SchemaFacet {
-	s.SchemaArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FacetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The tag structure that contains a tag key and value.
@@ -13263,16 +15681,21 @@ func (s Tag) GoString() string {
 	return s.String()
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Tag) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := *s.Key
 
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/TagResourceRequest
@@ -13288,7 +15711,7 @@ type TagResourceInput struct {
 	// A list of tag key-value pairs.
 	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -13319,21 +15742,35 @@ func (s *TagResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceArn sets the ResourceArn field's value.
-func (s *TagResourceInput) SetResourceArn(v string) *TagResourceInput {
-	s.ResourceArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TagResourceInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTags sets the Tags field's value.
-func (s *TagResourceInput) SetTags(v []*Tag) *TagResourceInput {
-	s.Tags = v
-	return s
+	if s.ResourceArn != nil {
+		v := *s.ResourceArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Tags", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/TagResourceResponse
 type TagResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13344,6 +15781,16 @@ func (s TagResourceOutput) String() string {
 // GoString returns the string representation
 func (s TagResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TagResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TagResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Represents the data for a typed attribute. You can set one, and only one,
@@ -13381,37 +15828,42 @@ func (s TypedAttributeValue) GoString() string {
 	return s.String()
 }
 
-// SetBinaryValue sets the BinaryValue field's value.
-func (s *TypedAttributeValue) SetBinaryValue(v []byte) *TypedAttributeValue {
-	s.BinaryValue = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedAttributeValue) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BinaryValue != nil {
+		v := s.BinaryValue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BinaryValue", protocol.QuotedValue{ValueMarshaler: protocol.BytesValue(v)}, metadata)
+	}
+	if s.BooleanValue != nil {
+		v := *s.BooleanValue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BooleanValue", protocol.BoolValue(v), metadata)
+	}
+	if s.DatetimeValue != nil {
+		v := *s.DatetimeValue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DatetimeValue", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.NumberValue != nil {
+		v := *s.NumberValue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NumberValue", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StringValue != nil {
+		v := *s.StringValue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StringValue", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetBooleanValue sets the BooleanValue field's value.
-func (s *TypedAttributeValue) SetBooleanValue(v bool) *TypedAttributeValue {
-	s.BooleanValue = &v
-	return s
-}
-
-// SetDatetimeValue sets the DatetimeValue field's value.
-func (s *TypedAttributeValue) SetDatetimeValue(v time.Time) *TypedAttributeValue {
-	s.DatetimeValue = &v
-	return s
-}
-
-// SetNumberValue sets the NumberValue field's value.
-func (s *TypedAttributeValue) SetNumberValue(v string) *TypedAttributeValue {
-	s.NumberValue = &v
-	return s
-}
-
-// SetStringValue sets the StringValue field's value.
-func (s *TypedAttributeValue) SetStringValue(v string) *TypedAttributeValue {
-	s.StringValue = &v
-	return s
-}
-
-// A range of attribute values.
+// A range of attribute values. For more information, see Range Filters (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#rangefilters).
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/TypedAttributeValueRange
 type TypedAttributeValueRange struct {
 	_ struct{} `type:"structure"`
@@ -13419,7 +15871,7 @@ type TypedAttributeValueRange struct {
 	// The inclusive or exclusive range end.
 	//
 	// EndMode is a required field
-	EndMode RangeMode `type:"string" required:"true"`
+	EndMode RangeMode `type:"string" required:"true" enum:"true"`
 
 	// The attribute value to terminate the range at.
 	EndValue *TypedAttributeValue `type:"structure"`
@@ -13427,7 +15879,7 @@ type TypedAttributeValueRange struct {
 	// The inclusive or exclusive range start.
 	//
 	// StartMode is a required field
-	StartMode RangeMode `type:"string" required:"true"`
+	StartMode RangeMode `type:"string" required:"true" enum:"true"`
 
 	// The value to start the range at.
 	StartValue *TypedAttributeValue `type:"structure"`
@@ -13459,28 +15911,33 @@ func (s *TypedAttributeValueRange) Validate() error {
 	return nil
 }
 
-// SetEndMode sets the EndMode field's value.
-func (s *TypedAttributeValueRange) SetEndMode(v RangeMode) *TypedAttributeValueRange {
-	s.EndMode = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedAttributeValueRange) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.EndMode) > 0 {
+		v := s.EndMode
 
-// SetEndValue sets the EndValue field's value.
-func (s *TypedAttributeValueRange) SetEndValue(v *TypedAttributeValue) *TypedAttributeValueRange {
-	s.EndValue = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndMode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.EndValue != nil {
+		v := s.EndValue
 
-// SetStartMode sets the StartMode field's value.
-func (s *TypedAttributeValueRange) SetStartMode(v RangeMode) *TypedAttributeValueRange {
-	s.StartMode = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EndValue", v, metadata)
+	}
+	if len(s.StartMode) > 0 {
+		v := s.StartMode
 
-// SetStartValue sets the StartValue field's value.
-func (s *TypedAttributeValueRange) SetStartValue(v *TypedAttributeValue) *TypedAttributeValueRange {
-	s.StartValue = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartMode", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.StartValue != nil {
+		v := s.StartValue
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "StartValue", v, metadata)
+	}
+	return nil
 }
 
 // A typed link attribute definition.
@@ -13502,15 +15959,15 @@ type TypedLinkAttributeDefinition struct {
 	// The required behavior of the TypedLinkAttributeDefinition.
 	//
 	// RequiredBehavior is a required field
-	RequiredBehavior RequiredAttributeBehavior `type:"string" required:"true"`
+	RequiredBehavior RequiredAttributeBehavior `type:"string" required:"true" enum:"true"`
 
 	// Validation rules that are attached to the attribute definition.
-	Rules map[string]*Rule `type:"map"`
+	Rules map[string]Rule `type:"map"`
 
 	// The type of the attribute.
 	//
 	// Type is a required field
-	Type FacetAttributeType `type:"string" required:"true"`
+	Type FacetAttributeType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -13546,40 +16003,51 @@ func (s *TypedLinkAttributeDefinition) Validate() error {
 	return nil
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *TypedLinkAttributeDefinition) SetDefaultValue(v *TypedAttributeValue) *TypedLinkAttributeDefinition {
-	s.DefaultValue = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedLinkAttributeDefinition) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DefaultValue != nil {
+		v := s.DefaultValue
 
-// SetIsImmutable sets the IsImmutable field's value.
-func (s *TypedLinkAttributeDefinition) SetIsImmutable(v bool) *TypedLinkAttributeDefinition {
-	s.IsImmutable = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DefaultValue", v, metadata)
+	}
+	if s.IsImmutable != nil {
+		v := *s.IsImmutable
 
-// SetName sets the Name field's value.
-func (s *TypedLinkAttributeDefinition) SetName(v string) *TypedLinkAttributeDefinition {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsImmutable", protocol.BoolValue(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetRequiredBehavior sets the RequiredBehavior field's value.
-func (s *TypedLinkAttributeDefinition) SetRequiredBehavior(v RequiredAttributeBehavior) *TypedLinkAttributeDefinition {
-	s.RequiredBehavior = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.RequiredBehavior) > 0 {
+		v := s.RequiredBehavior
 
-// SetRules sets the Rules field's value.
-func (s *TypedLinkAttributeDefinition) SetRules(v map[string]*Rule) *TypedLinkAttributeDefinition {
-	s.Rules = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RequiredBehavior", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Rules) > 0 {
+		v := s.Rules
 
-// SetType sets the Type field's value.
-func (s *TypedLinkAttributeDefinition) SetType(v FacetAttributeType) *TypedLinkAttributeDefinition {
-	s.Type = v
-	return s
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Rules", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Identifies the range of attributes that are used by a specified filter.
@@ -13628,16 +16096,21 @@ func (s *TypedLinkAttributeRange) Validate() error {
 	return nil
 }
 
-// SetAttributeName sets the AttributeName field's value.
-func (s *TypedLinkAttributeRange) SetAttributeName(v string) *TypedLinkAttributeRange {
-	s.AttributeName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedLinkAttributeRange) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AttributeName != nil {
+		v := *s.AttributeName
 
-// SetRange sets the Range field's value.
-func (s *TypedLinkAttributeRange) SetRange(v *TypedAttributeValueRange) *TypedLinkAttributeRange {
-	s.Range = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AttributeName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Range != nil {
+		v := s.Range
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Range", v, metadata)
+	}
+	return nil
 }
 
 // Defines the typed links structure and its attributes. To create a typed link
@@ -13652,7 +16125,7 @@ type TypedLinkFacet struct {
 	// to distinguish the link from others of the same type between the same objects.
 	//
 	// Attributes is a required field
-	Attributes []*TypedLinkAttributeDefinition `type:"list" required:"true"`
+	Attributes []TypedLinkAttributeDefinition `type:"list" required:"true"`
 
 	// The set of attributes that distinguish links made from this facet from each
 	// other, in the order of significance. Listing typed links can filter on the
@@ -13660,7 +16133,7 @@ type TypedLinkFacet struct {
 	// for details.
 	//
 	// IdentityAttributeOrder is a required field
-	IdentityAttributeOrder []*string `type:"list" required:"true"`
+	IdentityAttributeOrder []string `type:"list" required:"true"`
 
 	// The unique name of the typed link facet.
 	//
@@ -13695,9 +16168,6 @@ func (s *TypedLinkFacet) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -13710,22 +16180,39 @@ func (s *TypedLinkFacet) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *TypedLinkFacet) SetAttributes(v []*TypedLinkAttributeDefinition) *TypedLinkFacet {
-	s.Attributes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedLinkFacet) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetIdentityAttributeOrder sets the IdentityAttributeOrder field's value.
-func (s *TypedLinkFacet) SetIdentityAttributeOrder(v []*string) *TypedLinkFacet {
-	s.IdentityAttributeOrder = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Attributes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetName sets the Name field's value.
-func (s *TypedLinkFacet) SetName(v string) *TypedLinkFacet {
-	s.Name = &v
-	return s
+	}
+	if len(s.IdentityAttributeOrder) > 0 {
+		v := s.IdentityAttributeOrder
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IdentityAttributeOrder", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A typed link facet attribute update.
@@ -13736,7 +16223,7 @@ type TypedLinkFacetAttributeUpdate struct {
 	// The action to perform when updating the attribute.
 	//
 	// Action is a required field
-	Action UpdateActionType `type:"string" required:"true"`
+	Action UpdateActionType `type:"string" required:"true" enum:"true"`
 
 	// The attribute to update.
 	//
@@ -13776,16 +16263,21 @@ func (s *TypedLinkFacetAttributeUpdate) Validate() error {
 	return nil
 }
 
-// SetAction sets the Action field's value.
-func (s *TypedLinkFacetAttributeUpdate) SetAction(v UpdateActionType) *TypedLinkFacetAttributeUpdate {
-	s.Action = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedLinkFacetAttributeUpdate) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Action) > 0 {
+		v := s.Action
 
-// SetAttribute sets the Attribute field's value.
-func (s *TypedLinkFacetAttributeUpdate) SetAttribute(v *TypedLinkAttributeDefinition) *TypedLinkFacetAttributeUpdate {
-	s.Attribute = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Action", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Attribute != nil {
+		v := s.Attribute
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Attribute", v, metadata)
+	}
+	return nil
 }
 
 // Identifies the schema Amazon Resource Name (ARN) and facet name for the typed
@@ -13834,16 +16326,21 @@ func (s *TypedLinkSchemaAndFacetName) Validate() error {
 	return nil
 }
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *TypedLinkSchemaAndFacetName) SetSchemaArn(v string) *TypedLinkSchemaAndFacetName {
-	s.SchemaArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedLinkSchemaAndFacetName) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
 
-// SetTypedLinkName sets the TypedLinkName field's value.
-func (s *TypedLinkSchemaAndFacetName) SetTypedLinkName(v string) *TypedLinkSchemaAndFacetName {
-	s.TypedLinkName = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.TypedLinkName != nil {
+		v := *s.TypedLinkName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TypedLinkName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Contains all the information that is used to uniquely identify a typed link.
@@ -13859,7 +16356,7 @@ type TypedLinkSpecifier struct {
 	// Identifies the attribute value to update.
 	//
 	// IdentityAttributeValues is a required field
-	IdentityAttributeValues []*AttributeNameAndValue `type:"list" required:"true"`
+	IdentityAttributeValues []AttributeNameAndValue `type:"list" required:"true"`
 
 	// Identifies the source object that the typed link will attach to.
 	//
@@ -13908,9 +16405,6 @@ func (s *TypedLinkSpecifier) Validate() error {
 	}
 	if s.IdentityAttributeValues != nil {
 		for i, v := range s.IdentityAttributeValues {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "IdentityAttributeValues", i), err.(aws.ErrInvalidParams))
 			}
@@ -13928,28 +16422,39 @@ func (s *TypedLinkSpecifier) Validate() error {
 	return nil
 }
 
-// SetIdentityAttributeValues sets the IdentityAttributeValues field's value.
-func (s *TypedLinkSpecifier) SetIdentityAttributeValues(v []*AttributeNameAndValue) *TypedLinkSpecifier {
-	s.IdentityAttributeValues = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TypedLinkSpecifier) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.IdentityAttributeValues) > 0 {
+		v := s.IdentityAttributeValues
 
-// SetSourceObjectReference sets the SourceObjectReference field's value.
-func (s *TypedLinkSpecifier) SetSourceObjectReference(v *ObjectReference) *TypedLinkSpecifier {
-	s.SourceObjectReference = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IdentityAttributeValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetTargetObjectReference sets the TargetObjectReference field's value.
-func (s *TypedLinkSpecifier) SetTargetObjectReference(v *ObjectReference) *TypedLinkSpecifier {
-	s.TargetObjectReference = v
-	return s
-}
+	}
+	if s.SourceObjectReference != nil {
+		v := s.SourceObjectReference
 
-// SetTypedLinkFacet sets the TypedLinkFacet field's value.
-func (s *TypedLinkSpecifier) SetTypedLinkFacet(v *TypedLinkSchemaAndFacetName) *TypedLinkSpecifier {
-	s.TypedLinkFacet = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SourceObjectReference", v, metadata)
+	}
+	if s.TargetObjectReference != nil {
+		v := s.TargetObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TargetObjectReference", v, metadata)
+	}
+	if s.TypedLinkFacet != nil {
+		v := s.TypedLinkFacet
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TypedLinkFacet", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UntagResourceRequest
@@ -13965,7 +16470,7 @@ type UntagResourceInput struct {
 	// Keys of the tag that need to be removed from the resource.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `type:"list" required:"true"`
+	TagKeys []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -13996,21 +16501,35 @@ func (s *UntagResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceArn sets the ResourceArn field's value.
-func (s *UntagResourceInput) SetResourceArn(v string) *UntagResourceInput {
-	s.ResourceArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UntagResourceInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTagKeys sets the TagKeys field's value.
-func (s *UntagResourceInput) SetTagKeys(v []*string) *UntagResourceInput {
-	s.TagKeys = v
-	return s
+	if s.ResourceArn != nil {
+		v := *s.ResourceArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TagKeys) > 0 {
+		v := s.TagKeys
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TagKeys", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UntagResourceResponse
 type UntagResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14023,6 +16542,16 @@ func (s UntagResourceOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UntagResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UntagResourceOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateFacetRequest
 type UpdateFacetInput struct {
 	_ struct{} `type:"structure"`
@@ -14030,7 +16559,7 @@ type UpdateFacetInput struct {
 	// List of attributes that need to be updated in a given schema Facet. Each
 	// attribute is followed by AttributeAction, which specifies the type of update
 	// operation to perform.
-	AttributeUpdates []*FacetAttributeUpdate `type:"list"`
+	AttributeUpdates []FacetAttributeUpdate `type:"list"`
 
 	// The name of the facet.
 	//
@@ -14039,7 +16568,7 @@ type UpdateFacetInput struct {
 
 	// The object type that is associated with the facet. See CreateFacetRequest$ObjectType
 	// for more details.
-	ObjectType ObjectType `type:"string"`
+	ObjectType ObjectType `type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Facet. For more
 	// information, see arns.
@@ -14074,9 +16603,6 @@ func (s *UpdateFacetInput) Validate() error {
 	}
 	if s.AttributeUpdates != nil {
 		for i, v := range s.AttributeUpdates {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AttributeUpdates", i), err.(aws.ErrInvalidParams))
 			}
@@ -14089,33 +16615,47 @@ func (s *UpdateFacetInput) Validate() error {
 	return nil
 }
 
-// SetAttributeUpdates sets the AttributeUpdates field's value.
-func (s *UpdateFacetInput) SetAttributeUpdates(v []*FacetAttributeUpdate) *UpdateFacetInput {
-	s.AttributeUpdates = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *UpdateFacetInput) SetName(v string) *UpdateFacetInput {
-	s.Name = &v
-	return s
-}
+	if len(s.AttributeUpdates) > 0 {
+		v := s.AttributeUpdates
 
-// SetObjectType sets the ObjectType field's value.
-func (s *UpdateFacetInput) SetObjectType(v ObjectType) *UpdateFacetInput {
-	s.ObjectType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttributeUpdates", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *UpdateFacetInput) SetSchemaArn(v string) *UpdateFacetInput {
-	s.SchemaArn = &v
-	return s
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ObjectType) > 0 {
+		v := s.ObjectType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateFacetResponse
 type UpdateFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14128,6 +16668,16 @@ func (s UpdateFacetOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateObjectAttributesRequest
 type UpdateObjectAttributesInput struct {
 	_ struct{} `type:"structure"`
@@ -14135,7 +16685,7 @@ type UpdateObjectAttributesInput struct {
 	// The attributes update structure.
 	//
 	// AttributeUpdates is a required field
-	AttributeUpdates []*ObjectAttributeUpdate `type:"list" required:"true"`
+	AttributeUpdates []ObjectAttributeUpdate `type:"list" required:"true"`
 
 	// The Amazon Resource Name (ARN) that is associated with the Directory where
 	// the object resides. For more information, see arns.
@@ -14176,9 +16726,6 @@ func (s *UpdateObjectAttributesInput) Validate() error {
 	}
 	if s.AttributeUpdates != nil {
 		for i, v := range s.AttributeUpdates {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AttributeUpdates", i), err.(aws.ErrInvalidParams))
 			}
@@ -14191,27 +16738,41 @@ func (s *UpdateObjectAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributeUpdates sets the AttributeUpdates field's value.
-func (s *UpdateObjectAttributesInput) SetAttributeUpdates(v []*ObjectAttributeUpdate) *UpdateObjectAttributesInput {
-	s.AttributeUpdates = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateObjectAttributesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDirectoryArn sets the DirectoryArn field's value.
-func (s *UpdateObjectAttributesInput) SetDirectoryArn(v string) *UpdateObjectAttributesInput {
-	s.DirectoryArn = &v
-	return s
-}
+	if len(s.AttributeUpdates) > 0 {
+		v := s.AttributeUpdates
 
-// SetObjectReference sets the ObjectReference field's value.
-func (s *UpdateObjectAttributesInput) SetObjectReference(v *ObjectReference) *UpdateObjectAttributesInput {
-	s.ObjectReference = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttributeUpdates", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ObjectReference != nil {
+		v := s.ObjectReference
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ObjectReference", v, metadata)
+	}
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateObjectAttributesResponse
 type UpdateObjectAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ObjectIdentifier of the updated object.
 	ObjectIdentifier *string `type:"string"`
@@ -14227,10 +16788,20 @@ func (s UpdateObjectAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetObjectIdentifier sets the ObjectIdentifier field's value.
-func (s *UpdateObjectAttributesOutput) SetObjectIdentifier(v string) *UpdateObjectAttributesOutput {
-	s.ObjectIdentifier = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateObjectAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateObjectAttributesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ObjectIdentifier != nil {
+		v := *s.ObjectIdentifier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ObjectIdentifier", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateSchemaRequest
@@ -14280,21 +16851,29 @@ func (s *UpdateSchemaInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *UpdateSchemaInput) SetName(v string) *UpdateSchemaInput {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateSchemaInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *UpdateSchemaInput) SetSchemaArn(v string) *UpdateSchemaInput {
-	s.SchemaArn = &v
-	return s
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateSchemaResponse
 type UpdateSchemaOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN that is associated with the updated schema. For more information,
 	// see arns.
@@ -14311,10 +16890,20 @@ func (s UpdateSchemaOutput) GoString() string {
 	return s.String()
 }
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *UpdateSchemaOutput) SetSchemaArn(v string) *UpdateSchemaOutput {
-	s.SchemaArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateSchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateTypedLinkFacetRequest
@@ -14324,7 +16913,7 @@ type UpdateTypedLinkFacetInput struct {
 	// Attributes update structure.
 	//
 	// AttributeUpdates is a required field
-	AttributeUpdates []*TypedLinkFacetAttributeUpdate `type:"list" required:"true"`
+	AttributeUpdates []TypedLinkFacetAttributeUpdate `type:"list" required:"true"`
 
 	// The order of identity attributes for the facet, from most significant to
 	// least significant. The ability to filter typed links considers the order
@@ -14336,7 +16925,7 @@ type UpdateTypedLinkFacetInput struct {
 	// For more information about identity attributes, see Typed link (http://docs.aws.amazon.com/directoryservice/latest/admin-guide/objectsandlinks.html#typedlink).
 	//
 	// IdentityAttributeOrder is a required field
-	IdentityAttributeOrder []*string `type:"list" required:"true"`
+	IdentityAttributeOrder []string `type:"list" required:"true"`
 
 	// The unique name of the typed link facet.
 	//
@@ -14381,9 +16970,6 @@ func (s *UpdateTypedLinkFacetInput) Validate() error {
 	}
 	if s.AttributeUpdates != nil {
 		for i, v := range s.AttributeUpdates {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AttributeUpdates", i), err.(aws.ErrInvalidParams))
 			}
@@ -14396,33 +16982,53 @@ func (s *UpdateTypedLinkFacetInput) Validate() error {
 	return nil
 }
 
-// SetAttributeUpdates sets the AttributeUpdates field's value.
-func (s *UpdateTypedLinkFacetInput) SetAttributeUpdates(v []*TypedLinkFacetAttributeUpdate) *UpdateTypedLinkFacetInput {
-	s.AttributeUpdates = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateTypedLinkFacetInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetIdentityAttributeOrder sets the IdentityAttributeOrder field's value.
-func (s *UpdateTypedLinkFacetInput) SetIdentityAttributeOrder(v []*string) *UpdateTypedLinkFacetInput {
-	s.IdentityAttributeOrder = v
-	return s
-}
+	if len(s.AttributeUpdates) > 0 {
+		v := s.AttributeUpdates
 
-// SetName sets the Name field's value.
-func (s *UpdateTypedLinkFacetInput) SetName(v string) *UpdateTypedLinkFacetInput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AttributeUpdates", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetSchemaArn sets the SchemaArn field's value.
-func (s *UpdateTypedLinkFacetInput) SetSchemaArn(v string) *UpdateTypedLinkFacetInput {
-	s.SchemaArn = &v
-	return s
+	}
+	if len(s.IdentityAttributeOrder) > 0 {
+		v := s.IdentityAttributeOrder
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IdentityAttributeOrder", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SchemaArn != nil {
+		v := *s.SchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-data-partition", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpdateTypedLinkFacetResponse
 type UpdateTypedLinkFacetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14433,6 +17039,261 @@ func (s UpdateTypedLinkFacetOutput) String() string {
 // GoString returns the string representation
 func (s UpdateTypedLinkFacetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateTypedLinkFacetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateTypedLinkFacetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradeAppliedSchemaRequest
+type UpgradeAppliedSchemaInput struct {
+	_ struct{} `type:"structure"`
+
+	// The ARN for the directory to which the upgraded schema will be applied.
+	//
+	// DirectoryArn is a required field
+	DirectoryArn *string `type:"string" required:"true"`
+
+	// Used for testing whether the major version schemas are backward compatible
+	// or not. If schema compatibility fails, an exception would be thrown else
+	// the call would succeed but no changes will be saved. This parameter is optional.
+	DryRun *bool `type:"boolean"`
+
+	// The revision of the published schema to upgrade the directory to.
+	//
+	// PublishedSchemaArn is a required field
+	PublishedSchemaArn *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpgradeAppliedSchemaInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpgradeAppliedSchemaInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpgradeAppliedSchemaInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpgradeAppliedSchemaInput"}
+
+	if s.DirectoryArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DirectoryArn"))
+	}
+
+	if s.PublishedSchemaArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("PublishedSchemaArn"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpgradeAppliedSchemaInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DryRun != nil {
+		v := *s.DryRun
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DryRun", protocol.BoolValue(v), metadata)
+	}
+	if s.PublishedSchemaArn != nil {
+		v := *s.PublishedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PublishedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradeAppliedSchemaResponse
+type UpgradeAppliedSchemaOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The ARN of the directory that is returned as part of the response.
+	DirectoryArn *string `type:"string"`
+
+	// The ARN of the upgraded schema that is returned as part of the response.
+	UpgradedSchemaArn *string `type:"string"`
+}
+
+// String returns the string representation
+func (s UpgradeAppliedSchemaOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpgradeAppliedSchemaOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpgradeAppliedSchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpgradeAppliedSchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DirectoryArn != nil {
+		v := *s.DirectoryArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DirectoryArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UpgradedSchemaArn != nil {
+		v := *s.UpgradedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UpgradedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradePublishedSchemaRequest
+type UpgradePublishedSchemaInput struct {
+	_ struct{} `type:"structure"`
+
+	// The ARN of the development schema with the changes used for the upgrade.
+	//
+	// DevelopmentSchemaArn is a required field
+	DevelopmentSchemaArn *string `type:"string" required:"true"`
+
+	// Used for testing whether the Development schema provided is backwards compatible,
+	// or not, with the publish schema provided by the user to be upgraded. If schema
+	// compatibility fails, an exception would be thrown else the call would succeed.
+	// This parameter is optional and defaults to false.
+	DryRun *bool `type:"boolean"`
+
+	// Identifies the minor version of the published schema that will be created.
+	// This parameter is NOT optional.
+	//
+	// MinorVersion is a required field
+	MinorVersion *string `min:"1" type:"string" required:"true"`
+
+	// The ARN of the published schema to be upgraded.
+	//
+	// PublishedSchemaArn is a required field
+	PublishedSchemaArn *string `type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpgradePublishedSchemaInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpgradePublishedSchemaInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpgradePublishedSchemaInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpgradePublishedSchemaInput"}
+
+	if s.DevelopmentSchemaArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DevelopmentSchemaArn"))
+	}
+
+	if s.MinorVersion == nil {
+		invalidParams.Add(aws.NewErrParamRequired("MinorVersion"))
+	}
+	if s.MinorVersion != nil && len(*s.MinorVersion) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("MinorVersion", 1))
+	}
+
+	if s.PublishedSchemaArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("PublishedSchemaArn"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpgradePublishedSchemaInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DevelopmentSchemaArn != nil {
+		v := *s.DevelopmentSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DevelopmentSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DryRun != nil {
+		v := *s.DryRun
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DryRun", protocol.BoolValue(v), metadata)
+	}
+	if s.MinorVersion != nil {
+		v := *s.MinorVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MinorVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PublishedSchemaArn != nil {
+		v := *s.PublishedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PublishedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/clouddirectory-2016-05-10/UpgradePublishedSchemaResponse
+type UpgradePublishedSchemaOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The ARN of the upgraded schema that is returned as part of the response.
+	UpgradedSchemaArn *string `type:"string"`
+}
+
+// String returns the string representation
+func (s UpgradePublishedSchemaOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpgradePublishedSchemaOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpgradePublishedSchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpgradePublishedSchemaOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.UpgradedSchemaArn != nil {
+		v := *s.UpgradedSchemaArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UpgradedSchemaArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 type BatchReadExceptionType string
@@ -14454,6 +17315,15 @@ const (
 	BatchReadExceptionTypeInternalServiceException        BatchReadExceptionType = "InternalServiceException"
 )
 
+func (enum BatchReadExceptionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BatchReadExceptionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BatchWriteExceptionType string
 
 // Enum values for BatchWriteExceptionType
@@ -14469,6 +17339,7 @@ const (
 	BatchWriteExceptionTypeAccessDeniedException            BatchWriteExceptionType = "AccessDeniedException"
 	BatchWriteExceptionTypeInvalidAttachmentException       BatchWriteExceptionType = "InvalidAttachmentException"
 	BatchWriteExceptionTypeNotIndexException                BatchWriteExceptionType = "NotIndexException"
+	BatchWriteExceptionTypeNotNodeException                 BatchWriteExceptionType = "NotNodeException"
 	BatchWriteExceptionTypeIndexedAttributeMissingException BatchWriteExceptionType = "IndexedAttributeMissingException"
 	BatchWriteExceptionTypeObjectAlreadyDetachedException   BatchWriteExceptionType = "ObjectAlreadyDetachedException"
 	BatchWriteExceptionTypeNotPolicyException               BatchWriteExceptionType = "NotPolicyException"
@@ -14476,6 +17347,15 @@ const (
 	BatchWriteExceptionTypeLimitExceededException           BatchWriteExceptionType = "LimitExceededException"
 	BatchWriteExceptionTypeUnsupportedIndexTypeException    BatchWriteExceptionType = "UnsupportedIndexTypeException"
 )
+
+func (enum BatchWriteExceptionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BatchWriteExceptionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ConsistencyLevel string
 
@@ -14485,6 +17365,15 @@ const (
 	ConsistencyLevelEventual     ConsistencyLevel = "EVENTUAL"
 )
 
+func (enum ConsistencyLevel) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ConsistencyLevel) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DirectoryState string
 
 // Enum values for DirectoryState
@@ -14493,6 +17382,15 @@ const (
 	DirectoryStateDisabled DirectoryState = "DISABLED"
 	DirectoryStateDeleted  DirectoryState = "DELETED"
 )
+
+func (enum DirectoryState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DirectoryState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type FacetAttributeType string
 
@@ -14505,6 +17403,15 @@ const (
 	FacetAttributeTypeDatetime FacetAttributeType = "DATETIME"
 )
 
+func (enum FacetAttributeType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FacetAttributeType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ObjectType string
 
 // Enum values for ObjectType
@@ -14514,6 +17421,15 @@ const (
 	ObjectTypePolicy   ObjectType = "POLICY"
 	ObjectTypeIndex    ObjectType = "INDEX"
 )
+
+func (enum ObjectType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ObjectType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RangeMode string
 
@@ -14526,6 +17442,15 @@ const (
 	RangeModeExclusive               RangeMode = "EXCLUSIVE"
 )
 
+func (enum RangeMode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RangeMode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type RequiredAttributeBehavior string
 
 // Enum values for RequiredAttributeBehavior
@@ -14533,6 +17458,15 @@ const (
 	RequiredAttributeBehaviorRequiredAlways RequiredAttributeBehavior = "REQUIRED_ALWAYS"
 	RequiredAttributeBehaviorNotRequired    RequiredAttributeBehavior = "NOT_REQUIRED"
 )
+
+func (enum RequiredAttributeBehavior) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RequiredAttributeBehavior) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RuleType string
 
@@ -14544,6 +17478,15 @@ const (
 	RuleTypeStringLength     RuleType = "STRING_LENGTH"
 )
 
+func (enum RuleType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RuleType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type UpdateActionType string
 
 // Enum values for UpdateActionType
@@ -14551,3 +17494,12 @@ const (
 	UpdateActionTypeCreateOrUpdate UpdateActionType = "CREATE_OR_UPDATE"
 	UpdateActionTypeDelete         UpdateActionType = "DELETE"
 )
+
+func (enum UpdateActionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UpdateActionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

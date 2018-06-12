@@ -18,6 +18,7 @@ const opAddClientIDToOpenIDConnectProvider = "AddClientIDToOpenIDConnectProvider
 type AddClientIDToOpenIDConnectProviderRequest struct {
 	*aws.Request
 	Input *AddClientIDToOpenIDConnectProviderInput
+	Copy  func(*AddClientIDToOpenIDConnectProviderInput) AddClientIDToOpenIDConnectProviderRequest
 }
 
 // Send marshals and sends the AddClientIDToOpenIDConnectProvider API request.
@@ -36,8 +37,8 @@ func (r AddClientIDToOpenIDConnectProviderRequest) Send() (*AddClientIDToOpenIDC
 // Adds a new client ID (also known as audience) to the list of client IDs already
 // registered for the specified IAM OpenID Connect (OIDC) provider resource.
 //
-// This action is idempotent; it does not fail or return an error if you add
-// an existing client ID to the provider.
+// This operation is idempotent; it does not fail or return an error if you
+// add an existing client ID to the provider.
 //
 //    // Example sending a request using the AddClientIDToOpenIDConnectProviderRequest method.
 //    req := client.AddClientIDToOpenIDConnectProviderRequest(params)
@@ -58,10 +59,13 @@ func (c *IAM) AddClientIDToOpenIDConnectProviderRequest(input *AddClientIDToOpen
 		input = &AddClientIDToOpenIDConnectProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &AddClientIDToOpenIDConnectProviderOutput{})
+	output := &AddClientIDToOpenIDConnectProviderOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AddClientIDToOpenIDConnectProviderRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddClientIDToOpenIDConnectProviderRequest{Request: req, Input: input, Copy: c.AddClientIDToOpenIDConnectProviderRequest}
 }
 
 const opAddRoleToInstanceProfile = "AddRoleToInstanceProfile"
@@ -70,6 +74,7 @@ const opAddRoleToInstanceProfile = "AddRoleToInstanceProfile"
 type AddRoleToInstanceProfileRequest struct {
 	*aws.Request
 	Input *AddRoleToInstanceProfileInput
+	Copy  func(*AddRoleToInstanceProfileInput) AddRoleToInstanceProfileRequest
 }
 
 // Send marshals and sends the AddRoleToInstanceProfile API request.
@@ -86,7 +91,13 @@ func (r AddRoleToInstanceProfileRequest) Send() (*AddRoleToInstanceProfileOutput
 // AWS Identity and Access Management.
 //
 // Adds the specified IAM role to the specified instance profile. An instance
-// profile can contain only one role, and this limit cannot be increased.
+// profile can contain only one role, and this limit cannot be increased. You
+// can remove the existing role and then add a different role to an instance
+// profile. You must then wait for the change to appear across all of AWS because
+// of eventual consistency (https://en.wikipedia.org/wiki/Eventual_consistency).
+// To force the change, you must disassociate the instance profile (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html)
+// and then associate the instance profile (https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateIamInstanceProfile.html),
+// or you can stop your instance and then restart it.
 //
 // The caller of this API must be granted the PassRole permission on the IAM
 // role by a permission policy.
@@ -114,10 +125,13 @@ func (c *IAM) AddRoleToInstanceProfileRequest(input *AddRoleToInstanceProfileInp
 		input = &AddRoleToInstanceProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &AddRoleToInstanceProfileOutput{})
+	output := &AddRoleToInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AddRoleToInstanceProfileRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddRoleToInstanceProfileRequest{Request: req, Input: input, Copy: c.AddRoleToInstanceProfileRequest}
 }
 
 const opAddUserToGroup = "AddUserToGroup"
@@ -126,6 +140,7 @@ const opAddUserToGroup = "AddUserToGroup"
 type AddUserToGroupRequest struct {
 	*aws.Request
 	Input *AddUserToGroupInput
+	Copy  func(*AddUserToGroupInput) AddUserToGroupRequest
 }
 
 // Send marshals and sends the AddUserToGroup API request.
@@ -162,10 +177,13 @@ func (c *IAM) AddUserToGroupRequest(input *AddUserToGroupInput) AddUserToGroupRe
 		input = &AddUserToGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &AddUserToGroupOutput{})
+	output := &AddUserToGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AddUserToGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddUserToGroupRequest{Request: req, Input: input, Copy: c.AddUserToGroupRequest}
 }
 
 const opAttachGroupPolicy = "AttachGroupPolicy"
@@ -174,6 +192,7 @@ const opAttachGroupPolicy = "AttachGroupPolicy"
 type AttachGroupPolicyRequest struct {
 	*aws.Request
 	Input *AttachGroupPolicyInput
+	Copy  func(*AttachGroupPolicyInput) AttachGroupPolicyRequest
 }
 
 // Send marshals and sends the AttachGroupPolicy API request.
@@ -217,10 +236,13 @@ func (c *IAM) AttachGroupPolicyRequest(input *AttachGroupPolicyInput) AttachGrou
 		input = &AttachGroupPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachGroupPolicyOutput{})
+	output := &AttachGroupPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AttachGroupPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachGroupPolicyRequest{Request: req, Input: input, Copy: c.AttachGroupPolicyRequest}
 }
 
 const opAttachRolePolicy = "AttachRolePolicy"
@@ -229,6 +251,7 @@ const opAttachRolePolicy = "AttachRolePolicy"
 type AttachRolePolicyRequest struct {
 	*aws.Request
 	Input *AttachRolePolicyInput
+	Copy  func(*AttachRolePolicyInput) AttachRolePolicyRequest
 }
 
 // Send marshals and sends the AttachRolePolicy API request.
@@ -276,10 +299,13 @@ func (c *IAM) AttachRolePolicyRequest(input *AttachRolePolicyInput) AttachRolePo
 		input = &AttachRolePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachRolePolicyOutput{})
+	output := &AttachRolePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AttachRolePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachRolePolicyRequest{Request: req, Input: input, Copy: c.AttachRolePolicyRequest}
 }
 
 const opAttachUserPolicy = "AttachUserPolicy"
@@ -288,6 +314,7 @@ const opAttachUserPolicy = "AttachUserPolicy"
 type AttachUserPolicyRequest struct {
 	*aws.Request
 	Input *AttachUserPolicyInput
+	Copy  func(*AttachUserPolicyInput) AttachUserPolicyRequest
 }
 
 // Send marshals and sends the AttachUserPolicy API request.
@@ -331,10 +358,13 @@ func (c *IAM) AttachUserPolicyRequest(input *AttachUserPolicyInput) AttachUserPo
 		input = &AttachUserPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachUserPolicyOutput{})
+	output := &AttachUserPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AttachUserPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachUserPolicyRequest{Request: req, Input: input, Copy: c.AttachUserPolicyRequest}
 }
 
 const opChangePassword = "ChangePassword"
@@ -343,6 +373,7 @@ const opChangePassword = "ChangePassword"
 type ChangePasswordRequest struct {
 	*aws.Request
 	Input *ChangePasswordInput
+	Copy  func(*ChangePasswordInput) ChangePasswordRequest
 }
 
 // Send marshals and sends the ChangePassword API request.
@@ -358,8 +389,8 @@ func (r ChangePasswordRequest) Send() (*ChangePasswordOutput, error) {
 // ChangePasswordRequest returns a request value for making API operation for
 // AWS Identity and Access Management.
 //
-// Changes the password of the IAM user who is calling this action. The root
-// account password is not affected by this action.
+// Changes the password of the IAM user who is calling this operation. The AWS
+// account root user password is not affected by this operation.
 //
 // To change the password for a different user, see UpdateLoginProfile. For
 // more information about modifying passwords, see Managing Passwords (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html)
@@ -384,10 +415,13 @@ func (c *IAM) ChangePasswordRequest(input *ChangePasswordInput) ChangePasswordRe
 		input = &ChangePasswordInput{}
 	}
 
-	req := c.newRequest(op, input, &ChangePasswordOutput{})
+	output := &ChangePasswordOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return ChangePasswordRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ChangePasswordRequest{Request: req, Input: input, Copy: c.ChangePasswordRequest}
 }
 
 const opCreateAccessKey = "CreateAccessKey"
@@ -396,6 +430,7 @@ const opCreateAccessKey = "CreateAccessKey"
 type CreateAccessKeyRequest struct {
 	*aws.Request
 	Input *CreateAccessKeyInput
+	Copy  func(*CreateAccessKeyInput) CreateAccessKeyRequest
 }
 
 // Send marshals and sends the CreateAccessKey API request.
@@ -415,9 +450,10 @@ func (r CreateAccessKeyRequest) Send() (*CreateAccessKeyOutput, error) {
 // the specified user. The default status for new keys is Active.
 //
 // If you do not specify a user name, IAM determines the user name implicitly
-// based on the AWS access key ID signing the request. Because this action works
-// for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated users.
+// based on the AWS access key ID signing the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials. This is true even if the AWS account
+// has no associated users.
 //
 // For information about limits on the number of keys you can create, see Limitations
 // on IAM Entities (http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html)
@@ -448,8 +484,11 @@ func (c *IAM) CreateAccessKeyRequest(input *CreateAccessKeyInput) CreateAccessKe
 		input = &CreateAccessKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAccessKeyOutput{})
-	return CreateAccessKeyRequest{Request: req, Input: input}
+	output := &CreateAccessKeyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAccessKeyRequest{Request: req, Input: input, Copy: c.CreateAccessKeyRequest}
 }
 
 const opCreateAccountAlias = "CreateAccountAlias"
@@ -458,6 +497,7 @@ const opCreateAccountAlias = "CreateAccountAlias"
 type CreateAccountAliasRequest struct {
 	*aws.Request
 	Input *CreateAccountAliasInput
+	Copy  func(*CreateAccountAliasInput) CreateAccountAliasRequest
 }
 
 // Send marshals and sends the CreateAccountAlias API request.
@@ -496,10 +536,13 @@ func (c *IAM) CreateAccountAliasRequest(input *CreateAccountAliasInput) CreateAc
 		input = &CreateAccountAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAccountAliasOutput{})
+	output := &CreateAccountAliasOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateAccountAliasRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAccountAliasRequest{Request: req, Input: input, Copy: c.CreateAccountAliasRequest}
 }
 
 const opCreateGroup = "CreateGroup"
@@ -508,6 +551,7 @@ const opCreateGroup = "CreateGroup"
 type CreateGroupRequest struct {
 	*aws.Request
 	Input *CreateGroupInput
+	Copy  func(*CreateGroupInput) CreateGroupRequest
 }
 
 // Send marshals and sends the CreateGroup API request.
@@ -548,8 +592,11 @@ func (c *IAM) CreateGroupRequest(input *CreateGroupInput) CreateGroupRequest {
 		input = &CreateGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateGroupOutput{})
-	return CreateGroupRequest{Request: req, Input: input}
+	output := &CreateGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateGroupRequest{Request: req, Input: input, Copy: c.CreateGroupRequest}
 }
 
 const opCreateInstanceProfile = "CreateInstanceProfile"
@@ -558,6 +605,7 @@ const opCreateInstanceProfile = "CreateInstanceProfile"
 type CreateInstanceProfileRequest struct {
 	*aws.Request
 	Input *CreateInstanceProfileInput
+	Copy  func(*CreateInstanceProfileInput) CreateInstanceProfileRequest
 }
 
 // Send marshals and sends the CreateInstanceProfile API request.
@@ -599,8 +647,11 @@ func (c *IAM) CreateInstanceProfileRequest(input *CreateInstanceProfileInput) Cr
 		input = &CreateInstanceProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateInstanceProfileOutput{})
-	return CreateInstanceProfileRequest{Request: req, Input: input}
+	output := &CreateInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateInstanceProfileRequest{Request: req, Input: input, Copy: c.CreateInstanceProfileRequest}
 }
 
 const opCreateLoginProfile = "CreateLoginProfile"
@@ -609,6 +660,7 @@ const opCreateLoginProfile = "CreateLoginProfile"
 type CreateLoginProfileRequest struct {
 	*aws.Request
 	Input *CreateLoginProfileInput
+	Copy  func(*CreateLoginProfileInput) CreateLoginProfileRequest
 }
 
 // Send marshals and sends the CreateLoginProfile API request.
@@ -648,8 +700,11 @@ func (c *IAM) CreateLoginProfileRequest(input *CreateLoginProfileInput) CreateLo
 		input = &CreateLoginProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLoginProfileOutput{})
-	return CreateLoginProfileRequest{Request: req, Input: input}
+	output := &CreateLoginProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLoginProfileRequest{Request: req, Input: input, Copy: c.CreateLoginProfileRequest}
 }
 
 const opCreateOpenIDConnectProvider = "CreateOpenIDConnectProvider"
@@ -658,6 +713,7 @@ const opCreateOpenIDConnectProvider = "CreateOpenIDConnectProvider"
 type CreateOpenIDConnectProviderRequest struct {
 	*aws.Request
 	Input *CreateOpenIDConnectProviderInput
+	Copy  func(*CreateOpenIDConnectProviderInput) CreateOpenIDConnectProviderRequest
 }
 
 // Send marshals and sends the CreateOpenIDConnectProvider API request.
@@ -677,19 +733,24 @@ func (r CreateOpenIDConnectProviderRequest) Send() (*CreateOpenIDConnectProvider
 // OpenID Connect (OIDC) (http://openid.net/connect/).
 //
 // The OIDC provider that you create with this operation can be used as a principal
-// in a role's trust policy to establish a trust relationship between AWS and
-// the OIDC provider.
+// in a role's trust policy. Such a policy establishes a trust relationship
+// between AWS and the OIDC provider.
 //
-// When you create the IAM OIDC provider, you specify the URL of the OIDC identity
-// provider (IdP) to trust, a list of client IDs (also known as audiences) that
-// identify the application or applications that are allowed to authenticate
-// using the OIDC provider, and a list of thumbprints of the server certificate(s)
-// that the IdP uses. You get all of this information from the OIDC IdP that
-// you want to use for access to AWS.
+// When you create the IAM OIDC provider, you specify the following:
 //
-// Because trust for the OIDC provider is ultimately derived from the IAM provider
-// that this action creates, it is a best practice to limit access to the CreateOpenIDConnectProvider
-// action to highly-privileged users.
+//    * The URL of the OIDC identity provider (IdP) to trust
+//
+//    * A list of client IDs (also known as audiences) that identify the application
+//    or applications that are allowed to authenticate using the OIDC provider
+//
+//    * A list of thumbprints of the server certificate(s) that the IdP uses.
+//
+// You get all of this information from the OIDC IdP that you want to use to
+// access AWS.
+//
+// Because trust for the OIDC provider is derived from the IAM provider that
+// this operation creates, it is best to limit access to the CreateOpenIDConnectProvider
+// operation to highly privileged users.
 //
 //    // Example sending a request using the CreateOpenIDConnectProviderRequest method.
 //    req := client.CreateOpenIDConnectProviderRequest(params)
@@ -710,8 +771,11 @@ func (c *IAM) CreateOpenIDConnectProviderRequest(input *CreateOpenIDConnectProvi
 		input = &CreateOpenIDConnectProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateOpenIDConnectProviderOutput{})
-	return CreateOpenIDConnectProviderRequest{Request: req, Input: input}
+	output := &CreateOpenIDConnectProviderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateOpenIDConnectProviderRequest{Request: req, Input: input, Copy: c.CreateOpenIDConnectProviderRequest}
 }
 
 const opCreatePolicy = "CreatePolicy"
@@ -720,6 +784,7 @@ const opCreatePolicy = "CreatePolicy"
 type CreatePolicyRequest struct {
 	*aws.Request
 	Input *CreatePolicyInput
+	Copy  func(*CreatePolicyInput) CreatePolicyRequest
 }
 
 // Send marshals and sends the CreatePolicy API request.
@@ -765,8 +830,11 @@ func (c *IAM) CreatePolicyRequest(input *CreatePolicyInput) CreatePolicyRequest 
 		input = &CreatePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePolicyOutput{})
-	return CreatePolicyRequest{Request: req, Input: input}
+	output := &CreatePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePolicyRequest{Request: req, Input: input, Copy: c.CreatePolicyRequest}
 }
 
 const opCreatePolicyVersion = "CreatePolicyVersion"
@@ -775,6 +843,7 @@ const opCreatePolicyVersion = "CreatePolicyVersion"
 type CreatePolicyVersionRequest struct {
 	*aws.Request
 	Input *CreatePolicyVersionInput
+	Copy  func(*CreatePolicyVersionInput) CreatePolicyVersionRequest
 }
 
 // Send marshals and sends the CreatePolicyVersion API request.
@@ -822,8 +891,11 @@ func (c *IAM) CreatePolicyVersionRequest(input *CreatePolicyVersionInput) Create
 		input = &CreatePolicyVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePolicyVersionOutput{})
-	return CreatePolicyVersionRequest{Request: req, Input: input}
+	output := &CreatePolicyVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePolicyVersionRequest{Request: req, Input: input, Copy: c.CreatePolicyVersionRequest}
 }
 
 const opCreateRole = "CreateRole"
@@ -832,6 +904,7 @@ const opCreateRole = "CreateRole"
 type CreateRoleRequest struct {
 	*aws.Request
 	Input *CreateRoleInput
+	Copy  func(*CreateRoleInput) CreateRoleRequest
 }
 
 // Send marshals and sends the CreateRole API request.
@@ -848,7 +921,7 @@ func (r CreateRoleRequest) Send() (*CreateRoleOutput, error) {
 // AWS Identity and Access Management.
 //
 // Creates a new role for your AWS account. For more information about roles,
-// go to Working with Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+// go to IAM Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
 // For information about limitations on role names and the number of roles you
 // can create, go to Limitations on IAM Entities (http://docs.aws.amazon.com/IAM/latest/UserGuide/LimitationsOnEntities.html)
 // in the IAM User Guide.
@@ -872,8 +945,11 @@ func (c *IAM) CreateRoleRequest(input *CreateRoleInput) CreateRoleRequest {
 		input = &CreateRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateRoleOutput{})
-	return CreateRoleRequest{Request: req, Input: input}
+	output := &CreateRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateRoleRequest{Request: req, Input: input, Copy: c.CreateRoleRequest}
 }
 
 const opCreateSAMLProvider = "CreateSAMLProvider"
@@ -882,6 +958,7 @@ const opCreateSAMLProvider = "CreateSAMLProvider"
 type CreateSAMLProviderRequest struct {
 	*aws.Request
 	Input *CreateSAMLProviderInput
+	Copy  func(*CreateSAMLProviderInput) CreateSAMLProviderRequest
 }
 
 // Send marshals and sends the CreateSAMLProvider API request.
@@ -901,14 +978,14 @@ func (r CreateSAMLProviderRequest) Send() (*CreateSAMLProviderOutput, error) {
 // SAML 2.0.
 //
 // The SAML provider resource that you create with this operation can be used
-// as a principal in an IAM role's trust policy to enable federated users who
-// sign-in using the SAML IdP to assume the role. You can create an IAM role
-// that supports Web-based single sign-on (SSO) to the AWS Management Console
-// or one that supports API access to AWS.
+// as a principal in an IAM role's trust policy. Such a policy can enable federated
+// users who sign-in using the SAML IdP to assume the role. You can create an
+// IAM role that supports Web-based single sign-on (SSO) to the AWS Management
+// Console or one that supports API access to AWS.
 //
-// When you create the SAML provider resource, you upload an a SAML metadata
-// document that you get from your IdP and that includes the issuer's name,
-// expiration information, and keys that can be used to validate the SAML authentication
+// When you create the SAML provider resource, you upload a SAML metadata document
+// that you get from your IdP. That document includes the issuer's name, expiration
+// information, and keys that can be used to validate the SAML authentication
 // response (assertions) that the IdP sends. You must generate the metadata
 // document using the identity management software that is used as your organization's
 // IdP.
@@ -939,8 +1016,11 @@ func (c *IAM) CreateSAMLProviderRequest(input *CreateSAMLProviderInput) CreateSA
 		input = &CreateSAMLProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSAMLProviderOutput{})
-	return CreateSAMLProviderRequest{Request: req, Input: input}
+	output := &CreateSAMLProviderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSAMLProviderRequest{Request: req, Input: input, Copy: c.CreateSAMLProviderRequest}
 }
 
 const opCreateServiceLinkedRole = "CreateServiceLinkedRole"
@@ -949,6 +1029,7 @@ const opCreateServiceLinkedRole = "CreateServiceLinkedRole"
 type CreateServiceLinkedRoleRequest struct {
 	*aws.Request
 	Input *CreateServiceLinkedRoleInput
+	Copy  func(*CreateServiceLinkedRoleInput) CreateServiceLinkedRoleRequest
 }
 
 // Send marshals and sends the CreateServiceLinkedRole API request.
@@ -971,7 +1052,7 @@ func (r CreateServiceLinkedRoleRequest) Send() (*CreateServiceLinkedRoleOutput, 
 // the service to control the role helps improve service stability and proper
 // cleanup when a service and its role are no longer needed.
 //
-// The name of the role is autogenerated by combining the string that you specify
+// The name of the role is generated by combining the string that you specify
 // for the AWSServiceName parameter with the string that you specify for the
 // CustomSuffix parameter. The resulting name must be unique in your account
 // or the request fails.
@@ -998,8 +1079,11 @@ func (c *IAM) CreateServiceLinkedRoleRequest(input *CreateServiceLinkedRoleInput
 		input = &CreateServiceLinkedRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateServiceLinkedRoleOutput{})
-	return CreateServiceLinkedRoleRequest{Request: req, Input: input}
+	output := &CreateServiceLinkedRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateServiceLinkedRoleRequest{Request: req, Input: input, Copy: c.CreateServiceLinkedRoleRequest}
 }
 
 const opCreateServiceSpecificCredential = "CreateServiceSpecificCredential"
@@ -1008,6 +1092,7 @@ const opCreateServiceSpecificCredential = "CreateServiceSpecificCredential"
 type CreateServiceSpecificCredentialRequest struct {
 	*aws.Request
 	Input *CreateServiceSpecificCredentialInput
+	Copy  func(*CreateServiceSpecificCredentialInput) CreateServiceSpecificCredentialRequest
 }
 
 // Send marshals and sends the CreateServiceSpecificCredential API request.
@@ -1057,8 +1142,11 @@ func (c *IAM) CreateServiceSpecificCredentialRequest(input *CreateServiceSpecifi
 		input = &CreateServiceSpecificCredentialInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateServiceSpecificCredentialOutput{})
-	return CreateServiceSpecificCredentialRequest{Request: req, Input: input}
+	output := &CreateServiceSpecificCredentialOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateServiceSpecificCredentialRequest{Request: req, Input: input, Copy: c.CreateServiceSpecificCredentialRequest}
 }
 
 const opCreateUser = "CreateUser"
@@ -1067,6 +1155,7 @@ const opCreateUser = "CreateUser"
 type CreateUserRequest struct {
 	*aws.Request
 	Input *CreateUserInput
+	Copy  func(*CreateUserInput) CreateUserRequest
 }
 
 // Send marshals and sends the CreateUser API request.
@@ -1107,8 +1196,11 @@ func (c *IAM) CreateUserRequest(input *CreateUserInput) CreateUserRequest {
 		input = &CreateUserInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateUserOutput{})
-	return CreateUserRequest{Request: req, Input: input}
+	output := &CreateUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateUserRequest{Request: req, Input: input, Copy: c.CreateUserRequest}
 }
 
 const opCreateVirtualMFADevice = "CreateVirtualMFADevice"
@@ -1117,6 +1209,7 @@ const opCreateVirtualMFADevice = "CreateVirtualMFADevice"
 type CreateVirtualMFADeviceRequest struct {
 	*aws.Request
 	Input *CreateVirtualMFADeviceInput
+	Copy  func(*CreateVirtualMFADeviceInput) CreateVirtualMFADeviceRequest
 }
 
 // Send marshals and sends the CreateVirtualMFADevice API request.
@@ -1166,8 +1259,11 @@ func (c *IAM) CreateVirtualMFADeviceRequest(input *CreateVirtualMFADeviceInput) 
 		input = &CreateVirtualMFADeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateVirtualMFADeviceOutput{})
-	return CreateVirtualMFADeviceRequest{Request: req, Input: input}
+	output := &CreateVirtualMFADeviceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateVirtualMFADeviceRequest{Request: req, Input: input, Copy: c.CreateVirtualMFADeviceRequest}
 }
 
 const opDeactivateMFADevice = "DeactivateMFADevice"
@@ -1176,6 +1272,7 @@ const opDeactivateMFADevice = "DeactivateMFADevice"
 type DeactivateMFADeviceRequest struct {
 	*aws.Request
 	Input *DeactivateMFADeviceInput
+	Copy  func(*DeactivateMFADeviceInput) DeactivateMFADeviceRequest
 }
 
 // Send marshals and sends the DeactivateMFADevice API request.
@@ -1217,10 +1314,13 @@ func (c *IAM) DeactivateMFADeviceRequest(input *DeactivateMFADeviceInput) Deacti
 		input = &DeactivateMFADeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &DeactivateMFADeviceOutput{})
+	output := &DeactivateMFADeviceOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeactivateMFADeviceRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeactivateMFADeviceRequest{Request: req, Input: input, Copy: c.DeactivateMFADeviceRequest}
 }
 
 const opDeleteAccessKey = "DeleteAccessKey"
@@ -1229,6 +1329,7 @@ const opDeleteAccessKey = "DeleteAccessKey"
 type DeleteAccessKeyRequest struct {
 	*aws.Request
 	Input *DeleteAccessKeyInput
+	Copy  func(*DeleteAccessKeyInput) DeleteAccessKeyRequest
 }
 
 // Send marshals and sends the DeleteAccessKey API request.
@@ -1247,9 +1348,10 @@ func (r DeleteAccessKeyRequest) Send() (*DeleteAccessKeyOutput, error) {
 // Deletes the access key pair associated with the specified IAM user.
 //
 // If you do not specify a user name, IAM determines the user name implicitly
-// based on the AWS access key ID signing the request. Because this action works
-// for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated users.
+// based on the AWS access key ID signing the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials even if the AWS account has no associated
+// users.
 //
 //    // Example sending a request using the DeleteAccessKeyRequest method.
 //    req := client.DeleteAccessKeyRequest(params)
@@ -1270,10 +1372,13 @@ func (c *IAM) DeleteAccessKeyRequest(input *DeleteAccessKeyInput) DeleteAccessKe
 		input = &DeleteAccessKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAccessKeyOutput{})
+	output := &DeleteAccessKeyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteAccessKeyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAccessKeyRequest{Request: req, Input: input, Copy: c.DeleteAccessKeyRequest}
 }
 
 const opDeleteAccountAlias = "DeleteAccountAlias"
@@ -1282,6 +1387,7 @@ const opDeleteAccountAlias = "DeleteAccountAlias"
 type DeleteAccountAliasRequest struct {
 	*aws.Request
 	Input *DeleteAccountAliasInput
+	Copy  func(*DeleteAccountAliasInput) DeleteAccountAliasRequest
 }
 
 // Send marshals and sends the DeleteAccountAlias API request.
@@ -1320,10 +1426,13 @@ func (c *IAM) DeleteAccountAliasRequest(input *DeleteAccountAliasInput) DeleteAc
 		input = &DeleteAccountAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAccountAliasOutput{})
+	output := &DeleteAccountAliasOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteAccountAliasRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAccountAliasRequest{Request: req, Input: input, Copy: c.DeleteAccountAliasRequest}
 }
 
 const opDeleteAccountPasswordPolicy = "DeleteAccountPasswordPolicy"
@@ -1332,6 +1441,7 @@ const opDeleteAccountPasswordPolicy = "DeleteAccountPasswordPolicy"
 type DeleteAccountPasswordPolicyRequest struct {
 	*aws.Request
 	Input *DeleteAccountPasswordPolicyInput
+	Copy  func(*DeleteAccountPasswordPolicyInput) DeleteAccountPasswordPolicyRequest
 }
 
 // Send marshals and sends the DeleteAccountPasswordPolicy API request.
@@ -1368,10 +1478,13 @@ func (c *IAM) DeleteAccountPasswordPolicyRequest(input *DeleteAccountPasswordPol
 		input = &DeleteAccountPasswordPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAccountPasswordPolicyOutput{})
+	output := &DeleteAccountPasswordPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteAccountPasswordPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAccountPasswordPolicyRequest{Request: req, Input: input, Copy: c.DeleteAccountPasswordPolicyRequest}
 }
 
 const opDeleteGroup = "DeleteGroup"
@@ -1380,6 +1493,7 @@ const opDeleteGroup = "DeleteGroup"
 type DeleteGroupRequest struct {
 	*aws.Request
 	Input *DeleteGroupInput
+	Copy  func(*DeleteGroupInput) DeleteGroupRequest
 }
 
 // Send marshals and sends the DeleteGroup API request.
@@ -1417,10 +1531,13 @@ func (c *IAM) DeleteGroupRequest(input *DeleteGroupInput) DeleteGroupRequest {
 		input = &DeleteGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteGroupOutput{})
+	output := &DeleteGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteGroupRequest{Request: req, Input: input, Copy: c.DeleteGroupRequest}
 }
 
 const opDeleteGroupPolicy = "DeleteGroupPolicy"
@@ -1429,6 +1546,7 @@ const opDeleteGroupPolicy = "DeleteGroupPolicy"
 type DeleteGroupPolicyRequest struct {
 	*aws.Request
 	Input *DeleteGroupPolicyInput
+	Copy  func(*DeleteGroupPolicyInput) DeleteGroupPolicyRequest
 }
 
 // Send marshals and sends the DeleteGroupPolicy API request.
@@ -1471,10 +1589,13 @@ func (c *IAM) DeleteGroupPolicyRequest(input *DeleteGroupPolicyInput) DeleteGrou
 		input = &DeleteGroupPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteGroupPolicyOutput{})
+	output := &DeleteGroupPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteGroupPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteGroupPolicyRequest{Request: req, Input: input, Copy: c.DeleteGroupPolicyRequest}
 }
 
 const opDeleteInstanceProfile = "DeleteInstanceProfile"
@@ -1483,6 +1604,7 @@ const opDeleteInstanceProfile = "DeleteInstanceProfile"
 type DeleteInstanceProfileRequest struct {
 	*aws.Request
 	Input *DeleteInstanceProfileInput
+	Copy  func(*DeleteInstanceProfileInput) DeleteInstanceProfileRequest
 }
 
 // Send marshals and sends the DeleteInstanceProfile API request.
@@ -1501,9 +1623,9 @@ func (r DeleteInstanceProfileRequest) Send() (*DeleteInstanceProfileOutput, erro
 // Deletes the specified instance profile. The instance profile must not have
 // an associated role.
 //
-// Make sure you do not have any Amazon EC2 instances running with the instance
-// profile you are about to delete. Deleting a role or instance profile that
-// is associated with a running instance will break any applications running
+// Make sure that you do not have any Amazon EC2 instances running with the
+// instance profile you are about to delete. Deleting a role or instance profile
+// that is associated with a running instance will break any applications running
 // on the instance.
 //
 // For more information about instance profiles, go to About Instance Profiles
@@ -1528,10 +1650,13 @@ func (c *IAM) DeleteInstanceProfileRequest(input *DeleteInstanceProfileInput) De
 		input = &DeleteInstanceProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteInstanceProfileOutput{})
+	output := &DeleteInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteInstanceProfileRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteInstanceProfileRequest{Request: req, Input: input, Copy: c.DeleteInstanceProfileRequest}
 }
 
 const opDeleteLoginProfile = "DeleteLoginProfile"
@@ -1540,6 +1665,7 @@ const opDeleteLoginProfile = "DeleteLoginProfile"
 type DeleteLoginProfileRequest struct {
 	*aws.Request
 	Input *DeleteLoginProfileInput
+	Copy  func(*DeleteLoginProfileInput) DeleteLoginProfileRequest
 }
 
 // Send marshals and sends the DeleteLoginProfile API request.
@@ -1582,10 +1708,13 @@ func (c *IAM) DeleteLoginProfileRequest(input *DeleteLoginProfileInput) DeleteLo
 		input = &DeleteLoginProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLoginProfileOutput{})
+	output := &DeleteLoginProfileOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteLoginProfileRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLoginProfileRequest{Request: req, Input: input, Copy: c.DeleteLoginProfileRequest}
 }
 
 const opDeleteOpenIDConnectProvider = "DeleteOpenIDConnectProvider"
@@ -1594,6 +1723,7 @@ const opDeleteOpenIDConnectProvider = "DeleteOpenIDConnectProvider"
 type DeleteOpenIDConnectProviderRequest struct {
 	*aws.Request
 	Input *DeleteOpenIDConnectProviderInput
+	Copy  func(*DeleteOpenIDConnectProviderInput) DeleteOpenIDConnectProviderRequest
 }
 
 // Send marshals and sends the DeleteOpenIDConnectProvider API request.
@@ -1615,8 +1745,8 @@ func (r DeleteOpenIDConnectProviderRequest) Send() (*DeleteOpenIDConnectProvider
 // the provider as a principal in their trust policies. Any attempt to assume
 // a role that references a deleted provider fails.
 //
-// This action is idempotent; it does not fail or return an error if you call
-// the action for a provider that does not exist.
+// This operation is idempotent; it does not fail or return an error if you
+// call the operation for a provider that does not exist.
 //
 //    // Example sending a request using the DeleteOpenIDConnectProviderRequest method.
 //    req := client.DeleteOpenIDConnectProviderRequest(params)
@@ -1637,10 +1767,13 @@ func (c *IAM) DeleteOpenIDConnectProviderRequest(input *DeleteOpenIDConnectProvi
 		input = &DeleteOpenIDConnectProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteOpenIDConnectProviderOutput{})
+	output := &DeleteOpenIDConnectProviderOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteOpenIDConnectProviderRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteOpenIDConnectProviderRequest{Request: req, Input: input, Copy: c.DeleteOpenIDConnectProviderRequest}
 }
 
 const opDeletePolicy = "DeletePolicy"
@@ -1649,6 +1782,7 @@ const opDeletePolicy = "DeletePolicy"
 type DeletePolicyRequest struct {
 	*aws.Request
 	Input *DeletePolicyInput
+	Copy  func(*DeletePolicyInput) DeletePolicyRequest
 }
 
 // Send marshals and sends the DeletePolicy API request.
@@ -1667,14 +1801,14 @@ func (r DeletePolicyRequest) Send() (*DeletePolicyOutput, error) {
 // Deletes the specified managed policy.
 //
 // Before you can delete a managed policy, you must first detach the policy
-// from all users, groups, and roles that it is attached to, and you must delete
-// all of the policy's versions. The following steps describe the process for
-// deleting a managed policy:
+// from all users, groups, and roles that it is attached to. In addition you
+// must delete all the policy's versions. The following steps describe the process
+// for deleting a managed policy:
 //
 //    * Detach the policy from all users, groups, and roles that the policy
 //    is attached to, using the DetachUserPolicy, DetachGroupPolicy, or DetachRolePolicy
-//    APIs. To list all the users, groups, and roles that a policy is attached
-//    to, use ListEntitiesForPolicy.
+//    API operations. To list all the users, groups, and roles that a policy
+//    is attached to, use ListEntitiesForPolicy.
 //
 //    * Delete all versions of the policy using DeletePolicyVersion. To list
 //    the policy's versions, use ListPolicyVersions. You cannot use DeletePolicyVersion
@@ -1707,10 +1841,13 @@ func (c *IAM) DeletePolicyRequest(input *DeletePolicyInput) DeletePolicyRequest 
 		input = &DeletePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePolicyOutput{})
+	output := &DeletePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePolicyRequest{Request: req, Input: input, Copy: c.DeletePolicyRequest}
 }
 
 const opDeletePolicyVersion = "DeletePolicyVersion"
@@ -1719,6 +1856,7 @@ const opDeletePolicyVersion = "DeletePolicyVersion"
 type DeletePolicyVersionRequest struct {
 	*aws.Request
 	Input *DeletePolicyVersionInput
+	Copy  func(*DeletePolicyVersionInput) DeletePolicyVersionRequest
 }
 
 // Send marshals and sends the DeletePolicyVersion API request.
@@ -1763,10 +1901,13 @@ func (c *IAM) DeletePolicyVersionRequest(input *DeletePolicyVersionInput) Delete
 		input = &DeletePolicyVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePolicyVersionOutput{})
+	output := &DeletePolicyVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePolicyVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePolicyVersionRequest{Request: req, Input: input, Copy: c.DeletePolicyVersionRequest}
 }
 
 const opDeleteRole = "DeleteRole"
@@ -1775,6 +1916,7 @@ const opDeleteRole = "DeleteRole"
 type DeleteRoleRequest struct {
 	*aws.Request
 	Input *DeleteRoleInput
+	Copy  func(*DeleteRoleInput) DeleteRoleRequest
 }
 
 // Send marshals and sends the DeleteRole API request.
@@ -1793,9 +1935,10 @@ func (r DeleteRoleRequest) Send() (*DeleteRoleOutput, error) {
 // Deletes the specified role. The role must not have any policies attached.
 // For more information about roles, go to Working with Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
 //
-// Make sure you do not have any Amazon EC2 instances running with the role
-// you are about to delete. Deleting a role or instance profile that is associated
-// with a running instance will break any applications running on the instance.
+// Make sure that you do not have any Amazon EC2 instances running with the
+// role you are about to delete. Deleting a role or instance profile that is
+// associated with a running instance will break any applications running on
+// the instance.
 //
 //    // Example sending a request using the DeleteRoleRequest method.
 //    req := client.DeleteRoleRequest(params)
@@ -1816,10 +1959,13 @@ func (c *IAM) DeleteRoleRequest(input *DeleteRoleInput) DeleteRoleRequest {
 		input = &DeleteRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRoleOutput{})
+	output := &DeleteRoleOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteRoleRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRoleRequest{Request: req, Input: input, Copy: c.DeleteRoleRequest}
 }
 
 const opDeleteRolePolicy = "DeleteRolePolicy"
@@ -1828,6 +1974,7 @@ const opDeleteRolePolicy = "DeleteRolePolicy"
 type DeleteRolePolicyRequest struct {
 	*aws.Request
 	Input *DeleteRolePolicyInput
+	Copy  func(*DeleteRolePolicyInput) DeleteRolePolicyRequest
 }
 
 // Send marshals and sends the DeleteRolePolicy API request.
@@ -1870,10 +2017,13 @@ func (c *IAM) DeleteRolePolicyRequest(input *DeleteRolePolicyInput) DeleteRolePo
 		input = &DeleteRolePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRolePolicyOutput{})
+	output := &DeleteRolePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteRolePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRolePolicyRequest{Request: req, Input: input, Copy: c.DeleteRolePolicyRequest}
 }
 
 const opDeleteSAMLProvider = "DeleteSAMLProvider"
@@ -1882,6 +2032,7 @@ const opDeleteSAMLProvider = "DeleteSAMLProvider"
 type DeleteSAMLProviderRequest struct {
 	*aws.Request
 	Input *DeleteSAMLProviderInput
+	Copy  func(*DeleteSAMLProviderInput) DeleteSAMLProviderRequest
 }
 
 // Send marshals and sends the DeleteSAMLProvider API request.
@@ -1925,10 +2076,13 @@ func (c *IAM) DeleteSAMLProviderRequest(input *DeleteSAMLProviderInput) DeleteSA
 		input = &DeleteSAMLProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSAMLProviderOutput{})
+	output := &DeleteSAMLProviderOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSAMLProviderRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSAMLProviderRequest{Request: req, Input: input, Copy: c.DeleteSAMLProviderRequest}
 }
 
 const opDeleteSSHPublicKey = "DeleteSSHPublicKey"
@@ -1937,6 +2091,7 @@ const opDeleteSSHPublicKey = "DeleteSSHPublicKey"
 type DeleteSSHPublicKeyRequest struct {
 	*aws.Request
 	Input *DeleteSSHPublicKeyInput
+	Copy  func(*DeleteSSHPublicKeyInput) DeleteSSHPublicKeyRequest
 }
 
 // Send marshals and sends the DeleteSSHPublicKey API request.
@@ -1954,7 +2109,7 @@ func (r DeleteSSHPublicKeyRequest) Send() (*DeleteSSHPublicKeyOutput, error) {
 //
 // Deletes the specified SSH public key.
 //
-// The SSH public key deleted by this action is used only for authenticating
+// The SSH public key deleted by this operation is used only for authenticating
 // the associated IAM user to an AWS CodeCommit repository. For more information
 // about using SSH keys to authenticate to an AWS CodeCommit repository, see
 // Set up AWS CodeCommit for SSH Connections (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html)
@@ -1979,10 +2134,13 @@ func (c *IAM) DeleteSSHPublicKeyRequest(input *DeleteSSHPublicKeyInput) DeleteSS
 		input = &DeleteSSHPublicKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSSHPublicKeyOutput{})
+	output := &DeleteSSHPublicKeyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSSHPublicKeyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSSHPublicKeyRequest{Request: req, Input: input, Copy: c.DeleteSSHPublicKeyRequest}
 }
 
 const opDeleteServerCertificate = "DeleteServerCertificate"
@@ -1991,6 +2149,7 @@ const opDeleteServerCertificate = "DeleteServerCertificate"
 type DeleteServerCertificateRequest struct {
 	*aws.Request
 	Input *DeleteServerCertificateInput
+	Copy  func(*DeleteServerCertificateInput) DeleteServerCertificateRequest
 }
 
 // Send marshals and sends the DeleteServerCertificate API request.
@@ -2008,10 +2167,10 @@ func (r DeleteServerCertificateRequest) Send() (*DeleteServerCertificateOutput, 
 //
 // Deletes the specified server certificate.
 //
-// For more information about working with server certificates, including a
-// list of AWS services that can use the server certificates that you manage
-// with IAM, go to Working with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-// in the IAM User Guide.
+// For more information about working with server certificates, see Working
+// with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+// in the IAM User Guide. This topic also includes a list of AWS services that
+// can use the server certificates that you manage with IAM.
 //
 // If you are using a server certificate with Elastic Load Balancing, deleting
 // the certificate could have implications for your application. If Elastic
@@ -2042,10 +2201,13 @@ func (c *IAM) DeleteServerCertificateRequest(input *DeleteServerCertificateInput
 		input = &DeleteServerCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteServerCertificateOutput{})
+	output := &DeleteServerCertificateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteServerCertificateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteServerCertificateRequest{Request: req, Input: input, Copy: c.DeleteServerCertificateRequest}
 }
 
 const opDeleteServiceLinkedRole = "DeleteServiceLinkedRole"
@@ -2054,6 +2216,7 @@ const opDeleteServiceLinkedRole = "DeleteServiceLinkedRole"
 type DeleteServiceLinkedRoleRequest struct {
 	*aws.Request
 	Input *DeleteServiceLinkedRoleInput
+	Copy  func(*DeleteServiceLinkedRoleInput) DeleteServiceLinkedRoleRequest
 }
 
 // Send marshals and sends the DeleteServiceLinkedRole API request.
@@ -2079,8 +2242,8 @@ func (r DeleteServiceLinkedRoleRequest) Send() (*DeleteServiceLinkedRoleOutput, 
 // If you submit a deletion request for a service-linked role whose linked service
 // is still accessing a resource, then the deletion task fails. If it fails,
 // the GetServiceLinkedRoleDeletionStatus API operation returns the reason for
-// the failure, including the resources that must be deleted. To delete the
-// service-linked role, you must first remove those resources from the linked
+// the failure, usually including the resources that must be deleted. To delete
+// the service-linked role, you must first remove those resources from the linked
 // service and then submit the deletion request again. Resources are specific
 // to the service that is linked to the role. For more information about removing
 // resources from a service, see the AWS documentation (http://docs.aws.amazon.com/)
@@ -2109,8 +2272,11 @@ func (c *IAM) DeleteServiceLinkedRoleRequest(input *DeleteServiceLinkedRoleInput
 		input = &DeleteServiceLinkedRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteServiceLinkedRoleOutput{})
-	return DeleteServiceLinkedRoleRequest{Request: req, Input: input}
+	output := &DeleteServiceLinkedRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteServiceLinkedRoleRequest{Request: req, Input: input, Copy: c.DeleteServiceLinkedRoleRequest}
 }
 
 const opDeleteServiceSpecificCredential = "DeleteServiceSpecificCredential"
@@ -2119,6 +2285,7 @@ const opDeleteServiceSpecificCredential = "DeleteServiceSpecificCredential"
 type DeleteServiceSpecificCredentialRequest struct {
 	*aws.Request
 	Input *DeleteServiceSpecificCredentialInput
+	Copy  func(*DeleteServiceSpecificCredentialInput) DeleteServiceSpecificCredentialRequest
 }
 
 // Send marshals and sends the DeleteServiceSpecificCredential API request.
@@ -2155,10 +2322,13 @@ func (c *IAM) DeleteServiceSpecificCredentialRequest(input *DeleteServiceSpecifi
 		input = &DeleteServiceSpecificCredentialInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteServiceSpecificCredentialOutput{})
+	output := &DeleteServiceSpecificCredentialOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteServiceSpecificCredentialRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteServiceSpecificCredentialRequest{Request: req, Input: input, Copy: c.DeleteServiceSpecificCredentialRequest}
 }
 
 const opDeleteSigningCertificate = "DeleteSigningCertificate"
@@ -2167,6 +2337,7 @@ const opDeleteSigningCertificate = "DeleteSigningCertificate"
 type DeleteSigningCertificateRequest struct {
 	*aws.Request
 	Input *DeleteSigningCertificateInput
+	Copy  func(*DeleteSigningCertificateInput) DeleteSigningCertificateRequest
 }
 
 // Send marshals and sends the DeleteSigningCertificate API request.
@@ -2185,9 +2356,10 @@ func (r DeleteSigningCertificateRequest) Send() (*DeleteSigningCertificateOutput
 // Deletes a signing certificate associated with the specified IAM user.
 //
 // If you do not specify a user name, IAM determines the user name implicitly
-// based on the AWS access key ID signing the request. Because this action works
-// for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated IAM users.
+// based on the AWS access key ID signing the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials even if the AWS account has no associated
+// IAM users.
 //
 //    // Example sending a request using the DeleteSigningCertificateRequest method.
 //    req := client.DeleteSigningCertificateRequest(params)
@@ -2208,10 +2380,13 @@ func (c *IAM) DeleteSigningCertificateRequest(input *DeleteSigningCertificateInp
 		input = &DeleteSigningCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSigningCertificateOutput{})
+	output := &DeleteSigningCertificateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSigningCertificateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSigningCertificateRequest{Request: req, Input: input, Copy: c.DeleteSigningCertificateRequest}
 }
 
 const opDeleteUser = "DeleteUser"
@@ -2220,6 +2395,7 @@ const opDeleteUser = "DeleteUser"
 type DeleteUserRequest struct {
 	*aws.Request
 	Input *DeleteUserInput
+	Copy  func(*DeleteUserInput) DeleteUserRequest
 }
 
 // Send marshals and sends the DeleteUser API request.
@@ -2257,10 +2433,13 @@ func (c *IAM) DeleteUserRequest(input *DeleteUserInput) DeleteUserRequest {
 		input = &DeleteUserInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteUserOutput{})
+	output := &DeleteUserOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteUserRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteUserRequest{Request: req, Input: input, Copy: c.DeleteUserRequest}
 }
 
 const opDeleteUserPolicy = "DeleteUserPolicy"
@@ -2269,6 +2448,7 @@ const opDeleteUserPolicy = "DeleteUserPolicy"
 type DeleteUserPolicyRequest struct {
 	*aws.Request
 	Input *DeleteUserPolicyInput
+	Copy  func(*DeleteUserPolicyInput) DeleteUserPolicyRequest
 }
 
 // Send marshals and sends the DeleteUserPolicy API request.
@@ -2311,10 +2491,13 @@ func (c *IAM) DeleteUserPolicyRequest(input *DeleteUserPolicyInput) DeleteUserPo
 		input = &DeleteUserPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteUserPolicyOutput{})
+	output := &DeleteUserPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteUserPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteUserPolicyRequest{Request: req, Input: input, Copy: c.DeleteUserPolicyRequest}
 }
 
 const opDeleteVirtualMFADevice = "DeleteVirtualMFADevice"
@@ -2323,6 +2506,7 @@ const opDeleteVirtualMFADevice = "DeleteVirtualMFADevice"
 type DeleteVirtualMFADeviceRequest struct {
 	*aws.Request
 	Input *DeleteVirtualMFADeviceInput
+	Copy  func(*DeleteVirtualMFADeviceInput) DeleteVirtualMFADeviceRequest
 }
 
 // Send marshals and sends the DeleteVirtualMFADevice API request.
@@ -2362,10 +2546,13 @@ func (c *IAM) DeleteVirtualMFADeviceRequest(input *DeleteVirtualMFADeviceInput) 
 		input = &DeleteVirtualMFADeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteVirtualMFADeviceOutput{})
+	output := &DeleteVirtualMFADeviceOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteVirtualMFADeviceRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteVirtualMFADeviceRequest{Request: req, Input: input, Copy: c.DeleteVirtualMFADeviceRequest}
 }
 
 const opDetachGroupPolicy = "DetachGroupPolicy"
@@ -2374,6 +2561,7 @@ const opDetachGroupPolicy = "DetachGroupPolicy"
 type DetachGroupPolicyRequest struct {
 	*aws.Request
 	Input *DetachGroupPolicyInput
+	Copy  func(*DetachGroupPolicyInput) DetachGroupPolicyRequest
 }
 
 // Send marshals and sends the DetachGroupPolicy API request.
@@ -2415,10 +2603,13 @@ func (c *IAM) DetachGroupPolicyRequest(input *DetachGroupPolicyInput) DetachGrou
 		input = &DetachGroupPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachGroupPolicyOutput{})
+	output := &DetachGroupPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DetachGroupPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachGroupPolicyRequest{Request: req, Input: input, Copy: c.DetachGroupPolicyRequest}
 }
 
 const opDetachRolePolicy = "DetachRolePolicy"
@@ -2427,6 +2618,7 @@ const opDetachRolePolicy = "DetachRolePolicy"
 type DetachRolePolicyRequest struct {
 	*aws.Request
 	Input *DetachRolePolicyInput
+	Copy  func(*DetachRolePolicyInput) DetachRolePolicyRequest
 }
 
 // Send marshals and sends the DetachRolePolicy API request.
@@ -2468,10 +2660,13 @@ func (c *IAM) DetachRolePolicyRequest(input *DetachRolePolicyInput) DetachRolePo
 		input = &DetachRolePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachRolePolicyOutput{})
+	output := &DetachRolePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DetachRolePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachRolePolicyRequest{Request: req, Input: input, Copy: c.DetachRolePolicyRequest}
 }
 
 const opDetachUserPolicy = "DetachUserPolicy"
@@ -2480,6 +2675,7 @@ const opDetachUserPolicy = "DetachUserPolicy"
 type DetachUserPolicyRequest struct {
 	*aws.Request
 	Input *DetachUserPolicyInput
+	Copy  func(*DetachUserPolicyInput) DetachUserPolicyRequest
 }
 
 // Send marshals and sends the DetachUserPolicy API request.
@@ -2521,10 +2717,13 @@ func (c *IAM) DetachUserPolicyRequest(input *DetachUserPolicyInput) DetachUserPo
 		input = &DetachUserPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachUserPolicyOutput{})
+	output := &DetachUserPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DetachUserPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachUserPolicyRequest{Request: req, Input: input, Copy: c.DetachUserPolicyRequest}
 }
 
 const opEnableMFADevice = "EnableMFADevice"
@@ -2533,6 +2732,7 @@ const opEnableMFADevice = "EnableMFADevice"
 type EnableMFADeviceRequest struct {
 	*aws.Request
 	Input *EnableMFADeviceInput
+	Copy  func(*EnableMFADeviceInput) EnableMFADeviceRequest
 }
 
 // Send marshals and sends the EnableMFADevice API request.
@@ -2571,10 +2771,13 @@ func (c *IAM) EnableMFADeviceRequest(input *EnableMFADeviceInput) EnableMFADevic
 		input = &EnableMFADeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableMFADeviceOutput{})
+	output := &EnableMFADeviceOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return EnableMFADeviceRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableMFADeviceRequest{Request: req, Input: input, Copy: c.EnableMFADeviceRequest}
 }
 
 const opGenerateCredentialReport = "GenerateCredentialReport"
@@ -2583,6 +2786,7 @@ const opGenerateCredentialReport = "GenerateCredentialReport"
 type GenerateCredentialReportRequest struct {
 	*aws.Request
 	Input *GenerateCredentialReportInput
+	Copy  func(*GenerateCredentialReportInput) GenerateCredentialReportRequest
 }
 
 // Send marshals and sends the GenerateCredentialReport API request.
@@ -2621,8 +2825,11 @@ func (c *IAM) GenerateCredentialReportRequest(input *GenerateCredentialReportInp
 		input = &GenerateCredentialReportInput{}
 	}
 
-	req := c.newRequest(op, input, &GenerateCredentialReportOutput{})
-	return GenerateCredentialReportRequest{Request: req, Input: input}
+	output := &GenerateCredentialReportOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GenerateCredentialReportRequest{Request: req, Input: input, Copy: c.GenerateCredentialReportRequest}
 }
 
 const opGetAccessKeyLastUsed = "GetAccessKeyLastUsed"
@@ -2631,6 +2838,7 @@ const opGetAccessKeyLastUsed = "GetAccessKeyLastUsed"
 type GetAccessKeyLastUsedRequest struct {
 	*aws.Request
 	Input *GetAccessKeyLastUsedInput
+	Copy  func(*GetAccessKeyLastUsedInput) GetAccessKeyLastUsedRequest
 }
 
 // Send marshals and sends the GetAccessKeyLastUsed API request.
@@ -2670,8 +2878,11 @@ func (c *IAM) GetAccessKeyLastUsedRequest(input *GetAccessKeyLastUsedInput) GetA
 		input = &GetAccessKeyLastUsedInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccessKeyLastUsedOutput{})
-	return GetAccessKeyLastUsedRequest{Request: req, Input: input}
+	output := &GetAccessKeyLastUsedOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccessKeyLastUsedRequest{Request: req, Input: input, Copy: c.GetAccessKeyLastUsedRequest}
 }
 
 const opGetAccountAuthorizationDetails = "GetAccountAuthorizationDetails"
@@ -2680,6 +2891,7 @@ const opGetAccountAuthorizationDetails = "GetAccountAuthorizationDetails"
 type GetAccountAuthorizationDetailsRequest struct {
 	*aws.Request
 	Input *GetAccountAuthorizationDetailsInput
+	Copy  func(*GetAccountAuthorizationDetailsInput) GetAccountAuthorizationDetailsRequest
 }
 
 // Send marshals and sends the GetAccountAuthorizationDetails API request.
@@ -2699,6 +2911,12 @@ func (r GetAccountAuthorizationDetailsRequest) Send() (*GetAccountAuthorizationD
 // your AWS account, including their relationships to one another. Use this
 // API to obtain a snapshot of the configuration of IAM permissions (users,
 // groups, roles, and policies) in your account.
+//
+// Policies returned by this API are URL-encoded compliant with RFC 3986 (https://tools.ietf.org/html/rfc3986).
+// You can use a URL decoding method to convert the policy back to plain JSON
+// text. For example, if you use Java, you can use the decode method of the
+// java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs
+// provide similar functionality.
 //
 // You can optionally filter the results using the Filter parameter. You can
 // paginate the results using the MaxItems and Marker parameters.
@@ -2728,58 +2946,57 @@ func (c *IAM) GetAccountAuthorizationDetailsRequest(input *GetAccountAuthorizati
 		input = &GetAccountAuthorizationDetailsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccountAuthorizationDetailsOutput{})
-	return GetAccountAuthorizationDetailsRequest{Request: req, Input: input}
+	output := &GetAccountAuthorizationDetailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccountAuthorizationDetailsRequest{Request: req, Input: input, Copy: c.GetAccountAuthorizationDetailsRequest}
 }
 
-// GetAccountAuthorizationDetailsPages iterates over the pages of a GetAccountAuthorizationDetails operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetAccountAuthorizationDetails method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetAccountAuthorizationDetailsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetAccountAuthorizationDetails operation.
-//    pageNum := 0
-//    err := client.GetAccountAuthorizationDetailsPages(params,
-//        func(page *GetAccountAuthorizationDetailsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetAccountAuthorizationDetailsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) GetAccountAuthorizationDetailsPages(input *GetAccountAuthorizationDetailsInput, fn func(*GetAccountAuthorizationDetailsOutput, bool) bool) error {
-	return c.GetAccountAuthorizationDetailsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetAccountAuthorizationDetailsRequest) Paginate(opts ...aws.Option) GetAccountAuthorizationDetailsPager {
+	return GetAccountAuthorizationDetailsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetAccountAuthorizationDetailsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetAccountAuthorizationDetailsPagesWithContext same as GetAccountAuthorizationDetailsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) GetAccountAuthorizationDetailsPagesWithContext(ctx aws.Context, input *GetAccountAuthorizationDetailsInput, fn func(*GetAccountAuthorizationDetailsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetAccountAuthorizationDetailsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetAccountAuthorizationDetailsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetAccountAuthorizationDetailsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetAccountAuthorizationDetailsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetAccountAuthorizationDetailsPager struct {
+	aws.Pager
+}
+
+func (p *GetAccountAuthorizationDetailsPager) CurrentPage() *GetAccountAuthorizationDetailsOutput {
+	return p.Pager.CurrentPage().(*GetAccountAuthorizationDetailsOutput)
 }
 
 const opGetAccountPasswordPolicy = "GetAccountPasswordPolicy"
@@ -2788,6 +3005,7 @@ const opGetAccountPasswordPolicy = "GetAccountPasswordPolicy"
 type GetAccountPasswordPolicyRequest struct {
 	*aws.Request
 	Input *GetAccountPasswordPolicyInput
+	Copy  func(*GetAccountPasswordPolicyInput) GetAccountPasswordPolicyRequest
 }
 
 // Send marshals and sends the GetAccountPasswordPolicy API request.
@@ -2825,8 +3043,11 @@ func (c *IAM) GetAccountPasswordPolicyRequest(input *GetAccountPasswordPolicyInp
 		input = &GetAccountPasswordPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccountPasswordPolicyOutput{})
-	return GetAccountPasswordPolicyRequest{Request: req, Input: input}
+	output := &GetAccountPasswordPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccountPasswordPolicyRequest{Request: req, Input: input, Copy: c.GetAccountPasswordPolicyRequest}
 }
 
 const opGetAccountSummary = "GetAccountSummary"
@@ -2835,6 +3056,7 @@ const opGetAccountSummary = "GetAccountSummary"
 type GetAccountSummaryRequest struct {
 	*aws.Request
 	Input *GetAccountSummaryInput
+	Copy  func(*GetAccountSummaryInput) GetAccountSummaryRequest
 }
 
 // Send marshals and sends the GetAccountSummary API request.
@@ -2875,8 +3097,11 @@ func (c *IAM) GetAccountSummaryRequest(input *GetAccountSummaryInput) GetAccount
 		input = &GetAccountSummaryInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccountSummaryOutput{})
-	return GetAccountSummaryRequest{Request: req, Input: input}
+	output := &GetAccountSummaryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccountSummaryRequest{Request: req, Input: input, Copy: c.GetAccountSummaryRequest}
 }
 
 const opGetContextKeysForCustomPolicy = "GetContextKeysForCustomPolicy"
@@ -2885,6 +3110,7 @@ const opGetContextKeysForCustomPolicy = "GetContextKeysForCustomPolicy"
 type GetContextKeysForCustomPolicyRequest struct {
 	*aws.Request
 	Input *GetContextKeysForCustomPolicyInput
+	Copy  func(*GetContextKeysForCustomPolicyInput) GetContextKeysForCustomPolicyRequest
 }
 
 // Send marshals and sends the GetContextKeysForCustomPolicy API request.
@@ -2905,10 +3131,10 @@ func (r GetContextKeysForCustomPolicyRequest) Send() (*GetContextKeysForPrincipa
 // keys from policies associated with an IAM user, group, or role, use GetContextKeysForPrincipalPolicy.
 //
 // Context keys are variables maintained by AWS and its services that provide
-// details about the context of an API query request, and can be evaluated by
-// testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy
+// details about the context of an API query request. Context keys can be evaluated
+// by testing against a value specified in an IAM policy. Use GetContextKeysForCustomPolicy
 // to understand what key names and values you must supply when you call SimulateCustomPolicy.
-// Note that all parameters are shown in unencoded form here for clarity, but
+// Note that all parameters are shown in unencoded form here for clarity but
 // must be URL encoded to be included as a part of a real HTML request.
 //
 //    // Example sending a request using the GetContextKeysForCustomPolicyRequest method.
@@ -2930,8 +3156,11 @@ func (c *IAM) GetContextKeysForCustomPolicyRequest(input *GetContextKeysForCusto
 		input = &GetContextKeysForCustomPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetContextKeysForPrincipalPolicyOutput{})
-	return GetContextKeysForCustomPolicyRequest{Request: req, Input: input}
+	output := &GetContextKeysForPrincipalPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetContextKeysForCustomPolicyRequest{Request: req, Input: input, Copy: c.GetContextKeysForCustomPolicyRequest}
 }
 
 const opGetContextKeysForPrincipalPolicy = "GetContextKeysForPrincipalPolicy"
@@ -2940,6 +3169,7 @@ const opGetContextKeysForPrincipalPolicy = "GetContextKeysForPrincipalPolicy"
 type GetContextKeysForPrincipalPolicyRequest struct {
 	*aws.Request
 	Input *GetContextKeysForPrincipalPolicyInput
+	Copy  func(*GetContextKeysForPrincipalPolicyInput) GetContextKeysForPrincipalPolicyRequest
 }
 
 // Send marshals and sends the GetContextKeysForPrincipalPolicy API request.
@@ -2955,10 +3185,10 @@ func (r GetContextKeysForPrincipalPolicyRequest) Send() (*GetContextKeysForPrinc
 // GetContextKeysForPrincipalPolicyRequest returns a request value for making API operation for
 // AWS Identity and Access Management.
 //
-// Gets a list of all of the context keys referenced in all of the IAM policies
-// attached to the specified IAM entity. The entity can be an IAM user, group,
-// or role. If you specify a user, then the request also includes all of the
-// policies attached to groups that the user is a member of.
+// Gets a list of all of the context keys referenced in all the IAM policies
+// that are attached to the specified IAM entity. The entity can be an IAM user,
+// group, or role. If you specify a user, then the request also includes all
+// of the policies attached to groups that the user is a member of.
 //
 // You can optionally include a list of one or more additional policies, specified
 // as strings. If you want to include only a list of policies by string, use
@@ -2969,8 +3199,8 @@ func (r GetContextKeysForPrincipalPolicyRequest) Send() (*GetContextKeysForPrinc
 // allowing them to use GetContextKeysForCustomPolicy instead.
 //
 // Context keys are variables maintained by AWS and its services that provide
-// details about the context of an API query request, and can be evaluated by
-// testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy
+// details about the context of an API query request. Context keys can be evaluated
+// by testing against a value in an IAM policy. Use GetContextKeysForPrincipalPolicy
 // to understand what key names and values you must supply when you call SimulatePrincipalPolicy.
 //
 //    // Example sending a request using the GetContextKeysForPrincipalPolicyRequest method.
@@ -2992,8 +3222,11 @@ func (c *IAM) GetContextKeysForPrincipalPolicyRequest(input *GetContextKeysForPr
 		input = &GetContextKeysForPrincipalPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetContextKeysForPrincipalPolicyOutput{})
-	return GetContextKeysForPrincipalPolicyRequest{Request: req, Input: input}
+	output := &GetContextKeysForPrincipalPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetContextKeysForPrincipalPolicyRequest{Request: req, Input: input, Copy: c.GetContextKeysForPrincipalPolicyRequest}
 }
 
 const opGetCredentialReport = "GetCredentialReport"
@@ -3002,6 +3235,7 @@ const opGetCredentialReport = "GetCredentialReport"
 type GetCredentialReportRequest struct {
 	*aws.Request
 	Input *GetCredentialReportInput
+	Copy  func(*GetCredentialReportInput) GetCredentialReportRequest
 }
 
 // Send marshals and sends the GetCredentialReport API request.
@@ -3040,8 +3274,11 @@ func (c *IAM) GetCredentialReportRequest(input *GetCredentialReportInput) GetCre
 		input = &GetCredentialReportInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCredentialReportOutput{})
-	return GetCredentialReportRequest{Request: req, Input: input}
+	output := &GetCredentialReportOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCredentialReportRequest{Request: req, Input: input, Copy: c.GetCredentialReportRequest}
 }
 
 const opGetGroup = "GetGroup"
@@ -3050,6 +3287,7 @@ const opGetGroup = "GetGroup"
 type GetGroupRequest struct {
 	*aws.Request
 	Input *GetGroupInput
+	Copy  func(*GetGroupInput) GetGroupRequest
 }
 
 // Send marshals and sends the GetGroup API request.
@@ -3093,58 +3331,57 @@ func (c *IAM) GetGroupRequest(input *GetGroupInput) GetGroupRequest {
 		input = &GetGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &GetGroupOutput{})
-	return GetGroupRequest{Request: req, Input: input}
+	output := &GetGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetGroupRequest{Request: req, Input: input, Copy: c.GetGroupRequest}
 }
 
-// GetGroupPages iterates over the pages of a GetGroup operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetGroup method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetGroupRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetGroup operation.
-//    pageNum := 0
-//    err := client.GetGroupPages(params,
-//        func(page *GetGroupOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetGroupRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) GetGroupPages(input *GetGroupInput, fn func(*GetGroupOutput, bool) bool) error {
-	return c.GetGroupPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetGroupRequest) Paginate(opts ...aws.Option) GetGroupPager {
+	return GetGroupPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetGroupInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetGroupPagesWithContext same as GetGroupPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) GetGroupPagesWithContext(ctx aws.Context, input *GetGroupInput, fn func(*GetGroupOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetGroupInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetGroupRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetGroupOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetGroupPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetGroupPager struct {
+	aws.Pager
+}
+
+func (p *GetGroupPager) CurrentPage() *GetGroupOutput {
+	return p.Pager.CurrentPage().(*GetGroupOutput)
 }
 
 const opGetGroupPolicy = "GetGroupPolicy"
@@ -3153,6 +3390,7 @@ const opGetGroupPolicy = "GetGroupPolicy"
 type GetGroupPolicyRequest struct {
 	*aws.Request
 	Input *GetGroupPolicyInput
+	Copy  func(*GetGroupPolicyInput) GetGroupPolicyRequest
 }
 
 // Send marshals and sends the GetGroupPolicy API request.
@@ -3205,8 +3443,11 @@ func (c *IAM) GetGroupPolicyRequest(input *GetGroupPolicyInput) GetGroupPolicyRe
 		input = &GetGroupPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetGroupPolicyOutput{})
-	return GetGroupPolicyRequest{Request: req, Input: input}
+	output := &GetGroupPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetGroupPolicyRequest{Request: req, Input: input, Copy: c.GetGroupPolicyRequest}
 }
 
 const opGetInstanceProfile = "GetInstanceProfile"
@@ -3215,6 +3456,7 @@ const opGetInstanceProfile = "GetInstanceProfile"
 type GetInstanceProfileRequest struct {
 	*aws.Request
 	Input *GetInstanceProfileInput
+	Copy  func(*GetInstanceProfileInput) GetInstanceProfileRequest
 }
 
 // Send marshals and sends the GetInstanceProfile API request.
@@ -3254,8 +3496,11 @@ func (c *IAM) GetInstanceProfileRequest(input *GetInstanceProfileInput) GetInsta
 		input = &GetInstanceProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceProfileOutput{})
-	return GetInstanceProfileRequest{Request: req, Input: input}
+	output := &GetInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceProfileRequest{Request: req, Input: input, Copy: c.GetInstanceProfileRequest}
 }
 
 const opGetLoginProfile = "GetLoginProfile"
@@ -3264,6 +3509,7 @@ const opGetLoginProfile = "GetLoginProfile"
 type GetLoginProfileRequest struct {
 	*aws.Request
 	Input *GetLoginProfileInput
+	Copy  func(*GetLoginProfileInput) GetLoginProfileRequest
 }
 
 // Send marshals and sends the GetLoginProfile API request.
@@ -3280,8 +3526,8 @@ func (r GetLoginProfileRequest) Send() (*GetLoginProfileOutput, error) {
 // AWS Identity and Access Management.
 //
 // Retrieves the user name and password-creation date for the specified IAM
-// user. If the user has not been assigned a password, the action returns a
-// 404 (NoSuchEntity) error.
+// user. If the user has not been assigned a password, the operation returns
+// a 404 (NoSuchEntity) error.
 //
 //    // Example sending a request using the GetLoginProfileRequest method.
 //    req := client.GetLoginProfileRequest(params)
@@ -3302,8 +3548,11 @@ func (c *IAM) GetLoginProfileRequest(input *GetLoginProfileInput) GetLoginProfil
 		input = &GetLoginProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &GetLoginProfileOutput{})
-	return GetLoginProfileRequest{Request: req, Input: input}
+	output := &GetLoginProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLoginProfileRequest{Request: req, Input: input, Copy: c.GetLoginProfileRequest}
 }
 
 const opGetOpenIDConnectProvider = "GetOpenIDConnectProvider"
@@ -3312,6 +3561,7 @@ const opGetOpenIDConnectProvider = "GetOpenIDConnectProvider"
 type GetOpenIDConnectProviderRequest struct {
 	*aws.Request
 	Input *GetOpenIDConnectProviderInput
+	Copy  func(*GetOpenIDConnectProviderInput) GetOpenIDConnectProviderRequest
 }
 
 // Send marshals and sends the GetOpenIDConnectProvider API request.
@@ -3349,8 +3599,11 @@ func (c *IAM) GetOpenIDConnectProviderRequest(input *GetOpenIDConnectProviderInp
 		input = &GetOpenIDConnectProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &GetOpenIDConnectProviderOutput{})
-	return GetOpenIDConnectProviderRequest{Request: req, Input: input}
+	output := &GetOpenIDConnectProviderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetOpenIDConnectProviderRequest{Request: req, Input: input, Copy: c.GetOpenIDConnectProviderRequest}
 }
 
 const opGetPolicy = "GetPolicy"
@@ -3359,6 +3612,7 @@ const opGetPolicy = "GetPolicy"
 type GetPolicyRequest struct {
 	*aws.Request
 	Input *GetPolicyInput
+	Copy  func(*GetPolicyInput) GetPolicyRequest
 }
 
 // Send marshals and sends the GetPolicy API request.
@@ -3408,8 +3662,11 @@ func (c *IAM) GetPolicyRequest(input *GetPolicyInput) GetPolicyRequest {
 		input = &GetPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPolicyOutput{})
-	return GetPolicyRequest{Request: req, Input: input}
+	output := &GetPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPolicyRequest{Request: req, Input: input, Copy: c.GetPolicyRequest}
 }
 
 const opGetPolicyVersion = "GetPolicyVersion"
@@ -3418,6 +3675,7 @@ const opGetPolicyVersion = "GetPolicyVersion"
 type GetPolicyVersionRequest struct {
 	*aws.Request
 	Input *GetPolicyVersionInput
+	Copy  func(*GetPolicyVersionInput) GetPolicyVersionRequest
 }
 
 // Send marshals and sends the GetPolicyVersion API request.
@@ -3475,8 +3733,11 @@ func (c *IAM) GetPolicyVersionRequest(input *GetPolicyVersionInput) GetPolicyVer
 		input = &GetPolicyVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPolicyVersionOutput{})
-	return GetPolicyVersionRequest{Request: req, Input: input}
+	output := &GetPolicyVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPolicyVersionRequest{Request: req, Input: input, Copy: c.GetPolicyVersionRequest}
 }
 
 const opGetRole = "GetRole"
@@ -3485,6 +3746,7 @@ const opGetRole = "GetRole"
 type GetRoleRequest struct {
 	*aws.Request
 	Input *GetRoleInput
+	Copy  func(*GetRoleInput) GetRoleRequest
 }
 
 // Send marshals and sends the GetRole API request.
@@ -3529,8 +3791,11 @@ func (c *IAM) GetRoleRequest(input *GetRoleInput) GetRoleRequest {
 		input = &GetRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRoleOutput{})
-	return GetRoleRequest{Request: req, Input: input}
+	output := &GetRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRoleRequest{Request: req, Input: input, Copy: c.GetRoleRequest}
 }
 
 const opGetRolePolicy = "GetRolePolicy"
@@ -3539,6 +3804,7 @@ const opGetRolePolicy = "GetRolePolicy"
 type GetRolePolicyRequest struct {
 	*aws.Request
 	Input *GetRolePolicyInput
+	Copy  func(*GetRolePolicyInput) GetRolePolicyRequest
 }
 
 // Send marshals and sends the GetRolePolicy API request.
@@ -3594,8 +3860,11 @@ func (c *IAM) GetRolePolicyRequest(input *GetRolePolicyInput) GetRolePolicyReque
 		input = &GetRolePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRolePolicyOutput{})
-	return GetRolePolicyRequest{Request: req, Input: input}
+	output := &GetRolePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRolePolicyRequest{Request: req, Input: input, Copy: c.GetRolePolicyRequest}
 }
 
 const opGetSAMLProvider = "GetSAMLProvider"
@@ -3604,6 +3873,7 @@ const opGetSAMLProvider = "GetSAMLProvider"
 type GetSAMLProviderRequest struct {
 	*aws.Request
 	Input *GetSAMLProviderInput
+	Copy  func(*GetSAMLProviderInput) GetSAMLProviderRequest
 }
 
 // Send marshals and sends the GetSAMLProvider API request.
@@ -3643,8 +3913,11 @@ func (c *IAM) GetSAMLProviderRequest(input *GetSAMLProviderInput) GetSAMLProvide
 		input = &GetSAMLProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSAMLProviderOutput{})
-	return GetSAMLProviderRequest{Request: req, Input: input}
+	output := &GetSAMLProviderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSAMLProviderRequest{Request: req, Input: input, Copy: c.GetSAMLProviderRequest}
 }
 
 const opGetSSHPublicKey = "GetSSHPublicKey"
@@ -3653,6 +3926,7 @@ const opGetSSHPublicKey = "GetSSHPublicKey"
 type GetSSHPublicKeyRequest struct {
 	*aws.Request
 	Input *GetSSHPublicKeyInput
+	Copy  func(*GetSSHPublicKeyInput) GetSSHPublicKeyRequest
 }
 
 // Send marshals and sends the GetSSHPublicKey API request.
@@ -3670,7 +3944,7 @@ func (r GetSSHPublicKeyRequest) Send() (*GetSSHPublicKeyOutput, error) {
 //
 // Retrieves the specified SSH public key, including metadata about the key.
 //
-// The SSH public key retrieved by this action is used only for authenticating
+// The SSH public key retrieved by this operation is used only for authenticating
 // the associated IAM user to an AWS CodeCommit repository. For more information
 // about using SSH keys to authenticate to an AWS CodeCommit repository, see
 // Set up AWS CodeCommit for SSH Connections (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html)
@@ -3695,8 +3969,11 @@ func (c *IAM) GetSSHPublicKeyRequest(input *GetSSHPublicKeyInput) GetSSHPublicKe
 		input = &GetSSHPublicKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSSHPublicKeyOutput{})
-	return GetSSHPublicKeyRequest{Request: req, Input: input}
+	output := &GetSSHPublicKeyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSSHPublicKeyRequest{Request: req, Input: input, Copy: c.GetSSHPublicKeyRequest}
 }
 
 const opGetServerCertificate = "GetServerCertificate"
@@ -3705,6 +3982,7 @@ const opGetServerCertificate = "GetServerCertificate"
 type GetServerCertificateRequest struct {
 	*aws.Request
 	Input *GetServerCertificateInput
+	Copy  func(*GetServerCertificateInput) GetServerCertificateRequest
 }
 
 // Send marshals and sends the GetServerCertificate API request.
@@ -3722,10 +4000,10 @@ func (r GetServerCertificateRequest) Send() (*GetServerCertificateOutput, error)
 //
 // Retrieves information about the specified server certificate stored in IAM.
 //
-// For more information about working with server certificates, including a
-// list of AWS services that can use the server certificates that you manage
-// with IAM, go to Working with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-// in the IAM User Guide.
+// For more information about working with server certificates, see Working
+// with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+// in the IAM User Guide. This topic includes a list of AWS services that can
+// use the server certificates that you manage with IAM.
 //
 //    // Example sending a request using the GetServerCertificateRequest method.
 //    req := client.GetServerCertificateRequest(params)
@@ -3746,8 +4024,11 @@ func (c *IAM) GetServerCertificateRequest(input *GetServerCertificateInput) GetS
 		input = &GetServerCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &GetServerCertificateOutput{})
-	return GetServerCertificateRequest{Request: req, Input: input}
+	output := &GetServerCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetServerCertificateRequest{Request: req, Input: input, Copy: c.GetServerCertificateRequest}
 }
 
 const opGetServiceLinkedRoleDeletionStatus = "GetServiceLinkedRoleDeletionStatus"
@@ -3756,6 +4037,7 @@ const opGetServiceLinkedRoleDeletionStatus = "GetServiceLinkedRoleDeletionStatus
 type GetServiceLinkedRoleDeletionStatusRequest struct {
 	*aws.Request
 	Input *GetServiceLinkedRoleDeletionStatusInput
+	Copy  func(*GetServiceLinkedRoleDeletionStatusInput) GetServiceLinkedRoleDeletionStatusRequest
 }
 
 // Send marshals and sends the GetServiceLinkedRoleDeletionStatus API request.
@@ -3775,7 +4057,8 @@ func (r GetServiceLinkedRoleDeletionStatusRequest) Send() (*GetServiceLinkedRole
 // the DeleteServiceLinkedRole API operation to submit a service-linked role
 // for deletion, you can use the DeletionTaskId parameter in GetServiceLinkedRoleDeletionStatus
 // to check the status of the deletion. If the deletion fails, this operation
-// returns the reason that it failed.
+// returns the reason that it failed, if that information is returned by the
+// service.
 //
 //    // Example sending a request using the GetServiceLinkedRoleDeletionStatusRequest method.
 //    req := client.GetServiceLinkedRoleDeletionStatusRequest(params)
@@ -3796,8 +4079,11 @@ func (c *IAM) GetServiceLinkedRoleDeletionStatusRequest(input *GetServiceLinkedR
 		input = &GetServiceLinkedRoleDeletionStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &GetServiceLinkedRoleDeletionStatusOutput{})
-	return GetServiceLinkedRoleDeletionStatusRequest{Request: req, Input: input}
+	output := &GetServiceLinkedRoleDeletionStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetServiceLinkedRoleDeletionStatusRequest{Request: req, Input: input, Copy: c.GetServiceLinkedRoleDeletionStatusRequest}
 }
 
 const opGetUser = "GetUser"
@@ -3806,6 +4092,7 @@ const opGetUser = "GetUser"
 type GetUserRequest struct {
 	*aws.Request
 	Input *GetUserInput
+	Copy  func(*GetUserInput) GetUserRequest
 }
 
 // Send marshals and sends the GetUser API request.
@@ -3846,8 +4133,11 @@ func (c *IAM) GetUserRequest(input *GetUserInput) GetUserRequest {
 		input = &GetUserInput{}
 	}
 
-	req := c.newRequest(op, input, &GetUserOutput{})
-	return GetUserRequest{Request: req, Input: input}
+	output := &GetUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetUserRequest{Request: req, Input: input, Copy: c.GetUserRequest}
 }
 
 const opGetUserPolicy = "GetUserPolicy"
@@ -3856,6 +4146,7 @@ const opGetUserPolicy = "GetUserPolicy"
 type GetUserPolicyRequest struct {
 	*aws.Request
 	Input *GetUserPolicyInput
+	Copy  func(*GetUserPolicyInput) GetUserPolicyRequest
 }
 
 // Send marshals and sends the GetUserPolicy API request.
@@ -3908,8 +4199,11 @@ func (c *IAM) GetUserPolicyRequest(input *GetUserPolicyInput) GetUserPolicyReque
 		input = &GetUserPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetUserPolicyOutput{})
-	return GetUserPolicyRequest{Request: req, Input: input}
+	output := &GetUserPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetUserPolicyRequest{Request: req, Input: input, Copy: c.GetUserPolicyRequest}
 }
 
 const opListAccessKeys = "ListAccessKeys"
@@ -3918,6 +4212,7 @@ const opListAccessKeys = "ListAccessKeys"
 type ListAccessKeysRequest struct {
 	*aws.Request
 	Input *ListAccessKeysInput
+	Copy  func(*ListAccessKeysInput) ListAccessKeysRequest
 }
 
 // Send marshals and sends the ListAccessKeys API request.
@@ -3934,15 +4229,16 @@ func (r ListAccessKeysRequest) Send() (*ListAccessKeysOutput, error) {
 // AWS Identity and Access Management.
 //
 // Returns information about the access key IDs associated with the specified
-// IAM user. If there are none, the action returns an empty list.
+// IAM user. If there are none, the operation returns an empty list.
 //
 // Although each user is limited to a small number of keys, you can still paginate
 // the results using the MaxItems and Marker parameters.
 //
-// If the UserName field is not specified, the UserName is determined implicitly
-// based on the AWS access key ID used to sign the request. Because this action
-// works for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated users.
+// If the UserName field is not specified, the user name is determined implicitly
+// based on the AWS access key ID used to sign the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials even if the AWS account has no associated
+// users.
 //
 // To ensure the security of your AWS account, the secret access key is accessible
 // only during key and user creation.
@@ -3972,58 +4268,57 @@ func (c *IAM) ListAccessKeysRequest(input *ListAccessKeysInput) ListAccessKeysRe
 		input = &ListAccessKeysInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAccessKeysOutput{})
-	return ListAccessKeysRequest{Request: req, Input: input}
+	output := &ListAccessKeysOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAccessKeysRequest{Request: req, Input: input, Copy: c.ListAccessKeysRequest}
 }
 
-// ListAccessKeysPages iterates over the pages of a ListAccessKeys operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAccessKeys method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAccessKeysRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAccessKeys operation.
-//    pageNum := 0
-//    err := client.ListAccessKeysPages(params,
-//        func(page *ListAccessKeysOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAccessKeysRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListAccessKeysPages(input *ListAccessKeysInput, fn func(*ListAccessKeysOutput, bool) bool) error {
-	return c.ListAccessKeysPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAccessKeysRequest) Paginate(opts ...aws.Option) ListAccessKeysPager {
+	return ListAccessKeysPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAccessKeysInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAccessKeysPagesWithContext same as ListAccessKeysPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListAccessKeysPagesWithContext(ctx aws.Context, input *ListAccessKeysInput, fn func(*ListAccessKeysOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAccessKeysInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAccessKeysRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAccessKeysOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAccessKeysPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAccessKeysPager struct {
+	aws.Pager
+}
+
+func (p *ListAccessKeysPager) CurrentPage() *ListAccessKeysOutput {
+	return p.Pager.CurrentPage().(*ListAccessKeysOutput)
 }
 
 const opListAccountAliases = "ListAccountAliases"
@@ -4032,6 +4327,7 @@ const opListAccountAliases = "ListAccountAliases"
 type ListAccountAliasesRequest struct {
 	*aws.Request
 	Input *ListAccountAliasesInput
+	Copy  func(*ListAccountAliasesInput) ListAccountAliasesRequest
 }
 
 // Send marshals and sends the ListAccountAliases API request.
@@ -4077,58 +4373,57 @@ func (c *IAM) ListAccountAliasesRequest(input *ListAccountAliasesInput) ListAcco
 		input = &ListAccountAliasesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAccountAliasesOutput{})
-	return ListAccountAliasesRequest{Request: req, Input: input}
+	output := &ListAccountAliasesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAccountAliasesRequest{Request: req, Input: input, Copy: c.ListAccountAliasesRequest}
 }
 
-// ListAccountAliasesPages iterates over the pages of a ListAccountAliases operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAccountAliases method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAccountAliasesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAccountAliases operation.
-//    pageNum := 0
-//    err := client.ListAccountAliasesPages(params,
-//        func(page *ListAccountAliasesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAccountAliasesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListAccountAliasesPages(input *ListAccountAliasesInput, fn func(*ListAccountAliasesOutput, bool) bool) error {
-	return c.ListAccountAliasesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAccountAliasesRequest) Paginate(opts ...aws.Option) ListAccountAliasesPager {
+	return ListAccountAliasesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAccountAliasesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAccountAliasesPagesWithContext same as ListAccountAliasesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListAccountAliasesPagesWithContext(ctx aws.Context, input *ListAccountAliasesInput, fn func(*ListAccountAliasesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAccountAliasesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAccountAliasesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAccountAliasesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAccountAliasesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAccountAliasesPager struct {
+	aws.Pager
+}
+
+func (p *ListAccountAliasesPager) CurrentPage() *ListAccountAliasesOutput {
+	return p.Pager.CurrentPage().(*ListAccountAliasesOutput)
 }
 
 const opListAttachedGroupPolicies = "ListAttachedGroupPolicies"
@@ -4137,6 +4432,7 @@ const opListAttachedGroupPolicies = "ListAttachedGroupPolicies"
 type ListAttachedGroupPoliciesRequest struct {
 	*aws.Request
 	Input *ListAttachedGroupPoliciesInput
+	Copy  func(*ListAttachedGroupPoliciesInput) ListAttachedGroupPoliciesRequest
 }
 
 // Send marshals and sends the ListAttachedGroupPolicies API request.
@@ -4162,7 +4458,7 @@ func (r ListAttachedGroupPoliciesRequest) Send() (*ListAttachedGroupPoliciesOutp
 // You can paginate the results using the MaxItems and Marker parameters. You
 // can use the PathPrefix parameter to limit the list of policies to only those
 // matching the specified path prefix. If there are no policies attached to
-// the specified group (or none that match the specified path prefix), the action
+// the specified group (or none that match the specified path prefix), the operation
 // returns an empty list.
 //
 //    // Example sending a request using the ListAttachedGroupPoliciesRequest method.
@@ -4190,58 +4486,57 @@ func (c *IAM) ListAttachedGroupPoliciesRequest(input *ListAttachedGroupPoliciesI
 		input = &ListAttachedGroupPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAttachedGroupPoliciesOutput{})
-	return ListAttachedGroupPoliciesRequest{Request: req, Input: input}
+	output := &ListAttachedGroupPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAttachedGroupPoliciesRequest{Request: req, Input: input, Copy: c.ListAttachedGroupPoliciesRequest}
 }
 
-// ListAttachedGroupPoliciesPages iterates over the pages of a ListAttachedGroupPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAttachedGroupPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAttachedGroupPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAttachedGroupPolicies operation.
-//    pageNum := 0
-//    err := client.ListAttachedGroupPoliciesPages(params,
-//        func(page *ListAttachedGroupPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAttachedGroupPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListAttachedGroupPoliciesPages(input *ListAttachedGroupPoliciesInput, fn func(*ListAttachedGroupPoliciesOutput, bool) bool) error {
-	return c.ListAttachedGroupPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAttachedGroupPoliciesRequest) Paginate(opts ...aws.Option) ListAttachedGroupPoliciesPager {
+	return ListAttachedGroupPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAttachedGroupPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAttachedGroupPoliciesPagesWithContext same as ListAttachedGroupPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListAttachedGroupPoliciesPagesWithContext(ctx aws.Context, input *ListAttachedGroupPoliciesInput, fn func(*ListAttachedGroupPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAttachedGroupPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAttachedGroupPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAttachedGroupPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAttachedGroupPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAttachedGroupPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListAttachedGroupPoliciesPager) CurrentPage() *ListAttachedGroupPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListAttachedGroupPoliciesOutput)
 }
 
 const opListAttachedRolePolicies = "ListAttachedRolePolicies"
@@ -4250,6 +4545,7 @@ const opListAttachedRolePolicies = "ListAttachedRolePolicies"
 type ListAttachedRolePoliciesRequest struct {
 	*aws.Request
 	Input *ListAttachedRolePoliciesInput
+	Copy  func(*ListAttachedRolePoliciesInput) ListAttachedRolePoliciesRequest
 }
 
 // Send marshals and sends the ListAttachedRolePolicies API request.
@@ -4275,7 +4571,7 @@ func (r ListAttachedRolePoliciesRequest) Send() (*ListAttachedRolePoliciesOutput
 // You can paginate the results using the MaxItems and Marker parameters. You
 // can use the PathPrefix parameter to limit the list of policies to only those
 // matching the specified path prefix. If there are no policies attached to
-// the specified role (or none that match the specified path prefix), the action
+// the specified role (or none that match the specified path prefix), the operation
 // returns an empty list.
 //
 //    // Example sending a request using the ListAttachedRolePoliciesRequest method.
@@ -4303,58 +4599,57 @@ func (c *IAM) ListAttachedRolePoliciesRequest(input *ListAttachedRolePoliciesInp
 		input = &ListAttachedRolePoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAttachedRolePoliciesOutput{})
-	return ListAttachedRolePoliciesRequest{Request: req, Input: input}
+	output := &ListAttachedRolePoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAttachedRolePoliciesRequest{Request: req, Input: input, Copy: c.ListAttachedRolePoliciesRequest}
 }
 
-// ListAttachedRolePoliciesPages iterates over the pages of a ListAttachedRolePolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAttachedRolePolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAttachedRolePoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAttachedRolePolicies operation.
-//    pageNum := 0
-//    err := client.ListAttachedRolePoliciesPages(params,
-//        func(page *ListAttachedRolePoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAttachedRolePoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListAttachedRolePoliciesPages(input *ListAttachedRolePoliciesInput, fn func(*ListAttachedRolePoliciesOutput, bool) bool) error {
-	return c.ListAttachedRolePoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAttachedRolePoliciesRequest) Paginate(opts ...aws.Option) ListAttachedRolePoliciesPager {
+	return ListAttachedRolePoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAttachedRolePoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAttachedRolePoliciesPagesWithContext same as ListAttachedRolePoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListAttachedRolePoliciesPagesWithContext(ctx aws.Context, input *ListAttachedRolePoliciesInput, fn func(*ListAttachedRolePoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAttachedRolePoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAttachedRolePoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAttachedRolePoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAttachedRolePoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAttachedRolePoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListAttachedRolePoliciesPager) CurrentPage() *ListAttachedRolePoliciesOutput {
+	return p.Pager.CurrentPage().(*ListAttachedRolePoliciesOutput)
 }
 
 const opListAttachedUserPolicies = "ListAttachedUserPolicies"
@@ -4363,6 +4658,7 @@ const opListAttachedUserPolicies = "ListAttachedUserPolicies"
 type ListAttachedUserPoliciesRequest struct {
 	*aws.Request
 	Input *ListAttachedUserPoliciesInput
+	Copy  func(*ListAttachedUserPoliciesInput) ListAttachedUserPoliciesRequest
 }
 
 // Send marshals and sends the ListAttachedUserPolicies API request.
@@ -4388,7 +4684,7 @@ func (r ListAttachedUserPoliciesRequest) Send() (*ListAttachedUserPoliciesOutput
 // You can paginate the results using the MaxItems and Marker parameters. You
 // can use the PathPrefix parameter to limit the list of policies to only those
 // matching the specified path prefix. If there are no policies attached to
-// the specified group (or none that match the specified path prefix), the action
+// the specified group (or none that match the specified path prefix), the operation
 // returns an empty list.
 //
 //    // Example sending a request using the ListAttachedUserPoliciesRequest method.
@@ -4416,58 +4712,57 @@ func (c *IAM) ListAttachedUserPoliciesRequest(input *ListAttachedUserPoliciesInp
 		input = &ListAttachedUserPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAttachedUserPoliciesOutput{})
-	return ListAttachedUserPoliciesRequest{Request: req, Input: input}
+	output := &ListAttachedUserPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAttachedUserPoliciesRequest{Request: req, Input: input, Copy: c.ListAttachedUserPoliciesRequest}
 }
 
-// ListAttachedUserPoliciesPages iterates over the pages of a ListAttachedUserPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAttachedUserPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAttachedUserPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAttachedUserPolicies operation.
-//    pageNum := 0
-//    err := client.ListAttachedUserPoliciesPages(params,
-//        func(page *ListAttachedUserPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAttachedUserPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListAttachedUserPoliciesPages(input *ListAttachedUserPoliciesInput, fn func(*ListAttachedUserPoliciesOutput, bool) bool) error {
-	return c.ListAttachedUserPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAttachedUserPoliciesRequest) Paginate(opts ...aws.Option) ListAttachedUserPoliciesPager {
+	return ListAttachedUserPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAttachedUserPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAttachedUserPoliciesPagesWithContext same as ListAttachedUserPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListAttachedUserPoliciesPagesWithContext(ctx aws.Context, input *ListAttachedUserPoliciesInput, fn func(*ListAttachedUserPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAttachedUserPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAttachedUserPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAttachedUserPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAttachedUserPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAttachedUserPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListAttachedUserPoliciesPager) CurrentPage() *ListAttachedUserPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListAttachedUserPoliciesOutput)
 }
 
 const opListEntitiesForPolicy = "ListEntitiesForPolicy"
@@ -4476,6 +4771,7 @@ const opListEntitiesForPolicy = "ListEntitiesForPolicy"
 type ListEntitiesForPolicyRequest struct {
 	*aws.Request
 	Input *ListEntitiesForPolicyInput
+	Copy  func(*ListEntitiesForPolicyInput) ListEntitiesForPolicyRequest
 }
 
 // Send marshals and sends the ListEntitiesForPolicy API request.
@@ -4526,58 +4822,57 @@ func (c *IAM) ListEntitiesForPolicyRequest(input *ListEntitiesForPolicyInput) Li
 		input = &ListEntitiesForPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &ListEntitiesForPolicyOutput{})
-	return ListEntitiesForPolicyRequest{Request: req, Input: input}
+	output := &ListEntitiesForPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListEntitiesForPolicyRequest{Request: req, Input: input, Copy: c.ListEntitiesForPolicyRequest}
 }
 
-// ListEntitiesForPolicyPages iterates over the pages of a ListEntitiesForPolicy operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListEntitiesForPolicy method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListEntitiesForPolicyRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListEntitiesForPolicy operation.
-//    pageNum := 0
-//    err := client.ListEntitiesForPolicyPages(params,
-//        func(page *ListEntitiesForPolicyOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListEntitiesForPolicyRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListEntitiesForPolicyPages(input *ListEntitiesForPolicyInput, fn func(*ListEntitiesForPolicyOutput, bool) bool) error {
-	return c.ListEntitiesForPolicyPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListEntitiesForPolicyRequest) Paginate(opts ...aws.Option) ListEntitiesForPolicyPager {
+	return ListEntitiesForPolicyPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListEntitiesForPolicyInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListEntitiesForPolicyPagesWithContext same as ListEntitiesForPolicyPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListEntitiesForPolicyPagesWithContext(ctx aws.Context, input *ListEntitiesForPolicyInput, fn func(*ListEntitiesForPolicyOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListEntitiesForPolicyInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListEntitiesForPolicyRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListEntitiesForPolicyOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListEntitiesForPolicyPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListEntitiesForPolicyPager struct {
+	aws.Pager
+}
+
+func (p *ListEntitiesForPolicyPager) CurrentPage() *ListEntitiesForPolicyOutput {
+	return p.Pager.CurrentPage().(*ListEntitiesForPolicyOutput)
 }
 
 const opListGroupPolicies = "ListGroupPolicies"
@@ -4586,6 +4881,7 @@ const opListGroupPolicies = "ListGroupPolicies"
 type ListGroupPoliciesRequest struct {
 	*aws.Request
 	Input *ListGroupPoliciesInput
+	Copy  func(*ListGroupPoliciesInput) ListGroupPoliciesRequest
 }
 
 // Send marshals and sends the ListGroupPolicies API request.
@@ -4611,7 +4907,7 @@ func (r ListGroupPoliciesRequest) Send() (*ListGroupPoliciesOutput, error) {
 // in the IAM User Guide.
 //
 // You can paginate the results using the MaxItems and Marker parameters. If
-// there are no inline policies embedded with the specified group, the action
+// there are no inline policies embedded with the specified group, the operation
 // returns an empty list.
 //
 //    // Example sending a request using the ListGroupPoliciesRequest method.
@@ -4639,58 +4935,57 @@ func (c *IAM) ListGroupPoliciesRequest(input *ListGroupPoliciesInput) ListGroupP
 		input = &ListGroupPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListGroupPoliciesOutput{})
-	return ListGroupPoliciesRequest{Request: req, Input: input}
+	output := &ListGroupPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListGroupPoliciesRequest{Request: req, Input: input, Copy: c.ListGroupPoliciesRequest}
 }
 
-// ListGroupPoliciesPages iterates over the pages of a ListGroupPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListGroupPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListGroupPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListGroupPolicies operation.
-//    pageNum := 0
-//    err := client.ListGroupPoliciesPages(params,
-//        func(page *ListGroupPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListGroupPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListGroupPoliciesPages(input *ListGroupPoliciesInput, fn func(*ListGroupPoliciesOutput, bool) bool) error {
-	return c.ListGroupPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListGroupPoliciesRequest) Paginate(opts ...aws.Option) ListGroupPoliciesPager {
+	return ListGroupPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListGroupPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListGroupPoliciesPagesWithContext same as ListGroupPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListGroupPoliciesPagesWithContext(ctx aws.Context, input *ListGroupPoliciesInput, fn func(*ListGroupPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListGroupPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListGroupPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListGroupPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListGroupPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListGroupPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListGroupPoliciesPager) CurrentPage() *ListGroupPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListGroupPoliciesOutput)
 }
 
 const opListGroups = "ListGroups"
@@ -4699,6 +4994,7 @@ const opListGroups = "ListGroups"
 type ListGroupsRequest struct {
 	*aws.Request
 	Input *ListGroupsInput
+	Copy  func(*ListGroupsInput) ListGroupsRequest
 }
 
 // Send marshals and sends the ListGroups API request.
@@ -4743,58 +5039,57 @@ func (c *IAM) ListGroupsRequest(input *ListGroupsInput) ListGroupsRequest {
 		input = &ListGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListGroupsOutput{})
-	return ListGroupsRequest{Request: req, Input: input}
+	output := &ListGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListGroupsRequest{Request: req, Input: input, Copy: c.ListGroupsRequest}
 }
 
-// ListGroupsPages iterates over the pages of a ListGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListGroups operation.
-//    pageNum := 0
-//    err := client.ListGroupsPages(params,
-//        func(page *ListGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListGroupsPages(input *ListGroupsInput, fn func(*ListGroupsOutput, bool) bool) error {
-	return c.ListGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListGroupsRequest) Paginate(opts ...aws.Option) ListGroupsPager {
+	return ListGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListGroupsPagesWithContext same as ListGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListGroupsPagesWithContext(ctx aws.Context, input *ListGroupsInput, fn func(*ListGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListGroupsPager struct {
+	aws.Pager
+}
+
+func (p *ListGroupsPager) CurrentPage() *ListGroupsOutput {
+	return p.Pager.CurrentPage().(*ListGroupsOutput)
 }
 
 const opListGroupsForUser = "ListGroupsForUser"
@@ -4803,6 +5098,7 @@ const opListGroupsForUser = "ListGroupsForUser"
 type ListGroupsForUserRequest struct {
 	*aws.Request
 	Input *ListGroupsForUserInput
+	Copy  func(*ListGroupsForUserInput) ListGroupsForUserRequest
 }
 
 // Send marshals and sends the ListGroupsForUser API request.
@@ -4847,58 +5143,57 @@ func (c *IAM) ListGroupsForUserRequest(input *ListGroupsForUserInput) ListGroups
 		input = &ListGroupsForUserInput{}
 	}
 
-	req := c.newRequest(op, input, &ListGroupsForUserOutput{})
-	return ListGroupsForUserRequest{Request: req, Input: input}
+	output := &ListGroupsForUserOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListGroupsForUserRequest{Request: req, Input: input, Copy: c.ListGroupsForUserRequest}
 }
 
-// ListGroupsForUserPages iterates over the pages of a ListGroupsForUser operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListGroupsForUser method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListGroupsForUserRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListGroupsForUser operation.
-//    pageNum := 0
-//    err := client.ListGroupsForUserPages(params,
-//        func(page *ListGroupsForUserOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListGroupsForUserRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListGroupsForUserPages(input *ListGroupsForUserInput, fn func(*ListGroupsForUserOutput, bool) bool) error {
-	return c.ListGroupsForUserPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListGroupsForUserRequest) Paginate(opts ...aws.Option) ListGroupsForUserPager {
+	return ListGroupsForUserPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListGroupsForUserInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListGroupsForUserPagesWithContext same as ListGroupsForUserPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListGroupsForUserPagesWithContext(ctx aws.Context, input *ListGroupsForUserInput, fn func(*ListGroupsForUserOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListGroupsForUserInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListGroupsForUserRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListGroupsForUserOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListGroupsForUserPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListGroupsForUserPager struct {
+	aws.Pager
+}
+
+func (p *ListGroupsForUserPager) CurrentPage() *ListGroupsForUserOutput {
+	return p.Pager.CurrentPage().(*ListGroupsForUserOutput)
 }
 
 const opListInstanceProfiles = "ListInstanceProfiles"
@@ -4907,6 +5202,7 @@ const opListInstanceProfiles = "ListInstanceProfiles"
 type ListInstanceProfilesRequest struct {
 	*aws.Request
 	Input *ListInstanceProfilesInput
+	Copy  func(*ListInstanceProfilesInput) ListInstanceProfilesRequest
 }
 
 // Send marshals and sends the ListInstanceProfiles API request.
@@ -4923,8 +5219,8 @@ func (r ListInstanceProfilesRequest) Send() (*ListInstanceProfilesOutput, error)
 // AWS Identity and Access Management.
 //
 // Lists the instance profiles that have the specified path prefix. If there
-// are none, the action returns an empty list. For more information about instance
-// profiles, go to About Instance Profiles (http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html).
+// are none, the operation returns an empty list. For more information about
+// instance profiles, go to About Instance Profiles (http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html).
 //
 // You can paginate the results using the MaxItems and Marker parameters.
 //
@@ -4953,58 +5249,57 @@ func (c *IAM) ListInstanceProfilesRequest(input *ListInstanceProfilesInput) List
 		input = &ListInstanceProfilesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListInstanceProfilesOutput{})
-	return ListInstanceProfilesRequest{Request: req, Input: input}
+	output := &ListInstanceProfilesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInstanceProfilesRequest{Request: req, Input: input, Copy: c.ListInstanceProfilesRequest}
 }
 
-// ListInstanceProfilesPages iterates over the pages of a ListInstanceProfiles operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListInstanceProfiles method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListInstanceProfilesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListInstanceProfiles operation.
-//    pageNum := 0
-//    err := client.ListInstanceProfilesPages(params,
-//        func(page *ListInstanceProfilesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListInstanceProfilesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListInstanceProfilesPages(input *ListInstanceProfilesInput, fn func(*ListInstanceProfilesOutput, bool) bool) error {
-	return c.ListInstanceProfilesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListInstanceProfilesRequest) Paginate(opts ...aws.Option) ListInstanceProfilesPager {
+	return ListInstanceProfilesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListInstanceProfilesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListInstanceProfilesPagesWithContext same as ListInstanceProfilesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListInstanceProfilesPagesWithContext(ctx aws.Context, input *ListInstanceProfilesInput, fn func(*ListInstanceProfilesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListInstanceProfilesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListInstanceProfilesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListInstanceProfilesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListInstanceProfilesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListInstanceProfilesPager struct {
+	aws.Pager
+}
+
+func (p *ListInstanceProfilesPager) CurrentPage() *ListInstanceProfilesOutput {
+	return p.Pager.CurrentPage().(*ListInstanceProfilesOutput)
 }
 
 const opListInstanceProfilesForRole = "ListInstanceProfilesForRole"
@@ -5013,6 +5308,7 @@ const opListInstanceProfilesForRole = "ListInstanceProfilesForRole"
 type ListInstanceProfilesForRoleRequest struct {
 	*aws.Request
 	Input *ListInstanceProfilesForRoleInput
+	Copy  func(*ListInstanceProfilesForRoleInput) ListInstanceProfilesForRoleRequest
 }
 
 // Send marshals and sends the ListInstanceProfilesForRole API request.
@@ -5029,7 +5325,7 @@ func (r ListInstanceProfilesForRoleRequest) Send() (*ListInstanceProfilesForRole
 // AWS Identity and Access Management.
 //
 // Lists the instance profiles that have the specified associated IAM role.
-// If there are none, the action returns an empty list. For more information
+// If there are none, the operation returns an empty list. For more information
 // about instance profiles, go to About Instance Profiles (http://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html).
 //
 // You can paginate the results using the MaxItems and Marker parameters.
@@ -5059,58 +5355,57 @@ func (c *IAM) ListInstanceProfilesForRoleRequest(input *ListInstanceProfilesForR
 		input = &ListInstanceProfilesForRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &ListInstanceProfilesForRoleOutput{})
-	return ListInstanceProfilesForRoleRequest{Request: req, Input: input}
+	output := &ListInstanceProfilesForRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInstanceProfilesForRoleRequest{Request: req, Input: input, Copy: c.ListInstanceProfilesForRoleRequest}
 }
 
-// ListInstanceProfilesForRolePages iterates over the pages of a ListInstanceProfilesForRole operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListInstanceProfilesForRole method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListInstanceProfilesForRoleRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListInstanceProfilesForRole operation.
-//    pageNum := 0
-//    err := client.ListInstanceProfilesForRolePages(params,
-//        func(page *ListInstanceProfilesForRoleOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListInstanceProfilesForRoleRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListInstanceProfilesForRolePages(input *ListInstanceProfilesForRoleInput, fn func(*ListInstanceProfilesForRoleOutput, bool) bool) error {
-	return c.ListInstanceProfilesForRolePagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListInstanceProfilesForRoleRequest) Paginate(opts ...aws.Option) ListInstanceProfilesForRolePager {
+	return ListInstanceProfilesForRolePager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListInstanceProfilesForRoleInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListInstanceProfilesForRolePagesWithContext same as ListInstanceProfilesForRolePages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListInstanceProfilesForRolePagesWithContext(ctx aws.Context, input *ListInstanceProfilesForRoleInput, fn func(*ListInstanceProfilesForRoleOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListInstanceProfilesForRoleInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListInstanceProfilesForRoleRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListInstanceProfilesForRoleOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListInstanceProfilesForRolePager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListInstanceProfilesForRolePager struct {
+	aws.Pager
+}
+
+func (p *ListInstanceProfilesForRolePager) CurrentPage() *ListInstanceProfilesForRoleOutput {
+	return p.Pager.CurrentPage().(*ListInstanceProfilesForRoleOutput)
 }
 
 const opListMFADevices = "ListMFADevices"
@@ -5119,6 +5414,7 @@ const opListMFADevices = "ListMFADevices"
 type ListMFADevicesRequest struct {
 	*aws.Request
 	Input *ListMFADevicesInput
+	Copy  func(*ListMFADevicesInput) ListMFADevicesRequest
 }
 
 // Send marshals and sends the ListMFADevices API request.
@@ -5135,7 +5431,7 @@ func (r ListMFADevicesRequest) Send() (*ListMFADevicesOutput, error) {
 // AWS Identity and Access Management.
 //
 // Lists the MFA devices for an IAM user. If the request includes a IAM user
-// name, then this action lists all the MFA devices associated with the specified
+// name, then this operation lists all the MFA devices associated with the specified
 // user. If you do not specify a user name, IAM determines the user name implicitly
 // based on the AWS access key ID signing the request for this API.
 //
@@ -5166,58 +5462,57 @@ func (c *IAM) ListMFADevicesRequest(input *ListMFADevicesInput) ListMFADevicesRe
 		input = &ListMFADevicesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListMFADevicesOutput{})
-	return ListMFADevicesRequest{Request: req, Input: input}
+	output := &ListMFADevicesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListMFADevicesRequest{Request: req, Input: input, Copy: c.ListMFADevicesRequest}
 }
 
-// ListMFADevicesPages iterates over the pages of a ListMFADevices operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListMFADevices method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListMFADevicesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListMFADevices operation.
-//    pageNum := 0
-//    err := client.ListMFADevicesPages(params,
-//        func(page *ListMFADevicesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListMFADevicesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListMFADevicesPages(input *ListMFADevicesInput, fn func(*ListMFADevicesOutput, bool) bool) error {
-	return c.ListMFADevicesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListMFADevicesRequest) Paginate(opts ...aws.Option) ListMFADevicesPager {
+	return ListMFADevicesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListMFADevicesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListMFADevicesPagesWithContext same as ListMFADevicesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListMFADevicesPagesWithContext(ctx aws.Context, input *ListMFADevicesInput, fn func(*ListMFADevicesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListMFADevicesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListMFADevicesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListMFADevicesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListMFADevicesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListMFADevicesPager struct {
+	aws.Pager
+}
+
+func (p *ListMFADevicesPager) CurrentPage() *ListMFADevicesOutput {
+	return p.Pager.CurrentPage().(*ListMFADevicesOutput)
 }
 
 const opListOpenIDConnectProviders = "ListOpenIDConnectProviders"
@@ -5226,6 +5521,7 @@ const opListOpenIDConnectProviders = "ListOpenIDConnectProviders"
 type ListOpenIDConnectProvidersRequest struct {
 	*aws.Request
 	Input *ListOpenIDConnectProvidersInput
+	Copy  func(*ListOpenIDConnectProvidersInput) ListOpenIDConnectProvidersRequest
 }
 
 // Send marshals and sends the ListOpenIDConnectProviders API request.
@@ -5263,8 +5559,11 @@ func (c *IAM) ListOpenIDConnectProvidersRequest(input *ListOpenIDConnectProvider
 		input = &ListOpenIDConnectProvidersInput{}
 	}
 
-	req := c.newRequest(op, input, &ListOpenIDConnectProvidersOutput{})
-	return ListOpenIDConnectProvidersRequest{Request: req, Input: input}
+	output := &ListOpenIDConnectProvidersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListOpenIDConnectProvidersRequest{Request: req, Input: input, Copy: c.ListOpenIDConnectProvidersRequest}
 }
 
 const opListPolicies = "ListPolicies"
@@ -5273,6 +5572,7 @@ const opListPolicies = "ListPolicies"
 type ListPoliciesRequest struct {
 	*aws.Request
 	Input *ListPoliciesInput
+	Copy  func(*ListPoliciesInput) ListPoliciesRequest
 }
 
 // Send marshals and sends the ListPolicies API request.
@@ -5327,58 +5627,57 @@ func (c *IAM) ListPoliciesRequest(input *ListPoliciesInput) ListPoliciesRequest 
 		input = &ListPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPoliciesOutput{})
-	return ListPoliciesRequest{Request: req, Input: input}
+	output := &ListPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPoliciesRequest{Request: req, Input: input, Copy: c.ListPoliciesRequest}
 }
 
-// ListPoliciesPages iterates over the pages of a ListPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPolicies operation.
-//    pageNum := 0
-//    err := client.ListPoliciesPages(params,
-//        func(page *ListPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListPoliciesPages(input *ListPoliciesInput, fn func(*ListPoliciesOutput, bool) bool) error {
-	return c.ListPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPoliciesRequest) Paginate(opts ...aws.Option) ListPoliciesPager {
+	return ListPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPoliciesPagesWithContext same as ListPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListPoliciesPagesWithContext(ctx aws.Context, input *ListPoliciesInput, fn func(*ListPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListPoliciesPager) CurrentPage() *ListPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListPoliciesOutput)
 }
 
 const opListPolicyVersions = "ListPolicyVersions"
@@ -5387,6 +5686,7 @@ const opListPolicyVersions = "ListPolicyVersions"
 type ListPolicyVersionsRequest struct {
 	*aws.Request
 	Input *ListPolicyVersionsInput
+	Copy  func(*ListPolicyVersionsInput) ListPolicyVersionsRequest
 }
 
 // Send marshals and sends the ListPolicyVersions API request.
@@ -5434,58 +5734,57 @@ func (c *IAM) ListPolicyVersionsRequest(input *ListPolicyVersionsInput) ListPoli
 		input = &ListPolicyVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPolicyVersionsOutput{})
-	return ListPolicyVersionsRequest{Request: req, Input: input}
+	output := &ListPolicyVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPolicyVersionsRequest{Request: req, Input: input, Copy: c.ListPolicyVersionsRequest}
 }
 
-// ListPolicyVersionsPages iterates over the pages of a ListPolicyVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListPolicyVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPolicyVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListPolicyVersions operation.
-//    pageNum := 0
-//    err := client.ListPolicyVersionsPages(params,
-//        func(page *ListPolicyVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPolicyVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListPolicyVersionsPages(input *ListPolicyVersionsInput, fn func(*ListPolicyVersionsOutput, bool) bool) error {
-	return c.ListPolicyVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPolicyVersionsRequest) Paginate(opts ...aws.Option) ListPolicyVersionsPager {
+	return ListPolicyVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPolicyVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPolicyVersionsPagesWithContext same as ListPolicyVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListPolicyVersionsPagesWithContext(ctx aws.Context, input *ListPolicyVersionsInput, fn func(*ListPolicyVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPolicyVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPolicyVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPolicyVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPolicyVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPolicyVersionsPager struct {
+	aws.Pager
+}
+
+func (p *ListPolicyVersionsPager) CurrentPage() *ListPolicyVersionsOutput {
+	return p.Pager.CurrentPage().(*ListPolicyVersionsOutput)
 }
 
 const opListRolePolicies = "ListRolePolicies"
@@ -5494,6 +5793,7 @@ const opListRolePolicies = "ListRolePolicies"
 type ListRolePoliciesRequest struct {
 	*aws.Request
 	Input *ListRolePoliciesInput
+	Copy  func(*ListRolePoliciesInput) ListRolePoliciesRequest
 }
 
 // Send marshals and sends the ListRolePolicies API request.
@@ -5518,7 +5818,7 @@ func (r ListRolePoliciesRequest) Send() (*ListRolePoliciesOutput, error) {
 // in the IAM User Guide.
 //
 // You can paginate the results using the MaxItems and Marker parameters. If
-// there are no inline policies embedded with the specified role, the action
+// there are no inline policies embedded with the specified role, the operation
 // returns an empty list.
 //
 //    // Example sending a request using the ListRolePoliciesRequest method.
@@ -5546,58 +5846,57 @@ func (c *IAM) ListRolePoliciesRequest(input *ListRolePoliciesInput) ListRolePoli
 		input = &ListRolePoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListRolePoliciesOutput{})
-	return ListRolePoliciesRequest{Request: req, Input: input}
+	output := &ListRolePoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListRolePoliciesRequest{Request: req, Input: input, Copy: c.ListRolePoliciesRequest}
 }
 
-// ListRolePoliciesPages iterates over the pages of a ListRolePolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListRolePolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListRolePoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListRolePolicies operation.
-//    pageNum := 0
-//    err := client.ListRolePoliciesPages(params,
-//        func(page *ListRolePoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListRolePoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListRolePoliciesPages(input *ListRolePoliciesInput, fn func(*ListRolePoliciesOutput, bool) bool) error {
-	return c.ListRolePoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListRolePoliciesRequest) Paginate(opts ...aws.Option) ListRolePoliciesPager {
+	return ListRolePoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListRolePoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListRolePoliciesPagesWithContext same as ListRolePoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListRolePoliciesPagesWithContext(ctx aws.Context, input *ListRolePoliciesInput, fn func(*ListRolePoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListRolePoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListRolePoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListRolePoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListRolePoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListRolePoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListRolePoliciesPager) CurrentPage() *ListRolePoliciesOutput {
+	return p.Pager.CurrentPage().(*ListRolePoliciesOutput)
 }
 
 const opListRoles = "ListRoles"
@@ -5606,6 +5905,7 @@ const opListRoles = "ListRoles"
 type ListRolesRequest struct {
 	*aws.Request
 	Input *ListRolesInput
+	Copy  func(*ListRolesInput) ListRolesRequest
 }
 
 // Send marshals and sends the ListRoles API request.
@@ -5622,8 +5922,8 @@ func (r ListRolesRequest) Send() (*ListRolesOutput, error) {
 // AWS Identity and Access Management.
 //
 // Lists the IAM roles that have the specified path prefix. If there are none,
-// the action returns an empty list. For more information about roles, go to
-// Working with Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
+// the operation returns an empty list. For more information about roles, go
+// to Working with Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
 //
 // You can paginate the results using the MaxItems and Marker parameters.
 //
@@ -5652,58 +5952,57 @@ func (c *IAM) ListRolesRequest(input *ListRolesInput) ListRolesRequest {
 		input = &ListRolesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListRolesOutput{})
-	return ListRolesRequest{Request: req, Input: input}
+	output := &ListRolesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListRolesRequest{Request: req, Input: input, Copy: c.ListRolesRequest}
 }
 
-// ListRolesPages iterates over the pages of a ListRoles operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListRoles method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListRolesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListRoles operation.
-//    pageNum := 0
-//    err := client.ListRolesPages(params,
-//        func(page *ListRolesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListRolesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListRolesPages(input *ListRolesInput, fn func(*ListRolesOutput, bool) bool) error {
-	return c.ListRolesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListRolesRequest) Paginate(opts ...aws.Option) ListRolesPager {
+	return ListRolesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListRolesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListRolesPagesWithContext same as ListRolesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListRolesPagesWithContext(ctx aws.Context, input *ListRolesInput, fn func(*ListRolesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListRolesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListRolesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListRolesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListRolesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListRolesPager struct {
+	aws.Pager
+}
+
+func (p *ListRolesPager) CurrentPage() *ListRolesOutput {
+	return p.Pager.CurrentPage().(*ListRolesOutput)
 }
 
 const opListSAMLProviders = "ListSAMLProviders"
@@ -5712,6 +6011,7 @@ const opListSAMLProviders = "ListSAMLProviders"
 type ListSAMLProvidersRequest struct {
 	*aws.Request
 	Input *ListSAMLProvidersInput
+	Copy  func(*ListSAMLProvidersInput) ListSAMLProvidersRequest
 }
 
 // Send marshals and sends the ListSAMLProviders API request.
@@ -5750,8 +6050,11 @@ func (c *IAM) ListSAMLProvidersRequest(input *ListSAMLProvidersInput) ListSAMLPr
 		input = &ListSAMLProvidersInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSAMLProvidersOutput{})
-	return ListSAMLProvidersRequest{Request: req, Input: input}
+	output := &ListSAMLProvidersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSAMLProvidersRequest{Request: req, Input: input, Copy: c.ListSAMLProvidersRequest}
 }
 
 const opListSSHPublicKeys = "ListSSHPublicKeys"
@@ -5760,6 +6063,7 @@ const opListSSHPublicKeys = "ListSSHPublicKeys"
 type ListSSHPublicKeysRequest struct {
 	*aws.Request
 	Input *ListSSHPublicKeysInput
+	Copy  func(*ListSSHPublicKeysInput) ListSSHPublicKeysRequest
 }
 
 // Send marshals and sends the ListSSHPublicKeys API request.
@@ -5776,9 +6080,9 @@ func (r ListSSHPublicKeysRequest) Send() (*ListSSHPublicKeysOutput, error) {
 // AWS Identity and Access Management.
 //
 // Returns information about the SSH public keys associated with the specified
-// IAM user. If there are none, the action returns an empty list.
+// IAM user. If there are none, the operation returns an empty list.
 //
-// The SSH public keys returned by this action are used only for authenticating
+// The SSH public keys returned by this operation are used only for authenticating
 // the IAM user to an AWS CodeCommit repository. For more information about
 // using SSH keys to authenticate to an AWS CodeCommit repository, see Set up
 // AWS CodeCommit for SSH Connections (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html)
@@ -5812,58 +6116,57 @@ func (c *IAM) ListSSHPublicKeysRequest(input *ListSSHPublicKeysInput) ListSSHPub
 		input = &ListSSHPublicKeysInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSSHPublicKeysOutput{})
-	return ListSSHPublicKeysRequest{Request: req, Input: input}
+	output := &ListSSHPublicKeysOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSSHPublicKeysRequest{Request: req, Input: input, Copy: c.ListSSHPublicKeysRequest}
 }
 
-// ListSSHPublicKeysPages iterates over the pages of a ListSSHPublicKeys operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSSHPublicKeys method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListSSHPublicKeysRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSSHPublicKeys operation.
-//    pageNum := 0
-//    err := client.ListSSHPublicKeysPages(params,
-//        func(page *ListSSHPublicKeysOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListSSHPublicKeysRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListSSHPublicKeysPages(input *ListSSHPublicKeysInput, fn func(*ListSSHPublicKeysOutput, bool) bool) error {
-	return c.ListSSHPublicKeysPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListSSHPublicKeysRequest) Paginate(opts ...aws.Option) ListSSHPublicKeysPager {
+	return ListSSHPublicKeysPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListSSHPublicKeysInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListSSHPublicKeysPagesWithContext same as ListSSHPublicKeysPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListSSHPublicKeysPagesWithContext(ctx aws.Context, input *ListSSHPublicKeysInput, fn func(*ListSSHPublicKeysOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListSSHPublicKeysInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListSSHPublicKeysRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListSSHPublicKeysOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListSSHPublicKeysPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListSSHPublicKeysPager struct {
+	aws.Pager
+}
+
+func (p *ListSSHPublicKeysPager) CurrentPage() *ListSSHPublicKeysOutput {
+	return p.Pager.CurrentPage().(*ListSSHPublicKeysOutput)
 }
 
 const opListServerCertificates = "ListServerCertificates"
@@ -5872,6 +6175,7 @@ const opListServerCertificates = "ListServerCertificates"
 type ListServerCertificatesRequest struct {
 	*aws.Request
 	Input *ListServerCertificatesInput
+	Copy  func(*ListServerCertificatesInput) ListServerCertificatesRequest
 }
 
 // Send marshals and sends the ListServerCertificates API request.
@@ -5888,14 +6192,14 @@ func (r ListServerCertificatesRequest) Send() (*ListServerCertificatesOutput, er
 // AWS Identity and Access Management.
 //
 // Lists the server certificates stored in IAM that have the specified path
-// prefix. If none exist, the action returns an empty list.
+// prefix. If none exist, the operation returns an empty list.
 //
 // You can paginate the results using the MaxItems and Marker parameters.
 //
-// For more information about working with server certificates, including a
-// list of AWS services that can use the server certificates that you manage
-// with IAM, go to Working with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-// in the IAM User Guide.
+// For more information about working with server certificates, see Working
+// with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+// in the IAM User Guide. This topic also includes a list of AWS services that
+// can use the server certificates that you manage with IAM.
 //
 //    // Example sending a request using the ListServerCertificatesRequest method.
 //    req := client.ListServerCertificatesRequest(params)
@@ -5922,58 +6226,57 @@ func (c *IAM) ListServerCertificatesRequest(input *ListServerCertificatesInput) 
 		input = &ListServerCertificatesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListServerCertificatesOutput{})
-	return ListServerCertificatesRequest{Request: req, Input: input}
+	output := &ListServerCertificatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListServerCertificatesRequest{Request: req, Input: input, Copy: c.ListServerCertificatesRequest}
 }
 
-// ListServerCertificatesPages iterates over the pages of a ListServerCertificates operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListServerCertificates method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListServerCertificatesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListServerCertificates operation.
-//    pageNum := 0
-//    err := client.ListServerCertificatesPages(params,
-//        func(page *ListServerCertificatesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListServerCertificatesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListServerCertificatesPages(input *ListServerCertificatesInput, fn func(*ListServerCertificatesOutput, bool) bool) error {
-	return c.ListServerCertificatesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListServerCertificatesRequest) Paginate(opts ...aws.Option) ListServerCertificatesPager {
+	return ListServerCertificatesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListServerCertificatesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListServerCertificatesPagesWithContext same as ListServerCertificatesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListServerCertificatesPagesWithContext(ctx aws.Context, input *ListServerCertificatesInput, fn func(*ListServerCertificatesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListServerCertificatesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListServerCertificatesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListServerCertificatesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListServerCertificatesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListServerCertificatesPager struct {
+	aws.Pager
+}
+
+func (p *ListServerCertificatesPager) CurrentPage() *ListServerCertificatesOutput {
+	return p.Pager.CurrentPage().(*ListServerCertificatesOutput)
 }
 
 const opListServiceSpecificCredentials = "ListServiceSpecificCredentials"
@@ -5982,6 +6285,7 @@ const opListServiceSpecificCredentials = "ListServiceSpecificCredentials"
 type ListServiceSpecificCredentialsRequest struct {
 	*aws.Request
 	Input *ListServiceSpecificCredentialsInput
+	Copy  func(*ListServiceSpecificCredentialsInput) ListServiceSpecificCredentialsRequest
 }
 
 // Send marshals and sends the ListServiceSpecificCredentials API request.
@@ -5998,11 +6302,11 @@ func (r ListServiceSpecificCredentialsRequest) Send() (*ListServiceSpecificCrede
 // AWS Identity and Access Management.
 //
 // Returns information about the service-specific credentials associated with
-// the specified IAM user. If there are none, the action returns an empty list.
-// The service-specific credentials returned by this action are used only for
-// authenticating the IAM user to a specific service. For more information about
-// using service-specific credentials to authenticate to an AWS service, see
-// Set Up service-specific credentials (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html)
+// the specified IAM user. If there are none, the operation returns an empty
+// list. The service-specific credentials returned by this operation are used
+// only for authenticating the IAM user to a specific service. For more information
+// about using service-specific credentials to authenticate to an AWS service,
+// see Set Up service-specific credentials (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html)
 // in the AWS CodeCommit User Guide.
 //
 //    // Example sending a request using the ListServiceSpecificCredentialsRequest method.
@@ -6024,8 +6328,11 @@ func (c *IAM) ListServiceSpecificCredentialsRequest(input *ListServiceSpecificCr
 		input = &ListServiceSpecificCredentialsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListServiceSpecificCredentialsOutput{})
-	return ListServiceSpecificCredentialsRequest{Request: req, Input: input}
+	output := &ListServiceSpecificCredentialsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListServiceSpecificCredentialsRequest{Request: req, Input: input, Copy: c.ListServiceSpecificCredentialsRequest}
 }
 
 const opListSigningCertificates = "ListSigningCertificates"
@@ -6034,6 +6341,7 @@ const opListSigningCertificates = "ListSigningCertificates"
 type ListSigningCertificatesRequest struct {
 	*aws.Request
 	Input *ListSigningCertificatesInput
+	Copy  func(*ListSigningCertificatesInput) ListSigningCertificatesRequest
 }
 
 // Send marshals and sends the ListSigningCertificates API request.
@@ -6050,16 +6358,16 @@ func (r ListSigningCertificatesRequest) Send() (*ListSigningCertificatesOutput, 
 // AWS Identity and Access Management.
 //
 // Returns information about the signing certificates associated with the specified
-// IAM user. If there are none, the action returns an empty list.
+// IAM user. If there are none, the operation returns an empty list.
 //
 // Although each user is limited to a small number of signing certificates,
 // you can still paginate the results using the MaxItems and Marker parameters.
 //
 // If the UserName field is not specified, the user name is determined implicitly
 // based on the AWS access key ID used to sign the request for this API. Because
-// this action works for access keys under the AWS account, you can use this
-// action to manage root credentials even if the AWS account has no associated
-// users.
+// this operation works for access keys under the AWS account, you can use this
+// operation to manage AWS account root user credentials even if the AWS account
+// has no associated users.
 //
 //    // Example sending a request using the ListSigningCertificatesRequest method.
 //    req := client.ListSigningCertificatesRequest(params)
@@ -6086,58 +6394,57 @@ func (c *IAM) ListSigningCertificatesRequest(input *ListSigningCertificatesInput
 		input = &ListSigningCertificatesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSigningCertificatesOutput{})
-	return ListSigningCertificatesRequest{Request: req, Input: input}
+	output := &ListSigningCertificatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSigningCertificatesRequest{Request: req, Input: input, Copy: c.ListSigningCertificatesRequest}
 }
 
-// ListSigningCertificatesPages iterates over the pages of a ListSigningCertificates operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSigningCertificates method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListSigningCertificatesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSigningCertificates operation.
-//    pageNum := 0
-//    err := client.ListSigningCertificatesPages(params,
-//        func(page *ListSigningCertificatesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListSigningCertificatesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListSigningCertificatesPages(input *ListSigningCertificatesInput, fn func(*ListSigningCertificatesOutput, bool) bool) error {
-	return c.ListSigningCertificatesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListSigningCertificatesRequest) Paginate(opts ...aws.Option) ListSigningCertificatesPager {
+	return ListSigningCertificatesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListSigningCertificatesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListSigningCertificatesPagesWithContext same as ListSigningCertificatesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListSigningCertificatesPagesWithContext(ctx aws.Context, input *ListSigningCertificatesInput, fn func(*ListSigningCertificatesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListSigningCertificatesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListSigningCertificatesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListSigningCertificatesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListSigningCertificatesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListSigningCertificatesPager struct {
+	aws.Pager
+}
+
+func (p *ListSigningCertificatesPager) CurrentPage() *ListSigningCertificatesOutput {
+	return p.Pager.CurrentPage().(*ListSigningCertificatesOutput)
 }
 
 const opListUserPolicies = "ListUserPolicies"
@@ -6146,6 +6453,7 @@ const opListUserPolicies = "ListUserPolicies"
 type ListUserPoliciesRequest struct {
 	*aws.Request
 	Input *ListUserPoliciesInput
+	Copy  func(*ListUserPoliciesInput) ListUserPoliciesRequest
 }
 
 // Send marshals and sends the ListUserPolicies API request.
@@ -6169,7 +6477,7 @@ func (r ListUserPoliciesRequest) Send() (*ListUserPoliciesOutput, error) {
 // in the IAM User Guide.
 //
 // You can paginate the results using the MaxItems and Marker parameters. If
-// there are no inline policies embedded with the specified user, the action
+// there are no inline policies embedded with the specified user, the operation
 // returns an empty list.
 //
 //    // Example sending a request using the ListUserPoliciesRequest method.
@@ -6197,58 +6505,57 @@ func (c *IAM) ListUserPoliciesRequest(input *ListUserPoliciesInput) ListUserPoli
 		input = &ListUserPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListUserPoliciesOutput{})
-	return ListUserPoliciesRequest{Request: req, Input: input}
+	output := &ListUserPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListUserPoliciesRequest{Request: req, Input: input, Copy: c.ListUserPoliciesRequest}
 }
 
-// ListUserPoliciesPages iterates over the pages of a ListUserPolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListUserPolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListUserPoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListUserPolicies operation.
-//    pageNum := 0
-//    err := client.ListUserPoliciesPages(params,
-//        func(page *ListUserPoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListUserPoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListUserPoliciesPages(input *ListUserPoliciesInput, fn func(*ListUserPoliciesOutput, bool) bool) error {
-	return c.ListUserPoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListUserPoliciesRequest) Paginate(opts ...aws.Option) ListUserPoliciesPager {
+	return ListUserPoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListUserPoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListUserPoliciesPagesWithContext same as ListUserPoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListUserPoliciesPagesWithContext(ctx aws.Context, input *ListUserPoliciesInput, fn func(*ListUserPoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListUserPoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListUserPoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListUserPoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListUserPoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListUserPoliciesPager struct {
+	aws.Pager
+}
+
+func (p *ListUserPoliciesPager) CurrentPage() *ListUserPoliciesOutput {
+	return p.Pager.CurrentPage().(*ListUserPoliciesOutput)
 }
 
 const opListUsers = "ListUsers"
@@ -6257,6 +6564,7 @@ const opListUsers = "ListUsers"
 type ListUsersRequest struct {
 	*aws.Request
 	Input *ListUsersInput
+	Copy  func(*ListUsersInput) ListUsersRequest
 }
 
 // Send marshals and sends the ListUsers API request.
@@ -6273,8 +6581,8 @@ func (r ListUsersRequest) Send() (*ListUsersOutput, error) {
 // AWS Identity and Access Management.
 //
 // Lists the IAM users that have the specified path prefix. If no path prefix
-// is specified, the action returns all users in the AWS account. If there are
-// none, the action returns an empty list.
+// is specified, the operation returns all users in the AWS account. If there
+// are none, the operation returns an empty list.
 //
 // You can paginate the results using the MaxItems and Marker parameters.
 //
@@ -6303,58 +6611,57 @@ func (c *IAM) ListUsersRequest(input *ListUsersInput) ListUsersRequest {
 		input = &ListUsersInput{}
 	}
 
-	req := c.newRequest(op, input, &ListUsersOutput{})
-	return ListUsersRequest{Request: req, Input: input}
+	output := &ListUsersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListUsersRequest{Request: req, Input: input, Copy: c.ListUsersRequest}
 }
 
-// ListUsersPages iterates over the pages of a ListUsers operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListUsers method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListUsersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListUsers operation.
-//    pageNum := 0
-//    err := client.ListUsersPages(params,
-//        func(page *ListUsersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListUsersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListUsersPages(input *ListUsersInput, fn func(*ListUsersOutput, bool) bool) error {
-	return c.ListUsersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListUsersRequest) Paginate(opts ...aws.Option) ListUsersPager {
+	return ListUsersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListUsersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListUsersPagesWithContext same as ListUsersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListUsersPagesWithContext(ctx aws.Context, input *ListUsersInput, fn func(*ListUsersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListUsersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListUsersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListUsersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListUsersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListUsersPager struct {
+	aws.Pager
+}
+
+func (p *ListUsersPager) CurrentPage() *ListUsersOutput {
+	return p.Pager.CurrentPage().(*ListUsersOutput)
 }
 
 const opListVirtualMFADevices = "ListVirtualMFADevices"
@@ -6363,6 +6670,7 @@ const opListVirtualMFADevices = "ListVirtualMFADevices"
 type ListVirtualMFADevicesRequest struct {
 	*aws.Request
 	Input *ListVirtualMFADevicesInput
+	Copy  func(*ListVirtualMFADevicesInput) ListVirtualMFADevicesRequest
 }
 
 // Send marshals and sends the ListVirtualMFADevices API request.
@@ -6379,9 +6687,9 @@ func (r ListVirtualMFADevicesRequest) Send() (*ListVirtualMFADevicesOutput, erro
 // AWS Identity and Access Management.
 //
 // Lists the virtual MFA devices defined in the AWS account by assignment status.
-// If you do not specify an assignment status, the action returns a list of
-// all virtual MFA devices. Assignment status can be Assigned, Unassigned, or
-// Any.
+// If you do not specify an assignment status, the operation returns a list
+// of all virtual MFA devices. Assignment status can be Assigned, Unassigned,
+// or Any.
 //
 // You can paginate the results using the MaxItems and Marker parameters.
 //
@@ -6410,58 +6718,57 @@ func (c *IAM) ListVirtualMFADevicesRequest(input *ListVirtualMFADevicesInput) Li
 		input = &ListVirtualMFADevicesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListVirtualMFADevicesOutput{})
-	return ListVirtualMFADevicesRequest{Request: req, Input: input}
+	output := &ListVirtualMFADevicesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListVirtualMFADevicesRequest{Request: req, Input: input, Copy: c.ListVirtualMFADevicesRequest}
 }
 
-// ListVirtualMFADevicesPages iterates over the pages of a ListVirtualMFADevices operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListVirtualMFADevices method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListVirtualMFADevicesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListVirtualMFADevices operation.
-//    pageNum := 0
-//    err := client.ListVirtualMFADevicesPages(params,
-//        func(page *ListVirtualMFADevicesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListVirtualMFADevicesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) ListVirtualMFADevicesPages(input *ListVirtualMFADevicesInput, fn func(*ListVirtualMFADevicesOutput, bool) bool) error {
-	return c.ListVirtualMFADevicesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListVirtualMFADevicesRequest) Paginate(opts ...aws.Option) ListVirtualMFADevicesPager {
+	return ListVirtualMFADevicesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListVirtualMFADevicesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListVirtualMFADevicesPagesWithContext same as ListVirtualMFADevicesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) ListVirtualMFADevicesPagesWithContext(ctx aws.Context, input *ListVirtualMFADevicesInput, fn func(*ListVirtualMFADevicesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListVirtualMFADevicesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListVirtualMFADevicesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListVirtualMFADevicesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListVirtualMFADevicesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListVirtualMFADevicesPager struct {
+	aws.Pager
+}
+
+func (p *ListVirtualMFADevicesPager) CurrentPage() *ListVirtualMFADevicesOutput {
+	return p.Pager.CurrentPage().(*ListVirtualMFADevicesOutput)
 }
 
 const opPutGroupPolicy = "PutGroupPolicy"
@@ -6470,6 +6777,7 @@ const opPutGroupPolicy = "PutGroupPolicy"
 type PutGroupPolicyRequest struct {
 	*aws.Request
 	Input *PutGroupPolicyInput
+	Copy  func(*PutGroupPolicyInput) PutGroupPolicyRequest
 }
 
 // Send marshals and sends the PutGroupPolicy API request.
@@ -6522,10 +6830,13 @@ func (c *IAM) PutGroupPolicyRequest(input *PutGroupPolicyInput) PutGroupPolicyRe
 		input = &PutGroupPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutGroupPolicyOutput{})
+	output := &PutGroupPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutGroupPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutGroupPolicyRequest{Request: req, Input: input, Copy: c.PutGroupPolicyRequest}
 }
 
 const opPutRolePolicy = "PutRolePolicy"
@@ -6534,6 +6845,7 @@ const opPutRolePolicy = "PutRolePolicy"
 type PutRolePolicyRequest struct {
 	*aws.Request
 	Input *PutRolePolicyInput
+	Copy  func(*PutRolePolicyInput) PutRolePolicyRequest
 }
 
 // Send marshals and sends the PutRolePolicy API request.
@@ -6592,10 +6904,13 @@ func (c *IAM) PutRolePolicyRequest(input *PutRolePolicyInput) PutRolePolicyReque
 		input = &PutRolePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutRolePolicyOutput{})
+	output := &PutRolePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutRolePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutRolePolicyRequest{Request: req, Input: input, Copy: c.PutRolePolicyRequest}
 }
 
 const opPutUserPolicy = "PutUserPolicy"
@@ -6604,6 +6919,7 @@ const opPutUserPolicy = "PutUserPolicy"
 type PutUserPolicyRequest struct {
 	*aws.Request
 	Input *PutUserPolicyInput
+	Copy  func(*PutUserPolicyInput) PutUserPolicyRequest
 }
 
 // Send marshals and sends the PutUserPolicy API request.
@@ -6656,10 +6972,13 @@ func (c *IAM) PutUserPolicyRequest(input *PutUserPolicyInput) PutUserPolicyReque
 		input = &PutUserPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutUserPolicyOutput{})
+	output := &PutUserPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutUserPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutUserPolicyRequest{Request: req, Input: input, Copy: c.PutUserPolicyRequest}
 }
 
 const opRemoveClientIDFromOpenIDConnectProvider = "RemoveClientIDFromOpenIDConnectProvider"
@@ -6668,6 +6987,7 @@ const opRemoveClientIDFromOpenIDConnectProvider = "RemoveClientIDFromOpenIDConne
 type RemoveClientIDFromOpenIDConnectProviderRequest struct {
 	*aws.Request
 	Input *RemoveClientIDFromOpenIDConnectProviderInput
+	Copy  func(*RemoveClientIDFromOpenIDConnectProviderInput) RemoveClientIDFromOpenIDConnectProviderRequest
 }
 
 // Send marshals and sends the RemoveClientIDFromOpenIDConnectProvider API request.
@@ -6687,8 +7007,8 @@ func (r RemoveClientIDFromOpenIDConnectProviderRequest) Send() (*RemoveClientIDF
 // client IDs registered for the specified IAM OpenID Connect (OIDC) provider
 // resource object.
 //
-// This action is idempotent; it does not fail or return an error if you try
-// to remove a client ID that does not exist.
+// This operation is idempotent; it does not fail or return an error if you
+// try to remove a client ID that does not exist.
 //
 //    // Example sending a request using the RemoveClientIDFromOpenIDConnectProviderRequest method.
 //    req := client.RemoveClientIDFromOpenIDConnectProviderRequest(params)
@@ -6709,10 +7029,13 @@ func (c *IAM) RemoveClientIDFromOpenIDConnectProviderRequest(input *RemoveClient
 		input = &RemoveClientIDFromOpenIDConnectProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveClientIDFromOpenIDConnectProviderOutput{})
+	output := &RemoveClientIDFromOpenIDConnectProviderOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveClientIDFromOpenIDConnectProviderRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveClientIDFromOpenIDConnectProviderRequest{Request: req, Input: input, Copy: c.RemoveClientIDFromOpenIDConnectProviderRequest}
 }
 
 const opRemoveRoleFromInstanceProfile = "RemoveRoleFromInstanceProfile"
@@ -6721,6 +7044,7 @@ const opRemoveRoleFromInstanceProfile = "RemoveRoleFromInstanceProfile"
 type RemoveRoleFromInstanceProfileRequest struct {
 	*aws.Request
 	Input *RemoveRoleFromInstanceProfileInput
+	Copy  func(*RemoveRoleFromInstanceProfileInput) RemoveRoleFromInstanceProfileRequest
 }
 
 // Send marshals and sends the RemoveRoleFromInstanceProfile API request.
@@ -6738,10 +7062,10 @@ func (r RemoveRoleFromInstanceProfileRequest) Send() (*RemoveRoleFromInstancePro
 //
 // Removes the specified IAM role from the specified EC2 instance profile.
 //
-// Make sure you do not have any Amazon EC2 instances running with the role
-// you are about to remove from the instance profile. Removing a role from an
-// instance profile that is associated with a running instance might break any
-// applications running on the instance.
+// Make sure that you do not have any Amazon EC2 instances running with the
+// role you are about to remove from the instance profile. Removing a role from
+// an instance profile that is associated with a running instance might break
+// any applications running on the instance.
 //
 // For more information about IAM roles, go to Working with Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html).
 // For more information about instance profiles, go to About Instance Profiles
@@ -6766,10 +7090,13 @@ func (c *IAM) RemoveRoleFromInstanceProfileRequest(input *RemoveRoleFromInstance
 		input = &RemoveRoleFromInstanceProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveRoleFromInstanceProfileOutput{})
+	output := &RemoveRoleFromInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveRoleFromInstanceProfileRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveRoleFromInstanceProfileRequest{Request: req, Input: input, Copy: c.RemoveRoleFromInstanceProfileRequest}
 }
 
 const opRemoveUserFromGroup = "RemoveUserFromGroup"
@@ -6778,6 +7105,7 @@ const opRemoveUserFromGroup = "RemoveUserFromGroup"
 type RemoveUserFromGroupRequest struct {
 	*aws.Request
 	Input *RemoveUserFromGroupInput
+	Copy  func(*RemoveUserFromGroupInput) RemoveUserFromGroupRequest
 }
 
 // Send marshals and sends the RemoveUserFromGroup API request.
@@ -6814,10 +7142,13 @@ func (c *IAM) RemoveUserFromGroupRequest(input *RemoveUserFromGroupInput) Remove
 		input = &RemoveUserFromGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveUserFromGroupOutput{})
+	output := &RemoveUserFromGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveUserFromGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveUserFromGroupRequest{Request: req, Input: input, Copy: c.RemoveUserFromGroupRequest}
 }
 
 const opResetServiceSpecificCredential = "ResetServiceSpecificCredential"
@@ -6826,6 +7157,7 @@ const opResetServiceSpecificCredential = "ResetServiceSpecificCredential"
 type ResetServiceSpecificCredentialRequest struct {
 	*aws.Request
 	Input *ResetServiceSpecificCredentialInput
+	Copy  func(*ResetServiceSpecificCredentialInput) ResetServiceSpecificCredentialRequest
 }
 
 // Send marshals and sends the ResetServiceSpecificCredential API request.
@@ -6865,8 +7197,11 @@ func (c *IAM) ResetServiceSpecificCredentialRequest(input *ResetServiceSpecificC
 		input = &ResetServiceSpecificCredentialInput{}
 	}
 
-	req := c.newRequest(op, input, &ResetServiceSpecificCredentialOutput{})
-	return ResetServiceSpecificCredentialRequest{Request: req, Input: input}
+	output := &ResetServiceSpecificCredentialOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ResetServiceSpecificCredentialRequest{Request: req, Input: input, Copy: c.ResetServiceSpecificCredentialRequest}
 }
 
 const opResyncMFADevice = "ResyncMFADevice"
@@ -6875,6 +7210,7 @@ const opResyncMFADevice = "ResyncMFADevice"
 type ResyncMFADeviceRequest struct {
 	*aws.Request
 	Input *ResyncMFADeviceInput
+	Copy  func(*ResyncMFADeviceInput) ResyncMFADeviceRequest
 }
 
 // Send marshals and sends the ResyncMFADevice API request.
@@ -6916,10 +7252,13 @@ func (c *IAM) ResyncMFADeviceRequest(input *ResyncMFADeviceInput) ResyncMFADevic
 		input = &ResyncMFADeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &ResyncMFADeviceOutput{})
+	output := &ResyncMFADeviceOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return ResyncMFADeviceRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ResyncMFADeviceRequest{Request: req, Input: input, Copy: c.ResyncMFADeviceRequest}
 }
 
 const opSetDefaultPolicyVersion = "SetDefaultPolicyVersion"
@@ -6928,6 +7267,7 @@ const opSetDefaultPolicyVersion = "SetDefaultPolicyVersion"
 type SetDefaultPolicyVersionRequest struct {
 	*aws.Request
 	Input *SetDefaultPolicyVersionInput
+	Copy  func(*SetDefaultPolicyVersionInput) SetDefaultPolicyVersionRequest
 }
 
 // Send marshals and sends the SetDefaultPolicyVersion API request.
@@ -6946,7 +7286,7 @@ func (r SetDefaultPolicyVersionRequest) Send() (*SetDefaultPolicyVersionOutput, 
 // Sets the specified version of the specified policy as the policy's default
 // (operative) version.
 //
-// This action affects all users, groups, and roles that the policy is attached
+// This operation affects all users, groups, and roles that the policy is attached
 // to. To list the users, groups, and roles that the policy is attached to,
 // use the ListEntitiesForPolicy API.
 //
@@ -6973,10 +7313,13 @@ func (c *IAM) SetDefaultPolicyVersionRequest(input *SetDefaultPolicyVersionInput
 		input = &SetDefaultPolicyVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &SetDefaultPolicyVersionOutput{})
+	output := &SetDefaultPolicyVersionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetDefaultPolicyVersionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetDefaultPolicyVersionRequest{Request: req, Input: input, Copy: c.SetDefaultPolicyVersionRequest}
 }
 
 const opSimulateCustomPolicy = "SimulateCustomPolicy"
@@ -6985,6 +7328,7 @@ const opSimulateCustomPolicy = "SimulateCustomPolicy"
 type SimulateCustomPolicyRequest struct {
 	*aws.Request
 	Input *SimulateCustomPolicyInput
+	Copy  func(*SimulateCustomPolicyInput) SimulateCustomPolicyRequest
 }
 
 // Send marshals and sends the SimulateCustomPolicy API request.
@@ -7001,11 +7345,11 @@ func (r SimulateCustomPolicyRequest) Send() (*SimulatePrincipalPolicyOutput, err
 // AWS Identity and Access Management.
 //
 // Simulate how a set of IAM policies and optionally a resource-based policy
-// works with a list of API actions and AWS resources to determine the policies'
+// works with a list of API operations and AWS resources to determine the policies'
 // effective permissions. The policies are provided as strings.
 //
-// The simulation does not perform the API actions; it only checks the authorization
-// to determine if the simulated policies allow or deny the actions.
+// The simulation does not perform the API operations; it only checks the authorization
+// to determine if the simulated policies allow or deny the operations.
 //
 // If you want to simulate existing policies attached to an IAM user, group,
 // or role, use SimulatePrincipalPolicy instead.
@@ -7043,58 +7387,57 @@ func (c *IAM) SimulateCustomPolicyRequest(input *SimulateCustomPolicyInput) Simu
 		input = &SimulateCustomPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &SimulatePrincipalPolicyOutput{})
-	return SimulateCustomPolicyRequest{Request: req, Input: input}
+	output := &SimulatePrincipalPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SimulateCustomPolicyRequest{Request: req, Input: input, Copy: c.SimulateCustomPolicyRequest}
 }
 
-// SimulateCustomPolicyPages iterates over the pages of a SimulateCustomPolicy operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See SimulateCustomPolicy method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a SimulateCustomPolicyRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a SimulateCustomPolicy operation.
-//    pageNum := 0
-//    err := client.SimulateCustomPolicyPages(params,
-//        func(page *SimulatePrincipalPolicyOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.SimulateCustomPolicyRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) SimulateCustomPolicyPages(input *SimulateCustomPolicyInput, fn func(*SimulatePrincipalPolicyOutput, bool) bool) error {
-	return c.SimulateCustomPolicyPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *SimulateCustomPolicyRequest) Paginate(opts ...aws.Option) SimulateCustomPolicyPager {
+	return SimulateCustomPolicyPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *SimulateCustomPolicyInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// SimulateCustomPolicyPagesWithContext same as SimulateCustomPolicyPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) SimulateCustomPolicyPagesWithContext(ctx aws.Context, input *SimulateCustomPolicyInput, fn func(*SimulatePrincipalPolicyOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *SimulateCustomPolicyInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.SimulateCustomPolicyRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*SimulatePrincipalPolicyOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// SimulateCustomPolicyPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type SimulateCustomPolicyPager struct {
+	aws.Pager
+}
+
+func (p *SimulateCustomPolicyPager) CurrentPage() *SimulatePrincipalPolicyOutput {
+	return p.Pager.CurrentPage().(*SimulatePrincipalPolicyOutput)
 }
 
 const opSimulatePrincipalPolicy = "SimulatePrincipalPolicy"
@@ -7103,6 +7446,7 @@ const opSimulatePrincipalPolicy = "SimulatePrincipalPolicy"
 type SimulatePrincipalPolicyRequest struct {
 	*aws.Request
 	Input *SimulatePrincipalPolicyInput
+	Copy  func(*SimulatePrincipalPolicyInput) SimulatePrincipalPolicyRequest
 }
 
 // Send marshals and sends the SimulatePrincipalPolicy API request.
@@ -7119,10 +7463,10 @@ func (r SimulatePrincipalPolicyRequest) Send() (*SimulatePrincipalPolicyOutput, 
 // AWS Identity and Access Management.
 //
 // Simulate how a set of IAM policies attached to an IAM entity works with a
-// list of API actions and AWS resources to determine the policies' effective
+// list of API operations and AWS resources to determine the policies' effective
 // permissions. The entity can be an IAM user, group, or role. If you specify
 // a user, then the simulation also includes all of the policies that are attached
-// to groups that the user belongs to .
+// to groups that the user belongs to.
 //
 // You can optionally include a list of one or more additional policies specified
 // as strings to include in the simulation. If you want to simulate only policies
@@ -7131,8 +7475,8 @@ func (r SimulatePrincipalPolicyRequest) Send() (*SimulatePrincipalPolicyOutput, 
 // You can also optionally include one resource-based policy to be evaluated
 // with each of the resources included in the simulation.
 //
-// The simulation does not perform the API actions, it only checks the authorization
-// to determine if the simulated policies allow or deny the actions.
+// The simulation does not perform the API operations, it only checks the authorization
+// to determine if the simulated policies allow or deny the operations.
 //
 // Note: This API discloses information about the permissions granted to other
 // users. If you do not want users to see other user's permissions, then consider
@@ -7171,58 +7515,57 @@ func (c *IAM) SimulatePrincipalPolicyRequest(input *SimulatePrincipalPolicyInput
 		input = &SimulatePrincipalPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &SimulatePrincipalPolicyOutput{})
-	return SimulatePrincipalPolicyRequest{Request: req, Input: input}
+	output := &SimulatePrincipalPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SimulatePrincipalPolicyRequest{Request: req, Input: input, Copy: c.SimulatePrincipalPolicyRequest}
 }
 
-// SimulatePrincipalPolicyPages iterates over the pages of a SimulatePrincipalPolicy operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See SimulatePrincipalPolicy method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a SimulatePrincipalPolicyRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a SimulatePrincipalPolicy operation.
-//    pageNum := 0
-//    err := client.SimulatePrincipalPolicyPages(params,
-//        func(page *SimulatePrincipalPolicyOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.SimulatePrincipalPolicyRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *IAM) SimulatePrincipalPolicyPages(input *SimulatePrincipalPolicyInput, fn func(*SimulatePrincipalPolicyOutput, bool) bool) error {
-	return c.SimulatePrincipalPolicyPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *SimulatePrincipalPolicyRequest) Paginate(opts ...aws.Option) SimulatePrincipalPolicyPager {
+	return SimulatePrincipalPolicyPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *SimulatePrincipalPolicyInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// SimulatePrincipalPolicyPagesWithContext same as SimulatePrincipalPolicyPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *IAM) SimulatePrincipalPolicyPagesWithContext(ctx aws.Context, input *SimulatePrincipalPolicyInput, fn func(*SimulatePrincipalPolicyOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *SimulatePrincipalPolicyInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.SimulatePrincipalPolicyRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*SimulatePrincipalPolicyOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// SimulatePrincipalPolicyPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type SimulatePrincipalPolicyPager struct {
+	aws.Pager
+}
+
+func (p *SimulatePrincipalPolicyPager) CurrentPage() *SimulatePrincipalPolicyOutput {
+	return p.Pager.CurrentPage().(*SimulatePrincipalPolicyOutput)
 }
 
 const opUpdateAccessKey = "UpdateAccessKey"
@@ -7231,6 +7574,7 @@ const opUpdateAccessKey = "UpdateAccessKey"
 type UpdateAccessKeyRequest struct {
 	*aws.Request
 	Input *UpdateAccessKeyInput
+	Copy  func(*UpdateAccessKeyInput) UpdateAccessKeyRequest
 }
 
 // Send marshals and sends the UpdateAccessKey API request.
@@ -7247,13 +7591,14 @@ func (r UpdateAccessKeyRequest) Send() (*UpdateAccessKeyOutput, error) {
 // AWS Identity and Access Management.
 //
 // Changes the status of the specified access key from Active to Inactive, or
-// vice versa. This action can be used to disable a user's key as part of a
-// key rotation work flow.
+// vice versa. This operation can be used to disable a user's key as part of
+// a key rotation workflow.
 //
-// If the UserName field is not specified, the UserName is determined implicitly
-// based on the AWS access key ID used to sign the request. Because this action
-// works for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated users.
+// If the UserName field is not specified, the user name is determined implicitly
+// based on the AWS access key ID used to sign the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials even if the AWS account has no associated
+// users.
 //
 // For information about rotating keys, see Managing Keys and Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/ManagingCredentials.html)
 // in the IAM User Guide.
@@ -7277,10 +7622,13 @@ func (c *IAM) UpdateAccessKeyRequest(input *UpdateAccessKeyInput) UpdateAccessKe
 		input = &UpdateAccessKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAccessKeyOutput{})
+	output := &UpdateAccessKeyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateAccessKeyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAccessKeyRequest{Request: req, Input: input, Copy: c.UpdateAccessKeyRequest}
 }
 
 const opUpdateAccountPasswordPolicy = "UpdateAccountPasswordPolicy"
@@ -7289,6 +7637,7 @@ const opUpdateAccountPasswordPolicy = "UpdateAccountPasswordPolicy"
 type UpdateAccountPasswordPolicyRequest struct {
 	*aws.Request
 	Input *UpdateAccountPasswordPolicyInput
+	Copy  func(*UpdateAccountPasswordPolicyInput) UpdateAccountPasswordPolicyRequest
 }
 
 // Send marshals and sends the UpdateAccountPasswordPolicy API request.
@@ -7306,10 +7655,12 @@ func (r UpdateAccountPasswordPolicyRequest) Send() (*UpdateAccountPasswordPolicy
 //
 // Updates the password policy settings for the AWS account.
 //
-// This action does not support partial updates. No parameters are required,
+// This operation does not support partial updates. No parameters are required,
 // but if you do not specify a parameter, that parameter's value reverts to
 // its default value. See the Request Parameters section for each parameter's
-// default value.
+// default value. Also note that some parameters do not allow the default parameter
+// to be explicitly set. Instead, to invoke the default value, do not include
+// that parameter when you invoke the operation.
 //
 // For more information about using a password policy, see Managing an IAM Password
 // Policy (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingPasswordPolicies.html)
@@ -7334,10 +7685,13 @@ func (c *IAM) UpdateAccountPasswordPolicyRequest(input *UpdateAccountPasswordPol
 		input = &UpdateAccountPasswordPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAccountPasswordPolicyOutput{})
+	output := &UpdateAccountPasswordPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateAccountPasswordPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAccountPasswordPolicyRequest{Request: req, Input: input, Copy: c.UpdateAccountPasswordPolicyRequest}
 }
 
 const opUpdateAssumeRolePolicy = "UpdateAssumeRolePolicy"
@@ -7346,6 +7700,7 @@ const opUpdateAssumeRolePolicy = "UpdateAssumeRolePolicy"
 type UpdateAssumeRolePolicyRequest struct {
 	*aws.Request
 	Input *UpdateAssumeRolePolicyInput
+	Copy  func(*UpdateAssumeRolePolicyInput) UpdateAssumeRolePolicyRequest
 }
 
 // Send marshals and sends the UpdateAssumeRolePolicy API request.
@@ -7385,10 +7740,13 @@ func (c *IAM) UpdateAssumeRolePolicyRequest(input *UpdateAssumeRolePolicyInput) 
 		input = &UpdateAssumeRolePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAssumeRolePolicyOutput{})
+	output := &UpdateAssumeRolePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateAssumeRolePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAssumeRolePolicyRequest{Request: req, Input: input, Copy: c.UpdateAssumeRolePolicyRequest}
 }
 
 const opUpdateGroup = "UpdateGroup"
@@ -7397,6 +7755,7 @@ const opUpdateGroup = "UpdateGroup"
 type UpdateGroupRequest struct {
 	*aws.Request
 	Input *UpdateGroupInput
+	Copy  func(*UpdateGroupInput) UpdateGroupRequest
 }
 
 // Send marshals and sends the UpdateGroup API request.
@@ -7418,11 +7777,12 @@ func (r UpdateGroupRequest) Send() (*UpdateGroupOutput, error) {
 // For more information, see Renaming Users and Groups (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_WorkingWithGroupsAndUsers.html)
 // in the IAM User Guide.
 //
-// To change an IAM group name the requester must have appropriate permissions
-// on both the source object and the target object. For example, to change "Managers"
-// to "MGRs", the entity making the request must have permission on both "Managers"
-// and "MGRs", or must have permission on all (*). For more information about
-// permissions, see Permissions and Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/PermissionsAndPolicies.html).
+// The person making the request (the principal), must have permission to change
+// the role group with the old name and the new name. For example, to change
+// the group named Managers to MGRs, the principal must have a policy that allows
+// them to update both groups. If the principal has permission to update the
+// Managers group, but not the MGRs group, then the update fails. For more information
+// about permissions, see Access Management (http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html).
 //
 //    // Example sending a request using the UpdateGroupRequest method.
 //    req := client.UpdateGroupRequest(params)
@@ -7443,10 +7803,13 @@ func (c *IAM) UpdateGroupRequest(input *UpdateGroupInput) UpdateGroupRequest {
 		input = &UpdateGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateGroupOutput{})
+	output := &UpdateGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateGroupRequest{Request: req, Input: input, Copy: c.UpdateGroupRequest}
 }
 
 const opUpdateLoginProfile = "UpdateLoginProfile"
@@ -7455,6 +7818,7 @@ const opUpdateLoginProfile = "UpdateLoginProfile"
 type UpdateLoginProfileRequest struct {
 	*aws.Request
 	Input *UpdateLoginProfileInput
+	Copy  func(*UpdateLoginProfileInput) UpdateLoginProfileRequest
 }
 
 // Send marshals and sends the UpdateLoginProfile API request.
@@ -7495,10 +7859,13 @@ func (c *IAM) UpdateLoginProfileRequest(input *UpdateLoginProfileInput) UpdateLo
 		input = &UpdateLoginProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateLoginProfileOutput{})
+	output := &UpdateLoginProfileOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateLoginProfileRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateLoginProfileRequest{Request: req, Input: input, Copy: c.UpdateLoginProfileRequest}
 }
 
 const opUpdateOpenIDConnectProviderThumbprint = "UpdateOpenIDConnectProviderThumbprint"
@@ -7507,6 +7874,7 @@ const opUpdateOpenIDConnectProviderThumbprint = "UpdateOpenIDConnectProviderThum
 type UpdateOpenIDConnectProviderThumbprintRequest struct {
 	*aws.Request
 	Input *UpdateOpenIDConnectProviderThumbprintInput
+	Copy  func(*UpdateOpenIDConnectProviderThumbprintInput) UpdateOpenIDConnectProviderThumbprintRequest
 }
 
 // Send marshals and sends the UpdateOpenIDConnectProviderThumbprint API request.
@@ -7525,7 +7893,7 @@ func (r UpdateOpenIDConnectProviderThumbprintRequest) Send() (*UpdateOpenIDConne
 // Replaces the existing list of server certificate thumbprints associated with
 // an OpenID Connect (OIDC) provider resource object with a new list of thumbprints.
 //
-// The list that you pass with this action completely replaces the existing
+// The list that you pass with this operation completely replaces the existing
 // list of thumbprints. (The lists are not merged.)
 //
 // Typically, you need to update a thumbprint only when the identity provider's
@@ -7533,10 +7901,9 @@ func (r UpdateOpenIDConnectProviderThumbprintRequest) Send() (*UpdateOpenIDConne
 // does change, any attempt to assume an IAM role that specifies the OIDC provider
 // as a principal fails until the certificate thumbprint is updated.
 //
-// Because trust for the OIDC provider is ultimately derived from the provider's
-// certificate and is validated by the thumbprint, it is a best practice to
-// limit access to the UpdateOpenIDConnectProviderThumbprint action to highly-privileged
-// users.
+// Because trust for the OIDC provider is derived from the provider's certificate
+// and is validated by the thumbprint, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint
+// operation to highly privileged users.
 //
 //    // Example sending a request using the UpdateOpenIDConnectProviderThumbprintRequest method.
 //    req := client.UpdateOpenIDConnectProviderThumbprintRequest(params)
@@ -7557,10 +7924,63 @@ func (c *IAM) UpdateOpenIDConnectProviderThumbprintRequest(input *UpdateOpenIDCo
 		input = &UpdateOpenIDConnectProviderThumbprintInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateOpenIDConnectProviderThumbprintOutput{})
+	output := &UpdateOpenIDConnectProviderThumbprintOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateOpenIDConnectProviderThumbprintRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateOpenIDConnectProviderThumbprintRequest{Request: req, Input: input, Copy: c.UpdateOpenIDConnectProviderThumbprintRequest}
+}
+
+const opUpdateRole = "UpdateRole"
+
+// UpdateRoleRequest is a API request type for the UpdateRole API operation.
+type UpdateRoleRequest struct {
+	*aws.Request
+	Input *UpdateRoleInput
+	Copy  func(*UpdateRoleInput) UpdateRoleRequest
+}
+
+// Send marshals and sends the UpdateRole API request.
+func (r UpdateRoleRequest) Send() (*UpdateRoleOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateRoleOutput), nil
+}
+
+// UpdateRoleRequest returns a request value for making API operation for
+// AWS Identity and Access Management.
+//
+// Updates the description or maximum session duration setting of a role.
+//
+//    // Example sending a request using the UpdateRoleRequest method.
+//    req := client.UpdateRoleRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRole
+func (c *IAM) UpdateRoleRequest(input *UpdateRoleInput) UpdateRoleRequest {
+	op := &aws.Operation{
+		Name:       opUpdateRole,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateRoleInput{}
+	}
+
+	output := &UpdateRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateRoleRequest{Request: req, Input: input, Copy: c.UpdateRoleRequest}
 }
 
 const opUpdateRoleDescription = "UpdateRoleDescription"
@@ -7569,6 +7989,7 @@ const opUpdateRoleDescription = "UpdateRoleDescription"
 type UpdateRoleDescriptionRequest struct {
 	*aws.Request
 	Input *UpdateRoleDescriptionInput
+	Copy  func(*UpdateRoleDescriptionInput) UpdateRoleDescriptionRequest
 }
 
 // Send marshals and sends the UpdateRoleDescription API request.
@@ -7584,7 +8005,10 @@ func (r UpdateRoleDescriptionRequest) Send() (*UpdateRoleDescriptionOutput, erro
 // UpdateRoleDescriptionRequest returns a request value for making API operation for
 // AWS Identity and Access Management.
 //
-// Modifies the description of a role.
+// Use instead.
+//
+// Modifies only the description of a role. This operation performs the same
+// function as the Description parameter in the UpdateRole operation.
 //
 //    // Example sending a request using the UpdateRoleDescriptionRequest method.
 //    req := client.UpdateRoleDescriptionRequest(params)
@@ -7605,8 +8029,11 @@ func (c *IAM) UpdateRoleDescriptionRequest(input *UpdateRoleDescriptionInput) Up
 		input = &UpdateRoleDescriptionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateRoleDescriptionOutput{})
-	return UpdateRoleDescriptionRequest{Request: req, Input: input}
+	output := &UpdateRoleDescriptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateRoleDescriptionRequest{Request: req, Input: input, Copy: c.UpdateRoleDescriptionRequest}
 }
 
 const opUpdateSAMLProvider = "UpdateSAMLProvider"
@@ -7615,6 +8042,7 @@ const opUpdateSAMLProvider = "UpdateSAMLProvider"
 type UpdateSAMLProviderRequest struct {
 	*aws.Request
 	Input *UpdateSAMLProviderInput
+	Copy  func(*UpdateSAMLProviderInput) UpdateSAMLProviderRequest
 }
 
 // Send marshals and sends the UpdateSAMLProvider API request.
@@ -7653,8 +8081,11 @@ func (c *IAM) UpdateSAMLProviderRequest(input *UpdateSAMLProviderInput) UpdateSA
 		input = &UpdateSAMLProviderInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSAMLProviderOutput{})
-	return UpdateSAMLProviderRequest{Request: req, Input: input}
+	output := &UpdateSAMLProviderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSAMLProviderRequest{Request: req, Input: input, Copy: c.UpdateSAMLProviderRequest}
 }
 
 const opUpdateSSHPublicKey = "UpdateSSHPublicKey"
@@ -7663,6 +8094,7 @@ const opUpdateSSHPublicKey = "UpdateSSHPublicKey"
 type UpdateSSHPublicKeyRequest struct {
 	*aws.Request
 	Input *UpdateSSHPublicKeyInput
+	Copy  func(*UpdateSSHPublicKeyInput) UpdateSSHPublicKeyRequest
 }
 
 // Send marshals and sends the UpdateSSHPublicKey API request.
@@ -7679,11 +8111,11 @@ func (r UpdateSSHPublicKeyRequest) Send() (*UpdateSSHPublicKeyOutput, error) {
 // AWS Identity and Access Management.
 //
 // Sets the status of an IAM user's SSH public key to active or inactive. SSH
-// public keys that are inactive cannot be used for authentication. This action
+// public keys that are inactive cannot be used for authentication. This operation
 // can be used to disable a user's SSH public key as part of a key rotation
 // work flow.
 //
-// The SSH public key affected by this action is used only for authenticating
+// The SSH public key affected by this operation is used only for authenticating
 // the associated IAM user to an AWS CodeCommit repository. For more information
 // about using SSH keys to authenticate to an AWS CodeCommit repository, see
 // Set up AWS CodeCommit for SSH Connections (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html)
@@ -7708,10 +8140,13 @@ func (c *IAM) UpdateSSHPublicKeyRequest(input *UpdateSSHPublicKeyInput) UpdateSS
 		input = &UpdateSSHPublicKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSSHPublicKeyOutput{})
+	output := &UpdateSSHPublicKeyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateSSHPublicKeyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSSHPublicKeyRequest{Request: req, Input: input, Copy: c.UpdateSSHPublicKeyRequest}
 }
 
 const opUpdateServerCertificate = "UpdateServerCertificate"
@@ -7720,6 +8155,7 @@ const opUpdateServerCertificate = "UpdateServerCertificate"
 type UpdateServerCertificateRequest struct {
 	*aws.Request
 	Input *UpdateServerCertificateInput
+	Copy  func(*UpdateServerCertificateInput) UpdateServerCertificateRequest
 }
 
 // Send marshals and sends the UpdateServerCertificate API request.
@@ -7738,22 +8174,23 @@ func (r UpdateServerCertificateRequest) Send() (*UpdateServerCertificateOutput, 
 // Updates the name and/or the path of the specified server certificate stored
 // in IAM.
 //
-// For more information about working with server certificates, including a
-// list of AWS services that can use the server certificates that you manage
-// with IAM, go to Working with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-// in the IAM User Guide.
+// For more information about working with server certificates, see Working
+// with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+// in the IAM User Guide. This topic also includes a list of AWS services that
+// can use the server certificates that you manage with IAM.
 //
 // You should understand the implications of changing a server certificate's
 // path or name. For more information, see Renaming a Server Certificate (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs_manage.html#RenamingServerCerts)
 // in the IAM User Guide.
 //
-// To change a server certificate name the requester must have appropriate permissions
-// on both the source object and the target object. For example, to change the
-// name from "ProductionCert" to "ProdCert", the entity making the request must
-// have permission on "ProductionCert" and "ProdCert", or must have permission
-// on all (*). For more information about permissions, see Access Management
-// (http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM
-// User Guide.
+// The person making the request (the principal), must have permission to change
+// the server certificate with the old name and the new name. For example, to
+// change the certificate named ProductionCert to ProdCert, the principal must
+// have a policy that allows them to update both certificates. If the principal
+// has permission to update the ProductionCert group, but not the ProdCert certificate,
+// then the update fails. For more information about permissions, see Access
+// Management (http://docs.aws.amazon.com/IAM/latest/UserGuide/access.html)
+// in the IAM User Guide.
 //
 //    // Example sending a request using the UpdateServerCertificateRequest method.
 //    req := client.UpdateServerCertificateRequest(params)
@@ -7774,10 +8211,13 @@ func (c *IAM) UpdateServerCertificateRequest(input *UpdateServerCertificateInput
 		input = &UpdateServerCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateServerCertificateOutput{})
+	output := &UpdateServerCertificateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateServerCertificateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateServerCertificateRequest{Request: req, Input: input, Copy: c.UpdateServerCertificateRequest}
 }
 
 const opUpdateServiceSpecificCredential = "UpdateServiceSpecificCredential"
@@ -7786,6 +8226,7 @@ const opUpdateServiceSpecificCredential = "UpdateServiceSpecificCredential"
 type UpdateServiceSpecificCredentialRequest struct {
 	*aws.Request
 	Input *UpdateServiceSpecificCredentialInput
+	Copy  func(*UpdateServiceSpecificCredentialInput) UpdateServiceSpecificCredentialRequest
 }
 
 // Send marshals and sends the UpdateServiceSpecificCredential API request.
@@ -7803,8 +8244,8 @@ func (r UpdateServiceSpecificCredentialRequest) Send() (*UpdateServiceSpecificCr
 //
 // Sets the status of a service-specific credential to Active or Inactive. Service-specific
 // credentials that are inactive cannot be used for authentication to the service.
-// This action can be used to disable a user’s service-specific credential as
-// part of a credential rotation work flow.
+// This operation can be used to disable a user’s service-specific credential
+// as part of a credential rotation work flow.
 //
 //    // Example sending a request using the UpdateServiceSpecificCredentialRequest method.
 //    req := client.UpdateServiceSpecificCredentialRequest(params)
@@ -7825,10 +8266,13 @@ func (c *IAM) UpdateServiceSpecificCredentialRequest(input *UpdateServiceSpecifi
 		input = &UpdateServiceSpecificCredentialInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateServiceSpecificCredentialOutput{})
+	output := &UpdateServiceSpecificCredentialOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateServiceSpecificCredentialRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateServiceSpecificCredentialRequest{Request: req, Input: input, Copy: c.UpdateServiceSpecificCredentialRequest}
 }
 
 const opUpdateSigningCertificate = "UpdateSigningCertificate"
@@ -7837,6 +8281,7 @@ const opUpdateSigningCertificate = "UpdateSigningCertificate"
 type UpdateSigningCertificateRequest struct {
 	*aws.Request
 	Input *UpdateSigningCertificateInput
+	Copy  func(*UpdateSigningCertificateInput) UpdateSigningCertificateRequest
 }
 
 // Send marshals and sends the UpdateSigningCertificate API request.
@@ -7853,13 +8298,14 @@ func (r UpdateSigningCertificateRequest) Send() (*UpdateSigningCertificateOutput
 // AWS Identity and Access Management.
 //
 // Changes the status of the specified user signing certificate from active
-// to disabled, or vice versa. This action can be used to disable an IAM user's
-// signing certificate as part of a certificate rotation work flow.
+// to disabled, or vice versa. This operation can be used to disable an IAM
+// user's signing certificate as part of a certificate rotation work flow.
 //
-// If the UserName field is not specified, the UserName is determined implicitly
-// based on the AWS access key ID used to sign the request. Because this action
-// works for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated users.
+// If the UserName field is not specified, the user name is determined implicitly
+// based on the AWS access key ID used to sign the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials even if the AWS account has no associated
+// users.
 //
 //    // Example sending a request using the UpdateSigningCertificateRequest method.
 //    req := client.UpdateSigningCertificateRequest(params)
@@ -7880,10 +8326,13 @@ func (c *IAM) UpdateSigningCertificateRequest(input *UpdateSigningCertificateInp
 		input = &UpdateSigningCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSigningCertificateOutput{})
+	output := &UpdateSigningCertificateOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateSigningCertificateRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSigningCertificateRequest{Request: req, Input: input, Copy: c.UpdateSigningCertificateRequest}
 }
 
 const opUpdateUser = "UpdateUser"
@@ -7892,6 +8341,7 @@ const opUpdateUser = "UpdateUser"
 type UpdateUserRequest struct {
 	*aws.Request
 	Input *UpdateUserInput
+	Copy  func(*UpdateUserInput) UpdateUserRequest
 }
 
 // Send marshals and sends the UpdateUser API request.
@@ -7914,7 +8364,7 @@ func (r UpdateUserRequest) Send() (*UpdateUserOutput, error) {
 // and Renaming an IAM Group (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_rename.html)
 // in the IAM User Guide.
 //
-// To change a user name the requester must have appropriate permissions on
+// To change a user name, the requester must have appropriate permissions on
 // both the source object and the target object. For example, to change Bob
 // to Robert, the entity making the request must have permission on Bob and
 // Robert, or must have permission on all (*). For more information about permissions,
@@ -7939,10 +8389,13 @@ func (c *IAM) UpdateUserRequest(input *UpdateUserInput) UpdateUserRequest {
 		input = &UpdateUserInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateUserOutput{})
+	output := &UpdateUserOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateUserRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateUserRequest{Request: req, Input: input, Copy: c.UpdateUserRequest}
 }
 
 const opUploadSSHPublicKey = "UploadSSHPublicKey"
@@ -7951,6 +8404,7 @@ const opUploadSSHPublicKey = "UploadSSHPublicKey"
 type UploadSSHPublicKeyRequest struct {
 	*aws.Request
 	Input *UploadSSHPublicKeyInput
+	Copy  func(*UploadSSHPublicKeyInput) UploadSSHPublicKeyRequest
 }
 
 // Send marshals and sends the UploadSSHPublicKey API request.
@@ -7968,7 +8422,7 @@ func (r UploadSSHPublicKeyRequest) Send() (*UploadSSHPublicKeyOutput, error) {
 //
 // Uploads an SSH public key and associates it with the specified IAM user.
 //
-// The SSH public key uploaded by this action can be used only for authenticating
+// The SSH public key uploaded by this operation can be used only for authenticating
 // the associated IAM user to an AWS CodeCommit repository. For more information
 // about using SSH keys to authenticate to an AWS CodeCommit repository, see
 // Set up AWS CodeCommit for SSH Connections (http://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-credentials-ssh.html)
@@ -7993,8 +8447,11 @@ func (c *IAM) UploadSSHPublicKeyRequest(input *UploadSSHPublicKeyInput) UploadSS
 		input = &UploadSSHPublicKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &UploadSSHPublicKeyOutput{})
-	return UploadSSHPublicKeyRequest{Request: req, Input: input}
+	output := &UploadSSHPublicKeyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UploadSSHPublicKeyRequest{Request: req, Input: input, Copy: c.UploadSSHPublicKeyRequest}
 }
 
 const opUploadServerCertificate = "UploadServerCertificate"
@@ -8003,6 +8460,7 @@ const opUploadServerCertificate = "UploadServerCertificate"
 type UploadServerCertificateRequest struct {
 	*aws.Request
 	Input *UploadServerCertificateInput
+	Copy  func(*UploadServerCertificateInput) UploadServerCertificateRequest
 }
 
 // Send marshals and sends the UploadServerCertificate API request.
@@ -8028,10 +8486,10 @@ func (r UploadServerCertificateRequest) Send() (*UploadServerCertificateOutput, 
 // renewals for you. Certificates provided by ACM are free. For more information
 // about using ACM, see the AWS Certificate Manager User Guide (http://docs.aws.amazon.com/acm/latest/userguide/).
 //
-// For more information about working with server certificates, including a
-// list of AWS services that can use the server certificates that you manage
-// with IAM, go to Working with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
-// in the IAM User Guide.
+// For more information about working with server certificates, see Working
+// with Server Certificates (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html)
+// in the IAM User Guide. This topic includes a list of AWS services that can
+// use the server certificates that you manage with IAM.
 //
 // For information about the number of server certificates you can upload, see
 // Limitations on IAM Entities and Objects (http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html)
@@ -8064,8 +8522,11 @@ func (c *IAM) UploadServerCertificateRequest(input *UploadServerCertificateInput
 		input = &UploadServerCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &UploadServerCertificateOutput{})
-	return UploadServerCertificateRequest{Request: req, Input: input}
+	output := &UploadServerCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UploadServerCertificateRequest{Request: req, Input: input, Copy: c.UploadServerCertificateRequest}
 }
 
 const opUploadSigningCertificate = "UploadSigningCertificate"
@@ -8074,6 +8535,7 @@ const opUploadSigningCertificate = "UploadSigningCertificate"
 type UploadSigningCertificateRequest struct {
 	*aws.Request
 	Input *UploadSigningCertificateInput
+	Copy  func(*UploadSigningCertificateInput) UploadSigningCertificateRequest
 }
 
 // Send marshals and sends the UploadSigningCertificate API request.
@@ -8095,11 +8557,12 @@ func (r UploadSigningCertificateRequest) Send() (*UploadSigningCertificateOutput
 // its default status is Active.
 //
 // If the UserName field is not specified, the IAM user name is determined implicitly
-// based on the AWS access key ID used to sign the request. Because this action
-// works for access keys under the AWS account, you can use this action to manage
-// root credentials even if the AWS account has no associated users.
+// based on the AWS access key ID used to sign the request. Because this operation
+// works for access keys under the AWS account, you can use this operation to
+// manage AWS account root user credentials even if the AWS account has no associated
+// users.
 //
-// Because the body of a X.509 certificate can be large, you should use POST
+// Because the body of an X.509 certificate can be large, you should use POST
 // rather than GET when calling UploadSigningCertificate. For information about
 // setting up signatures and authorization through the API, go to Signing AWS
 // API Requests (http://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html)
@@ -8126,14 +8589,17 @@ func (c *IAM) UploadSigningCertificateRequest(input *UploadSigningCertificateInp
 		input = &UploadSigningCertificateInput{}
 	}
 
-	req := c.newRequest(op, input, &UploadSigningCertificateOutput{})
-	return UploadSigningCertificateRequest{Request: req, Input: input}
+	output := &UploadSigningCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UploadSigningCertificateRequest{Request: req, Input: input, Copy: c.UploadSigningCertificateRequest}
 }
 
 // Contains information about an AWS access key.
 //
 // This data type is used as a response element in the CreateAccessKey and ListAccessKeys
-// actions.
+// operations.
 //
 // The SecretAccessKey value is returned only in response to CreateAccessKey.
 // You can get a secret access key only when you first create an access key;
@@ -8156,11 +8622,11 @@ type AccessKey struct {
 	// SecretAccessKey is a required field
 	SecretAccessKey *string `type:"string" required:"true"`
 
-	// The status of the access key. Active means the key is valid for API calls,
-	// while Inactive means it is not.
+	// The status of the access key. Active means that the key is valid for API
+	// calls, while Inactive means it is not.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the IAM user that the access key is associated with.
 	//
@@ -8178,46 +8644,17 @@ func (s AccessKey) GoString() string {
 	return s.String()
 }
 
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *AccessKey) SetAccessKeyId(v string) *AccessKey {
-	s.AccessKeyId = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *AccessKey) SetCreateDate(v time.Time) *AccessKey {
-	s.CreateDate = &v
-	return s
-}
-
-// SetSecretAccessKey sets the SecretAccessKey field's value.
-func (s *AccessKey) SetSecretAccessKey(v string) *AccessKey {
-	s.SecretAccessKey = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AccessKey) SetStatus(v StatusType) *AccessKey {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *AccessKey) SetUserName(v string) *AccessKey {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about the last time an AWS access key was used.
 //
 // This data type is used as a response element in the GetAccessKeyLastUsed
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AccessKeyLastUsed
 type AccessKeyLastUsed struct {
 	_ struct{} `type:"structure"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
-	// when the access key was most recently used. This field is null when:
+	// when the access key was most recently used. This field is null in the following
+	// situations:
 	//
 	//    * The user does not have an access key.
 	//
@@ -8230,7 +8667,7 @@ type AccessKeyLastUsed struct {
 	LastUsedDate *time.Time `type:"timestamp" timestampFormat:"iso8601" required:"true"`
 
 	// The AWS region where this access key was most recently used. This field is
-	// displays "N/A" when:
+	// displays "N/A" in the following situations:
 	//
 	//    * The user does not have an access key.
 	//
@@ -8246,7 +8683,7 @@ type AccessKeyLastUsed struct {
 	Region *string `type:"string" required:"true"`
 
 	// The name of the AWS service with which this access key was most recently
-	// used. This field displays "N/A" when:
+	// used. This field displays "N/A" in the following situations:
 	//
 	//    * The user does not have an access key.
 	//
@@ -8269,27 +8706,9 @@ func (s AccessKeyLastUsed) GoString() string {
 	return s.String()
 }
 
-// SetLastUsedDate sets the LastUsedDate field's value.
-func (s *AccessKeyLastUsed) SetLastUsedDate(v time.Time) *AccessKeyLastUsed {
-	s.LastUsedDate = &v
-	return s
-}
-
-// SetRegion sets the Region field's value.
-func (s *AccessKeyLastUsed) SetRegion(v string) *AccessKeyLastUsed {
-	s.Region = &v
-	return s
-}
-
-// SetServiceName sets the ServiceName field's value.
-func (s *AccessKeyLastUsed) SetServiceName(v string) *AccessKeyLastUsed {
-	s.ServiceName = &v
-	return s
-}
-
 // Contains information about an AWS access key, without its secret key.
 //
-// This data type is used as a response element in the ListAccessKeys action.
+// This data type is used as a response element in the ListAccessKeys operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AccessKeyMetadata
 type AccessKeyMetadata struct {
 	_ struct{} `type:"structure"`
@@ -8302,7 +8721,7 @@ type AccessKeyMetadata struct {
 
 	// The status of the access key. Active means the key is valid for API calls;
 	// Inactive means it is not.
-	Status StatusType `type:"string"`
+	Status StatusType `type:"string" enum:"true"`
 
 	// The name of the IAM user that the key is associated with.
 	UserName *string `min:"1" type:"string"`
@@ -8318,30 +8737,6 @@ func (s AccessKeyMetadata) GoString() string {
 	return s.String()
 }
 
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *AccessKeyMetadata) SetAccessKeyId(v string) *AccessKeyMetadata {
-	s.AccessKeyId = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *AccessKeyMetadata) SetCreateDate(v time.Time) *AccessKeyMetadata {
-	s.CreateDate = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AccessKeyMetadata) SetStatus(v StatusType) *AccessKeyMetadata {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *AccessKeyMetadata) SetUserName(v string) *AccessKeyMetadata {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddClientIDToOpenIDConnectProviderRequest
 type AddClientIDToOpenIDConnectProviderInput struct {
 	_ struct{} `type:"structure"`
@@ -8354,7 +8749,7 @@ type AddClientIDToOpenIDConnectProviderInput struct {
 
 	// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider
 	// resource to add the client ID to. You can get a list of OIDC provider ARNs
-	// by using the ListOpenIDConnectProviders action.
+	// by using the ListOpenIDConnectProviders operation.
 	//
 	// OpenIDConnectProviderArn is a required field
 	OpenIDConnectProviderArn *string `min:"20" type:"string" required:"true"`
@@ -8394,21 +8789,11 @@ func (s *AddClientIDToOpenIDConnectProviderInput) Validate() error {
 	return nil
 }
 
-// SetClientID sets the ClientID field's value.
-func (s *AddClientIDToOpenIDConnectProviderInput) SetClientID(v string) *AddClientIDToOpenIDConnectProviderInput {
-	s.ClientID = &v
-	return s
-}
-
-// SetOpenIDConnectProviderArn sets the OpenIDConnectProviderArn field's value.
-func (s *AddClientIDToOpenIDConnectProviderInput) SetOpenIDConnectProviderArn(v string) *AddClientIDToOpenIDConnectProviderInput {
-	s.OpenIDConnectProviderArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddClientIDToOpenIDConnectProviderOutput
 type AddClientIDToOpenIDConnectProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8421,6 +8806,11 @@ func (s AddClientIDToOpenIDConnectProviderOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddClientIDToOpenIDConnectProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddRoleToInstanceProfileRequest
 type AddRoleToInstanceProfileInput struct {
 	_ struct{} `type:"structure"`
@@ -8429,7 +8819,7 @@ type AddRoleToInstanceProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// InstanceProfileName is a required field
 	InstanceProfileName *string `min:"1" type:"string" required:"true"`
@@ -8478,21 +8868,11 @@ func (s *AddRoleToInstanceProfileInput) Validate() error {
 	return nil
 }
 
-// SetInstanceProfileName sets the InstanceProfileName field's value.
-func (s *AddRoleToInstanceProfileInput) SetInstanceProfileName(v string) *AddRoleToInstanceProfileInput {
-	s.InstanceProfileName = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *AddRoleToInstanceProfileInput) SetRoleName(v string) *AddRoleToInstanceProfileInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddRoleToInstanceProfileOutput
 type AddRoleToInstanceProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8505,6 +8885,11 @@ func (s AddRoleToInstanceProfileOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddRoleToInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddUserToGroupRequest
 type AddUserToGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -8513,7 +8898,7 @@ type AddUserToGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -8522,7 +8907,7 @@ type AddUserToGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -8562,21 +8947,11 @@ func (s *AddUserToGroupInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *AddUserToGroupInput) SetGroupName(v string) *AddUserToGroupInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *AddUserToGroupInput) SetUserName(v string) *AddUserToGroupInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AddUserToGroupOutput
 type AddUserToGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8589,6 +8964,11 @@ func (s AddUserToGroupOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddUserToGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachGroupPolicyRequest
 type AttachGroupPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -8597,7 +8977,7 @@ type AttachGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -8646,21 +9026,11 @@ func (s *AttachGroupPolicyInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *AttachGroupPolicyInput) SetGroupName(v string) *AttachGroupPolicyInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *AttachGroupPolicyInput) SetPolicyArn(v string) *AttachGroupPolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachGroupPolicyOutput
 type AttachGroupPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8671,6 +9041,11 @@ func (s AttachGroupPolicyOutput) String() string {
 // GoString returns the string representation
 func (s AttachGroupPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachGroupPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachRolePolicyRequest
@@ -8730,21 +9105,11 @@ func (s *AttachRolePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *AttachRolePolicyInput) SetPolicyArn(v string) *AttachRolePolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *AttachRolePolicyInput) SetRoleName(v string) *AttachRolePolicyInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachRolePolicyOutput
 type AttachRolePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8755,6 +9120,11 @@ func (s AttachRolePolicyOutput) String() string {
 // GoString returns the string representation
 func (s AttachRolePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachRolePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachUserPolicyRequest
@@ -8774,7 +9144,7 @@ type AttachUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -8814,21 +9184,11 @@ func (s *AttachUserPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *AttachUserPolicyInput) SetPolicyArn(v string) *AttachUserPolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *AttachUserPolicyInput) SetUserName(v string) *AttachUserPolicyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/AttachUserPolicyOutput
 type AttachUserPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8841,12 +9201,17 @@ func (s AttachUserPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachUserPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains information about an attached policy.
 //
 // An attached policy is a managed policy that has been attached to a user,
 // group, or role. This data type is used as a response element in the ListAttachedGroupPolicies,
 // ListAttachedRolePolicies, ListAttachedUserPolicies, and GetAccountAuthorizationDetails
-// actions.
+// operations.
 //
 // For more information about managed policies, refer to Managed Policies and
 // Inline Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -8876,18 +9241,6 @@ func (s AttachedPolicy) GoString() string {
 	return s.String()
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *AttachedPolicy) SetPolicyArn(v string) *AttachedPolicy {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *AttachedPolicy) SetPolicyName(v string) *AttachedPolicy {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ChangePasswordRequest
 type ChangePasswordInput struct {
 	_ struct{} `type:"structure"`
@@ -8895,14 +9248,14 @@ type ChangePasswordInput struct {
 	// The new password. The new password must conform to the AWS account's password
 	// policy, if one exists.
 	//
-	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of almost any printable ASCII
-	// character from the space (\u0020) through the end of the ASCII character
-	// range (\u00FF). You can also include the tab (\u0009), line feed (\u000A),
-	// and carriage return (\u000D) characters. Although any of these characters
-	// are valid in a password, note that many tools, such as the AWS Management
-	// Console, might restrict the ability to enter certain characters because they
-	// have special meaning within that tool.
+	// The regex pattern (http://wikipedia.org/wiki/regex) that is used to validate
+	// this parameter is a string of characters. That string can include almost
+	// any printable ASCII character from the space (\u0020) through the end of
+	// the ASCII character range (\u00FF). You can also include the tab (\u0009),
+	// line feed (\u000A), and carriage return (\u000D) characters. Any of these
+	// characters are valid in a password. However, many tools, such as the AWS
+	// Management Console, might restrict the ability to type certain characters
+	// because they have special meaning within that tool.
 	//
 	// NewPassword is a required field
 	NewPassword *string `min:"1" type:"string" required:"true"`
@@ -8947,21 +9300,11 @@ func (s *ChangePasswordInput) Validate() error {
 	return nil
 }
 
-// SetNewPassword sets the NewPassword field's value.
-func (s *ChangePasswordInput) SetNewPassword(v string) *ChangePasswordInput {
-	s.NewPassword = &v
-	return s
-}
-
-// SetOldPassword sets the OldPassword field's value.
-func (s *ChangePasswordInput) SetOldPassword(v string) *ChangePasswordInput {
-	s.OldPassword = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ChangePasswordOutput
 type ChangePasswordOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8972,6 +9315,11 @@ func (s ChangePasswordOutput) String() string {
 // GoString returns the string representation
 func (s ChangePasswordOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ChangePasswordOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about a condition context key. It includes the name
@@ -8991,12 +9339,12 @@ type ContextEntry struct {
 
 	// The data type of the value (or values) specified in the ContextKeyValues
 	// parameter.
-	ContextKeyType ContextKeyTypeEnum `type:"string"`
+	ContextKeyType ContextKeyTypeEnum `type:"string" enum:"true"`
 
 	// The value (or values, if the condition context key supports multiple values)
-	// to provide to the simulation for use when the key is referenced by a Condition
-	// element in an input policy.
-	ContextKeyValues []*string `type:"list"`
+	// to provide to the simulation when the key is referenced by a Condition element
+	// in an input policy.
+	ContextKeyValues []string `type:"list"`
 }
 
 // String returns the string representation
@@ -9022,24 +9370,6 @@ func (s *ContextEntry) Validate() error {
 	return nil
 }
 
-// SetContextKeyName sets the ContextKeyName field's value.
-func (s *ContextEntry) SetContextKeyName(v string) *ContextEntry {
-	s.ContextKeyName = &v
-	return s
-}
-
-// SetContextKeyType sets the ContextKeyType field's value.
-func (s *ContextEntry) SetContextKeyType(v ContextKeyTypeEnum) *ContextEntry {
-	s.ContextKeyType = v
-	return s
-}
-
-// SetContextKeyValues sets the ContextKeyValues field's value.
-func (s *ContextEntry) SetContextKeyValues(v []*string) *ContextEntry {
-	s.ContextKeyValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccessKeyRequest
 type CreateAccessKeyInput struct {
 	_ struct{} `type:"structure"`
@@ -9048,7 +9378,7 @@ type CreateAccessKeyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -9075,16 +9405,12 @@ func (s *CreateAccessKeyInput) Validate() error {
 	return nil
 }
 
-// SetUserName sets the UserName field's value.
-func (s *CreateAccessKeyInput) SetUserName(v string) *CreateAccessKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful CreateAccessKey request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccessKeyResponse
 type CreateAccessKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure with details about the access key.
 	//
@@ -9102,10 +9428,9 @@ func (s CreateAccessKeyOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccessKey sets the AccessKey field's value.
-func (s *CreateAccessKeyOutput) SetAccessKey(v *AccessKey) *CreateAccessKeyOutput {
-	s.AccessKey = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAccessKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccountAliasRequest
@@ -9150,15 +9475,11 @@ func (s *CreateAccountAliasInput) Validate() error {
 	return nil
 }
 
-// SetAccountAlias sets the AccountAlias field's value.
-func (s *CreateAccountAliasInput) SetAccountAlias(v string) *CreateAccountAliasInput {
-	s.AccountAlias = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateAccountAliasOutput
 type CreateAccountAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9171,6 +9492,11 @@ func (s CreateAccountAliasOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAccountAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateGroupRequest
 type CreateGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -9179,7 +9505,7 @@ type CreateGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-.
+	// with no spaces. You can also include any of the following characters: _+=,.@-.
 	// The group name must be unique within the account. Group names are not distinguished
 	// by case. For example, you cannot create groups named both "ADMINS" and "admins".
 	//
@@ -9193,11 +9519,12 @@ type CreateGroupInput struct {
 	// This parameter is optional. If it is not included, it defaults to a slash
 	// (/).
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	Path *string `min:"1" type:"string"`
 }
 
@@ -9231,22 +9558,12 @@ func (s *CreateGroupInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *CreateGroupInput) SetGroupName(v string) *CreateGroupInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *CreateGroupInput) SetPath(v string) *CreateGroupInput {
-	s.Path = &v
-	return s
-}
-
 // Contains the response to a successful CreateGroup request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateGroupResponse
 type CreateGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the new group.
 	//
@@ -9264,10 +9581,9 @@ func (s CreateGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetGroup sets the Group field's value.
-func (s *CreateGroupOutput) SetGroup(v *Group) *CreateGroupOutput {
-	s.Group = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateInstanceProfileRequest
@@ -9278,7 +9594,7 @@ type CreateInstanceProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// InstanceProfileName is a required field
 	InstanceProfileName *string `min:"1" type:"string" required:"true"`
@@ -9290,11 +9606,12 @@ type CreateInstanceProfileInput struct {
 	// This parameter is optional. If it is not included, it defaults to a slash
 	// (/).
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	Path *string `min:"1" type:"string"`
 }
 
@@ -9328,22 +9645,12 @@ func (s *CreateInstanceProfileInput) Validate() error {
 	return nil
 }
 
-// SetInstanceProfileName sets the InstanceProfileName field's value.
-func (s *CreateInstanceProfileInput) SetInstanceProfileName(v string) *CreateInstanceProfileInput {
-	s.InstanceProfileName = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *CreateInstanceProfileInput) SetPath(v string) *CreateInstanceProfileInput {
-	s.Path = &v
-	return s
-}
-
 // Contains the response to a successful CreateInstanceProfile request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateInstanceProfileResponse
 type CreateInstanceProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the new instance profile.
 	//
@@ -9361,10 +9668,9 @@ func (s CreateInstanceProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceProfile sets the InstanceProfile field's value.
-func (s *CreateInstanceProfileOutput) SetInstanceProfile(v *InstanceProfile) *CreateInstanceProfileOutput {
-	s.InstanceProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateLoginProfileRequest
@@ -9373,14 +9679,14 @@ type CreateLoginProfileInput struct {
 
 	// The new password for the user.
 	//
-	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of almost any printable ASCII
-	// character from the space (\u0020) through the end of the ASCII character
-	// range (\u00FF). You can also include the tab (\u0009), line feed (\u000A),
-	// and carriage return (\u000D) characters. Although any of these characters
-	// are valid in a password, note that many tools, such as the AWS Management
-	// Console, might restrict the ability to enter certain characters because they
-	// have special meaning within that tool.
+	// The regex pattern (http://wikipedia.org/wiki/regex) that is used to validate
+	// this parameter is a string of characters. That string can include almost
+	// any printable ASCII character from the space (\u0020) through the end of
+	// the ASCII character range (\u00FF). You can also include the tab (\u0009),
+	// line feed (\u000A), and carriage return (\u000D) characters. Any of these
+	// characters are valid in a password. However, many tools, such as the AWS
+	// Management Console, might restrict the ability to type certain characters
+	// because they have special meaning within that tool.
 	//
 	// Password is a required field
 	Password *string `min:"1" type:"string" required:"true"`
@@ -9393,7 +9699,7 @@ type CreateLoginProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -9433,28 +9739,12 @@ func (s *CreateLoginProfileInput) Validate() error {
 	return nil
 }
 
-// SetPassword sets the Password field's value.
-func (s *CreateLoginProfileInput) SetPassword(v string) *CreateLoginProfileInput {
-	s.Password = &v
-	return s
-}
-
-// SetPasswordResetRequired sets the PasswordResetRequired field's value.
-func (s *CreateLoginProfileInput) SetPasswordResetRequired(v bool) *CreateLoginProfileInput {
-	s.PasswordResetRequired = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *CreateLoginProfileInput) SetUserName(v string) *CreateLoginProfileInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful CreateLoginProfile request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateLoginProfileResponse
 type CreateLoginProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing the user name and password create date.
 	//
@@ -9472,10 +9762,9 @@ func (s CreateLoginProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoginProfile sets the LoginProfile field's value.
-func (s *CreateLoginProfileOutput) SetLoginProfile(v *LoginProfile) *CreateLoginProfileOutput {
-	s.LoginProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLoginProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateOpenIDConnectProviderRequest
@@ -9492,11 +9781,11 @@ type CreateOpenIDConnectProviderInput struct {
 	// cannot register more than 100 client IDs with a single IAM OIDC provider.
 	//
 	// There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest
-	// action accepts client IDs up to 255 characters long.
-	ClientIDList []*string `type:"list"`
+	// operation accepts client IDs up to 255 characters long.
+	ClientIDList []string `type:"list"`
 
 	// A list of server certificate thumbprints for the OpenID Connect (OIDC) identity
-	// provider's server certificate(s). Typically this list includes only one entry.
+	// provider's server certificates. Typically this list includes only one entry.
 	// However, IAM lets you have up to five thumbprints for an OIDC provider. This
 	// lets you maintain multiple thumbprints if the identity provider is rotating
 	// certificates.
@@ -9506,23 +9795,23 @@ type CreateOpenIDConnectProviderInput struct {
 	// makes its keys available. It is always a 40-character string.
 	//
 	// You must provide at least one thumbprint when creating an IAM OIDC provider.
-	// For example, if the OIDC provider is server.example.com and the provider
-	// stores its keys at "https://keys.server.example.com/openid-connect", the
-	// thumbprint string would be the hex-encoded SHA-1 hash value of the certificate
-	// used by https://keys.server.example.com.
+	// For example, assume that the OIDC provider is server.example.com and the
+	// provider stores its keys at https://keys.server.example.com/openid-connect.
+	// In that case, the thumbprint string would be the hex-encoded SHA-1 hash value
+	// of the certificate used by https://keys.server.example.com.
 	//
 	// For more information about obtaining the OIDC provider's thumbprint, see
 	// Obtaining the Thumbprint for an OpenID Connect Provider (http://docs.aws.amazon.com/IAM/latest/UserGuide/identity-providers-oidc-obtain-thumbprint.html)
 	// in the IAM User Guide.
 	//
 	// ThumbprintList is a required field
-	ThumbprintList []*string `type:"list" required:"true"`
+	ThumbprintList []string `type:"list" required:"true"`
 
-	// The URL of the identity provider. The URL must begin with "https://" and
-	// should correspond to the iss claim in the provider's OpenID Connect ID tokens.
-	// Per the OIDC standard, path components are allowed but query parameters are
-	// not. Typically the URL consists of only a host name, like "https://server.example.org"
-	// or "https://example.com".
+	// The URL of the identity provider. The URL must begin with https:// and should
+	// correspond to the iss claim in the provider's OpenID Connect ID tokens. Per
+	// the OIDC standard, path components are allowed but query parameters are not.
+	// Typically the URL consists of only a hostname, like https://server.example.org
+	// or https://example.com.
 	//
 	// You cannot register the same provider multiple times in a single AWS account.
 	// If you try to submit a URL that has already been used for an OpenID Connect
@@ -9563,28 +9852,12 @@ func (s *CreateOpenIDConnectProviderInput) Validate() error {
 	return nil
 }
 
-// SetClientIDList sets the ClientIDList field's value.
-func (s *CreateOpenIDConnectProviderInput) SetClientIDList(v []*string) *CreateOpenIDConnectProviderInput {
-	s.ClientIDList = v
-	return s
-}
-
-// SetThumbprintList sets the ThumbprintList field's value.
-func (s *CreateOpenIDConnectProviderInput) SetThumbprintList(v []*string) *CreateOpenIDConnectProviderInput {
-	s.ThumbprintList = v
-	return s
-}
-
-// SetUrl sets the Url field's value.
-func (s *CreateOpenIDConnectProviderInput) SetUrl(v string) *CreateOpenIDConnectProviderInput {
-	s.Url = &v
-	return s
-}
-
 // Contains the response to a successful CreateOpenIDConnectProvider request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateOpenIDConnectProviderResponse
 type CreateOpenIDConnectProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that
 	// is created. For more information, see OpenIDConnectProviderListEntry.
@@ -9601,10 +9874,9 @@ func (s CreateOpenIDConnectProviderOutput) GoString() string {
 	return s.String()
 }
 
-// SetOpenIDConnectProviderArn sets the OpenIDConnectProviderArn field's value.
-func (s *CreateOpenIDConnectProviderOutput) SetOpenIDConnectProviderArn(v string) *CreateOpenIDConnectProviderOutput {
-	s.OpenIDConnectProviderArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateOpenIDConnectProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicyRequest
@@ -9628,22 +9900,28 @@ type CreatePolicyInput struct {
 	// This parameter is optional. If it is not included, it defaults to a slash
 	// (/).
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	Path *string `type:"string"`
 
 	// The JSON policy document that you want to use as the content for the new
 	// policy.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyDocument is a required field
 	PolicyDocument *string `min:"1" type:"string" required:"true"`
@@ -9652,7 +9930,7 @@ type CreatePolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -9692,34 +9970,12 @@ func (s *CreatePolicyInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreatePolicyInput) SetDescription(v string) *CreatePolicyInput {
-	s.Description = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *CreatePolicyInput) SetPath(v string) *CreatePolicyInput {
-	s.Path = &v
-	return s
-}
-
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *CreatePolicyInput) SetPolicyDocument(v string) *CreatePolicyInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *CreatePolicyInput) SetPolicyName(v string) *CreatePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains the response to a successful CreatePolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicyResponse
 type CreatePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the new policy.
 	Policy *Policy `type:"structure"`
@@ -9735,10 +9991,9 @@ func (s CreatePolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *CreatePolicyOutput) SetPolicy(v *Policy) *CreatePolicyOutput {
-	s.Policy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicyVersionRequest
@@ -9759,11 +10014,16 @@ type CreatePolicyVersionInput struct {
 	// version of the policy.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyDocument is a required field
 	PolicyDocument *string `min:"1" type:"string" required:"true"`
@@ -9771,8 +10031,8 @@ type CreatePolicyVersionInput struct {
 	// Specifies whether to set this version as the policy's default version.
 	//
 	// When this parameter is true, the new policy version becomes the operative
-	// version; that is, the version that is in effect for the IAM users, groups,
-	// and roles that the policy is attached to.
+	// version. That is, it becomes the version that is in effect for the IAM users,
+	// groups, and roles that the policy is attached to.
 	//
 	// For more information about managed policy versions, see Versioning for Managed
 	// Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
@@ -9814,28 +10074,12 @@ func (s *CreatePolicyVersionInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *CreatePolicyVersionInput) SetPolicyArn(v string) *CreatePolicyVersionInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *CreatePolicyVersionInput) SetPolicyDocument(v string) *CreatePolicyVersionInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetSetAsDefault sets the SetAsDefault field's value.
-func (s *CreatePolicyVersionInput) SetSetAsDefault(v bool) *CreatePolicyVersionInput {
-	s.SetAsDefault = &v
-	return s
-}
-
 // Contains the response to a successful CreatePolicyVersion request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreatePolicyVersionResponse
 type CreatePolicyVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the new policy version.
 	PolicyVersion *PolicyVersion `type:"structure"`
@@ -9851,10 +10095,9 @@ func (s CreatePolicyVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyVersion sets the PolicyVersion field's value.
-func (s *CreatePolicyVersionOutput) SetPolicyVersion(v *PolicyVersion) *CreatePolicyVersionOutput {
-	s.PolicyVersion = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePolicyVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateRoleRequest
@@ -9865,17 +10108,38 @@ type CreateRoleInput struct {
 	// assume the role.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// AssumeRolePolicyDocument is a required field
 	AssumeRolePolicyDocument *string `min:"1" type:"string" required:"true"`
 
-	// A customer-provided description of the role.
+	// A description of the role.
 	Description *string `type:"string"`
+
+	// The maximum session duration (in seconds) that you want to set for the specified
+	// role. If you do not specify a value for this setting, the default maximum
+	// of one hour is applied. This setting can have a value from 1 hour to 12 hours.
+	//
+	// Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds
+	// API parameter or the duration-seconds CLI parameter to request a longer session.
+	// The MaxSessionDuration setting determines the maximum duration that can be
+	// requested using the DurationSeconds parameter. If users don't specify a value
+	// for the DurationSeconds parameter, their security credentials are valid for
+	// one hour by default. This applies when you use the AssumeRole* API operations
+	// or the assume-role* CLI operations but does not apply when you use those
+	// operations to create a console URL. For more information, see Using IAM Roles
+	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in the
+	// IAM User Guide.
+	MaxSessionDuration *int64 `min:"3600" type:"integer"`
 
 	// The path to the role. For more information about paths, see IAM Identifiers
 	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
@@ -9884,11 +10148,12 @@ type CreateRoleInput struct {
 	// This parameter is optional. If it is not included, it defaults to a slash
 	// (/).
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	Path *string `min:"1" type:"string"`
 
 	// The name of the role to create.
@@ -9924,6 +10189,9 @@ func (s *CreateRoleInput) Validate() error {
 	if s.AssumeRolePolicyDocument != nil && len(*s.AssumeRolePolicyDocument) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("AssumeRolePolicyDocument", 1))
 	}
+	if s.MaxSessionDuration != nil && *s.MaxSessionDuration < 3600 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxSessionDuration", 3600))
+	}
 	if s.Path != nil && len(*s.Path) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("Path", 1))
 	}
@@ -9941,34 +10209,12 @@ func (s *CreateRoleInput) Validate() error {
 	return nil
 }
 
-// SetAssumeRolePolicyDocument sets the AssumeRolePolicyDocument field's value.
-func (s *CreateRoleInput) SetAssumeRolePolicyDocument(v string) *CreateRoleInput {
-	s.AssumeRolePolicyDocument = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateRoleInput) SetDescription(v string) *CreateRoleInput {
-	s.Description = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *CreateRoleInput) SetPath(v string) *CreateRoleInput {
-	s.Path = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *CreateRoleInput) SetRoleName(v string) *CreateRoleInput {
-	s.RoleName = &v
-	return s
-}
-
 // Contains the response to a successful CreateRole request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateRoleResponse
 type CreateRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the new role.
 	//
@@ -9986,10 +10232,9 @@ func (s CreateRoleOutput) GoString() string {
 	return s.String()
 }
 
-// SetRole sets the Role field's value.
-func (s *CreateRoleOutput) SetRole(v *Role) *CreateRoleOutput {
-	s.Role = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateSAMLProviderRequest
@@ -10000,7 +10245,7 @@ type CreateSAMLProviderInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// Name is a required field
 	Name *string `min:"1" type:"string" required:"true"`
@@ -10052,22 +10297,12 @@ func (s *CreateSAMLProviderInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateSAMLProviderInput) SetName(v string) *CreateSAMLProviderInput {
-	s.Name = &v
-	return s
-}
-
-// SetSAMLMetadataDocument sets the SAMLMetadataDocument field's value.
-func (s *CreateSAMLProviderInput) SetSAMLMetadataDocument(v string) *CreateSAMLProviderInput {
-	s.SAMLMetadataDocument = &v
-	return s
-}
-
 // Contains the response to a successful CreateSAMLProvider request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateSAMLProviderResponse
 type CreateSAMLProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
 	SAMLProviderArn *string `min:"20" type:"string"`
@@ -10083,10 +10318,9 @@ func (s CreateSAMLProviderOutput) GoString() string {
 	return s.String()
 }
 
-// SetSAMLProviderArn sets the SAMLProviderArn field's value.
-func (s *CreateSAMLProviderOutput) SetSAMLProviderArn(v string) *CreateSAMLProviderOutput {
-	s.SAMLProviderArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSAMLProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceLinkedRoleRequest
@@ -10140,27 +10374,11 @@ func (s *CreateServiceLinkedRoleInput) Validate() error {
 	return nil
 }
 
-// SetAWSServiceName sets the AWSServiceName field's value.
-func (s *CreateServiceLinkedRoleInput) SetAWSServiceName(v string) *CreateServiceLinkedRoleInput {
-	s.AWSServiceName = &v
-	return s
-}
-
-// SetCustomSuffix sets the CustomSuffix field's value.
-func (s *CreateServiceLinkedRoleInput) SetCustomSuffix(v string) *CreateServiceLinkedRoleInput {
-	s.CustomSuffix = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateServiceLinkedRoleInput) SetDescription(v string) *CreateServiceLinkedRoleInput {
-	s.Description = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceLinkedRoleResponse
 type CreateServiceLinkedRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A Role object that contains details about the newly created role.
 	Role *Role `type:"structure"`
@@ -10176,10 +10394,9 @@ func (s CreateServiceLinkedRoleOutput) GoString() string {
 	return s.String()
 }
 
-// SetRole sets the Role field's value.
-func (s *CreateServiceLinkedRoleOutput) SetRole(v *Role) *CreateServiceLinkedRoleOutput {
-	s.Role = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateServiceLinkedRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceSpecificCredentialRequest
@@ -10199,7 +10416,7 @@ type CreateServiceSpecificCredentialInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -10236,21 +10453,11 @@ func (s *CreateServiceSpecificCredentialInput) Validate() error {
 	return nil
 }
 
-// SetServiceName sets the ServiceName field's value.
-func (s *CreateServiceSpecificCredentialInput) SetServiceName(v string) *CreateServiceSpecificCredentialInput {
-	s.ServiceName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *CreateServiceSpecificCredentialInput) SetUserName(v string) *CreateServiceSpecificCredentialInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateServiceSpecificCredentialResponse
 type CreateServiceSpecificCredentialOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains information about the newly created service-specific
 	// credential.
@@ -10271,10 +10478,9 @@ func (s CreateServiceSpecificCredentialOutput) GoString() string {
 	return s.String()
 }
 
-// SetServiceSpecificCredential sets the ServiceSpecificCredential field's value.
-func (s *CreateServiceSpecificCredentialOutput) SetServiceSpecificCredential(v *ServiceSpecificCredential) *CreateServiceSpecificCredentialOutput {
-	s.ServiceSpecificCredential = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateServiceSpecificCredentialOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateUserRequest
@@ -10288,18 +10494,19 @@ type CreateUserInput struct {
 	// This parameter is optional. If it is not included, it defaults to a slash
 	// (/).
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	Path *string `min:"1" type:"string"`
 
 	// The name of the user to create.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-.
+	// with no spaces. You can also include any of the following characters: _+=,.@-.
 	// User names are not distinguished by case. For example, you cannot create
 	// users named both "TESTUSER" and "testuser".
 	//
@@ -10337,22 +10544,12 @@ func (s *CreateUserInput) Validate() error {
 	return nil
 }
 
-// SetPath sets the Path field's value.
-func (s *CreateUserInput) SetPath(v string) *CreateUserInput {
-	s.Path = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *CreateUserInput) SetUserName(v string) *CreateUserInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful CreateUser request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateUserResponse
 type CreateUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure with details about the new IAM user.
 	User *User `type:"structure"`
@@ -10368,10 +10565,9 @@ func (s CreateUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetUser sets the User field's value.
-func (s *CreateUserOutput) SetUser(v *User) *CreateUserOutput {
-	s.User = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateVirtualMFADeviceRequest
@@ -10385,11 +10581,12 @@ type CreateVirtualMFADeviceInput struct {
 	// This parameter is optional. If it is not included, it defaults to a slash
 	// (/).
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	Path *string `min:"1" type:"string"`
 
 	// The name of the virtual MFA device. Use with path to uniquely identify a
@@ -10397,7 +10594,7 @@ type CreateVirtualMFADeviceInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// VirtualMFADeviceName is a required field
 	VirtualMFADeviceName *string `min:"1" type:"string" required:"true"`
@@ -10433,22 +10630,12 @@ func (s *CreateVirtualMFADeviceInput) Validate() error {
 	return nil
 }
 
-// SetPath sets the Path field's value.
-func (s *CreateVirtualMFADeviceInput) SetPath(v string) *CreateVirtualMFADeviceInput {
-	s.Path = &v
-	return s
-}
-
-// SetVirtualMFADeviceName sets the VirtualMFADeviceName field's value.
-func (s *CreateVirtualMFADeviceInput) SetVirtualMFADeviceName(v string) *CreateVirtualMFADeviceInput {
-	s.VirtualMFADeviceName = &v
-	return s
-}
-
 // Contains the response to a successful CreateVirtualMFADevice request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/CreateVirtualMFADeviceResponse
 type CreateVirtualMFADeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the new virtual MFA device.
 	//
@@ -10466,10 +10653,9 @@ func (s CreateVirtualMFADeviceOutput) GoString() string {
 	return s.String()
 }
 
-// SetVirtualMFADevice sets the VirtualMFADevice field's value.
-func (s *CreateVirtualMFADeviceOutput) SetVirtualMFADevice(v *VirtualMFADevice) *CreateVirtualMFADeviceOutput {
-	s.VirtualMFADevice = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateVirtualMFADeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeactivateMFADeviceRequest
@@ -10490,7 +10676,7 @@ type DeactivateMFADeviceInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -10530,21 +10716,11 @@ func (s *DeactivateMFADeviceInput) Validate() error {
 	return nil
 }
 
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *DeactivateMFADeviceInput) SetSerialNumber(v string) *DeactivateMFADeviceInput {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DeactivateMFADeviceInput) SetUserName(v string) *DeactivateMFADeviceInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeactivateMFADeviceOutput
 type DeactivateMFADeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10555,6 +10731,11 @@ func (s DeactivateMFADeviceOutput) String() string {
 // GoString returns the string representation
 func (s DeactivateMFADeviceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeactivateMFADeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccessKeyRequest
@@ -10575,7 +10756,7 @@ type DeleteAccessKeyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -10609,21 +10790,11 @@ func (s *DeleteAccessKeyInput) Validate() error {
 	return nil
 }
 
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *DeleteAccessKeyInput) SetAccessKeyId(v string) *DeleteAccessKeyInput {
-	s.AccessKeyId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DeleteAccessKeyInput) SetUserName(v string) *DeleteAccessKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccessKeyOutput
 type DeleteAccessKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10634,6 +10805,11 @@ func (s DeleteAccessKeyOutput) String() string {
 // GoString returns the string representation
 func (s DeleteAccessKeyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAccessKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountAliasRequest
@@ -10678,15 +10854,11 @@ func (s *DeleteAccountAliasInput) Validate() error {
 	return nil
 }
 
-// SetAccountAlias sets the AccountAlias field's value.
-func (s *DeleteAccountAliasInput) SetAccountAlias(v string) *DeleteAccountAliasInput {
-	s.AccountAlias = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountAliasOutput
 type DeleteAccountAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10697,6 +10869,11 @@ func (s DeleteAccountAliasOutput) String() string {
 // GoString returns the string representation
 func (s DeleteAccountAliasOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAccountAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountPasswordPolicyInput
@@ -10717,6 +10894,8 @@ func (s DeleteAccountPasswordPolicyInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteAccountPasswordPolicyOutput
 type DeleteAccountPasswordPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10729,6 +10908,11 @@ func (s DeleteAccountPasswordPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAccountPasswordPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroupRequest
 type DeleteGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -10737,7 +10921,7 @@ type DeleteGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -10770,15 +10954,11 @@ func (s *DeleteGroupInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *DeleteGroupInput) SetGroupName(v string) *DeleteGroupInput {
-	s.GroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroupOutput
 type DeleteGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10791,6 +10971,11 @@ func (s DeleteGroupOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroupPolicyRequest
 type DeleteGroupPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -10800,7 +10985,7 @@ type DeleteGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -10809,7 +10994,7 @@ type DeleteGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -10849,21 +11034,11 @@ func (s *DeleteGroupPolicyInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *DeleteGroupPolicyInput) SetGroupName(v string) *DeleteGroupPolicyInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *DeleteGroupPolicyInput) SetPolicyName(v string) *DeleteGroupPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteGroupPolicyOutput
 type DeleteGroupPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10876,6 +11051,11 @@ func (s DeleteGroupPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteGroupPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteInstanceProfileRequest
 type DeleteInstanceProfileInput struct {
 	_ struct{} `type:"structure"`
@@ -10884,7 +11064,7 @@ type DeleteInstanceProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// InstanceProfileName is a required field
 	InstanceProfileName *string `min:"1" type:"string" required:"true"`
@@ -10917,15 +11097,11 @@ func (s *DeleteInstanceProfileInput) Validate() error {
 	return nil
 }
 
-// SetInstanceProfileName sets the InstanceProfileName field's value.
-func (s *DeleteInstanceProfileInput) SetInstanceProfileName(v string) *DeleteInstanceProfileInput {
-	s.InstanceProfileName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteInstanceProfileOutput
 type DeleteInstanceProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10938,6 +11114,11 @@ func (s DeleteInstanceProfileOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteLoginProfileRequest
 type DeleteLoginProfileInput struct {
 	_ struct{} `type:"structure"`
@@ -10946,7 +11127,7 @@ type DeleteLoginProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -10979,15 +11160,11 @@ func (s *DeleteLoginProfileInput) Validate() error {
 	return nil
 }
 
-// SetUserName sets the UserName field's value.
-func (s *DeleteLoginProfileInput) SetUserName(v string) *DeleteLoginProfileInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteLoginProfileOutput
 type DeleteLoginProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11000,13 +11177,18 @@ func (s DeleteLoginProfileOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLoginProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteOpenIDConnectProviderRequest
 type DeleteOpenIDConnectProviderInput struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource
 	// object to delete. You can get a list of OpenID Connect provider resource
-	// ARNs by using the ListOpenIDConnectProviders action.
+	// ARNs by using the ListOpenIDConnectProviders operation.
 	//
 	// OpenIDConnectProviderArn is a required field
 	OpenIDConnectProviderArn *string `min:"20" type:"string" required:"true"`
@@ -11039,15 +11221,11 @@ func (s *DeleteOpenIDConnectProviderInput) Validate() error {
 	return nil
 }
 
-// SetOpenIDConnectProviderArn sets the OpenIDConnectProviderArn field's value.
-func (s *DeleteOpenIDConnectProviderInput) SetOpenIDConnectProviderArn(v string) *DeleteOpenIDConnectProviderInput {
-	s.OpenIDConnectProviderArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteOpenIDConnectProviderOutput
 type DeleteOpenIDConnectProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11058,6 +11236,11 @@ func (s DeleteOpenIDConnectProviderOutput) String() string {
 // GoString returns the string representation
 func (s DeleteOpenIDConnectProviderOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteOpenIDConnectProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicyRequest
@@ -11101,15 +11284,11 @@ func (s *DeletePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *DeletePolicyInput) SetPolicyArn(v string) *DeletePolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicyOutput
 type DeletePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11120,6 +11299,11 @@ func (s DeletePolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeletePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicyVersionRequest
@@ -11182,21 +11366,11 @@ func (s *DeletePolicyVersionInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *DeletePolicyVersionInput) SetPolicyArn(v string) *DeletePolicyVersionInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetVersionId sets the VersionId field's value.
-func (s *DeletePolicyVersionInput) SetVersionId(v string) *DeletePolicyVersionInput {
-	s.VersionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeletePolicyVersionOutput
 type DeletePolicyVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11207,6 +11381,11 @@ func (s DeletePolicyVersionOutput) String() string {
 // GoString returns the string representation
 func (s DeletePolicyVersionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePolicyVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRoleRequest
@@ -11250,15 +11429,11 @@ func (s *DeleteRoleInput) Validate() error {
 	return nil
 }
 
-// SetRoleName sets the RoleName field's value.
-func (s *DeleteRoleInput) SetRoleName(v string) *DeleteRoleInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRoleOutput
 type DeleteRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11271,6 +11446,11 @@ func (s DeleteRoleOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePolicyRequest
 type DeleteRolePolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -11279,7 +11459,7 @@ type DeleteRolePolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -11329,21 +11509,11 @@ func (s *DeleteRolePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyName sets the PolicyName field's value.
-func (s *DeleteRolePolicyInput) SetPolicyName(v string) *DeleteRolePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *DeleteRolePolicyInput) SetRoleName(v string) *DeleteRolePolicyInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteRolePolicyOutput
 type DeleteRolePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11354,6 +11524,11 @@ func (s DeleteRolePolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeleteRolePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRolePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSAMLProviderRequest
@@ -11393,15 +11568,11 @@ func (s *DeleteSAMLProviderInput) Validate() error {
 	return nil
 }
 
-// SetSAMLProviderArn sets the SAMLProviderArn field's value.
-func (s *DeleteSAMLProviderInput) SetSAMLProviderArn(v string) *DeleteSAMLProviderInput {
-	s.SAMLProviderArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSAMLProviderOutput
 type DeleteSAMLProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11412,6 +11583,11 @@ func (s DeleteSAMLProviderOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSAMLProviderOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSAMLProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSSHPublicKeyRequest
@@ -11431,7 +11607,7 @@ type DeleteSSHPublicKeyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -11471,21 +11647,11 @@ func (s *DeleteSSHPublicKeyInput) Validate() error {
 	return nil
 }
 
-// SetSSHPublicKeyId sets the SSHPublicKeyId field's value.
-func (s *DeleteSSHPublicKeyInput) SetSSHPublicKeyId(v string) *DeleteSSHPublicKeyInput {
-	s.SSHPublicKeyId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DeleteSSHPublicKeyInput) SetUserName(v string) *DeleteSSHPublicKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSSHPublicKeyOutput
 type DeleteSSHPublicKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11498,6 +11664,11 @@ func (s DeleteSSHPublicKeyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSSHPublicKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServerCertificateRequest
 type DeleteServerCertificateInput struct {
 	_ struct{} `type:"structure"`
@@ -11506,7 +11677,7 @@ type DeleteServerCertificateInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// ServerCertificateName is a required field
 	ServerCertificateName *string `min:"1" type:"string" required:"true"`
@@ -11539,15 +11710,11 @@ func (s *DeleteServerCertificateInput) Validate() error {
 	return nil
 }
 
-// SetServerCertificateName sets the ServerCertificateName field's value.
-func (s *DeleteServerCertificateInput) SetServerCertificateName(v string) *DeleteServerCertificateInput {
-	s.ServerCertificateName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServerCertificateOutput
 type DeleteServerCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11558,6 +11725,11 @@ func (s DeleteServerCertificateOutput) String() string {
 // GoString returns the string representation
 func (s DeleteServerCertificateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteServerCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceLinkedRoleRequest
@@ -11597,15 +11769,11 @@ func (s *DeleteServiceLinkedRoleInput) Validate() error {
 	return nil
 }
 
-// SetRoleName sets the RoleName field's value.
-func (s *DeleteServiceLinkedRoleInput) SetRoleName(v string) *DeleteServiceLinkedRoleInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceLinkedRoleResponse
 type DeleteServiceLinkedRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The deletion task identifier that you can use to check the status of the
 	// deletion. This identifier is returned in the format task/aws-service-role/<service-principal-name>/<role-name>/<task-uuid>.
@@ -11624,10 +11792,9 @@ func (s DeleteServiceLinkedRoleOutput) GoString() string {
 	return s.String()
 }
 
-// SetDeletionTaskId sets the DeletionTaskId field's value.
-func (s *DeleteServiceLinkedRoleOutput) SetDeletionTaskId(v string) *DeleteServiceLinkedRoleOutput {
-	s.DeletionTaskId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteServiceLinkedRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceSpecificCredentialRequest
@@ -11650,7 +11817,7 @@ type DeleteServiceSpecificCredentialInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -11684,21 +11851,11 @@ func (s *DeleteServiceSpecificCredentialInput) Validate() error {
 	return nil
 }
 
-// SetServiceSpecificCredentialId sets the ServiceSpecificCredentialId field's value.
-func (s *DeleteServiceSpecificCredentialInput) SetServiceSpecificCredentialId(v string) *DeleteServiceSpecificCredentialInput {
-	s.ServiceSpecificCredentialId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DeleteServiceSpecificCredentialInput) SetUserName(v string) *DeleteServiceSpecificCredentialInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteServiceSpecificCredentialOutput
 type DeleteServiceSpecificCredentialOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11709,6 +11866,11 @@ func (s DeleteServiceSpecificCredentialOutput) String() string {
 // GoString returns the string representation
 func (s DeleteServiceSpecificCredentialOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteServiceSpecificCredentialOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSigningCertificateRequest
@@ -11728,7 +11890,7 @@ type DeleteSigningCertificateInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -11762,21 +11924,11 @@ func (s *DeleteSigningCertificateInput) Validate() error {
 	return nil
 }
 
-// SetCertificateId sets the CertificateId field's value.
-func (s *DeleteSigningCertificateInput) SetCertificateId(v string) *DeleteSigningCertificateInput {
-	s.CertificateId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DeleteSigningCertificateInput) SetUserName(v string) *DeleteSigningCertificateInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteSigningCertificateOutput
 type DeleteSigningCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11789,6 +11941,11 @@ func (s DeleteSigningCertificateOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSigningCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserRequest
 type DeleteUserInput struct {
 	_ struct{} `type:"structure"`
@@ -11797,7 +11954,7 @@ type DeleteUserInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -11830,15 +11987,11 @@ func (s *DeleteUserInput) Validate() error {
 	return nil
 }
 
-// SetUserName sets the UserName field's value.
-func (s *DeleteUserInput) SetUserName(v string) *DeleteUserInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserOutput
 type DeleteUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11851,6 +12004,11 @@ func (s DeleteUserOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPolicyRequest
 type DeleteUserPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -11859,7 +12017,7 @@ type DeleteUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -11869,7 +12027,7 @@ type DeleteUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -11909,21 +12067,11 @@ func (s *DeleteUserPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyName sets the PolicyName field's value.
-func (s *DeleteUserPolicyInput) SetPolicyName(v string) *DeleteUserPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DeleteUserPolicyInput) SetUserName(v string) *DeleteUserPolicyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteUserPolicyOutput
 type DeleteUserPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11934,6 +12082,11 @@ func (s DeleteUserPolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeleteUserPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteUserPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteVirtualMFADeviceRequest
@@ -11978,15 +12131,11 @@ func (s *DeleteVirtualMFADeviceInput) Validate() error {
 	return nil
 }
 
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *DeleteVirtualMFADeviceInput) SetSerialNumber(v string) *DeleteVirtualMFADeviceInput {
-	s.SerialNumber = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteVirtualMFADeviceOutput
 type DeleteVirtualMFADeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -11997,6 +12146,11 @@ func (s DeleteVirtualMFADeviceOutput) String() string {
 // GoString returns the string representation
 func (s DeleteVirtualMFADeviceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteVirtualMFADeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The reason that the service-linked role deletion failed.
@@ -12011,12 +12165,12 @@ type DeletionTaskFailureReasonType struct {
 	Reason *string `type:"string"`
 
 	// A list of objects that contains details about the service-linked role deletion
-	// failure. If the service-linked role has active sessions or if any resources
-	// that were used by the role have not been deleted from the linked service,
-	// the role can't be deleted. This parameter includes a list of the resources
-	// that are associated with the role and the region in which the resources are
-	// being used.
-	RoleUsageList []*RoleUsageType `type:"list"`
+	// failure, if that information is returned by the service. If the service-linked
+	// role has active sessions or if any resources that were used by the role have
+	// not been deleted from the linked service, the role can't be deleted. This
+	// parameter includes a list of the resources that are associated with the role
+	// and the region in which the resources are being used.
+	RoleUsageList []RoleUsageType `type:"list"`
 }
 
 // String returns the string representation
@@ -12029,18 +12183,6 @@ func (s DeletionTaskFailureReasonType) GoString() string {
 	return s.String()
 }
 
-// SetReason sets the Reason field's value.
-func (s *DeletionTaskFailureReasonType) SetReason(v string) *DeletionTaskFailureReasonType {
-	s.Reason = &v
-	return s
-}
-
-// SetRoleUsageList sets the RoleUsageList field's value.
-func (s *DeletionTaskFailureReasonType) SetRoleUsageList(v []*RoleUsageType) *DeletionTaskFailureReasonType {
-	s.RoleUsageList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachGroupPolicyRequest
 type DetachGroupPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -12049,7 +12191,7 @@ type DetachGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -12098,21 +12240,11 @@ func (s *DetachGroupPolicyInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *DetachGroupPolicyInput) SetGroupName(v string) *DetachGroupPolicyInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *DetachGroupPolicyInput) SetPolicyArn(v string) *DetachGroupPolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachGroupPolicyOutput
 type DetachGroupPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -12123,6 +12255,11 @@ func (s DetachGroupPolicyOutput) String() string {
 // GoString returns the string representation
 func (s DetachGroupPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachGroupPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachRolePolicyRequest
@@ -12182,21 +12319,11 @@ func (s *DetachRolePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *DetachRolePolicyInput) SetPolicyArn(v string) *DetachRolePolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *DetachRolePolicyInput) SetRoleName(v string) *DetachRolePolicyInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachRolePolicyOutput
 type DetachRolePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -12207,6 +12334,11 @@ func (s DetachRolePolicyOutput) String() string {
 // GoString returns the string representation
 func (s DetachRolePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachRolePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachUserPolicyRequest
@@ -12226,7 +12358,7 @@ type DetachUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -12266,21 +12398,11 @@ func (s *DetachUserPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *DetachUserPolicyInput) SetPolicyArn(v string) *DetachUserPolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DetachUserPolicyInput) SetUserName(v string) *DetachUserPolicyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DetachUserPolicyOutput
 type DetachUserPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -12293,13 +12415,18 @@ func (s DetachUserPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachUserPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/EnableMFADeviceRequest
 type EnableMFADeviceInput struct {
 	_ struct{} `type:"structure"`
 
 	// An authentication code emitted by the device.
 	//
-	// The format for this parameter is a string of 6 digits.
+	// The format for this parameter is a string of six digits.
 	//
 	// Submit your request immediately after generating the authentication codes.
 	// If you generate the codes and then wait too long to submit the request, the
@@ -12313,7 +12440,7 @@ type EnableMFADeviceInput struct {
 
 	// A subsequent authentication code emitted by the device.
 	//
-	// The format for this parameter is a string of 6 digits.
+	// The format for this parameter is a string of six digits.
 	//
 	// Submit your request immediately after generating the authentication codes.
 	// If you generate the codes and then wait too long to submit the request, the
@@ -12339,7 +12466,7 @@ type EnableMFADeviceInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -12393,33 +12520,11 @@ func (s *EnableMFADeviceInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationCode1 sets the AuthenticationCode1 field's value.
-func (s *EnableMFADeviceInput) SetAuthenticationCode1(v string) *EnableMFADeviceInput {
-	s.AuthenticationCode1 = &v
-	return s
-}
-
-// SetAuthenticationCode2 sets the AuthenticationCode2 field's value.
-func (s *EnableMFADeviceInput) SetAuthenticationCode2(v string) *EnableMFADeviceInput {
-	s.AuthenticationCode2 = &v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *EnableMFADeviceInput) SetSerialNumber(v string) *EnableMFADeviceInput {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *EnableMFADeviceInput) SetUserName(v string) *EnableMFADeviceInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/EnableMFADeviceOutput
 type EnableMFADeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -12432,6 +12537,11 @@ func (s EnableMFADeviceOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableMFADeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains the results of a simulation.
 //
 // This data type is used by the return parameter of SimulateCustomPolicy and
@@ -12440,7 +12550,7 @@ func (s EnableMFADeviceOutput) GoString() string {
 type EvaluationResult struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the API action tested on the indicated resource.
+	// The name of the API operation tested on the indicated resource.
 	//
 	// EvalActionName is a required field
 	EvalActionName *string `min:"3" type:"string" required:"true"`
@@ -12448,7 +12558,7 @@ type EvaluationResult struct {
 	// The result of the simulation.
 	//
 	// EvalDecision is a required field
-	EvalDecision PolicyEvaluationDecisionType `type:"string" required:"true"`
+	EvalDecision PolicyEvaluationDecisionType `type:"string" required:"true" enum:"true"`
 
 	// Additional details about the results of the evaluation decision. When there
 	// are both IAM policies and resource policies, this parameter explains how
@@ -12458,15 +12568,15 @@ type EvaluationResult struct {
 	// Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html)
 	EvalDecisionDetails map[string]PolicyEvaluationDecisionType `type:"map"`
 
-	// The ARN of the resource that the indicated API action was tested on.
+	// The ARN of the resource that the indicated API operation was tested on.
 	EvalResourceName *string `min:"1" type:"string"`
 
 	// A list of the statements in the input policies that determine the result
-	// for this scenario. Remember that even if multiple statements allow the action
-	// on the resource, if only one statement denies that action, then the explicit
+	// for this scenario. Remember that even if multiple statements allow the operation
+	// on the resource, if only one statement denies that operation, then the explicit
 	// deny overrides any allow, and the deny statement is the only entry included
 	// in the result.
-	MatchedStatements []*Statement `type:"list"`
+	MatchedStatements []Statement `type:"list"`
 
 	// A list of context keys that are required by the included input policies but
 	// that were not provided by one of the input parameters. This list is used
@@ -12475,16 +12585,16 @@ type EvaluationResult struct {
 	// missing context values are instead included under the ResourceSpecificResults
 	// section. To discover the context keys used by a set of policies, you can
 	// call GetContextKeysForCustomPolicy or GetContextKeysForPrincipalPolicy.
-	MissingContextValues []*string `type:"list"`
+	MissingContextValues []string `type:"list"`
 
 	// A structure that details how AWS Organizations and its service control policies
 	// affect the results of the simulation. Only applies if the simulated user's
 	// account is part of an organization.
 	OrganizationsDecisionDetail *OrganizationsDecisionDetail `type:"structure"`
 
-	// The individual results of the simulation of the API action specified in EvalActionName
-	// on each resource.
-	ResourceSpecificResults []*ResourceSpecificResult `type:"list"`
+	// The individual results of the simulation of the API operation specified in
+	// EvalActionName on each resource.
+	ResourceSpecificResults []ResourceSpecificResult `type:"list"`
 }
 
 // String returns the string representation
@@ -12495,54 +12605,6 @@ func (s EvaluationResult) String() string {
 // GoString returns the string representation
 func (s EvaluationResult) GoString() string {
 	return s.String()
-}
-
-// SetEvalActionName sets the EvalActionName field's value.
-func (s *EvaluationResult) SetEvalActionName(v string) *EvaluationResult {
-	s.EvalActionName = &v
-	return s
-}
-
-// SetEvalDecision sets the EvalDecision field's value.
-func (s *EvaluationResult) SetEvalDecision(v PolicyEvaluationDecisionType) *EvaluationResult {
-	s.EvalDecision = v
-	return s
-}
-
-// SetEvalDecisionDetails sets the EvalDecisionDetails field's value.
-func (s *EvaluationResult) SetEvalDecisionDetails(v map[string]PolicyEvaluationDecisionType) *EvaluationResult {
-	s.EvalDecisionDetails = v
-	return s
-}
-
-// SetEvalResourceName sets the EvalResourceName field's value.
-func (s *EvaluationResult) SetEvalResourceName(v string) *EvaluationResult {
-	s.EvalResourceName = &v
-	return s
-}
-
-// SetMatchedStatements sets the MatchedStatements field's value.
-func (s *EvaluationResult) SetMatchedStatements(v []*Statement) *EvaluationResult {
-	s.MatchedStatements = v
-	return s
-}
-
-// SetMissingContextValues sets the MissingContextValues field's value.
-func (s *EvaluationResult) SetMissingContextValues(v []*string) *EvaluationResult {
-	s.MissingContextValues = v
-	return s
-}
-
-// SetOrganizationsDecisionDetail sets the OrganizationsDecisionDetail field's value.
-func (s *EvaluationResult) SetOrganizationsDecisionDetail(v *OrganizationsDecisionDetail) *EvaluationResult {
-	s.OrganizationsDecisionDetail = v
-	return s
-}
-
-// SetResourceSpecificResults sets the ResourceSpecificResults field's value.
-func (s *EvaluationResult) SetResourceSpecificResults(v []*ResourceSpecificResult) *EvaluationResult {
-	s.ResourceSpecificResults = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GenerateCredentialReportInput
@@ -12565,11 +12627,13 @@ func (s GenerateCredentialReportInput) GoString() string {
 type GenerateCredentialReportOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the credential report.
 	Description *string `type:"string"`
 
 	// Information about the state of the credential report.
-	State ReportStateType `type:"string"`
+	State ReportStateType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -12582,16 +12646,9 @@ func (s GenerateCredentialReportOutput) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *GenerateCredentialReportOutput) SetDescription(v string) *GenerateCredentialReportOutput {
-	s.Description = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *GenerateCredentialReportOutput) SetState(v ReportStateType) *GenerateCredentialReportOutput {
-	s.State = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GenerateCredentialReportOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccessKeyLastUsedRequest
@@ -12635,18 +12692,14 @@ func (s *GetAccessKeyLastUsedInput) Validate() error {
 	return nil
 }
 
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *GetAccessKeyLastUsedInput) SetAccessKeyId(v string) *GetAccessKeyLastUsedInput {
-	s.AccessKeyId = &v
-	return s
-}
-
 // Contains the response to a successful GetAccessKeyLastUsed request. It is
 // also returned as a member of the AccessKeyMetaData structure returned by
 // the ListAccessKeys action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccessKeyLastUsedResponse
 type GetAccessKeyLastUsedOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains information about the last time the access key was used.
 	AccessKeyLastUsed *AccessKeyLastUsed `type:"structure"`
@@ -12665,16 +12718,9 @@ func (s GetAccessKeyLastUsedOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccessKeyLastUsed sets the AccessKeyLastUsed field's value.
-func (s *GetAccessKeyLastUsedOutput) SetAccessKeyLastUsed(v *AccessKeyLastUsed) *GetAccessKeyLastUsedOutput {
-	s.AccessKeyLastUsed = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *GetAccessKeyLastUsedOutput) SetUserName(v string) *GetAccessKeyLastUsedOutput {
-	s.UserName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccessKeyLastUsedOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountAuthorizationDetailsRequest
@@ -12734,31 +12780,15 @@ func (s *GetAccountAuthorizationDetailsInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *GetAccountAuthorizationDetailsInput) SetFilter(v []EntityType) *GetAccountAuthorizationDetailsInput {
-	s.Filter = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *GetAccountAuthorizationDetailsInput) SetMarker(v string) *GetAccountAuthorizationDetailsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *GetAccountAuthorizationDetailsInput) SetMaxItems(v int64) *GetAccountAuthorizationDetailsInput {
-	s.MaxItems = &v
-	return s
-}
-
 // Contains the response to a successful GetAccountAuthorizationDetails request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountAuthorizationDetailsResponse
 type GetAccountAuthorizationDetailsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list containing information about IAM groups.
-	GroupDetailList []*GroupDetail `type:"list"`
+	GroupDetailList []GroupDetail `type:"list"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -12773,13 +12803,13 @@ type GetAccountAuthorizationDetailsOutput struct {
 	Marker *string `min:"1" type:"string"`
 
 	// A list containing information about managed policies.
-	Policies []*ManagedPolicyDetail `type:"list"`
+	Policies []ManagedPolicyDetail `type:"list"`
 
 	// A list containing information about IAM roles.
-	RoleDetailList []*RoleDetail `type:"list"`
+	RoleDetailList []RoleDetail `type:"list"`
 
 	// A list containing information about IAM users.
-	UserDetailList []*UserDetail `type:"list"`
+	UserDetailList []UserDetail `type:"list"`
 }
 
 // String returns the string representation
@@ -12792,40 +12822,9 @@ func (s GetAccountAuthorizationDetailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetGroupDetailList sets the GroupDetailList field's value.
-func (s *GetAccountAuthorizationDetailsOutput) SetGroupDetailList(v []*GroupDetail) *GetAccountAuthorizationDetailsOutput {
-	s.GroupDetailList = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *GetAccountAuthorizationDetailsOutput) SetIsTruncated(v bool) *GetAccountAuthorizationDetailsOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *GetAccountAuthorizationDetailsOutput) SetMarker(v string) *GetAccountAuthorizationDetailsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPolicies sets the Policies field's value.
-func (s *GetAccountAuthorizationDetailsOutput) SetPolicies(v []*ManagedPolicyDetail) *GetAccountAuthorizationDetailsOutput {
-	s.Policies = v
-	return s
-}
-
-// SetRoleDetailList sets the RoleDetailList field's value.
-func (s *GetAccountAuthorizationDetailsOutput) SetRoleDetailList(v []*RoleDetail) *GetAccountAuthorizationDetailsOutput {
-	s.RoleDetailList = v
-	return s
-}
-
-// SetUserDetailList sets the UserDetailList field's value.
-func (s *GetAccountAuthorizationDetailsOutput) SetUserDetailList(v []*UserDetail) *GetAccountAuthorizationDetailsOutput {
-	s.UserDetailList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccountAuthorizationDetailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountPasswordPolicyInput
@@ -12848,6 +12847,8 @@ func (s GetAccountPasswordPolicyInput) GoString() string {
 type GetAccountPasswordPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A structure that contains details about the account's password policy.
 	//
 	// PasswordPolicy is a required field
@@ -12864,10 +12865,9 @@ func (s GetAccountPasswordPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPasswordPolicy sets the PasswordPolicy field's value.
-func (s *GetAccountPasswordPolicyOutput) SetPasswordPolicy(v *PasswordPolicy) *GetAccountPasswordPolicyOutput {
-	s.PasswordPolicy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccountPasswordPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetAccountSummaryInput
@@ -12890,9 +12890,11 @@ func (s GetAccountSummaryInput) GoString() string {
 type GetAccountSummaryOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A set of key value pairs containing information about IAM entity usage and
 	// IAM quotas.
-	SummaryMap map[string]*int64 `type:"map"`
+	SummaryMap map[string]int64 `type:"map"`
 }
 
 // String returns the string representation
@@ -12905,10 +12907,9 @@ func (s GetAccountSummaryOutput) GoString() string {
 	return s.String()
 }
 
-// SetSummaryMap sets the SummaryMap field's value.
-func (s *GetAccountSummaryOutput) SetSummaryMap(v map[string]*int64) *GetAccountSummaryOutput {
-	s.SummaryMap = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccountSummaryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForCustomPolicyRequest
@@ -12920,14 +12921,19 @@ type GetContextKeysForCustomPolicyInput struct {
 	// complete, valid JSON text of an IAM policy.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyInputList is a required field
-	PolicyInputList []*string `type:"list" required:"true"`
+	PolicyInputList []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -12954,12 +12960,6 @@ func (s *GetContextKeysForCustomPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyInputList sets the PolicyInputList field's value.
-func (s *GetContextKeysForCustomPolicyInput) SetPolicyInputList(v []*string) *GetContextKeysForCustomPolicyInput {
-	s.PolicyInputList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForPrincipalPolicyRequest
 type GetContextKeysForPrincipalPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -12968,20 +12968,26 @@ type GetContextKeysForPrincipalPolicyInput struct {
 	// keys that are referenced.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-	PolicyInputList []*string `type:"list"`
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
+	PolicyInputList []string `type:"list"`
 
 	// The ARN of a user, group, or role whose policies contain the context keys
 	// that you want listed. If you specify a user, the list includes context keys
-	// that are found in all policies attached to the user as well as to all groups
-	// that the user is a member of. If you pick a group or a role, then it includes
-	// only those context keys that are found in policies attached to that entity.
-	// Note that all parameters are shown in unencoded form here for clarity, but
-	// must be URL encoded to be included as a part of a real HTML request.
+	// that are found in all policies that are attached to the user. The list also
+	// includes all groups that the user is a member of. If you pick a group or
+	// a role, then it includes only those context keys that are found in policies
+	// attached to that entity. Note that all parameters are shown in unencoded
+	// form here for clarity, but must be URL encoded to be included as a part of
+	// a real HTML request.
 	//
 	// For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
 	// Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -13018,26 +13024,16 @@ func (s *GetContextKeysForPrincipalPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyInputList sets the PolicyInputList field's value.
-func (s *GetContextKeysForPrincipalPolicyInput) SetPolicyInputList(v []*string) *GetContextKeysForPrincipalPolicyInput {
-	s.PolicyInputList = v
-	return s
-}
-
-// SetPolicySourceArn sets the PolicySourceArn field's value.
-func (s *GetContextKeysForPrincipalPolicyInput) SetPolicySourceArn(v string) *GetContextKeysForPrincipalPolicyInput {
-	s.PolicySourceArn = &v
-	return s
-}
-
 // Contains the response to a successful GetContextKeysForPrincipalPolicy or
 // GetContextKeysForCustomPolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetContextKeysForCustomPolicyOutput
 type GetContextKeysForPrincipalPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of context keys that are referenced in the input policies.
-	ContextKeyNames []*string `type:"list"`
+	ContextKeyNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -13050,10 +13046,9 @@ func (s GetContextKeysForPrincipalPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetContextKeyNames sets the ContextKeyNames field's value.
-func (s *GetContextKeysForPrincipalPolicyOutput) SetContextKeyNames(v []*string) *GetContextKeysForPrincipalPolicyOutput {
-	s.ContextKeyNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetContextKeysForPrincipalPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetCredentialReportInput
@@ -13076,6 +13071,8 @@ func (s GetCredentialReportInput) GoString() string {
 type GetCredentialReportOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Contains the credential report. The report is Base64-encoded.
 	//
 	// Content is automatically base64 encoded/decoded by the SDK.
@@ -13086,7 +13083,7 @@ type GetCredentialReportOutput struct {
 	GeneratedTime *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	// The format (MIME type) of the credential report.
-	ReportFormat ReportFormatType `type:"string"`
+	ReportFormat ReportFormatType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -13099,22 +13096,9 @@ func (s GetCredentialReportOutput) GoString() string {
 	return s.String()
 }
 
-// SetContent sets the Content field's value.
-func (s *GetCredentialReportOutput) SetContent(v []byte) *GetCredentialReportOutput {
-	s.Content = v
-	return s
-}
-
-// SetGeneratedTime sets the GeneratedTime field's value.
-func (s *GetCredentialReportOutput) SetGeneratedTime(v time.Time) *GetCredentialReportOutput {
-	s.GeneratedTime = &v
-	return s
-}
-
-// SetReportFormat sets the ReportFormat field's value.
-func (s *GetCredentialReportOutput) SetReportFormat(v ReportFormatType) *GetCredentialReportOutput {
-	s.ReportFormat = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCredentialReportOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroupRequest
@@ -13125,7 +13109,7 @@ type GetGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -13181,28 +13165,12 @@ func (s *GetGroupInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *GetGroupInput) SetGroupName(v string) *GetGroupInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *GetGroupInput) SetMarker(v string) *GetGroupInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *GetGroupInput) SetMaxItems(v int64) *GetGroupInput {
-	s.MaxItems = &v
-	return s
-}
-
 // Contains the response to a successful GetGroup request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroupResponse
 type GetGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the group.
 	//
@@ -13224,7 +13192,7 @@ type GetGroupOutput struct {
 	// A list of users in the group.
 	//
 	// Users is a required field
-	Users []*User `type:"list" required:"true"`
+	Users []User `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -13237,28 +13205,9 @@ func (s GetGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetGroup sets the Group field's value.
-func (s *GetGroupOutput) SetGroup(v *Group) *GetGroupOutput {
-	s.Group = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *GetGroupOutput) SetIsTruncated(v bool) *GetGroupOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *GetGroupOutput) SetMarker(v string) *GetGroupOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetUsers sets the Users field's value.
-func (s *GetGroupOutput) SetUsers(v []*User) *GetGroupOutput {
-	s.Users = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroupPolicyRequest
@@ -13269,7 +13218,7 @@ type GetGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -13278,7 +13227,7 @@ type GetGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -13318,22 +13267,12 @@ func (s *GetGroupPolicyInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *GetGroupPolicyInput) SetGroupName(v string) *GetGroupPolicyInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *GetGroupPolicyInput) SetPolicyName(v string) *GetGroupPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains the response to a successful GetGroupPolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetGroupPolicyResponse
 type GetGroupPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The group the policy is associated with.
 	//
@@ -13361,22 +13300,9 @@ func (s GetGroupPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *GetGroupPolicyOutput) SetGroupName(v string) *GetGroupPolicyOutput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *GetGroupPolicyOutput) SetPolicyDocument(v string) *GetGroupPolicyOutput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *GetGroupPolicyOutput) SetPolicyName(v string) *GetGroupPolicyOutput {
-	s.PolicyName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetGroupPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetInstanceProfileRequest
@@ -13387,7 +13313,7 @@ type GetInstanceProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// InstanceProfileName is a required field
 	InstanceProfileName *string `min:"1" type:"string" required:"true"`
@@ -13420,16 +13346,12 @@ func (s *GetInstanceProfileInput) Validate() error {
 	return nil
 }
 
-// SetInstanceProfileName sets the InstanceProfileName field's value.
-func (s *GetInstanceProfileInput) SetInstanceProfileName(v string) *GetInstanceProfileInput {
-	s.InstanceProfileName = &v
-	return s
-}
-
 // Contains the response to a successful GetInstanceProfile request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetInstanceProfileResponse
 type GetInstanceProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the instance profile.
 	//
@@ -13447,10 +13369,9 @@ func (s GetInstanceProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceProfile sets the InstanceProfile field's value.
-func (s *GetInstanceProfileOutput) SetInstanceProfile(v *InstanceProfile) *GetInstanceProfileOutput {
-	s.InstanceProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetLoginProfileRequest
@@ -13461,7 +13382,7 @@ type GetLoginProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -13494,16 +13415,12 @@ func (s *GetLoginProfileInput) Validate() error {
 	return nil
 }
 
-// SetUserName sets the UserName field's value.
-func (s *GetLoginProfileInput) SetUserName(v string) *GetLoginProfileInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful GetLoginProfile request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetLoginProfileResponse
 type GetLoginProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing the user name and password create date for the user.
 	//
@@ -13521,10 +13438,9 @@ func (s GetLoginProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoginProfile sets the LoginProfile field's value.
-func (s *GetLoginProfileOutput) SetLoginProfile(v *LoginProfile) *GetLoginProfileOutput {
-	s.LoginProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLoginProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOpenIDConnectProviderRequest
@@ -13533,7 +13449,7 @@ type GetOpenIDConnectProviderInput struct {
 
 	// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM
 	// to get information for. You can get a list of OIDC provider resource ARNs
-	// by using the ListOpenIDConnectProviders action.
+	// by using the ListOpenIDConnectProviders operation.
 	//
 	// For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
 	// Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -13570,20 +13486,16 @@ func (s *GetOpenIDConnectProviderInput) Validate() error {
 	return nil
 }
 
-// SetOpenIDConnectProviderArn sets the OpenIDConnectProviderArn field's value.
-func (s *GetOpenIDConnectProviderInput) SetOpenIDConnectProviderArn(v string) *GetOpenIDConnectProviderInput {
-	s.OpenIDConnectProviderArn = &v
-	return s
-}
-
 // Contains the response to a successful GetOpenIDConnectProvider request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetOpenIDConnectProviderResponse
 type GetOpenIDConnectProviderOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of client IDs (also known as audiences) that are associated with the
 	// specified IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
-	ClientIDList []*string `type:"list"`
+	ClientIDList []string `type:"list"`
 
 	// The date and time when the IAM OIDC provider resource object was created
 	// in the AWS account.
@@ -13591,7 +13503,7 @@ type GetOpenIDConnectProviderOutput struct {
 
 	// A list of certificate thumbprints that are associated with the specified
 	// IAM OIDC provider resource object. For more information, see CreateOpenIDConnectProvider.
-	ThumbprintList []*string `type:"list"`
+	ThumbprintList []string `type:"list"`
 
 	// The URL that the IAM OIDC provider resource object is associated with. For
 	// more information, see CreateOpenIDConnectProvider.
@@ -13608,28 +13520,9 @@ func (s GetOpenIDConnectProviderOutput) GoString() string {
 	return s.String()
 }
 
-// SetClientIDList sets the ClientIDList field's value.
-func (s *GetOpenIDConnectProviderOutput) SetClientIDList(v []*string) *GetOpenIDConnectProviderOutput {
-	s.ClientIDList = v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *GetOpenIDConnectProviderOutput) SetCreateDate(v time.Time) *GetOpenIDConnectProviderOutput {
-	s.CreateDate = &v
-	return s
-}
-
-// SetThumbprintList sets the ThumbprintList field's value.
-func (s *GetOpenIDConnectProviderOutput) SetThumbprintList(v []*string) *GetOpenIDConnectProviderOutput {
-	s.ThumbprintList = v
-	return s
-}
-
-// SetUrl sets the Url field's value.
-func (s *GetOpenIDConnectProviderOutput) SetUrl(v string) *GetOpenIDConnectProviderOutput {
-	s.Url = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetOpenIDConnectProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicyRequest
@@ -13674,16 +13567,12 @@ func (s *GetPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *GetPolicyInput) SetPolicyArn(v string) *GetPolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
 // Contains the response to a successful GetPolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicyResponse
 type GetPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the policy.
 	Policy *Policy `type:"structure"`
@@ -13699,10 +13588,9 @@ func (s GetPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *GetPolicyOutput) SetPolicy(v *Policy) *GetPolicyOutput {
-	s.Policy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicyVersionRequest
@@ -13761,22 +13649,12 @@ func (s *GetPolicyVersionInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *GetPolicyVersionInput) SetPolicyArn(v string) *GetPolicyVersionInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetVersionId sets the VersionId field's value.
-func (s *GetPolicyVersionInput) SetVersionId(v string) *GetPolicyVersionInput {
-	s.VersionId = &v
-	return s
-}
-
 // Contains the response to a successful GetPolicyVersion request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetPolicyVersionResponse
 type GetPolicyVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the policy version.
 	PolicyVersion *PolicyVersion `type:"structure"`
@@ -13792,10 +13670,9 @@ func (s GetPolicyVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyVersion sets the PolicyVersion field's value.
-func (s *GetPolicyVersionOutput) SetPolicyVersion(v *PolicyVersion) *GetPolicyVersionOutput {
-	s.PolicyVersion = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPolicyVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRoleRequest
@@ -13839,16 +13716,12 @@ func (s *GetRoleInput) Validate() error {
 	return nil
 }
 
-// SetRoleName sets the RoleName field's value.
-func (s *GetRoleInput) SetRoleName(v string) *GetRoleInput {
-	s.RoleName = &v
-	return s
-}
-
 // Contains the response to a successful GetRole request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRoleResponse
 type GetRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the IAM role.
 	//
@@ -13866,10 +13739,9 @@ func (s GetRoleOutput) GoString() string {
 	return s.String()
 }
 
-// SetRole sets the Role field's value.
-func (s *GetRoleOutput) SetRole(v *Role) *GetRoleOutput {
-	s.Role = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRolePolicyRequest
@@ -13880,7 +13752,7 @@ type GetRolePolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -13929,22 +13801,12 @@ func (s *GetRolePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyName sets the PolicyName field's value.
-func (s *GetRolePolicyInput) SetPolicyName(v string) *GetRolePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *GetRolePolicyInput) SetRoleName(v string) *GetRolePolicyInput {
-	s.RoleName = &v
-	return s
-}
-
 // Contains the response to a successful GetRolePolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetRolePolicyResponse
 type GetRolePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The policy document.
 	//
@@ -13972,22 +13834,9 @@ func (s GetRolePolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *GetRolePolicyOutput) SetPolicyDocument(v string) *GetRolePolicyOutput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *GetRolePolicyOutput) SetPolicyName(v string) *GetRolePolicyOutput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *GetRolePolicyOutput) SetRoleName(v string) *GetRolePolicyOutput {
-	s.RoleName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRolePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSAMLProviderRequest
@@ -14032,16 +13881,12 @@ func (s *GetSAMLProviderInput) Validate() error {
 	return nil
 }
 
-// SetSAMLProviderArn sets the SAMLProviderArn field's value.
-func (s *GetSAMLProviderInput) SetSAMLProviderArn(v string) *GetSAMLProviderInput {
-	s.SAMLProviderArn = &v
-	return s
-}
-
 // Contains the response to a successful GetSAMLProvider request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSAMLProviderResponse
 type GetSAMLProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The date and time when the SAML provider was created.
 	CreateDate *time.Time `type:"timestamp" timestampFormat:"iso8601"`
@@ -14063,22 +13908,9 @@ func (s GetSAMLProviderOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreateDate sets the CreateDate field's value.
-func (s *GetSAMLProviderOutput) SetCreateDate(v time.Time) *GetSAMLProviderOutput {
-	s.CreateDate = &v
-	return s
-}
-
-// SetSAMLMetadataDocument sets the SAMLMetadataDocument field's value.
-func (s *GetSAMLProviderOutput) SetSAMLMetadataDocument(v string) *GetSAMLProviderOutput {
-	s.SAMLMetadataDocument = &v
-	return s
-}
-
-// SetValidUntil sets the ValidUntil field's value.
-func (s *GetSAMLProviderOutput) SetValidUntil(v time.Time) *GetSAMLProviderOutput {
-	s.ValidUntil = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSAMLProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSSHPublicKeyRequest
@@ -14090,7 +13922,7 @@ type GetSSHPublicKeyInput struct {
 	// PEM format, use PEM.
 	//
 	// Encoding is a required field
-	Encoding EncodingType `type:"string" required:"true"`
+	Encoding EncodingType `type:"string" required:"true" enum:"true"`
 
 	// The unique identifier for the SSH public key.
 	//
@@ -14105,7 +13937,7 @@ type GetSSHPublicKeyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -14148,28 +13980,12 @@ func (s *GetSSHPublicKeyInput) Validate() error {
 	return nil
 }
 
-// SetEncoding sets the Encoding field's value.
-func (s *GetSSHPublicKeyInput) SetEncoding(v EncodingType) *GetSSHPublicKeyInput {
-	s.Encoding = v
-	return s
-}
-
-// SetSSHPublicKeyId sets the SSHPublicKeyId field's value.
-func (s *GetSSHPublicKeyInput) SetSSHPublicKeyId(v string) *GetSSHPublicKeyInput {
-	s.SSHPublicKeyId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *GetSSHPublicKeyInput) SetUserName(v string) *GetSSHPublicKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful GetSSHPublicKey request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSSHPublicKeyResponse
 type GetSSHPublicKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the SSH public key.
 	SSHPublicKey *SSHPublicKey `type:"structure"`
@@ -14185,10 +14001,9 @@ func (s GetSSHPublicKeyOutput) GoString() string {
 	return s.String()
 }
 
-// SetSSHPublicKey sets the SSHPublicKey field's value.
-func (s *GetSSHPublicKeyOutput) SetSSHPublicKey(v *SSHPublicKey) *GetSSHPublicKeyOutput {
-	s.SSHPublicKey = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSSHPublicKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServerCertificateRequest
@@ -14199,7 +14014,7 @@ type GetServerCertificateInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// ServerCertificateName is a required field
 	ServerCertificateName *string `min:"1" type:"string" required:"true"`
@@ -14232,16 +14047,12 @@ func (s *GetServerCertificateInput) Validate() error {
 	return nil
 }
 
-// SetServerCertificateName sets the ServerCertificateName field's value.
-func (s *GetServerCertificateInput) SetServerCertificateName(v string) *GetServerCertificateInput {
-	s.ServerCertificateName = &v
-	return s
-}
-
 // Contains the response to a successful GetServerCertificate request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServerCertificateResponse
 type GetServerCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the server certificate.
 	//
@@ -14259,10 +14070,9 @@ func (s GetServerCertificateOutput) GoString() string {
 	return s.String()
 }
 
-// SetServerCertificate sets the ServerCertificate field's value.
-func (s *GetServerCertificateOutput) SetServerCertificate(v *ServerCertificate) *GetServerCertificateOutput {
-	s.ServerCertificate = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetServerCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLinkedRoleDeletionStatusRequest
@@ -14303,15 +14113,11 @@ func (s *GetServiceLinkedRoleDeletionStatusInput) Validate() error {
 	return nil
 }
 
-// SetDeletionTaskId sets the DeletionTaskId field's value.
-func (s *GetServiceLinkedRoleDeletionStatusInput) SetDeletionTaskId(v string) *GetServiceLinkedRoleDeletionStatusInput {
-	s.DeletionTaskId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetServiceLinkedRoleDeletionStatusResponse
 type GetServiceLinkedRoleDeletionStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An object that contains details about the reason the deletion failed.
 	Reason *DeletionTaskFailureReasonType `type:"structure"`
@@ -14319,7 +14125,7 @@ type GetServiceLinkedRoleDeletionStatusOutput struct {
 	// The status of the deletion.
 	//
 	// Status is a required field
-	Status DeletionTaskStatusType `type:"string" required:"true"`
+	Status DeletionTaskStatusType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -14332,16 +14138,9 @@ func (s GetServiceLinkedRoleDeletionStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetReason sets the Reason field's value.
-func (s *GetServiceLinkedRoleDeletionStatusOutput) SetReason(v *DeletionTaskFailureReasonType) *GetServiceLinkedRoleDeletionStatusOutput {
-	s.Reason = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetServiceLinkedRoleDeletionStatusOutput) SetStatus(v DeletionTaskStatusType) *GetServiceLinkedRoleDeletionStatusOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetServiceLinkedRoleDeletionStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUserRequest
@@ -14353,7 +14152,7 @@ type GetUserInput struct {
 	// This parameter is optional. If it is not included, it defaults to the user
 	// making the request. This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -14380,16 +14179,12 @@ func (s *GetUserInput) Validate() error {
 	return nil
 }
 
-// SetUserName sets the UserName field's value.
-func (s *GetUserInput) SetUserName(v string) *GetUserInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful GetUser request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUserResponse
 type GetUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure containing details about the IAM user.
 	//
@@ -14407,10 +14202,9 @@ func (s GetUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetUser sets the User field's value.
-func (s *GetUserOutput) SetUser(v *User) *GetUserOutput {
-	s.User = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUserPolicyRequest
@@ -14421,7 +14215,7 @@ type GetUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -14430,7 +14224,7 @@ type GetUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -14470,22 +14264,12 @@ func (s *GetUserPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyName sets the PolicyName field's value.
-func (s *GetUserPolicyInput) SetPolicyName(v string) *GetUserPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *GetUserPolicyInput) SetUserName(v string) *GetUserPolicyInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful GetUserPolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetUserPolicyResponse
 type GetUserPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The policy document.
 	//
@@ -14513,27 +14297,14 @@ func (s GetUserPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *GetUserPolicyOutput) SetPolicyDocument(v string) *GetUserPolicyOutput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *GetUserPolicyOutput) SetPolicyName(v string) *GetUserPolicyOutput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *GetUserPolicyOutput) SetUserName(v string) *GetUserPolicyOutput {
-	s.UserName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetUserPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about an IAM group entity.
 //
-// This data type is used as a response element in the following actions:
+// This data type is used as a response element in the following operations:
 //
 //    * CreateGroup
 //
@@ -14587,40 +14358,10 @@ func (s Group) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Group) SetArn(v string) *Group {
-	s.Arn = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *Group) SetCreateDate(v time.Time) *Group {
-	s.CreateDate = &v
-	return s
-}
-
-// SetGroupId sets the GroupId field's value.
-func (s *Group) SetGroupId(v string) *Group {
-	s.GroupId = &v
-	return s
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *Group) SetGroupName(v string) *Group {
-	s.GroupName = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *Group) SetPath(v string) *Group {
-	s.Path = &v
-	return s
-}
-
 // Contains information about an IAM group, including all of the group's policies.
 //
 // This data type is used as a response element in the GetAccountAuthorizationDetails
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GroupDetail
 type GroupDetail struct {
 	_ struct{} `type:"structure"`
@@ -14633,7 +14374,7 @@ type GroupDetail struct {
 	Arn *string `min:"20" type:"string"`
 
 	// A list of the managed policies attached to the group.
-	AttachedManagedPolicies []*AttachedPolicy `type:"list"`
+	AttachedManagedPolicies []AttachedPolicy `type:"list"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
 	// when the group was created.
@@ -14648,7 +14389,7 @@ type GroupDetail struct {
 	GroupName *string `min:"1" type:"string"`
 
 	// A list of the inline policies embedded in the group.
-	GroupPolicyList []*PolicyDetail `type:"list"`
+	GroupPolicyList []PolicyDetail `type:"list"`
 
 	// The path to the group. For more information about paths, see IAM Identifiers
 	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
@@ -14666,51 +14407,9 @@ func (s GroupDetail) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *GroupDetail) SetArn(v string) *GroupDetail {
-	s.Arn = &v
-	return s
-}
-
-// SetAttachedManagedPolicies sets the AttachedManagedPolicies field's value.
-func (s *GroupDetail) SetAttachedManagedPolicies(v []*AttachedPolicy) *GroupDetail {
-	s.AttachedManagedPolicies = v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *GroupDetail) SetCreateDate(v time.Time) *GroupDetail {
-	s.CreateDate = &v
-	return s
-}
-
-// SetGroupId sets the GroupId field's value.
-func (s *GroupDetail) SetGroupId(v string) *GroupDetail {
-	s.GroupId = &v
-	return s
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *GroupDetail) SetGroupName(v string) *GroupDetail {
-	s.GroupName = &v
-	return s
-}
-
-// SetGroupPolicyList sets the GroupPolicyList field's value.
-func (s *GroupDetail) SetGroupPolicyList(v []*PolicyDetail) *GroupDetail {
-	s.GroupPolicyList = v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *GroupDetail) SetPath(v string) *GroupDetail {
-	s.Path = &v
-	return s
-}
-
 // Contains information about an instance profile.
 //
-// This data type is used as a response element in the following actions:
+// This data type is used as a response element in the following operations:
 //
 //    * CreateInstanceProfile
 //
@@ -14758,7 +14457,7 @@ type InstanceProfile struct {
 	// The role associated with the instance profile.
 	//
 	// Roles is a required field
-	Roles []*Role `type:"list" required:"true"`
+	Roles []Role `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -14769,42 +14468,6 @@ func (s InstanceProfile) String() string {
 // GoString returns the string representation
 func (s InstanceProfile) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *InstanceProfile) SetArn(v string) *InstanceProfile {
-	s.Arn = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *InstanceProfile) SetCreateDate(v time.Time) *InstanceProfile {
-	s.CreateDate = &v
-	return s
-}
-
-// SetInstanceProfileId sets the InstanceProfileId field's value.
-func (s *InstanceProfile) SetInstanceProfileId(v string) *InstanceProfile {
-	s.InstanceProfileId = &v
-	return s
-}
-
-// SetInstanceProfileName sets the InstanceProfileName field's value.
-func (s *InstanceProfile) SetInstanceProfileName(v string) *InstanceProfile {
-	s.InstanceProfileName = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *InstanceProfile) SetPath(v string) *InstanceProfile {
-	s.Path = &v
-	return s
-}
-
-// SetRoles sets the Roles field's value.
-func (s *InstanceProfile) SetRoles(v []*Role) *InstanceProfile {
-	s.Roles = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccessKeysRequest
@@ -14832,7 +14495,7 @@ type ListAccessKeysInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -14865,33 +14528,17 @@ func (s *ListAccessKeysInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListAccessKeysInput) SetMarker(v string) *ListAccessKeysInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListAccessKeysInput) SetMaxItems(v int64) *ListAccessKeysInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListAccessKeysInput) SetUserName(v string) *ListAccessKeysInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListAccessKeys request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccessKeysResponse
 type ListAccessKeysOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of objects containing metadata about the access keys.
 	//
 	// AccessKeyMetadata is a required field
-	AccessKeyMetadata []*AccessKeyMetadata `type:"list" required:"true"`
+	AccessKeyMetadata []AccessKeyMetadata `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -14916,22 +14563,9 @@ func (s ListAccessKeysOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccessKeyMetadata sets the AccessKeyMetadata field's value.
-func (s *ListAccessKeysOutput) SetAccessKeyMetadata(v []*AccessKeyMetadata) *ListAccessKeysOutput {
-	s.AccessKeyMetadata = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListAccessKeysOutput) SetIsTruncated(v bool) *ListAccessKeysOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListAccessKeysOutput) SetMarker(v string) *ListAccessKeysOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAccessKeysOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccountAliasesRequest
@@ -14982,28 +14616,18 @@ func (s *ListAccountAliasesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListAccountAliasesInput) SetMarker(v string) *ListAccountAliasesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListAccountAliasesInput) SetMaxItems(v int64) *ListAccountAliasesInput {
-	s.MaxItems = &v
-	return s
-}
-
 // Contains the response to a successful ListAccountAliases request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAccountAliasesResponse
 type ListAccountAliasesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of aliases associated with the account. AWS supports only one alias
 	// per account.
 	//
 	// AccountAliases is a required field
-	AccountAliases []*string `type:"list" required:"true"`
+	AccountAliases []string `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15028,22 +14652,9 @@ func (s ListAccountAliasesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccountAliases sets the AccountAliases field's value.
-func (s *ListAccountAliasesOutput) SetAccountAliases(v []*string) *ListAccountAliasesOutput {
-	s.AccountAliases = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListAccountAliasesOutput) SetIsTruncated(v bool) *ListAccountAliasesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListAccountAliasesOutput) SetMarker(v string) *ListAccountAliasesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAccountAliasesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedGroupPoliciesRequest
@@ -15055,7 +14666,7 @@ type ListAttachedGroupPoliciesInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -15080,11 +14691,12 @@ type ListAttachedGroupPoliciesInput struct {
 	// The path prefix for filtering the results. This parameter is optional. If
 	// it is not included, it defaults to a slash (/), listing all policies.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `type:"string"`
 }
 
@@ -15121,37 +14733,15 @@ func (s *ListAttachedGroupPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *ListAttachedGroupPoliciesInput) SetGroupName(v string) *ListAttachedGroupPoliciesInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListAttachedGroupPoliciesInput) SetMarker(v string) *ListAttachedGroupPoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListAttachedGroupPoliciesInput) SetMaxItems(v int64) *ListAttachedGroupPoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListAttachedGroupPoliciesInput) SetPathPrefix(v string) *ListAttachedGroupPoliciesInput {
-	s.PathPrefix = &v
-	return s
-}
-
 // Contains the response to a successful ListAttachedGroupPolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedGroupPoliciesResponse
 type ListAttachedGroupPoliciesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the attached policies.
-	AttachedPolicies []*AttachedPolicy `type:"list"`
+	AttachedPolicies []AttachedPolicy `type:"list"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15176,22 +14766,9 @@ func (s ListAttachedGroupPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttachedPolicies sets the AttachedPolicies field's value.
-func (s *ListAttachedGroupPoliciesOutput) SetAttachedPolicies(v []*AttachedPolicy) *ListAttachedGroupPoliciesOutput {
-	s.AttachedPolicies = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListAttachedGroupPoliciesOutput) SetIsTruncated(v bool) *ListAttachedGroupPoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListAttachedGroupPoliciesOutput) SetMarker(v string) *ListAttachedGroupPoliciesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAttachedGroupPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedRolePoliciesRequest
@@ -15218,11 +14795,12 @@ type ListAttachedRolePoliciesInput struct {
 	// The path prefix for filtering the results. This parameter is optional. If
 	// it is not included, it defaults to a slash (/), listing all policies.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `type:"string"`
 
 	// The name (friendly name, not ARN) of the role to list attached policies for.
@@ -15268,37 +14846,15 @@ func (s *ListAttachedRolePoliciesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListAttachedRolePoliciesInput) SetMarker(v string) *ListAttachedRolePoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListAttachedRolePoliciesInput) SetMaxItems(v int64) *ListAttachedRolePoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListAttachedRolePoliciesInput) SetPathPrefix(v string) *ListAttachedRolePoliciesInput {
-	s.PathPrefix = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *ListAttachedRolePoliciesInput) SetRoleName(v string) *ListAttachedRolePoliciesInput {
-	s.RoleName = &v
-	return s
-}
-
 // Contains the response to a successful ListAttachedRolePolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedRolePoliciesResponse
 type ListAttachedRolePoliciesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the attached policies.
-	AttachedPolicies []*AttachedPolicy `type:"list"`
+	AttachedPolicies []AttachedPolicy `type:"list"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15323,22 +14879,9 @@ func (s ListAttachedRolePoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttachedPolicies sets the AttachedPolicies field's value.
-func (s *ListAttachedRolePoliciesOutput) SetAttachedPolicies(v []*AttachedPolicy) *ListAttachedRolePoliciesOutput {
-	s.AttachedPolicies = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListAttachedRolePoliciesOutput) SetIsTruncated(v bool) *ListAttachedRolePoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListAttachedRolePoliciesOutput) SetMarker(v string) *ListAttachedRolePoliciesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAttachedRolePoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedUserPoliciesRequest
@@ -15365,18 +14908,19 @@ type ListAttachedUserPoliciesInput struct {
 	// The path prefix for filtering the results. This parameter is optional. If
 	// it is not included, it defaults to a slash (/), listing all policies.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `type:"string"`
 
 	// The name (friendly name, not ARN) of the user to list attached policies for.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -15415,37 +14959,15 @@ func (s *ListAttachedUserPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListAttachedUserPoliciesInput) SetMarker(v string) *ListAttachedUserPoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListAttachedUserPoliciesInput) SetMaxItems(v int64) *ListAttachedUserPoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListAttachedUserPoliciesInput) SetPathPrefix(v string) *ListAttachedUserPoliciesInput {
-	s.PathPrefix = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListAttachedUserPoliciesInput) SetUserName(v string) *ListAttachedUserPoliciesInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListAttachedUserPolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListAttachedUserPoliciesResponse
 type ListAttachedUserPoliciesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the attached policies.
-	AttachedPolicies []*AttachedPolicy `type:"list"`
+	AttachedPolicies []AttachedPolicy `type:"list"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15470,22 +14992,9 @@ func (s ListAttachedUserPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttachedPolicies sets the AttachedPolicies field's value.
-func (s *ListAttachedUserPoliciesOutput) SetAttachedPolicies(v []*AttachedPolicy) *ListAttachedUserPoliciesOutput {
-	s.AttachedPolicies = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListAttachedUserPoliciesOutput) SetIsTruncated(v bool) *ListAttachedUserPoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListAttachedUserPoliciesOutput) SetMarker(v string) *ListAttachedUserPoliciesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAttachedUserPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListEntitiesForPolicyRequest
@@ -15498,7 +15007,7 @@ type ListEntitiesForPolicyInput struct {
 	// to the specified policy are returned. This parameter is optional. If it is
 	// not included, all attached entities (users, groups, and roles) are returned.
 	// The argument for this parameter must be one of the valid values listed below.
-	EntityFilter EntityType `type:"string"`
+	EntityFilter EntityType `type:"string" enum:"true"`
 
 	// Use this parameter only when paginating results and only after you receive
 	// a response indicating that the results are truncated. Set it to the value
@@ -15520,11 +15029,12 @@ type ListEntitiesForPolicyInput struct {
 	// The path prefix for filtering the results. This parameter is optional. If
 	// it is not included, it defaults to a slash (/), listing all entities.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `min:"1" type:"string"`
 
 	// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions.
@@ -15573,40 +15083,12 @@ func (s *ListEntitiesForPolicyInput) Validate() error {
 	return nil
 }
 
-// SetEntityFilter sets the EntityFilter field's value.
-func (s *ListEntitiesForPolicyInput) SetEntityFilter(v EntityType) *ListEntitiesForPolicyInput {
-	s.EntityFilter = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListEntitiesForPolicyInput) SetMarker(v string) *ListEntitiesForPolicyInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListEntitiesForPolicyInput) SetMaxItems(v int64) *ListEntitiesForPolicyInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListEntitiesForPolicyInput) SetPathPrefix(v string) *ListEntitiesForPolicyInput {
-	s.PathPrefix = &v
-	return s
-}
-
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *ListEntitiesForPolicyInput) SetPolicyArn(v string) *ListEntitiesForPolicyInput {
-	s.PolicyArn = &v
-	return s
-}
-
 // Contains the response to a successful ListEntitiesForPolicy request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListEntitiesForPolicyResponse
 type ListEntitiesForPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15621,13 +15103,13 @@ type ListEntitiesForPolicyOutput struct {
 	Marker *string `min:"1" type:"string"`
 
 	// A list of IAM groups that the policy is attached to.
-	PolicyGroups []*PolicyGroup `type:"list"`
+	PolicyGroups []PolicyGroup `type:"list"`
 
 	// A list of IAM roles that the policy is attached to.
-	PolicyRoles []*PolicyRole `type:"list"`
+	PolicyRoles []PolicyRole `type:"list"`
 
 	// A list of IAM users that the policy is attached to.
-	PolicyUsers []*PolicyUser `type:"list"`
+	PolicyUsers []PolicyUser `type:"list"`
 }
 
 // String returns the string representation
@@ -15640,34 +15122,9 @@ func (s ListEntitiesForPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListEntitiesForPolicyOutput) SetIsTruncated(v bool) *ListEntitiesForPolicyOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListEntitiesForPolicyOutput) SetMarker(v string) *ListEntitiesForPolicyOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPolicyGroups sets the PolicyGroups field's value.
-func (s *ListEntitiesForPolicyOutput) SetPolicyGroups(v []*PolicyGroup) *ListEntitiesForPolicyOutput {
-	s.PolicyGroups = v
-	return s
-}
-
-// SetPolicyRoles sets the PolicyRoles field's value.
-func (s *ListEntitiesForPolicyOutput) SetPolicyRoles(v []*PolicyRole) *ListEntitiesForPolicyOutput {
-	s.PolicyRoles = v
-	return s
-}
-
-// SetPolicyUsers sets the PolicyUsers field's value.
-func (s *ListEntitiesForPolicyOutput) SetPolicyUsers(v []*PolicyUser) *ListEntitiesForPolicyOutput {
-	s.PolicyUsers = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListEntitiesForPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupPoliciesRequest
@@ -15678,7 +15135,7 @@ type ListGroupPoliciesInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -15734,28 +15191,12 @@ func (s *ListGroupPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *ListGroupPoliciesInput) SetGroupName(v string) *ListGroupPoliciesInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListGroupPoliciesInput) SetMarker(v string) *ListGroupPoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListGroupPoliciesInput) SetMaxItems(v int64) *ListGroupPoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
 // Contains the response to a successful ListGroupPolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupPoliciesResponse
 type ListGroupPoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15773,10 +15214,10 @@ type ListGroupPoliciesOutput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyNames is a required field
-	PolicyNames []*string `type:"list" required:"true"`
+	PolicyNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -15789,22 +15230,9 @@ func (s ListGroupPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListGroupPoliciesOutput) SetIsTruncated(v bool) *ListGroupPoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListGroupPoliciesOutput) SetMarker(v string) *ListGroupPoliciesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *ListGroupPoliciesOutput) SetPolicyNames(v []*string) *ListGroupPoliciesOutput {
-	s.PolicyNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListGroupPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupsForUserRequest
@@ -15832,7 +15260,7 @@ type ListGroupsForUserInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -15871,33 +15299,17 @@ func (s *ListGroupsForUserInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListGroupsForUserInput) SetMarker(v string) *ListGroupsForUserInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListGroupsForUserInput) SetMaxItems(v int64) *ListGroupsForUserInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListGroupsForUserInput) SetUserName(v string) *ListGroupsForUserInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListGroupsForUser request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupsForUserResponse
 type ListGroupsForUserOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of groups.
 	//
 	// Groups is a required field
-	Groups []*Group `type:"list" required:"true"`
+	Groups []Group `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -15922,22 +15334,9 @@ func (s ListGroupsForUserOutput) GoString() string {
 	return s.String()
 }
 
-// SetGroups sets the Groups field's value.
-func (s *ListGroupsForUserOutput) SetGroups(v []*Group) *ListGroupsForUserOutput {
-	s.Groups = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListGroupsForUserOutput) SetIsTruncated(v bool) *ListGroupsForUserOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListGroupsForUserOutput) SetMarker(v string) *ListGroupsForUserOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListGroupsForUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupsRequest
@@ -15965,11 +15364,12 @@ type ListGroupsInput struct {
 	// gets all groups whose path starts with /division_abc/subdivision_xyz/.
 	//
 	// This parameter is optional. If it is not included, it defaults to a slash
-	// (/), listing all groups. This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// (/), listing all groups. This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `min:"1" type:"string"`
 }
 
@@ -16002,33 +15402,17 @@ func (s *ListGroupsInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListGroupsInput) SetMarker(v string) *ListGroupsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListGroupsInput) SetMaxItems(v int64) *ListGroupsInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListGroupsInput) SetPathPrefix(v string) *ListGroupsInput {
-	s.PathPrefix = &v
-	return s
-}
-
 // Contains the response to a successful ListGroups request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListGroupsResponse
 type ListGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of groups.
 	//
 	// Groups is a required field
-	Groups []*Group `type:"list" required:"true"`
+	Groups []Group `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16053,22 +15437,9 @@ func (s ListGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetGroups sets the Groups field's value.
-func (s *ListGroupsOutput) SetGroups(v []*Group) *ListGroupsOutput {
-	s.Groups = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListGroupsOutput) SetIsTruncated(v bool) *ListGroupsOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListGroupsOutput) SetMarker(v string) *ListGroupsOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfilesForRoleRequest
@@ -16135,33 +15506,17 @@ func (s *ListInstanceProfilesForRoleInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceProfilesForRoleInput) SetMarker(v string) *ListInstanceProfilesForRoleInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListInstanceProfilesForRoleInput) SetMaxItems(v int64) *ListInstanceProfilesForRoleInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *ListInstanceProfilesForRoleInput) SetRoleName(v string) *ListInstanceProfilesForRoleInput {
-	s.RoleName = &v
-	return s
-}
-
 // Contains the response to a successful ListInstanceProfilesForRole request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfilesForRoleResponse
 type ListInstanceProfilesForRoleOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of instance profiles.
 	//
 	// InstanceProfiles is a required field
-	InstanceProfiles []*InstanceProfile `type:"list" required:"true"`
+	InstanceProfiles []InstanceProfile `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16186,22 +15541,9 @@ func (s ListInstanceProfilesForRoleOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceProfiles sets the InstanceProfiles field's value.
-func (s *ListInstanceProfilesForRoleOutput) SetInstanceProfiles(v []*InstanceProfile) *ListInstanceProfilesForRoleOutput {
-	s.InstanceProfiles = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListInstanceProfilesForRoleOutput) SetIsTruncated(v bool) *ListInstanceProfilesForRoleOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceProfilesForRoleOutput) SetMarker(v string) *ListInstanceProfilesForRoleOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInstanceProfilesForRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfilesRequest
@@ -16229,12 +15571,12 @@ type ListInstanceProfilesInput struct {
 	// gets all instance profiles whose path starts with /application_abc/component_xyz/.
 	//
 	// This parameter is optional. If it is not included, it defaults to a slash
-	// (/), listing all instance profiles. This paramater allows (per its regex
+	// (/), listing all instance profiles. This parameter allows (per its regex
 	// pattern (http://wikipedia.org/wiki/regex)) a string of characters consisting
 	// of either a forward slash (/) by itself or a string that must begin and end
-	// with forward slashes, containing any ASCII character from the ! (\u0021)
-	// thru the DEL character (\u007F), including most punctuation characters, digits,
-	// and upper and lowercased letters.
+	// with forward slashes. In addition, it can contain any ASCII character from
+	// the ! (\u0021) through the DEL character (\u007F), including most punctuation
+	// characters, digits, and upper and lowercased letters.
 	PathPrefix *string `min:"1" type:"string"`
 }
 
@@ -16267,33 +15609,17 @@ func (s *ListInstanceProfilesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceProfilesInput) SetMarker(v string) *ListInstanceProfilesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListInstanceProfilesInput) SetMaxItems(v int64) *ListInstanceProfilesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListInstanceProfilesInput) SetPathPrefix(v string) *ListInstanceProfilesInput {
-	s.PathPrefix = &v
-	return s
-}
-
 // Contains the response to a successful ListInstanceProfiles request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListInstanceProfilesResponse
 type ListInstanceProfilesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of instance profiles.
 	//
 	// InstanceProfiles is a required field
-	InstanceProfiles []*InstanceProfile `type:"list" required:"true"`
+	InstanceProfiles []InstanceProfile `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16318,22 +15644,9 @@ func (s ListInstanceProfilesOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceProfiles sets the InstanceProfiles field's value.
-func (s *ListInstanceProfilesOutput) SetInstanceProfiles(v []*InstanceProfile) *ListInstanceProfilesOutput {
-	s.InstanceProfiles = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListInstanceProfilesOutput) SetIsTruncated(v bool) *ListInstanceProfilesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListInstanceProfilesOutput) SetMarker(v string) *ListInstanceProfilesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInstanceProfilesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListMFADevicesRequest
@@ -16361,7 +15674,7 @@ type ListMFADevicesInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -16394,28 +15707,12 @@ func (s *ListMFADevicesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListMFADevicesInput) SetMarker(v string) *ListMFADevicesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListMFADevicesInput) SetMaxItems(v int64) *ListMFADevicesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListMFADevicesInput) SetUserName(v string) *ListMFADevicesInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListMFADevices request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListMFADevicesResponse
 type ListMFADevicesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16428,7 +15725,7 @@ type ListMFADevicesOutput struct {
 	// A list of MFA devices.
 	//
 	// MFADevices is a required field
-	MFADevices []*MFADevice `type:"list" required:"true"`
+	MFADevices []MFADevice `type:"list" required:"true"`
 
 	// When IsTruncated is true, this element is present and contains the value
 	// to use for the Marker parameter in a subsequent pagination request.
@@ -16445,22 +15742,9 @@ func (s ListMFADevicesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListMFADevicesOutput) SetIsTruncated(v bool) *ListMFADevicesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMFADevices sets the MFADevices field's value.
-func (s *ListMFADevicesOutput) SetMFADevices(v []*MFADevice) *ListMFADevicesOutput {
-	s.MFADevices = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListMFADevicesOutput) SetMarker(v string) *ListMFADevicesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListMFADevicesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListOpenIDConnectProvidersRequest
@@ -16483,8 +15767,10 @@ func (s ListOpenIDConnectProvidersInput) GoString() string {
 type ListOpenIDConnectProvidersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of IAM OIDC provider resource objects defined in the AWS account.
-	OpenIDConnectProviderList []*OpenIDConnectProviderListEntry `type:"list"`
+	OpenIDConnectProviderList []OpenIDConnectProviderListEntry `type:"list"`
 }
 
 // String returns the string representation
@@ -16497,10 +15783,9 @@ func (s ListOpenIDConnectProvidersOutput) GoString() string {
 	return s.String()
 }
 
-// SetOpenIDConnectProviderList sets the OpenIDConnectProviderList field's value.
-func (s *ListOpenIDConnectProvidersOutput) SetOpenIDConnectProviderList(v []*OpenIDConnectProviderListEntry) *ListOpenIDConnectProvidersOutput {
-	s.OpenIDConnectProviderList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListOpenIDConnectProvidersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPoliciesRequest
@@ -16533,11 +15818,12 @@ type ListPoliciesInput struct {
 
 	// The path prefix for filtering the results. This parameter is optional. If
 	// it is not included, it defaults to a slash (/), listing all policies. This
-	// paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `type:"string"`
 
 	// The scope to use for filtering the results.
@@ -16547,7 +15833,7 @@ type ListPoliciesInput struct {
 	//
 	// This parameter is optional. If it is not included, or if it is set to All,
 	// all policies are returned.
-	Scope PolicyScopeType `type:"string"`
+	Scope PolicyScopeType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -16576,40 +15862,12 @@ func (s *ListPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListPoliciesInput) SetMarker(v string) *ListPoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListPoliciesInput) SetMaxItems(v int64) *ListPoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetOnlyAttached sets the OnlyAttached field's value.
-func (s *ListPoliciesInput) SetOnlyAttached(v bool) *ListPoliciesInput {
-	s.OnlyAttached = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListPoliciesInput) SetPathPrefix(v string) *ListPoliciesInput {
-	s.PathPrefix = &v
-	return s
-}
-
-// SetScope sets the Scope field's value.
-func (s *ListPoliciesInput) SetScope(v PolicyScopeType) *ListPoliciesInput {
-	s.Scope = v
-	return s
-}
-
 // Contains the response to a successful ListPolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPoliciesResponse
 type ListPoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16624,7 +15882,7 @@ type ListPoliciesOutput struct {
 	Marker *string `min:"1" type:"string"`
 
 	// A list of policies.
-	Policies []*Policy `type:"list"`
+	Policies []Policy `type:"list"`
 }
 
 // String returns the string representation
@@ -16637,22 +15895,9 @@ func (s ListPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListPoliciesOutput) SetIsTruncated(v bool) *ListPoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListPoliciesOutput) SetMarker(v string) *ListPoliciesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPolicies sets the Policies field's value.
-func (s *ListPoliciesOutput) SetPolicies(v []*Policy) *ListPoliciesOutput {
-	s.Policies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPolicyVersionsRequest
@@ -16719,28 +15964,12 @@ func (s *ListPolicyVersionsInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListPolicyVersionsInput) SetMarker(v string) *ListPolicyVersionsInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListPolicyVersionsInput) SetMaxItems(v int64) *ListPolicyVersionsInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *ListPolicyVersionsInput) SetPolicyArn(v string) *ListPolicyVersionsInput {
-	s.PolicyArn = &v
-	return s
-}
-
 // Contains the response to a successful ListPolicyVersions request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListPolicyVersionsResponse
 type ListPolicyVersionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16759,7 +15988,7 @@ type ListPolicyVersionsOutput struct {
 	// For more information about managed policy versions, see Versioning for Managed
 	// Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html)
 	// in the IAM User Guide.
-	Versions []*PolicyVersion `type:"list"`
+	Versions []PolicyVersion `type:"list"`
 }
 
 // String returns the string representation
@@ -16772,22 +16001,9 @@ func (s ListPolicyVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListPolicyVersionsOutput) SetIsTruncated(v bool) *ListPolicyVersionsOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListPolicyVersionsOutput) SetMarker(v string) *ListPolicyVersionsOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetVersions sets the Versions field's value.
-func (s *ListPolicyVersionsOutput) SetVersions(v []*PolicyVersion) *ListPolicyVersionsOutput {
-	s.Versions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPolicyVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRolePoliciesRequest
@@ -16854,28 +16070,12 @@ func (s *ListRolePoliciesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListRolePoliciesInput) SetMarker(v string) *ListRolePoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListRolePoliciesInput) SetMaxItems(v int64) *ListRolePoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *ListRolePoliciesInput) SetRoleName(v string) *ListRolePoliciesInput {
-	s.RoleName = &v
-	return s
-}
-
 // Contains the response to a successful ListRolePolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRolePoliciesResponse
 type ListRolePoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -16892,7 +16092,7 @@ type ListRolePoliciesOutput struct {
 	// A list of policy names.
 	//
 	// PolicyNames is a required field
-	PolicyNames []*string `type:"list" required:"true"`
+	PolicyNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -16905,22 +16105,9 @@ func (s ListRolePoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListRolePoliciesOutput) SetIsTruncated(v bool) *ListRolePoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListRolePoliciesOutput) SetMarker(v string) *ListRolePoliciesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *ListRolePoliciesOutput) SetPolicyNames(v []*string) *ListRolePoliciesOutput {
-	s.PolicyNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListRolePoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRolesRequest
@@ -16948,11 +16135,12 @@ type ListRolesInput struct {
 	// gets all roles whose path starts with /application_abc/component_xyz/.
 	//
 	// This parameter is optional. If it is not included, it defaults to a slash
-	// (/), listing all roles. This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// (/), listing all roles. This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	PathPrefix *string `min:"1" type:"string"`
 }
 
@@ -16985,28 +16173,12 @@ func (s *ListRolesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListRolesInput) SetMarker(v string) *ListRolesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListRolesInput) SetMaxItems(v int64) *ListRolesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListRolesInput) SetPathPrefix(v string) *ListRolesInput {
-	s.PathPrefix = &v
-	return s
-}
-
 // Contains the response to a successful ListRoles request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListRolesResponse
 type ListRolesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17023,7 +16195,7 @@ type ListRolesOutput struct {
 	// A list of roles.
 	//
 	// Roles is a required field
-	Roles []*Role `type:"list" required:"true"`
+	Roles []Role `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -17036,22 +16208,9 @@ func (s ListRolesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListRolesOutput) SetIsTruncated(v bool) *ListRolesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListRolesOutput) SetMarker(v string) *ListRolesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetRoles sets the Roles field's value.
-func (s *ListRolesOutput) SetRoles(v []*Role) *ListRolesOutput {
-	s.Roles = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListRolesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSAMLProvidersRequest
@@ -17074,8 +16233,10 @@ func (s ListSAMLProvidersInput) GoString() string {
 type ListSAMLProvidersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of SAML provider resource objects defined in IAM for this AWS account.
-	SAMLProviderList []*SAMLProviderListEntry `type:"list"`
+	SAMLProviderList []SAMLProviderListEntry `type:"list"`
 }
 
 // String returns the string representation
@@ -17088,10 +16249,9 @@ func (s ListSAMLProvidersOutput) GoString() string {
 	return s.String()
 }
 
-// SetSAMLProviderList sets the SAMLProviderList field's value.
-func (s *ListSAMLProvidersOutput) SetSAMLProviderList(v []*SAMLProviderListEntry) *ListSAMLProvidersOutput {
-	s.SAMLProviderList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSAMLProvidersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSSHPublicKeysRequest
@@ -17121,7 +16281,7 @@ type ListSSHPublicKeysInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -17154,28 +16314,12 @@ func (s *ListSSHPublicKeysInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListSSHPublicKeysInput) SetMarker(v string) *ListSSHPublicKeysInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListSSHPublicKeysInput) SetMaxItems(v int64) *ListSSHPublicKeysInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListSSHPublicKeysInput) SetUserName(v string) *ListSSHPublicKeysInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListSSHPublicKeys request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSSHPublicKeysResponse
 type ListSSHPublicKeysOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17190,7 +16334,7 @@ type ListSSHPublicKeysOutput struct {
 	Marker *string `min:"1" type:"string"`
 
 	// A list of the SSH public keys assigned to IAM user.
-	SSHPublicKeys []*SSHPublicKeyMetadata `type:"list"`
+	SSHPublicKeys []SSHPublicKeyMetadata `type:"list"`
 }
 
 // String returns the string representation
@@ -17203,22 +16347,9 @@ func (s ListSSHPublicKeysOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListSSHPublicKeysOutput) SetIsTruncated(v bool) *ListSSHPublicKeysOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListSSHPublicKeysOutput) SetMarker(v string) *ListSSHPublicKeysOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetSSHPublicKeys sets the SSHPublicKeys field's value.
-func (s *ListSSHPublicKeysOutput) SetSSHPublicKeys(v []*SSHPublicKeyMetadata) *ListSSHPublicKeysOutput {
-	s.SSHPublicKeys = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSSHPublicKeysOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServerCertificatesRequest
@@ -17246,12 +16377,12 @@ type ListServerCertificatesInput struct {
 	// would get all server certificates for which the path starts with /company/servercerts.
 	//
 	// This parameter is optional. If it is not included, it defaults to a slash
-	// (/), listing all server certificates. This paramater allows (per its regex
+	// (/), listing all server certificates. This parameter allows (per its regex
 	// pattern (http://wikipedia.org/wiki/regex)) a string of characters consisting
 	// of either a forward slash (/) by itself or a string that must begin and end
-	// with forward slashes, containing any ASCII character from the ! (\u0021)
-	// thru the DEL character (\u007F), including most punctuation characters, digits,
-	// and upper and lowercased letters.
+	// with forward slashes. In addition, it can contain any ASCII character from
+	// the ! (\u0021) through the DEL character (\u007F), including most punctuation
+	// characters, digits, and upper and lowercased letters.
 	PathPrefix *string `min:"1" type:"string"`
 }
 
@@ -17284,28 +16415,12 @@ func (s *ListServerCertificatesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListServerCertificatesInput) SetMarker(v string) *ListServerCertificatesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListServerCertificatesInput) SetMaxItems(v int64) *ListServerCertificatesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListServerCertificatesInput) SetPathPrefix(v string) *ListServerCertificatesInput {
-	s.PathPrefix = &v
-	return s
-}
-
 // Contains the response to a successful ListServerCertificates request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServerCertificatesResponse
 type ListServerCertificatesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17322,7 +16437,7 @@ type ListServerCertificatesOutput struct {
 	// A list of server certificates.
 	//
 	// ServerCertificateMetadataList is a required field
-	ServerCertificateMetadataList []*ServerCertificateMetadata `type:"list" required:"true"`
+	ServerCertificateMetadataList []ServerCertificateMetadata `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -17335,22 +16450,9 @@ func (s ListServerCertificatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListServerCertificatesOutput) SetIsTruncated(v bool) *ListServerCertificatesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListServerCertificatesOutput) SetMarker(v string) *ListServerCertificatesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetServerCertificateMetadataList sets the ServerCertificateMetadataList field's value.
-func (s *ListServerCertificatesOutput) SetServerCertificateMetadataList(v []*ServerCertificateMetadata) *ListServerCertificatesOutput {
-	s.ServerCertificateMetadataList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListServerCertificatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServiceSpecificCredentialsRequest
@@ -17362,12 +16464,12 @@ type ListServiceSpecificCredentialsInput struct {
 	ServiceName *string `type:"string"`
 
 	// The name of the user whose service-specific credentials you want information
-	// about. If this value is not specified then the operation assumes the user
+	// about. If this value is not specified, then the operation assumes the user
 	// whose credentials are used to call the operation.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -17394,24 +16496,14 @@ func (s *ListServiceSpecificCredentialsInput) Validate() error {
 	return nil
 }
 
-// SetServiceName sets the ServiceName field's value.
-func (s *ListServiceSpecificCredentialsInput) SetServiceName(v string) *ListServiceSpecificCredentialsInput {
-	s.ServiceName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListServiceSpecificCredentialsInput) SetUserName(v string) *ListServiceSpecificCredentialsInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListServiceSpecificCredentialsResponse
 type ListServiceSpecificCredentialsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of structures that each contain details about a service-specific credential.
-	ServiceSpecificCredentials []*ServiceSpecificCredentialMetadata `type:"list"`
+	ServiceSpecificCredentials []ServiceSpecificCredentialMetadata `type:"list"`
 }
 
 // String returns the string representation
@@ -17424,10 +16516,9 @@ func (s ListServiceSpecificCredentialsOutput) GoString() string {
 	return s.String()
 }
 
-// SetServiceSpecificCredentials sets the ServiceSpecificCredentials field's value.
-func (s *ListServiceSpecificCredentialsOutput) SetServiceSpecificCredentials(v []*ServiceSpecificCredentialMetadata) *ListServiceSpecificCredentialsOutput {
-	s.ServiceSpecificCredentials = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListServiceSpecificCredentialsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSigningCertificatesRequest
@@ -17455,7 +16546,7 @@ type ListSigningCertificatesInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -17488,33 +16579,17 @@ func (s *ListSigningCertificatesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListSigningCertificatesInput) SetMarker(v string) *ListSigningCertificatesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListSigningCertificatesInput) SetMaxItems(v int64) *ListSigningCertificatesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListSigningCertificatesInput) SetUserName(v string) *ListSigningCertificatesInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListSigningCertificates request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListSigningCertificatesResponse
 type ListSigningCertificatesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the user's signing certificate information.
 	//
 	// Certificates is a required field
-	Certificates []*SigningCertificate `type:"list" required:"true"`
+	Certificates []SigningCertificate `type:"list" required:"true"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17539,22 +16614,9 @@ func (s ListSigningCertificatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetCertificates sets the Certificates field's value.
-func (s *ListSigningCertificatesOutput) SetCertificates(v []*SigningCertificate) *ListSigningCertificatesOutput {
-	s.Certificates = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListSigningCertificatesOutput) SetIsTruncated(v bool) *ListSigningCertificatesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListSigningCertificatesOutput) SetMarker(v string) *ListSigningCertificatesOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSigningCertificatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserPoliciesRequest
@@ -17582,7 +16644,7 @@ type ListUserPoliciesInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -17621,28 +16683,12 @@ func (s *ListUserPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListUserPoliciesInput) SetMarker(v string) *ListUserPoliciesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListUserPoliciesInput) SetMaxItems(v int64) *ListUserPoliciesInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ListUserPoliciesInput) SetUserName(v string) *ListUserPoliciesInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful ListUserPolicies request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUserPoliciesResponse
 type ListUserPoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17659,7 +16705,7 @@ type ListUserPoliciesOutput struct {
 	// A list of policy names.
 	//
 	// PolicyNames is a required field
-	PolicyNames []*string `type:"list" required:"true"`
+	PolicyNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -17672,22 +16718,9 @@ func (s ListUserPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListUserPoliciesOutput) SetIsTruncated(v bool) *ListUserPoliciesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListUserPoliciesOutput) SetMarker(v string) *ListUserPoliciesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *ListUserPoliciesOutput) SetPolicyNames(v []*string) *ListUserPoliciesOutput {
-	s.PolicyNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListUserPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUsersRequest
@@ -17715,12 +16748,12 @@ type ListUsersInput struct {
 	// which would get all user names whose path starts with /division_abc/subdivision_xyz/.
 	//
 	// This parameter is optional. If it is not included, it defaults to a slash
-	// (/), listing all user names. This paramater allows (per its regex pattern
+	// (/), listing all user names. This parameter allows (per its regex pattern
 	// (http://wikipedia.org/wiki/regex)) a string of characters consisting of either
 	// a forward slash (/) by itself or a string that must begin and end with forward
-	// slashes, containing any ASCII character from the ! (\u0021) thru the DEL
-	// character (\u007F), including most punctuation characters, digits, and upper
-	// and lowercased letters.
+	// slashes. In addition, it can contain any ASCII character from the ! (\u0021)
+	// through the DEL character (\u007F), including most punctuation characters,
+	// digits, and upper and lowercased letters.
 	PathPrefix *string `min:"1" type:"string"`
 }
 
@@ -17753,28 +16786,12 @@ func (s *ListUsersInput) Validate() error {
 	return nil
 }
 
-// SetMarker sets the Marker field's value.
-func (s *ListUsersInput) SetMarker(v string) *ListUsersInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListUsersInput) SetMaxItems(v int64) *ListUsersInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPathPrefix sets the PathPrefix field's value.
-func (s *ListUsersInput) SetPathPrefix(v string) *ListUsersInput {
-	s.PathPrefix = &v
-	return s
-}
-
 // Contains the response to a successful ListUsers request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListUsersResponse
 type ListUsersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17791,7 +16808,7 @@ type ListUsersOutput struct {
 	// A list of users.
 	//
 	// Users is a required field
-	Users []*User `type:"list" required:"true"`
+	Users []User `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -17804,22 +16821,9 @@ func (s ListUsersOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListUsersOutput) SetIsTruncated(v bool) *ListUsersOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListUsersOutput) SetMarker(v string) *ListUsersOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetUsers sets the Users field's value.
-func (s *ListUsersOutput) SetUsers(v []*User) *ListUsersOutput {
-	s.Users = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListUsersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListVirtualMFADevicesRequest
@@ -17827,9 +16831,9 @@ type ListVirtualMFADevicesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The status (Unassigned or Assigned) of the devices to list. If you do not
-	// specify an AssignmentStatus, the action defaults to Any which lists both
+	// specify an AssignmentStatus, the operation defaults to Any which lists both
 	// assigned and unassigned virtual MFA devices.
-	AssignmentStatus AssignmentStatusType `type:"string"`
+	AssignmentStatus AssignmentStatusType `type:"string" enum:"true"`
 
 	// Use this parameter only when paginating results and only after you receive
 	// a response indicating that the results are truncated. Set it to the value
@@ -17875,28 +16879,12 @@ func (s *ListVirtualMFADevicesInput) Validate() error {
 	return nil
 }
 
-// SetAssignmentStatus sets the AssignmentStatus field's value.
-func (s *ListVirtualMFADevicesInput) SetAssignmentStatus(v AssignmentStatusType) *ListVirtualMFADevicesInput {
-	s.AssignmentStatus = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListVirtualMFADevicesInput) SetMarker(v string) *ListVirtualMFADevicesInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *ListVirtualMFADevicesInput) SetMaxItems(v int64) *ListVirtualMFADevicesInput {
-	s.MaxItems = &v
-	return s
-}
-
 // Contains the response to a successful ListVirtualMFADevices request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListVirtualMFADevicesResponse
 type ListVirtualMFADevicesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -17914,7 +16902,7 @@ type ListVirtualMFADevicesOutput struct {
 	// value that was passed in the request.
 	//
 	// VirtualMFADevices is a required field
-	VirtualMFADevices []*VirtualMFADevice `type:"list" required:"true"`
+	VirtualMFADevices []VirtualMFADevice `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -17927,28 +16915,15 @@ func (s ListVirtualMFADevicesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListVirtualMFADevicesOutput) SetIsTruncated(v bool) *ListVirtualMFADevicesOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *ListVirtualMFADevicesOutput) SetMarker(v string) *ListVirtualMFADevicesOutput {
-	s.Marker = &v
-	return s
-}
-
-// SetVirtualMFADevices sets the VirtualMFADevices field's value.
-func (s *ListVirtualMFADevicesOutput) SetVirtualMFADevices(v []*VirtualMFADevice) *ListVirtualMFADevicesOutput {
-	s.VirtualMFADevices = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListVirtualMFADevicesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the user name and password create date for a user.
 //
 // This data type is used as a response element in the CreateLoginProfile and
-// GetLoginProfile actions.
+// GetLoginProfile operations.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/LoginProfile
 type LoginProfile struct {
 	_ struct{} `type:"structure"`
@@ -17978,27 +16953,9 @@ func (s LoginProfile) GoString() string {
 	return s.String()
 }
 
-// SetCreateDate sets the CreateDate field's value.
-func (s *LoginProfile) SetCreateDate(v time.Time) *LoginProfile {
-	s.CreateDate = &v
-	return s
-}
-
-// SetPasswordResetRequired sets the PasswordResetRequired field's value.
-func (s *LoginProfile) SetPasswordResetRequired(v bool) *LoginProfile {
-	s.PasswordResetRequired = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *LoginProfile) SetUserName(v string) *LoginProfile {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about an MFA device.
 //
-// This data type is used as a response element in the ListMFADevices action.
+// This data type is used as a response element in the ListMFADevices operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/MFADevice
 type MFADevice struct {
 	_ struct{} `type:"structure"`
@@ -18030,30 +16987,12 @@ func (s MFADevice) GoString() string {
 	return s.String()
 }
 
-// SetEnableDate sets the EnableDate field's value.
-func (s *MFADevice) SetEnableDate(v time.Time) *MFADevice {
-	s.EnableDate = &v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *MFADevice) SetSerialNumber(v string) *MFADevice {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *MFADevice) SetUserName(v string) *MFADevice {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about a managed policy, including the policy's ARN,
 // versions, and the number of principal entities (users, groups, and roles)
 // that the policy is attached to.
 //
 // This data type is used as a response element in the GetAccountAuthorizationDetails
-// action.
+// operation.
 //
 // For more information about managed policies, see Managed Policies and Inline
 // Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -18107,7 +17046,7 @@ type ManagedPolicyDetail struct {
 	PolicyName *string `min:"1" type:"string"`
 
 	// A list containing information about the versions of the policy.
-	PolicyVersionList []*PolicyVersion `type:"list"`
+	PolicyVersionList []PolicyVersion `type:"list"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
 	// when the policy was last updated.
@@ -18127,72 +17066,6 @@ func (s ManagedPolicyDetail) String() string {
 // GoString returns the string representation
 func (s ManagedPolicyDetail) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *ManagedPolicyDetail) SetArn(v string) *ManagedPolicyDetail {
-	s.Arn = &v
-	return s
-}
-
-// SetAttachmentCount sets the AttachmentCount field's value.
-func (s *ManagedPolicyDetail) SetAttachmentCount(v int64) *ManagedPolicyDetail {
-	s.AttachmentCount = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *ManagedPolicyDetail) SetCreateDate(v time.Time) *ManagedPolicyDetail {
-	s.CreateDate = &v
-	return s
-}
-
-// SetDefaultVersionId sets the DefaultVersionId field's value.
-func (s *ManagedPolicyDetail) SetDefaultVersionId(v string) *ManagedPolicyDetail {
-	s.DefaultVersionId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ManagedPolicyDetail) SetDescription(v string) *ManagedPolicyDetail {
-	s.Description = &v
-	return s
-}
-
-// SetIsAttachable sets the IsAttachable field's value.
-func (s *ManagedPolicyDetail) SetIsAttachable(v bool) *ManagedPolicyDetail {
-	s.IsAttachable = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *ManagedPolicyDetail) SetPath(v string) *ManagedPolicyDetail {
-	s.Path = &v
-	return s
-}
-
-// SetPolicyId sets the PolicyId field's value.
-func (s *ManagedPolicyDetail) SetPolicyId(v string) *ManagedPolicyDetail {
-	s.PolicyId = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *ManagedPolicyDetail) SetPolicyName(v string) *ManagedPolicyDetail {
-	s.PolicyName = &v
-	return s
-}
-
-// SetPolicyVersionList sets the PolicyVersionList field's value.
-func (s *ManagedPolicyDetail) SetPolicyVersionList(v []*PolicyVersion) *ManagedPolicyDetail {
-	s.PolicyVersionList = v
-	return s
-}
-
-// SetUpdateDate sets the UpdateDate field's value.
-func (s *ManagedPolicyDetail) SetUpdateDate(v time.Time) *ManagedPolicyDetail {
-	s.UpdateDate = &v
-	return s
 }
 
 // Contains the Amazon Resource Name (ARN) for an IAM OpenID Connect provider.
@@ -18218,18 +17091,12 @@ func (s OpenIDConnectProviderListEntry) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *OpenIDConnectProviderListEntry) SetArn(v string) *OpenIDConnectProviderListEntry {
-	s.Arn = &v
-	return s
-}
-
-// Contains information about AWS Organizations's affect on a policy simulation.
+// Contains information about AWS Organizations's effect on a policy simulation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/OrganizationsDecisionDetail
 type OrganizationsDecisionDetail struct {
 	_ struct{} `type:"structure"`
 
-	// Specifies whether the simulated action is allowed by the AWS Organizations
+	// Specifies whether the simulated operation is allowed by the AWS Organizations
 	// service control policies that impact the simulated user's account.
 	AllowedByOrganizations *bool `type:"boolean"`
 }
@@ -18244,16 +17111,10 @@ func (s OrganizationsDecisionDetail) GoString() string {
 	return s.String()
 }
 
-// SetAllowedByOrganizations sets the AllowedByOrganizations field's value.
-func (s *OrganizationsDecisionDetail) SetAllowedByOrganizations(v bool) *OrganizationsDecisionDetail {
-	s.AllowedByOrganizations = &v
-	return s
-}
-
 // Contains information about the account password policy.
 //
 // This data type is used as a response element in the GetAccountPasswordPolicy
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PasswordPolicy
 type PasswordPolicy struct {
 	_ struct{} `type:"structure"`
@@ -18262,8 +17123,8 @@ type PasswordPolicy struct {
 	AllowUsersToChangePassword *bool `type:"boolean"`
 
 	// Indicates whether passwords in the account expire. Returns true if MaxPasswordAge
-	// is contains a value greater than 0. Returns false if MaxPasswordAge is 0
-	// or not present.
+	// contains a value greater than 0. Returns false if MaxPasswordAge is 0 or
+	// not present.
 	ExpirePasswords *bool `type:"boolean"`
 
 	// Specifies whether IAM users are prevented from setting a new password after
@@ -18303,70 +17164,10 @@ func (s PasswordPolicy) GoString() string {
 	return s.String()
 }
 
-// SetAllowUsersToChangePassword sets the AllowUsersToChangePassword field's value.
-func (s *PasswordPolicy) SetAllowUsersToChangePassword(v bool) *PasswordPolicy {
-	s.AllowUsersToChangePassword = &v
-	return s
-}
-
-// SetExpirePasswords sets the ExpirePasswords field's value.
-func (s *PasswordPolicy) SetExpirePasswords(v bool) *PasswordPolicy {
-	s.ExpirePasswords = &v
-	return s
-}
-
-// SetHardExpiry sets the HardExpiry field's value.
-func (s *PasswordPolicy) SetHardExpiry(v bool) *PasswordPolicy {
-	s.HardExpiry = &v
-	return s
-}
-
-// SetMaxPasswordAge sets the MaxPasswordAge field's value.
-func (s *PasswordPolicy) SetMaxPasswordAge(v int64) *PasswordPolicy {
-	s.MaxPasswordAge = &v
-	return s
-}
-
-// SetMinimumPasswordLength sets the MinimumPasswordLength field's value.
-func (s *PasswordPolicy) SetMinimumPasswordLength(v int64) *PasswordPolicy {
-	s.MinimumPasswordLength = &v
-	return s
-}
-
-// SetPasswordReusePrevention sets the PasswordReusePrevention field's value.
-func (s *PasswordPolicy) SetPasswordReusePrevention(v int64) *PasswordPolicy {
-	s.PasswordReusePrevention = &v
-	return s
-}
-
-// SetRequireLowercaseCharacters sets the RequireLowercaseCharacters field's value.
-func (s *PasswordPolicy) SetRequireLowercaseCharacters(v bool) *PasswordPolicy {
-	s.RequireLowercaseCharacters = &v
-	return s
-}
-
-// SetRequireNumbers sets the RequireNumbers field's value.
-func (s *PasswordPolicy) SetRequireNumbers(v bool) *PasswordPolicy {
-	s.RequireNumbers = &v
-	return s
-}
-
-// SetRequireSymbols sets the RequireSymbols field's value.
-func (s *PasswordPolicy) SetRequireSymbols(v bool) *PasswordPolicy {
-	s.RequireSymbols = &v
-	return s
-}
-
-// SetRequireUppercaseCharacters sets the RequireUppercaseCharacters field's value.
-func (s *PasswordPolicy) SetRequireUppercaseCharacters(v bool) *PasswordPolicy {
-	s.RequireUppercaseCharacters = &v
-	return s
-}
-
 // Contains information about a managed policy.
 //
 // This data type is used as a response element in the CreatePolicy, GetPolicy,
-// and ListPolicies actions.
+// and ListPolicies operations.
 //
 // For more information about managed policies, refer to Managed Policies and
 // Inline Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -18437,70 +17238,10 @@ func (s Policy) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Policy) SetArn(v string) *Policy {
-	s.Arn = &v
-	return s
-}
-
-// SetAttachmentCount sets the AttachmentCount field's value.
-func (s *Policy) SetAttachmentCount(v int64) *Policy {
-	s.AttachmentCount = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *Policy) SetCreateDate(v time.Time) *Policy {
-	s.CreateDate = &v
-	return s
-}
-
-// SetDefaultVersionId sets the DefaultVersionId field's value.
-func (s *Policy) SetDefaultVersionId(v string) *Policy {
-	s.DefaultVersionId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Policy) SetDescription(v string) *Policy {
-	s.Description = &v
-	return s
-}
-
-// SetIsAttachable sets the IsAttachable field's value.
-func (s *Policy) SetIsAttachable(v bool) *Policy {
-	s.IsAttachable = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *Policy) SetPath(v string) *Policy {
-	s.Path = &v
-	return s
-}
-
-// SetPolicyId sets the PolicyId field's value.
-func (s *Policy) SetPolicyId(v string) *Policy {
-	s.PolicyId = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *Policy) SetPolicyName(v string) *Policy {
-	s.PolicyName = &v
-	return s
-}
-
-// SetUpdateDate sets the UpdateDate field's value.
-func (s *Policy) SetUpdateDate(v time.Time) *Policy {
-	s.UpdateDate = &v
-	return s
-}
-
 // Contains information about an IAM policy, including the policy document.
 //
 // This data type is used as a response element in the GetAccountAuthorizationDetails
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PolicyDetail
 type PolicyDetail struct {
 	_ struct{} `type:"structure"`
@@ -18522,22 +17263,10 @@ func (s PolicyDetail) GoString() string {
 	return s.String()
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *PolicyDetail) SetPolicyDocument(v string) *PolicyDetail {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PolicyDetail) SetPolicyName(v string) *PolicyDetail {
-	s.PolicyName = &v
-	return s
-}
-
 // Contains information about a group that a managed policy is attached to.
 //
 // This data type is used as a response element in the ListEntitiesForPolicy
-// action.
+// operation.
 //
 // For more information about managed policies, refer to Managed Policies and
 // Inline Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -18565,22 +17294,10 @@ func (s PolicyGroup) GoString() string {
 	return s.String()
 }
 
-// SetGroupId sets the GroupId field's value.
-func (s *PolicyGroup) SetGroupId(v string) *PolicyGroup {
-	s.GroupId = &v
-	return s
-}
-
-// SetGroupName sets the GroupName field's value.
-func (s *PolicyGroup) SetGroupName(v string) *PolicyGroup {
-	s.GroupName = &v
-	return s
-}
-
 // Contains information about a role that a managed policy is attached to.
 //
 // This data type is used as a response element in the ListEntitiesForPolicy
-// action.
+// operation.
 //
 // For more information about managed policies, refer to Managed Policies and
 // Inline Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -18608,22 +17325,10 @@ func (s PolicyRole) GoString() string {
 	return s.String()
 }
 
-// SetRoleId sets the RoleId field's value.
-func (s *PolicyRole) SetRoleId(v string) *PolicyRole {
-	s.RoleId = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *PolicyRole) SetRoleName(v string) *PolicyRole {
-	s.RoleName = &v
-	return s
-}
-
 // Contains information about a user that a managed policy is attached to.
 //
 // This data type is used as a response element in the ListEntitiesForPolicy
-// action.
+// operation.
 //
 // For more information about managed policies, refer to Managed Policies and
 // Inline Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -18651,23 +17356,11 @@ func (s PolicyUser) GoString() string {
 	return s.String()
 }
 
-// SetUserId sets the UserId field's value.
-func (s *PolicyUser) SetUserId(v string) *PolicyUser {
-	s.UserId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *PolicyUser) SetUserName(v string) *PolicyUser {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about a version of a managed policy.
 //
 // This data type is used as a response element in the CreatePolicyVersion,
 // GetPolicyVersion, ListPolicyVersions, and GetAccountAuthorizationDetails
-// actions.
+// operations.
 //
 // For more information about managed policies, refer to Managed Policies and
 // Inline Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html)
@@ -18685,6 +17378,12 @@ type PolicyVersion struct {
 	// The policy document is returned in the response to the GetPolicyVersion and
 	// GetAccountAuthorizationDetails operations. It is not returned in the response
 	// to the CreatePolicyVersion or ListPolicyVersions operations.
+	//
+	// The policy document returned in this structure is URL-encoded compliant with
+	// RFC 3986 (https://tools.ietf.org/html/rfc3986). You can use a URL decoding
+	// method to convert the policy back to plain JSON text. For example, if you
+	// use Java, you can use the decode method of the java.net.URLDecoder utility
+	// class in the Java SDK. Other languages and SDKs provide similar functionality.
 	Document *string `min:"1" type:"string"`
 
 	// Specifies whether the policy version is set as the policy's default version.
@@ -18705,30 +17404,6 @@ func (s PolicyVersion) String() string {
 // GoString returns the string representation
 func (s PolicyVersion) GoString() string {
 	return s.String()
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *PolicyVersion) SetCreateDate(v time.Time) *PolicyVersion {
-	s.CreateDate = &v
-	return s
-}
-
-// SetDocument sets the Document field's value.
-func (s *PolicyVersion) SetDocument(v string) *PolicyVersion {
-	s.Document = &v
-	return s
-}
-
-// SetIsDefaultVersion sets the IsDefaultVersion field's value.
-func (s *PolicyVersion) SetIsDefaultVersion(v bool) *PolicyVersion {
-	s.IsDefaultVersion = &v
-	return s
-}
-
-// SetVersionId sets the VersionId field's value.
-func (s *PolicyVersion) SetVersionId(v string) *PolicyVersion {
-	s.VersionId = &v
-	return s
 }
 
 // Contains the row and column of a location of a Statement element in a policy
@@ -18756,18 +17431,6 @@ func (s Position) GoString() string {
 	return s.String()
 }
 
-// SetColumn sets the Column field's value.
-func (s *Position) SetColumn(v int64) *Position {
-	s.Column = &v
-	return s
-}
-
-// SetLine sets the Line field's value.
-func (s *Position) SetLine(v int64) *Position {
-	s.Line = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutGroupPolicyRequest
 type PutGroupPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -18776,7 +17439,7 @@ type PutGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -18784,11 +17447,16 @@ type PutGroupPolicyInput struct {
 	// The policy document.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyDocument is a required field
 	PolicyDocument *string `min:"1" type:"string" required:"true"`
@@ -18797,7 +17465,7 @@ type PutGroupPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -18844,27 +17512,11 @@ func (s *PutGroupPolicyInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *PutGroupPolicyInput) SetGroupName(v string) *PutGroupPolicyInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *PutGroupPolicyInput) SetPolicyDocument(v string) *PutGroupPolicyInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PutGroupPolicyInput) SetPolicyName(v string) *PutGroupPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutGroupPolicyOutput
 type PutGroupPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -18877,6 +17529,11 @@ func (s PutGroupPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutGroupPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePolicyRequest
 type PutRolePolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -18884,11 +17541,16 @@ type PutRolePolicyInput struct {
 	// The policy document.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyDocument is a required field
 	PolicyDocument *string `min:"1" type:"string" required:"true"`
@@ -18897,7 +17559,7 @@ type PutRolePolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -18953,27 +17615,11 @@ func (s *PutRolePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *PutRolePolicyInput) SetPolicyDocument(v string) *PutRolePolicyInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PutRolePolicyInput) SetPolicyName(v string) *PutRolePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *PutRolePolicyInput) SetRoleName(v string) *PutRolePolicyInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutRolePolicyOutput
 type PutRolePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -18986,6 +17632,11 @@ func (s PutRolePolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutRolePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPolicyRequest
 type PutUserPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -18993,11 +17644,16 @@ type PutUserPolicyInput struct {
 	// The policy document.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyDocument is a required field
 	PolicyDocument *string `min:"1" type:"string" required:"true"`
@@ -19006,7 +17662,7 @@ type PutUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-+
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// PolicyName is a required field
 	PolicyName *string `min:"1" type:"string" required:"true"`
@@ -19015,7 +17671,7 @@ type PutUserPolicyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -19062,27 +17718,11 @@ func (s *PutUserPolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *PutUserPolicyInput) SetPolicyDocument(v string) *PutUserPolicyInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PutUserPolicyInput) SetPolicyName(v string) *PutUserPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *PutUserPolicyInput) SetUserName(v string) *PutUserPolicyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/PutUserPolicyOutput
 type PutUserPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -19093,6 +17733,11 @@ func (s PutUserPolicyOutput) String() string {
 // GoString returns the string representation
 func (s PutUserPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutUserPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveClientIDFromOpenIDConnectProviderRequest
@@ -19107,7 +17752,7 @@ type RemoveClientIDFromOpenIDConnectProviderInput struct {
 
 	// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove
 	// the client ID from. You can get a list of OIDC provider ARNs by using the
-	// ListOpenIDConnectProviders action.
+	// ListOpenIDConnectProviders operation.
 	//
 	// For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
 	// Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -19151,21 +17796,11 @@ func (s *RemoveClientIDFromOpenIDConnectProviderInput) Validate() error {
 	return nil
 }
 
-// SetClientID sets the ClientID field's value.
-func (s *RemoveClientIDFromOpenIDConnectProviderInput) SetClientID(v string) *RemoveClientIDFromOpenIDConnectProviderInput {
-	s.ClientID = &v
-	return s
-}
-
-// SetOpenIDConnectProviderArn sets the OpenIDConnectProviderArn field's value.
-func (s *RemoveClientIDFromOpenIDConnectProviderInput) SetOpenIDConnectProviderArn(v string) *RemoveClientIDFromOpenIDConnectProviderInput {
-	s.OpenIDConnectProviderArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveClientIDFromOpenIDConnectProviderOutput
 type RemoveClientIDFromOpenIDConnectProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -19178,6 +17813,11 @@ func (s RemoveClientIDFromOpenIDConnectProviderOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveClientIDFromOpenIDConnectProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveRoleFromInstanceProfileRequest
 type RemoveRoleFromInstanceProfileInput struct {
 	_ struct{} `type:"structure"`
@@ -19186,7 +17826,7 @@ type RemoveRoleFromInstanceProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// InstanceProfileName is a required field
 	InstanceProfileName *string `min:"1" type:"string" required:"true"`
@@ -19235,21 +17875,11 @@ func (s *RemoveRoleFromInstanceProfileInput) Validate() error {
 	return nil
 }
 
-// SetInstanceProfileName sets the InstanceProfileName field's value.
-func (s *RemoveRoleFromInstanceProfileInput) SetInstanceProfileName(v string) *RemoveRoleFromInstanceProfileInput {
-	s.InstanceProfileName = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *RemoveRoleFromInstanceProfileInput) SetRoleName(v string) *RemoveRoleFromInstanceProfileInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveRoleFromInstanceProfileOutput
 type RemoveRoleFromInstanceProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -19262,6 +17892,11 @@ func (s RemoveRoleFromInstanceProfileOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveRoleFromInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveUserFromGroupRequest
 type RemoveUserFromGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -19270,7 +17905,7 @@ type RemoveUserFromGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -19279,7 +17914,7 @@ type RemoveUserFromGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -19319,21 +17954,11 @@ func (s *RemoveUserFromGroupInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *RemoveUserFromGroupInput) SetGroupName(v string) *RemoveUserFromGroupInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *RemoveUserFromGroupInput) SetUserName(v string) *RemoveUserFromGroupInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RemoveUserFromGroupOutput
 type RemoveUserFromGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -19344,6 +17969,11 @@ func (s RemoveUserFromGroupOutput) String() string {
 // GoString returns the string representation
 func (s RemoveUserFromGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveUserFromGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResetServiceSpecificCredentialRequest
@@ -19365,7 +17995,7 @@ type ResetServiceSpecificCredentialInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -19399,21 +18029,11 @@ func (s *ResetServiceSpecificCredentialInput) Validate() error {
 	return nil
 }
 
-// SetServiceSpecificCredentialId sets the ServiceSpecificCredentialId field's value.
-func (s *ResetServiceSpecificCredentialInput) SetServiceSpecificCredentialId(v string) *ResetServiceSpecificCredentialInput {
-	s.ServiceSpecificCredentialId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ResetServiceSpecificCredentialInput) SetUserName(v string) *ResetServiceSpecificCredentialInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResetServiceSpecificCredentialResponse
 type ResetServiceSpecificCredentialOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure with details about the updated service-specific credential, including
 	// the new password.
@@ -19433,14 +18053,13 @@ func (s ResetServiceSpecificCredentialOutput) GoString() string {
 	return s.String()
 }
 
-// SetServiceSpecificCredential sets the ServiceSpecificCredential field's value.
-func (s *ResetServiceSpecificCredentialOutput) SetServiceSpecificCredential(v *ServiceSpecificCredential) *ResetServiceSpecificCredentialOutput {
-	s.ServiceSpecificCredential = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ResetServiceSpecificCredentialOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// Contains the result of the simulation of a single API action call on a single
-// resource.
+// Contains the result of the simulation of a single API operation call on a
+// single resource.
 //
 // This data type is used by a member of the EvaluationResult data type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResourceSpecificResult
@@ -19454,11 +18073,11 @@ type ResourceSpecificResult struct {
 	// caller's IAM policy must grant access.
 	EvalDecisionDetails map[string]PolicyEvaluationDecisionType `type:"map"`
 
-	// The result of the simulation of the simulated API action on the resource
+	// The result of the simulation of the simulated API operation on the resource
 	// specified in EvalResourceName.
 	//
 	// EvalResourceDecision is a required field
-	EvalResourceDecision PolicyEvaluationDecisionType `type:"string" required:"true"`
+	EvalResourceDecision PolicyEvaluationDecisionType `type:"string" required:"true" enum:"true"`
 
 	// The name of the simulated resource, in Amazon Resource Name (ARN) format.
 	//
@@ -19467,10 +18086,10 @@ type ResourceSpecificResult struct {
 
 	// A list of the statements in the input policies that determine the result
 	// for this part of the simulation. Remember that even if multiple statements
-	// allow the action on the resource, if any statement denies that action, then
-	// the explicit deny overrides any allow, and the deny statement is the only
-	// entry included in the result.
-	MatchedStatements []*Statement `type:"list"`
+	// allow the operation on the resource, if any statement denies that operation,
+	// then the explicit deny overrides any allow, and the deny statement is the
+	// only entry included in the result.
+	MatchedStatements []Statement `type:"list"`
 
 	// A list of context keys that are required by the included input policies but
 	// that were not provided by one of the input parameters. This list is used
@@ -19480,7 +18099,7 @@ type ResourceSpecificResult struct {
 	// values are instead included under the EvaluationResults section. To discover
 	// the context keys used by a set of policies, you can call GetContextKeysForCustomPolicy
 	// or GetContextKeysForPrincipalPolicy.
-	MissingContextValues []*string `type:"list"`
+	MissingContextValues []string `type:"list"`
 }
 
 // String returns the string representation
@@ -19491,36 +18110,6 @@ func (s ResourceSpecificResult) String() string {
 // GoString returns the string representation
 func (s ResourceSpecificResult) GoString() string {
 	return s.String()
-}
-
-// SetEvalDecisionDetails sets the EvalDecisionDetails field's value.
-func (s *ResourceSpecificResult) SetEvalDecisionDetails(v map[string]PolicyEvaluationDecisionType) *ResourceSpecificResult {
-	s.EvalDecisionDetails = v
-	return s
-}
-
-// SetEvalResourceDecision sets the EvalResourceDecision field's value.
-func (s *ResourceSpecificResult) SetEvalResourceDecision(v PolicyEvaluationDecisionType) *ResourceSpecificResult {
-	s.EvalResourceDecision = v
-	return s
-}
-
-// SetEvalResourceName sets the EvalResourceName field's value.
-func (s *ResourceSpecificResult) SetEvalResourceName(v string) *ResourceSpecificResult {
-	s.EvalResourceName = &v
-	return s
-}
-
-// SetMatchedStatements sets the MatchedStatements field's value.
-func (s *ResourceSpecificResult) SetMatchedStatements(v []*Statement) *ResourceSpecificResult {
-	s.MatchedStatements = v
-	return s
-}
-
-// SetMissingContextValues sets the MissingContextValues field's value.
-func (s *ResourceSpecificResult) SetMissingContextValues(v []*string) *ResourceSpecificResult {
-	s.MissingContextValues = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResyncMFADeviceRequest
@@ -19545,7 +18134,7 @@ type ResyncMFADeviceInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// SerialNumber is a required field
 	SerialNumber *string `min:"9" type:"string" required:"true"`
@@ -19554,7 +18143,7 @@ type ResyncMFADeviceInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -19608,33 +18197,11 @@ func (s *ResyncMFADeviceInput) Validate() error {
 	return nil
 }
 
-// SetAuthenticationCode1 sets the AuthenticationCode1 field's value.
-func (s *ResyncMFADeviceInput) SetAuthenticationCode1(v string) *ResyncMFADeviceInput {
-	s.AuthenticationCode1 = &v
-	return s
-}
-
-// SetAuthenticationCode2 sets the AuthenticationCode2 field's value.
-func (s *ResyncMFADeviceInput) SetAuthenticationCode2(v string) *ResyncMFADeviceInput {
-	s.AuthenticationCode2 = &v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *ResyncMFADeviceInput) SetSerialNumber(v string) *ResyncMFADeviceInput {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ResyncMFADeviceInput) SetUserName(v string) *ResyncMFADeviceInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ResyncMFADeviceOutput
 type ResyncMFADeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -19647,8 +18214,13 @@ func (s ResyncMFADeviceOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ResyncMFADeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains information about an IAM role. This structure is returned as a response
-// element in several APIs that interact with roles.
+// element in several API operations that interact with roles.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/Role
 type Role struct {
 	_ struct{} `type:"structure"`
@@ -19671,6 +18243,11 @@ type Role struct {
 
 	// A description of the role that you provide.
 	Description *string `type:"string"`
+
+	// The maximum session duration (in seconds) for the specified role. Anyone
+	// who uses the AWS CLI or API to assume the role can specify the duration using
+	// the optional DurationSeconds API parameter or duration-seconds CLI parameter.
+	MaxSessionDuration *int64 `min:"3600" type:"integer"`
 
 	// The path to the role. For more information about paths, see IAM Identifiers
 	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
@@ -19702,52 +18279,10 @@ func (s Role) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Role) SetArn(v string) *Role {
-	s.Arn = &v
-	return s
-}
-
-// SetAssumeRolePolicyDocument sets the AssumeRolePolicyDocument field's value.
-func (s *Role) SetAssumeRolePolicyDocument(v string) *Role {
-	s.AssumeRolePolicyDocument = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *Role) SetCreateDate(v time.Time) *Role {
-	s.CreateDate = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Role) SetDescription(v string) *Role {
-	s.Description = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *Role) SetPath(v string) *Role {
-	s.Path = &v
-	return s
-}
-
-// SetRoleId sets the RoleId field's value.
-func (s *Role) SetRoleId(v string) *Role {
-	s.RoleId = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *Role) SetRoleName(v string) *Role {
-	s.RoleName = &v
-	return s
-}
-
 // Contains information about an IAM role, including all of the role's policies.
 //
 // This data type is used as a response element in the GetAccountAuthorizationDetails
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/RoleDetail
 type RoleDetail struct {
 	_ struct{} `type:"structure"`
@@ -19764,14 +18299,14 @@ type RoleDetail struct {
 
 	// A list of managed policies attached to the role. These policies are the role's
 	// access (permissions) policies.
-	AttachedManagedPolicies []*AttachedPolicy `type:"list"`
+	AttachedManagedPolicies []AttachedPolicy `type:"list"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
 	// when the role was created.
 	CreateDate *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	// A list of instance profiles that contain this role.
-	InstanceProfileList []*InstanceProfile `type:"list"`
+	InstanceProfileList []InstanceProfile `type:"list"`
 
 	// The path to the role. For more information about paths, see IAM Identifiers
 	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
@@ -19788,7 +18323,7 @@ type RoleDetail struct {
 
 	// A list of inline policies embedded in the role. These policies are the role's
 	// access (permissions) policies.
-	RolePolicyList []*PolicyDetail `type:"list"`
+	RolePolicyList []PolicyDetail `type:"list"`
 }
 
 // String returns the string representation
@@ -19801,61 +18336,8 @@ func (s RoleDetail) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *RoleDetail) SetArn(v string) *RoleDetail {
-	s.Arn = &v
-	return s
-}
-
-// SetAssumeRolePolicyDocument sets the AssumeRolePolicyDocument field's value.
-func (s *RoleDetail) SetAssumeRolePolicyDocument(v string) *RoleDetail {
-	s.AssumeRolePolicyDocument = &v
-	return s
-}
-
-// SetAttachedManagedPolicies sets the AttachedManagedPolicies field's value.
-func (s *RoleDetail) SetAttachedManagedPolicies(v []*AttachedPolicy) *RoleDetail {
-	s.AttachedManagedPolicies = v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *RoleDetail) SetCreateDate(v time.Time) *RoleDetail {
-	s.CreateDate = &v
-	return s
-}
-
-// SetInstanceProfileList sets the InstanceProfileList field's value.
-func (s *RoleDetail) SetInstanceProfileList(v []*InstanceProfile) *RoleDetail {
-	s.InstanceProfileList = v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *RoleDetail) SetPath(v string) *RoleDetail {
-	s.Path = &v
-	return s
-}
-
-// SetRoleId sets the RoleId field's value.
-func (s *RoleDetail) SetRoleId(v string) *RoleDetail {
-	s.RoleId = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *RoleDetail) SetRoleName(v string) *RoleDetail {
-	s.RoleName = &v
-	return s
-}
-
-// SetRolePolicyList sets the RolePolicyList field's value.
-func (s *RoleDetail) SetRolePolicyList(v []*PolicyDetail) *RoleDetail {
-	s.RolePolicyList = v
-	return s
-}
-
-// An object that contains details about how a service-linked role is used.
+// An object that contains details about how a service-linked role is used,
+// if that information is returned by the service.
 //
 // This data type is used as a response element in the GetServiceLinkedRoleDeletionStatus
 // operation.
@@ -19867,7 +18349,7 @@ type RoleUsageType struct {
 	Region *string `min:"1" type:"string"`
 
 	// The name of the resource that is using the service-linked role.
-	Resources []*string `type:"list"`
+	Resources []string `type:"list"`
 }
 
 // String returns the string representation
@@ -19878,18 +18360,6 @@ func (s RoleUsageType) String() string {
 // GoString returns the string representation
 func (s RoleUsageType) GoString() string {
 	return s.String()
-}
-
-// SetRegion sets the Region field's value.
-func (s *RoleUsageType) SetRegion(v string) *RoleUsageType {
-	s.Region = &v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *RoleUsageType) SetResources(v []*string) *RoleUsageType {
-	s.Resources = v
-	return s
 }
 
 // Contains the list of SAML providers for this account.
@@ -19917,28 +18387,10 @@ func (s SAMLProviderListEntry) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *SAMLProviderListEntry) SetArn(v string) *SAMLProviderListEntry {
-	s.Arn = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *SAMLProviderListEntry) SetCreateDate(v time.Time) *SAMLProviderListEntry {
-	s.CreateDate = &v
-	return s
-}
-
-// SetValidUntil sets the ValidUntil field's value.
-func (s *SAMLProviderListEntry) SetValidUntil(v time.Time) *SAMLProviderListEntry {
-	s.ValidUntil = &v
-	return s
-}
-
 // Contains information about an SSH public key.
 //
 // This data type is used as a response element in the GetSSHPublicKey and UploadSSHPublicKey
-// actions.
+// operations.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SSHPublicKey
 type SSHPublicKey struct {
 	_ struct{} `type:"structure"`
@@ -19958,11 +18410,12 @@ type SSHPublicKey struct {
 	// SSHPublicKeyId is a required field
 	SSHPublicKeyId *string `min:"20" type:"string" required:"true"`
 
-	// The status of the SSH public key. Active means the key can be used for authentication
-	// with an AWS CodeCommit repository. Inactive means the key cannot be used.
+	// The status of the SSH public key. Active means that the key can be used for
+	// authentication with an AWS CodeCommit repository. Inactive means that the
+	// key cannot be used.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
 	// when the SSH public key was uploaded.
@@ -19984,45 +18437,9 @@ func (s SSHPublicKey) GoString() string {
 	return s.String()
 }
 
-// SetFingerprint sets the Fingerprint field's value.
-func (s *SSHPublicKey) SetFingerprint(v string) *SSHPublicKey {
-	s.Fingerprint = &v
-	return s
-}
-
-// SetSSHPublicKeyBody sets the SSHPublicKeyBody field's value.
-func (s *SSHPublicKey) SetSSHPublicKeyBody(v string) *SSHPublicKey {
-	s.SSHPublicKeyBody = &v
-	return s
-}
-
-// SetSSHPublicKeyId sets the SSHPublicKeyId field's value.
-func (s *SSHPublicKey) SetSSHPublicKeyId(v string) *SSHPublicKey {
-	s.SSHPublicKeyId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *SSHPublicKey) SetStatus(v StatusType) *SSHPublicKey {
-	s.Status = v
-	return s
-}
-
-// SetUploadDate sets the UploadDate field's value.
-func (s *SSHPublicKey) SetUploadDate(v time.Time) *SSHPublicKey {
-	s.UploadDate = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *SSHPublicKey) SetUserName(v string) *SSHPublicKey {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about an SSH public key, without the key's body or fingerprint.
 //
-// This data type is used as a response element in the ListSSHPublicKeys action.
+// This data type is used as a response element in the ListSSHPublicKeys operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SSHPublicKeyMetadata
 type SSHPublicKeyMetadata struct {
 	_ struct{} `type:"structure"`
@@ -20032,11 +18449,12 @@ type SSHPublicKeyMetadata struct {
 	// SSHPublicKeyId is a required field
 	SSHPublicKeyId *string `min:"20" type:"string" required:"true"`
 
-	// The status of the SSH public key. Active means the key can be used for authentication
-	// with an AWS CodeCommit repository. Inactive means the key cannot be used.
+	// The status of the SSH public key. Active means that the key can be used for
+	// authentication with an AWS CodeCommit repository. Inactive means that the
+	// key cannot be used.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
 	// when the SSH public key was uploaded.
@@ -20060,34 +18478,10 @@ func (s SSHPublicKeyMetadata) GoString() string {
 	return s.String()
 }
 
-// SetSSHPublicKeyId sets the SSHPublicKeyId field's value.
-func (s *SSHPublicKeyMetadata) SetSSHPublicKeyId(v string) *SSHPublicKeyMetadata {
-	s.SSHPublicKeyId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *SSHPublicKeyMetadata) SetStatus(v StatusType) *SSHPublicKeyMetadata {
-	s.Status = v
-	return s
-}
-
-// SetUploadDate sets the UploadDate field's value.
-func (s *SSHPublicKeyMetadata) SetUploadDate(v time.Time) *SSHPublicKeyMetadata {
-	s.UploadDate = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *SSHPublicKeyMetadata) SetUserName(v string) *SSHPublicKeyMetadata {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about a server certificate.
 //
 // This data type is used as a response element in the GetServerCertificate
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ServerCertificate
 type ServerCertificate struct {
 	_ struct{} `type:"structure"`
@@ -20117,29 +18511,11 @@ func (s ServerCertificate) GoString() string {
 	return s.String()
 }
 
-// SetCertificateBody sets the CertificateBody field's value.
-func (s *ServerCertificate) SetCertificateBody(v string) *ServerCertificate {
-	s.CertificateBody = &v
-	return s
-}
-
-// SetCertificateChain sets the CertificateChain field's value.
-func (s *ServerCertificate) SetCertificateChain(v string) *ServerCertificate {
-	s.CertificateChain = &v
-	return s
-}
-
-// SetServerCertificateMetadata sets the ServerCertificateMetadata field's value.
-func (s *ServerCertificate) SetServerCertificateMetadata(v *ServerCertificateMetadata) *ServerCertificate {
-	s.ServerCertificateMetadata = v
-	return s
-}
-
 // Contains information about a server certificate without its certificate body,
 // certificate chain, and private key.
 //
 // This data type is used as a response element in the UploadServerCertificate
-// and ListServerCertificates actions.
+// and ListServerCertificates operations.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ServerCertificateMetadata
 type ServerCertificateMetadata struct {
 	_ struct{} `type:"structure"`
@@ -20188,43 +18564,7 @@ func (s ServerCertificateMetadata) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *ServerCertificateMetadata) SetArn(v string) *ServerCertificateMetadata {
-	s.Arn = &v
-	return s
-}
-
-// SetExpiration sets the Expiration field's value.
-func (s *ServerCertificateMetadata) SetExpiration(v time.Time) *ServerCertificateMetadata {
-	s.Expiration = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *ServerCertificateMetadata) SetPath(v string) *ServerCertificateMetadata {
-	s.Path = &v
-	return s
-}
-
-// SetServerCertificateId sets the ServerCertificateId field's value.
-func (s *ServerCertificateMetadata) SetServerCertificateId(v string) *ServerCertificateMetadata {
-	s.ServerCertificateId = &v
-	return s
-}
-
-// SetServerCertificateName sets the ServerCertificateName field's value.
-func (s *ServerCertificateMetadata) SetServerCertificateName(v string) *ServerCertificateMetadata {
-	s.ServerCertificateName = &v
-	return s
-}
-
-// SetUploadDate sets the UploadDate field's value.
-func (s *ServerCertificateMetadata) SetUploadDate(v time.Time) *ServerCertificateMetadata {
-	s.UploadDate = &v
-	return s
-}
-
-// Contains the details of a service specific credential.
+// Contains the details of a service-specific credential.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ServiceSpecificCredential
 type ServiceSpecificCredential struct {
 	_ struct{} `type:"structure"`
@@ -20258,11 +18598,11 @@ type ServiceSpecificCredential struct {
 	// ServiceUserName is a required field
 	ServiceUserName *string `min:"17" type:"string" required:"true"`
 
-	// The status of the service-specific credential. Active means the key is valid
-	// for API calls, while Inactive means it is not.
+	// The status of the service-specific credential. Active means that the key
+	// is valid for API calls, while Inactive means it is not.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the IAM user associated with the service-specific credential.
 	//
@@ -20278,48 +18618,6 @@ func (s ServiceSpecificCredential) String() string {
 // GoString returns the string representation
 func (s ServiceSpecificCredential) GoString() string {
 	return s.String()
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *ServiceSpecificCredential) SetCreateDate(v time.Time) *ServiceSpecificCredential {
-	s.CreateDate = &v
-	return s
-}
-
-// SetServiceName sets the ServiceName field's value.
-func (s *ServiceSpecificCredential) SetServiceName(v string) *ServiceSpecificCredential {
-	s.ServiceName = &v
-	return s
-}
-
-// SetServicePassword sets the ServicePassword field's value.
-func (s *ServiceSpecificCredential) SetServicePassword(v string) *ServiceSpecificCredential {
-	s.ServicePassword = &v
-	return s
-}
-
-// SetServiceSpecificCredentialId sets the ServiceSpecificCredentialId field's value.
-func (s *ServiceSpecificCredential) SetServiceSpecificCredentialId(v string) *ServiceSpecificCredential {
-	s.ServiceSpecificCredentialId = &v
-	return s
-}
-
-// SetServiceUserName sets the ServiceUserName field's value.
-func (s *ServiceSpecificCredential) SetServiceUserName(v string) *ServiceSpecificCredential {
-	s.ServiceUserName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ServiceSpecificCredential) SetStatus(v StatusType) *ServiceSpecificCredential {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ServiceSpecificCredential) SetUserName(v string) *ServiceSpecificCredential {
-	s.UserName = &v
-	return s
 }
 
 // Contains additional details about a service-specific credential.
@@ -20348,11 +18646,11 @@ type ServiceSpecificCredentialMetadata struct {
 	// ServiceUserName is a required field
 	ServiceUserName *string `min:"17" type:"string" required:"true"`
 
-	// The status of the service-specific credential. Active means the key is valid
-	// for API calls, while Inactive means it is not.
+	// The status of the service-specific credential. Active means that the key
+	// is valid for API calls, while Inactive means it is not.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the IAM user associated with the service-specific credential.
 	//
@@ -20368,42 +18666,6 @@ func (s ServiceSpecificCredentialMetadata) String() string {
 // GoString returns the string representation
 func (s ServiceSpecificCredentialMetadata) GoString() string {
 	return s.String()
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *ServiceSpecificCredentialMetadata) SetCreateDate(v time.Time) *ServiceSpecificCredentialMetadata {
-	s.CreateDate = &v
-	return s
-}
-
-// SetServiceName sets the ServiceName field's value.
-func (s *ServiceSpecificCredentialMetadata) SetServiceName(v string) *ServiceSpecificCredentialMetadata {
-	s.ServiceName = &v
-	return s
-}
-
-// SetServiceSpecificCredentialId sets the ServiceSpecificCredentialId field's value.
-func (s *ServiceSpecificCredentialMetadata) SetServiceSpecificCredentialId(v string) *ServiceSpecificCredentialMetadata {
-	s.ServiceSpecificCredentialId = &v
-	return s
-}
-
-// SetServiceUserName sets the ServiceUserName field's value.
-func (s *ServiceSpecificCredentialMetadata) SetServiceUserName(v string) *ServiceSpecificCredentialMetadata {
-	s.ServiceUserName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ServiceSpecificCredentialMetadata) SetStatus(v StatusType) *ServiceSpecificCredentialMetadata {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *ServiceSpecificCredentialMetadata) SetUserName(v string) *ServiceSpecificCredentialMetadata {
-	s.UserName = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetDefaultPolicyVersionRequest
@@ -20461,21 +18723,11 @@ func (s *SetDefaultPolicyVersionInput) Validate() error {
 	return nil
 }
 
-// SetPolicyArn sets the PolicyArn field's value.
-func (s *SetDefaultPolicyVersionInput) SetPolicyArn(v string) *SetDefaultPolicyVersionInput {
-	s.PolicyArn = &v
-	return s
-}
-
-// SetVersionId sets the VersionId field's value.
-func (s *SetDefaultPolicyVersionInput) SetVersionId(v string) *SetDefaultPolicyVersionInput {
-	s.VersionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SetDefaultPolicyVersionOutput
 type SetDefaultPolicyVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -20488,10 +18740,15 @@ func (s SetDefaultPolicyVersionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetDefaultPolicyVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains information about an X.509 signing certificate.
 //
 // This data type is used as a response element in the UploadSigningCertificate
-// and ListSigningCertificates actions.
+// and ListSigningCertificates operations.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SigningCertificate
 type SigningCertificate struct {
 	_ struct{} `type:"structure"`
@@ -20506,11 +18763,11 @@ type SigningCertificate struct {
 	// CertificateId is a required field
 	CertificateId *string `min:"24" type:"string" required:"true"`
 
-	// The status of the signing certificate. Active means the key is valid for
-	// API calls, while Inactive means it is not.
+	// The status of the signing certificate. Active means that the key is valid
+	// for API calls, while Inactive means it is not.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The date when the signing certificate was uploaded.
 	UploadDate *time.Time `type:"timestamp" timestampFormat:"iso8601"`
@@ -20531,50 +18788,21 @@ func (s SigningCertificate) GoString() string {
 	return s.String()
 }
 
-// SetCertificateBody sets the CertificateBody field's value.
-func (s *SigningCertificate) SetCertificateBody(v string) *SigningCertificate {
-	s.CertificateBody = &v
-	return s
-}
-
-// SetCertificateId sets the CertificateId field's value.
-func (s *SigningCertificate) SetCertificateId(v string) *SigningCertificate {
-	s.CertificateId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *SigningCertificate) SetStatus(v StatusType) *SigningCertificate {
-	s.Status = v
-	return s
-}
-
-// SetUploadDate sets the UploadDate field's value.
-func (s *SigningCertificate) SetUploadDate(v time.Time) *SigningCertificate {
-	s.UploadDate = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *SigningCertificate) SetUserName(v string) *SigningCertificate {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulateCustomPolicyRequest
 type SimulateCustomPolicyInput struct {
 	_ struct{} `type:"structure"`
 
-	// A list of names of API actions to evaluate in the simulation. Each action
-	// is evaluated against each resource. Each action must include the service
+	// A list of names of API operations to evaluate in the simulation. Each operation
+	// is evaluated against each resource. Each operation must include the service
 	// identifier, such as iam:CreateUser.
 	//
 	// ActionNames is a required field
-	ActionNames []*string `type:"list" required:"true"`
+	ActionNames []string `type:"list" required:"true"`
 
 	// The ARN of the IAM user that you want to use as the simulated caller of the
-	// APIs. CallerArn is required if you include a ResourcePolicy so that the policy's
-	// Principal element has a value to use in evaluating the policy.
+	// API operations. CallerArn is required if you include a ResourcePolicy so
+	// that the policy's Principal element has a value to use in evaluating the
+	// policy.
 	//
 	// You can specify only the ARN of an IAM user. You cannot specify the ARN of
 	// an assumed role, federated user, or a service principal.
@@ -20583,7 +18811,7 @@ type SimulateCustomPolicyInput struct {
 	// A list of context keys and corresponding values for the simulation to use.
 	// Whenever a context key is evaluated in one of the simulated IAM permission
 	// policies, the corresponding value is supplied.
-	ContextEntries []*ContextEntry `type:"list"`
+	ContextEntries []ContextEntry `type:"list"`
 
 	// Use this parameter only when paginating results and only after you receive
 	// a response indicating that the results are truncated. Set it to the value
@@ -20609,17 +18837,23 @@ type SimulateCustomPolicyInput struct {
 	// The policies cannot be "scope-down" policies, such as you could include in
 	// a call to GetFederationToken (http://docs.aws.amazon.com/IAM/latest/APIReference/API_GetFederationToken.html)
 	// or one of the AssumeRole (http://docs.aws.amazon.com/IAM/latest/APIReference/API_AssumeRole.html)
-	// APIs to restrict what a user can do while using the temporary credentials.
+	// API operations. In other words, do not use policies designed to restrict
+	// what a user can do while using the temporary credentials.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyInputList is a required field
-	PolicyInputList []*string `type:"list" required:"true"`
+	PolicyInputList []string `type:"list" required:"true"`
 
 	// A list of ARNs of AWS resources to include in the simulation. If this parameter
 	// is not provided then the value defaults to * (all resources). Each API in
@@ -20637,15 +18871,15 @@ type SimulateCustomPolicyInput struct {
 	// For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
 	// Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
 	// in the AWS General Reference.
-	ResourceArns []*string `type:"list"`
+	ResourceArns []string `type:"list"`
 
-	// Specifies the type of simulation to run. Different APIs that support resource-based
-	// policies require different combinations of resources. By specifying the type
-	// of simulation to run, you enable the policy simulator to enforce the presence
-	// of the required resources to ensure reliable simulation results. If your
-	// simulation does not match one of the following scenarios, then you can omit
-	// this parameter. The following list shows each of the supported scenario values
-	// and the resources that you must define to run the simulation.
+	// Specifies the type of simulation to run. Different API operations that support
+	// resource-based policies require different combinations of resources. By specifying
+	// the type of simulation to run, you enable the policy simulator to enforce
+	// the presence of the required resources to ensure reliable simulation results.
+	// If your simulation does not match one of the following scenarios, then you
+	// can omit this parameter. The following list shows each of the supported scenario
+	// values and the resources that you must define to run the simulation.
 	//
 	// Each of the EC2 scenarios requires that you specify instance, image, and
 	// security-group resources. If your scenario includes an EBS volume, then you
@@ -20653,7 +18887,7 @@ type SimulateCustomPolicyInput struct {
 	// then you must supply the network-interface resource. If it includes an IP
 	// subnet, then you must specify the subnet resource. For more information on
 	// the EC2 scenario options, see Supported Platforms (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
-	// in the AWS EC2 User Guide.
+	// in the Amazon EC2 User Guide.
 	//
 	//    * EC2-Classic-InstanceStore
 	//
@@ -20696,11 +18930,16 @@ type SimulateCustomPolicyInput struct {
 	// You can include only one resource-based policy in a simulation.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	ResourcePolicy *string `min:"1" type:"string"`
 }
 
@@ -20745,9 +18984,6 @@ func (s *SimulateCustomPolicyInput) Validate() error {
 	}
 	if s.ContextEntries != nil {
 		for i, v := range s.ContextEntries {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ContextEntries", i), err.(aws.ErrInvalidParams))
 			}
@@ -20760,83 +18996,24 @@ func (s *SimulateCustomPolicyInput) Validate() error {
 	return nil
 }
 
-// SetActionNames sets the ActionNames field's value.
-func (s *SimulateCustomPolicyInput) SetActionNames(v []*string) *SimulateCustomPolicyInput {
-	s.ActionNames = v
-	return s
-}
-
-// SetCallerArn sets the CallerArn field's value.
-func (s *SimulateCustomPolicyInput) SetCallerArn(v string) *SimulateCustomPolicyInput {
-	s.CallerArn = &v
-	return s
-}
-
-// SetContextEntries sets the ContextEntries field's value.
-func (s *SimulateCustomPolicyInput) SetContextEntries(v []*ContextEntry) *SimulateCustomPolicyInput {
-	s.ContextEntries = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *SimulateCustomPolicyInput) SetMarker(v string) *SimulateCustomPolicyInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *SimulateCustomPolicyInput) SetMaxItems(v int64) *SimulateCustomPolicyInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPolicyInputList sets the PolicyInputList field's value.
-func (s *SimulateCustomPolicyInput) SetPolicyInputList(v []*string) *SimulateCustomPolicyInput {
-	s.PolicyInputList = v
-	return s
-}
-
-// SetResourceArns sets the ResourceArns field's value.
-func (s *SimulateCustomPolicyInput) SetResourceArns(v []*string) *SimulateCustomPolicyInput {
-	s.ResourceArns = v
-	return s
-}
-
-// SetResourceHandlingOption sets the ResourceHandlingOption field's value.
-func (s *SimulateCustomPolicyInput) SetResourceHandlingOption(v string) *SimulateCustomPolicyInput {
-	s.ResourceHandlingOption = &v
-	return s
-}
-
-// SetResourceOwner sets the ResourceOwner field's value.
-func (s *SimulateCustomPolicyInput) SetResourceOwner(v string) *SimulateCustomPolicyInput {
-	s.ResourceOwner = &v
-	return s
-}
-
-// SetResourcePolicy sets the ResourcePolicy field's value.
-func (s *SimulateCustomPolicyInput) SetResourcePolicy(v string) *SimulateCustomPolicyInput {
-	s.ResourcePolicy = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulatePrincipalPolicyRequest
 type SimulatePrincipalPolicyInput struct {
 	_ struct{} `type:"structure"`
 
-	// A list of names of API actions to evaluate in the simulation. Each action
-	// is evaluated for each resource. Each action must include the service identifier,
+	// A list of names of API operations to evaluate in the simulation. Each operation
+	// is evaluated for each resource. Each operation must include the service identifier,
 	// such as iam:CreateUser.
 	//
 	// ActionNames is a required field
-	ActionNames []*string `type:"list" required:"true"`
+	ActionNames []string `type:"list" required:"true"`
 
 	// The ARN of the IAM user that you want to specify as the simulated caller
-	// of the APIs. If you do not specify a CallerArn, it defaults to the ARN of
-	// the user that you specify in PolicySourceArn, if you specified a user. If
-	// you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David)
+	// of the API operations. If you do not specify a CallerArn, it defaults to
+	// the ARN of the user that you specify in PolicySourceArn, if you specified
+	// a user. If you include both a PolicySourceArn (for example, arn:aws:iam::123456789012:user/David)
 	// and a CallerArn (for example, arn:aws:iam::123456789012:user/Bob), the result
-	// is that you simulate calling the APIs as Bob, as if Bob had David's policies.
+	// is that you simulate calling the API operations as Bob, as if Bob had David's
+	// policies.
 	//
 	// You can specify only the ARN of an IAM user. You cannot specify the ARN of
 	// an assumed role, federated user, or a service principal.
@@ -20853,7 +19030,7 @@ type SimulatePrincipalPolicyInput struct {
 	// A list of context keys and corresponding values for the simulation to use.
 	// Whenever a context key is evaluated in one of the simulated IAM permission
 	// policies, the corresponding value is supplied.
-	ContextEntries []*ContextEntry `type:"list"`
+	ContextEntries []ContextEntry `type:"list"`
 
 	// Use this parameter only when paginating results and only after you receive
 	// a response indicating that the results are truncated. Set it to the value
@@ -20877,12 +19054,17 @@ type SimulatePrincipalPolicyInput struct {
 	// text of an IAM policy.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
-	PolicyInputList []*string `type:"list"`
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
+	PolicyInputList []string `type:"list"`
 
 	// The Amazon Resource Name (ARN) of a user, group, or role whose policies you
 	// want to include in the simulation. If you specify a user, group, or role,
@@ -20898,7 +19080,7 @@ type SimulatePrincipalPolicyInput struct {
 	PolicySourceArn *string `min:"20" type:"string" required:"true"`
 
 	// A list of ARNs of AWS resources to include in the simulation. If this parameter
-	// is not provided then the value defaults to * (all resources). Each API in
+	// is not provided, then the value defaults to * (all resources). Each API in
 	// the ActionNames parameter is evaluated for each resource in this list. The
 	// simulation determines the access result (allowed or denied) of each combination
 	// and reports it in the response.
@@ -20910,15 +19092,15 @@ type SimulatePrincipalPolicyInput struct {
 	// For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
 	// Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
 	// in the AWS General Reference.
-	ResourceArns []*string `type:"list"`
+	ResourceArns []string `type:"list"`
 
-	// Specifies the type of simulation to run. Different APIs that support resource-based
-	// policies require different combinations of resources. By specifying the type
-	// of simulation to run, you enable the policy simulator to enforce the presence
-	// of the required resources to ensure reliable simulation results. If your
-	// simulation does not match one of the following scenarios, then you can omit
-	// this parameter. The following list shows each of the supported scenario values
-	// and the resources that you must define to run the simulation.
+	// Specifies the type of simulation to run. Different API operations that support
+	// resource-based policies require different combinations of resources. By specifying
+	// the type of simulation to run, you enable the policy simulator to enforce
+	// the presence of the required resources to ensure reliable simulation results.
+	// If your simulation does not match one of the following scenarios, then you
+	// can omit this parameter. The following list shows each of the supported scenario
+	// values and the resources that you must define to run the simulation.
 	//
 	// Each of the EC2 scenarios requires that you specify instance, image, and
 	// security-group resources. If your scenario includes an EBS volume, then you
@@ -20926,7 +19108,7 @@ type SimulatePrincipalPolicyInput struct {
 	// then you must supply the network-interface resource. If it includes an IP
 	// subnet, then you must specify the subnet resource. For more information on
 	// the EC2 scenario options, see Supported Platforms (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
-	// in the AWS EC2 User Guide.
+	// in the Amazon EC2 User Guide.
 	//
 	//    * EC2-Classic-InstanceStore
 	//
@@ -20969,11 +19151,16 @@ type SimulatePrincipalPolicyInput struct {
 	// You can include only one resource-based policy in a simulation.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	ResourcePolicy *string `min:"1" type:"string"`
 }
 
@@ -21021,9 +19208,6 @@ func (s *SimulatePrincipalPolicyInput) Validate() error {
 	}
 	if s.ContextEntries != nil {
 		for i, v := range s.ContextEntries {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ContextEntries", i), err.(aws.ErrInvalidParams))
 			}
@@ -21036,80 +19220,16 @@ func (s *SimulatePrincipalPolicyInput) Validate() error {
 	return nil
 }
 
-// SetActionNames sets the ActionNames field's value.
-func (s *SimulatePrincipalPolicyInput) SetActionNames(v []*string) *SimulatePrincipalPolicyInput {
-	s.ActionNames = v
-	return s
-}
-
-// SetCallerArn sets the CallerArn field's value.
-func (s *SimulatePrincipalPolicyInput) SetCallerArn(v string) *SimulatePrincipalPolicyInput {
-	s.CallerArn = &v
-	return s
-}
-
-// SetContextEntries sets the ContextEntries field's value.
-func (s *SimulatePrincipalPolicyInput) SetContextEntries(v []*ContextEntry) *SimulatePrincipalPolicyInput {
-	s.ContextEntries = v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *SimulatePrincipalPolicyInput) SetMarker(v string) *SimulatePrincipalPolicyInput {
-	s.Marker = &v
-	return s
-}
-
-// SetMaxItems sets the MaxItems field's value.
-func (s *SimulatePrincipalPolicyInput) SetMaxItems(v int64) *SimulatePrincipalPolicyInput {
-	s.MaxItems = &v
-	return s
-}
-
-// SetPolicyInputList sets the PolicyInputList field's value.
-func (s *SimulatePrincipalPolicyInput) SetPolicyInputList(v []*string) *SimulatePrincipalPolicyInput {
-	s.PolicyInputList = v
-	return s
-}
-
-// SetPolicySourceArn sets the PolicySourceArn field's value.
-func (s *SimulatePrincipalPolicyInput) SetPolicySourceArn(v string) *SimulatePrincipalPolicyInput {
-	s.PolicySourceArn = &v
-	return s
-}
-
-// SetResourceArns sets the ResourceArns field's value.
-func (s *SimulatePrincipalPolicyInput) SetResourceArns(v []*string) *SimulatePrincipalPolicyInput {
-	s.ResourceArns = v
-	return s
-}
-
-// SetResourceHandlingOption sets the ResourceHandlingOption field's value.
-func (s *SimulatePrincipalPolicyInput) SetResourceHandlingOption(v string) *SimulatePrincipalPolicyInput {
-	s.ResourceHandlingOption = &v
-	return s
-}
-
-// SetResourceOwner sets the ResourceOwner field's value.
-func (s *SimulatePrincipalPolicyInput) SetResourceOwner(v string) *SimulatePrincipalPolicyInput {
-	s.ResourceOwner = &v
-	return s
-}
-
-// SetResourcePolicy sets the ResourcePolicy field's value.
-func (s *SimulatePrincipalPolicyInput) SetResourcePolicy(v string) *SimulatePrincipalPolicyInput {
-	s.ResourcePolicy = &v
-	return s
-}
-
 // Contains the response to a successful SimulatePrincipalPolicy or SimulateCustomPolicy
 // request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/SimulateCustomPolicyOutput
 type SimulatePrincipalPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The results of the simulation.
-	EvaluationResults []*EvaluationResult `type:"list"`
+	EvaluationResults []EvaluationResult `type:"list"`
 
 	// A flag that indicates whether there are more items to return. If your results
 	// were truncated, you can make a subsequent pagination request using the Marker
@@ -21134,22 +19254,9 @@ func (s SimulatePrincipalPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvaluationResults sets the EvaluationResults field's value.
-func (s *SimulatePrincipalPolicyOutput) SetEvaluationResults(v []*EvaluationResult) *SimulatePrincipalPolicyOutput {
-	s.EvaluationResults = v
-	return s
-}
-
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *SimulatePrincipalPolicyOutput) SetIsTruncated(v bool) *SimulatePrincipalPolicyOutput {
-	s.IsTruncated = &v
-	return s
-}
-
-// SetMarker sets the Marker field's value.
-func (s *SimulatePrincipalPolicyOutput) SetMarker(v string) *SimulatePrincipalPolicyOutput {
-	s.Marker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SimulatePrincipalPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains a reference to a Statement element in a policy document that determines
@@ -21168,7 +19275,7 @@ type Statement struct {
 	SourcePolicyId *string `type:"string"`
 
 	// The type of the policy.
-	SourcePolicyType PolicySourceType `type:"string"`
+	SourcePolicyType PolicySourceType `type:"string" enum:"true"`
 
 	// The row and column of the beginning of the Statement in an IAM policy.
 	StartPosition *Position `type:"structure"`
@@ -21184,30 +19291,6 @@ func (s Statement) GoString() string {
 	return s.String()
 }
 
-// SetEndPosition sets the EndPosition field's value.
-func (s *Statement) SetEndPosition(v *Position) *Statement {
-	s.EndPosition = v
-	return s
-}
-
-// SetSourcePolicyId sets the SourcePolicyId field's value.
-func (s *Statement) SetSourcePolicyId(v string) *Statement {
-	s.SourcePolicyId = &v
-	return s
-}
-
-// SetSourcePolicyType sets the SourcePolicyType field's value.
-func (s *Statement) SetSourcePolicyType(v PolicySourceType) *Statement {
-	s.SourcePolicyType = v
-	return s
-}
-
-// SetStartPosition sets the StartPosition field's value.
-func (s *Statement) SetStartPosition(v *Position) *Statement {
-	s.StartPosition = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccessKeyRequest
 type UpdateAccessKeyInput struct {
 	_ struct{} `type:"structure"`
@@ -21221,18 +19304,18 @@ type UpdateAccessKeyInput struct {
 	// AccessKeyId is a required field
 	AccessKeyId *string `min:"16" type:"string" required:"true"`
 
-	// The status you want to assign to the secret access key. Active means the
-	// key can be used for API calls to AWS, while Inactive means the key cannot
-	// be used.
+	// The status you want to assign to the secret access key. Active means that
+	// the key can be used for API calls to AWS, while Inactive means that the key
+	// cannot be used.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the user whose key you want to update.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -21269,27 +19352,11 @@ func (s *UpdateAccessKeyInput) Validate() error {
 	return nil
 }
 
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *UpdateAccessKeyInput) SetAccessKeyId(v string) *UpdateAccessKeyInput {
-	s.AccessKeyId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *UpdateAccessKeyInput) SetStatus(v StatusType) *UpdateAccessKeyInput {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UpdateAccessKeyInput) SetUserName(v string) *UpdateAccessKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccessKeyOutput
 type UpdateAccessKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21302,6 +19369,11 @@ func (s UpdateAccessKeyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAccessKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccountPasswordPolicyRequest
 type UpdateAccountPasswordPolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -21311,42 +19383,53 @@ type UpdateAccountPasswordPolicyInput struct {
 	// Their Own Passwords (http://docs.aws.amazon.com/IAM/latest/UserGuide/HowToPwdIAMUser.html)
 	// in the IAM User Guide.
 	//
-	// Default value: false
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of false. The result is that IAM users in the account do
+	// not automatically have permissions to change their own password.
 	AllowUsersToChangePassword *bool `type:"boolean"`
 
 	// Prevents IAM users from setting a new password after their password has expired.
+	// The IAM user cannot be accessed until an administrator resets the password.
 	//
-	// Default value: false
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of false. The result is that IAM users can change their
+	// passwords after they expire and continue to sign in as the user.
 	HardExpiry *bool `type:"boolean"`
 
-	// The number of days that an IAM user password is valid. The default value
-	// of 0 means IAM user passwords never expire.
+	// The number of days that an IAM user password is valid.
 	//
-	// Default value: 0
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of 0. The result is that IAM user passwords never expire.
 	MaxPasswordAge *int64 `min:"1" type:"integer"`
 
 	// The minimum number of characters allowed in an IAM user password.
 	//
-	// Default value: 6
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of 6.
 	MinimumPasswordLength *int64 `min:"6" type:"integer"`
 
 	// Specifies the number of previous passwords that IAM users are prevented from
-	// reusing. The default value of 0 means IAM users are not prevented from reusing
-	// previous passwords.
+	// reusing.
 	//
-	// Default value: 0
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of 0. The result is that IAM users are not prevented from
+	// reusing previous passwords.
 	PasswordReusePrevention *int64 `min:"1" type:"integer"`
 
 	// Specifies whether IAM user passwords must contain at least one lowercase
 	// character from the ISO basic Latin alphabet (a to z).
 	//
-	// Default value: false
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of false. The result is that passwords do not require at
+	// least one lowercase character.
 	RequireLowercaseCharacters *bool `type:"boolean"`
 
 	// Specifies whether IAM user passwords must contain at least one numeric character
 	// (0 to 9).
 	//
-	// Default value: false
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of false. The result is that passwords do not require at
+	// least one numeric character.
 	RequireNumbers *bool `type:"boolean"`
 
 	// Specifies whether IAM user passwords must contain at least one of the following
@@ -21354,13 +19437,17 @@ type UpdateAccountPasswordPolicyInput struct {
 	//
 	// ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
 	//
-	// Default value: false
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of false. The result is that passwords do not require at
+	// least one symbol character.
 	RequireSymbols *bool `type:"boolean"`
 
 	// Specifies whether IAM user passwords must contain at least one uppercase
 	// character from the ISO basic Latin alphabet (A to Z).
 	//
-	// Default value: false
+	// If you do not specify a value for this parameter, then the operation uses
+	// the default value of false. The result is that passwords do not require at
+	// least one uppercase character.
 	RequireUppercaseCharacters *bool `type:"boolean"`
 }
 
@@ -21393,63 +19480,11 @@ func (s *UpdateAccountPasswordPolicyInput) Validate() error {
 	return nil
 }
 
-// SetAllowUsersToChangePassword sets the AllowUsersToChangePassword field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetAllowUsersToChangePassword(v bool) *UpdateAccountPasswordPolicyInput {
-	s.AllowUsersToChangePassword = &v
-	return s
-}
-
-// SetHardExpiry sets the HardExpiry field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetHardExpiry(v bool) *UpdateAccountPasswordPolicyInput {
-	s.HardExpiry = &v
-	return s
-}
-
-// SetMaxPasswordAge sets the MaxPasswordAge field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetMaxPasswordAge(v int64) *UpdateAccountPasswordPolicyInput {
-	s.MaxPasswordAge = &v
-	return s
-}
-
-// SetMinimumPasswordLength sets the MinimumPasswordLength field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetMinimumPasswordLength(v int64) *UpdateAccountPasswordPolicyInput {
-	s.MinimumPasswordLength = &v
-	return s
-}
-
-// SetPasswordReusePrevention sets the PasswordReusePrevention field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetPasswordReusePrevention(v int64) *UpdateAccountPasswordPolicyInput {
-	s.PasswordReusePrevention = &v
-	return s
-}
-
-// SetRequireLowercaseCharacters sets the RequireLowercaseCharacters field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetRequireLowercaseCharacters(v bool) *UpdateAccountPasswordPolicyInput {
-	s.RequireLowercaseCharacters = &v
-	return s
-}
-
-// SetRequireNumbers sets the RequireNumbers field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetRequireNumbers(v bool) *UpdateAccountPasswordPolicyInput {
-	s.RequireNumbers = &v
-	return s
-}
-
-// SetRequireSymbols sets the RequireSymbols field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetRequireSymbols(v bool) *UpdateAccountPasswordPolicyInput {
-	s.RequireSymbols = &v
-	return s
-}
-
-// SetRequireUppercaseCharacters sets the RequireUppercaseCharacters field's value.
-func (s *UpdateAccountPasswordPolicyInput) SetRequireUppercaseCharacters(v bool) *UpdateAccountPasswordPolicyInput {
-	s.RequireUppercaseCharacters = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAccountPasswordPolicyOutput
 type UpdateAccountPasswordPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21462,6 +19497,11 @@ func (s UpdateAccountPasswordPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAccountPasswordPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAssumeRolePolicyRequest
 type UpdateAssumeRolePolicyInput struct {
 	_ struct{} `type:"structure"`
@@ -21469,11 +19509,16 @@ type UpdateAssumeRolePolicyInput struct {
 	// The policy that grants an entity permission to assume the role.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PolicyDocument is a required field
 	PolicyDocument *string `min:"1" type:"string" required:"true"`
@@ -21522,21 +19567,11 @@ func (s *UpdateAssumeRolePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *UpdateAssumeRolePolicyInput) SetPolicyDocument(v string) *UpdateAssumeRolePolicyInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *UpdateAssumeRolePolicyInput) SetRoleName(v string) *UpdateAssumeRolePolicyInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateAssumeRolePolicyOutput
 type UpdateAssumeRolePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21549,6 +19584,11 @@ func (s UpdateAssumeRolePolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAssumeRolePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateGroupRequest
 type UpdateGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -21558,7 +19598,7 @@ type UpdateGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// GroupName is a required field
 	GroupName *string `min:"1" type:"string" required:"true"`
@@ -21567,16 +19607,17 @@ type UpdateGroupInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	NewGroupName *string `min:"1" type:"string"`
 
 	// New path for the IAM group. Only include this if changing the group's path.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	NewPath *string `min:"1" type:"string"`
 }
 
@@ -21613,27 +19654,11 @@ func (s *UpdateGroupInput) Validate() error {
 	return nil
 }
 
-// SetGroupName sets the GroupName field's value.
-func (s *UpdateGroupInput) SetGroupName(v string) *UpdateGroupInput {
-	s.GroupName = &v
-	return s
-}
-
-// SetNewGroupName sets the NewGroupName field's value.
-func (s *UpdateGroupInput) SetNewGroupName(v string) *UpdateGroupInput {
-	s.NewGroupName = &v
-	return s
-}
-
-// SetNewPath sets the NewPath field's value.
-func (s *UpdateGroupInput) SetNewPath(v string) *UpdateGroupInput {
-	s.NewPath = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateGroupOutput
 type UpdateGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21646,6 +19671,11 @@ func (s UpdateGroupOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateLoginProfileRequest
 type UpdateLoginProfileInput struct {
 	_ struct{} `type:"structure"`
@@ -21653,13 +19683,20 @@ type UpdateLoginProfileInput struct {
 	// The new password for the specified IAM user.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D). However,
-	// the format can be further restricted by the account administrator by setting
-	// a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
+	//
+	// However, the format can be further restricted by the account administrator
+	// by setting a password policy on the AWS account. For more information, see
+	// UpdateAccountPasswordPolicy.
 	Password *string `min:"1" type:"string"`
 
 	// Allows this new password to be used only once by requiring the specified
@@ -21670,7 +19707,7 @@ type UpdateLoginProfileInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -21706,27 +19743,11 @@ func (s *UpdateLoginProfileInput) Validate() error {
 	return nil
 }
 
-// SetPassword sets the Password field's value.
-func (s *UpdateLoginProfileInput) SetPassword(v string) *UpdateLoginProfileInput {
-	s.Password = &v
-	return s
-}
-
-// SetPasswordResetRequired sets the PasswordResetRequired field's value.
-func (s *UpdateLoginProfileInput) SetPasswordResetRequired(v bool) *UpdateLoginProfileInput {
-	s.PasswordResetRequired = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UpdateLoginProfileInput) SetUserName(v string) *UpdateLoginProfileInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateLoginProfileOutput
 type UpdateLoginProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21739,13 +19760,18 @@ func (s UpdateLoginProfileOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateLoginProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateOpenIDConnectProviderThumbprintRequest
 type UpdateOpenIDConnectProviderThumbprintInput struct {
 	_ struct{} `type:"structure"`
 
 	// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for
 	// which you want to update the thumbprint. You can get a list of OIDC provider
-	// ARNs by using the ListOpenIDConnectProviders action.
+	// ARNs by using the ListOpenIDConnectProviders operation.
 	//
 	// For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
 	// Service Namespaces (http://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
@@ -21758,7 +19784,7 @@ type UpdateOpenIDConnectProviderThumbprintInput struct {
 	// IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider.
 	//
 	// ThumbprintList is a required field
-	ThumbprintList []*string `type:"list" required:"true"`
+	ThumbprintList []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -21792,21 +19818,11 @@ func (s *UpdateOpenIDConnectProviderThumbprintInput) Validate() error {
 	return nil
 }
 
-// SetOpenIDConnectProviderArn sets the OpenIDConnectProviderArn field's value.
-func (s *UpdateOpenIDConnectProviderThumbprintInput) SetOpenIDConnectProviderArn(v string) *UpdateOpenIDConnectProviderThumbprintInput {
-	s.OpenIDConnectProviderArn = &v
-	return s
-}
-
-// SetThumbprintList sets the ThumbprintList field's value.
-func (s *UpdateOpenIDConnectProviderThumbprintInput) SetThumbprintList(v []*string) *UpdateOpenIDConnectProviderThumbprintInput {
-	s.ThumbprintList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateOpenIDConnectProviderThumbprintOutput
 type UpdateOpenIDConnectProviderThumbprintOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21817,6 +19833,11 @@ func (s UpdateOpenIDConnectProviderThumbprintOutput) String() string {
 // GoString returns the string representation
 func (s UpdateOpenIDConnectProviderThumbprintOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateOpenIDConnectProviderThumbprintOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRoleDescriptionRequest
@@ -21865,21 +19886,11 @@ func (s *UpdateRoleDescriptionInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateRoleDescriptionInput) SetDescription(v string) *UpdateRoleDescriptionInput {
-	s.Description = &v
-	return s
-}
-
-// SetRoleName sets the RoleName field's value.
-func (s *UpdateRoleDescriptionInput) SetRoleName(v string) *UpdateRoleDescriptionInput {
-	s.RoleName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRoleDescriptionResponse
 type UpdateRoleDescriptionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A structure that contains details about the modified role.
 	Role *Role `type:"structure"`
@@ -21895,10 +19906,90 @@ func (s UpdateRoleDescriptionOutput) GoString() string {
 	return s.String()
 }
 
-// SetRole sets the Role field's value.
-func (s *UpdateRoleDescriptionOutput) SetRole(v *Role) *UpdateRoleDescriptionOutput {
-	s.Role = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateRoleDescriptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRoleRequest
+type UpdateRoleInput struct {
+	_ struct{} `type:"structure"`
+
+	// The new description that you want to apply to the specified role.
+	Description *string `type:"string"`
+
+	// The maximum session duration (in seconds) that you want to set for the specified
+	// role. If you do not specify a value for this setting, the default maximum
+	// of one hour is applied. This setting can have a value from 1 hour to 12 hours.
+	//
+	// Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds
+	// API parameter or the duration-seconds CLI parameter to request a longer session.
+	// The MaxSessionDuration setting determines the maximum duration that can be
+	// requested using the DurationSeconds parameter. If users don't specify a value
+	// for the DurationSeconds parameter, their security credentials are valid for
+	// one hour by default. This applies when you use the AssumeRole* API operations
+	// or the assume-role* CLI operations but does not apply when you use those
+	// operations to create a console URL. For more information, see Using IAM Roles
+	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html) in the
+	// IAM User Guide.
+	MaxSessionDuration *int64 `min:"3600" type:"integer"`
+
+	// The name of the role that you want to modify.
+	//
+	// RoleName is a required field
+	RoleName *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateRoleInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateRoleInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateRoleInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateRoleInput"}
+	if s.MaxSessionDuration != nil && *s.MaxSessionDuration < 3600 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxSessionDuration", 3600))
+	}
+
+	if s.RoleName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("RoleName"))
+	}
+	if s.RoleName != nil && len(*s.RoleName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("RoleName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateRoleResponse
+type UpdateRoleOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s UpdateRoleOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateRoleOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSAMLProviderRequest
@@ -21958,22 +20049,12 @@ func (s *UpdateSAMLProviderInput) Validate() error {
 	return nil
 }
 
-// SetSAMLMetadataDocument sets the SAMLMetadataDocument field's value.
-func (s *UpdateSAMLProviderInput) SetSAMLMetadataDocument(v string) *UpdateSAMLProviderInput {
-	s.SAMLMetadataDocument = &v
-	return s
-}
-
-// SetSAMLProviderArn sets the SAMLProviderArn field's value.
-func (s *UpdateSAMLProviderInput) SetSAMLProviderArn(v string) *UpdateSAMLProviderInput {
-	s.SAMLProviderArn = &v
-	return s
-}
-
 // Contains the response to a successful UpdateSAMLProvider request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSAMLProviderResponse
 type UpdateSAMLProviderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) of the SAML provider that was updated.
 	SAMLProviderArn *string `min:"20" type:"string"`
@@ -21989,10 +20070,9 @@ func (s UpdateSAMLProviderOutput) GoString() string {
 	return s.String()
 }
 
-// SetSAMLProviderArn sets the SAMLProviderArn field's value.
-func (s *UpdateSAMLProviderOutput) SetSAMLProviderArn(v string) *UpdateSAMLProviderOutput {
-	s.SAMLProviderArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSAMLProviderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSSHPublicKeyRequest
@@ -22008,18 +20088,18 @@ type UpdateSSHPublicKeyInput struct {
 	// SSHPublicKeyId is a required field
 	SSHPublicKeyId *string `min:"20" type:"string" required:"true"`
 
-	// The status to assign to the SSH public key. Active means the key can be used
-	// for authentication with an AWS CodeCommit repository. Inactive means the
-	// key cannot be used.
+	// The status to assign to the SSH public key. Active means that the key can
+	// be used for authentication with an AWS CodeCommit repository. Inactive means
+	// that the key cannot be used.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the IAM user associated with the SSH public key.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -22062,27 +20142,11 @@ func (s *UpdateSSHPublicKeyInput) Validate() error {
 	return nil
 }
 
-// SetSSHPublicKeyId sets the SSHPublicKeyId field's value.
-func (s *UpdateSSHPublicKeyInput) SetSSHPublicKeyId(v string) *UpdateSSHPublicKeyInput {
-	s.SSHPublicKeyId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *UpdateSSHPublicKeyInput) SetStatus(v StatusType) *UpdateSSHPublicKeyInput {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UpdateSSHPublicKeyInput) SetUserName(v string) *UpdateSSHPublicKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSSHPublicKeyOutput
 type UpdateSSHPublicKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -22095,6 +20159,11 @@ func (s UpdateSSHPublicKeyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSSHPublicKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServerCertificateRequest
 type UpdateServerCertificateInput struct {
 	_ struct{} `type:"structure"`
@@ -22102,11 +20171,12 @@ type UpdateServerCertificateInput struct {
 	// The new path for the server certificate. Include this only if you are updating
 	// the server certificate's path.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	NewPath *string `min:"1" type:"string"`
 
 	// The new name for the server certificate. Include this only if you are updating
@@ -22115,14 +20185,14 @@ type UpdateServerCertificateInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	NewServerCertificateName *string `min:"1" type:"string"`
 
 	// The name of the server certificate that you want to update.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// ServerCertificateName is a required field
 	ServerCertificateName *string `min:"1" type:"string" required:"true"`
@@ -22161,27 +20231,11 @@ func (s *UpdateServerCertificateInput) Validate() error {
 	return nil
 }
 
-// SetNewPath sets the NewPath field's value.
-func (s *UpdateServerCertificateInput) SetNewPath(v string) *UpdateServerCertificateInput {
-	s.NewPath = &v
-	return s
-}
-
-// SetNewServerCertificateName sets the NewServerCertificateName field's value.
-func (s *UpdateServerCertificateInput) SetNewServerCertificateName(v string) *UpdateServerCertificateInput {
-	s.NewServerCertificateName = &v
-	return s
-}
-
-// SetServerCertificateName sets the ServerCertificateName field's value.
-func (s *UpdateServerCertificateInput) SetServerCertificateName(v string) *UpdateServerCertificateInput {
-	s.ServerCertificateName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServerCertificateOutput
 type UpdateServerCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -22192,6 +20246,11 @@ func (s UpdateServerCertificateOutput) String() string {
 // GoString returns the string representation
 func (s UpdateServerCertificateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateServerCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServiceSpecificCredentialRequest
@@ -22210,7 +20269,7 @@ type UpdateServiceSpecificCredentialInput struct {
 	// The status to be assigned to the service-specific credential.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the IAM user associated with the service-specific credential.
 	// If you do not specify this value, then the operation assumes the user whose
@@ -22218,7 +20277,7 @@ type UpdateServiceSpecificCredentialInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -22255,27 +20314,11 @@ func (s *UpdateServiceSpecificCredentialInput) Validate() error {
 	return nil
 }
 
-// SetServiceSpecificCredentialId sets the ServiceSpecificCredentialId field's value.
-func (s *UpdateServiceSpecificCredentialInput) SetServiceSpecificCredentialId(v string) *UpdateServiceSpecificCredentialInput {
-	s.ServiceSpecificCredentialId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *UpdateServiceSpecificCredentialInput) SetStatus(v StatusType) *UpdateServiceSpecificCredentialInput {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UpdateServiceSpecificCredentialInput) SetUserName(v string) *UpdateServiceSpecificCredentialInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateServiceSpecificCredentialOutput
 type UpdateServiceSpecificCredentialOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -22286,6 +20329,11 @@ func (s UpdateServiceSpecificCredentialOutput) String() string {
 // GoString returns the string representation
 func (s UpdateServiceSpecificCredentialOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateServiceSpecificCredentialOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSigningCertificateRequest
@@ -22301,18 +20349,18 @@ type UpdateSigningCertificateInput struct {
 	// CertificateId is a required field
 	CertificateId *string `min:"24" type:"string" required:"true"`
 
-	// The status you want to assign to the certificate. Active means the certificate
-	// can be used for API calls to AWS, while Inactive means the certificate cannot
+	// The status you want to assign to the certificate. Active means that the certificate
+	// can be used for API calls to AWS Inactive means that the certificate cannot
 	// be used.
 	//
 	// Status is a required field
-	Status StatusType `type:"string" required:"true"`
+	Status StatusType `type:"string" required:"true" enum:"true"`
 
 	// The name of the IAM user the signing certificate belongs to.
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -22349,27 +20397,11 @@ func (s *UpdateSigningCertificateInput) Validate() error {
 	return nil
 }
 
-// SetCertificateId sets the CertificateId field's value.
-func (s *UpdateSigningCertificateInput) SetCertificateId(v string) *UpdateSigningCertificateInput {
-	s.CertificateId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *UpdateSigningCertificateInput) SetStatus(v StatusType) *UpdateSigningCertificateInput {
-	s.Status = v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UpdateSigningCertificateInput) SetUserName(v string) *UpdateSigningCertificateInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateSigningCertificateOutput
 type UpdateSigningCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -22382,6 +20414,11 @@ func (s UpdateSigningCertificateOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSigningCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateUserRequest
 type UpdateUserInput struct {
 	_ struct{} `type:"structure"`
@@ -22389,11 +20426,12 @@ type UpdateUserInput struct {
 	// New path for the IAM user. Include this parameter only if you're changing
 	// the user's path.
 	//
-	// This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	NewPath *string `min:"1" type:"string"`
 
 	// New name for the user. Include this parameter only if you're changing the
@@ -22401,7 +20439,7 @@ type UpdateUserInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	NewUserName *string `min:"1" type:"string"`
 
 	// Name of the user to update. If you're changing the name of the user, this
@@ -22409,7 +20447,7 @@ type UpdateUserInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -22448,27 +20486,11 @@ func (s *UpdateUserInput) Validate() error {
 	return nil
 }
 
-// SetNewPath sets the NewPath field's value.
-func (s *UpdateUserInput) SetNewPath(v string) *UpdateUserInput {
-	s.NewPath = &v
-	return s
-}
-
-// SetNewUserName sets the NewUserName field's value.
-func (s *UpdateUserInput) SetNewUserName(v string) *UpdateUserInput {
-	s.NewUserName = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UpdateUserInput) SetUserName(v string) *UpdateUserInput {
-	s.UserName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UpdateUserOutput
 type UpdateUserOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -22481,6 +20503,11 @@ func (s UpdateUserOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateUserOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSSHPublicKeyRequest
 type UploadSSHPublicKeyInput struct {
 	_ struct{} `type:"structure"`
@@ -22489,11 +20516,16 @@ type UploadSSHPublicKeyInput struct {
 	// format.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// SSHPublicKeyBody is a required field
 	SSHPublicKeyBody *string `min:"1" type:"string" required:"true"`
@@ -22502,7 +20534,7 @@ type UploadSSHPublicKeyInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// UserName is a required field
 	UserName *string `min:"1" type:"string" required:"true"`
@@ -22542,22 +20574,12 @@ func (s *UploadSSHPublicKeyInput) Validate() error {
 	return nil
 }
 
-// SetSSHPublicKeyBody sets the SSHPublicKeyBody field's value.
-func (s *UploadSSHPublicKeyInput) SetSSHPublicKeyBody(v string) *UploadSSHPublicKeyInput {
-	s.SSHPublicKeyBody = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UploadSSHPublicKeyInput) SetUserName(v string) *UploadSSHPublicKeyInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful UploadSSHPublicKey request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSSHPublicKeyResponse
 type UploadSSHPublicKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Contains information about the SSH public key.
 	SSHPublicKey *SSHPublicKey `type:"structure"`
@@ -22573,10 +20595,9 @@ func (s UploadSSHPublicKeyOutput) GoString() string {
 	return s.String()
 }
 
-// SetSSHPublicKey sets the SSHPublicKey field's value.
-func (s *UploadSSHPublicKeyOutput) SetSSHPublicKey(v *SSHPublicKey) *UploadSSHPublicKeyOutput {
-	s.SSHPublicKey = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UploadSSHPublicKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadServerCertificateRequest
@@ -22586,11 +20607,16 @@ type UploadServerCertificateInput struct {
 	// The contents of the public key certificate in PEM-encoded format.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// CertificateBody is a required field
 	CertificateBody *string `min:"1" type:"string" required:"true"`
@@ -22599,11 +20625,16 @@ type UploadServerCertificateInput struct {
 	// of the PEM-encoded public key certificates of the chain.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	CertificateChain *string `min:"1" type:"string"`
 
 	// The path for the server certificate. For more information about paths, see
@@ -22611,14 +20642,15 @@ type UploadServerCertificateInput struct {
 	// in the IAM User Guide.
 	//
 	// This parameter is optional. If it is not included, it defaults to a slash
-	// (/). This paramater allows (per its regex pattern (http://wikipedia.org/wiki/regex))
+	// (/). This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of either a forward slash (/) by itself
-	// or a string that must begin and end with forward slashes, containing any
-	// ASCII character from the ! (\u0021) thru the DEL character (\u007F), including
-	// most punctuation characters, digits, and upper and lowercased letters.
+	// or a string that must begin and end with forward slashes. In addition, it
+	// can contain any ASCII character from the ! (\u0021) through the DEL character
+	// (\u007F), including most punctuation characters, digits, and upper and lowercased
+	// letters.
 	//
 	// If you are uploading a server certificate specifically for use with Amazon
-	// CloudFront distributions, you must specify a path using the --path option.
+	// CloudFront distributions, you must specify a path using the path parameter.
 	// The path must begin with /cloudfront and must include a trailing slash (for
 	// example, /cloudfront/test/).
 	Path *string `min:"1" type:"string"`
@@ -22626,11 +20658,16 @@ type UploadServerCertificateInput struct {
 	// The contents of the private key in PEM-encoded format.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// PrivateKey is a required field
 	PrivateKey *string `min:"1" type:"string" required:"true"`
@@ -22640,7 +20677,7 @@ type UploadServerCertificateInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	//
 	// ServerCertificateName is a required field
 	ServerCertificateName *string `min:"1" type:"string" required:"true"`
@@ -22693,40 +20730,12 @@ func (s *UploadServerCertificateInput) Validate() error {
 	return nil
 }
 
-// SetCertificateBody sets the CertificateBody field's value.
-func (s *UploadServerCertificateInput) SetCertificateBody(v string) *UploadServerCertificateInput {
-	s.CertificateBody = &v
-	return s
-}
-
-// SetCertificateChain sets the CertificateChain field's value.
-func (s *UploadServerCertificateInput) SetCertificateChain(v string) *UploadServerCertificateInput {
-	s.CertificateChain = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *UploadServerCertificateInput) SetPath(v string) *UploadServerCertificateInput {
-	s.Path = &v
-	return s
-}
-
-// SetPrivateKey sets the PrivateKey field's value.
-func (s *UploadServerCertificateInput) SetPrivateKey(v string) *UploadServerCertificateInput {
-	s.PrivateKey = &v
-	return s
-}
-
-// SetServerCertificateName sets the ServerCertificateName field's value.
-func (s *UploadServerCertificateInput) SetServerCertificateName(v string) *UploadServerCertificateInput {
-	s.ServerCertificateName = &v
-	return s
-}
-
 // Contains the response to a successful UploadServerCertificate request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadServerCertificateResponse
 type UploadServerCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The meta information of the uploaded server certificate without its certificate
 	// body, certificate chain, and private key.
@@ -22743,10 +20752,9 @@ func (s UploadServerCertificateOutput) GoString() string {
 	return s.String()
 }
 
-// SetServerCertificateMetadata sets the ServerCertificateMetadata field's value.
-func (s *UploadServerCertificateOutput) SetServerCertificateMetadata(v *ServerCertificateMetadata) *UploadServerCertificateOutput {
-	s.ServerCertificateMetadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UploadServerCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSigningCertificateRequest
@@ -22756,11 +20764,16 @@ type UploadSigningCertificateInput struct {
 	// The contents of the signing certificate.
 	//
 	// The regex pattern (http://wikipedia.org/wiki/regex) used to validate this
-	// parameter is a string of characters consisting of any printable ASCII character
-	// ranging from the space character (\u0020) through end of the ASCII character
-	// range as well as the printable characters in the Basic Latin and Latin-1
-	// Supplement character set (through \u00FF). It also includes the special characters
-	// tab (\u0009), line feed (\u000A), and carriage return (\u000D).
+	// parameter is a string of characters consisting of the following:
+	//
+	//    * Any printable ASCII character ranging from the space character (\u0020)
+	//    through the end of the ASCII character range
+	//
+	//    * The printable characters in the Basic Latin and Latin-1 Supplement character
+	//    set (through \u00FF)
+	//
+	//    * The special characters tab (\u0009), line feed (\u000A), and carriage
+	//    return (\u000D)
 	//
 	// CertificateBody is a required field
 	CertificateBody *string `min:"1" type:"string" required:"true"`
@@ -22769,7 +20782,7 @@ type UploadSigningCertificateInput struct {
 	//
 	// This parameter allows (per its regex pattern (http://wikipedia.org/wiki/regex))
 	// a string of characters consisting of upper and lowercase alphanumeric characters
-	// with no spaces. You can also include any of the following characters: =,.@-
+	// with no spaces. You can also include any of the following characters: _+=,.@-
 	UserName *string `min:"1" type:"string"`
 }
 
@@ -22803,22 +20816,12 @@ func (s *UploadSigningCertificateInput) Validate() error {
 	return nil
 }
 
-// SetCertificateBody sets the CertificateBody field's value.
-func (s *UploadSigningCertificateInput) SetCertificateBody(v string) *UploadSigningCertificateInput {
-	s.CertificateBody = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UploadSigningCertificateInput) SetUserName(v string) *UploadSigningCertificateInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the response to a successful UploadSigningCertificate request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UploadSigningCertificateResponse
 type UploadSigningCertificateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the certificate.
 	//
@@ -22836,15 +20839,14 @@ func (s UploadSigningCertificateOutput) GoString() string {
 	return s.String()
 }
 
-// SetCertificate sets the Certificate field's value.
-func (s *UploadSigningCertificateOutput) SetCertificate(v *SigningCertificate) *UploadSigningCertificateOutput {
-	s.Certificate = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UploadSigningCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about an IAM user entity.
 //
-// This data type is used as a response element in the following actions:
+// This data type is used as a response element in the following operations:
 //
 //    * CreateUser
 //
@@ -22886,7 +20888,7 @@ type User struct {
 	// does not currently have a password, but had one in the past, then this field
 	// contains the date and time the most recent password was used.
 	//
-	// This value is returned only in the GetUser and ListUsers actions.
+	// This value is returned only in the GetUser and ListUsers operations.
 	PasswordLastUsed *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	// The path to the user. For more information about paths, see IAM Identifiers
@@ -22919,47 +20921,11 @@ func (s User) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *User) SetArn(v string) *User {
-	s.Arn = &v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *User) SetCreateDate(v time.Time) *User {
-	s.CreateDate = &v
-	return s
-}
-
-// SetPasswordLastUsed sets the PasswordLastUsed field's value.
-func (s *User) SetPasswordLastUsed(v time.Time) *User {
-	s.PasswordLastUsed = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *User) SetPath(v string) *User {
-	s.Path = &v
-	return s
-}
-
-// SetUserId sets the UserId field's value.
-func (s *User) SetUserId(v string) *User {
-	s.UserId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *User) SetUserName(v string) *User {
-	s.UserName = &v
-	return s
-}
-
 // Contains information about an IAM user, including all the user's policies
 // and all the IAM groups the user is in.
 //
 // This data type is used as a response element in the GetAccountAuthorizationDetails
-// action.
+// operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/UserDetail
 type UserDetail struct {
 	_ struct{} `type:"structure"`
@@ -22972,14 +20938,14 @@ type UserDetail struct {
 	Arn *string `min:"20" type:"string"`
 
 	// A list of the managed policies attached to the user.
-	AttachedManagedPolicies []*AttachedPolicy `type:"list"`
+	AttachedManagedPolicies []AttachedPolicy `type:"list"`
 
 	// The date and time, in ISO 8601 date-time format (http://www.iso.org/iso/iso8601),
 	// when the user was created.
 	CreateDate *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 
 	// A list of IAM groups that the user is in.
-	GroupList []*string `type:"list"`
+	GroupList []string `type:"list"`
 
 	// The path to the user. For more information about paths, see IAM Identifiers
 	// (http://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html)
@@ -22995,7 +20961,7 @@ type UserDetail struct {
 	UserName *string `min:"1" type:"string"`
 
 	// A list of the inline policies embedded in the user.
-	UserPolicyList []*PolicyDetail `type:"list"`
+	UserPolicyList []PolicyDetail `type:"list"`
 }
 
 // String returns the string representation
@@ -23006,54 +20972,6 @@ func (s UserDetail) String() string {
 // GoString returns the string representation
 func (s UserDetail) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *UserDetail) SetArn(v string) *UserDetail {
-	s.Arn = &v
-	return s
-}
-
-// SetAttachedManagedPolicies sets the AttachedManagedPolicies field's value.
-func (s *UserDetail) SetAttachedManagedPolicies(v []*AttachedPolicy) *UserDetail {
-	s.AttachedManagedPolicies = v
-	return s
-}
-
-// SetCreateDate sets the CreateDate field's value.
-func (s *UserDetail) SetCreateDate(v time.Time) *UserDetail {
-	s.CreateDate = &v
-	return s
-}
-
-// SetGroupList sets the GroupList field's value.
-func (s *UserDetail) SetGroupList(v []*string) *UserDetail {
-	s.GroupList = v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *UserDetail) SetPath(v string) *UserDetail {
-	s.Path = &v
-	return s
-}
-
-// SetUserId sets the UserId field's value.
-func (s *UserDetail) SetUserId(v string) *UserDetail {
-	s.UserId = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *UserDetail) SetUserName(v string) *UserDetail {
-	s.UserName = &v
-	return s
-}
-
-// SetUserPolicyList sets the UserPolicyList field's value.
-func (s *UserDetail) SetUserPolicyList(v []*PolicyDetail) *UserDetail {
-	s.UserPolicyList = v
-	return s
 }
 
 // Contains information about a virtual MFA device.
@@ -23097,36 +21015,6 @@ func (s VirtualMFADevice) GoString() string {
 	return s.String()
 }
 
-// SetBase32StringSeed sets the Base32StringSeed field's value.
-func (s *VirtualMFADevice) SetBase32StringSeed(v []byte) *VirtualMFADevice {
-	s.Base32StringSeed = v
-	return s
-}
-
-// SetEnableDate sets the EnableDate field's value.
-func (s *VirtualMFADevice) SetEnableDate(v time.Time) *VirtualMFADevice {
-	s.EnableDate = &v
-	return s
-}
-
-// SetQRCodePNG sets the QRCodePNG field's value.
-func (s *VirtualMFADevice) SetQRCodePNG(v []byte) *VirtualMFADevice {
-	s.QRCodePNG = v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *VirtualMFADevice) SetSerialNumber(v string) *VirtualMFADevice {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetUser sets the User field's value.
-func (s *VirtualMFADevice) SetUser(v *User) *VirtualMFADevice {
-	s.User = v
-	return s
-}
-
 type ContextKeyTypeEnum string
 
 // Enum values for ContextKeyTypeEnum
@@ -23145,6 +21033,15 @@ const (
 	ContextKeyTypeEnumDateList    ContextKeyTypeEnum = "dateList"
 )
 
+func (enum ContextKeyTypeEnum) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ContextKeyTypeEnum) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DeletionTaskStatusType string
 
 // Enum values for DeletionTaskStatusType
@@ -23154,6 +21051,15 @@ const (
 	DeletionTaskStatusTypeFailed     DeletionTaskStatusType = "FAILED"
 	DeletionTaskStatusTypeNotStarted DeletionTaskStatusType = "NOT_STARTED"
 )
+
+func (enum DeletionTaskStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DeletionTaskStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EntityType string
 
@@ -23166,6 +21072,15 @@ const (
 	EntityTypeAwsmanagedPolicy   EntityType = "AWSManagedPolicy"
 )
 
+func (enum EntityType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EntityType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PolicyEvaluationDecisionType string
 
 // Enum values for PolicyEvaluationDecisionType
@@ -23174,6 +21089,15 @@ const (
 	PolicyEvaluationDecisionTypeExplicitDeny PolicyEvaluationDecisionType = "explicitDeny"
 	PolicyEvaluationDecisionTypeImplicitDeny PolicyEvaluationDecisionType = "implicitDeny"
 )
+
+func (enum PolicyEvaluationDecisionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PolicyEvaluationDecisionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PolicySourceType string
 
@@ -23188,12 +21112,30 @@ const (
 	PolicySourceTypeNone        PolicySourceType = "none"
 )
 
+func (enum PolicySourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PolicySourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ReportFormatType string
 
 // Enum values for ReportFormatType
 const (
 	ReportFormatTypeTextCsv ReportFormatType = "text/csv"
 )
+
+func (enum ReportFormatType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReportFormatType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ReportStateType string
 
@@ -23204,6 +21146,15 @@ const (
 	ReportStateTypeComplete   ReportStateType = "COMPLETE"
 )
 
+func (enum ReportStateType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReportStateType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AssignmentStatusType string
 
 // Enum values for AssignmentStatusType
@@ -23213,6 +21164,15 @@ const (
 	AssignmentStatusTypeAny        AssignmentStatusType = "Any"
 )
 
+func (enum AssignmentStatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AssignmentStatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EncodingType string
 
 // Enum values for EncodingType
@@ -23220,6 +21180,15 @@ const (
 	EncodingTypeSsh EncodingType = "SSH"
 	EncodingTypePem EncodingType = "PEM"
 )
+
+func (enum EncodingType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EncodingType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PolicyScopeType string
 
@@ -23230,6 +21199,15 @@ const (
 	PolicyScopeTypeLocal PolicyScopeType = "Local"
 )
 
+func (enum PolicyScopeType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PolicyScopeType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StatusType string
 
 // Enum values for StatusType
@@ -23237,6 +21215,15 @@ const (
 	StatusTypeActive   StatusType = "Active"
 	StatusTypeInactive StatusType = "Inactive"
 )
+
+func (enum StatusType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StatusType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SummaryKeyType string
 
@@ -23268,3 +21255,12 @@ const (
 	SummaryKeyTypePolicyVersionsInUseQuota          SummaryKeyType = "PolicyVersionsInUseQuota"
 	SummaryKeyTypeVersionsPerPolicyQuota            SummaryKeyType = "VersionsPerPolicyQuota"
 )
+
+func (enum SummaryKeyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SummaryKeyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

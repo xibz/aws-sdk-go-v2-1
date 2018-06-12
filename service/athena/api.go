@@ -15,6 +15,7 @@ const opBatchGetNamedQuery = "BatchGetNamedQuery"
 type BatchGetNamedQueryRequest struct {
 	*aws.Request
 	Input *BatchGetNamedQueryInput
+	Copy  func(*BatchGetNamedQueryInput) BatchGetNamedQueryRequest
 }
 
 // Send marshals and sends the BatchGetNamedQuery API request.
@@ -57,8 +58,11 @@ func (c *Athena) BatchGetNamedQueryRequest(input *BatchGetNamedQueryInput) Batch
 		input = &BatchGetNamedQueryInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchGetNamedQueryOutput{})
-	return BatchGetNamedQueryRequest{Request: req, Input: input}
+	output := &BatchGetNamedQueryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchGetNamedQueryRequest{Request: req, Input: input, Copy: c.BatchGetNamedQueryRequest}
 }
 
 const opBatchGetQueryExecution = "BatchGetQueryExecution"
@@ -67,6 +71,7 @@ const opBatchGetQueryExecution = "BatchGetQueryExecution"
 type BatchGetQueryExecutionRequest struct {
 	*aws.Request
 	Input *BatchGetQueryExecutionInput
+	Copy  func(*BatchGetQueryExecutionInput) BatchGetQueryExecutionRequest
 }
 
 // Send marshals and sends the BatchGetQueryExecution API request.
@@ -107,8 +112,11 @@ func (c *Athena) BatchGetQueryExecutionRequest(input *BatchGetQueryExecutionInpu
 		input = &BatchGetQueryExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchGetQueryExecutionOutput{})
-	return BatchGetQueryExecutionRequest{Request: req, Input: input}
+	output := &BatchGetQueryExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchGetQueryExecutionRequest{Request: req, Input: input, Copy: c.BatchGetQueryExecutionRequest}
 }
 
 const opCreateNamedQuery = "CreateNamedQuery"
@@ -117,6 +125,7 @@ const opCreateNamedQuery = "CreateNamedQuery"
 type CreateNamedQueryRequest struct {
 	*aws.Request
 	Input *CreateNamedQueryInput
+	Copy  func(*CreateNamedQueryInput) CreateNamedQueryRequest
 }
 
 // Send marshals and sends the CreateNamedQuery API request.
@@ -157,8 +166,11 @@ func (c *Athena) CreateNamedQueryRequest(input *CreateNamedQueryInput) CreateNam
 		input = &CreateNamedQueryInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateNamedQueryOutput{})
-	return CreateNamedQueryRequest{Request: req, Input: input}
+	output := &CreateNamedQueryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateNamedQueryRequest{Request: req, Input: input, Copy: c.CreateNamedQueryRequest}
 }
 
 const opDeleteNamedQuery = "DeleteNamedQuery"
@@ -167,6 +179,7 @@ const opDeleteNamedQuery = "DeleteNamedQuery"
 type DeleteNamedQueryRequest struct {
 	*aws.Request
 	Input *DeleteNamedQueryInput
+	Copy  func(*DeleteNamedQueryInput) DeleteNamedQueryRequest
 }
 
 // Send marshals and sends the DeleteNamedQuery API request.
@@ -207,8 +220,11 @@ func (c *Athena) DeleteNamedQueryRequest(input *DeleteNamedQueryInput) DeleteNam
 		input = &DeleteNamedQueryInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteNamedQueryOutput{})
-	return DeleteNamedQueryRequest{Request: req, Input: input}
+	output := &DeleteNamedQueryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteNamedQueryRequest{Request: req, Input: input, Copy: c.DeleteNamedQueryRequest}
 }
 
 const opGetNamedQuery = "GetNamedQuery"
@@ -217,6 +233,7 @@ const opGetNamedQuery = "GetNamedQuery"
 type GetNamedQueryRequest struct {
 	*aws.Request
 	Input *GetNamedQueryInput
+	Copy  func(*GetNamedQueryInput) GetNamedQueryRequest
 }
 
 // Send marshals and sends the GetNamedQuery API request.
@@ -253,8 +270,11 @@ func (c *Athena) GetNamedQueryRequest(input *GetNamedQueryInput) GetNamedQueryRe
 		input = &GetNamedQueryInput{}
 	}
 
-	req := c.newRequest(op, input, &GetNamedQueryOutput{})
-	return GetNamedQueryRequest{Request: req, Input: input}
+	output := &GetNamedQueryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetNamedQueryRequest{Request: req, Input: input, Copy: c.GetNamedQueryRequest}
 }
 
 const opGetQueryExecution = "GetQueryExecution"
@@ -263,6 +283,7 @@ const opGetQueryExecution = "GetQueryExecution"
 type GetQueryExecutionRequest struct {
 	*aws.Request
 	Input *GetQueryExecutionInput
+	Copy  func(*GetQueryExecutionInput) GetQueryExecutionRequest
 }
 
 // Send marshals and sends the GetQueryExecution API request.
@@ -300,8 +321,11 @@ func (c *Athena) GetQueryExecutionRequest(input *GetQueryExecutionInput) GetQuer
 		input = &GetQueryExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetQueryExecutionOutput{})
-	return GetQueryExecutionRequest{Request: req, Input: input}
+	output := &GetQueryExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetQueryExecutionRequest{Request: req, Input: input, Copy: c.GetQueryExecutionRequest}
 }
 
 const opGetQueryResults = "GetQueryResults"
@@ -310,6 +334,7 @@ const opGetQueryResults = "GetQueryResults"
 type GetQueryResultsRequest struct {
 	*aws.Request
 	Input *GetQueryResultsInput
+	Copy  func(*GetQueryResultsInput) GetQueryResultsRequest
 }
 
 // Send marshals and sends the GetQueryResults API request.
@@ -354,58 +379,57 @@ func (c *Athena) GetQueryResultsRequest(input *GetQueryResultsInput) GetQueryRes
 		input = &GetQueryResultsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetQueryResultsOutput{})
-	return GetQueryResultsRequest{Request: req, Input: input}
+	output := &GetQueryResultsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetQueryResultsRequest{Request: req, Input: input, Copy: c.GetQueryResultsRequest}
 }
 
-// GetQueryResultsPages iterates over the pages of a GetQueryResults operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetQueryResults method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetQueryResultsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetQueryResults operation.
-//    pageNum := 0
-//    err := client.GetQueryResultsPages(params,
-//        func(page *GetQueryResultsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetQueryResultsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Athena) GetQueryResultsPages(input *GetQueryResultsInput, fn func(*GetQueryResultsOutput, bool) bool) error {
-	return c.GetQueryResultsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetQueryResultsRequest) Paginate(opts ...aws.Option) GetQueryResultsPager {
+	return GetQueryResultsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetQueryResultsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetQueryResultsPagesWithContext same as GetQueryResultsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Athena) GetQueryResultsPagesWithContext(ctx aws.Context, input *GetQueryResultsInput, fn func(*GetQueryResultsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetQueryResultsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetQueryResultsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetQueryResultsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetQueryResultsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetQueryResultsPager struct {
+	aws.Pager
+}
+
+func (p *GetQueryResultsPager) CurrentPage() *GetQueryResultsOutput {
+	return p.Pager.CurrentPage().(*GetQueryResultsOutput)
 }
 
 const opListNamedQueries = "ListNamedQueries"
@@ -414,6 +438,7 @@ const opListNamedQueries = "ListNamedQueries"
 type ListNamedQueriesRequest struct {
 	*aws.Request
 	Input *ListNamedQueriesInput
+	Copy  func(*ListNamedQueriesInput) ListNamedQueriesRequest
 }
 
 // Send marshals and sends the ListNamedQueries API request.
@@ -460,58 +485,57 @@ func (c *Athena) ListNamedQueriesRequest(input *ListNamedQueriesInput) ListNamed
 		input = &ListNamedQueriesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListNamedQueriesOutput{})
-	return ListNamedQueriesRequest{Request: req, Input: input}
+	output := &ListNamedQueriesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListNamedQueriesRequest{Request: req, Input: input, Copy: c.ListNamedQueriesRequest}
 }
 
-// ListNamedQueriesPages iterates over the pages of a ListNamedQueries operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListNamedQueries method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListNamedQueriesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListNamedQueries operation.
-//    pageNum := 0
-//    err := client.ListNamedQueriesPages(params,
-//        func(page *ListNamedQueriesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListNamedQueriesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Athena) ListNamedQueriesPages(input *ListNamedQueriesInput, fn func(*ListNamedQueriesOutput, bool) bool) error {
-	return c.ListNamedQueriesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListNamedQueriesRequest) Paginate(opts ...aws.Option) ListNamedQueriesPager {
+	return ListNamedQueriesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListNamedQueriesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListNamedQueriesPagesWithContext same as ListNamedQueriesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Athena) ListNamedQueriesPagesWithContext(ctx aws.Context, input *ListNamedQueriesInput, fn func(*ListNamedQueriesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListNamedQueriesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListNamedQueriesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListNamedQueriesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListNamedQueriesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListNamedQueriesPager struct {
+	aws.Pager
+}
+
+func (p *ListNamedQueriesPager) CurrentPage() *ListNamedQueriesOutput {
+	return p.Pager.CurrentPage().(*ListNamedQueriesOutput)
 }
 
 const opListQueryExecutions = "ListQueryExecutions"
@@ -520,6 +544,7 @@ const opListQueryExecutions = "ListQueryExecutions"
 type ListQueryExecutionsRequest struct {
 	*aws.Request
 	Input *ListQueryExecutionsInput
+	Copy  func(*ListQueryExecutionsInput) ListQueryExecutionsRequest
 }
 
 // Send marshals and sends the ListQueryExecutions API request.
@@ -566,58 +591,57 @@ func (c *Athena) ListQueryExecutionsRequest(input *ListQueryExecutionsInput) Lis
 		input = &ListQueryExecutionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListQueryExecutionsOutput{})
-	return ListQueryExecutionsRequest{Request: req, Input: input}
+	output := &ListQueryExecutionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListQueryExecutionsRequest{Request: req, Input: input, Copy: c.ListQueryExecutionsRequest}
 }
 
-// ListQueryExecutionsPages iterates over the pages of a ListQueryExecutions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListQueryExecutions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListQueryExecutionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListQueryExecutions operation.
-//    pageNum := 0
-//    err := client.ListQueryExecutionsPages(params,
-//        func(page *ListQueryExecutionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListQueryExecutionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Athena) ListQueryExecutionsPages(input *ListQueryExecutionsInput, fn func(*ListQueryExecutionsOutput, bool) bool) error {
-	return c.ListQueryExecutionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListQueryExecutionsRequest) Paginate(opts ...aws.Option) ListQueryExecutionsPager {
+	return ListQueryExecutionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListQueryExecutionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListQueryExecutionsPagesWithContext same as ListQueryExecutionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Athena) ListQueryExecutionsPagesWithContext(ctx aws.Context, input *ListQueryExecutionsInput, fn func(*ListQueryExecutionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListQueryExecutionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListQueryExecutionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListQueryExecutionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListQueryExecutionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListQueryExecutionsPager struct {
+	aws.Pager
+}
+
+func (p *ListQueryExecutionsPager) CurrentPage() *ListQueryExecutionsOutput {
+	return p.Pager.CurrentPage().(*ListQueryExecutionsOutput)
 }
 
 const opStartQueryExecution = "StartQueryExecution"
@@ -626,6 +650,7 @@ const opStartQueryExecution = "StartQueryExecution"
 type StartQueryExecutionRequest struct {
 	*aws.Request
 	Input *StartQueryExecutionInput
+	Copy  func(*StartQueryExecutionInput) StartQueryExecutionRequest
 }
 
 // Send marshals and sends the StartQueryExecution API request.
@@ -666,8 +691,11 @@ func (c *Athena) StartQueryExecutionRequest(input *StartQueryExecutionInput) Sta
 		input = &StartQueryExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StartQueryExecutionOutput{})
-	return StartQueryExecutionRequest{Request: req, Input: input}
+	output := &StartQueryExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartQueryExecutionRequest{Request: req, Input: input, Copy: c.StartQueryExecutionRequest}
 }
 
 const opStopQueryExecution = "StopQueryExecution"
@@ -676,6 +704,7 @@ const opStopQueryExecution = "StopQueryExecution"
 type StopQueryExecutionRequest struct {
 	*aws.Request
 	Input *StopQueryExecutionInput
+	Copy  func(*StopQueryExecutionInput) StopQueryExecutionRequest
 }
 
 // Send marshals and sends the StopQueryExecution API request.
@@ -716,8 +745,11 @@ func (c *Athena) StopQueryExecutionRequest(input *StopQueryExecutionInput) StopQ
 		input = &StopQueryExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StopQueryExecutionOutput{})
-	return StopQueryExecutionRequest{Request: req, Input: input}
+	output := &StopQueryExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopQueryExecutionRequest{Request: req, Input: input, Copy: c.StopQueryExecutionRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/BatchGetNamedQueryInput
@@ -727,7 +759,7 @@ type BatchGetNamedQueryInput struct {
 	// An array of query IDs.
 	//
 	// NamedQueryIds is a required field
-	NamedQueryIds []*string `min:"1" type:"list" required:"true"`
+	NamedQueryIds []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -757,21 +789,17 @@ func (s *BatchGetNamedQueryInput) Validate() error {
 	return nil
 }
 
-// SetNamedQueryIds sets the NamedQueryIds field's value.
-func (s *BatchGetNamedQueryInput) SetNamedQueryIds(v []*string) *BatchGetNamedQueryInput {
-	s.NamedQueryIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/BatchGetNamedQueryOutput
 type BatchGetNamedQueryOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the named query IDs submitted.
-	NamedQueries []*NamedQuery `type:"list"`
+	NamedQueries []NamedQuery `type:"list"`
 
 	// Information about provided query IDs.
-	UnprocessedNamedQueryIds []*UnprocessedNamedQueryId `type:"list"`
+	UnprocessedNamedQueryIds []UnprocessedNamedQueryId `type:"list"`
 }
 
 // String returns the string representation
@@ -784,16 +812,9 @@ func (s BatchGetNamedQueryOutput) GoString() string {
 	return s.String()
 }
 
-// SetNamedQueries sets the NamedQueries field's value.
-func (s *BatchGetNamedQueryOutput) SetNamedQueries(v []*NamedQuery) *BatchGetNamedQueryOutput {
-	s.NamedQueries = v
-	return s
-}
-
-// SetUnprocessedNamedQueryIds sets the UnprocessedNamedQueryIds field's value.
-func (s *BatchGetNamedQueryOutput) SetUnprocessedNamedQueryIds(v []*UnprocessedNamedQueryId) *BatchGetNamedQueryOutput {
-	s.UnprocessedNamedQueryIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchGetNamedQueryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/BatchGetQueryExecutionInput
@@ -803,7 +824,7 @@ type BatchGetQueryExecutionInput struct {
 	// An array of query execution IDs.
 	//
 	// QueryExecutionIds is a required field
-	QueryExecutionIds []*string `min:"1" type:"list" required:"true"`
+	QueryExecutionIds []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -833,21 +854,17 @@ func (s *BatchGetQueryExecutionInput) Validate() error {
 	return nil
 }
 
-// SetQueryExecutionIds sets the QueryExecutionIds field's value.
-func (s *BatchGetQueryExecutionInput) SetQueryExecutionIds(v []*string) *BatchGetQueryExecutionInput {
-	s.QueryExecutionIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/BatchGetQueryExecutionOutput
 type BatchGetQueryExecutionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about a query execution.
-	QueryExecutions []*QueryExecution `type:"list"`
+	QueryExecutions []QueryExecution `type:"list"`
 
 	// Information about the query executions that failed to run.
-	UnprocessedQueryExecutionIds []*UnprocessedQueryExecutionId `type:"list"`
+	UnprocessedQueryExecutionIds []UnprocessedQueryExecutionId `type:"list"`
 }
 
 // String returns the string representation
@@ -860,16 +877,9 @@ func (s BatchGetQueryExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetQueryExecutions sets the QueryExecutions field's value.
-func (s *BatchGetQueryExecutionOutput) SetQueryExecutions(v []*QueryExecution) *BatchGetQueryExecutionOutput {
-	s.QueryExecutions = v
-	return s
-}
-
-// SetUnprocessedQueryExecutionIds sets the UnprocessedQueryExecutionIds field's value.
-func (s *BatchGetQueryExecutionOutput) SetUnprocessedQueryExecutionIds(v []*UnprocessedQueryExecutionId) *BatchGetQueryExecutionOutput {
-	s.UnprocessedQueryExecutionIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchGetQueryExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about the columns in a query execution result.
@@ -892,7 +902,7 @@ type ColumnInfo struct {
 	Name *string `type:"string" required:"true"`
 
 	// Indicates the column's nullable status.
-	Nullable ColumnNullable `type:"string"`
+	Nullable ColumnNullable `type:"string" enum:"true"`
 
 	// For DECIMAL data types, specifies the total number of digits, up to 38. For
 	// performance reasons, we recommend up to 18 digits.
@@ -922,66 +932,6 @@ func (s ColumnInfo) String() string {
 // GoString returns the string representation
 func (s ColumnInfo) GoString() string {
 	return s.String()
-}
-
-// SetCaseSensitive sets the CaseSensitive field's value.
-func (s *ColumnInfo) SetCaseSensitive(v bool) *ColumnInfo {
-	s.CaseSensitive = &v
-	return s
-}
-
-// SetCatalogName sets the CatalogName field's value.
-func (s *ColumnInfo) SetCatalogName(v string) *ColumnInfo {
-	s.CatalogName = &v
-	return s
-}
-
-// SetLabel sets the Label field's value.
-func (s *ColumnInfo) SetLabel(v string) *ColumnInfo {
-	s.Label = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ColumnInfo) SetName(v string) *ColumnInfo {
-	s.Name = &v
-	return s
-}
-
-// SetNullable sets the Nullable field's value.
-func (s *ColumnInfo) SetNullable(v ColumnNullable) *ColumnInfo {
-	s.Nullable = v
-	return s
-}
-
-// SetPrecision sets the Precision field's value.
-func (s *ColumnInfo) SetPrecision(v int64) *ColumnInfo {
-	s.Precision = &v
-	return s
-}
-
-// SetScale sets the Scale field's value.
-func (s *ColumnInfo) SetScale(v int64) *ColumnInfo {
-	s.Scale = &v
-	return s
-}
-
-// SetSchemaName sets the SchemaName field's value.
-func (s *ColumnInfo) SetSchemaName(v string) *ColumnInfo {
-	s.SchemaName = &v
-	return s
-}
-
-// SetTableName sets the TableName field's value.
-func (s *ColumnInfo) SetTableName(v string) *ColumnInfo {
-	s.TableName = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ColumnInfo) SetType(v string) *ColumnInfo {
-	s.Type = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/CreateNamedQueryInput
@@ -1064,39 +1014,11 @@ func (s *CreateNamedQueryInput) Validate() error {
 	return nil
 }
 
-// SetClientRequestToken sets the ClientRequestToken field's value.
-func (s *CreateNamedQueryInput) SetClientRequestToken(v string) *CreateNamedQueryInput {
-	s.ClientRequestToken = &v
-	return s
-}
-
-// SetDatabase sets the Database field's value.
-func (s *CreateNamedQueryInput) SetDatabase(v string) *CreateNamedQueryInput {
-	s.Database = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateNamedQueryInput) SetDescription(v string) *CreateNamedQueryInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateNamedQueryInput) SetName(v string) *CreateNamedQueryInput {
-	s.Name = &v
-	return s
-}
-
-// SetQueryString sets the QueryString field's value.
-func (s *CreateNamedQueryInput) SetQueryString(v string) *CreateNamedQueryInput {
-	s.QueryString = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/CreateNamedQueryOutput
 type CreateNamedQueryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique ID of the query.
 	NamedQueryId *string `type:"string"`
@@ -1112,10 +1034,9 @@ func (s CreateNamedQueryOutput) GoString() string {
 	return s.String()
 }
 
-// SetNamedQueryId sets the NamedQueryId field's value.
-func (s *CreateNamedQueryOutput) SetNamedQueryId(v string) *CreateNamedQueryOutput {
-	s.NamedQueryId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateNamedQueryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A piece of data (a field in the table).
@@ -1135,12 +1056,6 @@ func (s Datum) String() string {
 // GoString returns the string representation
 func (s Datum) GoString() string {
 	return s.String()
-}
-
-// SetVarCharValue sets the VarCharValue field's value.
-func (s *Datum) SetVarCharValue(v string) *Datum {
-	s.VarCharValue = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/DeleteNamedQueryInput
@@ -1177,15 +1092,11 @@ func (s *DeleteNamedQueryInput) Validate() error {
 	return nil
 }
 
-// SetNamedQueryId sets the NamedQueryId field's value.
-func (s *DeleteNamedQueryInput) SetNamedQueryId(v string) *DeleteNamedQueryInput {
-	s.NamedQueryId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/DeleteNamedQueryOutput
 type DeleteNamedQueryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1196,6 +1107,11 @@ func (s DeleteNamedQueryOutput) String() string {
 // GoString returns the string representation
 func (s DeleteNamedQueryOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteNamedQueryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // If query results are encrypted in Amazon S3, indicates the Amazon S3 encryption
@@ -1209,7 +1125,7 @@ type EncryptionConfiguration struct {
 	// client-side encryption with KMS-managed keys (CSE-KMS) is used.
 	//
 	// EncryptionOption is a required field
-	EncryptionOption EncryptionOption `type:"string" required:"true"`
+	EncryptionOption EncryptionOption `type:"string" required:"true" enum:"true"`
 
 	// For SSE-KMS and CSE-KMS, this is the KMS key ARN or ID.
 	KmsKey *string `type:"string"`
@@ -1236,18 +1152,6 @@ func (s *EncryptionConfiguration) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetEncryptionOption sets the EncryptionOption field's value.
-func (s *EncryptionConfiguration) SetEncryptionOption(v EncryptionOption) *EncryptionConfiguration {
-	s.EncryptionOption = v
-	return s
-}
-
-// SetKmsKey sets the KmsKey field's value.
-func (s *EncryptionConfiguration) SetKmsKey(v string) *EncryptionConfiguration {
-	s.KmsKey = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetNamedQueryInput
@@ -1284,15 +1188,11 @@ func (s *GetNamedQueryInput) Validate() error {
 	return nil
 }
 
-// SetNamedQueryId sets the NamedQueryId field's value.
-func (s *GetNamedQueryInput) SetNamedQueryId(v string) *GetNamedQueryInput {
-	s.NamedQueryId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetNamedQueryOutput
 type GetNamedQueryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the query.
 	NamedQuery *NamedQuery `type:"structure"`
@@ -1308,10 +1208,9 @@ func (s GetNamedQueryOutput) GoString() string {
 	return s.String()
 }
 
-// SetNamedQuery sets the NamedQuery field's value.
-func (s *GetNamedQueryOutput) SetNamedQuery(v *NamedQuery) *GetNamedQueryOutput {
-	s.NamedQuery = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetNamedQueryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetQueryExecutionInput
@@ -1348,15 +1247,11 @@ func (s *GetQueryExecutionInput) Validate() error {
 	return nil
 }
 
-// SetQueryExecutionId sets the QueryExecutionId field's value.
-func (s *GetQueryExecutionInput) SetQueryExecutionId(v string) *GetQueryExecutionInput {
-	s.QueryExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetQueryExecutionOutput
 type GetQueryExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the query execution.
 	QueryExecution *QueryExecution `type:"structure"`
@@ -1372,10 +1267,9 @@ func (s GetQueryExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetQueryExecution sets the QueryExecution field's value.
-func (s *GetQueryExecutionOutput) SetQueryExecution(v *QueryExecution) *GetQueryExecutionOutput {
-	s.QueryExecution = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetQueryExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetQueryResultsInput
@@ -1419,27 +1313,11 @@ func (s *GetQueryResultsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetQueryResultsInput) SetMaxResults(v int64) *GetQueryResultsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetQueryResultsInput) SetNextToken(v string) *GetQueryResultsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetQueryExecutionId sets the QueryExecutionId field's value.
-func (s *GetQueryResultsInput) SetQueryExecutionId(v string) *GetQueryResultsInput {
-	s.QueryExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetQueryResultsOutput
 type GetQueryResultsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A token to be used by the next request if this request is truncated.
 	NextToken *string `type:"string"`
@@ -1458,16 +1336,9 @@ func (s GetQueryResultsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetQueryResultsOutput) SetNextToken(v string) *GetQueryResultsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResultSet sets the ResultSet field's value.
-func (s *GetQueryResultsOutput) SetResultSet(v *ResultSet) *GetQueryResultsOutput {
-	s.ResultSet = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetQueryResultsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListNamedQueriesInput
@@ -1492,24 +1363,14 @@ func (s ListNamedQueriesInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListNamedQueriesInput) SetMaxResults(v int64) *ListNamedQueriesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListNamedQueriesInput) SetNextToken(v string) *ListNamedQueriesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListNamedQueriesOutput
 type ListNamedQueriesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of unique query IDs.
-	NamedQueryIds []*string `min:"1" type:"list"`
+	NamedQueryIds []string `min:"1" type:"list"`
 
 	// A token to be used by the next request if this request is truncated.
 	NextToken *string `type:"string"`
@@ -1525,16 +1386,9 @@ func (s ListNamedQueriesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNamedQueryIds sets the NamedQueryIds field's value.
-func (s *ListNamedQueriesOutput) SetNamedQueryIds(v []*string) *ListNamedQueriesOutput {
-	s.NamedQueryIds = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListNamedQueriesOutput) SetNextToken(v string) *ListNamedQueriesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListNamedQueriesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListQueryExecutionsInput
@@ -1559,27 +1413,17 @@ func (s ListQueryExecutionsInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListQueryExecutionsInput) SetMaxResults(v int64) *ListQueryExecutionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListQueryExecutionsInput) SetNextToken(v string) *ListQueryExecutionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListQueryExecutionsOutput
 type ListQueryExecutionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A token to be used by the next request if this request is truncated.
 	NextToken *string `type:"string"`
 
 	// The unique IDs of each query execution as an array of strings.
-	QueryExecutionIds []*string `min:"1" type:"list"`
+	QueryExecutionIds []string `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -1592,16 +1436,9 @@ func (s ListQueryExecutionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListQueryExecutionsOutput) SetNextToken(v string) *ListQueryExecutionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetQueryExecutionIds sets the QueryExecutionIds field's value.
-func (s *ListQueryExecutionsOutput) SetQueryExecutionIds(v []*string) *ListQueryExecutionsOutput {
-	s.QueryExecutionIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListQueryExecutionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A query, where QueryString is the SQL query statements that comprise the
@@ -1642,36 +1479,6 @@ func (s NamedQuery) GoString() string {
 	return s.String()
 }
 
-// SetDatabase sets the Database field's value.
-func (s *NamedQuery) SetDatabase(v string) *NamedQuery {
-	s.Database = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *NamedQuery) SetDescription(v string) *NamedQuery {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *NamedQuery) SetName(v string) *NamedQuery {
-	s.Name = &v
-	return s
-}
-
-// SetNamedQueryId sets the NamedQueryId field's value.
-func (s *NamedQuery) SetNamedQueryId(v string) *NamedQuery {
-	s.NamedQueryId = &v
-	return s
-}
-
-// SetQueryString sets the QueryString field's value.
-func (s *NamedQuery) SetQueryString(v string) *NamedQuery {
-	s.QueryString = &v
-	return s
-}
-
 // Information about a single instance of a query execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/QueryExecution
 type QueryExecution struct {
@@ -1709,42 +1516,6 @@ func (s QueryExecution) GoString() string {
 	return s.String()
 }
 
-// SetQuery sets the Query field's value.
-func (s *QueryExecution) SetQuery(v string) *QueryExecution {
-	s.Query = &v
-	return s
-}
-
-// SetQueryExecutionContext sets the QueryExecutionContext field's value.
-func (s *QueryExecution) SetQueryExecutionContext(v *QueryExecutionContext) *QueryExecution {
-	s.QueryExecutionContext = v
-	return s
-}
-
-// SetQueryExecutionId sets the QueryExecutionId field's value.
-func (s *QueryExecution) SetQueryExecutionId(v string) *QueryExecution {
-	s.QueryExecutionId = &v
-	return s
-}
-
-// SetResultConfiguration sets the ResultConfiguration field's value.
-func (s *QueryExecution) SetResultConfiguration(v *ResultConfiguration) *QueryExecution {
-	s.ResultConfiguration = v
-	return s
-}
-
-// SetStatistics sets the Statistics field's value.
-func (s *QueryExecution) SetStatistics(v *QueryExecutionStatistics) *QueryExecution {
-	s.Statistics = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *QueryExecution) SetStatus(v *QueryExecutionStatus) *QueryExecution {
-	s.Status = v
-	return s
-}
-
 // The database in which the query execution occurs.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/QueryExecutionContext
 type QueryExecutionContext struct {
@@ -1777,12 +1548,6 @@ func (s *QueryExecutionContext) Validate() error {
 	return nil
 }
 
-// SetDatabase sets the Database field's value.
-func (s *QueryExecutionContext) SetDatabase(v string) *QueryExecutionContext {
-	s.Database = &v
-	return s
-}
-
 // The amount of data scanned during the query execution and the amount of time
 // that it took to execute.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/QueryExecutionStatistics
@@ -1806,18 +1571,6 @@ func (s QueryExecutionStatistics) GoString() string {
 	return s.String()
 }
 
-// SetDataScannedInBytes sets the DataScannedInBytes field's value.
-func (s *QueryExecutionStatistics) SetDataScannedInBytes(v int64) *QueryExecutionStatistics {
-	s.DataScannedInBytes = &v
-	return s
-}
-
-// SetEngineExecutionTimeInMillis sets the EngineExecutionTimeInMillis field's value.
-func (s *QueryExecutionStatistics) SetEngineExecutionTimeInMillis(v int64) *QueryExecutionStatistics {
-	s.EngineExecutionTimeInMillis = &v
-	return s
-}
-
 // The completion date, current state, submission time, and state change reason
 // (if applicable) for the query execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/QueryExecutionStatus
@@ -1832,7 +1585,7 @@ type QueryExecutionStatus struct {
 	// results. SUCCEEDED indicates that the query completed without error. FAILED
 	// indicates that the query experienced an error and did not complete processing.
 	// CANCELLED indicates that user input interrupted query execution.
-	State QueryExecutionState `type:"string"`
+	State QueryExecutionState `type:"string" enum:"true"`
 
 	// Further detail about the status of the query.
 	StateChangeReason *string `type:"string"`
@@ -1849,30 +1602,6 @@ func (s QueryExecutionStatus) String() string {
 // GoString returns the string representation
 func (s QueryExecutionStatus) GoString() string {
 	return s.String()
-}
-
-// SetCompletionDateTime sets the CompletionDateTime field's value.
-func (s *QueryExecutionStatus) SetCompletionDateTime(v time.Time) *QueryExecutionStatus {
-	s.CompletionDateTime = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *QueryExecutionStatus) SetState(v QueryExecutionState) *QueryExecutionStatus {
-	s.State = v
-	return s
-}
-
-// SetStateChangeReason sets the StateChangeReason field's value.
-func (s *QueryExecutionStatus) SetStateChangeReason(v string) *QueryExecutionStatus {
-	s.StateChangeReason = &v
-	return s
-}
-
-// SetSubmissionDateTime sets the SubmissionDateTime field's value.
-func (s *QueryExecutionStatus) SetSubmissionDateTime(v time.Time) *QueryExecutionStatus {
-	s.SubmissionDateTime = &v
-	return s
 }
 
 // The location in Amazon S3 where query results are stored and the encryption
@@ -1920,18 +1649,6 @@ func (s *ResultConfiguration) Validate() error {
 	return nil
 }
 
-// SetEncryptionConfiguration sets the EncryptionConfiguration field's value.
-func (s *ResultConfiguration) SetEncryptionConfiguration(v *EncryptionConfiguration) *ResultConfiguration {
-	s.EncryptionConfiguration = v
-	return s
-}
-
-// SetOutputLocation sets the OutputLocation field's value.
-func (s *ResultConfiguration) SetOutputLocation(v string) *ResultConfiguration {
-	s.OutputLocation = &v
-	return s
-}
-
 // The metadata and rows that comprise a query result set. The metadata describes
 // the column structure and data types.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ResultSet
@@ -1943,7 +1660,7 @@ type ResultSet struct {
 	ResultSetMetadata *ResultSetMetadata `type:"structure"`
 
 	// The rows in the table.
-	Rows []*Row `type:"list"`
+	Rows []Row `type:"list"`
 }
 
 // String returns the string representation
@@ -1956,18 +1673,6 @@ func (s ResultSet) GoString() string {
 	return s.String()
 }
 
-// SetResultSetMetadata sets the ResultSetMetadata field's value.
-func (s *ResultSet) SetResultSetMetadata(v *ResultSetMetadata) *ResultSet {
-	s.ResultSetMetadata = v
-	return s
-}
-
-// SetRows sets the Rows field's value.
-func (s *ResultSet) SetRows(v []*Row) *ResultSet {
-	s.Rows = v
-	return s
-}
-
 // The metadata that describes the column structure and data types of a table
 // of query results.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ResultSetMetadata
@@ -1975,7 +1680,7 @@ type ResultSetMetadata struct {
 	_ struct{} `type:"structure"`
 
 	// Information about the columns in a query execution result.
-	ColumnInfo []*ColumnInfo `type:"list"`
+	ColumnInfo []ColumnInfo `type:"list"`
 }
 
 // String returns the string representation
@@ -1988,19 +1693,13 @@ func (s ResultSetMetadata) GoString() string {
 	return s.String()
 }
 
-// SetColumnInfo sets the ColumnInfo field's value.
-func (s *ResultSetMetadata) SetColumnInfo(v []*ColumnInfo) *ResultSetMetadata {
-	s.ColumnInfo = v
-	return s
-}
-
 // The rows that comprise a query result table.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/Row
 type Row struct {
 	_ struct{} `type:"structure"`
 
 	// The data that populates a row in a query result table.
-	Data []*Datum `type:"list"`
+	Data []Datum `type:"list"`
 }
 
 // String returns the string representation
@@ -2011,12 +1710,6 @@ func (s Row) String() string {
 // GoString returns the string representation
 func (s Row) GoString() string {
 	return s.String()
-}
-
-// SetData sets the Data field's value.
-func (s *Row) SetData(v []*Datum) *Row {
-	s.Data = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/StartQueryExecutionInput
@@ -2092,33 +1785,11 @@ func (s *StartQueryExecutionInput) Validate() error {
 	return nil
 }
 
-// SetClientRequestToken sets the ClientRequestToken field's value.
-func (s *StartQueryExecutionInput) SetClientRequestToken(v string) *StartQueryExecutionInput {
-	s.ClientRequestToken = &v
-	return s
-}
-
-// SetQueryExecutionContext sets the QueryExecutionContext field's value.
-func (s *StartQueryExecutionInput) SetQueryExecutionContext(v *QueryExecutionContext) *StartQueryExecutionInput {
-	s.QueryExecutionContext = v
-	return s
-}
-
-// SetQueryString sets the QueryString field's value.
-func (s *StartQueryExecutionInput) SetQueryString(v string) *StartQueryExecutionInput {
-	s.QueryString = &v
-	return s
-}
-
-// SetResultConfiguration sets the ResultConfiguration field's value.
-func (s *StartQueryExecutionInput) SetResultConfiguration(v *ResultConfiguration) *StartQueryExecutionInput {
-	s.ResultConfiguration = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/StartQueryExecutionOutput
 type StartQueryExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique ID of the query that ran as a result of this request.
 	QueryExecutionId *string `type:"string"`
@@ -2134,10 +1805,9 @@ func (s StartQueryExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetQueryExecutionId sets the QueryExecutionId field's value.
-func (s *StartQueryExecutionOutput) SetQueryExecutionId(v string) *StartQueryExecutionOutput {
-	s.QueryExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartQueryExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/StopQueryExecutionInput
@@ -2174,15 +1844,11 @@ func (s *StopQueryExecutionInput) Validate() error {
 	return nil
 }
 
-// SetQueryExecutionId sets the QueryExecutionId field's value.
-func (s *StopQueryExecutionInput) SetQueryExecutionId(v string) *StopQueryExecutionInput {
-	s.QueryExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/StopQueryExecutionOutput
 type StopQueryExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2193,6 +1859,11 @@ func (s StopQueryExecutionOutput) String() string {
 // GoString returns the string representation
 func (s StopQueryExecutionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopQueryExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about a named query ID that could not be processed.
@@ -2222,24 +1893,6 @@ func (s UnprocessedNamedQueryId) GoString() string {
 	return s.String()
 }
 
-// SetErrorCode sets the ErrorCode field's value.
-func (s *UnprocessedNamedQueryId) SetErrorCode(v string) *UnprocessedNamedQueryId {
-	s.ErrorCode = &v
-	return s
-}
-
-// SetErrorMessage sets the ErrorMessage field's value.
-func (s *UnprocessedNamedQueryId) SetErrorMessage(v string) *UnprocessedNamedQueryId {
-	s.ErrorMessage = &v
-	return s
-}
-
-// SetNamedQueryId sets the NamedQueryId field's value.
-func (s *UnprocessedNamedQueryId) SetNamedQueryId(v string) *UnprocessedNamedQueryId {
-	s.NamedQueryId = &v
-	return s
-}
-
 // Describes a query execution that failed to process.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/UnprocessedQueryExecutionId
 type UnprocessedQueryExecutionId struct {
@@ -2266,24 +1919,6 @@ func (s UnprocessedQueryExecutionId) GoString() string {
 	return s.String()
 }
 
-// SetErrorCode sets the ErrorCode field's value.
-func (s *UnprocessedQueryExecutionId) SetErrorCode(v string) *UnprocessedQueryExecutionId {
-	s.ErrorCode = &v
-	return s
-}
-
-// SetErrorMessage sets the ErrorMessage field's value.
-func (s *UnprocessedQueryExecutionId) SetErrorMessage(v string) *UnprocessedQueryExecutionId {
-	s.ErrorMessage = &v
-	return s
-}
-
-// SetQueryExecutionId sets the QueryExecutionId field's value.
-func (s *UnprocessedQueryExecutionId) SetQueryExecutionId(v string) *UnprocessedQueryExecutionId {
-	s.QueryExecutionId = &v
-	return s
-}
-
 type ColumnNullable string
 
 // Enum values for ColumnNullable
@@ -2293,6 +1928,15 @@ const (
 	ColumnNullableUnknown  ColumnNullable = "UNKNOWN"
 )
 
+func (enum ColumnNullable) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ColumnNullable) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EncryptionOption string
 
 // Enum values for EncryptionOption
@@ -2301,6 +1945,15 @@ const (
 	EncryptionOptionSseKms EncryptionOption = "SSE_KMS"
 	EncryptionOptionCseKms EncryptionOption = "CSE_KMS"
 )
+
+func (enum EncryptionOption) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EncryptionOption) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type QueryExecutionState string
 
@@ -2313,9 +1966,27 @@ const (
 	QueryExecutionStateCancelled QueryExecutionState = "CANCELLED"
 )
 
+func (enum QueryExecutionState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum QueryExecutionState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ThrottleReason string
 
 // Enum values for ThrottleReason
 const (
 	ThrottleReasonConcurrentQueryLimitExceeded ThrottleReason = "CONCURRENT_QUERY_LIMIT_EXCEEDED"
 )
+
+func (enum ThrottleReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ThrottleReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

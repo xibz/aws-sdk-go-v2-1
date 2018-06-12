@@ -18,6 +18,7 @@ const opAttachInstances = "AttachInstances"
 type AttachInstancesRequest struct {
 	*aws.Request
 	Input *AttachInstancesInput
+	Copy  func(*AttachInstancesInput) AttachInstancesRequest
 }
 
 // Send marshals and sends the AttachInstances API request.
@@ -68,10 +69,13 @@ func (c *AutoScaling) AttachInstancesRequest(input *AttachInstancesInput) Attach
 		input = &AttachInstancesInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachInstancesOutput{})
+	output := &AttachInstancesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AttachInstancesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachInstancesRequest{Request: req, Input: input, Copy: c.AttachInstancesRequest}
 }
 
 const opAttachLoadBalancerTargetGroups = "AttachLoadBalancerTargetGroups"
@@ -80,6 +84,7 @@ const opAttachLoadBalancerTargetGroups = "AttachLoadBalancerTargetGroups"
 type AttachLoadBalancerTargetGroupsRequest struct {
 	*aws.Request
 	Input *AttachLoadBalancerTargetGroupsInput
+	Copy  func(*AttachLoadBalancerTargetGroupsInput) AttachLoadBalancerTargetGroupsRequest
 }
 
 // Send marshals and sends the AttachLoadBalancerTargetGroups API request.
@@ -123,8 +128,11 @@ func (c *AutoScaling) AttachLoadBalancerTargetGroupsRequest(input *AttachLoadBal
 		input = &AttachLoadBalancerTargetGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachLoadBalancerTargetGroupsOutput{})
-	return AttachLoadBalancerTargetGroupsRequest{Request: req, Input: input}
+	output := &AttachLoadBalancerTargetGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachLoadBalancerTargetGroupsRequest{Request: req, Input: input, Copy: c.AttachLoadBalancerTargetGroupsRequest}
 }
 
 const opAttachLoadBalancers = "AttachLoadBalancers"
@@ -133,6 +141,7 @@ const opAttachLoadBalancers = "AttachLoadBalancers"
 type AttachLoadBalancersRequest struct {
 	*aws.Request
 	Input *AttachLoadBalancersInput
+	Copy  func(*AttachLoadBalancersInput) AttachLoadBalancersRequest
 }
 
 // Send marshals and sends the AttachLoadBalancers API request.
@@ -179,8 +188,11 @@ func (c *AutoScaling) AttachLoadBalancersRequest(input *AttachLoadBalancersInput
 		input = &AttachLoadBalancersInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachLoadBalancersOutput{})
-	return AttachLoadBalancersRequest{Request: req, Input: input}
+	output := &AttachLoadBalancersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachLoadBalancersRequest{Request: req, Input: input, Copy: c.AttachLoadBalancersRequest}
 }
 
 const opCompleteLifecycleAction = "CompleteLifecycleAction"
@@ -189,6 +201,7 @@ const opCompleteLifecycleAction = "CompleteLifecycleAction"
 type CompleteLifecycleActionRequest struct {
 	*aws.Request
 	Input *CompleteLifecycleActionInput
+	Copy  func(*CompleteLifecycleActionInput) CompleteLifecycleActionRequest
 }
 
 // Send marshals and sends the CompleteLifecycleAction API request.
@@ -247,8 +260,11 @@ func (c *AutoScaling) CompleteLifecycleActionRequest(input *CompleteLifecycleAct
 		input = &CompleteLifecycleActionInput{}
 	}
 
-	req := c.newRequest(op, input, &CompleteLifecycleActionOutput{})
-	return CompleteLifecycleActionRequest{Request: req, Input: input}
+	output := &CompleteLifecycleActionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CompleteLifecycleActionRequest{Request: req, Input: input, Copy: c.CompleteLifecycleActionRequest}
 }
 
 const opCreateAutoScalingGroup = "CreateAutoScalingGroup"
@@ -257,6 +273,7 @@ const opCreateAutoScalingGroup = "CreateAutoScalingGroup"
 type CreateAutoScalingGroupRequest struct {
 	*aws.Request
 	Input *CreateAutoScalingGroupInput
+	Copy  func(*CreateAutoScalingGroupInput) CreateAutoScalingGroupRequest
 }
 
 // Send marshals and sends the CreateAutoScalingGroup API request.
@@ -274,9 +291,10 @@ func (r CreateAutoScalingGroupRequest) Send() (*CreateAutoScalingGroupOutput, er
 //
 // Creates an Auto Scaling group with the specified name and attributes.
 //
-// If you exceed your maximum limit of Auto Scaling groups, which by default
-// is 20 per region, the call fails. For information about viewing and updating
-// this limit, see DescribeAccountLimits.
+// If you exceed your maximum limit of Auto Scaling groups, the call fails.
+// For information about viewing this limit, see DescribeAccountLimits. For
+// information about updating this limit, see Auto Scaling Limits (http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html)
+// in the Auto Scaling User Guide.
 //
 // For more information, see Auto Scaling Groups (http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroup.html)
 // in the Auto Scaling User Guide.
@@ -300,10 +318,13 @@ func (c *AutoScaling) CreateAutoScalingGroupRequest(input *CreateAutoScalingGrou
 		input = &CreateAutoScalingGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAutoScalingGroupOutput{})
+	output := &CreateAutoScalingGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateAutoScalingGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAutoScalingGroupRequest{Request: req, Input: input, Copy: c.CreateAutoScalingGroupRequest}
 }
 
 const opCreateLaunchConfiguration = "CreateLaunchConfiguration"
@@ -312,6 +333,7 @@ const opCreateLaunchConfiguration = "CreateLaunchConfiguration"
 type CreateLaunchConfigurationRequest struct {
 	*aws.Request
 	Input *CreateLaunchConfigurationInput
+	Copy  func(*CreateLaunchConfigurationInput) CreateLaunchConfigurationRequest
 }
 
 // Send marshals and sends the CreateLaunchConfiguration API request.
@@ -329,9 +351,10 @@ func (r CreateLaunchConfigurationRequest) Send() (*CreateLaunchConfigurationOutp
 //
 // Creates a launch configuration.
 //
-// If you exceed your maximum limit of launch configurations, which by default
-// is 100 per region, the call fails. For information about viewing and updating
-// this limit, see DescribeAccountLimits.
+// If you exceed your maximum limit of launch configurations, the call fails.
+// For information about viewing this limit, see DescribeAccountLimits. For
+// information about updating this limit, see Auto Scaling Limits (http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html)
+// in the Auto Scaling User Guide.
 //
 // For more information, see Launch Configurations (http://docs.aws.amazon.com/autoscaling/latest/userguide/LaunchConfiguration.html)
 // in the Auto Scaling User Guide.
@@ -355,10 +378,13 @@ func (c *AutoScaling) CreateLaunchConfigurationRequest(input *CreateLaunchConfig
 		input = &CreateLaunchConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLaunchConfigurationOutput{})
+	output := &CreateLaunchConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateLaunchConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLaunchConfigurationRequest{Request: req, Input: input, Copy: c.CreateLaunchConfigurationRequest}
 }
 
 const opCreateOrUpdateTags = "CreateOrUpdateTags"
@@ -367,6 +393,7 @@ const opCreateOrUpdateTags = "CreateOrUpdateTags"
 type CreateOrUpdateTagsRequest struct {
 	*aws.Request
 	Input *CreateOrUpdateTagsInput
+	Copy  func(*CreateOrUpdateTagsInput) CreateOrUpdateTagsRequest
 }
 
 // Send marshals and sends the CreateOrUpdateTags API request.
@@ -409,10 +436,13 @@ func (c *AutoScaling) CreateOrUpdateTagsRequest(input *CreateOrUpdateTagsInput) 
 		input = &CreateOrUpdateTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateOrUpdateTagsOutput{})
+	output := &CreateOrUpdateTagsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateOrUpdateTagsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateOrUpdateTagsRequest{Request: req, Input: input, Copy: c.CreateOrUpdateTagsRequest}
 }
 
 const opDeleteAutoScalingGroup = "DeleteAutoScalingGroup"
@@ -421,6 +451,7 @@ const opDeleteAutoScalingGroup = "DeleteAutoScalingGroup"
 type DeleteAutoScalingGroupRequest struct {
 	*aws.Request
 	Input *DeleteAutoScalingGroupInput
+	Copy  func(*DeleteAutoScalingGroupInput) DeleteAutoScalingGroupRequest
 }
 
 // Send marshals and sends the DeleteAutoScalingGroup API request.
@@ -471,10 +502,13 @@ func (c *AutoScaling) DeleteAutoScalingGroupRequest(input *DeleteAutoScalingGrou
 		input = &DeleteAutoScalingGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAutoScalingGroupOutput{})
+	output := &DeleteAutoScalingGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteAutoScalingGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAutoScalingGroupRequest{Request: req, Input: input, Copy: c.DeleteAutoScalingGroupRequest}
 }
 
 const opDeleteLaunchConfiguration = "DeleteLaunchConfiguration"
@@ -483,6 +517,7 @@ const opDeleteLaunchConfiguration = "DeleteLaunchConfiguration"
 type DeleteLaunchConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteLaunchConfigurationInput
+	Copy  func(*DeleteLaunchConfigurationInput) DeleteLaunchConfigurationRequest
 }
 
 // Send marshals and sends the DeleteLaunchConfiguration API request.
@@ -523,10 +558,13 @@ func (c *AutoScaling) DeleteLaunchConfigurationRequest(input *DeleteLaunchConfig
 		input = &DeleteLaunchConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLaunchConfigurationOutput{})
+	output := &DeleteLaunchConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteLaunchConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLaunchConfigurationRequest{Request: req, Input: input, Copy: c.DeleteLaunchConfigurationRequest}
 }
 
 const opDeleteLifecycleHook = "DeleteLifecycleHook"
@@ -535,6 +573,7 @@ const opDeleteLifecycleHook = "DeleteLifecycleHook"
 type DeleteLifecycleHookRequest struct {
 	*aws.Request
 	Input *DeleteLifecycleHookInput
+	Copy  func(*DeleteLifecycleHookInput) DeleteLifecycleHookRequest
 }
 
 // Send marshals and sends the DeleteLifecycleHook API request.
@@ -574,8 +613,11 @@ func (c *AutoScaling) DeleteLifecycleHookRequest(input *DeleteLifecycleHookInput
 		input = &DeleteLifecycleHookInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLifecycleHookOutput{})
-	return DeleteLifecycleHookRequest{Request: req, Input: input}
+	output := &DeleteLifecycleHookOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLifecycleHookRequest{Request: req, Input: input, Copy: c.DeleteLifecycleHookRequest}
 }
 
 const opDeleteNotificationConfiguration = "DeleteNotificationConfiguration"
@@ -584,6 +626,7 @@ const opDeleteNotificationConfiguration = "DeleteNotificationConfiguration"
 type DeleteNotificationConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteNotificationConfigurationInput
+	Copy  func(*DeleteNotificationConfigurationInput) DeleteNotificationConfigurationRequest
 }
 
 // Send marshals and sends the DeleteNotificationConfiguration API request.
@@ -620,10 +663,13 @@ func (c *AutoScaling) DeleteNotificationConfigurationRequest(input *DeleteNotifi
 		input = &DeleteNotificationConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteNotificationConfigurationOutput{})
+	output := &DeleteNotificationConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteNotificationConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteNotificationConfigurationRequest{Request: req, Input: input, Copy: c.DeleteNotificationConfigurationRequest}
 }
 
 const opDeletePolicy = "DeletePolicy"
@@ -632,6 +678,7 @@ const opDeletePolicy = "DeletePolicy"
 type DeletePolicyRequest struct {
 	*aws.Request
 	Input *DeletePolicyInput
+	Copy  func(*DeletePolicyInput) DeletePolicyRequest
 }
 
 // Send marshals and sends the DeletePolicy API request.
@@ -671,10 +718,13 @@ func (c *AutoScaling) DeletePolicyRequest(input *DeletePolicyInput) DeletePolicy
 		input = &DeletePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePolicyOutput{})
+	output := &DeletePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePolicyRequest{Request: req, Input: input, Copy: c.DeletePolicyRequest}
 }
 
 const opDeleteScheduledAction = "DeleteScheduledAction"
@@ -683,6 +733,7 @@ const opDeleteScheduledAction = "DeleteScheduledAction"
 type DeleteScheduledActionRequest struct {
 	*aws.Request
 	Input *DeleteScheduledActionInput
+	Copy  func(*DeleteScheduledActionInput) DeleteScheduledActionRequest
 }
 
 // Send marshals and sends the DeleteScheduledAction API request.
@@ -719,10 +770,13 @@ func (c *AutoScaling) DeleteScheduledActionRequest(input *DeleteScheduledActionI
 		input = &DeleteScheduledActionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteScheduledActionOutput{})
+	output := &DeleteScheduledActionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteScheduledActionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteScheduledActionRequest{Request: req, Input: input, Copy: c.DeleteScheduledActionRequest}
 }
 
 const opDeleteTags = "DeleteTags"
@@ -731,6 +785,7 @@ const opDeleteTags = "DeleteTags"
 type DeleteTagsRequest struct {
 	*aws.Request
 	Input *DeleteTagsInput
+	Copy  func(*DeleteTagsInput) DeleteTagsRequest
 }
 
 // Send marshals and sends the DeleteTags API request.
@@ -767,10 +822,13 @@ func (c *AutoScaling) DeleteTagsRequest(input *DeleteTagsInput) DeleteTagsReques
 		input = &DeleteTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTagsOutput{})
+	output := &DeleteTagsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteTagsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTagsRequest{Request: req, Input: input, Copy: c.DeleteTagsRequest}
 }
 
 const opDescribeAccountLimits = "DescribeAccountLimits"
@@ -779,6 +837,7 @@ const opDescribeAccountLimits = "DescribeAccountLimits"
 type DescribeAccountLimitsRequest struct {
 	*aws.Request
 	Input *DescribeAccountLimitsInput
+	Copy  func(*DescribeAccountLimitsInput) DescribeAccountLimitsRequest
 }
 
 // Send marshals and sends the DescribeAccountLimits API request.
@@ -796,9 +855,9 @@ func (r DescribeAccountLimitsRequest) Send() (*DescribeAccountLimitsOutput, erro
 //
 // Describes the current Auto Scaling resource limits for your AWS account.
 //
-// For information about requesting an increase in these limits, see AWS Service
-// Limits (http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html)
-// in the Amazon Web Services General Reference.
+// For information about requesting an increase in these limits, see Auto Scaling
+// Limits (http://docs.aws.amazon.com/autoscaling/latest/userguide/as-account-limits.html)
+// in the Auto Scaling User Guide.
 //
 //    // Example sending a request using the DescribeAccountLimitsRequest method.
 //    req := client.DescribeAccountLimitsRequest(params)
@@ -819,8 +878,11 @@ func (c *AutoScaling) DescribeAccountLimitsRequest(input *DescribeAccountLimitsI
 		input = &DescribeAccountLimitsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAccountLimitsOutput{})
-	return DescribeAccountLimitsRequest{Request: req, Input: input}
+	output := &DescribeAccountLimitsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAccountLimitsRequest{Request: req, Input: input, Copy: c.DescribeAccountLimitsRequest}
 }
 
 const opDescribeAdjustmentTypes = "DescribeAdjustmentTypes"
@@ -829,6 +891,7 @@ const opDescribeAdjustmentTypes = "DescribeAdjustmentTypes"
 type DescribeAdjustmentTypesRequest struct {
 	*aws.Request
 	Input *DescribeAdjustmentTypesInput
+	Copy  func(*DescribeAdjustmentTypesInput) DescribeAdjustmentTypesRequest
 }
 
 // Send marshals and sends the DescribeAdjustmentTypes API request.
@@ -865,8 +928,11 @@ func (c *AutoScaling) DescribeAdjustmentTypesRequest(input *DescribeAdjustmentTy
 		input = &DescribeAdjustmentTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAdjustmentTypesOutput{})
-	return DescribeAdjustmentTypesRequest{Request: req, Input: input}
+	output := &DescribeAdjustmentTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAdjustmentTypesRequest{Request: req, Input: input, Copy: c.DescribeAdjustmentTypesRequest}
 }
 
 const opDescribeAutoScalingGroups = "DescribeAutoScalingGroups"
@@ -875,6 +941,7 @@ const opDescribeAutoScalingGroups = "DescribeAutoScalingGroups"
 type DescribeAutoScalingGroupsRequest struct {
 	*aws.Request
 	Input *DescribeAutoScalingGroupsInput
+	Copy  func(*DescribeAutoScalingGroupsInput) DescribeAutoScalingGroupsRequest
 }
 
 // Send marshals and sends the DescribeAutoScalingGroups API request.
@@ -917,58 +984,57 @@ func (c *AutoScaling) DescribeAutoScalingGroupsRequest(input *DescribeAutoScalin
 		input = &DescribeAutoScalingGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAutoScalingGroupsOutput{})
-	return DescribeAutoScalingGroupsRequest{Request: req, Input: input}
+	output := &DescribeAutoScalingGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAutoScalingGroupsRequest{Request: req, Input: input, Copy: c.DescribeAutoScalingGroupsRequest}
 }
 
-// DescribeAutoScalingGroupsPages iterates over the pages of a DescribeAutoScalingGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeAutoScalingGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeAutoScalingGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeAutoScalingGroups operation.
-//    pageNum := 0
-//    err := client.DescribeAutoScalingGroupsPages(params,
-//        func(page *DescribeAutoScalingGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeAutoScalingGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeAutoScalingGroupsPages(input *DescribeAutoScalingGroupsInput, fn func(*DescribeAutoScalingGroupsOutput, bool) bool) error {
-	return c.DescribeAutoScalingGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeAutoScalingGroupsRequest) Paginate(opts ...aws.Option) DescribeAutoScalingGroupsPager {
+	return DescribeAutoScalingGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeAutoScalingGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeAutoScalingGroupsPagesWithContext same as DescribeAutoScalingGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeAutoScalingGroupsPagesWithContext(ctx aws.Context, input *DescribeAutoScalingGroupsInput, fn func(*DescribeAutoScalingGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeAutoScalingGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeAutoScalingGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeAutoScalingGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeAutoScalingGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeAutoScalingGroupsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeAutoScalingGroupsPager) CurrentPage() *DescribeAutoScalingGroupsOutput {
+	return p.Pager.CurrentPage().(*DescribeAutoScalingGroupsOutput)
 }
 
 const opDescribeAutoScalingInstances = "DescribeAutoScalingInstances"
@@ -977,6 +1043,7 @@ const opDescribeAutoScalingInstances = "DescribeAutoScalingInstances"
 type DescribeAutoScalingInstancesRequest struct {
 	*aws.Request
 	Input *DescribeAutoScalingInstancesInput
+	Copy  func(*DescribeAutoScalingInstancesInput) DescribeAutoScalingInstancesRequest
 }
 
 // Send marshals and sends the DescribeAutoScalingInstances API request.
@@ -1019,58 +1086,57 @@ func (c *AutoScaling) DescribeAutoScalingInstancesRequest(input *DescribeAutoSca
 		input = &DescribeAutoScalingInstancesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAutoScalingInstancesOutput{})
-	return DescribeAutoScalingInstancesRequest{Request: req, Input: input}
+	output := &DescribeAutoScalingInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAutoScalingInstancesRequest{Request: req, Input: input, Copy: c.DescribeAutoScalingInstancesRequest}
 }
 
-// DescribeAutoScalingInstancesPages iterates over the pages of a DescribeAutoScalingInstances operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeAutoScalingInstances method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeAutoScalingInstancesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeAutoScalingInstances operation.
-//    pageNum := 0
-//    err := client.DescribeAutoScalingInstancesPages(params,
-//        func(page *DescribeAutoScalingInstancesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeAutoScalingInstancesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeAutoScalingInstancesPages(input *DescribeAutoScalingInstancesInput, fn func(*DescribeAutoScalingInstancesOutput, bool) bool) error {
-	return c.DescribeAutoScalingInstancesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeAutoScalingInstancesRequest) Paginate(opts ...aws.Option) DescribeAutoScalingInstancesPager {
+	return DescribeAutoScalingInstancesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeAutoScalingInstancesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeAutoScalingInstancesPagesWithContext same as DescribeAutoScalingInstancesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeAutoScalingInstancesPagesWithContext(ctx aws.Context, input *DescribeAutoScalingInstancesInput, fn func(*DescribeAutoScalingInstancesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeAutoScalingInstancesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeAutoScalingInstancesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeAutoScalingInstancesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeAutoScalingInstancesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeAutoScalingInstancesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeAutoScalingInstancesPager) CurrentPage() *DescribeAutoScalingInstancesOutput {
+	return p.Pager.CurrentPage().(*DescribeAutoScalingInstancesOutput)
 }
 
 const opDescribeAutoScalingNotificationTypes = "DescribeAutoScalingNotificationTypes"
@@ -1079,6 +1145,7 @@ const opDescribeAutoScalingNotificationTypes = "DescribeAutoScalingNotificationT
 type DescribeAutoScalingNotificationTypesRequest struct {
 	*aws.Request
 	Input *DescribeAutoScalingNotificationTypesInput
+	Copy  func(*DescribeAutoScalingNotificationTypesInput) DescribeAutoScalingNotificationTypesRequest
 }
 
 // Send marshals and sends the DescribeAutoScalingNotificationTypes API request.
@@ -1115,8 +1182,11 @@ func (c *AutoScaling) DescribeAutoScalingNotificationTypesRequest(input *Describ
 		input = &DescribeAutoScalingNotificationTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAutoScalingNotificationTypesOutput{})
-	return DescribeAutoScalingNotificationTypesRequest{Request: req, Input: input}
+	output := &DescribeAutoScalingNotificationTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAutoScalingNotificationTypesRequest{Request: req, Input: input, Copy: c.DescribeAutoScalingNotificationTypesRequest}
 }
 
 const opDescribeLaunchConfigurations = "DescribeLaunchConfigurations"
@@ -1125,6 +1195,7 @@ const opDescribeLaunchConfigurations = "DescribeLaunchConfigurations"
 type DescribeLaunchConfigurationsRequest struct {
 	*aws.Request
 	Input *DescribeLaunchConfigurationsInput
+	Copy  func(*DescribeLaunchConfigurationsInput) DescribeLaunchConfigurationsRequest
 }
 
 // Send marshals and sends the DescribeLaunchConfigurations API request.
@@ -1167,58 +1238,57 @@ func (c *AutoScaling) DescribeLaunchConfigurationsRequest(input *DescribeLaunchC
 		input = &DescribeLaunchConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLaunchConfigurationsOutput{})
-	return DescribeLaunchConfigurationsRequest{Request: req, Input: input}
+	output := &DescribeLaunchConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLaunchConfigurationsRequest{Request: req, Input: input, Copy: c.DescribeLaunchConfigurationsRequest}
 }
 
-// DescribeLaunchConfigurationsPages iterates over the pages of a DescribeLaunchConfigurations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeLaunchConfigurations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeLaunchConfigurationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeLaunchConfigurations operation.
-//    pageNum := 0
-//    err := client.DescribeLaunchConfigurationsPages(params,
-//        func(page *DescribeLaunchConfigurationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeLaunchConfigurationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeLaunchConfigurationsPages(input *DescribeLaunchConfigurationsInput, fn func(*DescribeLaunchConfigurationsOutput, bool) bool) error {
-	return c.DescribeLaunchConfigurationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeLaunchConfigurationsRequest) Paginate(opts ...aws.Option) DescribeLaunchConfigurationsPager {
+	return DescribeLaunchConfigurationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeLaunchConfigurationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeLaunchConfigurationsPagesWithContext same as DescribeLaunchConfigurationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeLaunchConfigurationsPagesWithContext(ctx aws.Context, input *DescribeLaunchConfigurationsInput, fn func(*DescribeLaunchConfigurationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeLaunchConfigurationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeLaunchConfigurationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeLaunchConfigurationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeLaunchConfigurationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeLaunchConfigurationsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeLaunchConfigurationsPager) CurrentPage() *DescribeLaunchConfigurationsOutput {
+	return p.Pager.CurrentPage().(*DescribeLaunchConfigurationsOutput)
 }
 
 const opDescribeLifecycleHookTypes = "DescribeLifecycleHookTypes"
@@ -1227,6 +1297,7 @@ const opDescribeLifecycleHookTypes = "DescribeLifecycleHookTypes"
 type DescribeLifecycleHookTypesRequest struct {
 	*aws.Request
 	Input *DescribeLifecycleHookTypesInput
+	Copy  func(*DescribeLifecycleHookTypesInput) DescribeLifecycleHookTypesRequest
 }
 
 // Send marshals and sends the DescribeLifecycleHookTypes API request.
@@ -1263,8 +1334,11 @@ func (c *AutoScaling) DescribeLifecycleHookTypesRequest(input *DescribeLifecycle
 		input = &DescribeLifecycleHookTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLifecycleHookTypesOutput{})
-	return DescribeLifecycleHookTypesRequest{Request: req, Input: input}
+	output := &DescribeLifecycleHookTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLifecycleHookTypesRequest{Request: req, Input: input, Copy: c.DescribeLifecycleHookTypesRequest}
 }
 
 const opDescribeLifecycleHooks = "DescribeLifecycleHooks"
@@ -1273,6 +1347,7 @@ const opDescribeLifecycleHooks = "DescribeLifecycleHooks"
 type DescribeLifecycleHooksRequest struct {
 	*aws.Request
 	Input *DescribeLifecycleHooksInput
+	Copy  func(*DescribeLifecycleHooksInput) DescribeLifecycleHooksRequest
 }
 
 // Send marshals and sends the DescribeLifecycleHooks API request.
@@ -1309,8 +1384,11 @@ func (c *AutoScaling) DescribeLifecycleHooksRequest(input *DescribeLifecycleHook
 		input = &DescribeLifecycleHooksInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLifecycleHooksOutput{})
-	return DescribeLifecycleHooksRequest{Request: req, Input: input}
+	output := &DescribeLifecycleHooksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLifecycleHooksRequest{Request: req, Input: input, Copy: c.DescribeLifecycleHooksRequest}
 }
 
 const opDescribeLoadBalancerTargetGroups = "DescribeLoadBalancerTargetGroups"
@@ -1319,6 +1397,7 @@ const opDescribeLoadBalancerTargetGroups = "DescribeLoadBalancerTargetGroups"
 type DescribeLoadBalancerTargetGroupsRequest struct {
 	*aws.Request
 	Input *DescribeLoadBalancerTargetGroupsInput
+	Copy  func(*DescribeLoadBalancerTargetGroupsInput) DescribeLoadBalancerTargetGroupsRequest
 }
 
 // Send marshals and sends the DescribeLoadBalancerTargetGroups API request.
@@ -1355,8 +1434,11 @@ func (c *AutoScaling) DescribeLoadBalancerTargetGroupsRequest(input *DescribeLoa
 		input = &DescribeLoadBalancerTargetGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLoadBalancerTargetGroupsOutput{})
-	return DescribeLoadBalancerTargetGroupsRequest{Request: req, Input: input}
+	output := &DescribeLoadBalancerTargetGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoadBalancerTargetGroupsRequest{Request: req, Input: input, Copy: c.DescribeLoadBalancerTargetGroupsRequest}
 }
 
 const opDescribeLoadBalancers = "DescribeLoadBalancers"
@@ -1365,6 +1447,7 @@ const opDescribeLoadBalancers = "DescribeLoadBalancers"
 type DescribeLoadBalancersRequest struct {
 	*aws.Request
 	Input *DescribeLoadBalancersInput
+	Copy  func(*DescribeLoadBalancersInput) DescribeLoadBalancersRequest
 }
 
 // Send marshals and sends the DescribeLoadBalancers API request.
@@ -1404,8 +1487,11 @@ func (c *AutoScaling) DescribeLoadBalancersRequest(input *DescribeLoadBalancersI
 		input = &DescribeLoadBalancersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLoadBalancersOutput{})
-	return DescribeLoadBalancersRequest{Request: req, Input: input}
+	output := &DescribeLoadBalancersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLoadBalancersRequest{Request: req, Input: input, Copy: c.DescribeLoadBalancersRequest}
 }
 
 const opDescribeMetricCollectionTypes = "DescribeMetricCollectionTypes"
@@ -1414,6 +1500,7 @@ const opDescribeMetricCollectionTypes = "DescribeMetricCollectionTypes"
 type DescribeMetricCollectionTypesRequest struct {
 	*aws.Request
 	Input *DescribeMetricCollectionTypesInput
+	Copy  func(*DescribeMetricCollectionTypesInput) DescribeMetricCollectionTypesRequest
 }
 
 // Send marshals and sends the DescribeMetricCollectionTypes API request.
@@ -1453,8 +1540,11 @@ func (c *AutoScaling) DescribeMetricCollectionTypesRequest(input *DescribeMetric
 		input = &DescribeMetricCollectionTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMetricCollectionTypesOutput{})
-	return DescribeMetricCollectionTypesRequest{Request: req, Input: input}
+	output := &DescribeMetricCollectionTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMetricCollectionTypesRequest{Request: req, Input: input, Copy: c.DescribeMetricCollectionTypesRequest}
 }
 
 const opDescribeNotificationConfigurations = "DescribeNotificationConfigurations"
@@ -1463,6 +1553,7 @@ const opDescribeNotificationConfigurations = "DescribeNotificationConfigurations
 type DescribeNotificationConfigurationsRequest struct {
 	*aws.Request
 	Input *DescribeNotificationConfigurationsInput
+	Copy  func(*DescribeNotificationConfigurationsInput) DescribeNotificationConfigurationsRequest
 }
 
 // Send marshals and sends the DescribeNotificationConfigurations API request.
@@ -1506,58 +1597,57 @@ func (c *AutoScaling) DescribeNotificationConfigurationsRequest(input *DescribeN
 		input = &DescribeNotificationConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeNotificationConfigurationsOutput{})
-	return DescribeNotificationConfigurationsRequest{Request: req, Input: input}
+	output := &DescribeNotificationConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeNotificationConfigurationsRequest{Request: req, Input: input, Copy: c.DescribeNotificationConfigurationsRequest}
 }
 
-// DescribeNotificationConfigurationsPages iterates over the pages of a DescribeNotificationConfigurations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeNotificationConfigurations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeNotificationConfigurationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeNotificationConfigurations operation.
-//    pageNum := 0
-//    err := client.DescribeNotificationConfigurationsPages(params,
-//        func(page *DescribeNotificationConfigurationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeNotificationConfigurationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeNotificationConfigurationsPages(input *DescribeNotificationConfigurationsInput, fn func(*DescribeNotificationConfigurationsOutput, bool) bool) error {
-	return c.DescribeNotificationConfigurationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeNotificationConfigurationsRequest) Paginate(opts ...aws.Option) DescribeNotificationConfigurationsPager {
+	return DescribeNotificationConfigurationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeNotificationConfigurationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeNotificationConfigurationsPagesWithContext same as DescribeNotificationConfigurationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeNotificationConfigurationsPagesWithContext(ctx aws.Context, input *DescribeNotificationConfigurationsInput, fn func(*DescribeNotificationConfigurationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeNotificationConfigurationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeNotificationConfigurationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeNotificationConfigurationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeNotificationConfigurationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeNotificationConfigurationsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeNotificationConfigurationsPager) CurrentPage() *DescribeNotificationConfigurationsOutput {
+	return p.Pager.CurrentPage().(*DescribeNotificationConfigurationsOutput)
 }
 
 const opDescribePolicies = "DescribePolicies"
@@ -1566,6 +1656,7 @@ const opDescribePolicies = "DescribePolicies"
 type DescribePoliciesRequest struct {
 	*aws.Request
 	Input *DescribePoliciesInput
+	Copy  func(*DescribePoliciesInput) DescribePoliciesRequest
 }
 
 // Send marshals and sends the DescribePolicies API request.
@@ -1608,58 +1699,57 @@ func (c *AutoScaling) DescribePoliciesRequest(input *DescribePoliciesInput) Desc
 		input = &DescribePoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePoliciesOutput{})
-	return DescribePoliciesRequest{Request: req, Input: input}
+	output := &DescribePoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePoliciesRequest{Request: req, Input: input, Copy: c.DescribePoliciesRequest}
 }
 
-// DescribePoliciesPages iterates over the pages of a DescribePolicies operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribePolicies method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribePoliciesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribePolicies operation.
-//    pageNum := 0
-//    err := client.DescribePoliciesPages(params,
-//        func(page *DescribePoliciesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribePoliciesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribePoliciesPages(input *DescribePoliciesInput, fn func(*DescribePoliciesOutput, bool) bool) error {
-	return c.DescribePoliciesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribePoliciesRequest) Paginate(opts ...aws.Option) DescribePoliciesPager {
+	return DescribePoliciesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribePoliciesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribePoliciesPagesWithContext same as DescribePoliciesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribePoliciesPagesWithContext(ctx aws.Context, input *DescribePoliciesInput, fn func(*DescribePoliciesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribePoliciesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribePoliciesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribePoliciesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribePoliciesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribePoliciesPager struct {
+	aws.Pager
+}
+
+func (p *DescribePoliciesPager) CurrentPage() *DescribePoliciesOutput {
+	return p.Pager.CurrentPage().(*DescribePoliciesOutput)
 }
 
 const opDescribeScalingActivities = "DescribeScalingActivities"
@@ -1668,6 +1758,7 @@ const opDescribeScalingActivities = "DescribeScalingActivities"
 type DescribeScalingActivitiesRequest struct {
 	*aws.Request
 	Input *DescribeScalingActivitiesInput
+	Copy  func(*DescribeScalingActivitiesInput) DescribeScalingActivitiesRequest
 }
 
 // Send marshals and sends the DescribeScalingActivities API request.
@@ -1710,58 +1801,57 @@ func (c *AutoScaling) DescribeScalingActivitiesRequest(input *DescribeScalingAct
 		input = &DescribeScalingActivitiesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeScalingActivitiesOutput{})
-	return DescribeScalingActivitiesRequest{Request: req, Input: input}
+	output := &DescribeScalingActivitiesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeScalingActivitiesRequest{Request: req, Input: input, Copy: c.DescribeScalingActivitiesRequest}
 }
 
-// DescribeScalingActivitiesPages iterates over the pages of a DescribeScalingActivities operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeScalingActivities method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeScalingActivitiesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeScalingActivities operation.
-//    pageNum := 0
-//    err := client.DescribeScalingActivitiesPages(params,
-//        func(page *DescribeScalingActivitiesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeScalingActivitiesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeScalingActivitiesPages(input *DescribeScalingActivitiesInput, fn func(*DescribeScalingActivitiesOutput, bool) bool) error {
-	return c.DescribeScalingActivitiesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeScalingActivitiesRequest) Paginate(opts ...aws.Option) DescribeScalingActivitiesPager {
+	return DescribeScalingActivitiesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeScalingActivitiesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeScalingActivitiesPagesWithContext same as DescribeScalingActivitiesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeScalingActivitiesPagesWithContext(ctx aws.Context, input *DescribeScalingActivitiesInput, fn func(*DescribeScalingActivitiesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeScalingActivitiesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeScalingActivitiesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeScalingActivitiesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeScalingActivitiesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeScalingActivitiesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeScalingActivitiesPager) CurrentPage() *DescribeScalingActivitiesOutput {
+	return p.Pager.CurrentPage().(*DescribeScalingActivitiesOutput)
 }
 
 const opDescribeScalingProcessTypes = "DescribeScalingProcessTypes"
@@ -1770,6 +1860,7 @@ const opDescribeScalingProcessTypes = "DescribeScalingProcessTypes"
 type DescribeScalingProcessTypesRequest struct {
 	*aws.Request
 	Input *DescribeScalingProcessTypesInput
+	Copy  func(*DescribeScalingProcessTypesInput) DescribeScalingProcessTypesRequest
 }
 
 // Send marshals and sends the DescribeScalingProcessTypes API request.
@@ -1806,8 +1897,11 @@ func (c *AutoScaling) DescribeScalingProcessTypesRequest(input *DescribeScalingP
 		input = &DescribeScalingProcessTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeScalingProcessTypesOutput{})
-	return DescribeScalingProcessTypesRequest{Request: req, Input: input}
+	output := &DescribeScalingProcessTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeScalingProcessTypesRequest{Request: req, Input: input, Copy: c.DescribeScalingProcessTypesRequest}
 }
 
 const opDescribeScheduledActions = "DescribeScheduledActions"
@@ -1816,6 +1910,7 @@ const opDescribeScheduledActions = "DescribeScheduledActions"
 type DescribeScheduledActionsRequest struct {
 	*aws.Request
 	Input *DescribeScheduledActionsInput
+	Copy  func(*DescribeScheduledActionsInput) DescribeScheduledActionsRequest
 }
 
 // Send marshals and sends the DescribeScheduledActions API request.
@@ -1859,58 +1954,57 @@ func (c *AutoScaling) DescribeScheduledActionsRequest(input *DescribeScheduledAc
 		input = &DescribeScheduledActionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeScheduledActionsOutput{})
-	return DescribeScheduledActionsRequest{Request: req, Input: input}
+	output := &DescribeScheduledActionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeScheduledActionsRequest{Request: req, Input: input, Copy: c.DescribeScheduledActionsRequest}
 }
 
-// DescribeScheduledActionsPages iterates over the pages of a DescribeScheduledActions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeScheduledActions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeScheduledActionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeScheduledActions operation.
-//    pageNum := 0
-//    err := client.DescribeScheduledActionsPages(params,
-//        func(page *DescribeScheduledActionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeScheduledActionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeScheduledActionsPages(input *DescribeScheduledActionsInput, fn func(*DescribeScheduledActionsOutput, bool) bool) error {
-	return c.DescribeScheduledActionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeScheduledActionsRequest) Paginate(opts ...aws.Option) DescribeScheduledActionsPager {
+	return DescribeScheduledActionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeScheduledActionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeScheduledActionsPagesWithContext same as DescribeScheduledActionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeScheduledActionsPagesWithContext(ctx aws.Context, input *DescribeScheduledActionsInput, fn func(*DescribeScheduledActionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeScheduledActionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeScheduledActionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeScheduledActionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeScheduledActionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeScheduledActionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeScheduledActionsPager) CurrentPage() *DescribeScheduledActionsOutput {
+	return p.Pager.CurrentPage().(*DescribeScheduledActionsOutput)
 }
 
 const opDescribeTags = "DescribeTags"
@@ -1919,6 +2013,7 @@ const opDescribeTags = "DescribeTags"
 type DescribeTagsRequest struct {
 	*aws.Request
 	Input *DescribeTagsInput
+	Copy  func(*DescribeTagsInput) DescribeTagsRequest
 }
 
 // Send marshals and sends the DescribeTags API request.
@@ -1970,58 +2065,57 @@ func (c *AutoScaling) DescribeTagsRequest(input *DescribeTagsInput) DescribeTags
 		input = &DescribeTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTagsOutput{})
-	return DescribeTagsRequest{Request: req, Input: input}
+	output := &DescribeTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTagsRequest{Request: req, Input: input, Copy: c.DescribeTagsRequest}
 }
 
-// DescribeTagsPages iterates over the pages of a DescribeTags operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeTags method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeTagsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeTags operation.
-//    pageNum := 0
-//    err := client.DescribeTagsPages(params,
-//        func(page *DescribeTagsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeTagsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *AutoScaling) DescribeTagsPages(input *DescribeTagsInput, fn func(*DescribeTagsOutput, bool) bool) error {
-	return c.DescribeTagsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeTagsRequest) Paginate(opts ...aws.Option) DescribeTagsPager {
+	return DescribeTagsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeTagsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeTagsPagesWithContext same as DescribeTagsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *AutoScaling) DescribeTagsPagesWithContext(ctx aws.Context, input *DescribeTagsInput, fn func(*DescribeTagsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeTagsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeTagsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeTagsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeTagsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeTagsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeTagsPager) CurrentPage() *DescribeTagsOutput {
+	return p.Pager.CurrentPage().(*DescribeTagsOutput)
 }
 
 const opDescribeTerminationPolicyTypes = "DescribeTerminationPolicyTypes"
@@ -2030,6 +2124,7 @@ const opDescribeTerminationPolicyTypes = "DescribeTerminationPolicyTypes"
 type DescribeTerminationPolicyTypesRequest struct {
 	*aws.Request
 	Input *DescribeTerminationPolicyTypesInput
+	Copy  func(*DescribeTerminationPolicyTypesInput) DescribeTerminationPolicyTypesRequest
 }
 
 // Send marshals and sends the DescribeTerminationPolicyTypes API request.
@@ -2066,8 +2161,11 @@ func (c *AutoScaling) DescribeTerminationPolicyTypesRequest(input *DescribeTermi
 		input = &DescribeTerminationPolicyTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTerminationPolicyTypesOutput{})
-	return DescribeTerminationPolicyTypesRequest{Request: req, Input: input}
+	output := &DescribeTerminationPolicyTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTerminationPolicyTypesRequest{Request: req, Input: input, Copy: c.DescribeTerminationPolicyTypesRequest}
 }
 
 const opDetachInstances = "DetachInstances"
@@ -2076,6 +2174,7 @@ const opDetachInstances = "DetachInstances"
 type DetachInstancesRequest struct {
 	*aws.Request
 	Input *DetachInstancesInput
+	Copy  func(*DetachInstancesInput) DetachInstancesRequest
 }
 
 // Send marshals and sends the DetachInstances API request.
@@ -2127,8 +2226,11 @@ func (c *AutoScaling) DetachInstancesRequest(input *DetachInstancesInput) Detach
 		input = &DetachInstancesInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachInstancesOutput{})
-	return DetachInstancesRequest{Request: req, Input: input}
+	output := &DetachInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachInstancesRequest{Request: req, Input: input, Copy: c.DetachInstancesRequest}
 }
 
 const opDetachLoadBalancerTargetGroups = "DetachLoadBalancerTargetGroups"
@@ -2137,6 +2239,7 @@ const opDetachLoadBalancerTargetGroups = "DetachLoadBalancerTargetGroups"
 type DetachLoadBalancerTargetGroupsRequest struct {
 	*aws.Request
 	Input *DetachLoadBalancerTargetGroupsInput
+	Copy  func(*DetachLoadBalancerTargetGroupsInput) DetachLoadBalancerTargetGroupsRequest
 }
 
 // Send marshals and sends the DetachLoadBalancerTargetGroups API request.
@@ -2173,8 +2276,11 @@ func (c *AutoScaling) DetachLoadBalancerTargetGroupsRequest(input *DetachLoadBal
 		input = &DetachLoadBalancerTargetGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachLoadBalancerTargetGroupsOutput{})
-	return DetachLoadBalancerTargetGroupsRequest{Request: req, Input: input}
+	output := &DetachLoadBalancerTargetGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachLoadBalancerTargetGroupsRequest{Request: req, Input: input, Copy: c.DetachLoadBalancerTargetGroupsRequest}
 }
 
 const opDetachLoadBalancers = "DetachLoadBalancers"
@@ -2183,6 +2289,7 @@ const opDetachLoadBalancers = "DetachLoadBalancers"
 type DetachLoadBalancersRequest struct {
 	*aws.Request
 	Input *DetachLoadBalancersInput
+	Copy  func(*DetachLoadBalancersInput) DetachLoadBalancersRequest
 }
 
 // Send marshals and sends the DetachLoadBalancers API request.
@@ -2228,8 +2335,11 @@ func (c *AutoScaling) DetachLoadBalancersRequest(input *DetachLoadBalancersInput
 		input = &DetachLoadBalancersInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachLoadBalancersOutput{})
-	return DetachLoadBalancersRequest{Request: req, Input: input}
+	output := &DetachLoadBalancersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachLoadBalancersRequest{Request: req, Input: input, Copy: c.DetachLoadBalancersRequest}
 }
 
 const opDisableMetricsCollection = "DisableMetricsCollection"
@@ -2238,6 +2348,7 @@ const opDisableMetricsCollection = "DisableMetricsCollection"
 type DisableMetricsCollectionRequest struct {
 	*aws.Request
 	Input *DisableMetricsCollectionInput
+	Copy  func(*DisableMetricsCollectionInput) DisableMetricsCollectionRequest
 }
 
 // Send marshals and sends the DisableMetricsCollection API request.
@@ -2274,10 +2385,13 @@ func (c *AutoScaling) DisableMetricsCollectionRequest(input *DisableMetricsColle
 		input = &DisableMetricsCollectionInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableMetricsCollectionOutput{})
+	output := &DisableMetricsCollectionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DisableMetricsCollectionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableMetricsCollectionRequest{Request: req, Input: input, Copy: c.DisableMetricsCollectionRequest}
 }
 
 const opEnableMetricsCollection = "EnableMetricsCollection"
@@ -2286,6 +2400,7 @@ const opEnableMetricsCollection = "EnableMetricsCollection"
 type EnableMetricsCollectionRequest struct {
 	*aws.Request
 	Input *EnableMetricsCollectionInput
+	Copy  func(*EnableMetricsCollectionInput) EnableMetricsCollectionRequest
 }
 
 // Send marshals and sends the EnableMetricsCollection API request.
@@ -2324,10 +2439,13 @@ func (c *AutoScaling) EnableMetricsCollectionRequest(input *EnableMetricsCollect
 		input = &EnableMetricsCollectionInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableMetricsCollectionOutput{})
+	output := &EnableMetricsCollectionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return EnableMetricsCollectionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableMetricsCollectionRequest{Request: req, Input: input, Copy: c.EnableMetricsCollectionRequest}
 }
 
 const opEnterStandby = "EnterStandby"
@@ -2336,6 +2454,7 @@ const opEnterStandby = "EnterStandby"
 type EnterStandbyRequest struct {
 	*aws.Request
 	Input *EnterStandbyInput
+	Copy  func(*EnterStandbyInput) EnterStandbyRequest
 }
 
 // Send marshals and sends the EnterStandby API request.
@@ -2376,8 +2495,11 @@ func (c *AutoScaling) EnterStandbyRequest(input *EnterStandbyInput) EnterStandby
 		input = &EnterStandbyInput{}
 	}
 
-	req := c.newRequest(op, input, &EnterStandbyOutput{})
-	return EnterStandbyRequest{Request: req, Input: input}
+	output := &EnterStandbyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnterStandbyRequest{Request: req, Input: input, Copy: c.EnterStandbyRequest}
 }
 
 const opExecutePolicy = "ExecutePolicy"
@@ -2386,6 +2508,7 @@ const opExecutePolicy = "ExecutePolicy"
 type ExecutePolicyRequest struct {
 	*aws.Request
 	Input *ExecutePolicyInput
+	Copy  func(*ExecutePolicyInput) ExecutePolicyRequest
 }
 
 // Send marshals and sends the ExecutePolicy API request.
@@ -2422,10 +2545,13 @@ func (c *AutoScaling) ExecutePolicyRequest(input *ExecutePolicyInput) ExecutePol
 		input = &ExecutePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &ExecutePolicyOutput{})
+	output := &ExecutePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return ExecutePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ExecutePolicyRequest{Request: req, Input: input, Copy: c.ExecutePolicyRequest}
 }
 
 const opExitStandby = "ExitStandby"
@@ -2434,6 +2560,7 @@ const opExitStandby = "ExitStandby"
 type ExitStandbyRequest struct {
 	*aws.Request
 	Input *ExitStandbyInput
+	Copy  func(*ExitStandbyInput) ExitStandbyRequest
 }
 
 // Send marshals and sends the ExitStandby API request.
@@ -2474,8 +2601,11 @@ func (c *AutoScaling) ExitStandbyRequest(input *ExitStandbyInput) ExitStandbyReq
 		input = &ExitStandbyInput{}
 	}
 
-	req := c.newRequest(op, input, &ExitStandbyOutput{})
-	return ExitStandbyRequest{Request: req, Input: input}
+	output := &ExitStandbyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ExitStandbyRequest{Request: req, Input: input, Copy: c.ExitStandbyRequest}
 }
 
 const opPutLifecycleHook = "PutLifecycleHook"
@@ -2484,6 +2614,7 @@ const opPutLifecycleHook = "PutLifecycleHook"
 type PutLifecycleHookRequest struct {
 	*aws.Request
 	Input *PutLifecycleHookInput
+	Copy  func(*PutLifecycleHookInput) PutLifecycleHookRequest
 }
 
 // Send marshals and sends the PutLifecycleHook API request.
@@ -2550,8 +2681,11 @@ func (c *AutoScaling) PutLifecycleHookRequest(input *PutLifecycleHookInput) PutL
 		input = &PutLifecycleHookInput{}
 	}
 
-	req := c.newRequest(op, input, &PutLifecycleHookOutput{})
-	return PutLifecycleHookRequest{Request: req, Input: input}
+	output := &PutLifecycleHookOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutLifecycleHookRequest{Request: req, Input: input, Copy: c.PutLifecycleHookRequest}
 }
 
 const opPutNotificationConfiguration = "PutNotificationConfiguration"
@@ -2560,6 +2694,7 @@ const opPutNotificationConfiguration = "PutNotificationConfiguration"
 type PutNotificationConfigurationRequest struct {
 	*aws.Request
 	Input *PutNotificationConfigurationInput
+	Copy  func(*PutNotificationConfigurationInput) PutNotificationConfigurationRequest
 }
 
 // Send marshals and sends the PutNotificationConfiguration API request.
@@ -2604,10 +2739,13 @@ func (c *AutoScaling) PutNotificationConfigurationRequest(input *PutNotification
 		input = &PutNotificationConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutNotificationConfigurationOutput{})
+	output := &PutNotificationConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutNotificationConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutNotificationConfigurationRequest{Request: req, Input: input, Copy: c.PutNotificationConfigurationRequest}
 }
 
 const opPutScalingPolicy = "PutScalingPolicy"
@@ -2616,6 +2754,7 @@ const opPutScalingPolicy = "PutScalingPolicy"
 type PutScalingPolicyRequest struct {
 	*aws.Request
 	Input *PutScalingPolicyInput
+	Copy  func(*PutScalingPolicyInput) PutScalingPolicyRequest
 }
 
 // Send marshals and sends the PutScalingPolicy API request.
@@ -2660,8 +2799,11 @@ func (c *AutoScaling) PutScalingPolicyRequest(input *PutScalingPolicyInput) PutS
 		input = &PutScalingPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutScalingPolicyOutput{})
-	return PutScalingPolicyRequest{Request: req, Input: input}
+	output := &PutScalingPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutScalingPolicyRequest{Request: req, Input: input, Copy: c.PutScalingPolicyRequest}
 }
 
 const opPutScheduledUpdateGroupAction = "PutScheduledUpdateGroupAction"
@@ -2670,6 +2812,7 @@ const opPutScheduledUpdateGroupAction = "PutScheduledUpdateGroupAction"
 type PutScheduledUpdateGroupActionRequest struct {
 	*aws.Request
 	Input *PutScheduledUpdateGroupActionInput
+	Copy  func(*PutScheduledUpdateGroupActionInput) PutScheduledUpdateGroupActionRequest
 }
 
 // Send marshals and sends the PutScheduledUpdateGroupAction API request.
@@ -2711,10 +2854,13 @@ func (c *AutoScaling) PutScheduledUpdateGroupActionRequest(input *PutScheduledUp
 		input = &PutScheduledUpdateGroupActionInput{}
 	}
 
-	req := c.newRequest(op, input, &PutScheduledUpdateGroupActionOutput{})
+	output := &PutScheduledUpdateGroupActionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutScheduledUpdateGroupActionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutScheduledUpdateGroupActionRequest{Request: req, Input: input, Copy: c.PutScheduledUpdateGroupActionRequest}
 }
 
 const opRecordLifecycleActionHeartbeat = "RecordLifecycleActionHeartbeat"
@@ -2723,6 +2869,7 @@ const opRecordLifecycleActionHeartbeat = "RecordLifecycleActionHeartbeat"
 type RecordLifecycleActionHeartbeatRequest struct {
 	*aws.Request
 	Input *RecordLifecycleActionHeartbeatInput
+	Copy  func(*RecordLifecycleActionHeartbeatInput) RecordLifecycleActionHeartbeatRequest
 }
 
 // Send marshals and sends the RecordLifecycleActionHeartbeat API request.
@@ -2782,8 +2929,11 @@ func (c *AutoScaling) RecordLifecycleActionHeartbeatRequest(input *RecordLifecyc
 		input = &RecordLifecycleActionHeartbeatInput{}
 	}
 
-	req := c.newRequest(op, input, &RecordLifecycleActionHeartbeatOutput{})
-	return RecordLifecycleActionHeartbeatRequest{Request: req, Input: input}
+	output := &RecordLifecycleActionHeartbeatOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RecordLifecycleActionHeartbeatRequest{Request: req, Input: input, Copy: c.RecordLifecycleActionHeartbeatRequest}
 }
 
 const opResumeProcesses = "ResumeProcesses"
@@ -2792,6 +2942,7 @@ const opResumeProcesses = "ResumeProcesses"
 type ResumeProcessesRequest struct {
 	*aws.Request
 	Input *SuspendProcessesInput
+	Copy  func(*SuspendProcessesInput) ResumeProcessesRequest
 }
 
 // Send marshals and sends the ResumeProcesses API request.
@@ -2833,10 +2984,13 @@ func (c *AutoScaling) ResumeProcessesRequest(input *SuspendProcessesInput) Resum
 		input = &SuspendProcessesInput{}
 	}
 
-	req := c.newRequest(op, input, &ResumeProcessesOutput{})
+	output := &ResumeProcessesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return ResumeProcessesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ResumeProcessesRequest{Request: req, Input: input, Copy: c.ResumeProcessesRequest}
 }
 
 const opSetDesiredCapacity = "SetDesiredCapacity"
@@ -2845,6 +2999,7 @@ const opSetDesiredCapacity = "SetDesiredCapacity"
 type SetDesiredCapacityRequest struct {
 	*aws.Request
 	Input *SetDesiredCapacityInput
+	Copy  func(*SetDesiredCapacityInput) SetDesiredCapacityRequest
 }
 
 // Send marshals and sends the SetDesiredCapacity API request.
@@ -2884,10 +3039,13 @@ func (c *AutoScaling) SetDesiredCapacityRequest(input *SetDesiredCapacityInput) 
 		input = &SetDesiredCapacityInput{}
 	}
 
-	req := c.newRequest(op, input, &SetDesiredCapacityOutput{})
+	output := &SetDesiredCapacityOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetDesiredCapacityRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetDesiredCapacityRequest{Request: req, Input: input, Copy: c.SetDesiredCapacityRequest}
 }
 
 const opSetInstanceHealth = "SetInstanceHealth"
@@ -2896,6 +3054,7 @@ const opSetInstanceHealth = "SetInstanceHealth"
 type SetInstanceHealthRequest struct {
 	*aws.Request
 	Input *SetInstanceHealthInput
+	Copy  func(*SetInstanceHealthInput) SetInstanceHealthRequest
 }
 
 // Send marshals and sends the SetInstanceHealth API request.
@@ -2935,10 +3094,13 @@ func (c *AutoScaling) SetInstanceHealthRequest(input *SetInstanceHealthInput) Se
 		input = &SetInstanceHealthInput{}
 	}
 
-	req := c.newRequest(op, input, &SetInstanceHealthOutput{})
+	output := &SetInstanceHealthOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetInstanceHealthRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetInstanceHealthRequest{Request: req, Input: input, Copy: c.SetInstanceHealthRequest}
 }
 
 const opSetInstanceProtection = "SetInstanceProtection"
@@ -2947,6 +3109,7 @@ const opSetInstanceProtection = "SetInstanceProtection"
 type SetInstanceProtectionRequest struct {
 	*aws.Request
 	Input *SetInstanceProtectionInput
+	Copy  func(*SetInstanceProtectionInput) SetInstanceProtectionRequest
 }
 
 // Send marshals and sends the SetInstanceProtection API request.
@@ -2986,8 +3149,11 @@ func (c *AutoScaling) SetInstanceProtectionRequest(input *SetInstanceProtectionI
 		input = &SetInstanceProtectionInput{}
 	}
 
-	req := c.newRequest(op, input, &SetInstanceProtectionOutput{})
-	return SetInstanceProtectionRequest{Request: req, Input: input}
+	output := &SetInstanceProtectionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetInstanceProtectionRequest{Request: req, Input: input, Copy: c.SetInstanceProtectionRequest}
 }
 
 const opSuspendProcesses = "SuspendProcesses"
@@ -2996,6 +3162,7 @@ const opSuspendProcesses = "SuspendProcesses"
 type SuspendProcessesRequest struct {
 	*aws.Request
 	Input *SuspendProcessesInput
+	Copy  func(*SuspendProcessesInput) SuspendProcessesRequest
 }
 
 // Send marshals and sends the SuspendProcesses API request.
@@ -3042,10 +3209,13 @@ func (c *AutoScaling) SuspendProcessesRequest(input *SuspendProcessesInput) Susp
 		input = &SuspendProcessesInput{}
 	}
 
-	req := c.newRequest(op, input, &SuspendProcessesOutput{})
+	output := &SuspendProcessesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SuspendProcessesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SuspendProcessesRequest{Request: req, Input: input, Copy: c.SuspendProcessesRequest}
 }
 
 const opTerminateInstanceInAutoScalingGroup = "TerminateInstanceInAutoScalingGroup"
@@ -3054,6 +3224,7 @@ const opTerminateInstanceInAutoScalingGroup = "TerminateInstanceInAutoScalingGro
 type TerminateInstanceInAutoScalingGroupRequest struct {
 	*aws.Request
 	Input *TerminateInstanceInAutoScalingGroupInput
+	Copy  func(*TerminateInstanceInAutoScalingGroupInput) TerminateInstanceInAutoScalingGroupRequest
 }
 
 // Send marshals and sends the TerminateInstanceInAutoScalingGroup API request.
@@ -3094,8 +3265,11 @@ func (c *AutoScaling) TerminateInstanceInAutoScalingGroupRequest(input *Terminat
 		input = &TerminateInstanceInAutoScalingGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &TerminateInstanceInAutoScalingGroupOutput{})
-	return TerminateInstanceInAutoScalingGroupRequest{Request: req, Input: input}
+	output := &TerminateInstanceInAutoScalingGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TerminateInstanceInAutoScalingGroupRequest{Request: req, Input: input, Copy: c.TerminateInstanceInAutoScalingGroupRequest}
 }
 
 const opUpdateAutoScalingGroup = "UpdateAutoScalingGroup"
@@ -3104,6 +3278,7 @@ const opUpdateAutoScalingGroup = "UpdateAutoScalingGroup"
 type UpdateAutoScalingGroupRequest struct {
 	*aws.Request
 	Input *UpdateAutoScalingGroupInput
+	Copy  func(*UpdateAutoScalingGroupInput) UpdateAutoScalingGroupRequest
 }
 
 // Send marshals and sends the UpdateAutoScalingGroup API request.
@@ -3162,10 +3337,13 @@ func (c *AutoScaling) UpdateAutoScalingGroupRequest(input *UpdateAutoScalingGrou
 		input = &UpdateAutoScalingGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAutoScalingGroupOutput{})
+	output := &UpdateAutoScalingGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UpdateAutoScalingGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAutoScalingGroupRequest{Request: req, Input: input, Copy: c.UpdateAutoScalingGroupRequest}
 }
 
 // Describes scaling activity, which is a long-running process that represents
@@ -3210,7 +3388,7 @@ type Activity struct {
 	// The current status of the activity.
 	//
 	// StatusCode is a required field
-	StatusCode ScalingActivityStatusCode `type:"string" required:"true"`
+	StatusCode ScalingActivityStatusCode `type:"string" required:"true" enum:"true"`
 
 	// A friendly, more verbose description of the activity status.
 	StatusMessage *string `min:"1" type:"string"`
@@ -3224,66 +3402,6 @@ func (s Activity) String() string {
 // GoString returns the string representation
 func (s Activity) GoString() string {
 	return s.String()
-}
-
-// SetActivityId sets the ActivityId field's value.
-func (s *Activity) SetActivityId(v string) *Activity {
-	s.ActivityId = &v
-	return s
-}
-
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *Activity) SetAutoScalingGroupName(v string) *Activity {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetCause sets the Cause field's value.
-func (s *Activity) SetCause(v string) *Activity {
-	s.Cause = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Activity) SetDescription(v string) *Activity {
-	s.Description = &v
-	return s
-}
-
-// SetDetails sets the Details field's value.
-func (s *Activity) SetDetails(v string) *Activity {
-	s.Details = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *Activity) SetEndTime(v time.Time) *Activity {
-	s.EndTime = &v
-	return s
-}
-
-// SetProgress sets the Progress field's value.
-func (s *Activity) SetProgress(v int64) *Activity {
-	s.Progress = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *Activity) SetStartTime(v time.Time) *Activity {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatusCode sets the StatusCode field's value.
-func (s *Activity) SetStatusCode(v ScalingActivityStatusCode) *Activity {
-	s.StatusCode = v
-	return s
-}
-
-// SetStatusMessage sets the StatusMessage field's value.
-func (s *Activity) SetStatusMessage(v string) *Activity {
-	s.StatusMessage = &v
-	return s
 }
 
 // Describes a policy adjustment type.
@@ -3309,12 +3427,6 @@ func (s AdjustmentType) GoString() string {
 	return s.String()
 }
 
-// SetAdjustmentType sets the AdjustmentType field's value.
-func (s *AdjustmentType) SetAdjustmentType(v string) *AdjustmentType {
-	s.AdjustmentType = &v
-	return s
-}
-
 // Describes an alarm.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/Alarm
 type Alarm struct {
@@ -3337,29 +3449,17 @@ func (s Alarm) GoString() string {
 	return s.String()
 }
 
-// SetAlarmARN sets the AlarmARN field's value.
-func (s *Alarm) SetAlarmARN(v string) *Alarm {
-	s.AlarmARN = &v
-	return s
-}
-
-// SetAlarmName sets the AlarmName field's value.
-func (s *Alarm) SetAlarmName(v string) *Alarm {
-	s.AlarmName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachInstancesQuery
 type AttachInstancesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// One or more instance IDs.
-	InstanceIds []*string `type:"list"`
+	// The IDs of the instances. You can specify up to 20 instances.
+	InstanceIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3389,21 +3489,11 @@ func (s *AttachInstancesInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *AttachInstancesInput) SetAutoScalingGroupName(v string) *AttachInstancesInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *AttachInstancesInput) SetInstanceIds(v []*string) *AttachInstancesInput {
-	s.InstanceIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachInstancesOutput
 type AttachInstancesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3416,6 +3506,11 @@ func (s AttachInstancesOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachLoadBalancerTargetGroupsType
 type AttachLoadBalancerTargetGroupsInput struct {
 	_ struct{} `type:"structure"`
@@ -3425,10 +3520,11 @@ type AttachLoadBalancerTargetGroupsInput struct {
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// The Amazon Resource Names (ARN) of the target groups.
+	// The Amazon Resource Names (ARN) of the target groups. You can specify up
+	// to 10 target groups.
 	//
 	// TargetGroupARNs is a required field
-	TargetGroupARNs []*string `type:"list" required:"true"`
+	TargetGroupARNs []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3462,21 +3558,11 @@ func (s *AttachLoadBalancerTargetGroupsInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *AttachLoadBalancerTargetGroupsInput) SetAutoScalingGroupName(v string) *AttachLoadBalancerTargetGroupsInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetTargetGroupARNs sets the TargetGroupARNs field's value.
-func (s *AttachLoadBalancerTargetGroupsInput) SetTargetGroupARNs(v []*string) *AttachLoadBalancerTargetGroupsInput {
-	s.TargetGroupARNs = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachLoadBalancerTargetGroupsResultType
 type AttachLoadBalancerTargetGroupsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3489,19 +3575,24 @@ func (s AttachLoadBalancerTargetGroupsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachLoadBalancerTargetGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachLoadBalancersType
 type AttachLoadBalancersInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// One or more load balancer names.
+	// The names of the load balancers. You can specify up to 10 load balancers.
 	//
 	// LoadBalancerNames is a required field
-	LoadBalancerNames []*string `type:"list" required:"true"`
+	LoadBalancerNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3535,21 +3626,11 @@ func (s *AttachLoadBalancersInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *AttachLoadBalancersInput) SetAutoScalingGroupName(v string) *AttachLoadBalancersInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *AttachLoadBalancersInput) SetLoadBalancerNames(v []*string) *AttachLoadBalancersInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AttachLoadBalancersResultType
 type AttachLoadBalancersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3560,6 +3641,11 @@ func (s AttachLoadBalancersOutput) String() string {
 // GoString returns the string representation
 func (s AttachLoadBalancersOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachLoadBalancersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a block device mapping.
@@ -3621,35 +3707,11 @@ func (s *BlockDeviceMapping) Validate() error {
 	return nil
 }
 
-// SetDeviceName sets the DeviceName field's value.
-func (s *BlockDeviceMapping) SetDeviceName(v string) *BlockDeviceMapping {
-	s.DeviceName = &v
-	return s
-}
-
-// SetEbs sets the Ebs field's value.
-func (s *BlockDeviceMapping) SetEbs(v *Ebs) *BlockDeviceMapping {
-	s.Ebs = v
-	return s
-}
-
-// SetNoDevice sets the NoDevice field's value.
-func (s *BlockDeviceMapping) SetNoDevice(v bool) *BlockDeviceMapping {
-	s.NoDevice = &v
-	return s
-}
-
-// SetVirtualName sets the VirtualName field's value.
-func (s *BlockDeviceMapping) SetVirtualName(v string) *BlockDeviceMapping {
-	s.VirtualName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CompleteLifecycleActionType
 type CompleteLifecycleActionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group for the lifecycle hook.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -3718,39 +3780,11 @@ func (s *CompleteLifecycleActionInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *CompleteLifecycleActionInput) SetAutoScalingGroupName(v string) *CompleteLifecycleActionInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *CompleteLifecycleActionInput) SetInstanceId(v string) *CompleteLifecycleActionInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLifecycleActionResult sets the LifecycleActionResult field's value.
-func (s *CompleteLifecycleActionInput) SetLifecycleActionResult(v string) *CompleteLifecycleActionInput {
-	s.LifecycleActionResult = &v
-	return s
-}
-
-// SetLifecycleActionToken sets the LifecycleActionToken field's value.
-func (s *CompleteLifecycleActionInput) SetLifecycleActionToken(v string) *CompleteLifecycleActionInput {
-	s.LifecycleActionToken = &v
-	return s
-}
-
-// SetLifecycleHookName sets the LifecycleHookName field's value.
-func (s *CompleteLifecycleActionInput) SetLifecycleHookName(v string) *CompleteLifecycleActionInput {
-	s.LifecycleHookName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CompleteLifecycleActionAnswer
 type CompleteLifecycleActionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3763,19 +3797,24 @@ func (s CompleteLifecycleActionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CompleteLifecycleActionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateAutoScalingGroupType
 type CreateAutoScalingGroupInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group. This name must be unique within the scope of your
-	// AWS account.
+	// The name of the Auto Scaling group. This name must be unique within the scope
+	// of your AWS account.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
 	// One or more Availability Zones for the group. This parameter is optional
 	// if you specify one or more subnets.
-	AvailabilityZones []*string `min:"1" type:"list"`
+	AvailabilityZones []string `min:"1" type:"list"`
 
 	// The amount of time, in seconds, after a scaling activity completes before
 	// another scaling activity can start. The default is 300.
@@ -3809,7 +3848,8 @@ type CreateAutoScalingGroupInput struct {
 	HealthCheckType *string `min:"1" type:"string"`
 
 	// The ID of the instance used to create a launch configuration for the group.
-	// Alternatively, specify a launch configuration instead of an EC2 instance.
+	// You must specify one of the following: an EC2 instance, a launch configuration,
+	// or a launch template.
 	//
 	// When you specify an ID of an instance, Auto Scaling creates a new launch
 	// configuration and associates it with the group. This launch configuration
@@ -3821,12 +3861,16 @@ type CreateAutoScalingGroupInput struct {
 	// in the Auto Scaling User Guide.
 	InstanceId *string `min:"1" type:"string"`
 
-	// The name of the launch configuration. Alternatively, specify an EC2 instance
-	// instead of a launch configuration.
+	// The name of the launch configuration. You must specify one of the following:
+	// a launch configuration, a launch template, or an EC2 instance.
 	LaunchConfigurationName *string `min:"1" type:"string"`
 
+	// The launch template to use to launch instances. You must specify one of the
+	// following: a launch template, a launch configuration, or an EC2 instance.
+	LaunchTemplate *LaunchTemplateSpecification `type:"structure"`
+
 	// One or more lifecycle hooks.
-	LifecycleHookSpecificationList []*LifecycleHookSpecification `type:"list"`
+	LifecycleHookSpecificationList []LifecycleHookSpecification `type:"list"`
 
 	// One or more Classic Load Balancers. To specify an Application Load Balancer,
 	// use TargetGroupARNs instead.
@@ -3834,7 +3878,7 @@ type CreateAutoScalingGroupInput struct {
 	// For more information, see Using a Load Balancer With an Auto Scaling Group
 	// (http://docs.aws.amazon.com/autoscaling/latest/userguide/create-asg-from-instance.html)
 	// in the Auto Scaling User Guide.
-	LoadBalancerNames []*string `type:"list"`
+	LoadBalancerNames []string `type:"list"`
 
 	// The maximum size of the group.
 	//
@@ -3855,14 +3899,20 @@ type CreateAutoScalingGroupInput struct {
 	// in the Amazon Elastic Compute Cloud User Guide.
 	PlacementGroup *string `min:"1" type:"string"`
 
+	// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling
+	// group uses to call other AWS services on your behalf. By default, Auto Scaling
+	// uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates
+	// if it does not exist.
+	ServiceLinkedRoleARN *string `min:"1" type:"string"`
+
 	// One or more tags.
 	//
 	// For more information, see Tagging Auto Scaling Groups and Instances (http://docs.aws.amazon.com/autoscaling/latest/userguide/autoscaling-tagging.html)
 	// in the Auto Scaling User Guide.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 
 	// The Amazon Resource Names (ARN) of the target groups.
-	TargetGroupARNs []*string `type:"list"`
+	TargetGroupARNs []string `type:"list"`
 
 	// One or more termination policies used to select the instance to terminate.
 	// These policies are executed in the order that they are listed.
@@ -3870,7 +3920,7 @@ type CreateAutoScalingGroupInput struct {
 	// For more information, see Controlling Which Instances Auto Scaling Terminates
 	// During Scale In (http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html)
 	// in the Auto Scaling User Guide.
-	TerminationPolicies []*string `type:"list"`
+	TerminationPolicies []string `type:"list"`
 
 	// A comma-separated list of subnet identifiers for your virtual private cloud
 	// (VPC).
@@ -3926,14 +3976,19 @@ func (s *CreateAutoScalingGroupInput) Validate() error {
 	if s.PlacementGroup != nil && len(*s.PlacementGroup) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("PlacementGroup", 1))
 	}
+	if s.ServiceLinkedRoleARN != nil && len(*s.ServiceLinkedRoleARN) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ServiceLinkedRoleARN", 1))
+	}
 	if s.VPCZoneIdentifier != nil && len(*s.VPCZoneIdentifier) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("VPCZoneIdentifier", 1))
 	}
+	if s.LaunchTemplate != nil {
+		if err := s.LaunchTemplate.Validate(); err != nil {
+			invalidParams.AddNested("LaunchTemplate", err.(aws.ErrInvalidParams))
+		}
+	}
 	if s.LifecycleHookSpecificationList != nil {
 		for i, v := range s.LifecycleHookSpecificationList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "LifecycleHookSpecificationList", i), err.(aws.ErrInvalidParams))
 			}
@@ -3941,9 +3996,6 @@ func (s *CreateAutoScalingGroupInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -3956,117 +4008,11 @@ func (s *CreateAutoScalingGroupInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *CreateAutoScalingGroupInput) SetAutoScalingGroupName(v string) *CreateAutoScalingGroupInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *CreateAutoScalingGroupInput) SetAvailabilityZones(v []*string) *CreateAutoScalingGroupInput {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetDefaultCooldown sets the DefaultCooldown field's value.
-func (s *CreateAutoScalingGroupInput) SetDefaultCooldown(v int64) *CreateAutoScalingGroupInput {
-	s.DefaultCooldown = &v
-	return s
-}
-
-// SetDesiredCapacity sets the DesiredCapacity field's value.
-func (s *CreateAutoScalingGroupInput) SetDesiredCapacity(v int64) *CreateAutoScalingGroupInput {
-	s.DesiredCapacity = &v
-	return s
-}
-
-// SetHealthCheckGracePeriod sets the HealthCheckGracePeriod field's value.
-func (s *CreateAutoScalingGroupInput) SetHealthCheckGracePeriod(v int64) *CreateAutoScalingGroupInput {
-	s.HealthCheckGracePeriod = &v
-	return s
-}
-
-// SetHealthCheckType sets the HealthCheckType field's value.
-func (s *CreateAutoScalingGroupInput) SetHealthCheckType(v string) *CreateAutoScalingGroupInput {
-	s.HealthCheckType = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *CreateAutoScalingGroupInput) SetInstanceId(v string) *CreateAutoScalingGroupInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *CreateAutoScalingGroupInput) SetLaunchConfigurationName(v string) *CreateAutoScalingGroupInput {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetLifecycleHookSpecificationList sets the LifecycleHookSpecificationList field's value.
-func (s *CreateAutoScalingGroupInput) SetLifecycleHookSpecificationList(v []*LifecycleHookSpecification) *CreateAutoScalingGroupInput {
-	s.LifecycleHookSpecificationList = v
-	return s
-}
-
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *CreateAutoScalingGroupInput) SetLoadBalancerNames(v []*string) *CreateAutoScalingGroupInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
-// SetMaxSize sets the MaxSize field's value.
-func (s *CreateAutoScalingGroupInput) SetMaxSize(v int64) *CreateAutoScalingGroupInput {
-	s.MaxSize = &v
-	return s
-}
-
-// SetMinSize sets the MinSize field's value.
-func (s *CreateAutoScalingGroupInput) SetMinSize(v int64) *CreateAutoScalingGroupInput {
-	s.MinSize = &v
-	return s
-}
-
-// SetNewInstancesProtectedFromScaleIn sets the NewInstancesProtectedFromScaleIn field's value.
-func (s *CreateAutoScalingGroupInput) SetNewInstancesProtectedFromScaleIn(v bool) *CreateAutoScalingGroupInput {
-	s.NewInstancesProtectedFromScaleIn = &v
-	return s
-}
-
-// SetPlacementGroup sets the PlacementGroup field's value.
-func (s *CreateAutoScalingGroupInput) SetPlacementGroup(v string) *CreateAutoScalingGroupInput {
-	s.PlacementGroup = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateAutoScalingGroupInput) SetTags(v []*Tag) *CreateAutoScalingGroupInput {
-	s.Tags = v
-	return s
-}
-
-// SetTargetGroupARNs sets the TargetGroupARNs field's value.
-func (s *CreateAutoScalingGroupInput) SetTargetGroupARNs(v []*string) *CreateAutoScalingGroupInput {
-	s.TargetGroupARNs = v
-	return s
-}
-
-// SetTerminationPolicies sets the TerminationPolicies field's value.
-func (s *CreateAutoScalingGroupInput) SetTerminationPolicies(v []*string) *CreateAutoScalingGroupInput {
-	s.TerminationPolicies = v
-	return s
-}
-
-// SetVPCZoneIdentifier sets the VPCZoneIdentifier field's value.
-func (s *CreateAutoScalingGroupInput) SetVPCZoneIdentifier(v string) *CreateAutoScalingGroupInput {
-	s.VPCZoneIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateAutoScalingGroupOutput
 type CreateAutoScalingGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4077,6 +4023,11 @@ func (s CreateAutoScalingGroupOutput) String() string {
 // GoString returns the string representation
 func (s CreateAutoScalingGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAutoScalingGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateLaunchConfigurationType
@@ -4092,15 +4043,14 @@ type CreateLaunchConfigurationInput struct {
 	// you create your group.
 	//
 	// Default: If the instance is launched into a default subnet, the default is
-	// true. If the instance is launched into a nondefault subnet, the default is
-	// false. For more information, see Supported Platforms (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html)
-	// in the Amazon Elastic Compute Cloud User Guide.
+	// to assign a public IP address. If the instance is launched into a nondefault
+	// subnet, the default is not to assign a public IP address.
 	AssociatePublicIpAddress *bool `type:"boolean"`
 
 	// One or more mappings that specify how block devices are exposed to the instance.
 	// For more information, see Block Device Mapping (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html)
 	// in the Amazon Elastic Compute Cloud User Guide.
-	BlockDeviceMappings []*BlockDeviceMapping `type:"list"`
+	BlockDeviceMappings []BlockDeviceMapping `type:"list"`
 
 	// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to.
 	// This parameter is supported only if you are launching EC2-Classic instances.
@@ -4112,7 +4062,7 @@ type CreateLaunchConfigurationInput struct {
 	// VPC. This parameter is required if you specify a ClassicLink-enabled VPC,
 	// and is not supported otherwise. For more information, see ClassicLink (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html)
 	// in the Amazon Elastic Compute Cloud User Guide.
-	ClassicLinkVPCSecurityGroups []*string `type:"list"`
+	ClassicLinkVPCSecurityGroups []string `type:"list"`
 
 	// Indicates whether the instance is optimized for Amazon EBS I/O. By default,
 	// the instance is not optimized for EBS I/O. The optimization provides dedicated
@@ -4212,7 +4162,7 @@ type CreateLaunchConfigurationInput struct {
 	// If your instances are launched into a VPC, specify security group IDs. For
 	// more information, see Security Groups for Your VPC (http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
 	// in the Amazon Virtual Private Cloud User Guide.
-	SecurityGroups []*string `type:"list"`
+	SecurityGroups []string `type:"list"`
 
 	// The maximum hourly price to be paid for any Spot Instance launched to fulfill
 	// the request. Spot Instances are launched when the price you specify exceeds
@@ -4279,9 +4229,6 @@ func (s *CreateLaunchConfigurationInput) Validate() error {
 	}
 	if s.BlockDeviceMappings != nil {
 		for i, v := range s.BlockDeviceMappings {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "BlockDeviceMappings", i), err.(aws.ErrInvalidParams))
 			}
@@ -4294,117 +4241,11 @@ func (s *CreateLaunchConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetAssociatePublicIpAddress sets the AssociatePublicIpAddress field's value.
-func (s *CreateLaunchConfigurationInput) SetAssociatePublicIpAddress(v bool) *CreateLaunchConfigurationInput {
-	s.AssociatePublicIpAddress = &v
-	return s
-}
-
-// SetBlockDeviceMappings sets the BlockDeviceMappings field's value.
-func (s *CreateLaunchConfigurationInput) SetBlockDeviceMappings(v []*BlockDeviceMapping) *CreateLaunchConfigurationInput {
-	s.BlockDeviceMappings = v
-	return s
-}
-
-// SetClassicLinkVPCId sets the ClassicLinkVPCId field's value.
-func (s *CreateLaunchConfigurationInput) SetClassicLinkVPCId(v string) *CreateLaunchConfigurationInput {
-	s.ClassicLinkVPCId = &v
-	return s
-}
-
-// SetClassicLinkVPCSecurityGroups sets the ClassicLinkVPCSecurityGroups field's value.
-func (s *CreateLaunchConfigurationInput) SetClassicLinkVPCSecurityGroups(v []*string) *CreateLaunchConfigurationInput {
-	s.ClassicLinkVPCSecurityGroups = v
-	return s
-}
-
-// SetEbsOptimized sets the EbsOptimized field's value.
-func (s *CreateLaunchConfigurationInput) SetEbsOptimized(v bool) *CreateLaunchConfigurationInput {
-	s.EbsOptimized = &v
-	return s
-}
-
-// SetIamInstanceProfile sets the IamInstanceProfile field's value.
-func (s *CreateLaunchConfigurationInput) SetIamInstanceProfile(v string) *CreateLaunchConfigurationInput {
-	s.IamInstanceProfile = &v
-	return s
-}
-
-// SetImageId sets the ImageId field's value.
-func (s *CreateLaunchConfigurationInput) SetImageId(v string) *CreateLaunchConfigurationInput {
-	s.ImageId = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *CreateLaunchConfigurationInput) SetInstanceId(v string) *CreateLaunchConfigurationInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetInstanceMonitoring sets the InstanceMonitoring field's value.
-func (s *CreateLaunchConfigurationInput) SetInstanceMonitoring(v *InstanceMonitoring) *CreateLaunchConfigurationInput {
-	s.InstanceMonitoring = v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *CreateLaunchConfigurationInput) SetInstanceType(v string) *CreateLaunchConfigurationInput {
-	s.InstanceType = &v
-	return s
-}
-
-// SetKernelId sets the KernelId field's value.
-func (s *CreateLaunchConfigurationInput) SetKernelId(v string) *CreateLaunchConfigurationInput {
-	s.KernelId = &v
-	return s
-}
-
-// SetKeyName sets the KeyName field's value.
-func (s *CreateLaunchConfigurationInput) SetKeyName(v string) *CreateLaunchConfigurationInput {
-	s.KeyName = &v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *CreateLaunchConfigurationInput) SetLaunchConfigurationName(v string) *CreateLaunchConfigurationInput {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetPlacementTenancy sets the PlacementTenancy field's value.
-func (s *CreateLaunchConfigurationInput) SetPlacementTenancy(v string) *CreateLaunchConfigurationInput {
-	s.PlacementTenancy = &v
-	return s
-}
-
-// SetRamdiskId sets the RamdiskId field's value.
-func (s *CreateLaunchConfigurationInput) SetRamdiskId(v string) *CreateLaunchConfigurationInput {
-	s.RamdiskId = &v
-	return s
-}
-
-// SetSecurityGroups sets the SecurityGroups field's value.
-func (s *CreateLaunchConfigurationInput) SetSecurityGroups(v []*string) *CreateLaunchConfigurationInput {
-	s.SecurityGroups = v
-	return s
-}
-
-// SetSpotPrice sets the SpotPrice field's value.
-func (s *CreateLaunchConfigurationInput) SetSpotPrice(v string) *CreateLaunchConfigurationInput {
-	s.SpotPrice = &v
-	return s
-}
-
-// SetUserData sets the UserData field's value.
-func (s *CreateLaunchConfigurationInput) SetUserData(v string) *CreateLaunchConfigurationInput {
-	s.UserData = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateLaunchConfigurationOutput
 type CreateLaunchConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4417,6 +4258,11 @@ func (s CreateLaunchConfigurationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLaunchConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateOrUpdateTagsType
 type CreateOrUpdateTagsInput struct {
 	_ struct{} `type:"structure"`
@@ -4424,7 +4270,7 @@ type CreateOrUpdateTagsInput struct {
 	// One or more tags.
 	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -4446,9 +4292,6 @@ func (s *CreateOrUpdateTagsInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -4461,15 +4304,11 @@ func (s *CreateOrUpdateTagsInput) Validate() error {
 	return nil
 }
 
-// SetTags sets the Tags field's value.
-func (s *CreateOrUpdateTagsInput) SetTags(v []*Tag) *CreateOrUpdateTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CreateOrUpdateTagsOutput
 type CreateOrUpdateTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4482,13 +4321,18 @@ func (s CreateOrUpdateTagsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateOrUpdateTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Configures a customized metric for a target tracking policy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/CustomizedMetricSpecification
 type CustomizedMetricSpecification struct {
 	_ struct{} `type:"structure"`
 
 	// The dimensions of the metric.
-	Dimensions []*MetricDimension `type:"list"`
+	Dimensions []MetricDimension `type:"list"`
 
 	// The name of the metric.
 	//
@@ -4503,7 +4347,7 @@ type CustomizedMetricSpecification struct {
 	// The statistic of the metric.
 	//
 	// Statistic is a required field
-	Statistic MetricStatistic `type:"string" required:"true"`
+	Statistic MetricStatistic `type:"string" required:"true" enum:"true"`
 
 	// The unit of the metric.
 	Unit *string `type:"string"`
@@ -4535,9 +4379,6 @@ func (s *CustomizedMetricSpecification) Validate() error {
 	}
 	if s.Dimensions != nil {
 		for i, v := range s.Dimensions {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Dimensions", i), err.(aws.ErrInvalidParams))
 			}
@@ -4550,41 +4391,11 @@ func (s *CustomizedMetricSpecification) Validate() error {
 	return nil
 }
 
-// SetDimensions sets the Dimensions field's value.
-func (s *CustomizedMetricSpecification) SetDimensions(v []*MetricDimension) *CustomizedMetricSpecification {
-	s.Dimensions = v
-	return s
-}
-
-// SetMetricName sets the MetricName field's value.
-func (s *CustomizedMetricSpecification) SetMetricName(v string) *CustomizedMetricSpecification {
-	s.MetricName = &v
-	return s
-}
-
-// SetNamespace sets the Namespace field's value.
-func (s *CustomizedMetricSpecification) SetNamespace(v string) *CustomizedMetricSpecification {
-	s.Namespace = &v
-	return s
-}
-
-// SetStatistic sets the Statistic field's value.
-func (s *CustomizedMetricSpecification) SetStatistic(v MetricStatistic) *CustomizedMetricSpecification {
-	s.Statistic = v
-	return s
-}
-
-// SetUnit sets the Unit field's value.
-func (s *CustomizedMetricSpecification) SetUnit(v string) *CustomizedMetricSpecification {
-	s.Unit = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteAutoScalingGroupType
 type DeleteAutoScalingGroupInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group to delete.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -4622,21 +4433,11 @@ func (s *DeleteAutoScalingGroupInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DeleteAutoScalingGroupInput) SetAutoScalingGroupName(v string) *DeleteAutoScalingGroupInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetForceDelete sets the ForceDelete field's value.
-func (s *DeleteAutoScalingGroupInput) SetForceDelete(v bool) *DeleteAutoScalingGroupInput {
-	s.ForceDelete = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteAutoScalingGroupOutput
 type DeleteAutoScalingGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4647,6 +4448,11 @@ func (s DeleteAutoScalingGroupOutput) String() string {
 // GoString returns the string representation
 func (s DeleteAutoScalingGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAutoScalingGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/LaunchConfigurationNameType
@@ -4686,15 +4492,11 @@ func (s *DeleteLaunchConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *DeleteLaunchConfigurationInput) SetLaunchConfigurationName(v string) *DeleteLaunchConfigurationInput {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteLaunchConfigurationOutput
 type DeleteLaunchConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4707,11 +4509,16 @@ func (s DeleteLaunchConfigurationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLaunchConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteLifecycleHookType
 type DeleteLifecycleHookInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the Auto Scaling group for the lifecycle hook.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -4756,21 +4563,11 @@ func (s *DeleteLifecycleHookInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DeleteLifecycleHookInput) SetAutoScalingGroupName(v string) *DeleteLifecycleHookInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetLifecycleHookName sets the LifecycleHookName field's value.
-func (s *DeleteLifecycleHookInput) SetLifecycleHookName(v string) *DeleteLifecycleHookInput {
-	s.LifecycleHookName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteLifecycleHookAnswer
 type DeleteLifecycleHookOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4781,6 +4578,11 @@ func (s DeleteLifecycleHookOutput) String() string {
 // GoString returns the string representation
 func (s DeleteLifecycleHookOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLifecycleHookOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteNotificationConfigurationType
@@ -4833,21 +4635,11 @@ func (s *DeleteNotificationConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DeleteNotificationConfigurationInput) SetAutoScalingGroupName(v string) *DeleteNotificationConfigurationInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetTopicARN sets the TopicARN field's value.
-func (s *DeleteNotificationConfigurationInput) SetTopicARN(v string) *DeleteNotificationConfigurationInput {
-	s.TopicARN = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteNotificationConfigurationOutput
 type DeleteNotificationConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4858,6 +4650,11 @@ func (s DeleteNotificationConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteNotificationConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteNotificationConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeletePolicyType
@@ -4903,21 +4700,11 @@ func (s *DeletePolicyInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DeletePolicyInput) SetAutoScalingGroupName(v string) *DeletePolicyInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *DeletePolicyInput) SetPolicyName(v string) *DeletePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeletePolicyOutput
 type DeletePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4928,6 +4715,11 @@ func (s DeletePolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeletePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteScheduledActionType
@@ -4979,21 +4771,11 @@ func (s *DeleteScheduledActionInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DeleteScheduledActionInput) SetAutoScalingGroupName(v string) *DeleteScheduledActionInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetScheduledActionName sets the ScheduledActionName field's value.
-func (s *DeleteScheduledActionInput) SetScheduledActionName(v string) *DeleteScheduledActionInput {
-	s.ScheduledActionName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteScheduledActionOutput
 type DeleteScheduledActionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5006,6 +4788,11 @@ func (s DeleteScheduledActionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteScheduledActionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteTagsType
 type DeleteTagsInput struct {
 	_ struct{} `type:"structure"`
@@ -5013,7 +4800,7 @@ type DeleteTagsInput struct {
 	// One or more tags.
 	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5035,9 +4822,6 @@ func (s *DeleteTagsInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -5050,15 +4834,11 @@ func (s *DeleteTagsInput) Validate() error {
 	return nil
 }
 
-// SetTags sets the Tags field's value.
-func (s *DeleteTagsInput) SetTags(v []*Tag) *DeleteTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DeleteTagsOutput
 type DeleteTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5069,6 +4849,11 @@ func (s DeleteTagsOutput) String() string {
 // GoString returns the string representation
 func (s DeleteTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAccountLimitsInput
@@ -5089,6 +4874,8 @@ func (s DescribeAccountLimitsInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAccountLimitsAnswer
 type DescribeAccountLimitsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The maximum number of groups allowed for your AWS account. The default limit
 	// is 20 per region.
@@ -5115,28 +4902,9 @@ func (s DescribeAccountLimitsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMaxNumberOfAutoScalingGroups sets the MaxNumberOfAutoScalingGroups field's value.
-func (s *DescribeAccountLimitsOutput) SetMaxNumberOfAutoScalingGroups(v int64) *DescribeAccountLimitsOutput {
-	s.MaxNumberOfAutoScalingGroups = &v
-	return s
-}
-
-// SetMaxNumberOfLaunchConfigurations sets the MaxNumberOfLaunchConfigurations field's value.
-func (s *DescribeAccountLimitsOutput) SetMaxNumberOfLaunchConfigurations(v int64) *DescribeAccountLimitsOutput {
-	s.MaxNumberOfLaunchConfigurations = &v
-	return s
-}
-
-// SetNumberOfAutoScalingGroups sets the NumberOfAutoScalingGroups field's value.
-func (s *DescribeAccountLimitsOutput) SetNumberOfAutoScalingGroups(v int64) *DescribeAccountLimitsOutput {
-	s.NumberOfAutoScalingGroups = &v
-	return s
-}
-
-// SetNumberOfLaunchConfigurations sets the NumberOfLaunchConfigurations field's value.
-func (s *DescribeAccountLimitsOutput) SetNumberOfLaunchConfigurations(v int64) *DescribeAccountLimitsOutput {
-	s.NumberOfLaunchConfigurations = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAccountLimitsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAdjustmentTypesInput
@@ -5158,8 +4926,10 @@ func (s DescribeAdjustmentTypesInput) GoString() string {
 type DescribeAdjustmentTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The policy adjustment types.
-	AdjustmentTypes []*AdjustmentType `type:"list"`
+	AdjustmentTypes []AdjustmentType `type:"list"`
 }
 
 // String returns the string representation
@@ -5172,19 +4942,18 @@ func (s DescribeAdjustmentTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAdjustmentTypes sets the AdjustmentTypes field's value.
-func (s *DescribeAdjustmentTypesOutput) SetAdjustmentTypes(v []*AdjustmentType) *DescribeAdjustmentTypesOutput {
-	s.AdjustmentTypes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAdjustmentTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/GroupNamesType
 type DescribeAutoScalingGroupsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The group names. If you omit this parameter, all Auto Scaling groups are
-	// described.
-	AutoScalingGroupNames []*string `type:"list"`
+	// The names of the Auto Scaling groups. If you omit this parameter, all Auto
+	// Scaling groups are described.
+	AutoScalingGroupNames []string `type:"list"`
 
 	// The maximum number of items to return with this call. The default value is
 	// 50 and the maximum value is 100.
@@ -5205,32 +4974,16 @@ func (s DescribeAutoScalingGroupsInput) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroupNames sets the AutoScalingGroupNames field's value.
-func (s *DescribeAutoScalingGroupsInput) SetAutoScalingGroupNames(v []*string) *DescribeAutoScalingGroupsInput {
-	s.AutoScalingGroupNames = v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeAutoScalingGroupsInput) SetMaxRecords(v int64) *DescribeAutoScalingGroupsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAutoScalingGroupsInput) SetNextToken(v string) *DescribeAutoScalingGroupsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/GroupsType
 type DescribeAutoScalingGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The groups.
 	//
 	// AutoScalingGroups is a required field
-	AutoScalingGroups []*Group `type:"list" required:"true"`
+	AutoScalingGroups []Group `type:"list" required:"true"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -5247,16 +5000,9 @@ func (s DescribeAutoScalingGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroups sets the AutoScalingGroups field's value.
-func (s *DescribeAutoScalingGroupsOutput) SetAutoScalingGroups(v []*Group) *DescribeAutoScalingGroupsOutput {
-	s.AutoScalingGroups = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAutoScalingGroupsOutput) SetNextToken(v string) *DescribeAutoScalingGroupsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAutoScalingGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingInstancesType
@@ -5266,10 +5012,10 @@ type DescribeAutoScalingInstancesInput struct {
 	// The instances to describe; up to 50 instance IDs. If you omit this parameter,
 	// all Auto Scaling instances are described. If you specify an ID that does
 	// not exist, it is ignored with no error.
-	InstanceIds []*string `type:"list"`
+	InstanceIds []string `type:"list"`
 
 	// The maximum number of items to return with this call. The default value is
-	// 50 and the maximum value is 100.
+	// 50 and the maximum value is 50.
 	MaxRecords *int64 `type:"integer"`
 
 	// The token for the next set of items to return. (You received this token from
@@ -5287,30 +5033,14 @@ func (s DescribeAutoScalingInstancesInput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *DescribeAutoScalingInstancesInput) SetInstanceIds(v []*string) *DescribeAutoScalingInstancesInput {
-	s.InstanceIds = v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeAutoScalingInstancesInput) SetMaxRecords(v int64) *DescribeAutoScalingInstancesInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAutoScalingInstancesInput) SetNextToken(v string) *DescribeAutoScalingInstancesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/InstancesType
 type DescribeAutoScalingInstancesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The instances.
-	AutoScalingInstances []*InstanceDetails `type:"list"`
+	AutoScalingInstances []InstanceDetails `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -5327,16 +5057,9 @@ func (s DescribeAutoScalingInstancesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingInstances sets the AutoScalingInstances field's value.
-func (s *DescribeAutoScalingInstancesOutput) SetAutoScalingInstances(v []*InstanceDetails) *DescribeAutoScalingInstancesOutput {
-	s.AutoScalingInstances = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAutoScalingInstancesOutput) SetNextToken(v string) *DescribeAutoScalingInstancesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAutoScalingInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeAutoScalingNotificationTypesInput
@@ -5358,8 +5081,10 @@ func (s DescribeAutoScalingNotificationTypesInput) GoString() string {
 type DescribeAutoScalingNotificationTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The notification types.
-	AutoScalingNotificationTypes []*string `type:"list"`
+	AutoScalingNotificationTypes []string `type:"list"`
 }
 
 // String returns the string representation
@@ -5372,10 +5097,9 @@ func (s DescribeAutoScalingNotificationTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingNotificationTypes sets the AutoScalingNotificationTypes field's value.
-func (s *DescribeAutoScalingNotificationTypesOutput) SetAutoScalingNotificationTypes(v []*string) *DescribeAutoScalingNotificationTypesOutput {
-	s.AutoScalingNotificationTypes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAutoScalingNotificationTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/LaunchConfigurationNamesType
@@ -5384,7 +5108,7 @@ type DescribeLaunchConfigurationsInput struct {
 
 	// The launch configuration names. If you omit this parameter, all launch configurations
 	// are described.
-	LaunchConfigurationNames []*string `type:"list"`
+	LaunchConfigurationNames []string `type:"list"`
 
 	// The maximum number of items to return with this call. The default value is
 	// 50 and the maximum value is 100.
@@ -5405,32 +5129,16 @@ func (s DescribeLaunchConfigurationsInput) GoString() string {
 	return s.String()
 }
 
-// SetLaunchConfigurationNames sets the LaunchConfigurationNames field's value.
-func (s *DescribeLaunchConfigurationsInput) SetLaunchConfigurationNames(v []*string) *DescribeLaunchConfigurationsInput {
-	s.LaunchConfigurationNames = v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeLaunchConfigurationsInput) SetMaxRecords(v int64) *DescribeLaunchConfigurationsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLaunchConfigurationsInput) SetNextToken(v string) *DescribeLaunchConfigurationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/LaunchConfigurationsType
 type DescribeLaunchConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The launch configurations.
 	//
 	// LaunchConfigurations is a required field
-	LaunchConfigurations []*LaunchConfiguration `type:"list" required:"true"`
+	LaunchConfigurations []LaunchConfiguration `type:"list" required:"true"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -5447,16 +5155,9 @@ func (s DescribeLaunchConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLaunchConfigurations sets the LaunchConfigurations field's value.
-func (s *DescribeLaunchConfigurationsOutput) SetLaunchConfigurations(v []*LaunchConfiguration) *DescribeLaunchConfigurationsOutput {
-	s.LaunchConfigurations = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLaunchConfigurationsOutput) SetNextToken(v string) *DescribeLaunchConfigurationsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLaunchConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHookTypesInput
@@ -5478,8 +5179,10 @@ func (s DescribeLifecycleHookTypesInput) GoString() string {
 type DescribeLifecycleHookTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The lifecycle hook types.
-	LifecycleHookTypes []*string `type:"list"`
+	LifecycleHookTypes []string `type:"list"`
 }
 
 // String returns the string representation
@@ -5492,24 +5195,23 @@ func (s DescribeLifecycleHookTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetLifecycleHookTypes sets the LifecycleHookTypes field's value.
-func (s *DescribeLifecycleHookTypesOutput) SetLifecycleHookTypes(v []*string) *DescribeLifecycleHookTypesOutput {
-	s.LifecycleHookTypes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLifecycleHookTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHooksType
 type DescribeLifecycleHooksInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
 	// The names of one or more lifecycle hooks. If you omit this parameter, all
 	// lifecycle hooks are described.
-	LifecycleHookNames []*string `type:"list"`
+	LifecycleHookNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -5539,24 +5241,14 @@ func (s *DescribeLifecycleHooksInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DescribeLifecycleHooksInput) SetAutoScalingGroupName(v string) *DescribeLifecycleHooksInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetLifecycleHookNames sets the LifecycleHookNames field's value.
-func (s *DescribeLifecycleHooksInput) SetLifecycleHookNames(v []*string) *DescribeLifecycleHooksInput {
-	s.LifecycleHookNames = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLifecycleHooksAnswer
 type DescribeLifecycleHooksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The lifecycle hooks for the specified group.
-	LifecycleHooks []*LifecycleHook `type:"list"`
+	LifecycleHooks []LifecycleHook `type:"list"`
 }
 
 // String returns the string representation
@@ -5569,10 +5261,9 @@ func (s DescribeLifecycleHooksOutput) GoString() string {
 	return s.String()
 }
 
-// SetLifecycleHooks sets the LifecycleHooks field's value.
-func (s *DescribeLifecycleHooksOutput) SetLifecycleHooks(v []*LifecycleHook) *DescribeLifecycleHooksOutput {
-	s.LifecycleHooks = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLifecycleHooksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancerTargetGroupsRequest
@@ -5585,7 +5276,7 @@ type DescribeLoadBalancerTargetGroupsInput struct {
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
 	// The maximum number of items to return with this call. The default value is
-	// 50 and the maximum value is 100.
+	// 100 and the maximum value is 100.
 	MaxRecords *int64 `type:"integer"`
 
 	// The token for the next set of items to return. (You received this token from
@@ -5620,30 +5311,14 @@ func (s *DescribeLoadBalancerTargetGroupsInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DescribeLoadBalancerTargetGroupsInput) SetAutoScalingGroupName(v string) *DescribeLoadBalancerTargetGroupsInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeLoadBalancerTargetGroupsInput) SetMaxRecords(v int64) *DescribeLoadBalancerTargetGroupsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLoadBalancerTargetGroupsInput) SetNextToken(v string) *DescribeLoadBalancerTargetGroupsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancerTargetGroupsResponse
 type DescribeLoadBalancerTargetGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the target groups.
-	LoadBalancerTargetGroups []*LoadBalancerTargetGroupState `type:"list"`
+	LoadBalancerTargetGroups []LoadBalancerTargetGroupState `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -5660,29 +5335,22 @@ func (s DescribeLoadBalancerTargetGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerTargetGroups sets the LoadBalancerTargetGroups field's value.
-func (s *DescribeLoadBalancerTargetGroupsOutput) SetLoadBalancerTargetGroups(v []*LoadBalancerTargetGroupState) *DescribeLoadBalancerTargetGroupsOutput {
-	s.LoadBalancerTargetGroups = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLoadBalancerTargetGroupsOutput) SetNextToken(v string) *DescribeLoadBalancerTargetGroupsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLoadBalancerTargetGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancersRequest
 type DescribeLoadBalancersInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
 	// The maximum number of items to return with this call. The default value is
-	// 50 and the maximum value is 100.
+	// 100 and the maximum value is 100.
 	MaxRecords *int64 `type:"integer"`
 
 	// The token for the next set of items to return. (You received this token from
@@ -5717,30 +5385,14 @@ func (s *DescribeLoadBalancersInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DescribeLoadBalancersInput) SetAutoScalingGroupName(v string) *DescribeLoadBalancersInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeLoadBalancersInput) SetMaxRecords(v int64) *DescribeLoadBalancersInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLoadBalancersInput) SetNextToken(v string) *DescribeLoadBalancersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeLoadBalancersResponse
 type DescribeLoadBalancersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The load balancers.
-	LoadBalancers []*LoadBalancerState `type:"list"`
+	LoadBalancers []LoadBalancerState `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -5757,16 +5409,9 @@ func (s DescribeLoadBalancersOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancers sets the LoadBalancers field's value.
-func (s *DescribeLoadBalancersOutput) SetLoadBalancers(v []*LoadBalancerState) *DescribeLoadBalancersOutput {
-	s.LoadBalancers = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLoadBalancersOutput) SetNextToken(v string) *DescribeLoadBalancersOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLoadBalancersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeMetricCollectionTypesInput
@@ -5788,11 +5433,13 @@ func (s DescribeMetricCollectionTypesInput) GoString() string {
 type DescribeMetricCollectionTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The granularities for the metrics.
-	Granularities []*MetricGranularityType `type:"list"`
+	Granularities []MetricGranularityType `type:"list"`
 
 	// One or more metrics.
-	Metrics []*MetricCollectionType `type:"list"`
+	Metrics []MetricCollectionType `type:"list"`
 }
 
 // String returns the string representation
@@ -5805,24 +5452,17 @@ func (s DescribeMetricCollectionTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetGranularities sets the Granularities field's value.
-func (s *DescribeMetricCollectionTypesOutput) SetGranularities(v []*MetricGranularityType) *DescribeMetricCollectionTypesOutput {
-	s.Granularities = v
-	return s
-}
-
-// SetMetrics sets the Metrics field's value.
-func (s *DescribeMetricCollectionTypesOutput) SetMetrics(v []*MetricCollectionType) *DescribeMetricCollectionTypesOutput {
-	s.Metrics = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMetricCollectionTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeNotificationConfigurationsType
 type DescribeNotificationConfigurationsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
-	AutoScalingGroupNames []*string `type:"list"`
+	// The name of the Auto Scaling group.
+	AutoScalingGroupNames []string `type:"list"`
 
 	// The maximum number of items to return with this call. The default value is
 	// 50 and the maximum value is 100.
@@ -5843,27 +5483,11 @@ func (s DescribeNotificationConfigurationsInput) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroupNames sets the AutoScalingGroupNames field's value.
-func (s *DescribeNotificationConfigurationsInput) SetAutoScalingGroupNames(v []*string) *DescribeNotificationConfigurationsInput {
-	s.AutoScalingGroupNames = v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeNotificationConfigurationsInput) SetMaxRecords(v int64) *DescribeNotificationConfigurationsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeNotificationConfigurationsInput) SetNextToken(v string) *DescribeNotificationConfigurationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeNotificationConfigurationsAnswer
 type DescribeNotificationConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -5872,7 +5496,7 @@ type DescribeNotificationConfigurationsOutput struct {
 	// The notification configurations.
 	//
 	// NotificationConfigurations is a required field
-	NotificationConfigurations []*NotificationConfiguration `type:"list" required:"true"`
+	NotificationConfigurations []NotificationConfiguration `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5885,23 +5509,16 @@ func (s DescribeNotificationConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeNotificationConfigurationsOutput) SetNextToken(v string) *DescribeNotificationConfigurationsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNotificationConfigurations sets the NotificationConfigurations field's value.
-func (s *DescribeNotificationConfigurationsOutput) SetNotificationConfigurations(v []*NotificationConfiguration) *DescribeNotificationConfigurationsOutput {
-	s.NotificationConfigurations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeNotificationConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribePoliciesType
 type DescribePoliciesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// The maximum number of items to be returned with each call. The default value
@@ -5912,14 +5529,14 @@ type DescribePoliciesInput struct {
 	// a previous call.)
 	NextToken *string `type:"string"`
 
-	// One or more policy names or policy ARNs to be described. If you omit this
-	// parameter, all policy names are described. If an group name is provided,
-	// the results are limited to that group. This list is limited to 50 items.
-	// If you specify an unknown policy name, it is ignored with no error.
-	PolicyNames []*string `type:"list"`
+	// The names of one or more policies. If you omit this parameter, all policies
+	// are described. If an group name is provided, the results are limited to that
+	// group. This list is limited to 50 items. If you specify an unknown policy
+	// name, it is ignored with no error.
+	PolicyNames []string `type:"list"`
 
 	// One or more policy types. Valid values are SimpleScaling and StepScaling.
-	PolicyTypes []*string `type:"list"`
+	PolicyTypes []string `type:"list"`
 }
 
 // String returns the string representation
@@ -5945,46 +5562,18 @@ func (s *DescribePoliciesInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DescribePoliciesInput) SetAutoScalingGroupName(v string) *DescribePoliciesInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribePoliciesInput) SetMaxRecords(v int64) *DescribePoliciesInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribePoliciesInput) SetNextToken(v string) *DescribePoliciesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPolicyNames sets the PolicyNames field's value.
-func (s *DescribePoliciesInput) SetPolicyNames(v []*string) *DescribePoliciesInput {
-	s.PolicyNames = v
-	return s
-}
-
-// SetPolicyTypes sets the PolicyTypes field's value.
-func (s *DescribePoliciesInput) SetPolicyTypes(v []*string) *DescribePoliciesInput {
-	s.PolicyTypes = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PoliciesType
 type DescribePoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// The scaling policies.
-	ScalingPolicies []*ScalingPolicy `type:"list"`
+	ScalingPolicies []ScalingPolicy `type:"list"`
 }
 
 // String returns the string representation
@@ -5997,16 +5586,9 @@ func (s DescribePoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribePoliciesOutput) SetNextToken(v string) *DescribePoliciesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetScalingPolicies sets the ScalingPolicies field's value.
-func (s *DescribePoliciesOutput) SetScalingPolicies(v []*ScalingPolicy) *DescribePoliciesOutput {
-	s.ScalingPolicies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingActivitiesType
@@ -6018,13 +5600,13 @@ type DescribeScalingActivitiesInput struct {
 	// Scaling group, the results are limited to that group. The list of requested
 	// activities cannot contain more than 50 items. If unknown activities are requested,
 	// they are ignored with no error.
-	ActivityIds []*string `type:"list"`
+	ActivityIds []string `type:"list"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// The maximum number of items to return with this call. The default value is
-	// 100.
+	// 100 and the maximum value is 100.
 	MaxRecords *int64 `type:"integer"`
 
 	// The token for the next set of items to return. (You received this token from
@@ -6055,39 +5637,17 @@ func (s *DescribeScalingActivitiesInput) Validate() error {
 	return nil
 }
 
-// SetActivityIds sets the ActivityIds field's value.
-func (s *DescribeScalingActivitiesInput) SetActivityIds(v []*string) *DescribeScalingActivitiesInput {
-	s.ActivityIds = v
-	return s
-}
-
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DescribeScalingActivitiesInput) SetAutoScalingGroupName(v string) *DescribeScalingActivitiesInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeScalingActivitiesInput) SetMaxRecords(v int64) *DescribeScalingActivitiesInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeScalingActivitiesInput) SetNextToken(v string) *DescribeScalingActivitiesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ActivitiesType
 type DescribeScalingActivitiesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The scaling activities. Activities are sorted by start time. Activities still
 	// in progress are described first.
 	//
 	// Activities is a required field
-	Activities []*Activity `type:"list" required:"true"`
+	Activities []Activity `type:"list" required:"true"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -6104,16 +5664,9 @@ func (s DescribeScalingActivitiesOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivities sets the Activities field's value.
-func (s *DescribeScalingActivitiesOutput) SetActivities(v []*Activity) *DescribeScalingActivitiesOutput {
-	s.Activities = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeScalingActivitiesOutput) SetNextToken(v string) *DescribeScalingActivitiesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeScalingActivitiesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScalingProcessTypesInput
@@ -6135,8 +5688,10 @@ func (s DescribeScalingProcessTypesInput) GoString() string {
 type DescribeScalingProcessTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of the process types.
-	Processes []*ProcessType `type:"list"`
+	Processes []ProcessType `type:"list"`
 }
 
 // String returns the string representation
@@ -6149,17 +5704,16 @@ func (s DescribeScalingProcessTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetProcesses sets the Processes field's value.
-func (s *DescribeScalingProcessTypesOutput) SetProcesses(v []*ProcessType) *DescribeScalingProcessTypesOutput {
-	s.Processes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeScalingProcessTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeScheduledActionsType
 type DescribeScheduledActionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// The latest scheduled start time to return. If scheduled action names are
@@ -6181,7 +5735,7 @@ type DescribeScheduledActionsInput struct {
 	// You can describe up to a maximum of 50 instances with a single call. If there
 	// are more items to return, the call returns a token. To get the next set of
 	// items, repeat the call with the returned token.
-	ScheduledActionNames []*string `type:"list"`
+	ScheduledActionNames []string `type:"list"`
 
 	// The earliest scheduled start time to return. If scheduled action names are
 	// provided, this parameter is ignored.
@@ -6211,52 +5765,18 @@ func (s *DescribeScheduledActionsInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DescribeScheduledActionsInput) SetAutoScalingGroupName(v string) *DescribeScheduledActionsInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *DescribeScheduledActionsInput) SetEndTime(v time.Time) *DescribeScheduledActionsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeScheduledActionsInput) SetMaxRecords(v int64) *DescribeScheduledActionsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeScheduledActionsInput) SetNextToken(v string) *DescribeScheduledActionsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetScheduledActionNames sets the ScheduledActionNames field's value.
-func (s *DescribeScheduledActionsInput) SetScheduledActionNames(v []*string) *DescribeScheduledActionsInput {
-	s.ScheduledActionNames = v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *DescribeScheduledActionsInput) SetStartTime(v time.Time) *DescribeScheduledActionsInput {
-	s.StartTime = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ScheduledActionsType
 type DescribeScheduledActionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// The scheduled actions.
-	ScheduledUpdateGroupActions []*ScheduledUpdateGroupAction `type:"list"`
+	ScheduledUpdateGroupActions []ScheduledUpdateGroupAction `type:"list"`
 }
 
 // String returns the string representation
@@ -6269,16 +5789,9 @@ func (s DescribeScheduledActionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeScheduledActionsOutput) SetNextToken(v string) *DescribeScheduledActionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetScheduledUpdateGroupActions sets the ScheduledUpdateGroupActions field's value.
-func (s *DescribeScheduledActionsOutput) SetScheduledUpdateGroupActions(v []*ScheduledUpdateGroupAction) *DescribeScheduledActionsOutput {
-	s.ScheduledUpdateGroupActions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeScheduledActionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTagsType
@@ -6286,7 +5799,7 @@ type DescribeTagsInput struct {
 	_ struct{} `type:"structure"`
 
 	// A filter used to scope the tags to return.
-	Filters []*Filter `type:"list"`
+	Filters []Filter `type:"list"`
 
 	// The maximum number of items to return with this call. The default value is
 	// 50 and the maximum value is 100.
@@ -6307,34 +5820,18 @@ func (s DescribeTagsInput) GoString() string {
 	return s.String()
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeTagsInput) SetFilters(v []*Filter) *DescribeTagsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxRecords sets the MaxRecords field's value.
-func (s *DescribeTagsInput) SetMaxRecords(v int64) *DescribeTagsInput {
-	s.MaxRecords = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeTagsInput) SetNextToken(v string) *DescribeTagsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/TagsType
 type DescribeTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// One or more tags.
-	Tags []*TagDescription `type:"list"`
+	Tags []TagDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -6347,16 +5844,9 @@ func (s DescribeTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeTagsOutput) SetNextToken(v string) *DescribeTagsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *DescribeTagsOutput) SetTags(v []*TagDescription) *DescribeTagsOutput {
-	s.Tags = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DescribeTerminationPolicyTypesInput
@@ -6378,9 +5868,11 @@ func (s DescribeTerminationPolicyTypesInput) GoString() string {
 type DescribeTerminationPolicyTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The termination policies supported by Auto Scaling (OldestInstance, OldestLaunchConfiguration,
 	// NewestInstance, ClosestToNextInstanceHour, and Default).
-	TerminationPolicyTypes []*string `type:"list"`
+	TerminationPolicyTypes []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6393,26 +5885,25 @@ func (s DescribeTerminationPolicyTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetTerminationPolicyTypes sets the TerminationPolicyTypes field's value.
-func (s *DescribeTerminationPolicyTypesOutput) SetTerminationPolicyTypes(v []*string) *DescribeTerminationPolicyTypesOutput {
-	s.TerminationPolicyTypes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTerminationPolicyTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachInstancesQuery
 type DetachInstancesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// One or more instance IDs.
-	InstanceIds []*string `type:"list"`
+	// The IDs of the instances. You can specify up to 20 instances.
+	InstanceIds []string `type:"list"`
 
-	// If True, the Auto Scaling group decrements the desired capacity value by
-	// the number of instances detached.
+	// Indicates whether the Auto Scaling group decrements the desired capacity
+	// value by the number of instances detached.
 	//
 	// ShouldDecrementDesiredCapacity is a required field
 	ShouldDecrementDesiredCapacity *bool `type:"boolean" required:"true"`
@@ -6449,30 +5940,14 @@ func (s *DetachInstancesInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DetachInstancesInput) SetAutoScalingGroupName(v string) *DetachInstancesInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *DetachInstancesInput) SetInstanceIds(v []*string) *DetachInstancesInput {
-	s.InstanceIds = v
-	return s
-}
-
-// SetShouldDecrementDesiredCapacity sets the ShouldDecrementDesiredCapacity field's value.
-func (s *DetachInstancesInput) SetShouldDecrementDesiredCapacity(v bool) *DetachInstancesInput {
-	s.ShouldDecrementDesiredCapacity = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachInstancesAnswer
 type DetachInstancesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The activities related to detaching the instances from the Auto Scaling group.
-	Activities []*Activity `type:"list"`
+	Activities []Activity `type:"list"`
 }
 
 // String returns the string representation
@@ -6485,10 +5960,9 @@ func (s DetachInstancesOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivities sets the Activities field's value.
-func (s *DetachInstancesOutput) SetActivities(v []*Activity) *DetachInstancesOutput {
-	s.Activities = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancerTargetGroupsType
@@ -6500,10 +5974,11 @@ type DetachLoadBalancerTargetGroupsInput struct {
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// The Amazon Resource Names (ARN) of the target groups.
+	// The Amazon Resource Names (ARN) of the target groups. You can specify up
+	// to 10 target groups.
 	//
 	// TargetGroupARNs is a required field
-	TargetGroupARNs []*string `type:"list" required:"true"`
+	TargetGroupARNs []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6537,21 +6012,11 @@ func (s *DetachLoadBalancerTargetGroupsInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DetachLoadBalancerTargetGroupsInput) SetAutoScalingGroupName(v string) *DetachLoadBalancerTargetGroupsInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetTargetGroupARNs sets the TargetGroupARNs field's value.
-func (s *DetachLoadBalancerTargetGroupsInput) SetTargetGroupARNs(v []*string) *DetachLoadBalancerTargetGroupsInput {
-	s.TargetGroupARNs = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancerTargetGroupsResultType
 type DetachLoadBalancerTargetGroupsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6564,6 +6029,11 @@ func (s DetachLoadBalancerTargetGroupsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachLoadBalancerTargetGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancersType
 type DetachLoadBalancersInput struct {
 	_ struct{} `type:"structure"`
@@ -6573,10 +6043,10 @@ type DetachLoadBalancersInput struct {
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// One or more load balancer names.
+	// The names of the load balancers. You can specify up to 10 load balancers.
 	//
 	// LoadBalancerNames is a required field
-	LoadBalancerNames []*string `type:"list" required:"true"`
+	LoadBalancerNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6610,21 +6080,11 @@ func (s *DetachLoadBalancersInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DetachLoadBalancersInput) SetAutoScalingGroupName(v string) *DetachLoadBalancersInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *DetachLoadBalancersInput) SetLoadBalancerNames(v []*string) *DetachLoadBalancersInput {
-	s.LoadBalancerNames = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DetachLoadBalancersResultType
 type DetachLoadBalancersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6637,11 +6097,16 @@ func (s DetachLoadBalancersOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachLoadBalancersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DisableMetricsCollectionQuery
 type DisableMetricsCollectionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name or Amazon Resource Name (ARN) of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -6664,7 +6129,7 @@ type DisableMetricsCollectionInput struct {
 	//    * GroupTerminatingInstances
 	//
 	//    * GroupTotalInstances
-	Metrics []*string `type:"list"`
+	Metrics []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6694,21 +6159,11 @@ func (s *DisableMetricsCollectionInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *DisableMetricsCollectionInput) SetAutoScalingGroupName(v string) *DisableMetricsCollectionInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetMetrics sets the Metrics field's value.
-func (s *DisableMetricsCollectionInput) SetMetrics(v []*string) *DisableMetricsCollectionInput {
-	s.Metrics = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/DisableMetricsCollectionOutput
 type DisableMetricsCollectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6721,14 +6176,18 @@ func (s DisableMetricsCollectionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableMetricsCollectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Describes an Amazon EBS volume.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/Ebs
 type Ebs struct {
 	_ struct{} `type:"structure"`
 
-	// Indicates whether the volume is deleted on instance termination.
-	//
-	// Default: true
+	// Indicates whether the volume is deleted on instance termination. The default
+	// is true.
 	DeleteOnTermination *bool `type:"boolean"`
 
 	// Indicates whether the volume should be encrypted. Encrypted EBS volumes must
@@ -6798,47 +6257,11 @@ func (s *Ebs) Validate() error {
 	return nil
 }
 
-// SetDeleteOnTermination sets the DeleteOnTermination field's value.
-func (s *Ebs) SetDeleteOnTermination(v bool) *Ebs {
-	s.DeleteOnTermination = &v
-	return s
-}
-
-// SetEncrypted sets the Encrypted field's value.
-func (s *Ebs) SetEncrypted(v bool) *Ebs {
-	s.Encrypted = &v
-	return s
-}
-
-// SetIops sets the Iops field's value.
-func (s *Ebs) SetIops(v int64) *Ebs {
-	s.Iops = &v
-	return s
-}
-
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *Ebs) SetSnapshotId(v string) *Ebs {
-	s.SnapshotId = &v
-	return s
-}
-
-// SetVolumeSize sets the VolumeSize field's value.
-func (s *Ebs) SetVolumeSize(v int64) *Ebs {
-	s.VolumeSize = &v
-	return s
-}
-
-// SetVolumeType sets the VolumeType field's value.
-func (s *Ebs) SetVolumeType(v string) *Ebs {
-	s.VolumeType = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnableMetricsCollectionQuery
 type EnableMetricsCollectionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name or ARN of the Auto Scaling group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -6867,7 +6290,7 @@ type EnableMetricsCollectionInput struct {
 	//    * GroupTerminatingInstances
 	//
 	//    * GroupTotalInstances
-	Metrics []*string `type:"list"`
+	Metrics []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6904,27 +6327,11 @@ func (s *EnableMetricsCollectionInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *EnableMetricsCollectionInput) SetAutoScalingGroupName(v string) *EnableMetricsCollectionInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetGranularity sets the Granularity field's value.
-func (s *EnableMetricsCollectionInput) SetGranularity(v string) *EnableMetricsCollectionInput {
-	s.Granularity = &v
-	return s
-}
-
-// SetMetrics sets the Metrics field's value.
-func (s *EnableMetricsCollectionInput) SetMetrics(v []*string) *EnableMetricsCollectionInput {
-	s.Metrics = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnableMetricsCollectionOutput
 type EnableMetricsCollectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6935,6 +6342,11 @@ func (s EnableMetricsCollectionOutput) String() string {
 // GoString returns the string representation
 func (s EnableMetricsCollectionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableMetricsCollectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an enabled metric.
@@ -6975,18 +6387,6 @@ func (s EnabledMetric) GoString() string {
 	return s.String()
 }
 
-// SetGranularity sets the Granularity field's value.
-func (s *EnabledMetric) SetGranularity(v string) *EnabledMetric {
-	s.Granularity = &v
-	return s
-}
-
-// SetMetric sets the Metric field's value.
-func (s *EnabledMetric) SetMetric(v string) *EnabledMetric {
-	s.Metric = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnterStandbyQuery
 type EnterStandbyInput struct {
 	_ struct{} `type:"structure"`
@@ -6996,14 +6396,11 @@ type EnterStandbyInput struct {
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// One or more instances to move into Standby mode. You must specify at least
-	// one instance ID.
-	InstanceIds []*string `type:"list"`
+	// The IDs of the instances. You can specify up to 20 instances.
+	InstanceIds []string `type:"list"`
 
-	// Specifies whether the instances moved to Standby mode count as part of the
-	// Auto Scaling group's desired capacity. If set, the desired capacity for the
-	// Auto Scaling group decrements by the number of instances moved to Standby
-	// mode.
+	// Indicates whether to decrement the desired capacity of the Auto Scaling group
+	// by the number of instances moved to Standby mode.
 	//
 	// ShouldDecrementDesiredCapacity is a required field
 	ShouldDecrementDesiredCapacity *bool `type:"boolean" required:"true"`
@@ -7040,30 +6437,14 @@ func (s *EnterStandbyInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *EnterStandbyInput) SetAutoScalingGroupName(v string) *EnterStandbyInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *EnterStandbyInput) SetInstanceIds(v []*string) *EnterStandbyInput {
-	s.InstanceIds = v
-	return s
-}
-
-// SetShouldDecrementDesiredCapacity sets the ShouldDecrementDesiredCapacity field's value.
-func (s *EnterStandbyInput) SetShouldDecrementDesiredCapacity(v bool) *EnterStandbyInput {
-	s.ShouldDecrementDesiredCapacity = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/EnterStandbyAnswer
 type EnterStandbyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The activities related to moving instances into Standby mode.
-	Activities []*Activity `type:"list"`
+	Activities []Activity `type:"list"`
 }
 
 // String returns the string representation
@@ -7076,17 +6457,16 @@ func (s EnterStandbyOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivities sets the Activities field's value.
-func (s *EnterStandbyOutput) SetActivities(v []*Activity) *EnterStandbyOutput {
-	s.Activities = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnterStandbyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExecutePolicyType
 type ExecutePolicyInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// The breach threshold for the alarm.
@@ -7095,9 +6475,8 @@ type ExecutePolicyInput struct {
 	// otherwise.
 	BreachThreshold *float64 `type:"double"`
 
-	// If this parameter is true, Auto Scaling waits for the cooldown period to
-	// complete before executing the policy. Otherwise, Auto Scaling executes the
-	// policy without waiting for the cooldown period to complete.
+	// Indicates whether Auto Scaling waits for the cooldown period to complete
+	// before executing the policy.
 	//
 	// This parameter is not supported if the policy type is StepScaling.
 	//
@@ -7154,39 +6533,11 @@ func (s *ExecutePolicyInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *ExecutePolicyInput) SetAutoScalingGroupName(v string) *ExecutePolicyInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetBreachThreshold sets the BreachThreshold field's value.
-func (s *ExecutePolicyInput) SetBreachThreshold(v float64) *ExecutePolicyInput {
-	s.BreachThreshold = &v
-	return s
-}
-
-// SetHonorCooldown sets the HonorCooldown field's value.
-func (s *ExecutePolicyInput) SetHonorCooldown(v bool) *ExecutePolicyInput {
-	s.HonorCooldown = &v
-	return s
-}
-
-// SetMetricValue sets the MetricValue field's value.
-func (s *ExecutePolicyInput) SetMetricValue(v float64) *ExecutePolicyInput {
-	s.MetricValue = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *ExecutePolicyInput) SetPolicyName(v string) *ExecutePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExecutePolicyOutput
 type ExecutePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -7199,6 +6550,11 @@ func (s ExecutePolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ExecutePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExitStandbyQuery
 type ExitStandbyInput struct {
 	_ struct{} `type:"structure"`
@@ -7208,8 +6564,8 @@ type ExitStandbyInput struct {
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
-	// One or more instance IDs. You must specify at least one instance ID.
-	InstanceIds []*string `type:"list"`
+	// The IDs of the instances. You can specify up to 20 instances.
+	InstanceIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -7239,24 +6595,14 @@ func (s *ExitStandbyInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *ExitStandbyInput) SetAutoScalingGroupName(v string) *ExitStandbyInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *ExitStandbyInput) SetInstanceIds(v []*string) *ExitStandbyInput {
-	s.InstanceIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ExitStandbyAnswer
 type ExitStandbyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The activities related to moving instances out of Standby mode.
-	Activities []*Activity `type:"list"`
+	Activities []Activity `type:"list"`
 }
 
 // String returns the string representation
@@ -7269,10 +6615,9 @@ func (s ExitStandbyOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivities sets the Activities field's value.
-func (s *ExitStandbyOutput) SetActivities(v []*Activity) *ExitStandbyOutput {
-	s.Activities = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ExitStandbyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a filter.
@@ -7285,7 +6630,7 @@ type Filter struct {
 	Name *string `type:"string"`
 
 	// The value of the filter.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -7298,27 +6643,15 @@ func (s Filter) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *Filter) SetName(v string) *Filter {
-	s.Name = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *Filter) SetValues(v []*string) *Filter {
-	s.Values = v
-	return s
-}
-
 // Describes an Auto Scaling group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AutoScalingGroup
 type Group struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the group.
+	// The Amazon Resource Name (ARN) of the Auto Scaling group.
 	AutoScalingGroupARN *string `min:"1" type:"string"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -7326,7 +6659,7 @@ type Group struct {
 	// One or more Availability Zones for the group.
 	//
 	// AvailabilityZones is a required field
-	AvailabilityZones []*string `min:"1" type:"list" required:"true"`
+	AvailabilityZones []string `min:"1" type:"list" required:"true"`
 
 	// The date and time the group was created.
 	//
@@ -7345,7 +6678,7 @@ type Group struct {
 	DesiredCapacity *int64 `type:"integer" required:"true"`
 
 	// The metrics enabled for the group.
-	EnabledMetrics []*EnabledMetric `type:"list"`
+	EnabledMetrics []EnabledMetric `type:"list"`
 
 	// The amount of time, in seconds, that Auto Scaling waits before checking the
 	// health status of an EC2 instance that has come into service.
@@ -7357,13 +6690,16 @@ type Group struct {
 	HealthCheckType *string `min:"1" type:"string" required:"true"`
 
 	// The EC2 instances associated with the group.
-	Instances []*Instance `type:"list"`
+	Instances []Instance `type:"list"`
 
 	// The name of the associated launch configuration.
 	LaunchConfigurationName *string `min:"1" type:"string"`
 
+	// The launch template for the group.
+	LaunchTemplate *LaunchTemplateSpecification `type:"structure"`
+
 	// One or more load balancers associated with the group.
-	LoadBalancerNames []*string `type:"list"`
+	LoadBalancerNames []string `type:"list"`
 
 	// The maximum size of the group.
 	//
@@ -7384,20 +6720,24 @@ type Group struct {
 	// in the Amazon Elastic Compute Cloud User Guide.
 	PlacementGroup *string `min:"1" type:"string"`
 
+	// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling
+	// group uses to call other AWS services on your behalf.
+	ServiceLinkedRoleARN *string `min:"1" type:"string"`
+
 	// The current state of the group when DeleteAutoScalingGroup is in progress.
 	Status *string `min:"1" type:"string"`
 
 	// The suspended processes associated with the group.
-	SuspendedProcesses []*SuspendedProcess `type:"list"`
+	SuspendedProcesses []SuspendedProcess `type:"list"`
 
 	// The tags for the group.
-	Tags []*TagDescription `type:"list"`
+	Tags []TagDescription `type:"list"`
 
 	// The Amazon Resource Names (ARN) of the target groups for your load balancer.
-	TargetGroupARNs []*string `type:"list"`
+	TargetGroupARNs []string `type:"list"`
 
 	// The termination policies for the group.
-	TerminationPolicies []*string `type:"list"`
+	TerminationPolicies []string `type:"list"`
 
 	// One or more subnet IDs, if applicable, separated by commas.
 	//
@@ -7414,138 +6754,6 @@ func (s Group) String() string {
 // GoString returns the string representation
 func (s Group) GoString() string {
 	return s.String()
-}
-
-// SetAutoScalingGroupARN sets the AutoScalingGroupARN field's value.
-func (s *Group) SetAutoScalingGroupARN(v string) *Group {
-	s.AutoScalingGroupARN = &v
-	return s
-}
-
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *Group) SetAutoScalingGroupName(v string) *Group {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *Group) SetAvailabilityZones(v []*string) *Group {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetCreatedTime sets the CreatedTime field's value.
-func (s *Group) SetCreatedTime(v time.Time) *Group {
-	s.CreatedTime = &v
-	return s
-}
-
-// SetDefaultCooldown sets the DefaultCooldown field's value.
-func (s *Group) SetDefaultCooldown(v int64) *Group {
-	s.DefaultCooldown = &v
-	return s
-}
-
-// SetDesiredCapacity sets the DesiredCapacity field's value.
-func (s *Group) SetDesiredCapacity(v int64) *Group {
-	s.DesiredCapacity = &v
-	return s
-}
-
-// SetEnabledMetrics sets the EnabledMetrics field's value.
-func (s *Group) SetEnabledMetrics(v []*EnabledMetric) *Group {
-	s.EnabledMetrics = v
-	return s
-}
-
-// SetHealthCheckGracePeriod sets the HealthCheckGracePeriod field's value.
-func (s *Group) SetHealthCheckGracePeriod(v int64) *Group {
-	s.HealthCheckGracePeriod = &v
-	return s
-}
-
-// SetHealthCheckType sets the HealthCheckType field's value.
-func (s *Group) SetHealthCheckType(v string) *Group {
-	s.HealthCheckType = &v
-	return s
-}
-
-// SetInstances sets the Instances field's value.
-func (s *Group) SetInstances(v []*Instance) *Group {
-	s.Instances = v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *Group) SetLaunchConfigurationName(v string) *Group {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetLoadBalancerNames sets the LoadBalancerNames field's value.
-func (s *Group) SetLoadBalancerNames(v []*string) *Group {
-	s.LoadBalancerNames = v
-	return s
-}
-
-// SetMaxSize sets the MaxSize field's value.
-func (s *Group) SetMaxSize(v int64) *Group {
-	s.MaxSize = &v
-	return s
-}
-
-// SetMinSize sets the MinSize field's value.
-func (s *Group) SetMinSize(v int64) *Group {
-	s.MinSize = &v
-	return s
-}
-
-// SetNewInstancesProtectedFromScaleIn sets the NewInstancesProtectedFromScaleIn field's value.
-func (s *Group) SetNewInstancesProtectedFromScaleIn(v bool) *Group {
-	s.NewInstancesProtectedFromScaleIn = &v
-	return s
-}
-
-// SetPlacementGroup sets the PlacementGroup field's value.
-func (s *Group) SetPlacementGroup(v string) *Group {
-	s.PlacementGroup = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Group) SetStatus(v string) *Group {
-	s.Status = &v
-	return s
-}
-
-// SetSuspendedProcesses sets the SuspendedProcesses field's value.
-func (s *Group) SetSuspendedProcesses(v []*SuspendedProcess) *Group {
-	s.SuspendedProcesses = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *Group) SetTags(v []*TagDescription) *Group {
-	s.Tags = v
-	return s
-}
-
-// SetTargetGroupARNs sets the TargetGroupARNs field's value.
-func (s *Group) SetTargetGroupARNs(v []*string) *Group {
-	s.TargetGroupARNs = v
-	return s
-}
-
-// SetTerminationPolicies sets the TerminationPolicies field's value.
-func (s *Group) SetTerminationPolicies(v []*string) *Group {
-	s.TerminationPolicies = v
-	return s
-}
-
-// SetVPCZoneIdentifier sets the VPCZoneIdentifier field's value.
-func (s *Group) SetVPCZoneIdentifier(v string) *Group {
-	s.VPCZoneIdentifier = &v
-	return s
 }
 
 // Describes an EC2 instance.
@@ -7571,15 +6779,16 @@ type Instance struct {
 	InstanceId *string `min:"1" type:"string" required:"true"`
 
 	// The launch configuration associated with the instance.
-	//
-	// LaunchConfigurationName is a required field
-	LaunchConfigurationName *string `min:"1" type:"string" required:"true"`
+	LaunchConfigurationName *string `min:"1" type:"string"`
+
+	// The launch template for the instance.
+	LaunchTemplate *LaunchTemplateSpecification `type:"structure"`
 
 	// A description of the current lifecycle state. Note that the Quarantined state
 	// is not used.
 	//
 	// LifecycleState is a required field
-	LifecycleState LifecycleState `type:"string" required:"true"`
+	LifecycleState LifecycleState `type:"string" required:"true" enum:"true"`
 
 	// Indicates whether the instance is protected from termination by Auto Scaling
 	// when scaling in.
@@ -7598,48 +6807,12 @@ func (s Instance) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *Instance) SetAvailabilityZone(v string) *Instance {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetHealthStatus sets the HealthStatus field's value.
-func (s *Instance) SetHealthStatus(v string) *Instance {
-	s.HealthStatus = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *Instance) SetInstanceId(v string) *Instance {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *Instance) SetLaunchConfigurationName(v string) *Instance {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetLifecycleState sets the LifecycleState field's value.
-func (s *Instance) SetLifecycleState(v LifecycleState) *Instance {
-	s.LifecycleState = v
-	return s
-}
-
-// SetProtectedFromScaleIn sets the ProtectedFromScaleIn field's value.
-func (s *Instance) SetProtectedFromScaleIn(v bool) *Instance {
-	s.ProtectedFromScaleIn = &v
-	return s
-}
-
 // Describes an EC2 instance associated with an Auto Scaling group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/AutoScalingInstanceDetails
 type InstanceDetails struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the Auto Scaling group associated with the instance.
+	// The name of the Auto Scaling group for the instance.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -7663,9 +6836,10 @@ type InstanceDetails struct {
 
 	// The launch configuration used to launch the instance. This value is not available
 	// if you attached the instance to the Auto Scaling group.
-	//
-	// LaunchConfigurationName is a required field
-	LaunchConfigurationName *string `min:"1" type:"string" required:"true"`
+	LaunchConfigurationName *string `min:"1" type:"string"`
+
+	// The launch template for the instance.
+	LaunchTemplate *LaunchTemplateSpecification `type:"structure"`
 
 	// The lifecycle state for the instance. For more information, see Auto Scaling
 	// Lifecycle (http://docs.aws.amazon.com/autoscaling/latest/userguide/AutoScalingGroupLifecycle.html)
@@ -7691,48 +6865,6 @@ func (s InstanceDetails) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *InstanceDetails) SetAutoScalingGroupName(v string) *InstanceDetails {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *InstanceDetails) SetAvailabilityZone(v string) *InstanceDetails {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetHealthStatus sets the HealthStatus field's value.
-func (s *InstanceDetails) SetHealthStatus(v string) *InstanceDetails {
-	s.HealthStatus = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *InstanceDetails) SetInstanceId(v string) *InstanceDetails {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *InstanceDetails) SetLaunchConfigurationName(v string) *InstanceDetails {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetLifecycleState sets the LifecycleState field's value.
-func (s *InstanceDetails) SetLifecycleState(v string) *InstanceDetails {
-	s.LifecycleState = &v
-	return s
-}
-
-// SetProtectedFromScaleIn sets the ProtectedFromScaleIn field's value.
-func (s *InstanceDetails) SetProtectedFromScaleIn(v bool) *InstanceDetails {
-	s.ProtectedFromScaleIn = &v
-	return s
-}
-
 // Describes whether detailed monitoring is enabled for the Auto Scaling instances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/InstanceMonitoring
 type InstanceMonitoring struct {
@@ -7752,12 +6884,6 @@ func (s InstanceMonitoring) GoString() string {
 	return s.String()
 }
 
-// SetEnabled sets the Enabled field's value.
-func (s *InstanceMonitoring) SetEnabled(v bool) *InstanceMonitoring {
-	s.Enabled = &v
-	return s
-}
-
 // Describes a launch configuration.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/LaunchConfiguration
 type LaunchConfiguration struct {
@@ -7767,7 +6893,7 @@ type LaunchConfiguration struct {
 	AssociatePublicIpAddress *bool `type:"boolean"`
 
 	// A block device mapping, which specifies the block devices for the instance.
-	BlockDeviceMappings []*BlockDeviceMapping `type:"list"`
+	BlockDeviceMappings []BlockDeviceMapping `type:"list"`
 
 	// The ID of a ClassicLink-enabled VPC to link your EC2-Classic instances to.
 	// This parameter can only be used if you are launching EC2-Classic instances.
@@ -7779,7 +6905,7 @@ type LaunchConfiguration struct {
 	// This parameter is required if you specify a ClassicLink-enabled VPC, and
 	// cannot be used otherwise. For more information, see ClassicLink (http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html)
 	// in the Amazon Elastic Compute Cloud User Guide.
-	ClassicLinkVPCSecurityGroups []*string `type:"list"`
+	ClassicLinkVPCSecurityGroups []string `type:"list"`
 
 	// The creation date and time for the launch configuration.
 	//
@@ -7830,7 +6956,7 @@ type LaunchConfiguration struct {
 	RamdiskId *string `min:"1" type:"string"`
 
 	// The security groups to associate with the instances.
-	SecurityGroups []*string `type:"list"`
+	SecurityGroups []string `type:"list"`
 
 	// The price to bid when launching Spot Instances.
 	SpotPrice *string `min:"1" type:"string"`
@@ -7849,118 +6975,53 @@ func (s LaunchConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetAssociatePublicIpAddress sets the AssociatePublicIpAddress field's value.
-func (s *LaunchConfiguration) SetAssociatePublicIpAddress(v bool) *LaunchConfiguration {
-	s.AssociatePublicIpAddress = &v
-	return s
+// Describes a launch template.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/LaunchTemplateSpecification
+type LaunchTemplateSpecification struct {
+	_ struct{} `type:"structure"`
+
+	// The ID of the launch template. You must specify either a template ID or a
+	// template name.
+	LaunchTemplateId *string `min:"1" type:"string"`
+
+	// The name of the launch template. You must specify either a template name
+	// or a template ID.
+	LaunchTemplateName *string `min:"3" type:"string"`
+
+	// The version number, $Latest, or $Default. If the value is $Latest, Auto Scaling
+	// selects the latest version of the launch template when launching instances.
+	// If the value is $Default, Auto Scaling selects the default version of the
+	// launch template when launching instances. The default value is $Default.
+	Version *string `min:"1" type:"string"`
 }
 
-// SetBlockDeviceMappings sets the BlockDeviceMappings field's value.
-func (s *LaunchConfiguration) SetBlockDeviceMappings(v []*BlockDeviceMapping) *LaunchConfiguration {
-	s.BlockDeviceMappings = v
-	return s
+// String returns the string representation
+func (s LaunchTemplateSpecification) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetClassicLinkVPCId sets the ClassicLinkVPCId field's value.
-func (s *LaunchConfiguration) SetClassicLinkVPCId(v string) *LaunchConfiguration {
-	s.ClassicLinkVPCId = &v
-	return s
+// GoString returns the string representation
+func (s LaunchTemplateSpecification) GoString() string {
+	return s.String()
 }
 
-// SetClassicLinkVPCSecurityGroups sets the ClassicLinkVPCSecurityGroups field's value.
-func (s *LaunchConfiguration) SetClassicLinkVPCSecurityGroups(v []*string) *LaunchConfiguration {
-	s.ClassicLinkVPCSecurityGroups = v
-	return s
-}
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *LaunchTemplateSpecification) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "LaunchTemplateSpecification"}
+	if s.LaunchTemplateId != nil && len(*s.LaunchTemplateId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("LaunchTemplateId", 1))
+	}
+	if s.LaunchTemplateName != nil && len(*s.LaunchTemplateName) < 3 {
+		invalidParams.Add(aws.NewErrParamMinLen("LaunchTemplateName", 3))
+	}
+	if s.Version != nil && len(*s.Version) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Version", 1))
+	}
 
-// SetCreatedTime sets the CreatedTime field's value.
-func (s *LaunchConfiguration) SetCreatedTime(v time.Time) *LaunchConfiguration {
-	s.CreatedTime = &v
-	return s
-}
-
-// SetEbsOptimized sets the EbsOptimized field's value.
-func (s *LaunchConfiguration) SetEbsOptimized(v bool) *LaunchConfiguration {
-	s.EbsOptimized = &v
-	return s
-}
-
-// SetIamInstanceProfile sets the IamInstanceProfile field's value.
-func (s *LaunchConfiguration) SetIamInstanceProfile(v string) *LaunchConfiguration {
-	s.IamInstanceProfile = &v
-	return s
-}
-
-// SetImageId sets the ImageId field's value.
-func (s *LaunchConfiguration) SetImageId(v string) *LaunchConfiguration {
-	s.ImageId = &v
-	return s
-}
-
-// SetInstanceMonitoring sets the InstanceMonitoring field's value.
-func (s *LaunchConfiguration) SetInstanceMonitoring(v *InstanceMonitoring) *LaunchConfiguration {
-	s.InstanceMonitoring = v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *LaunchConfiguration) SetInstanceType(v string) *LaunchConfiguration {
-	s.InstanceType = &v
-	return s
-}
-
-// SetKernelId sets the KernelId field's value.
-func (s *LaunchConfiguration) SetKernelId(v string) *LaunchConfiguration {
-	s.KernelId = &v
-	return s
-}
-
-// SetKeyName sets the KeyName field's value.
-func (s *LaunchConfiguration) SetKeyName(v string) *LaunchConfiguration {
-	s.KeyName = &v
-	return s
-}
-
-// SetLaunchConfigurationARN sets the LaunchConfigurationARN field's value.
-func (s *LaunchConfiguration) SetLaunchConfigurationARN(v string) *LaunchConfiguration {
-	s.LaunchConfigurationARN = &v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *LaunchConfiguration) SetLaunchConfigurationName(v string) *LaunchConfiguration {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetPlacementTenancy sets the PlacementTenancy field's value.
-func (s *LaunchConfiguration) SetPlacementTenancy(v string) *LaunchConfiguration {
-	s.PlacementTenancy = &v
-	return s
-}
-
-// SetRamdiskId sets the RamdiskId field's value.
-func (s *LaunchConfiguration) SetRamdiskId(v string) *LaunchConfiguration {
-	s.RamdiskId = &v
-	return s
-}
-
-// SetSecurityGroups sets the SecurityGroups field's value.
-func (s *LaunchConfiguration) SetSecurityGroups(v []*string) *LaunchConfiguration {
-	s.SecurityGroups = v
-	return s
-}
-
-// SetSpotPrice sets the SpotPrice field's value.
-func (s *LaunchConfiguration) SetSpotPrice(v string) *LaunchConfiguration {
-	s.SpotPrice = &v
-	return s
-}
-
-// SetUserData sets the UserData field's value.
-func (s *LaunchConfiguration) SetUserData(v string) *LaunchConfiguration {
-	s.UserData = &v
-	return s
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
 // Describes a lifecycle hook, which tells Auto Scaling that you want to perform
@@ -8021,60 +7082,6 @@ func (s LifecycleHook) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *LifecycleHook) SetAutoScalingGroupName(v string) *LifecycleHook {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetDefaultResult sets the DefaultResult field's value.
-func (s *LifecycleHook) SetDefaultResult(v string) *LifecycleHook {
-	s.DefaultResult = &v
-	return s
-}
-
-// SetGlobalTimeout sets the GlobalTimeout field's value.
-func (s *LifecycleHook) SetGlobalTimeout(v int64) *LifecycleHook {
-	s.GlobalTimeout = &v
-	return s
-}
-
-// SetHeartbeatTimeout sets the HeartbeatTimeout field's value.
-func (s *LifecycleHook) SetHeartbeatTimeout(v int64) *LifecycleHook {
-	s.HeartbeatTimeout = &v
-	return s
-}
-
-// SetLifecycleHookName sets the LifecycleHookName field's value.
-func (s *LifecycleHook) SetLifecycleHookName(v string) *LifecycleHook {
-	s.LifecycleHookName = &v
-	return s
-}
-
-// SetLifecycleTransition sets the LifecycleTransition field's value.
-func (s *LifecycleHook) SetLifecycleTransition(v string) *LifecycleHook {
-	s.LifecycleTransition = &v
-	return s
-}
-
-// SetNotificationMetadata sets the NotificationMetadata field's value.
-func (s *LifecycleHook) SetNotificationMetadata(v string) *LifecycleHook {
-	s.NotificationMetadata = &v
-	return s
-}
-
-// SetNotificationTargetARN sets the NotificationTargetARN field's value.
-func (s *LifecycleHook) SetNotificationTargetARN(v string) *LifecycleHook {
-	s.NotificationTargetARN = &v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *LifecycleHook) SetRoleARN(v string) *LifecycleHook {
-	s.RoleARN = &v
-	return s
-}
-
 // Describes a lifecycle hook, which tells Auto Scaling that you want to perform
 // an action whenever it launches instances or whenever it terminates instances.
 //
@@ -8086,7 +7093,7 @@ type LifecycleHookSpecification struct {
 
 	// Defines the action the Auto Scaling group should take when the lifecycle
 	// hook timeout elapses or if an unexpected failure occurs. The valid values
-	// are CONTINUE and ABANDON. The default value is CONTINUE.
+	// are CONTINUE and ABANDON.
 	DefaultResult *string `type:"string"`
 
 	// The maximum time, in seconds, that can elapse before the lifecycle hook times
@@ -8101,7 +7108,9 @@ type LifecycleHookSpecification struct {
 
 	// The state of the EC2 instance to which you want to attach the lifecycle hook.
 	// For a list of lifecycle hook types, see DescribeLifecycleHookTypes.
-	LifecycleTransition *string `type:"string"`
+	//
+	// LifecycleTransition is a required field
+	LifecycleTransition *string `type:"string" required:"true"`
 
 	// Additional information that you want to include any time Auto Scaling sends
 	// a message to the notification target.
@@ -8137,6 +7146,10 @@ func (s *LifecycleHookSpecification) Validate() error {
 	if s.LifecycleHookName != nil && len(*s.LifecycleHookName) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("LifecycleHookName", 1))
 	}
+
+	if s.LifecycleTransition == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LifecycleTransition"))
+	}
 	if s.NotificationMetadata != nil && len(*s.NotificationMetadata) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("NotificationMetadata", 1))
 	}
@@ -8148,48 +7161,6 @@ func (s *LifecycleHookSpecification) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetDefaultResult sets the DefaultResult field's value.
-func (s *LifecycleHookSpecification) SetDefaultResult(v string) *LifecycleHookSpecification {
-	s.DefaultResult = &v
-	return s
-}
-
-// SetHeartbeatTimeout sets the HeartbeatTimeout field's value.
-func (s *LifecycleHookSpecification) SetHeartbeatTimeout(v int64) *LifecycleHookSpecification {
-	s.HeartbeatTimeout = &v
-	return s
-}
-
-// SetLifecycleHookName sets the LifecycleHookName field's value.
-func (s *LifecycleHookSpecification) SetLifecycleHookName(v string) *LifecycleHookSpecification {
-	s.LifecycleHookName = &v
-	return s
-}
-
-// SetLifecycleTransition sets the LifecycleTransition field's value.
-func (s *LifecycleHookSpecification) SetLifecycleTransition(v string) *LifecycleHookSpecification {
-	s.LifecycleTransition = &v
-	return s
-}
-
-// SetNotificationMetadata sets the NotificationMetadata field's value.
-func (s *LifecycleHookSpecification) SetNotificationMetadata(v string) *LifecycleHookSpecification {
-	s.NotificationMetadata = &v
-	return s
-}
-
-// SetNotificationTargetARN sets the NotificationTargetARN field's value.
-func (s *LifecycleHookSpecification) SetNotificationTargetARN(v string) *LifecycleHookSpecification {
-	s.NotificationTargetARN = &v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *LifecycleHookSpecification) SetRoleARN(v string) *LifecycleHookSpecification {
-	s.RoleARN = &v
-	return s
 }
 
 // Describes the state of a Classic Load Balancer.
@@ -8239,18 +7210,6 @@ func (s LoadBalancerState) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerName sets the LoadBalancerName field's value.
-func (s *LoadBalancerState) SetLoadBalancerName(v string) *LoadBalancerState {
-	s.LoadBalancerName = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *LoadBalancerState) SetState(v string) *LoadBalancerState {
-	s.State = &v
-	return s
-}
-
 // Describes the state of a target group.
 //
 // If you attach a target group to an existing Auto Scaling group, the initial
@@ -8295,18 +7254,6 @@ func (s LoadBalancerTargetGroupState) GoString() string {
 	return s.String()
 }
 
-// SetLoadBalancerTargetGroupARN sets the LoadBalancerTargetGroupARN field's value.
-func (s *LoadBalancerTargetGroupState) SetLoadBalancerTargetGroupARN(v string) *LoadBalancerTargetGroupState {
-	s.LoadBalancerTargetGroupARN = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *LoadBalancerTargetGroupState) SetState(v string) *LoadBalancerTargetGroupState {
-	s.State = &v
-	return s
-}
-
 // Describes a metric.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/MetricCollectionType
 type MetricCollectionType struct {
@@ -8340,12 +7287,6 @@ func (s MetricCollectionType) String() string {
 // GoString returns the string representation
 func (s MetricCollectionType) GoString() string {
 	return s.String()
-}
-
-// SetMetric sets the Metric field's value.
-func (s *MetricCollectionType) SetMetric(v string) *MetricCollectionType {
-	s.Metric = &v
-	return s
 }
 
 // Describes the dimension of a metric.
@@ -8392,18 +7333,6 @@ func (s *MetricDimension) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *MetricDimension) SetName(v string) *MetricDimension {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *MetricDimension) SetValue(v string) *MetricDimension {
-	s.Value = &v
-	return s
-}
-
 // Describes a granularity of a metric.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/MetricGranularityType
 type MetricGranularityType struct {
@@ -8423,18 +7352,12 @@ func (s MetricGranularityType) GoString() string {
 	return s.String()
 }
 
-// SetGranularity sets the Granularity field's value.
-func (s *MetricGranularityType) SetGranularity(v string) *MetricGranularityType {
-	s.Granularity = &v
-	return s
-}
-
 // Describes a notification.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/NotificationConfiguration
 type NotificationConfiguration struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// One of the following event notification types:
@@ -8465,24 +7388,6 @@ func (s NotificationConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *NotificationConfiguration) SetAutoScalingGroupName(v string) *NotificationConfiguration {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetNotificationType sets the NotificationType field's value.
-func (s *NotificationConfiguration) SetNotificationType(v string) *NotificationConfiguration {
-	s.NotificationType = &v
-	return s
-}
-
-// SetTopicARN sets the TopicARN field's value.
-func (s *NotificationConfiguration) SetTopicARN(v string) *NotificationConfiguration {
-	s.TopicARN = &v
-	return s
-}
-
 // Configures a predefined metric for a target tracking policy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PredefinedMetricSpecification
 type PredefinedMetricSpecification struct {
@@ -8491,7 +7396,7 @@ type PredefinedMetricSpecification struct {
 	// The metric type.
 	//
 	// PredefinedMetricType is a required field
-	PredefinedMetricType MetricType `type:"string" required:"true"`
+	PredefinedMetricType MetricType `type:"string" required:"true" enum:"true"`
 
 	// Identifies the resource associated with the metric type. The following predefined
 	// metrics are available:
@@ -8508,7 +7413,7 @@ type PredefinedMetricSpecification struct {
 	//    * ALBRequestCountPerTarget - number of requests completed per target in
 	//    an Application Load Balancer target group
 	//
-	// For predefined metric types ASGAverageCPUUtilization, ASGAverageNetworkIn
+	// For predefined metric types ASGAverageCPUUtilization, ASGAverageNetworkIn,
 	// and ASGAverageNetworkOut, the parameter must not be specified as the resource
 	// associated with the metric type is the Auto Scaling group. For predefined
 	// metric type ALBRequestCountPerTarget, the parameter must be specified in
@@ -8544,18 +7449,6 @@ func (s *PredefinedMetricSpecification) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetPredefinedMetricType sets the PredefinedMetricType field's value.
-func (s *PredefinedMetricSpecification) SetPredefinedMetricType(v MetricType) *PredefinedMetricSpecification {
-	s.PredefinedMetricType = v
-	return s
-}
-
-// SetResourceLabel sets the ResourceLabel field's value.
-func (s *PredefinedMetricSpecification) SetResourceLabel(v string) *PredefinedMetricSpecification {
-	s.ResourceLabel = &v
-	return s
 }
 
 // Describes a process type.
@@ -8598,18 +7491,11 @@ func (s ProcessType) GoString() string {
 	return s.String()
 }
 
-// SetProcessName sets the ProcessName field's value.
-func (s *ProcessType) SetProcessName(v string) *ProcessType {
-	s.ProcessName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutLifecycleHookType
 type PutLifecycleHookInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the Auto Scaling group to which you want to assign the lifecycle
-	// hook.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -8705,57 +7591,11 @@ func (s *PutLifecycleHookInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *PutLifecycleHookInput) SetAutoScalingGroupName(v string) *PutLifecycleHookInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetDefaultResult sets the DefaultResult field's value.
-func (s *PutLifecycleHookInput) SetDefaultResult(v string) *PutLifecycleHookInput {
-	s.DefaultResult = &v
-	return s
-}
-
-// SetHeartbeatTimeout sets the HeartbeatTimeout field's value.
-func (s *PutLifecycleHookInput) SetHeartbeatTimeout(v int64) *PutLifecycleHookInput {
-	s.HeartbeatTimeout = &v
-	return s
-}
-
-// SetLifecycleHookName sets the LifecycleHookName field's value.
-func (s *PutLifecycleHookInput) SetLifecycleHookName(v string) *PutLifecycleHookInput {
-	s.LifecycleHookName = &v
-	return s
-}
-
-// SetLifecycleTransition sets the LifecycleTransition field's value.
-func (s *PutLifecycleHookInput) SetLifecycleTransition(v string) *PutLifecycleHookInput {
-	s.LifecycleTransition = &v
-	return s
-}
-
-// SetNotificationMetadata sets the NotificationMetadata field's value.
-func (s *PutLifecycleHookInput) SetNotificationMetadata(v string) *PutLifecycleHookInput {
-	s.NotificationMetadata = &v
-	return s
-}
-
-// SetNotificationTargetARN sets the NotificationTargetARN field's value.
-func (s *PutLifecycleHookInput) SetNotificationTargetARN(v string) *PutLifecycleHookInput {
-	s.NotificationTargetARN = &v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *PutLifecycleHookInput) SetRoleARN(v string) *PutLifecycleHookInput {
-	s.RoleARN = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutLifecycleHookAnswer
 type PutLifecycleHookOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8766,6 +7606,11 @@ func (s PutLifecycleHookOutput) String() string {
 // GoString returns the string representation
 func (s PutLifecycleHookOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutLifecycleHookOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutNotificationConfigurationType
@@ -8781,7 +7626,7 @@ type PutNotificationConfigurationInput struct {
 	// about notification types supported by Auto Scaling, see DescribeAutoScalingNotificationTypes.
 	//
 	// NotificationTypes is a required field
-	NotificationTypes []*string `type:"list" required:"true"`
+	NotificationTypes []string `type:"list" required:"true"`
 
 	// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service
 	// (SNS) topic.
@@ -8828,27 +7673,11 @@ func (s *PutNotificationConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *PutNotificationConfigurationInput) SetAutoScalingGroupName(v string) *PutNotificationConfigurationInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetNotificationTypes sets the NotificationTypes field's value.
-func (s *PutNotificationConfigurationInput) SetNotificationTypes(v []*string) *PutNotificationConfigurationInput {
-	s.NotificationTypes = v
-	return s
-}
-
-// SetTopicARN sets the TopicARN field's value.
-func (s *PutNotificationConfigurationInput) SetTopicARN(v string) *PutNotificationConfigurationInput {
-	s.TopicARN = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutNotificationConfigurationOutput
 type PutNotificationConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8859,6 +7688,11 @@ func (s PutNotificationConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s PutNotificationConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutNotificationConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutScalingPolicyType
@@ -8874,7 +7708,7 @@ type PutScalingPolicyInput struct {
 	// in the Auto Scaling User Guide.
 	AdjustmentType *string `min:"1" type:"string"`
 
-	// The name or ARN of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -8936,7 +7770,7 @@ type PutScalingPolicyInput struct {
 	//
 	// This parameter is required if the policy type is StepScaling and not supported
 	// otherwise.
-	StepAdjustments []*StepAdjustment `type:"list"`
+	StepAdjustments []StepAdjustment `type:"list"`
 
 	// A target tracking policy.
 	//
@@ -8983,9 +7817,6 @@ func (s *PutScalingPolicyInput) Validate() error {
 	}
 	if s.StepAdjustments != nil {
 		for i, v := range s.StepAdjustments {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "StepAdjustments", i), err.(aws.ErrInvalidParams))
 			}
@@ -9003,85 +7834,15 @@ func (s *PutScalingPolicyInput) Validate() error {
 	return nil
 }
 
-// SetAdjustmentType sets the AdjustmentType field's value.
-func (s *PutScalingPolicyInput) SetAdjustmentType(v string) *PutScalingPolicyInput {
-	s.AdjustmentType = &v
-	return s
-}
-
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *PutScalingPolicyInput) SetAutoScalingGroupName(v string) *PutScalingPolicyInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetCooldown sets the Cooldown field's value.
-func (s *PutScalingPolicyInput) SetCooldown(v int64) *PutScalingPolicyInput {
-	s.Cooldown = &v
-	return s
-}
-
-// SetEstimatedInstanceWarmup sets the EstimatedInstanceWarmup field's value.
-func (s *PutScalingPolicyInput) SetEstimatedInstanceWarmup(v int64) *PutScalingPolicyInput {
-	s.EstimatedInstanceWarmup = &v
-	return s
-}
-
-// SetMetricAggregationType sets the MetricAggregationType field's value.
-func (s *PutScalingPolicyInput) SetMetricAggregationType(v string) *PutScalingPolicyInput {
-	s.MetricAggregationType = &v
-	return s
-}
-
-// SetMinAdjustmentMagnitude sets the MinAdjustmentMagnitude field's value.
-func (s *PutScalingPolicyInput) SetMinAdjustmentMagnitude(v int64) *PutScalingPolicyInput {
-	s.MinAdjustmentMagnitude = &v
-	return s
-}
-
-// SetMinAdjustmentStep sets the MinAdjustmentStep field's value.
-func (s *PutScalingPolicyInput) SetMinAdjustmentStep(v int64) *PutScalingPolicyInput {
-	s.MinAdjustmentStep = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PutScalingPolicyInput) SetPolicyName(v string) *PutScalingPolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
-// SetPolicyType sets the PolicyType field's value.
-func (s *PutScalingPolicyInput) SetPolicyType(v string) *PutScalingPolicyInput {
-	s.PolicyType = &v
-	return s
-}
-
-// SetScalingAdjustment sets the ScalingAdjustment field's value.
-func (s *PutScalingPolicyInput) SetScalingAdjustment(v int64) *PutScalingPolicyInput {
-	s.ScalingAdjustment = &v
-	return s
-}
-
-// SetStepAdjustments sets the StepAdjustments field's value.
-func (s *PutScalingPolicyInput) SetStepAdjustments(v []*StepAdjustment) *PutScalingPolicyInput {
-	s.StepAdjustments = v
-	return s
-}
-
-// SetTargetTrackingConfiguration sets the TargetTrackingConfiguration field's value.
-func (s *PutScalingPolicyInput) SetTargetTrackingConfiguration(v *TargetTrackingConfiguration) *PutScalingPolicyInput {
-	s.TargetTrackingConfiguration = v
-	return s
-}
-
 // Contains the output of PutScalingPolicy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PolicyARNType
 type PutScalingPolicyOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The CloudWatch alarms created for the target tracking policy.
-	Alarms []*Alarm `type:"list"`
+	Alarms []Alarm `type:"list"`
 
 	// The Amazon Resource Name (ARN) of the policy.
 	PolicyARN *string `min:"1" type:"string"`
@@ -9097,23 +7858,16 @@ func (s PutScalingPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetAlarms sets the Alarms field's value.
-func (s *PutScalingPolicyOutput) SetAlarms(v []*Alarm) *PutScalingPolicyOutput {
-	s.Alarms = v
-	return s
-}
-
-// SetPolicyARN sets the PolicyARN field's value.
-func (s *PutScalingPolicyOutput) SetPolicyARN(v string) *PutScalingPolicyOutput {
-	s.PolicyARN = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutScalingPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutScheduledUpdateGroupActionType
 type PutScheduledUpdateGroupActionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -9191,63 +7945,11 @@ func (s *PutScheduledUpdateGroupActionInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetAutoScalingGroupName(v string) *PutScheduledUpdateGroupActionInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetDesiredCapacity sets the DesiredCapacity field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetDesiredCapacity(v int64) *PutScheduledUpdateGroupActionInput {
-	s.DesiredCapacity = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetEndTime(v time.Time) *PutScheduledUpdateGroupActionInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetMaxSize sets the MaxSize field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetMaxSize(v int64) *PutScheduledUpdateGroupActionInput {
-	s.MaxSize = &v
-	return s
-}
-
-// SetMinSize sets the MinSize field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetMinSize(v int64) *PutScheduledUpdateGroupActionInput {
-	s.MinSize = &v
-	return s
-}
-
-// SetRecurrence sets the Recurrence field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetRecurrence(v string) *PutScheduledUpdateGroupActionInput {
-	s.Recurrence = &v
-	return s
-}
-
-// SetScheduledActionName sets the ScheduledActionName field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetScheduledActionName(v string) *PutScheduledUpdateGroupActionInput {
-	s.ScheduledActionName = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetStartTime(v time.Time) *PutScheduledUpdateGroupActionInput {
-	s.StartTime = &v
-	return s
-}
-
-// SetTime sets the Time field's value.
-func (s *PutScheduledUpdateGroupActionInput) SetTime(v time.Time) *PutScheduledUpdateGroupActionInput {
-	s.Time = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/PutScheduledUpdateGroupActionOutput
 type PutScheduledUpdateGroupActionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9260,11 +7962,16 @@ func (s PutScheduledUpdateGroupActionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutScheduledUpdateGroupActionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/RecordLifecycleActionHeartbeatType
 type RecordLifecycleActionHeartbeatInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the Auto Scaling group for the hook.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -9323,33 +8030,11 @@ func (s *RecordLifecycleActionHeartbeatInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *RecordLifecycleActionHeartbeatInput) SetAutoScalingGroupName(v string) *RecordLifecycleActionHeartbeatInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *RecordLifecycleActionHeartbeatInput) SetInstanceId(v string) *RecordLifecycleActionHeartbeatInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLifecycleActionToken sets the LifecycleActionToken field's value.
-func (s *RecordLifecycleActionHeartbeatInput) SetLifecycleActionToken(v string) *RecordLifecycleActionHeartbeatInput {
-	s.LifecycleActionToken = &v
-	return s
-}
-
-// SetLifecycleHookName sets the LifecycleHookName field's value.
-func (s *RecordLifecycleActionHeartbeatInput) SetLifecycleHookName(v string) *RecordLifecycleActionHeartbeatInput {
-	s.LifecycleHookName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/RecordLifecycleActionHeartbeatAnswer
 type RecordLifecycleActionHeartbeatOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9362,9 +8047,16 @@ func (s RecordLifecycleActionHeartbeatOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RecordLifecycleActionHeartbeatOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ResumeProcessesOutput
 type ResumeProcessesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9377,6 +8069,11 @@ func (s ResumeProcessesOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ResumeProcessesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Describes a scaling policy.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ScalingPolicy
 type ScalingPolicy struct {
@@ -9387,9 +8084,9 @@ type ScalingPolicy struct {
 	AdjustmentType *string `min:"1" type:"string"`
 
 	// The CloudWatch alarms related to the policy.
-	Alarms []*Alarm `type:"list"`
+	Alarms []Alarm `type:"list"`
 
-	// The name of the Auto Scaling group associated with this scaling policy.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// The amount of time, in seconds, after a scaling activity completes before
@@ -9429,7 +8126,7 @@ type ScalingPolicy struct {
 
 	// A set of adjustments that enable you to scale based on the size of the alarm
 	// breach.
-	StepAdjustments []*StepAdjustment `type:"list"`
+	StepAdjustments []StepAdjustment `type:"list"`
 
 	// A target tracking policy.
 	TargetTrackingConfiguration *TargetTrackingConfiguration `type:"structure"`
@@ -9445,96 +8142,12 @@ func (s ScalingPolicy) GoString() string {
 	return s.String()
 }
 
-// SetAdjustmentType sets the AdjustmentType field's value.
-func (s *ScalingPolicy) SetAdjustmentType(v string) *ScalingPolicy {
-	s.AdjustmentType = &v
-	return s
-}
-
-// SetAlarms sets the Alarms field's value.
-func (s *ScalingPolicy) SetAlarms(v []*Alarm) *ScalingPolicy {
-	s.Alarms = v
-	return s
-}
-
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *ScalingPolicy) SetAutoScalingGroupName(v string) *ScalingPolicy {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetCooldown sets the Cooldown field's value.
-func (s *ScalingPolicy) SetCooldown(v int64) *ScalingPolicy {
-	s.Cooldown = &v
-	return s
-}
-
-// SetEstimatedInstanceWarmup sets the EstimatedInstanceWarmup field's value.
-func (s *ScalingPolicy) SetEstimatedInstanceWarmup(v int64) *ScalingPolicy {
-	s.EstimatedInstanceWarmup = &v
-	return s
-}
-
-// SetMetricAggregationType sets the MetricAggregationType field's value.
-func (s *ScalingPolicy) SetMetricAggregationType(v string) *ScalingPolicy {
-	s.MetricAggregationType = &v
-	return s
-}
-
-// SetMinAdjustmentMagnitude sets the MinAdjustmentMagnitude field's value.
-func (s *ScalingPolicy) SetMinAdjustmentMagnitude(v int64) *ScalingPolicy {
-	s.MinAdjustmentMagnitude = &v
-	return s
-}
-
-// SetMinAdjustmentStep sets the MinAdjustmentStep field's value.
-func (s *ScalingPolicy) SetMinAdjustmentStep(v int64) *ScalingPolicy {
-	s.MinAdjustmentStep = &v
-	return s
-}
-
-// SetPolicyARN sets the PolicyARN field's value.
-func (s *ScalingPolicy) SetPolicyARN(v string) *ScalingPolicy {
-	s.PolicyARN = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *ScalingPolicy) SetPolicyName(v string) *ScalingPolicy {
-	s.PolicyName = &v
-	return s
-}
-
-// SetPolicyType sets the PolicyType field's value.
-func (s *ScalingPolicy) SetPolicyType(v string) *ScalingPolicy {
-	s.PolicyType = &v
-	return s
-}
-
-// SetScalingAdjustment sets the ScalingAdjustment field's value.
-func (s *ScalingPolicy) SetScalingAdjustment(v int64) *ScalingPolicy {
-	s.ScalingAdjustment = &v
-	return s
-}
-
-// SetStepAdjustments sets the StepAdjustments field's value.
-func (s *ScalingPolicy) SetStepAdjustments(v []*StepAdjustment) *ScalingPolicy {
-	s.StepAdjustments = v
-	return s
-}
-
-// SetTargetTrackingConfiguration sets the TargetTrackingConfiguration field's value.
-func (s *ScalingPolicy) SetTargetTrackingConfiguration(v *TargetTrackingConfiguration) *ScalingPolicy {
-	s.TargetTrackingConfiguration = v
-	return s
-}
-
 // Describes a scheduled update to an Auto Scaling group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ScheduledUpdateGroupAction
 type ScheduledUpdateGroupAction struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	AutoScalingGroupName *string `min:"1" type:"string"`
 
 	// The number of instances you prefer to maintain in the group.
@@ -9580,66 +8193,6 @@ func (s ScheduledUpdateGroupAction) GoString() string {
 	return s.String()
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *ScheduledUpdateGroupAction) SetAutoScalingGroupName(v string) *ScheduledUpdateGroupAction {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetDesiredCapacity sets the DesiredCapacity field's value.
-func (s *ScheduledUpdateGroupAction) SetDesiredCapacity(v int64) *ScheduledUpdateGroupAction {
-	s.DesiredCapacity = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *ScheduledUpdateGroupAction) SetEndTime(v time.Time) *ScheduledUpdateGroupAction {
-	s.EndTime = &v
-	return s
-}
-
-// SetMaxSize sets the MaxSize field's value.
-func (s *ScheduledUpdateGroupAction) SetMaxSize(v int64) *ScheduledUpdateGroupAction {
-	s.MaxSize = &v
-	return s
-}
-
-// SetMinSize sets the MinSize field's value.
-func (s *ScheduledUpdateGroupAction) SetMinSize(v int64) *ScheduledUpdateGroupAction {
-	s.MinSize = &v
-	return s
-}
-
-// SetRecurrence sets the Recurrence field's value.
-func (s *ScheduledUpdateGroupAction) SetRecurrence(v string) *ScheduledUpdateGroupAction {
-	s.Recurrence = &v
-	return s
-}
-
-// SetScheduledActionARN sets the ScheduledActionARN field's value.
-func (s *ScheduledUpdateGroupAction) SetScheduledActionARN(v string) *ScheduledUpdateGroupAction {
-	s.ScheduledActionARN = &v
-	return s
-}
-
-// SetScheduledActionName sets the ScheduledActionName field's value.
-func (s *ScheduledUpdateGroupAction) SetScheduledActionName(v string) *ScheduledUpdateGroupAction {
-	s.ScheduledActionName = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *ScheduledUpdateGroupAction) SetStartTime(v time.Time) *ScheduledUpdateGroupAction {
-	s.StartTime = &v
-	return s
-}
-
-// SetTime sets the Time field's value.
-func (s *ScheduledUpdateGroupAction) SetTime(v time.Time) *ScheduledUpdateGroupAction {
-	s.Time = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetDesiredCapacityType
 type SetDesiredCapacityInput struct {
 	_ struct{} `type:"structure"`
@@ -9654,10 +8207,10 @@ type SetDesiredCapacityInput struct {
 	// DesiredCapacity is a required field
 	DesiredCapacity *int64 `type:"integer" required:"true"`
 
-	// By default, SetDesiredCapacity overrides any cooldown period associated with
-	// the Auto Scaling group. Specify True to make Auto Scaling to wait for the
-	// cool-down period associated with the Auto Scaling group to complete before
-	// initiating a scaling activity to set your Auto Scaling group to its new capacity.
+	// Indicates whether Auto Scaling waits for the cooldown period to complete
+	// before initiating a scaling activity to set your Auto Scaling group to its
+	// new capacity. By default, Auto Scaling does not honor the cooldown period
+	// during manual scaling activities.
 	HonorCooldown *bool `type:"boolean"`
 }
 
@@ -9692,27 +8245,11 @@ func (s *SetDesiredCapacityInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *SetDesiredCapacityInput) SetAutoScalingGroupName(v string) *SetDesiredCapacityInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetDesiredCapacity sets the DesiredCapacity field's value.
-func (s *SetDesiredCapacityInput) SetDesiredCapacity(v int64) *SetDesiredCapacityInput {
-	s.DesiredCapacity = &v
-	return s
-}
-
-// SetHonorCooldown sets the HonorCooldown field's value.
-func (s *SetDesiredCapacityInput) SetHonorCooldown(v bool) *SetDesiredCapacityInput {
-	s.HonorCooldown = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetDesiredCapacityOutput
 type SetDesiredCapacityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9723,6 +8260,11 @@ func (s SetDesiredCapacityOutput) String() string {
 // GoString returns the string representation
 func (s SetDesiredCapacityOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetDesiredCapacityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceHealthQuery
@@ -9785,27 +8327,11 @@ func (s *SetInstanceHealthInput) Validate() error {
 	return nil
 }
 
-// SetHealthStatus sets the HealthStatus field's value.
-func (s *SetInstanceHealthInput) SetHealthStatus(v string) *SetInstanceHealthInput {
-	s.HealthStatus = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *SetInstanceHealthInput) SetInstanceId(v string) *SetInstanceHealthInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetShouldRespectGracePeriod sets the ShouldRespectGracePeriod field's value.
-func (s *SetInstanceHealthInput) SetShouldRespectGracePeriod(v bool) *SetInstanceHealthInput {
-	s.ShouldRespectGracePeriod = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceHealthOutput
 type SetInstanceHealthOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9818,11 +8344,16 @@ func (s SetInstanceHealthOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetInstanceHealthOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceProtectionQuery
 type SetInstanceProtectionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -9830,7 +8361,7 @@ type SetInstanceProtectionInput struct {
 	// One or more instance IDs.
 	//
 	// InstanceIds is a required field
-	InstanceIds []*string `type:"list" required:"true"`
+	InstanceIds []string `type:"list" required:"true"`
 
 	// Indicates whether the instance is protected from termination by Auto Scaling
 	// when scaling in.
@@ -9874,27 +8405,11 @@ func (s *SetInstanceProtectionInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *SetInstanceProtectionInput) SetAutoScalingGroupName(v string) *SetInstanceProtectionInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *SetInstanceProtectionInput) SetInstanceIds(v []*string) *SetInstanceProtectionInput {
-	s.InstanceIds = v
-	return s
-}
-
-// SetProtectedFromScaleIn sets the ProtectedFromScaleIn field's value.
-func (s *SetInstanceProtectionInput) SetProtectedFromScaleIn(v bool) *SetInstanceProtectionInput {
-	s.ProtectedFromScaleIn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SetInstanceProtectionAnswer
 type SetInstanceProtectionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9905,6 +8420,11 @@ func (s SetInstanceProtectionOutput) String() string {
 // GoString returns the string representation
 func (s SetInstanceProtectionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetInstanceProtectionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an adjustment based on the difference between the value of the
@@ -9988,29 +8508,11 @@ func (s *StepAdjustment) Validate() error {
 	return nil
 }
 
-// SetMetricIntervalLowerBound sets the MetricIntervalLowerBound field's value.
-func (s *StepAdjustment) SetMetricIntervalLowerBound(v float64) *StepAdjustment {
-	s.MetricIntervalLowerBound = &v
-	return s
-}
-
-// SetMetricIntervalUpperBound sets the MetricIntervalUpperBound field's value.
-func (s *StepAdjustment) SetMetricIntervalUpperBound(v float64) *StepAdjustment {
-	s.MetricIntervalUpperBound = &v
-	return s
-}
-
-// SetScalingAdjustment sets the ScalingAdjustment field's value.
-func (s *StepAdjustment) SetScalingAdjustment(v int64) *StepAdjustment {
-	s.ScalingAdjustment = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ResumeProcessesInput
 type SuspendProcessesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The name or Amazon Resource Name (ARN) of the Auto Scaling group.
+	// The name of the Auto Scaling group.
 	//
 	// AutoScalingGroupName is a required field
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
@@ -10033,7 +8535,7 @@ type SuspendProcessesInput struct {
 	//    * ScheduledActions
 	//
 	//    * AddToLoadBalancer
-	ScalingProcesses []*string `type:"list"`
+	ScalingProcesses []string `type:"list"`
 }
 
 // String returns the string representation
@@ -10063,21 +8565,11 @@ func (s *SuspendProcessesInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *SuspendProcessesInput) SetAutoScalingGroupName(v string) *SuspendProcessesInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetScalingProcesses sets the ScalingProcesses field's value.
-func (s *SuspendProcessesInput) SetScalingProcesses(v []*string) *SuspendProcessesInput {
-	s.ScalingProcesses = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/SuspendProcessesOutput
 type SuspendProcessesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10088,6 +8580,11 @@ func (s SuspendProcessesOutput) String() string {
 // GoString returns the string representation
 func (s SuspendProcessesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SuspendProcessesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an Auto Scaling process that has been suspended. For more information,
@@ -10111,18 +8608,6 @@ func (s SuspendedProcess) String() string {
 // GoString returns the string representation
 func (s SuspendedProcess) GoString() string {
 	return s.String()
-}
-
-// SetProcessName sets the ProcessName field's value.
-func (s *SuspendedProcess) SetProcessName(v string) *SuspendedProcess {
-	s.ProcessName = &v
-	return s
-}
-
-// SetSuspensionReason sets the SuspensionReason field's value.
-func (s *SuspendedProcess) SetSuspensionReason(v string) *SuspendedProcess {
-	s.SuspensionReason = &v
-	return s
 }
 
 // Describes a tag for an Auto Scaling group.
@@ -10176,36 +8661,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetPropagateAtLaunch sets the PropagateAtLaunch field's value.
-func (s *Tag) SetPropagateAtLaunch(v bool) *Tag {
-	s.PropagateAtLaunch = &v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *Tag) SetResourceId(v string) *Tag {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *Tag) SetResourceType(v string) *Tag {
-	s.ResourceType = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // Describes a tag for an Auto Scaling group.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/TagDescription
 type TagDescription struct {
@@ -10238,36 +8693,6 @@ func (s TagDescription) GoString() string {
 	return s.String()
 }
 
-// SetKey sets the Key field's value.
-func (s *TagDescription) SetKey(v string) *TagDescription {
-	s.Key = &v
-	return s
-}
-
-// SetPropagateAtLaunch sets the PropagateAtLaunch field's value.
-func (s *TagDescription) SetPropagateAtLaunch(v bool) *TagDescription {
-	s.PropagateAtLaunch = &v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *TagDescription) SetResourceId(v string) *TagDescription {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *TagDescription) SetResourceType(v string) *TagDescription {
-	s.ResourceType = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *TagDescription) SetValue(v string) *TagDescription {
-	s.Value = &v
-	return s
-}
-
 // Represents a target tracking policy configuration.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/TargetTrackingConfiguration
 type TargetTrackingConfiguration struct {
@@ -10277,10 +8702,9 @@ type TargetTrackingConfiguration struct {
 	CustomizedMetricSpecification *CustomizedMetricSpecification `type:"structure"`
 
 	// Indicates whether scale in by the target tracking policy is disabled. If
-	// the value is true, scale in is disabled and the target tracking policy won't
-	// remove instances from the Auto Scaling group. Otherwise, scale in is enabled
-	// and the target tracking policy can remove instances from the Auto Scaling
-	// group. The default value is false.
+	// scale in is disabled, the target tracking policy won't remove instances from
+	// the Auto Scaling group. Otherwise, the target tracking policy can remove
+	// instances from the Auto Scaling group. The default is disabled.
 	DisableScaleIn *bool `type:"boolean"`
 
 	// A predefined metric. You can specify either a predefined metric or a customized
@@ -10327,30 +8751,6 @@ func (s *TargetTrackingConfiguration) Validate() error {
 	return nil
 }
 
-// SetCustomizedMetricSpecification sets the CustomizedMetricSpecification field's value.
-func (s *TargetTrackingConfiguration) SetCustomizedMetricSpecification(v *CustomizedMetricSpecification) *TargetTrackingConfiguration {
-	s.CustomizedMetricSpecification = v
-	return s
-}
-
-// SetDisableScaleIn sets the DisableScaleIn field's value.
-func (s *TargetTrackingConfiguration) SetDisableScaleIn(v bool) *TargetTrackingConfiguration {
-	s.DisableScaleIn = &v
-	return s
-}
-
-// SetPredefinedMetricSpecification sets the PredefinedMetricSpecification field's value.
-func (s *TargetTrackingConfiguration) SetPredefinedMetricSpecification(v *PredefinedMetricSpecification) *TargetTrackingConfiguration {
-	s.PredefinedMetricSpecification = v
-	return s
-}
-
-// SetTargetValue sets the TargetValue field's value.
-func (s *TargetTrackingConfiguration) SetTargetValue(v float64) *TargetTrackingConfiguration {
-	s.TargetValue = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/TerminateInstanceInAutoScalingGroupType
 type TerminateInstanceInAutoScalingGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -10360,8 +8760,8 @@ type TerminateInstanceInAutoScalingGroupInput struct {
 	// InstanceId is a required field
 	InstanceId *string `min:"1" type:"string" required:"true"`
 
-	// If true, terminating the instance also decrements the size of the Auto Scaling
-	// group.
+	// Indicates whether terminating the instance also decrements the size of the
+	// Auto Scaling group.
 	//
 	// ShouldDecrementDesiredCapacity is a required field
 	ShouldDecrementDesiredCapacity *bool `type:"boolean" required:"true"`
@@ -10398,21 +8798,11 @@ func (s *TerminateInstanceInAutoScalingGroupInput) Validate() error {
 	return nil
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *TerminateInstanceInAutoScalingGroupInput) SetInstanceId(v string) *TerminateInstanceInAutoScalingGroupInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetShouldDecrementDesiredCapacity sets the ShouldDecrementDesiredCapacity field's value.
-func (s *TerminateInstanceInAutoScalingGroupInput) SetShouldDecrementDesiredCapacity(v bool) *TerminateInstanceInAutoScalingGroupInput {
-	s.ShouldDecrementDesiredCapacity = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/ActivityType
 type TerminateInstanceInAutoScalingGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A scaling activity.
 	Activity *Activity `type:"structure"`
@@ -10428,10 +8818,9 @@ func (s TerminateInstanceInAutoScalingGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivity sets the Activity field's value.
-func (s *TerminateInstanceInAutoScalingGroupOutput) SetActivity(v *Activity) *TerminateInstanceInAutoScalingGroupOutput {
-	s.Activity = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TerminateInstanceInAutoScalingGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/UpdateAutoScalingGroupType
@@ -10444,7 +8833,7 @@ type UpdateAutoScalingGroupInput struct {
 	AutoScalingGroupName *string `min:"1" type:"string" required:"true"`
 
 	// One or more Availability Zones for the group.
-	AvailabilityZones []*string `min:"1" type:"list"`
+	AvailabilityZones []string `min:"1" type:"list"`
 
 	// The amount of time, in seconds, after a scaling activity completes before
 	// another scaling activity can start. The default is 300.
@@ -10469,8 +8858,13 @@ type UpdateAutoScalingGroupInput struct {
 	// The service to use for the health checks. The valid values are EC2 and ELB.
 	HealthCheckType *string `min:"1" type:"string"`
 
-	// The name of the launch configuration.
+	// The name of the launch configuration. If you specify a launch configuration,
+	// you can't specify a launch template.
 	LaunchConfigurationName *string `min:"1" type:"string"`
+
+	// The launch template to use to specify the updates. If you specify a launch
+	// template, you can't specify a launch configuration.
+	LaunchTemplate *LaunchTemplateSpecification `type:"structure"`
 
 	// The maximum size of the Auto Scaling group.
 	MaxSize *int64 `type:"integer"`
@@ -10487,6 +8881,10 @@ type UpdateAutoScalingGroupInput struct {
 	// in the Amazon Elastic Compute Cloud User Guide.
 	PlacementGroup *string `min:"1" type:"string"`
 
+	// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling
+	// group uses to call other AWS services on your behalf.
+	ServiceLinkedRoleARN *string `min:"1" type:"string"`
+
 	// A standalone termination policy or a list of termination policies used to
 	// select the instance to terminate. The policies are executed in the order
 	// that they are listed.
@@ -10494,7 +8892,7 @@ type UpdateAutoScalingGroupInput struct {
 	// For more information, see Controlling Which Instances Auto Scaling Terminates
 	// During Scale In (http://docs.aws.amazon.com/autoscaling/latest/userguide/as-instance-termination.html)
 	// in the Auto Scaling User Guide.
-	TerminationPolicies []*string `type:"list"`
+	TerminationPolicies []string `type:"list"`
 
 	// The ID of the subnet, if you are launching into a VPC. You can specify several
 	// subnets in a comma-separated list.
@@ -10539,8 +8937,16 @@ func (s *UpdateAutoScalingGroupInput) Validate() error {
 	if s.PlacementGroup != nil && len(*s.PlacementGroup) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("PlacementGroup", 1))
 	}
+	if s.ServiceLinkedRoleARN != nil && len(*s.ServiceLinkedRoleARN) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ServiceLinkedRoleARN", 1))
+	}
 	if s.VPCZoneIdentifier != nil && len(*s.VPCZoneIdentifier) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("VPCZoneIdentifier", 1))
+	}
+	if s.LaunchTemplate != nil {
+		if err := s.LaunchTemplate.Validate(); err != nil {
+			invalidParams.AddNested("LaunchTemplate", err.(aws.ErrInvalidParams))
+		}
 	}
 
 	if invalidParams.Len() > 0 {
@@ -10549,87 +8955,11 @@ func (s *UpdateAutoScalingGroupInput) Validate() error {
 	return nil
 }
 
-// SetAutoScalingGroupName sets the AutoScalingGroupName field's value.
-func (s *UpdateAutoScalingGroupInput) SetAutoScalingGroupName(v string) *UpdateAutoScalingGroupInput {
-	s.AutoScalingGroupName = &v
-	return s
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *UpdateAutoScalingGroupInput) SetAvailabilityZones(v []*string) *UpdateAutoScalingGroupInput {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetDefaultCooldown sets the DefaultCooldown field's value.
-func (s *UpdateAutoScalingGroupInput) SetDefaultCooldown(v int64) *UpdateAutoScalingGroupInput {
-	s.DefaultCooldown = &v
-	return s
-}
-
-// SetDesiredCapacity sets the DesiredCapacity field's value.
-func (s *UpdateAutoScalingGroupInput) SetDesiredCapacity(v int64) *UpdateAutoScalingGroupInput {
-	s.DesiredCapacity = &v
-	return s
-}
-
-// SetHealthCheckGracePeriod sets the HealthCheckGracePeriod field's value.
-func (s *UpdateAutoScalingGroupInput) SetHealthCheckGracePeriod(v int64) *UpdateAutoScalingGroupInput {
-	s.HealthCheckGracePeriod = &v
-	return s
-}
-
-// SetHealthCheckType sets the HealthCheckType field's value.
-func (s *UpdateAutoScalingGroupInput) SetHealthCheckType(v string) *UpdateAutoScalingGroupInput {
-	s.HealthCheckType = &v
-	return s
-}
-
-// SetLaunchConfigurationName sets the LaunchConfigurationName field's value.
-func (s *UpdateAutoScalingGroupInput) SetLaunchConfigurationName(v string) *UpdateAutoScalingGroupInput {
-	s.LaunchConfigurationName = &v
-	return s
-}
-
-// SetMaxSize sets the MaxSize field's value.
-func (s *UpdateAutoScalingGroupInput) SetMaxSize(v int64) *UpdateAutoScalingGroupInput {
-	s.MaxSize = &v
-	return s
-}
-
-// SetMinSize sets the MinSize field's value.
-func (s *UpdateAutoScalingGroupInput) SetMinSize(v int64) *UpdateAutoScalingGroupInput {
-	s.MinSize = &v
-	return s
-}
-
-// SetNewInstancesProtectedFromScaleIn sets the NewInstancesProtectedFromScaleIn field's value.
-func (s *UpdateAutoScalingGroupInput) SetNewInstancesProtectedFromScaleIn(v bool) *UpdateAutoScalingGroupInput {
-	s.NewInstancesProtectedFromScaleIn = &v
-	return s
-}
-
-// SetPlacementGroup sets the PlacementGroup field's value.
-func (s *UpdateAutoScalingGroupInput) SetPlacementGroup(v string) *UpdateAutoScalingGroupInput {
-	s.PlacementGroup = &v
-	return s
-}
-
-// SetTerminationPolicies sets the TerminationPolicies field's value.
-func (s *UpdateAutoScalingGroupInput) SetTerminationPolicies(v []*string) *UpdateAutoScalingGroupInput {
-	s.TerminationPolicies = v
-	return s
-}
-
-// SetVPCZoneIdentifier sets the VPCZoneIdentifier field's value.
-func (s *UpdateAutoScalingGroupInput) SetVPCZoneIdentifier(v string) *UpdateAutoScalingGroupInput {
-	s.VPCZoneIdentifier = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/autoscaling-2011-01-01/UpdateAutoScalingGroupOutput
 type UpdateAutoScalingGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -10640,6 +8970,11 @@ func (s UpdateAutoScalingGroupOutput) String() string {
 // GoString returns the string representation
 func (s UpdateAutoScalingGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAutoScalingGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type LifecycleState string
@@ -10661,6 +8996,15 @@ const (
 	LifecycleStateStandby            LifecycleState = "Standby"
 )
 
+func (enum LifecycleState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LifecycleState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MetricStatistic string
 
 // Enum values for MetricStatistic
@@ -10672,6 +9016,15 @@ const (
 	MetricStatisticSum         MetricStatistic = "Sum"
 )
 
+func (enum MetricStatistic) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MetricStatistic) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MetricType string
 
 // Enum values for MetricType
@@ -10681,6 +9034,15 @@ const (
 	MetricTypeAsgaverageNetworkOut     MetricType = "ASGAverageNetworkOut"
 	MetricTypeAlbrequestCountPerTarget MetricType = "ALBRequestCountPerTarget"
 )
+
+func (enum MetricType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MetricType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ScalingActivityStatusCode string
 
@@ -10699,3 +9061,12 @@ const (
 	ScalingActivityStatusCodeFailed                          ScalingActivityStatusCode = "Failed"
 	ScalingActivityStatusCodeCancelled                       ScalingActivityStatusCode = "Cancelled"
 )
+
+func (enum ScalingActivityStatusCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ScalingActivityStatusCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

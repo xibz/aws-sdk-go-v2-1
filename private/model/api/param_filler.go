@@ -3,6 +3,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
@@ -26,11 +27,11 @@ func (f paramFiller) typeName(shape *Shape) string {
 // ParamsStructFromJSON returns a JSON string representation of a structure.
 func ParamsStructFromJSON(value interface{}, shape *Shape, prefixPackageName bool) string {
 	f := paramFiller{prefixPackageName: prefixPackageName}
-	return util.GoFmt(f.paramsStructAny(value, shape))
+	return util.GoFmt(f.paramsStructAny(value, shape, false))
 }
 
 // paramsStructAny returns the string representation of any value.
-func (f paramFiller) paramsStructAny(value interface{}, shape *Shape) string {
+func (f paramFiller) paramsStructAny(value interface{}, shape *Shape, parentCollection bool) string {
 	if value == nil {
 		return ""
 	}
@@ -39,7 +40,7 @@ func (f paramFiller) paramsStructAny(value interface{}, shape *Shape) string {
 	case "structure":
 		if value != nil {
 			vmap := value.(map[string]interface{})
-			return f.paramsStructStruct(vmap, shape)
+			return f.paramsStructStruct(vmap, shape, parentCollection)
 		}
 	case "list":
 		vlist := value.([]interface{})
@@ -53,7 +54,10 @@ func (f paramFiller) paramsStructAny(value interface{}, shape *Shape) string {
 			return fmt.Sprintf("%s(%#v)", shape.EnumType(), v.Interface())
 		}
 		if v.IsValid() {
-			return fmt.Sprintf("aws.String(%#v)", v.Interface())
+			if !parentCollection {
+				return fmt.Sprintf("aws.String(%#v)", v.Interface())
+			}
+			return fmt.Sprintf("%#v", v.Interface())
 		}
 	case "blob":
 		v := reflect.Indirect(reflect.ValueOf(value))
@@ -65,23 +69,48 @@ func (f paramFiller) paramsStructAny(value interface{}, shape *Shape) string {
 	case "boolean":
 		v := reflect.Indirect(reflect.ValueOf(value))
 		if v.IsValid() {
-			return fmt.Sprintf("aws.Bool(%#v)", v.Interface())
+			if !parentCollection {
+				return fmt.Sprintf("aws.Bool(%#v)", v.Interface())
+			}
+			return fmt.Sprintf("%#v", v.Interface())
 		}
 	case "integer", "long":
 		v := reflect.Indirect(reflect.ValueOf(value))
 		if v.IsValid() {
-			return fmt.Sprintf("aws.Int64(%v)", v.Interface())
+			if !parentCollection {
+				return fmt.Sprintf("aws.Int64(%v)", v.Interface())
+			}
+			return fmt.Sprintf("%v", v.Interface())
 		}
 	case "float", "double":
 		v := reflect.Indirect(reflect.ValueOf(value))
 		if v.IsValid() {
-			return fmt.Sprintf("aws.Float64(%v)", v.Interface())
+			if !parentCollection {
+				return fmt.Sprintf("aws.Float64(%v)", v.Interface())
+			}
+			return fmt.Sprintf("%v", v.Interface())
 		}
 	case "timestamp":
 		v := reflect.Indirect(reflect.ValueOf(value))
 		if v.IsValid() {
-			return fmt.Sprintf("aws.Time(time.Unix(%d, 0))", int(v.Float()))
+			if !parentCollection {
+				return fmt.Sprintf("aws.Time(time.Unix(%d, 0))", int(v.Float()))
+			}
+			return fmt.Sprintf("time.Unix(%d, 0)", int(v.Float()))
 		}
+	case "jsonvalue":
+		v, err := json.Marshal(value)
+		if err != nil {
+			panic("failed to marshal JSONValue, " + err.Error())
+		}
+		const tmpl = `func() aws.JSONValue {
+			var m aws.JSONValue
+			if err := json.Unmarshal([]byte(%q), &m); err != nil {
+				panic("failed to unmarshal JSONValue, "+err.Error())
+			}
+			return m
+		}()`
+		return fmt.Sprintf(tmpl, string(v))
 	default:
 		panic("Unhandled type " + shape.Type)
 	}
@@ -89,13 +118,17 @@ func (f paramFiller) paramsStructAny(value interface{}, shape *Shape) string {
 }
 
 // paramsStructStruct returns the string representation of a structure
-func (f paramFiller) paramsStructStruct(value map[string]interface{}, shape *Shape) string {
-	out := "&" + f.typeName(shape)[1:] + "{\n"
+func (f paramFiller) paramsStructStruct(value map[string]interface{}, shape *Shape, parentCollection bool) string {
+	out := f.typeName(shape)[1:] + "{\n"
+	if !parentCollection {
+		out = "&" + out
+	}
+
 	for _, n := range shape.MemberNames() {
 		ref := shape.MemberRefs[n]
 		name := findParamMember(value, n)
 
-		if val := f.paramsStructAny(value[name], ref.Shape); val != "" {
+		if val := f.paramsStructAny(value[name], ref.Shape, false); val != "" {
 			out += fmt.Sprintf("%s: %s,\n", n, val)
 		}
 	}
@@ -109,7 +142,7 @@ func (f paramFiller) paramsStructMap(value map[string]interface{}, shape *Shape)
 	keys := util.SortedKeys(value)
 	for _, k := range keys {
 		v := value[k]
-		out += fmt.Sprintf("%q: %s,\n", k, f.paramsStructAny(v, shape.ValueRef.Shape))
+		out += fmt.Sprintf("%q: %s,\n", k, f.paramsStructAny(v, shape.ValueRef.Shape, true))
 	}
 	out += "}"
 	return out
@@ -119,7 +152,7 @@ func (f paramFiller) paramsStructMap(value map[string]interface{}, shape *Shape)
 func (f paramFiller) paramsStructList(value []interface{}, shape *Shape) string {
 	out := f.typeName(shape) + "{\n"
 	for _, v := range value {
-		out += fmt.Sprintf("%s,\n", f.paramsStructAny(v, shape.MemberRef.Shape))
+		out += fmt.Sprintf("%s,\n", f.paramsStructAny(v, shape.MemberRef.Shape, true))
 	}
 	out += "}"
 	return out

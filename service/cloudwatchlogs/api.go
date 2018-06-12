@@ -17,6 +17,7 @@ const opAssociateKmsKey = "AssociateKmsKey"
 type AssociateKmsKeyRequest struct {
 	*aws.Request
 	Input *AssociateKmsKeyInput
+	Copy  func(*AssociateKmsKeyInput) AssociateKmsKeyRequest
 }
 
 // Send marshals and sends the AssociateKmsKey API request.
@@ -66,10 +67,13 @@ func (c *CloudWatchLogs) AssociateKmsKeyRequest(input *AssociateKmsKeyInput) Ass
 		input = &AssociateKmsKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &AssociateKmsKeyOutput{})
+	output := &AssociateKmsKeyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AssociateKmsKeyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateKmsKeyRequest{Request: req, Input: input, Copy: c.AssociateKmsKeyRequest}
 }
 
 const opCancelExportTask = "CancelExportTask"
@@ -78,6 +82,7 @@ const opCancelExportTask = "CancelExportTask"
 type CancelExportTaskRequest struct {
 	*aws.Request
 	Input *CancelExportTaskInput
+	Copy  func(*CancelExportTaskInput) CancelExportTaskRequest
 }
 
 // Send marshals and sends the CancelExportTask API request.
@@ -116,10 +121,13 @@ func (c *CloudWatchLogs) CancelExportTaskRequest(input *CancelExportTaskInput) C
 		input = &CancelExportTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelExportTaskOutput{})
+	output := &CancelExportTaskOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CancelExportTaskRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelExportTaskRequest{Request: req, Input: input, Copy: c.CancelExportTaskRequest}
 }
 
 const opCreateExportTask = "CreateExportTask"
@@ -128,6 +136,7 @@ const opCreateExportTask = "CreateExportTask"
 type CreateExportTaskRequest struct {
 	*aws.Request
 	Input *CreateExportTaskInput
+	Copy  func(*CreateExportTaskInput) CreateExportTaskRequest
 }
 
 // Send marshals and sends the CreateExportTask API request.
@@ -175,8 +184,11 @@ func (c *CloudWatchLogs) CreateExportTaskRequest(input *CreateExportTaskInput) C
 		input = &CreateExportTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateExportTaskOutput{})
-	return CreateExportTaskRequest{Request: req, Input: input}
+	output := &CreateExportTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateExportTaskRequest{Request: req, Input: input, Copy: c.CreateExportTaskRequest}
 }
 
 const opCreateLogGroup = "CreateLogGroup"
@@ -185,6 +197,7 @@ const opCreateLogGroup = "CreateLogGroup"
 type CreateLogGroupRequest struct {
 	*aws.Request
 	Input *CreateLogGroupInput
+	Copy  func(*CreateLogGroupInput) CreateLogGroupRequest
 }
 
 // Send marshals and sends the CreateLogGroup API request.
@@ -242,10 +255,13 @@ func (c *CloudWatchLogs) CreateLogGroupRequest(input *CreateLogGroupInput) Creat
 		input = &CreateLogGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLogGroupOutput{})
+	output := &CreateLogGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateLogGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLogGroupRequest{Request: req, Input: input, Copy: c.CreateLogGroupRequest}
 }
 
 const opCreateLogStream = "CreateLogStream"
@@ -254,6 +270,7 @@ const opCreateLogStream = "CreateLogStream"
 type CreateLogStreamRequest struct {
 	*aws.Request
 	Input *CreateLogStreamInput
+	Copy  func(*CreateLogStreamInput) CreateLogStreamRequest
 }
 
 // Send marshals and sends the CreateLogStream API request.
@@ -301,10 +318,13 @@ func (c *CloudWatchLogs) CreateLogStreamRequest(input *CreateLogStreamInput) Cre
 		input = &CreateLogStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLogStreamOutput{})
+	output := &CreateLogStreamOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateLogStreamRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLogStreamRequest{Request: req, Input: input, Copy: c.CreateLogStreamRequest}
 }
 
 const opDeleteDestination = "DeleteDestination"
@@ -313,6 +333,7 @@ const opDeleteDestination = "DeleteDestination"
 type DeleteDestinationRequest struct {
 	*aws.Request
 	Input *DeleteDestinationInput
+	Copy  func(*DeleteDestinationInput) DeleteDestinationRequest
 }
 
 // Send marshals and sends the DeleteDestination API request.
@@ -351,10 +372,13 @@ func (c *CloudWatchLogs) DeleteDestinationRequest(input *DeleteDestinationInput)
 		input = &DeleteDestinationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDestinationOutput{})
+	output := &DeleteDestinationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteDestinationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDestinationRequest{Request: req, Input: input, Copy: c.DeleteDestinationRequest}
 }
 
 const opDeleteLogGroup = "DeleteLogGroup"
@@ -363,6 +387,7 @@ const opDeleteLogGroup = "DeleteLogGroup"
 type DeleteLogGroupRequest struct {
 	*aws.Request
 	Input *DeleteLogGroupInput
+	Copy  func(*DeleteLogGroupInput) DeleteLogGroupRequest
 }
 
 // Send marshals and sends the DeleteLogGroup API request.
@@ -400,10 +425,13 @@ func (c *CloudWatchLogs) DeleteLogGroupRequest(input *DeleteLogGroupInput) Delet
 		input = &DeleteLogGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLogGroupOutput{})
+	output := &DeleteLogGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteLogGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLogGroupRequest{Request: req, Input: input, Copy: c.DeleteLogGroupRequest}
 }
 
 const opDeleteLogStream = "DeleteLogStream"
@@ -412,6 +440,7 @@ const opDeleteLogStream = "DeleteLogStream"
 type DeleteLogStreamRequest struct {
 	*aws.Request
 	Input *DeleteLogStreamInput
+	Copy  func(*DeleteLogStreamInput) DeleteLogStreamRequest
 }
 
 // Send marshals and sends the DeleteLogStream API request.
@@ -449,10 +478,13 @@ func (c *CloudWatchLogs) DeleteLogStreamRequest(input *DeleteLogStreamInput) Del
 		input = &DeleteLogStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLogStreamOutput{})
+	output := &DeleteLogStreamOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteLogStreamRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLogStreamRequest{Request: req, Input: input, Copy: c.DeleteLogStreamRequest}
 }
 
 const opDeleteMetricFilter = "DeleteMetricFilter"
@@ -461,6 +493,7 @@ const opDeleteMetricFilter = "DeleteMetricFilter"
 type DeleteMetricFilterRequest struct {
 	*aws.Request
 	Input *DeleteMetricFilterInput
+	Copy  func(*DeleteMetricFilterInput) DeleteMetricFilterRequest
 }
 
 // Send marshals and sends the DeleteMetricFilter API request.
@@ -497,10 +530,13 @@ func (c *CloudWatchLogs) DeleteMetricFilterRequest(input *DeleteMetricFilterInpu
 		input = &DeleteMetricFilterInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteMetricFilterOutput{})
+	output := &DeleteMetricFilterOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteMetricFilterRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteMetricFilterRequest{Request: req, Input: input, Copy: c.DeleteMetricFilterRequest}
 }
 
 const opDeleteResourcePolicy = "DeleteResourcePolicy"
@@ -509,6 +545,7 @@ const opDeleteResourcePolicy = "DeleteResourcePolicy"
 type DeleteResourcePolicyRequest struct {
 	*aws.Request
 	Input *DeleteResourcePolicyInput
+	Copy  func(*DeleteResourcePolicyInput) DeleteResourcePolicyRequest
 }
 
 // Send marshals and sends the DeleteResourcePolicy API request.
@@ -546,10 +583,13 @@ func (c *CloudWatchLogs) DeleteResourcePolicyRequest(input *DeleteResourcePolicy
 		input = &DeleteResourcePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteResourcePolicyOutput{})
+	output := &DeleteResourcePolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteResourcePolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteResourcePolicyRequest{Request: req, Input: input, Copy: c.DeleteResourcePolicyRequest}
 }
 
 const opDeleteRetentionPolicy = "DeleteRetentionPolicy"
@@ -558,6 +598,7 @@ const opDeleteRetentionPolicy = "DeleteRetentionPolicy"
 type DeleteRetentionPolicyRequest struct {
 	*aws.Request
 	Input *DeleteRetentionPolicyInput
+	Copy  func(*DeleteRetentionPolicyInput) DeleteRetentionPolicyRequest
 }
 
 // Send marshals and sends the DeleteRetentionPolicy API request.
@@ -597,10 +638,13 @@ func (c *CloudWatchLogs) DeleteRetentionPolicyRequest(input *DeleteRetentionPoli
 		input = &DeleteRetentionPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRetentionPolicyOutput{})
+	output := &DeleteRetentionPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteRetentionPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRetentionPolicyRequest{Request: req, Input: input, Copy: c.DeleteRetentionPolicyRequest}
 }
 
 const opDeleteSubscriptionFilter = "DeleteSubscriptionFilter"
@@ -609,6 +653,7 @@ const opDeleteSubscriptionFilter = "DeleteSubscriptionFilter"
 type DeleteSubscriptionFilterRequest struct {
 	*aws.Request
 	Input *DeleteSubscriptionFilterInput
+	Copy  func(*DeleteSubscriptionFilterInput) DeleteSubscriptionFilterRequest
 }
 
 // Send marshals and sends the DeleteSubscriptionFilter API request.
@@ -645,10 +690,13 @@ func (c *CloudWatchLogs) DeleteSubscriptionFilterRequest(input *DeleteSubscripti
 		input = &DeleteSubscriptionFilterInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSubscriptionFilterOutput{})
+	output := &DeleteSubscriptionFilterOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteSubscriptionFilterRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSubscriptionFilterRequest{Request: req, Input: input, Copy: c.DeleteSubscriptionFilterRequest}
 }
 
 const opDescribeDestinations = "DescribeDestinations"
@@ -657,6 +705,7 @@ const opDescribeDestinations = "DescribeDestinations"
 type DescribeDestinationsRequest struct {
 	*aws.Request
 	Input *DescribeDestinationsInput
+	Copy  func(*DescribeDestinationsInput) DescribeDestinationsRequest
 }
 
 // Send marshals and sends the DescribeDestinations API request.
@@ -700,58 +749,57 @@ func (c *CloudWatchLogs) DescribeDestinationsRequest(input *DescribeDestinations
 		input = &DescribeDestinationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDestinationsOutput{})
-	return DescribeDestinationsRequest{Request: req, Input: input}
+	output := &DescribeDestinationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDestinationsRequest{Request: req, Input: input, Copy: c.DescribeDestinationsRequest}
 }
 
-// DescribeDestinationsPages iterates over the pages of a DescribeDestinations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeDestinations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeDestinationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeDestinations operation.
-//    pageNum := 0
-//    err := client.DescribeDestinationsPages(params,
-//        func(page *DescribeDestinationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeDestinationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) DescribeDestinationsPages(input *DescribeDestinationsInput, fn func(*DescribeDestinationsOutput, bool) bool) error {
-	return c.DescribeDestinationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeDestinationsRequest) Paginate(opts ...aws.Option) DescribeDestinationsPager {
+	return DescribeDestinationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeDestinationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeDestinationsPagesWithContext same as DescribeDestinationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) DescribeDestinationsPagesWithContext(ctx aws.Context, input *DescribeDestinationsInput, fn func(*DescribeDestinationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeDestinationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeDestinationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeDestinationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeDestinationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeDestinationsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeDestinationsPager) CurrentPage() *DescribeDestinationsOutput {
+	return p.Pager.CurrentPage().(*DescribeDestinationsOutput)
 }
 
 const opDescribeExportTasks = "DescribeExportTasks"
@@ -760,6 +808,7 @@ const opDescribeExportTasks = "DescribeExportTasks"
 type DescribeExportTasksRequest struct {
 	*aws.Request
 	Input *DescribeExportTasksInput
+	Copy  func(*DescribeExportTasksInput) DescribeExportTasksRequest
 }
 
 // Send marshals and sends the DescribeExportTasks API request.
@@ -797,8 +846,11 @@ func (c *CloudWatchLogs) DescribeExportTasksRequest(input *DescribeExportTasksIn
 		input = &DescribeExportTasksInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeExportTasksOutput{})
-	return DescribeExportTasksRequest{Request: req, Input: input}
+	output := &DescribeExportTasksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeExportTasksRequest{Request: req, Input: input, Copy: c.DescribeExportTasksRequest}
 }
 
 const opDescribeLogGroups = "DescribeLogGroups"
@@ -807,6 +859,7 @@ const opDescribeLogGroups = "DescribeLogGroups"
 type DescribeLogGroupsRequest struct {
 	*aws.Request
 	Input *DescribeLogGroupsInput
+	Copy  func(*DescribeLogGroupsInput) DescribeLogGroupsRequest
 }
 
 // Send marshals and sends the DescribeLogGroups API request.
@@ -850,58 +903,57 @@ func (c *CloudWatchLogs) DescribeLogGroupsRequest(input *DescribeLogGroupsInput)
 		input = &DescribeLogGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLogGroupsOutput{})
-	return DescribeLogGroupsRequest{Request: req, Input: input}
+	output := &DescribeLogGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLogGroupsRequest{Request: req, Input: input, Copy: c.DescribeLogGroupsRequest}
 }
 
-// DescribeLogGroupsPages iterates over the pages of a DescribeLogGroups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeLogGroups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeLogGroupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeLogGroups operation.
-//    pageNum := 0
-//    err := client.DescribeLogGroupsPages(params,
-//        func(page *DescribeLogGroupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeLogGroupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) DescribeLogGroupsPages(input *DescribeLogGroupsInput, fn func(*DescribeLogGroupsOutput, bool) bool) error {
-	return c.DescribeLogGroupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeLogGroupsRequest) Paginate(opts ...aws.Option) DescribeLogGroupsPager {
+	return DescribeLogGroupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeLogGroupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeLogGroupsPagesWithContext same as DescribeLogGroupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) DescribeLogGroupsPagesWithContext(ctx aws.Context, input *DescribeLogGroupsInput, fn func(*DescribeLogGroupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeLogGroupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeLogGroupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeLogGroupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeLogGroupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeLogGroupsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeLogGroupsPager) CurrentPage() *DescribeLogGroupsOutput {
+	return p.Pager.CurrentPage().(*DescribeLogGroupsOutput)
 }
 
 const opDescribeLogStreams = "DescribeLogStreams"
@@ -910,6 +962,7 @@ const opDescribeLogStreams = "DescribeLogStreams"
 type DescribeLogStreamsRequest struct {
 	*aws.Request
 	Input *DescribeLogStreamsInput
+	Copy  func(*DescribeLogStreamsInput) DescribeLogStreamsRequest
 }
 
 // Send marshals and sends the DescribeLogStreams API request.
@@ -957,58 +1010,57 @@ func (c *CloudWatchLogs) DescribeLogStreamsRequest(input *DescribeLogStreamsInpu
 		input = &DescribeLogStreamsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLogStreamsOutput{})
-	return DescribeLogStreamsRequest{Request: req, Input: input}
+	output := &DescribeLogStreamsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLogStreamsRequest{Request: req, Input: input, Copy: c.DescribeLogStreamsRequest}
 }
 
-// DescribeLogStreamsPages iterates over the pages of a DescribeLogStreams operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeLogStreams method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeLogStreamsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeLogStreams operation.
-//    pageNum := 0
-//    err := client.DescribeLogStreamsPages(params,
-//        func(page *DescribeLogStreamsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeLogStreamsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) DescribeLogStreamsPages(input *DescribeLogStreamsInput, fn func(*DescribeLogStreamsOutput, bool) bool) error {
-	return c.DescribeLogStreamsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeLogStreamsRequest) Paginate(opts ...aws.Option) DescribeLogStreamsPager {
+	return DescribeLogStreamsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeLogStreamsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeLogStreamsPagesWithContext same as DescribeLogStreamsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) DescribeLogStreamsPagesWithContext(ctx aws.Context, input *DescribeLogStreamsInput, fn func(*DescribeLogStreamsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeLogStreamsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeLogStreamsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeLogStreamsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeLogStreamsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeLogStreamsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeLogStreamsPager) CurrentPage() *DescribeLogStreamsOutput {
+	return p.Pager.CurrentPage().(*DescribeLogStreamsOutput)
 }
 
 const opDescribeMetricFilters = "DescribeMetricFilters"
@@ -1017,6 +1069,7 @@ const opDescribeMetricFilters = "DescribeMetricFilters"
 type DescribeMetricFiltersRequest struct {
 	*aws.Request
 	Input *DescribeMetricFiltersInput
+	Copy  func(*DescribeMetricFiltersInput) DescribeMetricFiltersRequest
 }
 
 // Send marshals and sends the DescribeMetricFilters API request.
@@ -1061,58 +1114,57 @@ func (c *CloudWatchLogs) DescribeMetricFiltersRequest(input *DescribeMetricFilte
 		input = &DescribeMetricFiltersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMetricFiltersOutput{})
-	return DescribeMetricFiltersRequest{Request: req, Input: input}
+	output := &DescribeMetricFiltersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMetricFiltersRequest{Request: req, Input: input, Copy: c.DescribeMetricFiltersRequest}
 }
 
-// DescribeMetricFiltersPages iterates over the pages of a DescribeMetricFilters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeMetricFilters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeMetricFiltersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeMetricFilters operation.
-//    pageNum := 0
-//    err := client.DescribeMetricFiltersPages(params,
-//        func(page *DescribeMetricFiltersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeMetricFiltersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) DescribeMetricFiltersPages(input *DescribeMetricFiltersInput, fn func(*DescribeMetricFiltersOutput, bool) bool) error {
-	return c.DescribeMetricFiltersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeMetricFiltersRequest) Paginate(opts ...aws.Option) DescribeMetricFiltersPager {
+	return DescribeMetricFiltersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeMetricFiltersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeMetricFiltersPagesWithContext same as DescribeMetricFiltersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) DescribeMetricFiltersPagesWithContext(ctx aws.Context, input *DescribeMetricFiltersInput, fn func(*DescribeMetricFiltersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeMetricFiltersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeMetricFiltersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeMetricFiltersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeMetricFiltersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeMetricFiltersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeMetricFiltersPager) CurrentPage() *DescribeMetricFiltersOutput {
+	return p.Pager.CurrentPage().(*DescribeMetricFiltersOutput)
 }
 
 const opDescribeResourcePolicies = "DescribeResourcePolicies"
@@ -1121,6 +1173,7 @@ const opDescribeResourcePolicies = "DescribeResourcePolicies"
 type DescribeResourcePoliciesRequest struct {
 	*aws.Request
 	Input *DescribeResourcePoliciesInput
+	Copy  func(*DescribeResourcePoliciesInput) DescribeResourcePoliciesRequest
 }
 
 // Send marshals and sends the DescribeResourcePolicies API request.
@@ -1157,8 +1210,11 @@ func (c *CloudWatchLogs) DescribeResourcePoliciesRequest(input *DescribeResource
 		input = &DescribeResourcePoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeResourcePoliciesOutput{})
-	return DescribeResourcePoliciesRequest{Request: req, Input: input}
+	output := &DescribeResourcePoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeResourcePoliciesRequest{Request: req, Input: input, Copy: c.DescribeResourcePoliciesRequest}
 }
 
 const opDescribeSubscriptionFilters = "DescribeSubscriptionFilters"
@@ -1167,6 +1223,7 @@ const opDescribeSubscriptionFilters = "DescribeSubscriptionFilters"
 type DescribeSubscriptionFiltersRequest struct {
 	*aws.Request
 	Input *DescribeSubscriptionFiltersInput
+	Copy  func(*DescribeSubscriptionFiltersInput) DescribeSubscriptionFiltersRequest
 }
 
 // Send marshals and sends the DescribeSubscriptionFilters API request.
@@ -1211,58 +1268,57 @@ func (c *CloudWatchLogs) DescribeSubscriptionFiltersRequest(input *DescribeSubsc
 		input = &DescribeSubscriptionFiltersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSubscriptionFiltersOutput{})
-	return DescribeSubscriptionFiltersRequest{Request: req, Input: input}
+	output := &DescribeSubscriptionFiltersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSubscriptionFiltersRequest{Request: req, Input: input, Copy: c.DescribeSubscriptionFiltersRequest}
 }
 
-// DescribeSubscriptionFiltersPages iterates over the pages of a DescribeSubscriptionFilters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeSubscriptionFilters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeSubscriptionFiltersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeSubscriptionFilters operation.
-//    pageNum := 0
-//    err := client.DescribeSubscriptionFiltersPages(params,
-//        func(page *DescribeSubscriptionFiltersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeSubscriptionFiltersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) DescribeSubscriptionFiltersPages(input *DescribeSubscriptionFiltersInput, fn func(*DescribeSubscriptionFiltersOutput, bool) bool) error {
-	return c.DescribeSubscriptionFiltersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeSubscriptionFiltersRequest) Paginate(opts ...aws.Option) DescribeSubscriptionFiltersPager {
+	return DescribeSubscriptionFiltersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeSubscriptionFiltersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeSubscriptionFiltersPagesWithContext same as DescribeSubscriptionFiltersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) DescribeSubscriptionFiltersPagesWithContext(ctx aws.Context, input *DescribeSubscriptionFiltersInput, fn func(*DescribeSubscriptionFiltersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeSubscriptionFiltersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeSubscriptionFiltersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeSubscriptionFiltersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeSubscriptionFiltersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeSubscriptionFiltersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeSubscriptionFiltersPager) CurrentPage() *DescribeSubscriptionFiltersOutput {
+	return p.Pager.CurrentPage().(*DescribeSubscriptionFiltersOutput)
 }
 
 const opDisassociateKmsKey = "DisassociateKmsKey"
@@ -1271,6 +1327,7 @@ const opDisassociateKmsKey = "DisassociateKmsKey"
 type DisassociateKmsKeyRequest struct {
 	*aws.Request
 	Input *DisassociateKmsKeyInput
+	Copy  func(*DisassociateKmsKeyInput) DisassociateKmsKeyRequest
 }
 
 // Send marshals and sends the DisassociateKmsKey API request.
@@ -1315,10 +1372,13 @@ func (c *CloudWatchLogs) DisassociateKmsKeyRequest(input *DisassociateKmsKeyInpu
 		input = &DisassociateKmsKeyInput{}
 	}
 
-	req := c.newRequest(op, input, &DisassociateKmsKeyOutput{})
+	output := &DisassociateKmsKeyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DisassociateKmsKeyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateKmsKeyRequest{Request: req, Input: input, Copy: c.DisassociateKmsKeyRequest}
 }
 
 const opFilterLogEvents = "FilterLogEvents"
@@ -1327,6 +1387,7 @@ const opFilterLogEvents = "FilterLogEvents"
 type FilterLogEventsRequest struct {
 	*aws.Request
 	Input *FilterLogEventsInput
+	Copy  func(*FilterLogEventsInput) FilterLogEventsRequest
 }
 
 // Send marshals and sends the FilterLogEvents API request.
@@ -1377,58 +1438,57 @@ func (c *CloudWatchLogs) FilterLogEventsRequest(input *FilterLogEventsInput) Fil
 		input = &FilterLogEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &FilterLogEventsOutput{})
-	return FilterLogEventsRequest{Request: req, Input: input}
+	output := &FilterLogEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return FilterLogEventsRequest{Request: req, Input: input, Copy: c.FilterLogEventsRequest}
 }
 
-// FilterLogEventsPages iterates over the pages of a FilterLogEvents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See FilterLogEvents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a FilterLogEventsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a FilterLogEvents operation.
-//    pageNum := 0
-//    err := client.FilterLogEventsPages(params,
-//        func(page *FilterLogEventsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.FilterLogEventsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) FilterLogEventsPages(input *FilterLogEventsInput, fn func(*FilterLogEventsOutput, bool) bool) error {
-	return c.FilterLogEventsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *FilterLogEventsRequest) Paginate(opts ...aws.Option) FilterLogEventsPager {
+	return FilterLogEventsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *FilterLogEventsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// FilterLogEventsPagesWithContext same as FilterLogEventsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) FilterLogEventsPagesWithContext(ctx aws.Context, input *FilterLogEventsInput, fn func(*FilterLogEventsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *FilterLogEventsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.FilterLogEventsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*FilterLogEventsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// FilterLogEventsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type FilterLogEventsPager struct {
+	aws.Pager
+}
+
+func (p *FilterLogEventsPager) CurrentPage() *FilterLogEventsOutput {
+	return p.Pager.CurrentPage().(*FilterLogEventsOutput)
 }
 
 const opGetLogEvents = "GetLogEvents"
@@ -1437,6 +1497,7 @@ const opGetLogEvents = "GetLogEvents"
 type GetLogEventsRequest struct {
 	*aws.Request
 	Input *GetLogEventsInput
+	Copy  func(*GetLogEventsInput) GetLogEventsRequest
 }
 
 // Send marshals and sends the GetLogEvents API request.
@@ -1484,58 +1545,57 @@ func (c *CloudWatchLogs) GetLogEventsRequest(input *GetLogEventsInput) GetLogEve
 		input = &GetLogEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetLogEventsOutput{})
-	return GetLogEventsRequest{Request: req, Input: input}
+	output := &GetLogEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLogEventsRequest{Request: req, Input: input, Copy: c.GetLogEventsRequest}
 }
 
-// GetLogEventsPages iterates over the pages of a GetLogEvents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetLogEvents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetLogEventsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetLogEvents operation.
-//    pageNum := 0
-//    err := client.GetLogEventsPages(params,
-//        func(page *GetLogEventsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetLogEventsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudWatchLogs) GetLogEventsPages(input *GetLogEventsInput, fn func(*GetLogEventsOutput, bool) bool) error {
-	return c.GetLogEventsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetLogEventsRequest) Paginate(opts ...aws.Option) GetLogEventsPager {
+	return GetLogEventsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetLogEventsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetLogEventsPagesWithContext same as GetLogEventsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudWatchLogs) GetLogEventsPagesWithContext(ctx aws.Context, input *GetLogEventsInput, fn func(*GetLogEventsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetLogEventsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetLogEventsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetLogEventsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetLogEventsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetLogEventsPager struct {
+	aws.Pager
+}
+
+func (p *GetLogEventsPager) CurrentPage() *GetLogEventsOutput {
+	return p.Pager.CurrentPage().(*GetLogEventsOutput)
 }
 
 const opListTagsLogGroup = "ListTagsLogGroup"
@@ -1544,6 +1604,7 @@ const opListTagsLogGroup = "ListTagsLogGroup"
 type ListTagsLogGroupRequest struct {
 	*aws.Request
 	Input *ListTagsLogGroupInput
+	Copy  func(*ListTagsLogGroupInput) ListTagsLogGroupRequest
 }
 
 // Send marshals and sends the ListTagsLogGroup API request.
@@ -1580,8 +1641,11 @@ func (c *CloudWatchLogs) ListTagsLogGroupRequest(input *ListTagsLogGroupInput) L
 		input = &ListTagsLogGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsLogGroupOutput{})
-	return ListTagsLogGroupRequest{Request: req, Input: input}
+	output := &ListTagsLogGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsLogGroupRequest{Request: req, Input: input, Copy: c.ListTagsLogGroupRequest}
 }
 
 const opPutDestination = "PutDestination"
@@ -1590,6 +1654,7 @@ const opPutDestination = "PutDestination"
 type PutDestinationRequest struct {
 	*aws.Request
 	Input *PutDestinationInput
+	Copy  func(*PutDestinationInput) PutDestinationRequest
 }
 
 // Send marshals and sends the PutDestination API request.
@@ -1636,8 +1701,11 @@ func (c *CloudWatchLogs) PutDestinationRequest(input *PutDestinationInput) PutDe
 		input = &PutDestinationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutDestinationOutput{})
-	return PutDestinationRequest{Request: req, Input: input}
+	output := &PutDestinationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutDestinationRequest{Request: req, Input: input, Copy: c.PutDestinationRequest}
 }
 
 const opPutDestinationPolicy = "PutDestinationPolicy"
@@ -1646,6 +1714,7 @@ const opPutDestinationPolicy = "PutDestinationPolicy"
 type PutDestinationPolicyRequest struct {
 	*aws.Request
 	Input *PutDestinationPolicyInput
+	Copy  func(*PutDestinationPolicyInput) PutDestinationPolicyRequest
 }
 
 // Send marshals and sends the PutDestinationPolicy API request.
@@ -1685,10 +1754,13 @@ func (c *CloudWatchLogs) PutDestinationPolicyRequest(input *PutDestinationPolicy
 		input = &PutDestinationPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutDestinationPolicyOutput{})
+	output := &PutDestinationPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutDestinationPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutDestinationPolicyRequest{Request: req, Input: input, Copy: c.PutDestinationPolicyRequest}
 }
 
 const opPutLogEvents = "PutLogEvents"
@@ -1697,6 +1769,7 @@ const opPutLogEvents = "PutLogEvents"
 type PutLogEventsRequest struct {
 	*aws.Request
 	Input *PutLogEventsInput
+	Copy  func(*PutLogEventsInput) PutLogEventsRequest
 }
 
 // Send marshals and sends the PutLogEvents API request.
@@ -1760,8 +1833,11 @@ func (c *CloudWatchLogs) PutLogEventsRequest(input *PutLogEventsInput) PutLogEve
 		input = &PutLogEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutLogEventsOutput{})
-	return PutLogEventsRequest{Request: req, Input: input}
+	output := &PutLogEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutLogEventsRequest{Request: req, Input: input, Copy: c.PutLogEventsRequest}
 }
 
 const opPutMetricFilter = "PutMetricFilter"
@@ -1770,6 +1846,7 @@ const opPutMetricFilter = "PutMetricFilter"
 type PutMetricFilterRequest struct {
 	*aws.Request
 	Input *PutMetricFilterInput
+	Copy  func(*PutMetricFilterInput) PutMetricFilterRequest
 }
 
 // Send marshals and sends the PutMetricFilter API request.
@@ -1811,10 +1888,13 @@ func (c *CloudWatchLogs) PutMetricFilterRequest(input *PutMetricFilterInput) Put
 		input = &PutMetricFilterInput{}
 	}
 
-	req := c.newRequest(op, input, &PutMetricFilterOutput{})
+	output := &PutMetricFilterOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutMetricFilterRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutMetricFilterRequest{Request: req, Input: input, Copy: c.PutMetricFilterRequest}
 }
 
 const opPutResourcePolicy = "PutResourcePolicy"
@@ -1823,6 +1903,7 @@ const opPutResourcePolicy = "PutResourcePolicy"
 type PutResourcePolicyRequest struct {
 	*aws.Request
 	Input *PutResourcePolicyInput
+	Copy  func(*PutResourcePolicyInput) PutResourcePolicyRequest
 }
 
 // Send marshals and sends the PutResourcePolicy API request.
@@ -1861,8 +1942,11 @@ func (c *CloudWatchLogs) PutResourcePolicyRequest(input *PutResourcePolicyInput)
 		input = &PutResourcePolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutResourcePolicyOutput{})
-	return PutResourcePolicyRequest{Request: req, Input: input}
+	output := &PutResourcePolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutResourcePolicyRequest{Request: req, Input: input, Copy: c.PutResourcePolicyRequest}
 }
 
 const opPutRetentionPolicy = "PutRetentionPolicy"
@@ -1871,6 +1955,7 @@ const opPutRetentionPolicy = "PutRetentionPolicy"
 type PutRetentionPolicyRequest struct {
 	*aws.Request
 	Input *PutRetentionPolicyInput
+	Copy  func(*PutRetentionPolicyInput) PutRetentionPolicyRequest
 }
 
 // Send marshals and sends the PutRetentionPolicy API request.
@@ -1909,10 +1994,13 @@ func (c *CloudWatchLogs) PutRetentionPolicyRequest(input *PutRetentionPolicyInpu
 		input = &PutRetentionPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutRetentionPolicyOutput{})
+	output := &PutRetentionPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutRetentionPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutRetentionPolicyRequest{Request: req, Input: input, Copy: c.PutRetentionPolicyRequest}
 }
 
 const opPutSubscriptionFilter = "PutSubscriptionFilter"
@@ -1921,6 +2009,7 @@ const opPutSubscriptionFilter = "PutSubscriptionFilter"
 type PutSubscriptionFilterRequest struct {
 	*aws.Request
 	Input *PutSubscriptionFilterInput
+	Copy  func(*PutSubscriptionFilterInput) PutSubscriptionFilterRequest
 }
 
 // Send marshals and sends the PutSubscriptionFilter API request.
@@ -1977,10 +2066,13 @@ func (c *CloudWatchLogs) PutSubscriptionFilterRequest(input *PutSubscriptionFilt
 		input = &PutSubscriptionFilterInput{}
 	}
 
-	req := c.newRequest(op, input, &PutSubscriptionFilterOutput{})
+	output := &PutSubscriptionFilterOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutSubscriptionFilterRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutSubscriptionFilterRequest{Request: req, Input: input, Copy: c.PutSubscriptionFilterRequest}
 }
 
 const opTagLogGroup = "TagLogGroup"
@@ -1989,6 +2081,7 @@ const opTagLogGroup = "TagLogGroup"
 type TagLogGroupRequest struct {
 	*aws.Request
 	Input *TagLogGroupInput
+	Copy  func(*TagLogGroupInput) TagLogGroupRequest
 }
 
 // Send marshals and sends the TagLogGroup API request.
@@ -2032,10 +2125,13 @@ func (c *CloudWatchLogs) TagLogGroupRequest(input *TagLogGroupInput) TagLogGroup
 		input = &TagLogGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &TagLogGroupOutput{})
+	output := &TagLogGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return TagLogGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TagLogGroupRequest{Request: req, Input: input, Copy: c.TagLogGroupRequest}
 }
 
 const opTestMetricFilter = "TestMetricFilter"
@@ -2044,6 +2140,7 @@ const opTestMetricFilter = "TestMetricFilter"
 type TestMetricFilterRequest struct {
 	*aws.Request
 	Input *TestMetricFilterInput
+	Copy  func(*TestMetricFilterInput) TestMetricFilterRequest
 }
 
 // Send marshals and sends the TestMetricFilter API request.
@@ -2082,8 +2179,11 @@ func (c *CloudWatchLogs) TestMetricFilterRequest(input *TestMetricFilterInput) T
 		input = &TestMetricFilterInput{}
 	}
 
-	req := c.newRequest(op, input, &TestMetricFilterOutput{})
-	return TestMetricFilterRequest{Request: req, Input: input}
+	output := &TestMetricFilterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TestMetricFilterRequest{Request: req, Input: input, Copy: c.TestMetricFilterRequest}
 }
 
 const opUntagLogGroup = "UntagLogGroup"
@@ -2092,6 +2192,7 @@ const opUntagLogGroup = "UntagLogGroup"
 type UntagLogGroupRequest struct {
 	*aws.Request
 	Input *UntagLogGroupInput
+	Copy  func(*UntagLogGroupInput) UntagLogGroupRequest
 }
 
 // Send marshals and sends the UntagLogGroup API request.
@@ -2131,10 +2232,13 @@ func (c *CloudWatchLogs) UntagLogGroupRequest(input *UntagLogGroupInput) UntagLo
 		input = &UntagLogGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &UntagLogGroupOutput{})
+	output := &UntagLogGroupOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return UntagLogGroupRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UntagLogGroupRequest{Request: req, Input: input, Copy: c.UntagLogGroupRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/AssociateKmsKeyRequest
@@ -2185,21 +2289,11 @@ func (s *AssociateKmsKeyInput) Validate() error {
 	return nil
 }
 
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *AssociateKmsKeyInput) SetKmsKeyId(v string) *AssociateKmsKeyInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *AssociateKmsKeyInput) SetLogGroupName(v string) *AssociateKmsKeyInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/AssociateKmsKeyOutput
 type AssociateKmsKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2210,6 +2304,11 @@ func (s AssociateKmsKeyOutput) String() string {
 // GoString returns the string representation
 func (s AssociateKmsKeyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateKmsKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CancelExportTaskRequest
@@ -2249,15 +2348,11 @@ func (s *CancelExportTaskInput) Validate() error {
 	return nil
 }
 
-// SetTaskId sets the TaskId field's value.
-func (s *CancelExportTaskInput) SetTaskId(v string) *CancelExportTaskInput {
-	s.TaskId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CancelExportTaskOutput
 type CancelExportTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2268,6 +2363,11 @@ func (s CancelExportTaskOutput) String() string {
 // GoString returns the string representation
 func (s CancelExportTaskOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelExportTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateExportTaskRequest
@@ -2359,51 +2459,11 @@ func (s *CreateExportTaskInput) Validate() error {
 	return nil
 }
 
-// SetDestination sets the Destination field's value.
-func (s *CreateExportTaskInput) SetDestination(v string) *CreateExportTaskInput {
-	s.Destination = &v
-	return s
-}
-
-// SetDestinationPrefix sets the DestinationPrefix field's value.
-func (s *CreateExportTaskInput) SetDestinationPrefix(v string) *CreateExportTaskInput {
-	s.DestinationPrefix = &v
-	return s
-}
-
-// SetFrom sets the From field's value.
-func (s *CreateExportTaskInput) SetFrom(v int64) *CreateExportTaskInput {
-	s.From = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *CreateExportTaskInput) SetLogGroupName(v string) *CreateExportTaskInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamNamePrefix sets the LogStreamNamePrefix field's value.
-func (s *CreateExportTaskInput) SetLogStreamNamePrefix(v string) *CreateExportTaskInput {
-	s.LogStreamNamePrefix = &v
-	return s
-}
-
-// SetTaskName sets the TaskName field's value.
-func (s *CreateExportTaskInput) SetTaskName(v string) *CreateExportTaskInput {
-	s.TaskName = &v
-	return s
-}
-
-// SetTo sets the To field's value.
-func (s *CreateExportTaskInput) SetTo(v int64) *CreateExportTaskInput {
-	s.To = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateExportTaskResponse
 type CreateExportTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the export task.
 	TaskId *string `locationName:"taskId" min:"1" type:"string"`
@@ -2419,10 +2479,9 @@ func (s CreateExportTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetTaskId sets the TaskId field's value.
-func (s *CreateExportTaskOutput) SetTaskId(v string) *CreateExportTaskOutput {
-	s.TaskId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateExportTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogGroupRequest
@@ -2440,7 +2499,7 @@ type CreateLogGroupInput struct {
 	LogGroupName *string `locationName:"logGroupName" min:"1" type:"string" required:"true"`
 
 	// The key-value pairs to use for the tags.
-	Tags map[string]*string `locationName:"tags" min:"1" type:"map"`
+	Tags map[string]string `locationName:"tags" min:"1" type:"map"`
 }
 
 // String returns the string representation
@@ -2473,27 +2532,11 @@ func (s *CreateLogGroupInput) Validate() error {
 	return nil
 }
 
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *CreateLogGroupInput) SetKmsKeyId(v string) *CreateLogGroupInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *CreateLogGroupInput) SetLogGroupName(v string) *CreateLogGroupInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *CreateLogGroupInput) SetTags(v map[string]*string) *CreateLogGroupInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogGroupOutput
 type CreateLogGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2504,6 +2547,11 @@ func (s CreateLogGroupOutput) String() string {
 // GoString returns the string representation
 func (s CreateLogGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLogGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogStreamRequest
@@ -2555,21 +2603,11 @@ func (s *CreateLogStreamInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *CreateLogStreamInput) SetLogGroupName(v string) *CreateLogStreamInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *CreateLogStreamInput) SetLogStreamName(v string) *CreateLogStreamInput {
-	s.LogStreamName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogStreamOutput
 type CreateLogStreamOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2580,6 +2618,11 @@ func (s CreateLogStreamOutput) String() string {
 // GoString returns the string representation
 func (s CreateLogStreamOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLogStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDestinationRequest
@@ -2619,15 +2662,11 @@ func (s *DeleteDestinationInput) Validate() error {
 	return nil
 }
 
-// SetDestinationName sets the DestinationName field's value.
-func (s *DeleteDestinationInput) SetDestinationName(v string) *DeleteDestinationInput {
-	s.DestinationName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDestinationOutput
 type DeleteDestinationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2638,6 +2677,11 @@ func (s DeleteDestinationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteDestinationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDestinationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogGroupRequest
@@ -2677,15 +2721,11 @@ func (s *DeleteLogGroupInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DeleteLogGroupInput) SetLogGroupName(v string) *DeleteLogGroupInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogGroupOutput
 type DeleteLogGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2696,6 +2736,11 @@ func (s DeleteLogGroupOutput) String() string {
 // GoString returns the string representation
 func (s DeleteLogGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLogGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogStreamRequest
@@ -2747,21 +2792,11 @@ func (s *DeleteLogStreamInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DeleteLogStreamInput) SetLogGroupName(v string) *DeleteLogStreamInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *DeleteLogStreamInput) SetLogStreamName(v string) *DeleteLogStreamInput {
-	s.LogStreamName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogStreamOutput
 type DeleteLogStreamOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2772,6 +2807,11 @@ func (s DeleteLogStreamOutput) String() string {
 // GoString returns the string representation
 func (s DeleteLogStreamOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLogStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteMetricFilterRequest
@@ -2823,21 +2863,11 @@ func (s *DeleteMetricFilterInput) Validate() error {
 	return nil
 }
 
-// SetFilterName sets the FilterName field's value.
-func (s *DeleteMetricFilterInput) SetFilterName(v string) *DeleteMetricFilterInput {
-	s.FilterName = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DeleteMetricFilterInput) SetLogGroupName(v string) *DeleteMetricFilterInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteMetricFilterOutput
 type DeleteMetricFilterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2848,6 +2878,11 @@ func (s DeleteMetricFilterOutput) String() string {
 // GoString returns the string representation
 func (s DeleteMetricFilterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteMetricFilterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteResourcePolicyRequest
@@ -2868,15 +2903,11 @@ func (s DeleteResourcePolicyInput) GoString() string {
 	return s.String()
 }
 
-// SetPolicyName sets the PolicyName field's value.
-func (s *DeleteResourcePolicyInput) SetPolicyName(v string) *DeleteResourcePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteResourcePolicyOutput
 type DeleteResourcePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2887,6 +2918,11 @@ func (s DeleteResourcePolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeleteResourcePolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteResourcePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteRetentionPolicyRequest
@@ -2926,15 +2962,11 @@ func (s *DeleteRetentionPolicyInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DeleteRetentionPolicyInput) SetLogGroupName(v string) *DeleteRetentionPolicyInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteRetentionPolicyOutput
 type DeleteRetentionPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2945,6 +2977,11 @@ func (s DeleteRetentionPolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeleteRetentionPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRetentionPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteSubscriptionFilterRequest
@@ -2996,21 +3033,11 @@ func (s *DeleteSubscriptionFilterInput) Validate() error {
 	return nil
 }
 
-// SetFilterName sets the FilterName field's value.
-func (s *DeleteSubscriptionFilterInput) SetFilterName(v string) *DeleteSubscriptionFilterInput {
-	s.FilterName = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DeleteSubscriptionFilterInput) SetLogGroupName(v string) *DeleteSubscriptionFilterInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteSubscriptionFilterOutput
 type DeleteSubscriptionFilterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3021,6 +3048,11 @@ func (s DeleteSubscriptionFilterOutput) String() string {
 // GoString returns the string representation
 func (s DeleteSubscriptionFilterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSubscriptionFilterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDestinationsRequest
@@ -3068,30 +3100,14 @@ func (s *DescribeDestinationsInput) Validate() error {
 	return nil
 }
 
-// SetDestinationNamePrefix sets the DestinationNamePrefix field's value.
-func (s *DescribeDestinationsInput) SetDestinationNamePrefix(v string) *DescribeDestinationsInput {
-	s.DestinationNamePrefix = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeDestinationsInput) SetLimit(v int64) *DescribeDestinationsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDestinationsInput) SetNextToken(v string) *DescribeDestinationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDestinationsResponse
 type DescribeDestinationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The destinations.
-	Destinations []*Destination `locationName:"destinations" type:"list"`
+	Destinations []Destination `locationName:"destinations" type:"list"`
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
@@ -3108,16 +3124,9 @@ func (s DescribeDestinationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDestinations sets the Destinations field's value.
-func (s *DescribeDestinationsOutput) SetDestinations(v []*Destination) *DescribeDestinationsOutput {
-	s.Destinations = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDestinationsOutput) SetNextToken(v string) *DescribeDestinationsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDestinationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeExportTasksRequest
@@ -3134,7 +3143,7 @@ type DescribeExportTasksInput struct {
 
 	// The status code of the export task. Specifying a status code filters the
 	// results to zero or more export tasks.
-	StatusCode ExportTaskStatusCode `locationName:"statusCode" type:"string"`
+	StatusCode ExportTaskStatusCode `locationName:"statusCode" type:"string" enum:"true"`
 
 	// The ID of the export task. Specifying a task ID filters the results to zero
 	// or one export tasks.
@@ -3170,36 +3179,14 @@ func (s *DescribeExportTasksInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeExportTasksInput) SetLimit(v int64) *DescribeExportTasksInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeExportTasksInput) SetNextToken(v string) *DescribeExportTasksInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStatusCode sets the StatusCode field's value.
-func (s *DescribeExportTasksInput) SetStatusCode(v ExportTaskStatusCode) *DescribeExportTasksInput {
-	s.StatusCode = v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *DescribeExportTasksInput) SetTaskId(v string) *DescribeExportTasksInput {
-	s.TaskId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeExportTasksResponse
 type DescribeExportTasksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The export tasks.
-	ExportTasks []*ExportTask `locationName:"exportTasks" type:"list"`
+	ExportTasks []ExportTask `locationName:"exportTasks" type:"list"`
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
@@ -3216,16 +3203,9 @@ func (s DescribeExportTasksOutput) GoString() string {
 	return s.String()
 }
 
-// SetExportTasks sets the ExportTasks field's value.
-func (s *DescribeExportTasksOutput) SetExportTasks(v []*ExportTask) *DescribeExportTasksOutput {
-	s.ExportTasks = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeExportTasksOutput) SetNextToken(v string) *DescribeExportTasksOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeExportTasksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogGroupsRequest
@@ -3273,30 +3253,14 @@ func (s *DescribeLogGroupsInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeLogGroupsInput) SetLimit(v int64) *DescribeLogGroupsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetLogGroupNamePrefix sets the LogGroupNamePrefix field's value.
-func (s *DescribeLogGroupsInput) SetLogGroupNamePrefix(v string) *DescribeLogGroupsInput {
-	s.LogGroupNamePrefix = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLogGroupsInput) SetNextToken(v string) *DescribeLogGroupsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogGroupsResponse
 type DescribeLogGroupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The log groups.
-	LogGroups []*LogGroup `locationName:"logGroups" type:"list"`
+	LogGroups []LogGroup `locationName:"logGroups" type:"list"`
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
@@ -3313,16 +3277,9 @@ func (s DescribeLogGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLogGroups sets the LogGroups field's value.
-func (s *DescribeLogGroupsOutput) SetLogGroups(v []*LogGroup) *DescribeLogGroupsOutput {
-	s.LogGroups = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLogGroupsOutput) SetNextToken(v string) *DescribeLogGroupsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLogGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogStreamsRequest
@@ -3364,7 +3321,7 @@ type DescribeLogStreamsInput struct {
 	// milliseconds after Jan 1, 1970 00:00:00 UTC. lastEventTimeStamp updates on
 	// an eventual consistency basis. It typically updates in less than an hour
 	// from ingestion, but may take longer in some rare situations.
-	OrderBy OrderBy `locationName:"orderBy" type:"string"`
+	OrderBy OrderBy `locationName:"orderBy" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3403,48 +3360,14 @@ func (s *DescribeLogStreamsInput) Validate() error {
 	return nil
 }
 
-// SetDescending sets the Descending field's value.
-func (s *DescribeLogStreamsInput) SetDescending(v bool) *DescribeLogStreamsInput {
-	s.Descending = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeLogStreamsInput) SetLimit(v int64) *DescribeLogStreamsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DescribeLogStreamsInput) SetLogGroupName(v string) *DescribeLogStreamsInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamNamePrefix sets the LogStreamNamePrefix field's value.
-func (s *DescribeLogStreamsInput) SetLogStreamNamePrefix(v string) *DescribeLogStreamsInput {
-	s.LogStreamNamePrefix = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLogStreamsInput) SetNextToken(v string) *DescribeLogStreamsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetOrderBy sets the OrderBy field's value.
-func (s *DescribeLogStreamsInput) SetOrderBy(v OrderBy) *DescribeLogStreamsInput {
-	s.OrderBy = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogStreamsResponse
 type DescribeLogStreamsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The log streams.
-	LogStreams []*LogStream `locationName:"logStreams" type:"list"`
+	LogStreams []LogStream `locationName:"logStreams" type:"list"`
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
@@ -3461,16 +3384,9 @@ func (s DescribeLogStreamsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLogStreams sets the LogStreams field's value.
-func (s *DescribeLogStreamsOutput) SetLogStreams(v []*LogStream) *DescribeLogStreamsOutput {
-	s.LogStreams = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeLogStreamsOutput) SetNextToken(v string) *DescribeLogStreamsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLogStreamsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeMetricFiltersRequest
@@ -3531,48 +3447,14 @@ func (s *DescribeMetricFiltersInput) Validate() error {
 	return nil
 }
 
-// SetFilterNamePrefix sets the FilterNamePrefix field's value.
-func (s *DescribeMetricFiltersInput) SetFilterNamePrefix(v string) *DescribeMetricFiltersInput {
-	s.FilterNamePrefix = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeMetricFiltersInput) SetLimit(v int64) *DescribeMetricFiltersInput {
-	s.Limit = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DescribeMetricFiltersInput) SetLogGroupName(v string) *DescribeMetricFiltersInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetMetricName sets the MetricName field's value.
-func (s *DescribeMetricFiltersInput) SetMetricName(v string) *DescribeMetricFiltersInput {
-	s.MetricName = &v
-	return s
-}
-
-// SetMetricNamespace sets the MetricNamespace field's value.
-func (s *DescribeMetricFiltersInput) SetMetricNamespace(v string) *DescribeMetricFiltersInput {
-	s.MetricNamespace = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMetricFiltersInput) SetNextToken(v string) *DescribeMetricFiltersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeMetricFiltersResponse
 type DescribeMetricFiltersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The metric filters.
-	MetricFilters []*MetricFilter `locationName:"metricFilters" type:"list"`
+	MetricFilters []MetricFilter `locationName:"metricFilters" type:"list"`
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
@@ -3589,16 +3471,9 @@ func (s DescribeMetricFiltersOutput) GoString() string {
 	return s.String()
 }
 
-// SetMetricFilters sets the MetricFilters field's value.
-func (s *DescribeMetricFiltersOutput) SetMetricFilters(v []*MetricFilter) *DescribeMetricFiltersOutput {
-	s.MetricFilters = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMetricFiltersOutput) SetNextToken(v string) *DescribeMetricFiltersOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMetricFiltersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeResourcePoliciesRequest
@@ -3640,28 +3515,18 @@ func (s *DescribeResourcePoliciesInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *DescribeResourcePoliciesInput) SetLimit(v int64) *DescribeResourcePoliciesInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeResourcePoliciesInput) SetNextToken(v string) *DescribeResourcePoliciesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeResourcePoliciesResponse
 type DescribeResourcePoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
 	NextToken *string `locationName:"nextToken" min:"1" type:"string"`
 
 	// The resource policies that exist in this account.
-	ResourcePolicies []*ResourcePolicy `locationName:"resourcePolicies" type:"list"`
+	ResourcePolicies []ResourcePolicy `locationName:"resourcePolicies" type:"list"`
 }
 
 // String returns the string representation
@@ -3674,16 +3539,9 @@ func (s DescribeResourcePoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeResourcePoliciesOutput) SetNextToken(v string) *DescribeResourcePoliciesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourcePolicies sets the ResourcePolicies field's value.
-func (s *DescribeResourcePoliciesOutput) SetResourcePolicies(v []*ResourcePolicy) *DescribeResourcePoliciesOutput {
-	s.ResourcePolicies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeResourcePoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeSubscriptionFiltersRequest
@@ -3743,40 +3601,18 @@ func (s *DescribeSubscriptionFiltersInput) Validate() error {
 	return nil
 }
 
-// SetFilterNamePrefix sets the FilterNamePrefix field's value.
-func (s *DescribeSubscriptionFiltersInput) SetFilterNamePrefix(v string) *DescribeSubscriptionFiltersInput {
-	s.FilterNamePrefix = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeSubscriptionFiltersInput) SetLimit(v int64) *DescribeSubscriptionFiltersInput {
-	s.Limit = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DescribeSubscriptionFiltersInput) SetLogGroupName(v string) *DescribeSubscriptionFiltersInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeSubscriptionFiltersInput) SetNextToken(v string) *DescribeSubscriptionFiltersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeSubscriptionFiltersResponse
 type DescribeSubscriptionFiltersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token for the next set of items to return. The token expires after 24
 	// hours.
 	NextToken *string `locationName:"nextToken" min:"1" type:"string"`
 
 	// The subscription filters.
-	SubscriptionFilters []*SubscriptionFilter `locationName:"subscriptionFilters" type:"list"`
+	SubscriptionFilters []SubscriptionFilter `locationName:"subscriptionFilters" type:"list"`
 }
 
 // String returns the string representation
@@ -3789,16 +3625,9 @@ func (s DescribeSubscriptionFiltersOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeSubscriptionFiltersOutput) SetNextToken(v string) *DescribeSubscriptionFiltersOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSubscriptionFilters sets the SubscriptionFilters field's value.
-func (s *DescribeSubscriptionFiltersOutput) SetSubscriptionFilters(v []*SubscriptionFilter) *DescribeSubscriptionFiltersOutput {
-	s.SubscriptionFilters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSubscriptionFiltersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a cross-account destination that receives subscription log events.
@@ -3838,42 +3667,6 @@ func (s Destination) GoString() string {
 	return s.String()
 }
 
-// SetAccessPolicy sets the AccessPolicy field's value.
-func (s *Destination) SetAccessPolicy(v string) *Destination {
-	s.AccessPolicy = &v
-	return s
-}
-
-// SetArn sets the Arn field's value.
-func (s *Destination) SetArn(v string) *Destination {
-	s.Arn = &v
-	return s
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *Destination) SetCreationTime(v int64) *Destination {
-	s.CreationTime = &v
-	return s
-}
-
-// SetDestinationName sets the DestinationName field's value.
-func (s *Destination) SetDestinationName(v string) *Destination {
-	s.DestinationName = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *Destination) SetRoleArn(v string) *Destination {
-	s.RoleArn = &v
-	return s
-}
-
-// SetTargetArn sets the TargetArn field's value.
-func (s *Destination) SetTargetArn(v string) *Destination {
-	s.TargetArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DisassociateKmsKeyRequest
 type DisassociateKmsKeyInput struct {
 	_ struct{} `type:"structure"`
@@ -3911,15 +3704,11 @@ func (s *DisassociateKmsKeyInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *DisassociateKmsKeyInput) SetLogGroupName(v string) *DisassociateKmsKeyInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DisassociateKmsKeyOutput
 type DisassociateKmsKeyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3930,6 +3719,11 @@ func (s DisassociateKmsKeyOutput) String() string {
 // GoString returns the string representation
 func (s DisassociateKmsKeyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateKmsKeyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents an export task.
@@ -3977,60 +3771,6 @@ func (s ExportTask) GoString() string {
 	return s.String()
 }
 
-// SetDestination sets the Destination field's value.
-func (s *ExportTask) SetDestination(v string) *ExportTask {
-	s.Destination = &v
-	return s
-}
-
-// SetDestinationPrefix sets the DestinationPrefix field's value.
-func (s *ExportTask) SetDestinationPrefix(v string) *ExportTask {
-	s.DestinationPrefix = &v
-	return s
-}
-
-// SetExecutionInfo sets the ExecutionInfo field's value.
-func (s *ExportTask) SetExecutionInfo(v *ExportTaskExecutionInfo) *ExportTask {
-	s.ExecutionInfo = v
-	return s
-}
-
-// SetFrom sets the From field's value.
-func (s *ExportTask) SetFrom(v int64) *ExportTask {
-	s.From = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *ExportTask) SetLogGroupName(v string) *ExportTask {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ExportTask) SetStatus(v *ExportTaskStatus) *ExportTask {
-	s.Status = v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *ExportTask) SetTaskId(v string) *ExportTask {
-	s.TaskId = &v
-	return s
-}
-
-// SetTaskName sets the TaskName field's value.
-func (s *ExportTask) SetTaskName(v string) *ExportTask {
-	s.TaskName = &v
-	return s
-}
-
-// SetTo sets the To field's value.
-func (s *ExportTask) SetTo(v int64) *ExportTask {
-	s.To = &v
-	return s
-}
-
 // Represents the status of an export task.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ExportTaskExecutionInfo
 type ExportTaskExecutionInfo struct {
@@ -4055,25 +3795,13 @@ func (s ExportTaskExecutionInfo) GoString() string {
 	return s.String()
 }
 
-// SetCompletionTime sets the CompletionTime field's value.
-func (s *ExportTaskExecutionInfo) SetCompletionTime(v int64) *ExportTaskExecutionInfo {
-	s.CompletionTime = &v
-	return s
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *ExportTaskExecutionInfo) SetCreationTime(v int64) *ExportTaskExecutionInfo {
-	s.CreationTime = &v
-	return s
-}
-
 // Represents the status of an export task.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ExportTaskStatus
 type ExportTaskStatus struct {
 	_ struct{} `type:"structure"`
 
 	// The status code of the export task.
-	Code ExportTaskStatusCode `locationName:"code" type:"string"`
+	Code ExportTaskStatusCode `locationName:"code" type:"string" enum:"true"`
 
 	// The status message related to the status code.
 	Message *string `locationName:"message" type:"string"`
@@ -4087,18 +3815,6 @@ func (s ExportTaskStatus) String() string {
 // GoString returns the string representation
 func (s ExportTaskStatus) GoString() string {
 	return s.String()
-}
-
-// SetCode sets the Code field's value.
-func (s *ExportTaskStatus) SetCode(v ExportTaskStatusCode) *ExportTaskStatus {
-	s.Code = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *ExportTaskStatus) SetMessage(v string) *ExportTaskStatus {
-	s.Message = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/FilterLogEventsRequest
@@ -4129,7 +3845,7 @@ type FilterLogEventsInput struct {
 	LogGroupName *string `locationName:"logGroupName" min:"1" type:"string" required:"true"`
 
 	// Optional list of log stream names.
-	LogStreamNames []*string `locationName:"logStreamNames" min:"1" type:"list"`
+	LogStreamNames []string `locationName:"logStreamNames" min:"1" type:"list"`
 
 	// The token for the next set of events to return. (You received this token
 	// from a previous call.)
@@ -4177,60 +3893,14 @@ func (s *FilterLogEventsInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *FilterLogEventsInput) SetEndTime(v int64) *FilterLogEventsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetFilterPattern sets the FilterPattern field's value.
-func (s *FilterLogEventsInput) SetFilterPattern(v string) *FilterLogEventsInput {
-	s.FilterPattern = &v
-	return s
-}
-
-// SetInterleaved sets the Interleaved field's value.
-func (s *FilterLogEventsInput) SetInterleaved(v bool) *FilterLogEventsInput {
-	s.Interleaved = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *FilterLogEventsInput) SetLimit(v int64) *FilterLogEventsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *FilterLogEventsInput) SetLogGroupName(v string) *FilterLogEventsInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamNames sets the LogStreamNames field's value.
-func (s *FilterLogEventsInput) SetLogStreamNames(v []*string) *FilterLogEventsInput {
-	s.LogStreamNames = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *FilterLogEventsInput) SetNextToken(v string) *FilterLogEventsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *FilterLogEventsInput) SetStartTime(v int64) *FilterLogEventsInput {
-	s.StartTime = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/FilterLogEventsResponse
 type FilterLogEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The matched events.
-	Events []*FilteredLogEvent `locationName:"events" type:"list"`
+	Events []FilteredLogEvent `locationName:"events" type:"list"`
 
 	// The token to use when requesting the next set of items. The token expires
 	// after 24 hours.
@@ -4238,7 +3908,7 @@ type FilterLogEventsOutput struct {
 
 	// Indicates which log streams have been searched and whether each has been
 	// searched completely.
-	SearchedLogStreams []*SearchedLogStream `locationName:"searchedLogStreams" type:"list"`
+	SearchedLogStreams []SearchedLogStream `locationName:"searchedLogStreams" type:"list"`
 }
 
 // String returns the string representation
@@ -4251,22 +3921,9 @@ func (s FilterLogEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *FilterLogEventsOutput) SetEvents(v []*FilteredLogEvent) *FilterLogEventsOutput {
-	s.Events = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *FilterLogEventsOutput) SetNextToken(v string) *FilterLogEventsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSearchedLogStreams sets the SearchedLogStreams field's value.
-func (s *FilterLogEventsOutput) SetSearchedLogStreams(v []*SearchedLogStream) *FilterLogEventsOutput {
-	s.SearchedLogStreams = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s FilterLogEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a matched event.
@@ -4300,36 +3957,6 @@ func (s FilteredLogEvent) String() string {
 // GoString returns the string representation
 func (s FilteredLogEvent) GoString() string {
 	return s.String()
-}
-
-// SetEventId sets the EventId field's value.
-func (s *FilteredLogEvent) SetEventId(v string) *FilteredLogEvent {
-	s.EventId = &v
-	return s
-}
-
-// SetIngestionTime sets the IngestionTime field's value.
-func (s *FilteredLogEvent) SetIngestionTime(v int64) *FilteredLogEvent {
-	s.IngestionTime = &v
-	return s
-}
-
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *FilteredLogEvent) SetLogStreamName(v string) *FilteredLogEvent {
-	s.LogStreamName = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *FilteredLogEvent) SetMessage(v string) *FilteredLogEvent {
-	s.Message = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *FilteredLogEvent) SetTimestamp(v int64) *FilteredLogEvent {
-	s.Timestamp = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogEventsRequest
@@ -4411,54 +4038,14 @@ func (s *GetLogEventsInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetLogEventsInput) SetEndTime(v int64) *GetLogEventsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *GetLogEventsInput) SetLimit(v int64) *GetLogEventsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *GetLogEventsInput) SetLogGroupName(v string) *GetLogEventsInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *GetLogEventsInput) SetLogStreamName(v string) *GetLogEventsInput {
-	s.LogStreamName = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetLogEventsInput) SetNextToken(v string) *GetLogEventsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStartFromHead sets the StartFromHead field's value.
-func (s *GetLogEventsInput) SetStartFromHead(v bool) *GetLogEventsInput {
-	s.StartFromHead = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *GetLogEventsInput) SetStartTime(v int64) *GetLogEventsInput {
-	s.StartTime = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogEventsResponse
 type GetLogEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The events.
-	Events []*OutputLogEvent `locationName:"events" type:"list"`
+	Events []OutputLogEvent `locationName:"events" type:"list"`
 
 	// The token for the next set of items in the backward direction. The token
 	// expires after 24 hours.
@@ -4479,22 +4066,9 @@ func (s GetLogEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *GetLogEventsOutput) SetEvents(v []*OutputLogEvent) *GetLogEventsOutput {
-	s.Events = v
-	return s
-}
-
-// SetNextBackwardToken sets the NextBackwardToken field's value.
-func (s *GetLogEventsOutput) SetNextBackwardToken(v string) *GetLogEventsOutput {
-	s.NextBackwardToken = &v
-	return s
-}
-
-// SetNextForwardToken sets the NextForwardToken field's value.
-func (s *GetLogEventsOutput) SetNextForwardToken(v string) *GetLogEventsOutput {
-	s.NextForwardToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLogEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a log event, which is a record of activity that was recorded by
@@ -4546,18 +4120,6 @@ func (s *InputLogEvent) Validate() error {
 	return nil
 }
 
-// SetMessage sets the Message field's value.
-func (s *InputLogEvent) SetMessage(v string) *InputLogEvent {
-	s.Message = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *InputLogEvent) SetTimestamp(v int64) *InputLogEvent {
-	s.Timestamp = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListTagsLogGroupRequest
 type ListTagsLogGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -4595,18 +4157,14 @@ func (s *ListTagsLogGroupInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *ListTagsLogGroupInput) SetLogGroupName(v string) *ListTagsLogGroupInput {
-	s.LogGroupName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListTagsLogGroupResponse
 type ListTagsLogGroupOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The tags for the log group.
-	Tags map[string]*string `locationName:"tags" min:"1" type:"map"`
+	Tags map[string]string `locationName:"tags" min:"1" type:"map"`
 }
 
 // String returns the string representation
@@ -4619,10 +4177,9 @@ func (s ListTagsLogGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetTags sets the Tags field's value.
-func (s *ListTagsLogGroupOutput) SetTags(v map[string]*string) *ListTagsLogGroupOutput {
-	s.Tags = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsLogGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a log group.
@@ -4663,48 +4220,6 @@ func (s LogGroup) String() string {
 // GoString returns the string representation
 func (s LogGroup) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *LogGroup) SetArn(v string) *LogGroup {
-	s.Arn = &v
-	return s
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *LogGroup) SetCreationTime(v int64) *LogGroup {
-	s.CreationTime = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *LogGroup) SetKmsKeyId(v string) *LogGroup {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *LogGroup) SetLogGroupName(v string) *LogGroup {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetMetricFilterCount sets the MetricFilterCount field's value.
-func (s *LogGroup) SetMetricFilterCount(v int64) *LogGroup {
-	s.MetricFilterCount = &v
-	return s
-}
-
-// SetRetentionInDays sets the RetentionInDays field's value.
-func (s *LogGroup) SetRetentionInDays(v int64) *LogGroup {
-	s.RetentionInDays = &v
-	return s
-}
-
-// SetStoredBytes sets the StoredBytes field's value.
-func (s *LogGroup) SetStoredBytes(v int64) *LogGroup {
-	s.StoredBytes = &v
-	return s
 }
 
 // Represents a log stream, which is a sequence of log events from a single
@@ -4755,54 +4270,6 @@ func (s LogStream) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *LogStream) SetArn(v string) *LogStream {
-	s.Arn = &v
-	return s
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *LogStream) SetCreationTime(v int64) *LogStream {
-	s.CreationTime = &v
-	return s
-}
-
-// SetFirstEventTimestamp sets the FirstEventTimestamp field's value.
-func (s *LogStream) SetFirstEventTimestamp(v int64) *LogStream {
-	s.FirstEventTimestamp = &v
-	return s
-}
-
-// SetLastEventTimestamp sets the LastEventTimestamp field's value.
-func (s *LogStream) SetLastEventTimestamp(v int64) *LogStream {
-	s.LastEventTimestamp = &v
-	return s
-}
-
-// SetLastIngestionTime sets the LastIngestionTime field's value.
-func (s *LogStream) SetLastIngestionTime(v int64) *LogStream {
-	s.LastIngestionTime = &v
-	return s
-}
-
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *LogStream) SetLogStreamName(v string) *LogStream {
-	s.LogStreamName = &v
-	return s
-}
-
-// SetStoredBytes sets the StoredBytes field's value.
-func (s *LogStream) SetStoredBytes(v int64) *LogStream {
-	s.StoredBytes = &v
-	return s
-}
-
-// SetUploadSequenceToken sets the UploadSequenceToken field's value.
-func (s *LogStream) SetUploadSequenceToken(v string) *LogStream {
-	s.UploadSequenceToken = &v
-	return s
-}
-
 // Metric filters express how CloudWatch Logs would extract metric observations
 // from ingested log events and transform them into metric data in a CloudWatch
 // metric.
@@ -4827,7 +4294,7 @@ type MetricFilter struct {
 	LogGroupName *string `locationName:"logGroupName" min:"1" type:"string"`
 
 	// The metric transformations.
-	MetricTransformations []*MetricTransformation `locationName:"metricTransformations" min:"1" type:"list"`
+	MetricTransformations []MetricTransformation `locationName:"metricTransformations" min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -4838,36 +4305,6 @@ func (s MetricFilter) String() string {
 // GoString returns the string representation
 func (s MetricFilter) GoString() string {
 	return s.String()
-}
-
-// SetCreationTime sets the CreationTime field's value.
-func (s *MetricFilter) SetCreationTime(v int64) *MetricFilter {
-	s.CreationTime = &v
-	return s
-}
-
-// SetFilterName sets the FilterName field's value.
-func (s *MetricFilter) SetFilterName(v string) *MetricFilter {
-	s.FilterName = &v
-	return s
-}
-
-// SetFilterPattern sets the FilterPattern field's value.
-func (s *MetricFilter) SetFilterPattern(v string) *MetricFilter {
-	s.FilterPattern = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *MetricFilter) SetLogGroupName(v string) *MetricFilter {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetMetricTransformations sets the MetricTransformations field's value.
-func (s *MetricFilter) SetMetricTransformations(v []*MetricTransformation) *MetricFilter {
-	s.MetricTransformations = v
-	return s
 }
 
 // Represents a matched event.
@@ -4882,7 +4319,7 @@ type MetricFilterMatchRecord struct {
 	EventNumber *int64 `locationName:"eventNumber" type:"long"`
 
 	// The values extracted from the event data by the filter.
-	ExtractedValues map[string]*string `locationName:"extractedValues" type:"map"`
+	ExtractedValues map[string]string `locationName:"extractedValues" type:"map"`
 }
 
 // String returns the string representation
@@ -4893,24 +4330,6 @@ func (s MetricFilterMatchRecord) String() string {
 // GoString returns the string representation
 func (s MetricFilterMatchRecord) GoString() string {
 	return s.String()
-}
-
-// SetEventMessage sets the EventMessage field's value.
-func (s *MetricFilterMatchRecord) SetEventMessage(v string) *MetricFilterMatchRecord {
-	s.EventMessage = &v
-	return s
-}
-
-// SetEventNumber sets the EventNumber field's value.
-func (s *MetricFilterMatchRecord) SetEventNumber(v int64) *MetricFilterMatchRecord {
-	s.EventNumber = &v
-	return s
-}
-
-// SetExtractedValues sets the ExtractedValues field's value.
-func (s *MetricFilterMatchRecord) SetExtractedValues(v map[string]*string) *MetricFilterMatchRecord {
-	s.ExtractedValues = v
-	return s
 }
 
 // Indicates how to transform ingested log events in to metric data in a CloudWatch
@@ -4972,30 +4391,6 @@ func (s *MetricTransformation) Validate() error {
 	return nil
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *MetricTransformation) SetDefaultValue(v float64) *MetricTransformation {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetMetricName sets the MetricName field's value.
-func (s *MetricTransformation) SetMetricName(v string) *MetricTransformation {
-	s.MetricName = &v
-	return s
-}
-
-// SetMetricNamespace sets the MetricNamespace field's value.
-func (s *MetricTransformation) SetMetricNamespace(v string) *MetricTransformation {
-	s.MetricNamespace = &v
-	return s
-}
-
-// SetMetricValue sets the MetricValue field's value.
-func (s *MetricTransformation) SetMetricValue(v string) *MetricTransformation {
-	s.MetricValue = &v
-	return s
-}
-
 // Represents a log event.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/OutputLogEvent
 type OutputLogEvent struct {
@@ -5021,24 +4416,6 @@ func (s OutputLogEvent) String() string {
 // GoString returns the string representation
 func (s OutputLogEvent) GoString() string {
 	return s.String()
-}
-
-// SetIngestionTime sets the IngestionTime field's value.
-func (s *OutputLogEvent) SetIngestionTime(v int64) *OutputLogEvent {
-	s.IngestionTime = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *OutputLogEvent) SetMessage(v string) *OutputLogEvent {
-	s.Message = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *OutputLogEvent) SetTimestamp(v int64) *OutputLogEvent {
-	s.Timestamp = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestinationRequest
@@ -5103,27 +4480,11 @@ func (s *PutDestinationInput) Validate() error {
 	return nil
 }
 
-// SetDestinationName sets the DestinationName field's value.
-func (s *PutDestinationInput) SetDestinationName(v string) *PutDestinationInput {
-	s.DestinationName = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *PutDestinationInput) SetRoleArn(v string) *PutDestinationInput {
-	s.RoleArn = &v
-	return s
-}
-
-// SetTargetArn sets the TargetArn field's value.
-func (s *PutDestinationInput) SetTargetArn(v string) *PutDestinationInput {
-	s.TargetArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestinationResponse
 type PutDestinationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The destination.
 	Destination *Destination `locationName:"destination" type:"structure"`
@@ -5139,10 +4500,9 @@ func (s PutDestinationOutput) GoString() string {
 	return s.String()
 }
 
-// SetDestination sets the Destination field's value.
-func (s *PutDestinationOutput) SetDestination(v *Destination) *PutDestinationOutput {
-	s.Destination = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutDestinationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestinationPolicyRequest
@@ -5195,21 +4555,11 @@ func (s *PutDestinationPolicyInput) Validate() error {
 	return nil
 }
 
-// SetAccessPolicy sets the AccessPolicy field's value.
-func (s *PutDestinationPolicyInput) SetAccessPolicy(v string) *PutDestinationPolicyInput {
-	s.AccessPolicy = &v
-	return s
-}
-
-// SetDestinationName sets the DestinationName field's value.
-func (s *PutDestinationPolicyInput) SetDestinationName(v string) *PutDestinationPolicyInput {
-	s.DestinationName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDestinationPolicyOutput
 type PutDestinationPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5222,6 +4572,11 @@ func (s PutDestinationPolicyOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutDestinationPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutLogEventsRequest
 type PutLogEventsInput struct {
 	_ struct{} `type:"structure"`
@@ -5229,7 +4584,7 @@ type PutLogEventsInput struct {
 	// The log events.
 	//
 	// LogEvents is a required field
-	LogEvents []*InputLogEvent `locationName:"logEvents" min:"1" type:"list" required:"true"`
+	LogEvents []InputLogEvent `locationName:"logEvents" min:"1" type:"list" required:"true"`
 
 	// The name of the log group.
 	//
@@ -5288,9 +4643,6 @@ func (s *PutLogEventsInput) Validate() error {
 	}
 	if s.LogEvents != nil {
 		for i, v := range s.LogEvents {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "LogEvents", i), err.(aws.ErrInvalidParams))
 			}
@@ -5303,33 +4655,11 @@ func (s *PutLogEventsInput) Validate() error {
 	return nil
 }
 
-// SetLogEvents sets the LogEvents field's value.
-func (s *PutLogEventsInput) SetLogEvents(v []*InputLogEvent) *PutLogEventsInput {
-	s.LogEvents = v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *PutLogEventsInput) SetLogGroupName(v string) *PutLogEventsInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *PutLogEventsInput) SetLogStreamName(v string) *PutLogEventsInput {
-	s.LogStreamName = &v
-	return s
-}
-
-// SetSequenceToken sets the SequenceToken field's value.
-func (s *PutLogEventsInput) SetSequenceToken(v string) *PutLogEventsInput {
-	s.SequenceToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutLogEventsResponse
 type PutLogEventsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The next sequence token.
 	NextSequenceToken *string `locationName:"nextSequenceToken" min:"1" type:"string"`
@@ -5348,16 +4678,9 @@ func (s PutLogEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextSequenceToken sets the NextSequenceToken field's value.
-func (s *PutLogEventsOutput) SetNextSequenceToken(v string) *PutLogEventsOutput {
-	s.NextSequenceToken = &v
-	return s
-}
-
-// SetRejectedLogEventsInfo sets the RejectedLogEventsInfo field's value.
-func (s *PutLogEventsOutput) SetRejectedLogEventsInfo(v *RejectedLogEventsInfo) *PutLogEventsOutput {
-	s.RejectedLogEventsInfo = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutLogEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutMetricFilterRequest
@@ -5382,7 +4705,7 @@ type PutMetricFilterInput struct {
 	// A collection of information that defines how metric data gets emitted.
 	//
 	// MetricTransformations is a required field
-	MetricTransformations []*MetricTransformation `locationName:"metricTransformations" min:"1" type:"list" required:"true"`
+	MetricTransformations []MetricTransformation `locationName:"metricTransformations" min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5425,9 +4748,6 @@ func (s *PutMetricFilterInput) Validate() error {
 	}
 	if s.MetricTransformations != nil {
 		for i, v := range s.MetricTransformations {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "MetricTransformations", i), err.(aws.ErrInvalidParams))
 			}
@@ -5440,33 +4760,11 @@ func (s *PutMetricFilterInput) Validate() error {
 	return nil
 }
 
-// SetFilterName sets the FilterName field's value.
-func (s *PutMetricFilterInput) SetFilterName(v string) *PutMetricFilterInput {
-	s.FilterName = &v
-	return s
-}
-
-// SetFilterPattern sets the FilterPattern field's value.
-func (s *PutMetricFilterInput) SetFilterPattern(v string) *PutMetricFilterInput {
-	s.FilterPattern = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *PutMetricFilterInput) SetLogGroupName(v string) *PutMetricFilterInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetMetricTransformations sets the MetricTransformations field's value.
-func (s *PutMetricFilterInput) SetMetricTransformations(v []*MetricTransformation) *PutMetricFilterInput {
-	s.MetricTransformations = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutMetricFilterOutput
 type PutMetricFilterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5477,6 +4775,11 @@ func (s PutMetricFilterOutput) String() string {
 // GoString returns the string representation
 func (s PutMetricFilterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutMetricFilterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutResourcePolicyRequest
@@ -5522,21 +4825,11 @@ func (s *PutResourcePolicyInput) Validate() error {
 	return nil
 }
 
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *PutResourcePolicyInput) SetPolicyDocument(v string) *PutResourcePolicyInput {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *PutResourcePolicyInput) SetPolicyName(v string) *PutResourcePolicyInput {
-	s.PolicyName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutResourcePolicyResponse
 type PutResourcePolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The new policy.
 	ResourcePolicy *ResourcePolicy `locationName:"resourcePolicy" type:"structure"`
@@ -5552,10 +4845,9 @@ func (s PutResourcePolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetResourcePolicy sets the ResourcePolicy field's value.
-func (s *PutResourcePolicyOutput) SetResourcePolicy(v *ResourcePolicy) *PutResourcePolicyOutput {
-	s.ResourcePolicy = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutResourcePolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutRetentionPolicyRequest
@@ -5606,21 +4898,11 @@ func (s *PutRetentionPolicyInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *PutRetentionPolicyInput) SetLogGroupName(v string) *PutRetentionPolicyInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetRetentionInDays sets the RetentionInDays field's value.
-func (s *PutRetentionPolicyInput) SetRetentionInDays(v int64) *PutRetentionPolicyInput {
-	s.RetentionInDays = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutRetentionPolicyOutput
 type PutRetentionPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5631,6 +4913,11 @@ func (s PutRetentionPolicyOutput) String() string {
 // GoString returns the string representation
 func (s PutRetentionPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutRetentionPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSubscriptionFilterRequest
@@ -5659,7 +4946,7 @@ type PutSubscriptionFilterInput struct {
 	// data is grouped by log stream, but the grouping can be set to random for
 	// a more even distribution. This property is only applicable when the destination
 	// is an Amazon Kinesis stream.
-	Distribution Distribution `locationName:"distribution" type:"string"`
+	Distribution Distribution `locationName:"distribution" type:"string" enum:"true"`
 
 	// A name for the subscription filter. If you are updating an existing filter,
 	// you must specify the correct name in filterName. Otherwise, the call fails
@@ -5734,45 +5021,11 @@ func (s *PutSubscriptionFilterInput) Validate() error {
 	return nil
 }
 
-// SetDestinationArn sets the DestinationArn field's value.
-func (s *PutSubscriptionFilterInput) SetDestinationArn(v string) *PutSubscriptionFilterInput {
-	s.DestinationArn = &v
-	return s
-}
-
-// SetDistribution sets the Distribution field's value.
-func (s *PutSubscriptionFilterInput) SetDistribution(v Distribution) *PutSubscriptionFilterInput {
-	s.Distribution = v
-	return s
-}
-
-// SetFilterName sets the FilterName field's value.
-func (s *PutSubscriptionFilterInput) SetFilterName(v string) *PutSubscriptionFilterInput {
-	s.FilterName = &v
-	return s
-}
-
-// SetFilterPattern sets the FilterPattern field's value.
-func (s *PutSubscriptionFilterInput) SetFilterPattern(v string) *PutSubscriptionFilterInput {
-	s.FilterPattern = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *PutSubscriptionFilterInput) SetLogGroupName(v string) *PutSubscriptionFilterInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *PutSubscriptionFilterInput) SetRoleArn(v string) *PutSubscriptionFilterInput {
-	s.RoleArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSubscriptionFilterOutput
 type PutSubscriptionFilterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5783,6 +5036,11 @@ func (s PutSubscriptionFilterOutput) String() string {
 // GoString returns the string representation
 func (s PutSubscriptionFilterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutSubscriptionFilterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the rejected events.
@@ -5808,24 +5066,6 @@ func (s RejectedLogEventsInfo) String() string {
 // GoString returns the string representation
 func (s RejectedLogEventsInfo) GoString() string {
 	return s.String()
-}
-
-// SetExpiredLogEventEndIndex sets the ExpiredLogEventEndIndex field's value.
-func (s *RejectedLogEventsInfo) SetExpiredLogEventEndIndex(v int64) *RejectedLogEventsInfo {
-	s.ExpiredLogEventEndIndex = &v
-	return s
-}
-
-// SetTooNewLogEventStartIndex sets the TooNewLogEventStartIndex field's value.
-func (s *RejectedLogEventsInfo) SetTooNewLogEventStartIndex(v int64) *RejectedLogEventsInfo {
-	s.TooNewLogEventStartIndex = &v
-	return s
-}
-
-// SetTooOldLogEventEndIndex sets the TooOldLogEventEndIndex field's value.
-func (s *RejectedLogEventsInfo) SetTooOldLogEventEndIndex(v int64) *RejectedLogEventsInfo {
-	s.TooOldLogEventEndIndex = &v
-	return s
 }
 
 // A policy enabling one or more entities to put logs to a log group in this
@@ -5855,24 +5095,6 @@ func (s ResourcePolicy) GoString() string {
 	return s.String()
 }
 
-// SetLastUpdatedTime sets the LastUpdatedTime field's value.
-func (s *ResourcePolicy) SetLastUpdatedTime(v int64) *ResourcePolicy {
-	s.LastUpdatedTime = &v
-	return s
-}
-
-// SetPolicyDocument sets the PolicyDocument field's value.
-func (s *ResourcePolicy) SetPolicyDocument(v string) *ResourcePolicy {
-	s.PolicyDocument = &v
-	return s
-}
-
-// SetPolicyName sets the PolicyName field's value.
-func (s *ResourcePolicy) SetPolicyName(v string) *ResourcePolicy {
-	s.PolicyName = &v
-	return s
-}
-
 // Represents the search status of a log stream.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/SearchedLogStream
 type SearchedLogStream struct {
@@ -5895,18 +5117,6 @@ func (s SearchedLogStream) GoString() string {
 	return s.String()
 }
 
-// SetLogStreamName sets the LogStreamName field's value.
-func (s *SearchedLogStream) SetLogStreamName(v string) *SearchedLogStream {
-	s.LogStreamName = &v
-	return s
-}
-
-// SetSearchedCompletely sets the SearchedCompletely field's value.
-func (s *SearchedLogStream) SetSearchedCompletely(v bool) *SearchedLogStream {
-	s.SearchedCompletely = &v
-	return s
-}
-
 // Represents a subscription filter.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/SubscriptionFilter
 type SubscriptionFilter struct {
@@ -5921,7 +5131,7 @@ type SubscriptionFilter struct {
 
 	// The method used to distribute log data to the destination, which can be either
 	// random or grouped by log stream.
-	Distribution Distribution `locationName:"distribution" type:"string"`
+	Distribution Distribution `locationName:"distribution" type:"string" enum:"true"`
 
 	// The name of the subscription filter.
 	FilterName *string `locationName:"filterName" min:"1" type:"string"`
@@ -5948,48 +5158,6 @@ func (s SubscriptionFilter) GoString() string {
 	return s.String()
 }
 
-// SetCreationTime sets the CreationTime field's value.
-func (s *SubscriptionFilter) SetCreationTime(v int64) *SubscriptionFilter {
-	s.CreationTime = &v
-	return s
-}
-
-// SetDestinationArn sets the DestinationArn field's value.
-func (s *SubscriptionFilter) SetDestinationArn(v string) *SubscriptionFilter {
-	s.DestinationArn = &v
-	return s
-}
-
-// SetDistribution sets the Distribution field's value.
-func (s *SubscriptionFilter) SetDistribution(v Distribution) *SubscriptionFilter {
-	s.Distribution = v
-	return s
-}
-
-// SetFilterName sets the FilterName field's value.
-func (s *SubscriptionFilter) SetFilterName(v string) *SubscriptionFilter {
-	s.FilterName = &v
-	return s
-}
-
-// SetFilterPattern sets the FilterPattern field's value.
-func (s *SubscriptionFilter) SetFilterPattern(v string) *SubscriptionFilter {
-	s.FilterPattern = &v
-	return s
-}
-
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *SubscriptionFilter) SetLogGroupName(v string) *SubscriptionFilter {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *SubscriptionFilter) SetRoleArn(v string) *SubscriptionFilter {
-	s.RoleArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TagLogGroupRequest
 type TagLogGroupInput struct {
 	_ struct{} `type:"structure"`
@@ -6002,7 +5170,7 @@ type TagLogGroupInput struct {
 	// The key-value pairs to use for the tags.
 	//
 	// Tags is a required field
-	Tags map[string]*string `locationName:"tags" min:"1" type:"map" required:"true"`
+	Tags map[string]string `locationName:"tags" min:"1" type:"map" required:"true"`
 }
 
 // String returns the string representation
@@ -6039,21 +5207,11 @@ func (s *TagLogGroupInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *TagLogGroupInput) SetLogGroupName(v string) *TagLogGroupInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *TagLogGroupInput) SetTags(v map[string]*string) *TagLogGroupInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TagLogGroupOutput
 type TagLogGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6064,6 +5222,11 @@ func (s TagLogGroupOutput) String() string {
 // GoString returns the string representation
 func (s TagLogGroupOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TagLogGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TestMetricFilterRequest
@@ -6081,7 +5244,7 @@ type TestMetricFilterInput struct {
 	// The log event messages to test.
 	//
 	// LogEventMessages is a required field
-	LogEventMessages []*string `locationName:"logEventMessages" min:"1" type:"list" required:"true"`
+	LogEventMessages []string `locationName:"logEventMessages" min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6115,24 +5278,14 @@ func (s *TestMetricFilterInput) Validate() error {
 	return nil
 }
 
-// SetFilterPattern sets the FilterPattern field's value.
-func (s *TestMetricFilterInput) SetFilterPattern(v string) *TestMetricFilterInput {
-	s.FilterPattern = &v
-	return s
-}
-
-// SetLogEventMessages sets the LogEventMessages field's value.
-func (s *TestMetricFilterInput) SetLogEventMessages(v []*string) *TestMetricFilterInput {
-	s.LogEventMessages = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TestMetricFilterResponse
 type TestMetricFilterOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The matched events.
-	Matches []*MetricFilterMatchRecord `locationName:"matches" type:"list"`
+	Matches []MetricFilterMatchRecord `locationName:"matches" type:"list"`
 }
 
 // String returns the string representation
@@ -6145,10 +5298,9 @@ func (s TestMetricFilterOutput) GoString() string {
 	return s.String()
 }
 
-// SetMatches sets the Matches field's value.
-func (s *TestMetricFilterOutput) SetMatches(v []*MetricFilterMatchRecord) *TestMetricFilterOutput {
-	s.Matches = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TestMetricFilterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UntagLogGroupRequest
@@ -6163,7 +5315,7 @@ type UntagLogGroupInput struct {
 	// The tag keys. The corresponding tags are removed from the log group.
 	//
 	// Tags is a required field
-	Tags []*string `locationName:"tags" min:"1" type:"list" required:"true"`
+	Tags []string `locationName:"tags" min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6200,21 +5352,11 @@ func (s *UntagLogGroupInput) Validate() error {
 	return nil
 }
 
-// SetLogGroupName sets the LogGroupName field's value.
-func (s *UntagLogGroupInput) SetLogGroupName(v string) *UntagLogGroupInput {
-	s.LogGroupName = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *UntagLogGroupInput) SetTags(v []*string) *UntagLogGroupInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UntagLogGroupOutput
 type UntagLogGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6227,6 +5369,11 @@ func (s UntagLogGroupOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UntagLogGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // The method used to distribute log data to the destination, which can be either
 // random or grouped by log stream.
 type Distribution string
@@ -6236,6 +5383,15 @@ const (
 	DistributionRandom      Distribution = "Random"
 	DistributionByLogStream Distribution = "ByLogStream"
 )
+
+func (enum Distribution) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Distribution) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ExportTaskStatusCode string
 
@@ -6249,6 +5405,15 @@ const (
 	ExportTaskStatusCodeRunning       ExportTaskStatusCode = "RUNNING"
 )
 
+func (enum ExportTaskStatusCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExportTaskStatusCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type OrderBy string
 
 // Enum values for OrderBy
@@ -6256,3 +5421,12 @@ const (
 	OrderByLogStreamName OrderBy = "LogStreamName"
 	OrderByLastEventTime OrderBy = "LastEventTime"
 )
+
+func (enum OrderBy) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OrderBy) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

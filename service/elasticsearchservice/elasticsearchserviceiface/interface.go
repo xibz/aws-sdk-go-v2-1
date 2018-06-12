@@ -9,7 +9,6 @@
 package elasticsearchserviceiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/elasticsearchservice"
 )
 
@@ -69,6 +68,8 @@ type ElasticsearchServiceAPI interface {
 
 	DeleteElasticsearchDomainRequest(*elasticsearchservice.DeleteElasticsearchDomainInput) elasticsearchservice.DeleteElasticsearchDomainRequest
 
+	DeleteElasticsearchServiceRoleRequest(*elasticsearchservice.DeleteElasticsearchServiceRoleInput) elasticsearchservice.DeleteElasticsearchServiceRoleRequest
+
 	DescribeElasticsearchDomainRequest(*elasticsearchservice.DescribeElasticsearchDomainInput) elasticsearchservice.DescribeElasticsearchDomainRequest
 
 	DescribeElasticsearchDomainConfigRequest(*elasticsearchservice.DescribeElasticsearchDomainConfigInput) elasticsearchservice.DescribeElasticsearchDomainConfigRequest
@@ -77,19 +78,19 @@ type ElasticsearchServiceAPI interface {
 
 	DescribeElasticsearchInstanceTypeLimitsRequest(*elasticsearchservice.DescribeElasticsearchInstanceTypeLimitsInput) elasticsearchservice.DescribeElasticsearchInstanceTypeLimitsRequest
 
+	DescribeReservedElasticsearchInstanceOfferingsRequest(*elasticsearchservice.DescribeReservedElasticsearchInstanceOfferingsInput) elasticsearchservice.DescribeReservedElasticsearchInstanceOfferingsRequest
+
+	DescribeReservedElasticsearchInstancesRequest(*elasticsearchservice.DescribeReservedElasticsearchInstancesInput) elasticsearchservice.DescribeReservedElasticsearchInstancesRequest
+
 	ListDomainNamesRequest(*elasticsearchservice.ListDomainNamesInput) elasticsearchservice.ListDomainNamesRequest
 
 	ListElasticsearchInstanceTypesRequest(*elasticsearchservice.ListElasticsearchInstanceTypesInput) elasticsearchservice.ListElasticsearchInstanceTypesRequest
 
-	ListElasticsearchInstanceTypesPages(*elasticsearchservice.ListElasticsearchInstanceTypesInput, func(*elasticsearchservice.ListElasticsearchInstanceTypesOutput, bool) bool) error
-	ListElasticsearchInstanceTypesPagesWithContext(aws.Context, *elasticsearchservice.ListElasticsearchInstanceTypesInput, func(*elasticsearchservice.ListElasticsearchInstanceTypesOutput, bool) bool, ...aws.Option) error
-
 	ListElasticsearchVersionsRequest(*elasticsearchservice.ListElasticsearchVersionsInput) elasticsearchservice.ListElasticsearchVersionsRequest
 
-	ListElasticsearchVersionsPages(*elasticsearchservice.ListElasticsearchVersionsInput, func(*elasticsearchservice.ListElasticsearchVersionsOutput, bool) bool) error
-	ListElasticsearchVersionsPagesWithContext(aws.Context, *elasticsearchservice.ListElasticsearchVersionsInput, func(*elasticsearchservice.ListElasticsearchVersionsOutput, bool) bool, ...aws.Option) error
-
 	ListTagsRequest(*elasticsearchservice.ListTagsInput) elasticsearchservice.ListTagsRequest
+
+	PurchaseReservedElasticsearchInstanceOfferingRequest(*elasticsearchservice.PurchaseReservedElasticsearchInstanceOfferingInput) elasticsearchservice.PurchaseReservedElasticsearchInstanceOfferingRequest
 
 	RemoveTagsRequest(*elasticsearchservice.RemoveTagsInput) elasticsearchservice.RemoveTagsRequest
 

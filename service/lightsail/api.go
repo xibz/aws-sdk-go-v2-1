@@ -15,6 +15,7 @@ const opAllocateStaticIp = "AllocateStaticIp"
 type AllocateStaticIpRequest struct {
 	*aws.Request
 	Input *AllocateStaticIpInput
+	Copy  func(*AllocateStaticIpInput) AllocateStaticIpRequest
 }
 
 // Send marshals and sends the AllocateStaticIp API request.
@@ -51,8 +52,172 @@ func (c *Lightsail) AllocateStaticIpRequest(input *AllocateStaticIpInput) Alloca
 		input = &AllocateStaticIpInput{}
 	}
 
-	req := c.newRequest(op, input, &AllocateStaticIpOutput{})
-	return AllocateStaticIpRequest{Request: req, Input: input}
+	output := &AllocateStaticIpOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AllocateStaticIpRequest{Request: req, Input: input, Copy: c.AllocateStaticIpRequest}
+}
+
+const opAttachDisk = "AttachDisk"
+
+// AttachDiskRequest is a API request type for the AttachDisk API operation.
+type AttachDiskRequest struct {
+	*aws.Request
+	Input *AttachDiskInput
+	Copy  func(*AttachDiskInput) AttachDiskRequest
+}
+
+// Send marshals and sends the AttachDisk API request.
+func (r AttachDiskRequest) Send() (*AttachDiskOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*AttachDiskOutput), nil
+}
+
+// AttachDiskRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Attaches a block storage disk to a running or stopped Lightsail instance
+// and exposes it to the instance with the specified disk name.
+//
+//    // Example sending a request using the AttachDiskRequest method.
+//    req := client.AttachDiskRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachDisk
+func (c *Lightsail) AttachDiskRequest(input *AttachDiskInput) AttachDiskRequest {
+	op := &aws.Operation{
+		Name:       opAttachDisk,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AttachDiskInput{}
+	}
+
+	output := &AttachDiskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachDiskRequest{Request: req, Input: input, Copy: c.AttachDiskRequest}
+}
+
+const opAttachInstancesToLoadBalancer = "AttachInstancesToLoadBalancer"
+
+// AttachInstancesToLoadBalancerRequest is a API request type for the AttachInstancesToLoadBalancer API operation.
+type AttachInstancesToLoadBalancerRequest struct {
+	*aws.Request
+	Input *AttachInstancesToLoadBalancerInput
+	Copy  func(*AttachInstancesToLoadBalancerInput) AttachInstancesToLoadBalancerRequest
+}
+
+// Send marshals and sends the AttachInstancesToLoadBalancer API request.
+func (r AttachInstancesToLoadBalancerRequest) Send() (*AttachInstancesToLoadBalancerOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*AttachInstancesToLoadBalancerOutput), nil
+}
+
+// AttachInstancesToLoadBalancerRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Attaches one or more Lightsail instances to a load balancer.
+//
+// After some time, the instances are attached to the load balancer and the
+// health check status is available.
+//
+//    // Example sending a request using the AttachInstancesToLoadBalancerRequest method.
+//    req := client.AttachInstancesToLoadBalancerRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachInstancesToLoadBalancer
+func (c *Lightsail) AttachInstancesToLoadBalancerRequest(input *AttachInstancesToLoadBalancerInput) AttachInstancesToLoadBalancerRequest {
+	op := &aws.Operation{
+		Name:       opAttachInstancesToLoadBalancer,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AttachInstancesToLoadBalancerInput{}
+	}
+
+	output := &AttachInstancesToLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachInstancesToLoadBalancerRequest{Request: req, Input: input, Copy: c.AttachInstancesToLoadBalancerRequest}
+}
+
+const opAttachLoadBalancerTlsCertificate = "AttachLoadBalancerTlsCertificate"
+
+// AttachLoadBalancerTlsCertificateRequest is a API request type for the AttachLoadBalancerTlsCertificate API operation.
+type AttachLoadBalancerTlsCertificateRequest struct {
+	*aws.Request
+	Input *AttachLoadBalancerTlsCertificateInput
+	Copy  func(*AttachLoadBalancerTlsCertificateInput) AttachLoadBalancerTlsCertificateRequest
+}
+
+// Send marshals and sends the AttachLoadBalancerTlsCertificate API request.
+func (r AttachLoadBalancerTlsCertificateRequest) Send() (*AttachLoadBalancerTlsCertificateOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*AttachLoadBalancerTlsCertificateOutput), nil
+}
+
+// AttachLoadBalancerTlsCertificateRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Attaches a Transport Layer Security (TLS) certificate to your load balancer.
+// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+//
+// Once you create and validate your certificate, you can attach it to your
+// load balancer. You can also use this API to rotate the certificates on your
+// account. Use the AttachLoadBalancerTlsCertificate operation with the non-attached
+// certificate, and it will replace the existing one and become the attached
+// certificate.
+//
+//    // Example sending a request using the AttachLoadBalancerTlsCertificateRequest method.
+//    req := client.AttachLoadBalancerTlsCertificateRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachLoadBalancerTlsCertificate
+func (c *Lightsail) AttachLoadBalancerTlsCertificateRequest(input *AttachLoadBalancerTlsCertificateInput) AttachLoadBalancerTlsCertificateRequest {
+	op := &aws.Operation{
+		Name:       opAttachLoadBalancerTlsCertificate,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &AttachLoadBalancerTlsCertificateInput{}
+	}
+
+	output := &AttachLoadBalancerTlsCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachLoadBalancerTlsCertificateRequest{Request: req, Input: input, Copy: c.AttachLoadBalancerTlsCertificateRequest}
 }
 
 const opAttachStaticIp = "AttachStaticIp"
@@ -61,6 +226,7 @@ const opAttachStaticIp = "AttachStaticIp"
 type AttachStaticIpRequest struct {
 	*aws.Request
 	Input *AttachStaticIpInput
+	Copy  func(*AttachStaticIpInput) AttachStaticIpRequest
 }
 
 // Send marshals and sends the AttachStaticIp API request.
@@ -97,8 +263,11 @@ func (c *Lightsail) AttachStaticIpRequest(input *AttachStaticIpInput) AttachStat
 		input = &AttachStaticIpInput{}
 	}
 
-	req := c.newRequest(op, input, &AttachStaticIpOutput{})
-	return AttachStaticIpRequest{Request: req, Input: input}
+	output := &AttachStaticIpOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AttachStaticIpRequest{Request: req, Input: input, Copy: c.AttachStaticIpRequest}
 }
 
 const opCloseInstancePublicPorts = "CloseInstancePublicPorts"
@@ -107,6 +276,7 @@ const opCloseInstancePublicPorts = "CloseInstancePublicPorts"
 type CloseInstancePublicPortsRequest struct {
 	*aws.Request
 	Input *CloseInstancePublicPortsInput
+	Copy  func(*CloseInstancePublicPortsInput) CloseInstancePublicPortsRequest
 }
 
 // Send marshals and sends the CloseInstancePublicPorts API request.
@@ -143,8 +313,180 @@ func (c *Lightsail) CloseInstancePublicPortsRequest(input *CloseInstancePublicPo
 		input = &CloseInstancePublicPortsInput{}
 	}
 
-	req := c.newRequest(op, input, &CloseInstancePublicPortsOutput{})
-	return CloseInstancePublicPortsRequest{Request: req, Input: input}
+	output := &CloseInstancePublicPortsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CloseInstancePublicPortsRequest{Request: req, Input: input, Copy: c.CloseInstancePublicPortsRequest}
+}
+
+const opCreateDisk = "CreateDisk"
+
+// CreateDiskRequest is a API request type for the CreateDisk API operation.
+type CreateDiskRequest struct {
+	*aws.Request
+	Input *CreateDiskInput
+	Copy  func(*CreateDiskInput) CreateDiskRequest
+}
+
+// Send marshals and sends the CreateDisk API request.
+func (r CreateDiskRequest) Send() (*CreateDiskOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateDiskOutput), nil
+}
+
+// CreateDiskRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Creates a block storage disk that can be attached to a Lightsail instance
+// in the same Availability Zone (e.g., us-east-2a). The disk is created in
+// the regional endpoint that you send the HTTP request to. For more information,
+// see Regions and Availability Zones in Lightsail (https://lightsail.aws.amazon.com/ls/docs/overview/article/understanding-regions-and-availability-zones-in-amazon-lightsail).
+//
+//    // Example sending a request using the CreateDiskRequest method.
+//    req := client.CreateDiskRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDisk
+func (c *Lightsail) CreateDiskRequest(input *CreateDiskInput) CreateDiskRequest {
+	op := &aws.Operation{
+		Name:       opCreateDisk,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateDiskInput{}
+	}
+
+	output := &CreateDiskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDiskRequest{Request: req, Input: input, Copy: c.CreateDiskRequest}
+}
+
+const opCreateDiskFromSnapshot = "CreateDiskFromSnapshot"
+
+// CreateDiskFromSnapshotRequest is a API request type for the CreateDiskFromSnapshot API operation.
+type CreateDiskFromSnapshotRequest struct {
+	*aws.Request
+	Input *CreateDiskFromSnapshotInput
+	Copy  func(*CreateDiskFromSnapshotInput) CreateDiskFromSnapshotRequest
+}
+
+// Send marshals and sends the CreateDiskFromSnapshot API request.
+func (r CreateDiskFromSnapshotRequest) Send() (*CreateDiskFromSnapshotOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateDiskFromSnapshotOutput), nil
+}
+
+// CreateDiskFromSnapshotRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Creates a block storage disk from a disk snapshot that can be attached to
+// a Lightsail instance in the same Availability Zone (e.g., us-east-2a). The
+// disk is created in the regional endpoint that you send the HTTP request to.
+// For more information, see Regions and Availability Zones in Lightsail (https://lightsail.aws.amazon.com/ls/docs/overview/article/understanding-regions-and-availability-zones-in-amazon-lightsail).
+//
+//    // Example sending a request using the CreateDiskFromSnapshotRequest method.
+//    req := client.CreateDiskFromSnapshotRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskFromSnapshot
+func (c *Lightsail) CreateDiskFromSnapshotRequest(input *CreateDiskFromSnapshotInput) CreateDiskFromSnapshotRequest {
+	op := &aws.Operation{
+		Name:       opCreateDiskFromSnapshot,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateDiskFromSnapshotInput{}
+	}
+
+	output := &CreateDiskFromSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDiskFromSnapshotRequest{Request: req, Input: input, Copy: c.CreateDiskFromSnapshotRequest}
+}
+
+const opCreateDiskSnapshot = "CreateDiskSnapshot"
+
+// CreateDiskSnapshotRequest is a API request type for the CreateDiskSnapshot API operation.
+type CreateDiskSnapshotRequest struct {
+	*aws.Request
+	Input *CreateDiskSnapshotInput
+	Copy  func(*CreateDiskSnapshotInput) CreateDiskSnapshotRequest
+}
+
+// Send marshals and sends the CreateDiskSnapshot API request.
+func (r CreateDiskSnapshotRequest) Send() (*CreateDiskSnapshotOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateDiskSnapshotOutput), nil
+}
+
+// CreateDiskSnapshotRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Creates a snapshot of a block storage disk. You can use snapshots for backups,
+// to make copies of disks, and to save data before shutting down a Lightsail
+// instance.
+//
+// You can take a snapshot of an attached disk that is in use; however, snapshots
+// only capture data that has been written to your disk at the time the snapshot
+// command is issued. This may exclude any data that has been cached by any
+// applications or the operating system. If you can pause any file systems on
+// the disk long enough to take a snapshot, your snapshot should be complete.
+// Nevertheless, if you cannot pause all file writes to the disk, you should
+// unmount the disk from within the Lightsail instance, issue the create disk
+// snapshot command, and then remount the disk to ensure a consistent and complete
+// snapshot. You may remount and use your disk while the snapshot status is
+// pending.
+//
+//    // Example sending a request using the CreateDiskSnapshotRequest method.
+//    req := client.CreateDiskSnapshotRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskSnapshot
+func (c *Lightsail) CreateDiskSnapshotRequest(input *CreateDiskSnapshotInput) CreateDiskSnapshotRequest {
+	op := &aws.Operation{
+		Name:       opCreateDiskSnapshot,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateDiskSnapshotInput{}
+	}
+
+	output := &CreateDiskSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDiskSnapshotRequest{Request: req, Input: input, Copy: c.CreateDiskSnapshotRequest}
 }
 
 const opCreateDomain = "CreateDomain"
@@ -153,6 +495,7 @@ const opCreateDomain = "CreateDomain"
 type CreateDomainRequest struct {
 	*aws.Request
 	Input *CreateDomainInput
+	Copy  func(*CreateDomainInput) CreateDomainRequest
 }
 
 // Send marshals and sends the CreateDomain API request.
@@ -189,8 +532,11 @@ func (c *Lightsail) CreateDomainRequest(input *CreateDomainInput) CreateDomainRe
 		input = &CreateDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDomainOutput{})
-	return CreateDomainRequest{Request: req, Input: input}
+	output := &CreateDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDomainRequest{Request: req, Input: input, Copy: c.CreateDomainRequest}
 }
 
 const opCreateDomainEntry = "CreateDomainEntry"
@@ -199,6 +545,7 @@ const opCreateDomainEntry = "CreateDomainEntry"
 type CreateDomainEntryRequest struct {
 	*aws.Request
 	Input *CreateDomainEntryInput
+	Copy  func(*CreateDomainEntryInput) CreateDomainEntryRequest
 }
 
 // Send marshals and sends the CreateDomainEntry API request.
@@ -236,8 +583,11 @@ func (c *Lightsail) CreateDomainEntryRequest(input *CreateDomainEntryInput) Crea
 		input = &CreateDomainEntryInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDomainEntryOutput{})
-	return CreateDomainEntryRequest{Request: req, Input: input}
+	output := &CreateDomainEntryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDomainEntryRequest{Request: req, Input: input, Copy: c.CreateDomainEntryRequest}
 }
 
 const opCreateInstanceSnapshot = "CreateInstanceSnapshot"
@@ -246,6 +596,7 @@ const opCreateInstanceSnapshot = "CreateInstanceSnapshot"
 type CreateInstanceSnapshotRequest struct {
 	*aws.Request
 	Input *CreateInstanceSnapshotInput
+	Copy  func(*CreateInstanceSnapshotInput) CreateInstanceSnapshotRequest
 }
 
 // Send marshals and sends the CreateInstanceSnapshot API request.
@@ -283,8 +634,11 @@ func (c *Lightsail) CreateInstanceSnapshotRequest(input *CreateInstanceSnapshotI
 		input = &CreateInstanceSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateInstanceSnapshotOutput{})
-	return CreateInstanceSnapshotRequest{Request: req, Input: input}
+	output := &CreateInstanceSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateInstanceSnapshotRequest{Request: req, Input: input, Copy: c.CreateInstanceSnapshotRequest}
 }
 
 const opCreateInstances = "CreateInstances"
@@ -293,6 +647,7 @@ const opCreateInstances = "CreateInstances"
 type CreateInstancesRequest struct {
 	*aws.Request
 	Input *CreateInstancesInput
+	Copy  func(*CreateInstancesInput) CreateInstancesRequest
 }
 
 // Send marshals and sends the CreateInstances API request.
@@ -329,8 +684,11 @@ func (c *Lightsail) CreateInstancesRequest(input *CreateInstancesInput) CreateIn
 		input = &CreateInstancesInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateInstancesOutput{})
-	return CreateInstancesRequest{Request: req, Input: input}
+	output := &CreateInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateInstancesRequest{Request: req, Input: input, Copy: c.CreateInstancesRequest}
 }
 
 const opCreateInstancesFromSnapshot = "CreateInstancesFromSnapshot"
@@ -339,6 +697,7 @@ const opCreateInstancesFromSnapshot = "CreateInstancesFromSnapshot"
 type CreateInstancesFromSnapshotRequest struct {
 	*aws.Request
 	Input *CreateInstancesFromSnapshotInput
+	Copy  func(*CreateInstancesFromSnapshotInput) CreateInstancesFromSnapshotRequest
 }
 
 // Send marshals and sends the CreateInstancesFromSnapshot API request.
@@ -376,8 +735,11 @@ func (c *Lightsail) CreateInstancesFromSnapshotRequest(input *CreateInstancesFro
 		input = &CreateInstancesFromSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateInstancesFromSnapshotOutput{})
-	return CreateInstancesFromSnapshotRequest{Request: req, Input: input}
+	output := &CreateInstancesFromSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateInstancesFromSnapshotRequest{Request: req, Input: input, Copy: c.CreateInstancesFromSnapshotRequest}
 }
 
 const opCreateKeyPair = "CreateKeyPair"
@@ -386,6 +748,7 @@ const opCreateKeyPair = "CreateKeyPair"
 type CreateKeyPairRequest struct {
 	*aws.Request
 	Input *CreateKeyPairInput
+	Copy  func(*CreateKeyPairInput) CreateKeyPairRequest
 }
 
 // Send marshals and sends the CreateKeyPair API request.
@@ -422,8 +785,230 @@ func (c *Lightsail) CreateKeyPairRequest(input *CreateKeyPairInput) CreateKeyPai
 		input = &CreateKeyPairInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateKeyPairOutput{})
-	return CreateKeyPairRequest{Request: req, Input: input}
+	output := &CreateKeyPairOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateKeyPairRequest{Request: req, Input: input, Copy: c.CreateKeyPairRequest}
+}
+
+const opCreateLoadBalancer = "CreateLoadBalancer"
+
+// CreateLoadBalancerRequest is a API request type for the CreateLoadBalancer API operation.
+type CreateLoadBalancerRequest struct {
+	*aws.Request
+	Input *CreateLoadBalancerInput
+	Copy  func(*CreateLoadBalancerInput) CreateLoadBalancerRequest
+}
+
+// Send marshals and sends the CreateLoadBalancer API request.
+func (r CreateLoadBalancerRequest) Send() (*CreateLoadBalancerOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateLoadBalancerOutput), nil
+}
+
+// CreateLoadBalancerRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Creates a Lightsail load balancer. To learn more about deciding whether to
+// load balance your application, see Configure your Lightsail instances for
+// load balancing (https://lightsail.aws.amazon.com/ls/docs/how-to/article/configure-lightsail-instances-for-load-balancing).
+// You can create up to 5 load balancers per AWS Region in your account.
+//
+// When you create a load balancer, you can specify a unique name and port settings.
+// To change additional load balancer settings, use the UpdateLoadBalancerAttribute
+// operation.
+//
+//    // Example sending a request using the CreateLoadBalancerRequest method.
+//    req := client.CreateLoadBalancerRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancer
+func (c *Lightsail) CreateLoadBalancerRequest(input *CreateLoadBalancerInput) CreateLoadBalancerRequest {
+	op := &aws.Operation{
+		Name:       opCreateLoadBalancer,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateLoadBalancerInput{}
+	}
+
+	output := &CreateLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLoadBalancerRequest{Request: req, Input: input, Copy: c.CreateLoadBalancerRequest}
+}
+
+const opCreateLoadBalancerTlsCertificate = "CreateLoadBalancerTlsCertificate"
+
+// CreateLoadBalancerTlsCertificateRequest is a API request type for the CreateLoadBalancerTlsCertificate API operation.
+type CreateLoadBalancerTlsCertificateRequest struct {
+	*aws.Request
+	Input *CreateLoadBalancerTlsCertificateInput
+	Copy  func(*CreateLoadBalancerTlsCertificateInput) CreateLoadBalancerTlsCertificateRequest
+}
+
+// Send marshals and sends the CreateLoadBalancerTlsCertificate API request.
+func (r CreateLoadBalancerTlsCertificateRequest) Send() (*CreateLoadBalancerTlsCertificateOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateLoadBalancerTlsCertificateOutput), nil
+}
+
+// CreateLoadBalancerTlsCertificateRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Creates a Lightsail load balancer TLS certificate.
+//
+// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+//
+//    // Example sending a request using the CreateLoadBalancerTlsCertificateRequest method.
+//    req := client.CreateLoadBalancerTlsCertificateRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerTlsCertificate
+func (c *Lightsail) CreateLoadBalancerTlsCertificateRequest(input *CreateLoadBalancerTlsCertificateInput) CreateLoadBalancerTlsCertificateRequest {
+	op := &aws.Operation{
+		Name:       opCreateLoadBalancerTlsCertificate,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateLoadBalancerTlsCertificateInput{}
+	}
+
+	output := &CreateLoadBalancerTlsCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLoadBalancerTlsCertificateRequest{Request: req, Input: input, Copy: c.CreateLoadBalancerTlsCertificateRequest}
+}
+
+const opDeleteDisk = "DeleteDisk"
+
+// DeleteDiskRequest is a API request type for the DeleteDisk API operation.
+type DeleteDiskRequest struct {
+	*aws.Request
+	Input *DeleteDiskInput
+	Copy  func(*DeleteDiskInput) DeleteDiskRequest
+}
+
+// Send marshals and sends the DeleteDisk API request.
+func (r DeleteDiskRequest) Send() (*DeleteDiskOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteDiskOutput), nil
+}
+
+// DeleteDiskRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Deletes the specified block storage disk. The disk must be in the available
+// state (not attached to a Lightsail instance).
+//
+// The disk may remain in the deleting state for several minutes.
+//
+//    // Example sending a request using the DeleteDiskRequest method.
+//    req := client.DeleteDiskRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDisk
+func (c *Lightsail) DeleteDiskRequest(input *DeleteDiskInput) DeleteDiskRequest {
+	op := &aws.Operation{
+		Name:       opDeleteDisk,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteDiskInput{}
+	}
+
+	output := &DeleteDiskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDiskRequest{Request: req, Input: input, Copy: c.DeleteDiskRequest}
+}
+
+const opDeleteDiskSnapshot = "DeleteDiskSnapshot"
+
+// DeleteDiskSnapshotRequest is a API request type for the DeleteDiskSnapshot API operation.
+type DeleteDiskSnapshotRequest struct {
+	*aws.Request
+	Input *DeleteDiskSnapshotInput
+	Copy  func(*DeleteDiskSnapshotInput) DeleteDiskSnapshotRequest
+}
+
+// Send marshals and sends the DeleteDiskSnapshot API request.
+func (r DeleteDiskSnapshotRequest) Send() (*DeleteDiskSnapshotOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteDiskSnapshotOutput), nil
+}
+
+// DeleteDiskSnapshotRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Deletes the specified disk snapshot.
+//
+// When you make periodic snapshots of a disk, the snapshots are incremental,
+// and only the blocks on the device that have changed since your last snapshot
+// are saved in the new snapshot. When you delete a snapshot, only the data
+// not needed for any other snapshot is removed. So regardless of which prior
+// snapshots have been deleted, all active snapshots will have access to all
+// the information needed to restore the disk.
+//
+//    // Example sending a request using the DeleteDiskSnapshotRequest method.
+//    req := client.DeleteDiskSnapshotRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskSnapshot
+func (c *Lightsail) DeleteDiskSnapshotRequest(input *DeleteDiskSnapshotInput) DeleteDiskSnapshotRequest {
+	op := &aws.Operation{
+		Name:       opDeleteDiskSnapshot,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteDiskSnapshotInput{}
+	}
+
+	output := &DeleteDiskSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDiskSnapshotRequest{Request: req, Input: input, Copy: c.DeleteDiskSnapshotRequest}
 }
 
 const opDeleteDomain = "DeleteDomain"
@@ -432,6 +1017,7 @@ const opDeleteDomain = "DeleteDomain"
 type DeleteDomainRequest struct {
 	*aws.Request
 	Input *DeleteDomainInput
+	Copy  func(*DeleteDomainInput) DeleteDomainRequest
 }
 
 // Send marshals and sends the DeleteDomain API request.
@@ -468,8 +1054,11 @@ func (c *Lightsail) DeleteDomainRequest(input *DeleteDomainInput) DeleteDomainRe
 		input = &DeleteDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDomainOutput{})
-	return DeleteDomainRequest{Request: req, Input: input}
+	output := &DeleteDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDomainRequest{Request: req, Input: input, Copy: c.DeleteDomainRequest}
 }
 
 const opDeleteDomainEntry = "DeleteDomainEntry"
@@ -478,6 +1067,7 @@ const opDeleteDomainEntry = "DeleteDomainEntry"
 type DeleteDomainEntryRequest struct {
 	*aws.Request
 	Input *DeleteDomainEntryInput
+	Copy  func(*DeleteDomainEntryInput) DeleteDomainEntryRequest
 }
 
 // Send marshals and sends the DeleteDomainEntry API request.
@@ -514,8 +1104,11 @@ func (c *Lightsail) DeleteDomainEntryRequest(input *DeleteDomainEntryInput) Dele
 		input = &DeleteDomainEntryInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDomainEntryOutput{})
-	return DeleteDomainEntryRequest{Request: req, Input: input}
+	output := &DeleteDomainEntryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDomainEntryRequest{Request: req, Input: input, Copy: c.DeleteDomainEntryRequest}
 }
 
 const opDeleteInstance = "DeleteInstance"
@@ -524,6 +1117,7 @@ const opDeleteInstance = "DeleteInstance"
 type DeleteInstanceRequest struct {
 	*aws.Request
 	Input *DeleteInstanceInput
+	Copy  func(*DeleteInstanceInput) DeleteInstanceRequest
 }
 
 // Send marshals and sends the DeleteInstance API request.
@@ -560,8 +1154,11 @@ func (c *Lightsail) DeleteInstanceRequest(input *DeleteInstanceInput) DeleteInst
 		input = &DeleteInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteInstanceOutput{})
-	return DeleteInstanceRequest{Request: req, Input: input}
+	output := &DeleteInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteInstanceRequest{Request: req, Input: input, Copy: c.DeleteInstanceRequest}
 }
 
 const opDeleteInstanceSnapshot = "DeleteInstanceSnapshot"
@@ -570,6 +1167,7 @@ const opDeleteInstanceSnapshot = "DeleteInstanceSnapshot"
 type DeleteInstanceSnapshotRequest struct {
 	*aws.Request
 	Input *DeleteInstanceSnapshotInput
+	Copy  func(*DeleteInstanceSnapshotInput) DeleteInstanceSnapshotRequest
 }
 
 // Send marshals and sends the DeleteInstanceSnapshot API request.
@@ -606,8 +1204,11 @@ func (c *Lightsail) DeleteInstanceSnapshotRequest(input *DeleteInstanceSnapshotI
 		input = &DeleteInstanceSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteInstanceSnapshotOutput{})
-	return DeleteInstanceSnapshotRequest{Request: req, Input: input}
+	output := &DeleteInstanceSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteInstanceSnapshotRequest{Request: req, Input: input, Copy: c.DeleteInstanceSnapshotRequest}
 }
 
 const opDeleteKeyPair = "DeleteKeyPair"
@@ -616,6 +1217,7 @@ const opDeleteKeyPair = "DeleteKeyPair"
 type DeleteKeyPairRequest struct {
 	*aws.Request
 	Input *DeleteKeyPairInput
+	Copy  func(*DeleteKeyPairInput) DeleteKeyPairRequest
 }
 
 // Send marshals and sends the DeleteKeyPair API request.
@@ -652,8 +1254,218 @@ func (c *Lightsail) DeleteKeyPairRequest(input *DeleteKeyPairInput) DeleteKeyPai
 		input = &DeleteKeyPairInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteKeyPairOutput{})
-	return DeleteKeyPairRequest{Request: req, Input: input}
+	output := &DeleteKeyPairOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteKeyPairRequest{Request: req, Input: input, Copy: c.DeleteKeyPairRequest}
+}
+
+const opDeleteLoadBalancer = "DeleteLoadBalancer"
+
+// DeleteLoadBalancerRequest is a API request type for the DeleteLoadBalancer API operation.
+type DeleteLoadBalancerRequest struct {
+	*aws.Request
+	Input *DeleteLoadBalancerInput
+	Copy  func(*DeleteLoadBalancerInput) DeleteLoadBalancerRequest
+}
+
+// Send marshals and sends the DeleteLoadBalancer API request.
+func (r DeleteLoadBalancerRequest) Send() (*DeleteLoadBalancerOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteLoadBalancerOutput), nil
+}
+
+// DeleteLoadBalancerRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates.
+// Once the load balancer is deleted, you will need to create a new load balancer,
+// create a new certificate, and verify domain ownership again.
+//
+//    // Example sending a request using the DeleteLoadBalancerRequest method.
+//    req := client.DeleteLoadBalancerRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancer
+func (c *Lightsail) DeleteLoadBalancerRequest(input *DeleteLoadBalancerInput) DeleteLoadBalancerRequest {
+	op := &aws.Operation{
+		Name:       opDeleteLoadBalancer,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteLoadBalancerInput{}
+	}
+
+	output := &DeleteLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLoadBalancerRequest{Request: req, Input: input, Copy: c.DeleteLoadBalancerRequest}
+}
+
+const opDeleteLoadBalancerTlsCertificate = "DeleteLoadBalancerTlsCertificate"
+
+// DeleteLoadBalancerTlsCertificateRequest is a API request type for the DeleteLoadBalancerTlsCertificate API operation.
+type DeleteLoadBalancerTlsCertificateRequest struct {
+	*aws.Request
+	Input *DeleteLoadBalancerTlsCertificateInput
+	Copy  func(*DeleteLoadBalancerTlsCertificateInput) DeleteLoadBalancerTlsCertificateRequest
+}
+
+// Send marshals and sends the DeleteLoadBalancerTlsCertificate API request.
+func (r DeleteLoadBalancerTlsCertificateRequest) Send() (*DeleteLoadBalancerTlsCertificateOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteLoadBalancerTlsCertificateOutput), nil
+}
+
+// DeleteLoadBalancerTlsCertificateRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Deletes an SSL/TLS certificate associated with a Lightsail load balancer.
+//
+//    // Example sending a request using the DeleteLoadBalancerTlsCertificateRequest method.
+//    req := client.DeleteLoadBalancerTlsCertificateRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerTlsCertificate
+func (c *Lightsail) DeleteLoadBalancerTlsCertificateRequest(input *DeleteLoadBalancerTlsCertificateInput) DeleteLoadBalancerTlsCertificateRequest {
+	op := &aws.Operation{
+		Name:       opDeleteLoadBalancerTlsCertificate,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteLoadBalancerTlsCertificateInput{}
+	}
+
+	output := &DeleteLoadBalancerTlsCertificateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLoadBalancerTlsCertificateRequest{Request: req, Input: input, Copy: c.DeleteLoadBalancerTlsCertificateRequest}
+}
+
+const opDetachDisk = "DetachDisk"
+
+// DetachDiskRequest is a API request type for the DetachDisk API operation.
+type DetachDiskRequest struct {
+	*aws.Request
+	Input *DetachDiskInput
+	Copy  func(*DetachDiskInput) DetachDiskRequest
+}
+
+// Send marshals and sends the DetachDisk API request.
+func (r DetachDiskRequest) Send() (*DetachDiskOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DetachDiskOutput), nil
+}
+
+// DetachDiskRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Detaches a stopped block storage disk from a Lightsail instance. Make sure
+// to unmount any file systems on the device within your operating system before
+// stopping the instance and detaching the disk.
+//
+//    // Example sending a request using the DetachDiskRequest method.
+//    req := client.DetachDiskRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachDisk
+func (c *Lightsail) DetachDiskRequest(input *DetachDiskInput) DetachDiskRequest {
+	op := &aws.Operation{
+		Name:       opDetachDisk,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DetachDiskInput{}
+	}
+
+	output := &DetachDiskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachDiskRequest{Request: req, Input: input, Copy: c.DetachDiskRequest}
+}
+
+const opDetachInstancesFromLoadBalancer = "DetachInstancesFromLoadBalancer"
+
+// DetachInstancesFromLoadBalancerRequest is a API request type for the DetachInstancesFromLoadBalancer API operation.
+type DetachInstancesFromLoadBalancerRequest struct {
+	*aws.Request
+	Input *DetachInstancesFromLoadBalancerInput
+	Copy  func(*DetachInstancesFromLoadBalancerInput) DetachInstancesFromLoadBalancerRequest
+}
+
+// Send marshals and sends the DetachInstancesFromLoadBalancer API request.
+func (r DetachInstancesFromLoadBalancerRequest) Send() (*DetachInstancesFromLoadBalancerOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DetachInstancesFromLoadBalancerOutput), nil
+}
+
+// DetachInstancesFromLoadBalancerRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Detaches the specified instances from a Lightsail load balancer.
+//
+// This operation waits until the instances are no longer needed before they
+// are detached from the load balancer.
+//
+//    // Example sending a request using the DetachInstancesFromLoadBalancerRequest method.
+//    req := client.DetachInstancesFromLoadBalancerRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachInstancesFromLoadBalancer
+func (c *Lightsail) DetachInstancesFromLoadBalancerRequest(input *DetachInstancesFromLoadBalancerInput) DetachInstancesFromLoadBalancerRequest {
+	op := &aws.Operation{
+		Name:       opDetachInstancesFromLoadBalancer,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DetachInstancesFromLoadBalancerInput{}
+	}
+
+	output := &DetachInstancesFromLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachInstancesFromLoadBalancerRequest{Request: req, Input: input, Copy: c.DetachInstancesFromLoadBalancerRequest}
 }
 
 const opDetachStaticIp = "DetachStaticIp"
@@ -662,6 +1474,7 @@ const opDetachStaticIp = "DetachStaticIp"
 type DetachStaticIpRequest struct {
 	*aws.Request
 	Input *DetachStaticIpInput
+	Copy  func(*DetachStaticIpInput) DetachStaticIpRequest
 }
 
 // Send marshals and sends the DetachStaticIp API request.
@@ -698,8 +1511,11 @@ func (c *Lightsail) DetachStaticIpRequest(input *DetachStaticIpInput) DetachStat
 		input = &DetachStaticIpInput{}
 	}
 
-	req := c.newRequest(op, input, &DetachStaticIpOutput{})
-	return DetachStaticIpRequest{Request: req, Input: input}
+	output := &DetachStaticIpOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DetachStaticIpRequest{Request: req, Input: input, Copy: c.DetachStaticIpRequest}
 }
 
 const opDownloadDefaultKeyPair = "DownloadDefaultKeyPair"
@@ -708,6 +1524,7 @@ const opDownloadDefaultKeyPair = "DownloadDefaultKeyPair"
 type DownloadDefaultKeyPairRequest struct {
 	*aws.Request
 	Input *DownloadDefaultKeyPairInput
+	Copy  func(*DownloadDefaultKeyPairInput) DownloadDefaultKeyPairRequest
 }
 
 // Send marshals and sends the DownloadDefaultKeyPair API request.
@@ -744,8 +1561,11 @@ func (c *Lightsail) DownloadDefaultKeyPairRequest(input *DownloadDefaultKeyPairI
 		input = &DownloadDefaultKeyPairInput{}
 	}
 
-	req := c.newRequest(op, input, &DownloadDefaultKeyPairOutput{})
-	return DownloadDefaultKeyPairRequest{Request: req, Input: input}
+	output := &DownloadDefaultKeyPairOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DownloadDefaultKeyPairRequest{Request: req, Input: input, Copy: c.DownloadDefaultKeyPairRequest}
 }
 
 const opGetActiveNames = "GetActiveNames"
@@ -754,6 +1574,7 @@ const opGetActiveNames = "GetActiveNames"
 type GetActiveNamesRequest struct {
 	*aws.Request
 	Input *GetActiveNamesInput
+	Copy  func(*GetActiveNamesInput) GetActiveNamesRequest
 }
 
 // Send marshals and sends the GetActiveNames API request.
@@ -790,8 +1611,11 @@ func (c *Lightsail) GetActiveNamesRequest(input *GetActiveNamesInput) GetActiveN
 		input = &GetActiveNamesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetActiveNamesOutput{})
-	return GetActiveNamesRequest{Request: req, Input: input}
+	output := &GetActiveNamesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetActiveNamesRequest{Request: req, Input: input, Copy: c.GetActiveNamesRequest}
 }
 
 const opGetBlueprints = "GetBlueprints"
@@ -800,6 +1624,7 @@ const opGetBlueprints = "GetBlueprints"
 type GetBlueprintsRequest struct {
 	*aws.Request
 	Input *GetBlueprintsInput
+	Copy  func(*GetBlueprintsInput) GetBlueprintsRequest
 }
 
 // Send marshals and sends the GetBlueprints API request.
@@ -839,8 +1664,11 @@ func (c *Lightsail) GetBlueprintsRequest(input *GetBlueprintsInput) GetBlueprint
 		input = &GetBlueprintsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBlueprintsOutput{})
-	return GetBlueprintsRequest{Request: req, Input: input}
+	output := &GetBlueprintsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBlueprintsRequest{Request: req, Input: input, Copy: c.GetBlueprintsRequest}
 }
 
 const opGetBundles = "GetBundles"
@@ -849,6 +1677,7 @@ const opGetBundles = "GetBundles"
 type GetBundlesRequest struct {
 	*aws.Request
 	Input *GetBundlesInput
+	Copy  func(*GetBundlesInput) GetBundlesRequest
 }
 
 // Send marshals and sends the GetBundles API request.
@@ -886,8 +1715,221 @@ func (c *Lightsail) GetBundlesRequest(input *GetBundlesInput) GetBundlesRequest 
 		input = &GetBundlesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBundlesOutput{})
-	return GetBundlesRequest{Request: req, Input: input}
+	output := &GetBundlesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBundlesRequest{Request: req, Input: input, Copy: c.GetBundlesRequest}
+}
+
+const opGetDisk = "GetDisk"
+
+// GetDiskRequest is a API request type for the GetDisk API operation.
+type GetDiskRequest struct {
+	*aws.Request
+	Input *GetDiskInput
+	Copy  func(*GetDiskInput) GetDiskRequest
+}
+
+// Send marshals and sends the GetDisk API request.
+func (r GetDiskRequest) Send() (*GetDiskOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetDiskOutput), nil
+}
+
+// GetDiskRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about a specific block storage disk.
+//
+//    // Example sending a request using the GetDiskRequest method.
+//    req := client.GetDiskRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisk
+func (c *Lightsail) GetDiskRequest(input *GetDiskInput) GetDiskRequest {
+	op := &aws.Operation{
+		Name:       opGetDisk,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetDiskInput{}
+	}
+
+	output := &GetDiskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDiskRequest{Request: req, Input: input, Copy: c.GetDiskRequest}
+}
+
+const opGetDiskSnapshot = "GetDiskSnapshot"
+
+// GetDiskSnapshotRequest is a API request type for the GetDiskSnapshot API operation.
+type GetDiskSnapshotRequest struct {
+	*aws.Request
+	Input *GetDiskSnapshotInput
+	Copy  func(*GetDiskSnapshotInput) GetDiskSnapshotRequest
+}
+
+// Send marshals and sends the GetDiskSnapshot API request.
+func (r GetDiskSnapshotRequest) Send() (*GetDiskSnapshotOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetDiskSnapshotOutput), nil
+}
+
+// GetDiskSnapshotRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about a specific block storage disk snapshot.
+//
+//    // Example sending a request using the GetDiskSnapshotRequest method.
+//    req := client.GetDiskSnapshotRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshot
+func (c *Lightsail) GetDiskSnapshotRequest(input *GetDiskSnapshotInput) GetDiskSnapshotRequest {
+	op := &aws.Operation{
+		Name:       opGetDiskSnapshot,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetDiskSnapshotInput{}
+	}
+
+	output := &GetDiskSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDiskSnapshotRequest{Request: req, Input: input, Copy: c.GetDiskSnapshotRequest}
+}
+
+const opGetDiskSnapshots = "GetDiskSnapshots"
+
+// GetDiskSnapshotsRequest is a API request type for the GetDiskSnapshots API operation.
+type GetDiskSnapshotsRequest struct {
+	*aws.Request
+	Input *GetDiskSnapshotsInput
+	Copy  func(*GetDiskSnapshotsInput) GetDiskSnapshotsRequest
+}
+
+// Send marshals and sends the GetDiskSnapshots API request.
+func (r GetDiskSnapshotsRequest) Send() (*GetDiskSnapshotsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetDiskSnapshotsOutput), nil
+}
+
+// GetDiskSnapshotsRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about all block storage disk snapshots in your AWS account
+// and region.
+//
+// If you are describing a long list of disk snapshots, you can paginate the
+// output to make the list more manageable. You can use the pageToken and nextPageToken
+// values to retrieve the next items in the list.
+//
+//    // Example sending a request using the GetDiskSnapshotsRequest method.
+//    req := client.GetDiskSnapshotsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshots
+func (c *Lightsail) GetDiskSnapshotsRequest(input *GetDiskSnapshotsInput) GetDiskSnapshotsRequest {
+	op := &aws.Operation{
+		Name:       opGetDiskSnapshots,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetDiskSnapshotsInput{}
+	}
+
+	output := &GetDiskSnapshotsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDiskSnapshotsRequest{Request: req, Input: input, Copy: c.GetDiskSnapshotsRequest}
+}
+
+const opGetDisks = "GetDisks"
+
+// GetDisksRequest is a API request type for the GetDisks API operation.
+type GetDisksRequest struct {
+	*aws.Request
+	Input *GetDisksInput
+	Copy  func(*GetDisksInput) GetDisksRequest
+}
+
+// Send marshals and sends the GetDisks API request.
+func (r GetDisksRequest) Send() (*GetDisksOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetDisksOutput), nil
+}
+
+// GetDisksRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about all block storage disks in your AWS account and
+// region.
+//
+// If you are describing a long list of disks, you can paginate the output to
+// make the list more manageable. You can use the pageToken and nextPageToken
+// values to retrieve the next items in the list.
+//
+//    // Example sending a request using the GetDisksRequest method.
+//    req := client.GetDisksRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisks
+func (c *Lightsail) GetDisksRequest(input *GetDisksInput) GetDisksRequest {
+	op := &aws.Operation{
+		Name:       opGetDisks,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetDisksInput{}
+	}
+
+	output := &GetDisksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDisksRequest{Request: req, Input: input, Copy: c.GetDisksRequest}
 }
 
 const opGetDomain = "GetDomain"
@@ -896,6 +1938,7 @@ const opGetDomain = "GetDomain"
 type GetDomainRequest struct {
 	*aws.Request
 	Input *GetDomainInput
+	Copy  func(*GetDomainInput) GetDomainRequest
 }
 
 // Send marshals and sends the GetDomain API request.
@@ -932,8 +1975,11 @@ func (c *Lightsail) GetDomainRequest(input *GetDomainInput) GetDomainRequest {
 		input = &GetDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDomainOutput{})
-	return GetDomainRequest{Request: req, Input: input}
+	output := &GetDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDomainRequest{Request: req, Input: input, Copy: c.GetDomainRequest}
 }
 
 const opGetDomains = "GetDomains"
@@ -942,6 +1988,7 @@ const opGetDomains = "GetDomains"
 type GetDomainsRequest struct {
 	*aws.Request
 	Input *GetDomainsInput
+	Copy  func(*GetDomainsInput) GetDomainsRequest
 }
 
 // Send marshals and sends the GetDomains API request.
@@ -978,8 +2025,11 @@ func (c *Lightsail) GetDomainsRequest(input *GetDomainsInput) GetDomainsRequest 
 		input = &GetDomainsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDomainsOutput{})
-	return GetDomainsRequest{Request: req, Input: input}
+	output := &GetDomainsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDomainsRequest{Request: req, Input: input, Copy: c.GetDomainsRequest}
 }
 
 const opGetInstance = "GetInstance"
@@ -988,6 +2038,7 @@ const opGetInstance = "GetInstance"
 type GetInstanceRequest struct {
 	*aws.Request
 	Input *GetInstanceInput
+	Copy  func(*GetInstanceInput) GetInstanceRequest
 }
 
 // Send marshals and sends the GetInstance API request.
@@ -1025,8 +2076,11 @@ func (c *Lightsail) GetInstanceRequest(input *GetInstanceInput) GetInstanceReque
 		input = &GetInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceOutput{})
-	return GetInstanceRequest{Request: req, Input: input}
+	output := &GetInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceRequest{Request: req, Input: input, Copy: c.GetInstanceRequest}
 }
 
 const opGetInstanceAccessDetails = "GetInstanceAccessDetails"
@@ -1035,6 +2089,7 @@ const opGetInstanceAccessDetails = "GetInstanceAccessDetails"
 type GetInstanceAccessDetailsRequest struct {
 	*aws.Request
 	Input *GetInstanceAccessDetailsInput
+	Copy  func(*GetInstanceAccessDetailsInput) GetInstanceAccessDetailsRequest
 }
 
 // Send marshals and sends the GetInstanceAccessDetails API request.
@@ -1072,8 +2127,11 @@ func (c *Lightsail) GetInstanceAccessDetailsRequest(input *GetInstanceAccessDeta
 		input = &GetInstanceAccessDetailsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceAccessDetailsOutput{})
-	return GetInstanceAccessDetailsRequest{Request: req, Input: input}
+	output := &GetInstanceAccessDetailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceAccessDetailsRequest{Request: req, Input: input, Copy: c.GetInstanceAccessDetailsRequest}
 }
 
 const opGetInstanceMetricData = "GetInstanceMetricData"
@@ -1082,6 +2140,7 @@ const opGetInstanceMetricData = "GetInstanceMetricData"
 type GetInstanceMetricDataRequest struct {
 	*aws.Request
 	Input *GetInstanceMetricDataInput
+	Copy  func(*GetInstanceMetricDataInput) GetInstanceMetricDataRequest
 }
 
 // Send marshals and sends the GetInstanceMetricData API request.
@@ -1119,8 +2178,11 @@ func (c *Lightsail) GetInstanceMetricDataRequest(input *GetInstanceMetricDataInp
 		input = &GetInstanceMetricDataInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceMetricDataOutput{})
-	return GetInstanceMetricDataRequest{Request: req, Input: input}
+	output := &GetInstanceMetricDataOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceMetricDataRequest{Request: req, Input: input, Copy: c.GetInstanceMetricDataRequest}
 }
 
 const opGetInstancePortStates = "GetInstancePortStates"
@@ -1129,6 +2191,7 @@ const opGetInstancePortStates = "GetInstancePortStates"
 type GetInstancePortStatesRequest struct {
 	*aws.Request
 	Input *GetInstancePortStatesInput
+	Copy  func(*GetInstancePortStatesInput) GetInstancePortStatesRequest
 }
 
 // Send marshals and sends the GetInstancePortStates API request.
@@ -1165,8 +2228,11 @@ func (c *Lightsail) GetInstancePortStatesRequest(input *GetInstancePortStatesInp
 		input = &GetInstancePortStatesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstancePortStatesOutput{})
-	return GetInstancePortStatesRequest{Request: req, Input: input}
+	output := &GetInstancePortStatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstancePortStatesRequest{Request: req, Input: input, Copy: c.GetInstancePortStatesRequest}
 }
 
 const opGetInstanceSnapshot = "GetInstanceSnapshot"
@@ -1175,6 +2241,7 @@ const opGetInstanceSnapshot = "GetInstanceSnapshot"
 type GetInstanceSnapshotRequest struct {
 	*aws.Request
 	Input *GetInstanceSnapshotInput
+	Copy  func(*GetInstanceSnapshotInput) GetInstanceSnapshotRequest
 }
 
 // Send marshals and sends the GetInstanceSnapshot API request.
@@ -1211,8 +2278,11 @@ func (c *Lightsail) GetInstanceSnapshotRequest(input *GetInstanceSnapshotInput) 
 		input = &GetInstanceSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceSnapshotOutput{})
-	return GetInstanceSnapshotRequest{Request: req, Input: input}
+	output := &GetInstanceSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceSnapshotRequest{Request: req, Input: input, Copy: c.GetInstanceSnapshotRequest}
 }
 
 const opGetInstanceSnapshots = "GetInstanceSnapshots"
@@ -1221,6 +2291,7 @@ const opGetInstanceSnapshots = "GetInstanceSnapshots"
 type GetInstanceSnapshotsRequest struct {
 	*aws.Request
 	Input *GetInstanceSnapshotsInput
+	Copy  func(*GetInstanceSnapshotsInput) GetInstanceSnapshotsRequest
 }
 
 // Send marshals and sends the GetInstanceSnapshots API request.
@@ -1257,8 +2328,11 @@ func (c *Lightsail) GetInstanceSnapshotsRequest(input *GetInstanceSnapshotsInput
 		input = &GetInstanceSnapshotsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceSnapshotsOutput{})
-	return GetInstanceSnapshotsRequest{Request: req, Input: input}
+	output := &GetInstanceSnapshotsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceSnapshotsRequest{Request: req, Input: input, Copy: c.GetInstanceSnapshotsRequest}
 }
 
 const opGetInstanceState = "GetInstanceState"
@@ -1267,6 +2341,7 @@ const opGetInstanceState = "GetInstanceState"
 type GetInstanceStateRequest struct {
 	*aws.Request
 	Input *GetInstanceStateInput
+	Copy  func(*GetInstanceStateInput) GetInstanceStateRequest
 }
 
 // Send marshals and sends the GetInstanceState API request.
@@ -1303,8 +2378,11 @@ func (c *Lightsail) GetInstanceStateRequest(input *GetInstanceStateInput) GetIns
 		input = &GetInstanceStateInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstanceStateOutput{})
-	return GetInstanceStateRequest{Request: req, Input: input}
+	output := &GetInstanceStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceStateRequest{Request: req, Input: input, Copy: c.GetInstanceStateRequest}
 }
 
 const opGetInstances = "GetInstances"
@@ -1313,6 +2391,7 @@ const opGetInstances = "GetInstances"
 type GetInstancesRequest struct {
 	*aws.Request
 	Input *GetInstancesInput
+	Copy  func(*GetInstancesInput) GetInstancesRequest
 }
 
 // Send marshals and sends the GetInstances API request.
@@ -1350,8 +2429,11 @@ func (c *Lightsail) GetInstancesRequest(input *GetInstancesInput) GetInstancesRe
 		input = &GetInstancesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInstancesOutput{})
-	return GetInstancesRequest{Request: req, Input: input}
+	output := &GetInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstancesRequest{Request: req, Input: input, Copy: c.GetInstancesRequest}
 }
 
 const opGetKeyPair = "GetKeyPair"
@@ -1360,6 +2442,7 @@ const opGetKeyPair = "GetKeyPair"
 type GetKeyPairRequest struct {
 	*aws.Request
 	Input *GetKeyPairInput
+	Copy  func(*GetKeyPairInput) GetKeyPairRequest
 }
 
 // Send marshals and sends the GetKeyPair API request.
@@ -1396,8 +2479,11 @@ func (c *Lightsail) GetKeyPairRequest(input *GetKeyPairInput) GetKeyPairRequest 
 		input = &GetKeyPairInput{}
 	}
 
-	req := c.newRequest(op, input, &GetKeyPairOutput{})
-	return GetKeyPairRequest{Request: req, Input: input}
+	output := &GetKeyPairOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetKeyPairRequest{Request: req, Input: input, Copy: c.GetKeyPairRequest}
 }
 
 const opGetKeyPairs = "GetKeyPairs"
@@ -1406,6 +2492,7 @@ const opGetKeyPairs = "GetKeyPairs"
 type GetKeyPairsRequest struct {
 	*aws.Request
 	Input *GetKeyPairsInput
+	Copy  func(*GetKeyPairsInput) GetKeyPairsRequest
 }
 
 // Send marshals and sends the GetKeyPairs API request.
@@ -1442,8 +2529,221 @@ func (c *Lightsail) GetKeyPairsRequest(input *GetKeyPairsInput) GetKeyPairsReque
 		input = &GetKeyPairsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetKeyPairsOutput{})
-	return GetKeyPairsRequest{Request: req, Input: input}
+	output := &GetKeyPairsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetKeyPairsRequest{Request: req, Input: input, Copy: c.GetKeyPairsRequest}
+}
+
+const opGetLoadBalancer = "GetLoadBalancer"
+
+// GetLoadBalancerRequest is a API request type for the GetLoadBalancer API operation.
+type GetLoadBalancerRequest struct {
+	*aws.Request
+	Input *GetLoadBalancerInput
+	Copy  func(*GetLoadBalancerInput) GetLoadBalancerRequest
+}
+
+// Send marshals and sends the GetLoadBalancer API request.
+func (r GetLoadBalancerRequest) Send() (*GetLoadBalancerOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetLoadBalancerOutput), nil
+}
+
+// GetLoadBalancerRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about the specified Lightsail load balancer.
+//
+//    // Example sending a request using the GetLoadBalancerRequest method.
+//    req := client.GetLoadBalancerRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancer
+func (c *Lightsail) GetLoadBalancerRequest(input *GetLoadBalancerInput) GetLoadBalancerRequest {
+	op := &aws.Operation{
+		Name:       opGetLoadBalancer,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetLoadBalancerInput{}
+	}
+
+	output := &GetLoadBalancerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLoadBalancerRequest{Request: req, Input: input, Copy: c.GetLoadBalancerRequest}
+}
+
+const opGetLoadBalancerMetricData = "GetLoadBalancerMetricData"
+
+// GetLoadBalancerMetricDataRequest is a API request type for the GetLoadBalancerMetricData API operation.
+type GetLoadBalancerMetricDataRequest struct {
+	*aws.Request
+	Input *GetLoadBalancerMetricDataInput
+	Copy  func(*GetLoadBalancerMetricDataInput) GetLoadBalancerMetricDataRequest
+}
+
+// Send marshals and sends the GetLoadBalancerMetricData API request.
+func (r GetLoadBalancerMetricDataRequest) Send() (*GetLoadBalancerMetricDataOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetLoadBalancerMetricDataOutput), nil
+}
+
+// GetLoadBalancerMetricDataRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about health metrics for your Lightsail load balancer.
+//
+//    // Example sending a request using the GetLoadBalancerMetricDataRequest method.
+//    req := client.GetLoadBalancerMetricDataRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerMetricData
+func (c *Lightsail) GetLoadBalancerMetricDataRequest(input *GetLoadBalancerMetricDataInput) GetLoadBalancerMetricDataRequest {
+	op := &aws.Operation{
+		Name:       opGetLoadBalancerMetricData,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetLoadBalancerMetricDataInput{}
+	}
+
+	output := &GetLoadBalancerMetricDataOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLoadBalancerMetricDataRequest{Request: req, Input: input, Copy: c.GetLoadBalancerMetricDataRequest}
+}
+
+const opGetLoadBalancerTlsCertificates = "GetLoadBalancerTlsCertificates"
+
+// GetLoadBalancerTlsCertificatesRequest is a API request type for the GetLoadBalancerTlsCertificates API operation.
+type GetLoadBalancerTlsCertificatesRequest struct {
+	*aws.Request
+	Input *GetLoadBalancerTlsCertificatesInput
+	Copy  func(*GetLoadBalancerTlsCertificatesInput) GetLoadBalancerTlsCertificatesRequest
+}
+
+// Send marshals and sends the GetLoadBalancerTlsCertificates API request.
+func (r GetLoadBalancerTlsCertificatesRequest) Send() (*GetLoadBalancerTlsCertificatesOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetLoadBalancerTlsCertificatesOutput), nil
+}
+
+// GetLoadBalancerTlsCertificatesRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about the TLS certificates that are associated with the
+// specified Lightsail load balancer.
+//
+// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+//
+// You can have a maximum of 2 certificates associated with a Lightsail load
+// balancer. One is active and the other is inactive.
+//
+//    // Example sending a request using the GetLoadBalancerTlsCertificatesRequest method.
+//    req := client.GetLoadBalancerTlsCertificatesRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerTlsCertificates
+func (c *Lightsail) GetLoadBalancerTlsCertificatesRequest(input *GetLoadBalancerTlsCertificatesInput) GetLoadBalancerTlsCertificatesRequest {
+	op := &aws.Operation{
+		Name:       opGetLoadBalancerTlsCertificates,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetLoadBalancerTlsCertificatesInput{}
+	}
+
+	output := &GetLoadBalancerTlsCertificatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLoadBalancerTlsCertificatesRequest{Request: req, Input: input, Copy: c.GetLoadBalancerTlsCertificatesRequest}
+}
+
+const opGetLoadBalancers = "GetLoadBalancers"
+
+// GetLoadBalancersRequest is a API request type for the GetLoadBalancers API operation.
+type GetLoadBalancersRequest struct {
+	*aws.Request
+	Input *GetLoadBalancersInput
+	Copy  func(*GetLoadBalancersInput) GetLoadBalancersRequest
+}
+
+// Send marshals and sends the GetLoadBalancers API request.
+func (r GetLoadBalancersRequest) Send() (*GetLoadBalancersOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetLoadBalancersOutput), nil
+}
+
+// GetLoadBalancersRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Returns information about all load balancers in an account.
+//
+// If you are describing a long list of load balancers, you can paginate the
+// output to make the list more manageable. You can use the pageToken and nextPageToken
+// values to retrieve the next items in the list.
+//
+//    // Example sending a request using the GetLoadBalancersRequest method.
+//    req := client.GetLoadBalancersRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancers
+func (c *Lightsail) GetLoadBalancersRequest(input *GetLoadBalancersInput) GetLoadBalancersRequest {
+	op := &aws.Operation{
+		Name:       opGetLoadBalancers,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetLoadBalancersInput{}
+	}
+
+	output := &GetLoadBalancersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetLoadBalancersRequest{Request: req, Input: input, Copy: c.GetLoadBalancersRequest}
 }
 
 const opGetOperation = "GetOperation"
@@ -1452,6 +2752,7 @@ const opGetOperation = "GetOperation"
 type GetOperationRequest struct {
 	*aws.Request
 	Input *GetOperationInput
+	Copy  func(*GetOperationInput) GetOperationRequest
 }
 
 // Send marshals and sends the GetOperation API request.
@@ -1490,8 +2791,11 @@ func (c *Lightsail) GetOperationRequest(input *GetOperationInput) GetOperationRe
 		input = &GetOperationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetOperationOutput{})
-	return GetOperationRequest{Request: req, Input: input}
+	output := &GetOperationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetOperationRequest{Request: req, Input: input, Copy: c.GetOperationRequest}
 }
 
 const opGetOperations = "GetOperations"
@@ -1500,6 +2804,7 @@ const opGetOperations = "GetOperations"
 type GetOperationsRequest struct {
 	*aws.Request
 	Input *GetOperationsInput
+	Copy  func(*GetOperationsInput) GetOperationsRequest
 }
 
 // Send marshals and sends the GetOperations API request.
@@ -1540,8 +2845,11 @@ func (c *Lightsail) GetOperationsRequest(input *GetOperationsInput) GetOperation
 		input = &GetOperationsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetOperationsOutput{})
-	return GetOperationsRequest{Request: req, Input: input}
+	output := &GetOperationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetOperationsRequest{Request: req, Input: input, Copy: c.GetOperationsRequest}
 }
 
 const opGetOperationsForResource = "GetOperationsForResource"
@@ -1550,6 +2858,7 @@ const opGetOperationsForResource = "GetOperationsForResource"
 type GetOperationsForResourceRequest struct {
 	*aws.Request
 	Input *GetOperationsForResourceInput
+	Copy  func(*GetOperationsForResourceInput) GetOperationsForResourceRequest
 }
 
 // Send marshals and sends the GetOperationsForResource API request.
@@ -1586,8 +2895,11 @@ func (c *Lightsail) GetOperationsForResourceRequest(input *GetOperationsForResou
 		input = &GetOperationsForResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &GetOperationsForResourceOutput{})
-	return GetOperationsForResourceRequest{Request: req, Input: input}
+	output := &GetOperationsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetOperationsForResourceRequest{Request: req, Input: input, Copy: c.GetOperationsForResourceRequest}
 }
 
 const opGetRegions = "GetRegions"
@@ -1596,6 +2908,7 @@ const opGetRegions = "GetRegions"
 type GetRegionsRequest struct {
 	*aws.Request
 	Input *GetRegionsInput
+	Copy  func(*GetRegionsInput) GetRegionsRequest
 }
 
 // Send marshals and sends the GetRegions API request.
@@ -1633,8 +2946,11 @@ func (c *Lightsail) GetRegionsRequest(input *GetRegionsInput) GetRegionsRequest 
 		input = &GetRegionsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRegionsOutput{})
-	return GetRegionsRequest{Request: req, Input: input}
+	output := &GetRegionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRegionsRequest{Request: req, Input: input, Copy: c.GetRegionsRequest}
 }
 
 const opGetStaticIp = "GetStaticIp"
@@ -1643,6 +2959,7 @@ const opGetStaticIp = "GetStaticIp"
 type GetStaticIpRequest struct {
 	*aws.Request
 	Input *GetStaticIpInput
+	Copy  func(*GetStaticIpInput) GetStaticIpRequest
 }
 
 // Send marshals and sends the GetStaticIp API request.
@@ -1679,8 +2996,11 @@ func (c *Lightsail) GetStaticIpRequest(input *GetStaticIpInput) GetStaticIpReque
 		input = &GetStaticIpInput{}
 	}
 
-	req := c.newRequest(op, input, &GetStaticIpOutput{})
-	return GetStaticIpRequest{Request: req, Input: input}
+	output := &GetStaticIpOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetStaticIpRequest{Request: req, Input: input, Copy: c.GetStaticIpRequest}
 }
 
 const opGetStaticIps = "GetStaticIps"
@@ -1689,6 +3009,7 @@ const opGetStaticIps = "GetStaticIps"
 type GetStaticIpsRequest struct {
 	*aws.Request
 	Input *GetStaticIpsInput
+	Copy  func(*GetStaticIpsInput) GetStaticIpsRequest
 }
 
 // Send marshals and sends the GetStaticIps API request.
@@ -1725,8 +3046,11 @@ func (c *Lightsail) GetStaticIpsRequest(input *GetStaticIpsInput) GetStaticIpsRe
 		input = &GetStaticIpsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetStaticIpsOutput{})
-	return GetStaticIpsRequest{Request: req, Input: input}
+	output := &GetStaticIpsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetStaticIpsRequest{Request: req, Input: input, Copy: c.GetStaticIpsRequest}
 }
 
 const opImportKeyPair = "ImportKeyPair"
@@ -1735,6 +3059,7 @@ const opImportKeyPair = "ImportKeyPair"
 type ImportKeyPairRequest struct {
 	*aws.Request
 	Input *ImportKeyPairInput
+	Copy  func(*ImportKeyPairInput) ImportKeyPairRequest
 }
 
 // Send marshals and sends the ImportKeyPair API request.
@@ -1771,8 +3096,11 @@ func (c *Lightsail) ImportKeyPairRequest(input *ImportKeyPairInput) ImportKeyPai
 		input = &ImportKeyPairInput{}
 	}
 
-	req := c.newRequest(op, input, &ImportKeyPairOutput{})
-	return ImportKeyPairRequest{Request: req, Input: input}
+	output := &ImportKeyPairOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ImportKeyPairRequest{Request: req, Input: input, Copy: c.ImportKeyPairRequest}
 }
 
 const opIsVpcPeered = "IsVpcPeered"
@@ -1781,6 +3109,7 @@ const opIsVpcPeered = "IsVpcPeered"
 type IsVpcPeeredRequest struct {
 	*aws.Request
 	Input *IsVpcPeeredInput
+	Copy  func(*IsVpcPeeredInput) IsVpcPeeredRequest
 }
 
 // Send marshals and sends the IsVpcPeered API request.
@@ -1817,8 +3146,11 @@ func (c *Lightsail) IsVpcPeeredRequest(input *IsVpcPeeredInput) IsVpcPeeredReque
 		input = &IsVpcPeeredInput{}
 	}
 
-	req := c.newRequest(op, input, &IsVpcPeeredOutput{})
-	return IsVpcPeeredRequest{Request: req, Input: input}
+	output := &IsVpcPeeredOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return IsVpcPeeredRequest{Request: req, Input: input, Copy: c.IsVpcPeeredRequest}
 }
 
 const opOpenInstancePublicPorts = "OpenInstancePublicPorts"
@@ -1827,6 +3159,7 @@ const opOpenInstancePublicPorts = "OpenInstancePublicPorts"
 type OpenInstancePublicPortsRequest struct {
 	*aws.Request
 	Input *OpenInstancePublicPortsInput
+	Copy  func(*OpenInstancePublicPortsInput) OpenInstancePublicPortsRequest
 }
 
 // Send marshals and sends the OpenInstancePublicPorts API request.
@@ -1863,8 +3196,11 @@ func (c *Lightsail) OpenInstancePublicPortsRequest(input *OpenInstancePublicPort
 		input = &OpenInstancePublicPortsInput{}
 	}
 
-	req := c.newRequest(op, input, &OpenInstancePublicPortsOutput{})
-	return OpenInstancePublicPortsRequest{Request: req, Input: input}
+	output := &OpenInstancePublicPortsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return OpenInstancePublicPortsRequest{Request: req, Input: input, Copy: c.OpenInstancePublicPortsRequest}
 }
 
 const opPeerVpc = "PeerVpc"
@@ -1873,6 +3209,7 @@ const opPeerVpc = "PeerVpc"
 type PeerVpcRequest struct {
 	*aws.Request
 	Input *PeerVpcInput
+	Copy  func(*PeerVpcInput) PeerVpcRequest
 }
 
 // Send marshals and sends the PeerVpc API request.
@@ -1909,8 +3246,11 @@ func (c *Lightsail) PeerVpcRequest(input *PeerVpcInput) PeerVpcRequest {
 		input = &PeerVpcInput{}
 	}
 
-	req := c.newRequest(op, input, &PeerVpcOutput{})
-	return PeerVpcRequest{Request: req, Input: input}
+	output := &PeerVpcOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PeerVpcRequest{Request: req, Input: input, Copy: c.PeerVpcRequest}
 }
 
 const opPutInstancePublicPorts = "PutInstancePublicPorts"
@@ -1919,6 +3259,7 @@ const opPutInstancePublicPorts = "PutInstancePublicPorts"
 type PutInstancePublicPortsRequest struct {
 	*aws.Request
 	Input *PutInstancePublicPortsInput
+	Copy  func(*PutInstancePublicPortsInput) PutInstancePublicPortsRequest
 }
 
 // Send marshals and sends the PutInstancePublicPorts API request.
@@ -1956,8 +3297,11 @@ func (c *Lightsail) PutInstancePublicPortsRequest(input *PutInstancePublicPortsI
 		input = &PutInstancePublicPortsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutInstancePublicPortsOutput{})
-	return PutInstancePublicPortsRequest{Request: req, Input: input}
+	output := &PutInstancePublicPortsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutInstancePublicPortsRequest{Request: req, Input: input, Copy: c.PutInstancePublicPortsRequest}
 }
 
 const opRebootInstance = "RebootInstance"
@@ -1966,6 +3310,7 @@ const opRebootInstance = "RebootInstance"
 type RebootInstanceRequest struct {
 	*aws.Request
 	Input *RebootInstanceInput
+	Copy  func(*RebootInstanceInput) RebootInstanceRequest
 }
 
 // Send marshals and sends the RebootInstance API request.
@@ -2005,8 +3350,11 @@ func (c *Lightsail) RebootInstanceRequest(input *RebootInstanceInput) RebootInst
 		input = &RebootInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &RebootInstanceOutput{})
-	return RebootInstanceRequest{Request: req, Input: input}
+	output := &RebootInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RebootInstanceRequest{Request: req, Input: input, Copy: c.RebootInstanceRequest}
 }
 
 const opReleaseStaticIp = "ReleaseStaticIp"
@@ -2015,6 +3363,7 @@ const opReleaseStaticIp = "ReleaseStaticIp"
 type ReleaseStaticIpRequest struct {
 	*aws.Request
 	Input *ReleaseStaticIpInput
+	Copy  func(*ReleaseStaticIpInput) ReleaseStaticIpRequest
 }
 
 // Send marshals and sends the ReleaseStaticIp API request.
@@ -2051,8 +3400,11 @@ func (c *Lightsail) ReleaseStaticIpRequest(input *ReleaseStaticIpInput) ReleaseS
 		input = &ReleaseStaticIpInput{}
 	}
 
-	req := c.newRequest(op, input, &ReleaseStaticIpOutput{})
-	return ReleaseStaticIpRequest{Request: req, Input: input}
+	output := &ReleaseStaticIpOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ReleaseStaticIpRequest{Request: req, Input: input, Copy: c.ReleaseStaticIpRequest}
 }
 
 const opStartInstance = "StartInstance"
@@ -2061,6 +3413,7 @@ const opStartInstance = "StartInstance"
 type StartInstanceRequest struct {
 	*aws.Request
 	Input *StartInstanceInput
+	Copy  func(*StartInstanceInput) StartInstanceRequest
 }
 
 // Send marshals and sends the StartInstance API request.
@@ -2098,8 +3451,11 @@ func (c *Lightsail) StartInstanceRequest(input *StartInstanceInput) StartInstanc
 		input = &StartInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &StartInstanceOutput{})
-	return StartInstanceRequest{Request: req, Input: input}
+	output := &StartInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartInstanceRequest{Request: req, Input: input, Copy: c.StartInstanceRequest}
 }
 
 const opStopInstance = "StopInstance"
@@ -2108,6 +3464,7 @@ const opStopInstance = "StopInstance"
 type StopInstanceRequest struct {
 	*aws.Request
 	Input *StopInstanceInput
+	Copy  func(*StopInstanceInput) StopInstanceRequest
 }
 
 // Send marshals and sends the StopInstance API request.
@@ -2144,8 +3501,11 @@ func (c *Lightsail) StopInstanceRequest(input *StopInstanceInput) StopInstanceRe
 		input = &StopInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &StopInstanceOutput{})
-	return StopInstanceRequest{Request: req, Input: input}
+	output := &StopInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopInstanceRequest{Request: req, Input: input, Copy: c.StopInstanceRequest}
 }
 
 const opUnpeerVpc = "UnpeerVpc"
@@ -2154,6 +3514,7 @@ const opUnpeerVpc = "UnpeerVpc"
 type UnpeerVpcRequest struct {
 	*aws.Request
 	Input *UnpeerVpcInput
+	Copy  func(*UnpeerVpcInput) UnpeerVpcRequest
 }
 
 // Send marshals and sends the UnpeerVpc API request.
@@ -2190,8 +3551,11 @@ func (c *Lightsail) UnpeerVpcRequest(input *UnpeerVpcInput) UnpeerVpcRequest {
 		input = &UnpeerVpcInput{}
 	}
 
-	req := c.newRequest(op, input, &UnpeerVpcOutput{})
-	return UnpeerVpcRequest{Request: req, Input: input}
+	output := &UnpeerVpcOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UnpeerVpcRequest{Request: req, Input: input, Copy: c.UnpeerVpcRequest}
 }
 
 const opUpdateDomainEntry = "UpdateDomainEntry"
@@ -2200,6 +3564,7 @@ const opUpdateDomainEntry = "UpdateDomainEntry"
 type UpdateDomainEntryRequest struct {
 	*aws.Request
 	Input *UpdateDomainEntryInput
+	Copy  func(*UpdateDomainEntryInput) UpdateDomainEntryRequest
 }
 
 // Send marshals and sends the UpdateDomainEntry API request.
@@ -2236,8 +3601,62 @@ func (c *Lightsail) UpdateDomainEntryRequest(input *UpdateDomainEntryInput) Upda
 		input = &UpdateDomainEntryInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDomainEntryOutput{})
-	return UpdateDomainEntryRequest{Request: req, Input: input}
+	output := &UpdateDomainEntryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDomainEntryRequest{Request: req, Input: input, Copy: c.UpdateDomainEntryRequest}
+}
+
+const opUpdateLoadBalancerAttribute = "UpdateLoadBalancerAttribute"
+
+// UpdateLoadBalancerAttributeRequest is a API request type for the UpdateLoadBalancerAttribute API operation.
+type UpdateLoadBalancerAttributeRequest struct {
+	*aws.Request
+	Input *UpdateLoadBalancerAttributeInput
+	Copy  func(*UpdateLoadBalancerAttributeInput) UpdateLoadBalancerAttributeRequest
+}
+
+// Send marshals and sends the UpdateLoadBalancerAttribute API request.
+func (r UpdateLoadBalancerAttributeRequest) Send() (*UpdateLoadBalancerAttributeOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateLoadBalancerAttributeOutput), nil
+}
+
+// UpdateLoadBalancerAttributeRequest returns a request value for making API operation for
+// Amazon Lightsail.
+//
+// Updates the specified attribute for a load balancer. You can only update
+// one attribute at a time.
+//
+//    // Example sending a request using the UpdateLoadBalancerAttributeRequest method.
+//    req := client.UpdateLoadBalancerAttributeRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateLoadBalancerAttribute
+func (c *Lightsail) UpdateLoadBalancerAttributeRequest(input *UpdateLoadBalancerAttributeInput) UpdateLoadBalancerAttributeRequest {
+	op := &aws.Operation{
+		Name:       opUpdateLoadBalancerAttribute,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateLoadBalancerAttributeInput{}
+	}
+
+	output := &UpdateLoadBalancerAttributeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateLoadBalancerAttributeRequest{Request: req, Input: input, Copy: c.UpdateLoadBalancerAttributeRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AllocateStaticIpRequest
@@ -2274,19 +3693,15 @@ func (s *AllocateStaticIpInput) Validate() error {
 	return nil
 }
 
-// SetStaticIpName sets the StaticIpName field's value.
-func (s *AllocateStaticIpInput) SetStaticIpName(v string) *AllocateStaticIpInput {
-	s.StaticIpName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AllocateStaticIpResult
 type AllocateStaticIpOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the static IP address
 	// you allocated.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -2299,10 +3714,234 @@ func (s AllocateStaticIpOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *AllocateStaticIpOutput) SetOperations(v []*Operation) *AllocateStaticIpOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AllocateStaticIpOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachDiskRequest
+type AttachDiskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The unique Lightsail disk name (e.g., my-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+
+	// The disk path to expose to the instance (e.g., /dev/xvdf).
+	//
+	// DiskPath is a required field
+	DiskPath *string `locationName:"diskPath" type:"string" required:"true"`
+
+	// The name of the Lightsail instance where you want to utilize the storage
+	// disk.
+	//
+	// InstanceName is a required field
+	InstanceName *string `locationName:"instanceName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AttachDiskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AttachDiskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AttachDiskInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "AttachDiskInput"}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if s.DiskPath == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskPath"))
+	}
+
+	if s.InstanceName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("InstanceName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachDiskResult
+type AttachDiskOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s AttachDiskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AttachDiskOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachDiskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachInstancesToLoadBalancerRequest
+type AttachInstancesToLoadBalancerInput struct {
+	_ struct{} `type:"structure"`
+
+	// An array of strings representing the instance name(s) you want to attach
+	// to your load balancer.
+	//
+	// An instance must be running before you can attach it to your load balancer.
+	//
+	// There are no additional limits on the number of instances you can attach
+	// to your load balancer, aside from the limit of Lightsail instances you can
+	// create in your account (20).
+	//
+	// InstanceNames is a required field
+	InstanceNames []string `locationName:"instanceNames" type:"list" required:"true"`
+
+	// The name of the load balancer.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AttachInstancesToLoadBalancerInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AttachInstancesToLoadBalancerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AttachInstancesToLoadBalancerInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "AttachInstancesToLoadBalancerInput"}
+
+	if s.InstanceNames == nil {
+		invalidParams.Add(aws.NewErrParamRequired("InstanceNames"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachInstancesToLoadBalancerResult
+type AttachInstancesToLoadBalancerOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object representing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s AttachInstancesToLoadBalancerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AttachInstancesToLoadBalancerOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachInstancesToLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachLoadBalancerTlsCertificateRequest
+type AttachLoadBalancerTlsCertificateInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of your SSL/TLS certificate.
+	//
+	// CertificateName is a required field
+	CertificateName *string `locationName:"certificateName" type:"string" required:"true"`
+
+	// The name of the load balancer to which you want to associate the SSL/TLS
+	// certificate.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s AttachLoadBalancerTlsCertificateInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AttachLoadBalancerTlsCertificateInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AttachLoadBalancerTlsCertificateInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "AttachLoadBalancerTlsCertificateInput"}
+
+	if s.CertificateName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("CertificateName"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachLoadBalancerTlsCertificateResult
+type AttachLoadBalancerTlsCertificateOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object representing the API operations.
+	//
+	// These SSL/TLS certificates are only usable by Lightsail load balancers. You
+	// can't get the certificate and use it for another purpose.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s AttachLoadBalancerTlsCertificateOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AttachLoadBalancerTlsCertificateOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachLoadBalancerTlsCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachStaticIpRequest
@@ -2348,24 +3987,14 @@ func (s *AttachStaticIpInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *AttachStaticIpInput) SetInstanceName(v string) *AttachStaticIpInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetStaticIpName sets the StaticIpName field's value.
-func (s *AttachStaticIpInput) SetStaticIpName(v string) *AttachStaticIpInput {
-	s.StaticIpName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/AttachStaticIpResult
 type AttachStaticIpOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about your API operations.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -2378,10 +4007,9 @@ func (s AttachStaticIpOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *AttachStaticIpOutput) SetOperations(v []*Operation) *AttachStaticIpOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AttachStaticIpOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an Availability Zone.
@@ -2392,7 +4020,7 @@ type AvailabilityZone struct {
 	// The state of the Availability Zone.
 	State *string `locationName:"state" type:"string"`
 
-	// The name of the Availability Zone. The format is us-east-1a (case-sensitive).
+	// The name of the Availability Zone. The format is us-east-2a (case-sensitive).
 	ZoneName *string `locationName:"zoneName" type:"string"`
 }
 
@@ -2404,18 +4032,6 @@ func (s AvailabilityZone) String() string {
 // GoString returns the string representation
 func (s AvailabilityZone) GoString() string {
 	return s.String()
-}
-
-// SetState sets the State field's value.
-func (s *AvailabilityZone) SetState(v string) *AvailabilityZone {
-	s.State = &v
-	return s
-}
-
-// SetZoneName sets the ZoneName field's value.
-func (s *AvailabilityZone) SetZoneName(v string) *AvailabilityZone {
-	s.ZoneName = &v
-	return s
 }
 
 // Describes a blueprint (a virtual private server image).
@@ -2440,18 +4056,24 @@ type Blueprint struct {
 	// The end-user license agreement URL for the image or blueprint.
 	LicenseUrl *string `locationName:"licenseUrl" type:"string"`
 
-	// The minimum machine size required to run this blueprint. 0 indicates that
-	// the blueprint runs on all instances.
+	// The minimum bundle power required to run this blueprint. For example, you
+	// need a bundle with a power value of 500 or more to create an instance that
+	// uses a blueprint with a minimum power value of 500. 0 indicates that the
+	// blueprint runs on all instance sizes.
 	MinPower *int64 `locationName:"minPower" type:"integer"`
 
 	// The friendly name of the blueprint (e.g., Amazon Linux).
 	Name *string `locationName:"name" type:"string"`
 
+	// The operating system platform (either Linux/Unix-based or Windows Server-based)
+	// of the blueprint.
+	Platform InstancePlatform `locationName:"platform" type:"string" enum:"true"`
+
 	// The product URL to learn more about the image or blueprint.
 	ProductUrl *string `locationName:"productUrl" type:"string"`
 
 	// The type of the blueprint (e.g., os or app).
-	Type BlueprintType `locationName:"type" type:"string"`
+	Type BlueprintType `locationName:"type" type:"string" enum:"true"`
 
 	// The version number of the operating system, application, or stack (e.g.,
 	// 2016.03.0).
@@ -2469,72 +4091,6 @@ func (s Blueprint) String() string {
 // GoString returns the string representation
 func (s Blueprint) GoString() string {
 	return s.String()
-}
-
-// SetBlueprintId sets the BlueprintId field's value.
-func (s *Blueprint) SetBlueprintId(v string) *Blueprint {
-	s.BlueprintId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Blueprint) SetDescription(v string) *Blueprint {
-	s.Description = &v
-	return s
-}
-
-// SetGroup sets the Group field's value.
-func (s *Blueprint) SetGroup(v string) *Blueprint {
-	s.Group = &v
-	return s
-}
-
-// SetIsActive sets the IsActive field's value.
-func (s *Blueprint) SetIsActive(v bool) *Blueprint {
-	s.IsActive = &v
-	return s
-}
-
-// SetLicenseUrl sets the LicenseUrl field's value.
-func (s *Blueprint) SetLicenseUrl(v string) *Blueprint {
-	s.LicenseUrl = &v
-	return s
-}
-
-// SetMinPower sets the MinPower field's value.
-func (s *Blueprint) SetMinPower(v int64) *Blueprint {
-	s.MinPower = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Blueprint) SetName(v string) *Blueprint {
-	s.Name = &v
-	return s
-}
-
-// SetProductUrl sets the ProductUrl field's value.
-func (s *Blueprint) SetProductUrl(v string) *Blueprint {
-	s.ProductUrl = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Blueprint) SetType(v BlueprintType) *Blueprint {
-	s.Type = v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *Blueprint) SetVersion(v string) *Blueprint {
-	s.Version = &v
-	return s
-}
-
-// SetVersionCode sets the VersionCode field's value.
-func (s *Blueprint) SetVersionCode(v string) *Blueprint {
-	s.VersionCode = &v
-	return s
 }
 
 // Describes a bundle, which is a set of specs describing your virtual private
@@ -2561,7 +4117,11 @@ type Bundle struct {
 	// A friendly name for the bundle (e.g., Micro).
 	Name *string `locationName:"name" type:"string"`
 
-	// The power of the bundle (e.g., 500).
+	// A numeric value that represents the power of the bundle (e.g., 500). You
+	// can use the bundle's power value in conjunction with a blueprint's minimum
+	// power value to determine whether the blueprint will run on the bundle. For
+	// example, you need a bundle with a power value of 500 or more to create an
+	// instance that uses a blueprint with a minimum power value of 500.
 	Power *int64 `locationName:"power" type:"integer"`
 
 	// The price in US dollars (e.g., 5.0).
@@ -2569,6 +4129,12 @@ type Bundle struct {
 
 	// The amount of RAM in GB (e.g., 2.0).
 	RamSizeInGb *float64 `locationName:"ramSizeInGb" type:"float"`
+
+	// The operating system platform (Linux/Unix-based or Windows Server-based)
+	// that the bundle supports. You can only launch a WINDOWS bundle on a blueprint
+	// that supports the WINDOWS platform. LINUX_UNIX blueprints require a LINUX_UNIX
+	// bundle.
+	SupportedPlatforms []InstancePlatform `locationName:"supportedPlatforms" type:"list"`
 
 	// The data transfer rate per month in GB (e.g., 2000).
 	TransferPerMonthInGb *int64 `locationName:"transferPerMonthInGb" type:"integer"`
@@ -2582,66 +4148,6 @@ func (s Bundle) String() string {
 // GoString returns the string representation
 func (s Bundle) GoString() string {
 	return s.String()
-}
-
-// SetBundleId sets the BundleId field's value.
-func (s *Bundle) SetBundleId(v string) *Bundle {
-	s.BundleId = &v
-	return s
-}
-
-// SetCpuCount sets the CpuCount field's value.
-func (s *Bundle) SetCpuCount(v int64) *Bundle {
-	s.CpuCount = &v
-	return s
-}
-
-// SetDiskSizeInGb sets the DiskSizeInGb field's value.
-func (s *Bundle) SetDiskSizeInGb(v int64) *Bundle {
-	s.DiskSizeInGb = &v
-	return s
-}
-
-// SetInstanceType sets the InstanceType field's value.
-func (s *Bundle) SetInstanceType(v string) *Bundle {
-	s.InstanceType = &v
-	return s
-}
-
-// SetIsActive sets the IsActive field's value.
-func (s *Bundle) SetIsActive(v bool) *Bundle {
-	s.IsActive = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Bundle) SetName(v string) *Bundle {
-	s.Name = &v
-	return s
-}
-
-// SetPower sets the Power field's value.
-func (s *Bundle) SetPower(v int64) *Bundle {
-	s.Power = &v
-	return s
-}
-
-// SetPrice sets the Price field's value.
-func (s *Bundle) SetPrice(v float64) *Bundle {
-	s.Price = &v
-	return s
-}
-
-// SetRamSizeInGb sets the RamSizeInGb field's value.
-func (s *Bundle) SetRamSizeInGb(v float64) *Bundle {
-	s.RamSizeInGb = &v
-	return s
-}
-
-// SetTransferPerMonthInGb sets the TransferPerMonthInGb field's value.
-func (s *Bundle) SetTransferPerMonthInGb(v int64) *Bundle {
-	s.TransferPerMonthInGb = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CloseInstancePublicPortsRequest
@@ -2687,21 +4193,11 @@ func (s *CloseInstancePublicPortsInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *CloseInstancePublicPortsInput) SetInstanceName(v string) *CloseInstancePublicPortsInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetPortInfo sets the PortInfo field's value.
-func (s *CloseInstancePublicPortsInput) SetPortInfo(v *PortInfo) *CloseInstancePublicPortsInput {
-	s.PortInfo = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CloseInstancePublicPortsResult
 type CloseInstancePublicPortsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs that contains information about the operation.
 	Operation *Operation `locationName:"operation" type:"structure"`
@@ -2717,10 +4213,252 @@ func (s CloseInstancePublicPortsOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *CloseInstancePublicPortsOutput) SetOperation(v *Operation) *CloseInstancePublicPortsOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CloseInstancePublicPortsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskFromSnapshotRequest
+type CreateDiskFromSnapshotInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Availability Zone where you want to create the disk (e.g., us-east-2a).
+	// Choose the same Availability Zone as the Lightsail instance where you want
+	// to create the disk.
+	//
+	// Use the GetRegions operation to list the Availability Zones where Lightsail
+	// is currently available.
+	//
+	// AvailabilityZone is a required field
+	AvailabilityZone *string `locationName:"availabilityZone" type:"string" required:"true"`
+
+	// The unique Lightsail disk name (e.g., my-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+
+	// The name of the disk snapshot (e.g., my-snapshot) from which to create the
+	// new storage disk.
+	//
+	// DiskSnapshotName is a required field
+	DiskSnapshotName *string `locationName:"diskSnapshotName" type:"string" required:"true"`
+
+	// The size of the disk in GB (e.g., 32).
+	//
+	// SizeInGb is a required field
+	SizeInGb *int64 `locationName:"sizeInGb" type:"integer" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateDiskFromSnapshotInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateDiskFromSnapshotInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateDiskFromSnapshotInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateDiskFromSnapshotInput"}
+
+	if s.AvailabilityZone == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AvailabilityZone"))
+	}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if s.DiskSnapshotName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskSnapshotName"))
+	}
+
+	if s.SizeInGb == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SizeInGb"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskFromSnapshotResult
+type CreateDiskFromSnapshotOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateDiskFromSnapshotOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateDiskFromSnapshotOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDiskFromSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskRequest
+type CreateDiskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Availability Zone where you want to create the disk (e.g., us-east-2a).
+	// Choose the same Availability Zone as the Lightsail instance where you want
+	// to create the disk.
+	//
+	// Use the GetRegions operation to list the Availability Zones where Lightsail
+	// is currently available.
+	//
+	// AvailabilityZone is a required field
+	AvailabilityZone *string `locationName:"availabilityZone" type:"string" required:"true"`
+
+	// The unique Lightsail disk name (e.g., my-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+
+	// The size of the disk in GB (e.g., 32).
+	//
+	// SizeInGb is a required field
+	SizeInGb *int64 `locationName:"sizeInGb" type:"integer" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateDiskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateDiskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateDiskInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateDiskInput"}
+
+	if s.AvailabilityZone == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AvailabilityZone"))
+	}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if s.SizeInGb == nil {
+		invalidParams.Add(aws.NewErrParamRequired("SizeInGb"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskResult
+type CreateDiskOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateDiskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateDiskOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDiskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskSnapshotRequest
+type CreateDiskSnapshotInput struct {
+	_ struct{} `type:"structure"`
+
+	// The unique name of the source disk (e.g., my-source-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+
+	// The name of the destination disk snapshot (e.g., my-disk-snapshot) based
+	// on the source disk.
+	//
+	// DiskSnapshotName is a required field
+	DiskSnapshotName *string `locationName:"diskSnapshotName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateDiskSnapshotInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateDiskSnapshotInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateDiskSnapshotInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateDiskSnapshotInput"}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if s.DiskSnapshotName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskSnapshotName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDiskSnapshotResult
+type CreateDiskSnapshotOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateDiskSnapshotOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateDiskSnapshotOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDiskSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomainEntryRequest
@@ -2768,21 +4506,11 @@ func (s *CreateDomainEntryInput) Validate() error {
 	return nil
 }
 
-// SetDomainEntry sets the DomainEntry field's value.
-func (s *CreateDomainEntryInput) SetDomainEntry(v *DomainEntry) *CreateDomainEntryInput {
-	s.DomainEntry = v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *CreateDomainEntryInput) SetDomainName(v string) *CreateDomainEntryInput {
-	s.DomainName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomainEntryResult
 type CreateDomainEntryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the operation.
 	Operation *Operation `locationName:"operation" type:"structure"`
@@ -2798,10 +4526,9 @@ func (s CreateDomainEntryOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *CreateDomainEntryOutput) SetOperation(v *Operation) *CreateDomainEntryOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDomainEntryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomainRequest
@@ -2843,15 +4570,11 @@ func (s *CreateDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *CreateDomainInput) SetDomainName(v string) *CreateDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateDomainResult
 type CreateDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the domain resource
 	// you created.
@@ -2868,10 +4591,9 @@ func (s CreateDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *CreateDomainOutput) SetOperation(v *Operation) *CreateDomainOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstanceSnapshotRequest
@@ -2917,25 +4639,15 @@ func (s *CreateInstanceSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *CreateInstanceSnapshotInput) SetInstanceName(v string) *CreateInstanceSnapshotInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetInstanceSnapshotName sets the InstanceSnapshotName field's value.
-func (s *CreateInstanceSnapshotInput) SetInstanceSnapshotName(v string) *CreateInstanceSnapshotInput {
-	s.InstanceSnapshotName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstanceSnapshotResult
 type CreateInstanceSnapshotOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// create instances snapshot request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -2948,18 +4660,20 @@ func (s CreateInstanceSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *CreateInstanceSnapshotOutput) SetOperations(v []*Operation) *CreateInstanceSnapshotOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateInstanceSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstancesFromSnapshotRequest
 type CreateInstancesFromSnapshotInput struct {
 	_ struct{} `type:"structure"`
 
+	// An object containing information about one or more disk mappings.
+	AttachedDiskMapping map[string][]DiskMap `locationName:"attachedDiskMapping" type:"map"`
+
 	// The Availability Zone where you want to create your instances. Use the following
-	// formatting: us-east-1a (case sensitive). You can get a list of availability
+	// formatting: us-east-2a (case sensitive). You can get a list of availability
 	// zones by using the get regions (http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html)
 	// operation. Be sure to add the include availability zones parameter to your
 	// request.
@@ -2976,7 +4690,7 @@ type CreateInstancesFromSnapshotInput struct {
 	// The names for your new instances.
 	//
 	// InstanceNames is a required field
-	InstanceNames []*string `locationName:"instanceNames" type:"list" required:"true"`
+	InstanceNames []string `locationName:"instanceNames" type:"list" required:"true"`
 
 	// The name of the instance snapshot on which you are basing your new instances.
 	// Use the get instance snapshots operation to return information about your
@@ -2989,7 +4703,7 @@ type CreateInstancesFromSnapshotInput struct {
 	KeyPairName *string `locationName:"keyPairName" type:"string"`
 
 	// You can create a launch script that configures a server with additional user
-	// data. For example, apt-get –y update.
+	// data. For example, apt-get -y update.
 	//
 	// Depending on the machine image you choose, the command to get software on
 	// your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu
@@ -3034,49 +4748,15 @@ func (s *CreateInstancesFromSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *CreateInstancesFromSnapshotInput) SetAvailabilityZone(v string) *CreateInstancesFromSnapshotInput {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetBundleId sets the BundleId field's value.
-func (s *CreateInstancesFromSnapshotInput) SetBundleId(v string) *CreateInstancesFromSnapshotInput {
-	s.BundleId = &v
-	return s
-}
-
-// SetInstanceNames sets the InstanceNames field's value.
-func (s *CreateInstancesFromSnapshotInput) SetInstanceNames(v []*string) *CreateInstancesFromSnapshotInput {
-	s.InstanceNames = v
-	return s
-}
-
-// SetInstanceSnapshotName sets the InstanceSnapshotName field's value.
-func (s *CreateInstancesFromSnapshotInput) SetInstanceSnapshotName(v string) *CreateInstancesFromSnapshotInput {
-	s.InstanceSnapshotName = &v
-	return s
-}
-
-// SetKeyPairName sets the KeyPairName field's value.
-func (s *CreateInstancesFromSnapshotInput) SetKeyPairName(v string) *CreateInstancesFromSnapshotInput {
-	s.KeyPairName = &v
-	return s
-}
-
-// SetUserData sets the UserData field's value.
-func (s *CreateInstancesFromSnapshotInput) SetUserData(v string) *CreateInstancesFromSnapshotInput {
-	s.UserData = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstancesFromSnapshotResult
 type CreateInstancesFromSnapshotOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// create instances from snapshot request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -3089,10 +4769,9 @@ func (s CreateInstancesFromSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *CreateInstancesFromSnapshotOutput) SetOperations(v []*Operation) *CreateInstancesFromSnapshotOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateInstancesFromSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstancesRequest
@@ -3100,7 +4779,7 @@ type CreateInstancesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The Availability Zone in which to create your instance. Use the following
-	// format: us-east-1a (case sensitive). You can get a list of availability zones
+	// format: us-east-2a (case sensitive). You can get a list of availability zones
 	// by using the get regions (http://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRegions.html)
 	// operation. Be sure to add the include availability zones parameter to your
 	// request.
@@ -3131,18 +4810,18 @@ type CreateInstancesInput struct {
 	// using quotation marks and commas, for example: ["MyFirstInstance","MySecondInstance"]
 	//
 	// InstanceNames is a required field
-	InstanceNames []*string `locationName:"instanceNames" type:"list" required:"true"`
+	InstanceNames []string `locationName:"instanceNames" type:"list" required:"true"`
 
 	// The name of your key pair.
 	KeyPairName *string `locationName:"keyPairName" type:"string"`
 
 	// A launch script you can create that configures a server with additional user
-	// data. For example, you might want to run apt-get –y update.
+	// data. For example, you might want to run apt-get -y update.
 	//
 	// Depending on the machine image you choose, the command to get software on
 	// your instance varies. Amazon Linux and CentOS use yum, Debian and Ubuntu
 	// use apt-get, and FreeBSD uses pkg. For a complete list, see the Dev Guide
-	// (http://lightsail.aws.amazon.com/ls/docs/getting-started/articles/pre-installed-apps).
+	// (https://lightsail.aws.amazon.com/ls/docs/getting-started/article/compare-options-choose-lightsail-instance-image).
 	UserData *string `locationName:"userData" type:"string"`
 }
 
@@ -3182,55 +4861,15 @@ func (s *CreateInstancesInput) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *CreateInstancesInput) SetAvailabilityZone(v string) *CreateInstancesInput {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetBlueprintId sets the BlueprintId field's value.
-func (s *CreateInstancesInput) SetBlueprintId(v string) *CreateInstancesInput {
-	s.BlueprintId = &v
-	return s
-}
-
-// SetBundleId sets the BundleId field's value.
-func (s *CreateInstancesInput) SetBundleId(v string) *CreateInstancesInput {
-	s.BundleId = &v
-	return s
-}
-
-// SetCustomImageName sets the CustomImageName field's value.
-func (s *CreateInstancesInput) SetCustomImageName(v string) *CreateInstancesInput {
-	s.CustomImageName = &v
-	return s
-}
-
-// SetInstanceNames sets the InstanceNames field's value.
-func (s *CreateInstancesInput) SetInstanceNames(v []*string) *CreateInstancesInput {
-	s.InstanceNames = v
-	return s
-}
-
-// SetKeyPairName sets the KeyPairName field's value.
-func (s *CreateInstancesInput) SetKeyPairName(v string) *CreateInstancesInput {
-	s.KeyPairName = &v
-	return s
-}
-
-// SetUserData sets the UserData field's value.
-func (s *CreateInstancesInput) SetUserData(v string) *CreateInstancesInput {
-	s.UserData = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateInstancesResult
 type CreateInstancesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// create instances request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -3243,10 +4882,9 @@ func (s CreateInstancesOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *CreateInstancesOutput) SetOperations(v []*Operation) *CreateInstancesOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateKeyPairRequest
@@ -3283,15 +4921,11 @@ func (s *CreateKeyPairInput) Validate() error {
 	return nil
 }
 
-// SetKeyPairName sets the KeyPairName field's value.
-func (s *CreateKeyPairInput) SetKeyPairName(v string) *CreateKeyPairInput {
-	s.KeyPairName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateKeyPairResult
 type CreateKeyPairOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the new key pair
 	// you just created.
@@ -3318,28 +4952,308 @@ func (s CreateKeyPairOutput) GoString() string {
 	return s.String()
 }
 
-// SetKeyPair sets the KeyPair field's value.
-func (s *CreateKeyPairOutput) SetKeyPair(v *KeyPair) *CreateKeyPairOutput {
-	s.KeyPair = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateKeyPairOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetOperation sets the Operation field's value.
-func (s *CreateKeyPairOutput) SetOperation(v *Operation) *CreateKeyPairOutput {
-	s.Operation = v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerRequest
+type CreateLoadBalancerInput struct {
+	_ struct{} `type:"structure"`
+
+	// The optional alternative domains and subdomains to use with your SSL/TLS
+	// certificate (e.g., www.example.com, example.com, m.example.com, blog.example.com).
+	CertificateAlternativeNames []string `locationName:"certificateAlternativeNames" type:"list"`
+
+	// The domain name with which your certificate is associated (e.g., example.com).
+	//
+	// If you specify certificateDomainName, then certificateName is required (and
+	// vice-versa).
+	CertificateDomainName *string `locationName:"certificateDomainName" type:"string"`
+
+	// The name of the SSL/TLS certificate.
+	//
+	// If you specify certificateName, then certificateDomainName is required (and
+	// vice-versa).
+	CertificateName *string `locationName:"certificateName" type:"string"`
+
+	// The path you provided to perform the load balancer health check. If you didn't
+	// specify a health check path, Lightsail uses the root path of your website
+	// (e.g., "/").
+	//
+	// You may want to specify a custom health check path other than the root of
+	// your application if your home page loads slowly or has a lot of media or
+	// scripting on it.
+	HealthCheckPath *string `locationName:"healthCheckPath" type:"string"`
+
+	// The instance port where you're creating your load balancer.
+	//
+	// InstancePort is a required field
+	InstancePort *int64 `locationName:"instancePort" type:"integer" required:"true"`
+
+	// The name of your load balancer.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
 }
 
-// SetPrivateKeyBase64 sets the PrivateKeyBase64 field's value.
-func (s *CreateKeyPairOutput) SetPrivateKeyBase64(v string) *CreateKeyPairOutput {
-	s.PrivateKeyBase64 = &v
-	return s
+// String returns the string representation
+func (s CreateLoadBalancerInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetPublicKeyBase64 sets the PublicKeyBase64 field's value.
-func (s *CreateKeyPairOutput) SetPublicKeyBase64(v string) *CreateKeyPairOutput {
-	s.PublicKeyBase64 = &v
-	return s
+// GoString returns the string representation
+func (s CreateLoadBalancerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateLoadBalancerInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateLoadBalancerInput"}
+
+	if s.InstancePort == nil {
+		invalidParams.Add(aws.NewErrParamRequired("InstancePort"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerResult
+type CreateLoadBalancerOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateLoadBalancerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateLoadBalancerOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerTlsCertificateRequest
+type CreateLoadBalancerTlsCertificateInput struct {
+	_ struct{} `type:"structure"`
+
+	// An array of strings listing alternative domains and subdomains for your SSL/TLS
+	// certificate. Lightsail will de-dupe the names for you. You can have a maximum
+	// of 9 alternative names (in addition to the 1 primary domain). We do not support
+	// wildcards (e.g., *.example.com).
+	CertificateAlternativeNames []string `locationName:"certificateAlternativeNames" type:"list"`
+
+	// The domain name (e.g., example.com) for your SSL/TLS certificate.
+	//
+	// CertificateDomainName is a required field
+	CertificateDomainName *string `locationName:"certificateDomainName" type:"string" required:"true"`
+
+	// The SSL/TLS certificate name.
+	//
+	// You can have up to 10 certificates in your account at one time. Each Lightsail
+	// load balancer can have up to 2 certificates associated with it at one time.
+	// There is also an overall limit to the number of certificates that can be
+	// issue in a 365-day period. For more information, see Limits (http://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html).
+	//
+	// CertificateName is a required field
+	CertificateName *string `locationName:"certificateName" type:"string" required:"true"`
+
+	// The load balancer name where you want to create the SSL/TLS certificate.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateLoadBalancerTlsCertificateInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateLoadBalancerTlsCertificateInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateLoadBalancerTlsCertificateInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateLoadBalancerTlsCertificateInput"}
+
+	if s.CertificateDomainName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("CertificateDomainName"))
+	}
+
+	if s.CertificateName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("CertificateName"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/CreateLoadBalancerTlsCertificateResult
+type CreateLoadBalancerTlsCertificateOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s CreateLoadBalancerTlsCertificateOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateLoadBalancerTlsCertificateOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLoadBalancerTlsCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskRequest
+type DeleteDiskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The unique name of the disk you want to delete (e.g., my-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteDiskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteDiskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteDiskInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteDiskInput"}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskResult
+type DeleteDiskOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s DeleteDiskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteDiskOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDiskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskSnapshotRequest
+type DeleteDiskSnapshotInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the disk snapshot you want to delete (e.g., my-disk-snapshot).
+	//
+	// DiskSnapshotName is a required field
+	DiskSnapshotName *string `locationName:"diskSnapshotName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteDiskSnapshotInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteDiskSnapshotInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteDiskSnapshotInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteDiskSnapshotInput"}
+
+	if s.DiskSnapshotName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskSnapshotName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDiskSnapshotResult
+type DeleteDiskSnapshotOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s DeleteDiskSnapshotOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteDiskSnapshotOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDiskSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomainEntryRequest
@@ -3385,21 +5299,11 @@ func (s *DeleteDomainEntryInput) Validate() error {
 	return nil
 }
 
-// SetDomainEntry sets the DomainEntry field's value.
-func (s *DeleteDomainEntryInput) SetDomainEntry(v *DomainEntry) *DeleteDomainEntryInput {
-	s.DomainEntry = v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteDomainEntryInput) SetDomainName(v string) *DeleteDomainEntryInput {
-	s.DomainName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomainEntryResult
 type DeleteDomainEntryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the results of your
 	// delete domain entry request.
@@ -3416,10 +5320,9 @@ func (s DeleteDomainEntryOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *DeleteDomainEntryOutput) SetOperation(v *Operation) *DeleteDomainEntryOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDomainEntryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomainRequest
@@ -3456,15 +5359,11 @@ func (s *DeleteDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteDomainInput) SetDomainName(v string) *DeleteDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteDomainResult
 type DeleteDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the results of your
 	// delete domain request.
@@ -3481,10 +5380,9 @@ func (s DeleteDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *DeleteDomainOutput) SetOperation(v *Operation) *DeleteDomainOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstanceRequest
@@ -3521,19 +5419,15 @@ func (s *DeleteInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *DeleteInstanceInput) SetInstanceName(v string) *DeleteInstanceInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstanceResult
 type DeleteInstanceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// delete instance request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -3546,10 +5440,9 @@ func (s DeleteInstanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *DeleteInstanceOutput) SetOperations(v []*Operation) *DeleteInstanceOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstanceSnapshotRequest
@@ -3586,19 +5479,15 @@ func (s *DeleteInstanceSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetInstanceSnapshotName sets the InstanceSnapshotName field's value.
-func (s *DeleteInstanceSnapshotInput) SetInstanceSnapshotName(v string) *DeleteInstanceSnapshotInput {
-	s.InstanceSnapshotName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteInstanceSnapshotResult
 type DeleteInstanceSnapshotOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// delete instance snapshot request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -3611,10 +5500,9 @@ func (s DeleteInstanceSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *DeleteInstanceSnapshotOutput) SetOperations(v []*Operation) *DeleteInstanceSnapshotOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteInstanceSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKeyPairRequest
@@ -3651,15 +5539,11 @@ func (s *DeleteKeyPairInput) Validate() error {
 	return nil
 }
 
-// SetKeyPairName sets the KeyPairName field's value.
-func (s *DeleteKeyPairInput) SetKeyPairName(v string) *DeleteKeyPairInput {
-	s.KeyPairName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteKeyPairResult
 type DeleteKeyPairOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the results of your
 	// delete key pair request.
@@ -3676,10 +5560,272 @@ func (s DeleteKeyPairOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *DeleteKeyPairOutput) SetOperation(v *Operation) *DeleteKeyPairOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteKeyPairOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerRequest
+type DeleteLoadBalancerInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the load balancer you want to delete.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteLoadBalancerInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteLoadBalancerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteLoadBalancerInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteLoadBalancerInput"}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerResult
+type DeleteLoadBalancerOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s DeleteLoadBalancerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteLoadBalancerOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerTlsCertificateRequest
+type DeleteLoadBalancerTlsCertificateInput struct {
+	_ struct{} `type:"structure"`
+
+	// The SSL/TLS certificate name.
+	//
+	// CertificateName is a required field
+	CertificateName *string `locationName:"certificateName" type:"string" required:"true"`
+
+	// When true, forces the deletion of an SSL/TLS certificate.
+	//
+	// There can be two certificates associated with a Lightsail load balancer:
+	// the primary and the backup. The force parameter is required when the primary
+	// SSL/TLS certificate is in use by an instance attached to the load balancer.
+	Force *bool `locationName:"force" type:"boolean"`
+
+	// The load balancer name.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteLoadBalancerTlsCertificateInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteLoadBalancerTlsCertificateInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteLoadBalancerTlsCertificateInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteLoadBalancerTlsCertificateInput"}
+
+	if s.CertificateName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("CertificateName"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DeleteLoadBalancerTlsCertificateResult
+type DeleteLoadBalancerTlsCertificateOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s DeleteLoadBalancerTlsCertificateOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteLoadBalancerTlsCertificateOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLoadBalancerTlsCertificateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachDiskRequest
+type DetachDiskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The unique name of the disk you want to detach from your instance (e.g.,
+	// my-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DetachDiskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DetachDiskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DetachDiskInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DetachDiskInput"}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachDiskResult
+type DetachDiskOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s DetachDiskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DetachDiskOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachDiskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachInstancesFromLoadBalancerRequest
+type DetachInstancesFromLoadBalancerInput struct {
+	_ struct{} `type:"structure"`
+
+	// An array of strings containing the names of the instances you want to detach
+	// from the load balancer.
+	//
+	// InstanceNames is a required field
+	InstanceNames []string `locationName:"instanceNames" type:"list" required:"true"`
+
+	// The name of the Lightsail load balancer.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DetachInstancesFromLoadBalancerInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DetachInstancesFromLoadBalancerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DetachInstancesFromLoadBalancerInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DetachInstancesFromLoadBalancerInput"}
+
+	if s.InstanceNames == nil {
+		invalidParams.Add(aws.NewErrParamRequired("InstanceNames"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachInstancesFromLoadBalancerResult
+type DetachInstancesFromLoadBalancerOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s DetachInstancesFromLoadBalancerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DetachInstancesFromLoadBalancerOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachInstancesFromLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachStaticIpRequest
@@ -3716,19 +5862,15 @@ func (s *DetachStaticIpInput) Validate() error {
 	return nil
 }
 
-// SetStaticIpName sets the StaticIpName field's value.
-func (s *DetachStaticIpInput) SetStaticIpName(v string) *DetachStaticIpInput {
-	s.StaticIpName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DetachStaticIpResult
 type DetachStaticIpOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// detach static IP request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -3741,13 +5883,12 @@ func (s DetachStaticIpOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *DetachStaticIpOutput) SetOperations(v []*Operation) *DetachStaticIpOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DetachStaticIpOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// Describes the hard disk (an SSD).
+// Describes a system disk or an block storage disk.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/Disk
 type Disk struct {
 	_ struct{} `type:"structure"`
@@ -3758,14 +5899,21 @@ type Disk struct {
 	// The resources to which the disk is attached.
 	AttachedTo *string `locationName:"attachedTo" type:"string"`
 
-	// The attachment state of the disk.
-	AttachmentState *string `locationName:"attachmentState" type:"string"`
+	// (Deprecated) The attachment state of the disk.
+	//
+	// In releases prior to November 14, 2017, this parameter returned attached
+	// for system disks in the API response. It is now deprecated, but still included
+	// in the response. Use isAttached instead.
+	AttachmentState *string `locationName:"attachmentState" deprecated:"true" type:"string"`
 
 	// The date when the disk was created.
 	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
 
-	// The number of GB in use by the disk.
-	GbInUse *int64 `locationName:"gbInUse" type:"integer"`
+	// (Deprecated) The number of GB in use by the disk.
+	//
+	// In releases prior to November 14, 2017, this parameter was not included in
+	// the API response. It is now deprecated.
+	GbInUse *int64 `locationName:"gbInUse" deprecated:"true" type:"integer"`
 
 	// The input/output operations per second (IOPS) of the disk.
 	Iops *int64 `locationName:"iops" type:"integer"`
@@ -3777,20 +5925,23 @@ type Disk struct {
 	// system loaded on it).
 	IsSystemDisk *bool `locationName:"isSystemDisk" type:"boolean"`
 
-	// The region and Availability Zone where the disk is located.
+	// The AWS Region and Availability Zone where the disk is located.
 	Location *ResourceLocation `locationName:"location" type:"structure"`
 
-	// The name of the disk.
+	// The unique name of the disk.
 	Name *string `locationName:"name" type:"string"`
 
 	// The disk path.
 	Path *string `locationName:"path" type:"string"`
 
-	// The resource type of the disk.
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	// The Lightsail resource type (e.g., Disk).
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The size of the disk in GB.
 	SizeInGb *int64 `locationName:"sizeInGb" type:"integer"`
+
+	// Describes the status of the disk.
+	State DiskState `locationName:"state" type:"string" enum:"true"`
 
 	// The support code. Include this code in your email to support when you have
 	// questions about an instance or another resource in Lightsail. This code enables
@@ -3808,88 +5959,78 @@ func (s Disk) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Disk) SetArn(v string) *Disk {
-	s.Arn = &v
-	return s
+// Describes a block storage disk mapping.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DiskMap
+type DiskMap struct {
+	_ struct{} `type:"structure"`
+
+	// The new disk name (e.g., my-new-disk).
+	NewDiskName *string `locationName:"newDiskName" type:"string"`
+
+	// The original disk path exposed to the instance (for example, /dev/sdh).
+	OriginalDiskPath *string `locationName:"originalDiskPath" type:"string"`
 }
 
-// SetAttachedTo sets the AttachedTo field's value.
-func (s *Disk) SetAttachedTo(v string) *Disk {
-	s.AttachedTo = &v
-	return s
+// String returns the string representation
+func (s DiskMap) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetAttachmentState sets the AttachmentState field's value.
-func (s *Disk) SetAttachmentState(v string) *Disk {
-	s.AttachmentState = &v
-	return s
+// GoString returns the string representation
+func (s DiskMap) GoString() string {
+	return s.String()
 }
 
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Disk) SetCreatedAt(v time.Time) *Disk {
-	s.CreatedAt = &v
-	return s
+// Describes a block storage disk snapshot.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DiskSnapshot
+type DiskSnapshot struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the disk snapshot.
+	Arn *string `locationName:"arn" type:"string"`
+
+	// The date when the disk snapshot was created.
+	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The Amazon Resource Name (ARN) of the source disk from which you are creating
+	// the disk snapshot.
+	FromDiskArn *string `locationName:"fromDiskArn" type:"string"`
+
+	// The unique name of the source disk from which you are creating the disk snapshot.
+	FromDiskName *string `locationName:"fromDiskName" type:"string"`
+
+	// The AWS Region and Availability Zone where the disk snapshot was created.
+	Location *ResourceLocation `locationName:"location" type:"structure"`
+
+	// The name of the disk snapshot (e.g., my-disk-snapshot).
+	Name *string `locationName:"name" type:"string"`
+
+	// The progress of the disk snapshot operation.
+	Progress *string `locationName:"progress" type:"string"`
+
+	// The Lightsail resource type (e.g., DiskSnapshot).
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
+
+	// The size of the disk in GB.
+	SizeInGb *int64 `locationName:"sizeInGb" type:"integer"`
+
+	// The status of the disk snapshot operation.
+	State DiskSnapshotState `locationName:"state" type:"string" enum:"true"`
+
+	// The support code. Include this code in your email to support when you have
+	// questions about an instance or another resource in Lightsail. This code enables
+	// our support team to look up your Lightsail information more easily.
+	SupportCode *string `locationName:"supportCode" type:"string"`
 }
 
-// SetGbInUse sets the GbInUse field's value.
-func (s *Disk) SetGbInUse(v int64) *Disk {
-	s.GbInUse = &v
-	return s
+// String returns the string representation
+func (s DiskSnapshot) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetIops sets the Iops field's value.
-func (s *Disk) SetIops(v int64) *Disk {
-	s.Iops = &v
-	return s
-}
-
-// SetIsAttached sets the IsAttached field's value.
-func (s *Disk) SetIsAttached(v bool) *Disk {
-	s.IsAttached = &v
-	return s
-}
-
-// SetIsSystemDisk sets the IsSystemDisk field's value.
-func (s *Disk) SetIsSystemDisk(v bool) *Disk {
-	s.IsSystemDisk = &v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *Disk) SetLocation(v *ResourceLocation) *Disk {
-	s.Location = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Disk) SetName(v string) *Disk {
-	s.Name = &v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *Disk) SetPath(v string) *Disk {
-	s.Path = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *Disk) SetResourceType(v ResourceType) *Disk {
-	s.ResourceType = v
-	return s
-}
-
-// SetSizeInGb sets the SizeInGb field's value.
-func (s *Disk) SetSizeInGb(v int64) *Disk {
-	s.SizeInGb = &v
-	return s
-}
-
-// SetSupportCode sets the SupportCode field's value.
-func (s *Disk) SetSupportCode(v string) *Disk {
-	s.SupportCode = &v
-	return s
+// GoString returns the string representation
+func (s DiskSnapshot) GoString() string {
+	return s.String()
 }
 
 // Describes a domain where you are storing recordsets in Lightsail.
@@ -3904,7 +6045,7 @@ type Domain struct {
 	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
 
 	// An array of key-value pairs containing information about the domain entries.
-	DomainEntries []*DomainEntry `locationName:"domainEntries" type:"list"`
+	DomainEntries []DomainEntry `locationName:"domainEntries" type:"list"`
 
 	// The AWS Region and Availability Zones where the domain recordset was created.
 	Location *ResourceLocation `locationName:"location" type:"structure"`
@@ -3913,7 +6054,7 @@ type Domain struct {
 	Name *string `locationName:"name" type:"string"`
 
 	// The resource type.
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The support code. Include this code in your email to support when you have
 	// questions about an instance or another resource in Lightsail. This code enables
@@ -3931,48 +6072,6 @@ func (s Domain) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Domain) SetArn(v string) *Domain {
-	s.Arn = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Domain) SetCreatedAt(v time.Time) *Domain {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetDomainEntries sets the DomainEntries field's value.
-func (s *Domain) SetDomainEntries(v []*DomainEntry) *Domain {
-	s.DomainEntries = v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *Domain) SetLocation(v *ResourceLocation) *Domain {
-	s.Location = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Domain) SetName(v string) *Domain {
-	s.Name = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *Domain) SetResourceType(v ResourceType) *Domain {
-	s.ResourceType = v
-	return s
-}
-
-// SetSupportCode sets the SupportCode field's value.
-func (s *Domain) SetSupportCode(v string) *Domain {
-	s.SupportCode = &v
-	return s
-}
-
 // Describes a domain recordset entry.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DomainEntry
 type DomainEntry struct {
@@ -3981,13 +6080,26 @@ type DomainEntry struct {
 	// The ID of the domain recordset entry.
 	Id *string `locationName:"id" type:"string"`
 
+	// When true, specifies whether the domain entry is an alias used by the Lightsail
+	// load balancer. You can include an alias (A type) record in your request,
+	// which points to a load balancer DNS name and routes traffic to your load
+	// balancer
+	IsAlias *bool `locationName:"isAlias" type:"boolean"`
+
 	// The name of the domain.
 	Name *string `locationName:"name" type:"string"`
 
-	// The options for the domain entry.
-	Options map[string]*string `locationName:"options" type:"map"`
+	// (Deprecated) The options for the domain entry.
+	//
+	// In releases prior to November 29, 2017, this parameter was not included in
+	// the API response. It is now deprecated.
+	Options map[string]string `locationName:"options" deprecated:"true" type:"map"`
 
 	// The target AWS name server (e.g., ns-111.awsdns-22.com.).
+	//
+	// For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com.
+	// Be sure to also set isAlias to true when setting up an A record for a load
+	// balancer.
 	Target *string `locationName:"target" type:"string"`
 
 	// The type of domain entry (e.g., SOA or NS).
@@ -4002,36 +6114,6 @@ func (s DomainEntry) String() string {
 // GoString returns the string representation
 func (s DomainEntry) GoString() string {
 	return s.String()
-}
-
-// SetId sets the Id field's value.
-func (s *DomainEntry) SetId(v string) *DomainEntry {
-	s.Id = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DomainEntry) SetName(v string) *DomainEntry {
-	s.Name = &v
-	return s
-}
-
-// SetOptions sets the Options field's value.
-func (s *DomainEntry) SetOptions(v map[string]*string) *DomainEntry {
-	s.Options = v
-	return s
-}
-
-// SetTarget sets the Target field's value.
-func (s *DomainEntry) SetTarget(v string) *DomainEntry {
-	s.Target = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *DomainEntry) SetType(v string) *DomainEntry {
-	s.Type = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/DownloadDefaultKeyPairRequest
@@ -4053,6 +6135,8 @@ func (s DownloadDefaultKeyPairInput) GoString() string {
 type DownloadDefaultKeyPairOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A base64-encoded RSA private key.
 	PrivateKeyBase64 *string `locationName:"privateKeyBase64" type:"string"`
 
@@ -4070,16 +6154,9 @@ func (s DownloadDefaultKeyPairOutput) GoString() string {
 	return s.String()
 }
 
-// SetPrivateKeyBase64 sets the PrivateKeyBase64 field's value.
-func (s *DownloadDefaultKeyPairOutput) SetPrivateKeyBase64(v string) *DownloadDefaultKeyPairOutput {
-	s.PrivateKeyBase64 = &v
-	return s
-}
-
-// SetPublicKeyBase64 sets the PublicKeyBase64 field's value.
-func (s *DownloadDefaultKeyPairOutput) SetPublicKeyBase64(v string) *DownloadDefaultKeyPairOutput {
-	s.PublicKeyBase64 = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DownloadDefaultKeyPairOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetActiveNamesRequest
@@ -4100,18 +6177,14 @@ func (s GetActiveNamesInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetActiveNamesInput) SetPageToken(v string) *GetActiveNamesInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetActiveNamesResult
 type GetActiveNamesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of active names returned by the get active names request.
-	ActiveNames []*string `locationName:"activeNames" type:"list"`
+	ActiveNames []string `locationName:"activeNames" type:"list"`
 
 	// A token used for advancing to the next page of results from your get active
 	// names request.
@@ -4128,16 +6201,9 @@ func (s GetActiveNamesOutput) GoString() string {
 	return s.String()
 }
 
-// SetActiveNames sets the ActiveNames field's value.
-func (s *GetActiveNamesOutput) SetActiveNames(v []*string) *GetActiveNamesOutput {
-	s.ActiveNames = v
-	return s
-}
-
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetActiveNamesOutput) SetNextPageToken(v string) *GetActiveNamesOutput {
-	s.NextPageToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetActiveNamesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBlueprintsRequest
@@ -4162,25 +6228,15 @@ func (s GetBlueprintsInput) GoString() string {
 	return s.String()
 }
 
-// SetIncludeInactive sets the IncludeInactive field's value.
-func (s *GetBlueprintsInput) SetIncludeInactive(v bool) *GetBlueprintsInput {
-	s.IncludeInactive = &v
-	return s
-}
-
-// SetPageToken sets the PageToken field's value.
-func (s *GetBlueprintsInput) SetPageToken(v string) *GetBlueprintsInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBlueprintsResult
 type GetBlueprintsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs that contains information about the available
 	// blueprints.
-	Blueprints []*Blueprint `locationName:"blueprints" type:"list"`
+	Blueprints []Blueprint `locationName:"blueprints" type:"list"`
 
 	// A token used for advancing to the next page of results from your get blueprints
 	// request.
@@ -4197,16 +6253,9 @@ func (s GetBlueprintsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBlueprints sets the Blueprints field's value.
-func (s *GetBlueprintsOutput) SetBlueprints(v []*Blueprint) *GetBlueprintsOutput {
-	s.Blueprints = v
-	return s
-}
-
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetBlueprintsOutput) SetNextPageToken(v string) *GetBlueprintsOutput {
-	s.NextPageToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBlueprintsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBundlesRequest
@@ -4232,25 +6281,15 @@ func (s GetBundlesInput) GoString() string {
 	return s.String()
 }
 
-// SetIncludeInactive sets the IncludeInactive field's value.
-func (s *GetBundlesInput) SetIncludeInactive(v bool) *GetBundlesInput {
-	s.IncludeInactive = &v
-	return s
-}
-
-// SetPageToken sets the PageToken field's value.
-func (s *GetBundlesInput) SetPageToken(v string) *GetBundlesInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetBundlesResult
 type GetBundlesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs that contains information about the available
 	// bundles.
-	Bundles []*Bundle `locationName:"bundles" type:"list"`
+	Bundles []Bundle `locationName:"bundles" type:"list"`
 
 	// A token used for advancing to the next page of results from your get active
 	// names request.
@@ -4267,16 +6306,223 @@ func (s GetBundlesOutput) GoString() string {
 	return s.String()
 }
 
-// SetBundles sets the Bundles field's value.
-func (s *GetBundlesOutput) SetBundles(v []*Bundle) *GetBundlesOutput {
-	s.Bundles = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBundlesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetBundlesOutput) SetNextPageToken(v string) *GetBundlesOutput {
-	s.NextPageToken = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskRequest
+type GetDiskInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the disk (e.g., my-disk).
+	//
+	// DiskName is a required field
+	DiskName *string `locationName:"diskName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetDiskInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDiskInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetDiskInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetDiskInput"}
+
+	if s.DiskName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskResult
+type GetDiskOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about the disk.
+	Disk *Disk `locationName:"disk" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetDiskOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDiskOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDiskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshotRequest
+type GetDiskSnapshotInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the disk snapshot (e.g., my-disk-snapshot).
+	//
+	// DiskSnapshotName is a required field
+	DiskSnapshotName *string `locationName:"diskSnapshotName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetDiskSnapshotInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDiskSnapshotInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetDiskSnapshotInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetDiskSnapshotInput"}
+
+	if s.DiskSnapshotName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DiskSnapshotName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshotResult
+type GetDiskSnapshotOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about the disk snapshot.
+	DiskSnapshot *DiskSnapshot `locationName:"diskSnapshot" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetDiskSnapshotOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDiskSnapshotOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDiskSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshotsRequest
+type GetDiskSnapshotsInput struct {
+	_ struct{} `type:"structure"`
+
+	// A token used for advancing to the next page of results from your GetDiskSnapshots
+	// request.
+	PageToken *string `locationName:"pageToken" type:"string"`
+}
+
+// String returns the string representation
+func (s GetDiskSnapshotsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDiskSnapshotsInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDiskSnapshotsResult
+type GetDiskSnapshotsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An array of objects containing information about all block storage disk snapshots.
+	DiskSnapshots []DiskSnapshot `locationName:"diskSnapshots" type:"list"`
+
+	// A token used for advancing to the next page of results from your GetDiskSnapshots
+	// request.
+	NextPageToken *string `locationName:"nextPageToken" type:"string"`
+}
+
+// String returns the string representation
+func (s GetDiskSnapshotsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDiskSnapshotsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDiskSnapshotsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisksRequest
+type GetDisksInput struct {
+	_ struct{} `type:"structure"`
+
+	// A token used for advancing to the next page of results from your GetDisks
+	// request.
+	PageToken *string `locationName:"pageToken" type:"string"`
+}
+
+// String returns the string representation
+func (s GetDisksInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDisksInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDisksResult
+type GetDisksOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An array of objects containing information about all block storage disks.
+	Disks []Disk `locationName:"disks" type:"list"`
+
+	// A token used for advancing to the next page of results from your GetDisks
+	// request.
+	NextPageToken *string `locationName:"nextPageToken" type:"string"`
+}
+
+// String returns the string representation
+func (s GetDisksOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDisksOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDisksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomainRequest
@@ -4313,15 +6559,11 @@ func (s *GetDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *GetDomainInput) SetDomainName(v string) *GetDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomainResult
 type GetDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about your get domain
 	// request.
@@ -4338,10 +6580,9 @@ func (s GetDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomain sets the Domain field's value.
-func (s *GetDomainOutput) SetDomain(v *Domain) *GetDomainOutput {
-	s.Domain = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomainsRequest
@@ -4363,19 +6604,15 @@ func (s GetDomainsInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetDomainsInput) SetPageToken(v string) *GetDomainsInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetDomainsResult
 type GetDomainsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about each of the domain
 	// entries in the user's account.
-	Domains []*Domain `locationName:"domains" type:"list"`
+	Domains []Domain `locationName:"domains" type:"list"`
 
 	// A token used for advancing to the next page of results from your get active
 	// names request.
@@ -4392,16 +6629,9 @@ func (s GetDomainsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomains sets the Domains field's value.
-func (s *GetDomainsOutput) SetDomains(v []*Domain) *GetDomainsOutput {
-	s.Domains = v
-	return s
-}
-
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetDomainsOutput) SetNextPageToken(v string) *GetDomainsOutput {
-	s.NextPageToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDomainsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceAccessDetailsRequest
@@ -4414,7 +6644,7 @@ type GetInstanceAccessDetailsInput struct {
 	InstanceName *string `locationName:"instanceName" type:"string" required:"true"`
 
 	// The protocol to use to connect to your instance. Defaults to ssh.
-	Protocol InstanceAccessProtocol `locationName:"protocol" type:"string"`
+	Protocol InstanceAccessProtocol `locationName:"protocol" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4441,21 +6671,11 @@ func (s *GetInstanceAccessDetailsInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *GetInstanceAccessDetailsInput) SetInstanceName(v string) *GetInstanceAccessDetailsInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *GetInstanceAccessDetailsInput) SetProtocol(v InstanceAccessProtocol) *GetInstanceAccessDetailsInput {
-	s.Protocol = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceAccessDetailsResult
 type GetInstanceAccessDetailsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about a get instance access
 	// request.
@@ -4472,10 +6692,9 @@ func (s GetInstanceAccessDetailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccessDetails sets the AccessDetails field's value.
-func (s *GetInstanceAccessDetailsOutput) SetAccessDetails(v *InstanceAccessDetails) *GetInstanceAccessDetailsOutput {
-	s.AccessDetails = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceAccessDetailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceRequest
@@ -4512,12 +6731,6 @@ func (s *GetInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *GetInstanceInput) SetInstanceName(v string) *GetInstanceInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceMetricDataRequest
 type GetInstanceMetricDataInput struct {
 	_ struct{} `type:"structure"`
@@ -4535,7 +6748,7 @@ type GetInstanceMetricDataInput struct {
 	// The metric name to get data about.
 	//
 	// MetricName is a required field
-	MetricName InstanceMetricName `locationName:"metricName" type:"string" required:"true"`
+	MetricName InstanceMetricName `locationName:"metricName" type:"string" required:"true" enum:"true"`
 
 	// The time period for which you are requesting data.
 	//
@@ -4555,7 +6768,7 @@ type GetInstanceMetricDataInput struct {
 	// The unit. The list of valid values is below.
 	//
 	// Unit is a required field
-	Unit MetricUnit `locationName:"unit" type:"string" required:"true"`
+	Unit MetricUnit `locationName:"unit" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -4607,58 +6820,18 @@ func (s *GetInstanceMetricDataInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetInstanceMetricDataInput) SetEndTime(v time.Time) *GetInstanceMetricDataInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetInstanceName sets the InstanceName field's value.
-func (s *GetInstanceMetricDataInput) SetInstanceName(v string) *GetInstanceMetricDataInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetMetricName sets the MetricName field's value.
-func (s *GetInstanceMetricDataInput) SetMetricName(v InstanceMetricName) *GetInstanceMetricDataInput {
-	s.MetricName = v
-	return s
-}
-
-// SetPeriod sets the Period field's value.
-func (s *GetInstanceMetricDataInput) SetPeriod(v int64) *GetInstanceMetricDataInput {
-	s.Period = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *GetInstanceMetricDataInput) SetStartTime(v time.Time) *GetInstanceMetricDataInput {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatistics sets the Statistics field's value.
-func (s *GetInstanceMetricDataInput) SetStatistics(v []MetricStatistic) *GetInstanceMetricDataInput {
-	s.Statistics = v
-	return s
-}
-
-// SetUnit sets the Unit field's value.
-func (s *GetInstanceMetricDataInput) SetUnit(v MetricUnit) *GetInstanceMetricDataInput {
-	s.Unit = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceMetricDataResult
 type GetInstanceMetricDataOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// get instance metric data request.
-	MetricData []*MetricDatapoint `locationName:"metricData" type:"list"`
+	MetricData []MetricDatapoint `locationName:"metricData" type:"list"`
 
 	// The metric name to return data for.
-	MetricName InstanceMetricName `locationName:"metricName" type:"string"`
+	MetricName InstanceMetricName `locationName:"metricName" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4671,21 +6844,16 @@ func (s GetInstanceMetricDataOutput) GoString() string {
 	return s.String()
 }
 
-// SetMetricData sets the MetricData field's value.
-func (s *GetInstanceMetricDataOutput) SetMetricData(v []*MetricDatapoint) *GetInstanceMetricDataOutput {
-	s.MetricData = v
-	return s
-}
-
-// SetMetricName sets the MetricName field's value.
-func (s *GetInstanceMetricDataOutput) SetMetricName(v InstanceMetricName) *GetInstanceMetricDataOutput {
-	s.MetricName = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceMetricDataOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceResult
 type GetInstanceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the specified instance.
 	Instance *Instance `locationName:"instance" type:"structure"`
@@ -4701,10 +6869,9 @@ func (s GetInstanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstance sets the Instance field's value.
-func (s *GetInstanceOutput) SetInstance(v *Instance) *GetInstanceOutput {
-	s.Instance = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstancePortStatesRequest
@@ -4741,18 +6908,14 @@ func (s *GetInstancePortStatesInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *GetInstancePortStatesInput) SetInstanceName(v string) *GetInstancePortStatesInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstancePortStatesResult
 type GetInstancePortStatesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the port states resulting from your request.
-	PortStates []*InstancePortState `locationName:"portStates" type:"list"`
+	PortStates []InstancePortState `locationName:"portStates" type:"list"`
 }
 
 // String returns the string representation
@@ -4765,10 +6928,9 @@ func (s GetInstancePortStatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetPortStates sets the PortStates field's value.
-func (s *GetInstancePortStatesOutput) SetPortStates(v []*InstancePortState) *GetInstancePortStatesOutput {
-	s.PortStates = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstancePortStatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshotRequest
@@ -4805,15 +6967,11 @@ func (s *GetInstanceSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetInstanceSnapshotName sets the InstanceSnapshotName field's value.
-func (s *GetInstanceSnapshotInput) SetInstanceSnapshotName(v string) *GetInstanceSnapshotInput {
-	s.InstanceSnapshotName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshotResult
 type GetInstanceSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the results of your
 	// get instance snapshot request.
@@ -4830,10 +6988,9 @@ func (s GetInstanceSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceSnapshot sets the InstanceSnapshot field's value.
-func (s *GetInstanceSnapshotOutput) SetInstanceSnapshot(v *InstanceSnapshot) *GetInstanceSnapshotOutput {
-	s.InstanceSnapshot = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshotsRequest
@@ -4855,19 +7012,15 @@ func (s GetInstanceSnapshotsInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetInstanceSnapshotsInput) SetPageToken(v string) *GetInstanceSnapshotsInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceSnapshotsResult
 type GetInstanceSnapshotsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the results of your
 	// get instance snapshots request.
-	InstanceSnapshots []*InstanceSnapshot `locationName:"instanceSnapshots" type:"list"`
+	InstanceSnapshots []InstanceSnapshot `locationName:"instanceSnapshots" type:"list"`
 
 	// A token used for advancing to the next page of results from your get instance
 	// snapshots request.
@@ -4884,16 +7037,9 @@ func (s GetInstanceSnapshotsOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceSnapshots sets the InstanceSnapshots field's value.
-func (s *GetInstanceSnapshotsOutput) SetInstanceSnapshots(v []*InstanceSnapshot) *GetInstanceSnapshotsOutput {
-	s.InstanceSnapshots = v
-	return s
-}
-
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetInstanceSnapshotsOutput) SetNextPageToken(v string) *GetInstanceSnapshotsOutput {
-	s.NextPageToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceSnapshotsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceStateRequest
@@ -4930,15 +7076,11 @@ func (s *GetInstanceStateInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *GetInstanceStateInput) SetInstanceName(v string) *GetInstanceStateInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstanceStateResult
 type GetInstanceStateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The state of the instance.
 	State *InstanceState `locationName:"state" type:"structure"`
@@ -4954,10 +7096,9 @@ func (s GetInstanceStateOutput) GoString() string {
 	return s.String()
 }
 
-// SetState sets the State field's value.
-func (s *GetInstanceStateOutput) SetState(v *InstanceState) *GetInstanceStateOutput {
-	s.State = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstancesRequest
@@ -4979,18 +7120,14 @@ func (s GetInstancesInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetInstancesInput) SetPageToken(v string) *GetInstancesInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetInstancesResult
 type GetInstancesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about your instances.
-	Instances []*Instance `locationName:"instances" type:"list"`
+	Instances []Instance `locationName:"instances" type:"list"`
 
 	// A token used for advancing to the next page of results from your get instances
 	// request.
@@ -5007,16 +7144,9 @@ func (s GetInstancesOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstances sets the Instances field's value.
-func (s *GetInstancesOutput) SetInstances(v []*Instance) *GetInstancesOutput {
-	s.Instances = v
-	return s
-}
-
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetInstancesOutput) SetNextPageToken(v string) *GetInstancesOutput {
-	s.NextPageToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPairRequest
@@ -5053,15 +7183,11 @@ func (s *GetKeyPairInput) Validate() error {
 	return nil
 }
 
-// SetKeyPairName sets the KeyPairName field's value.
-func (s *GetKeyPairInput) SetKeyPairName(v string) *GetKeyPairInput {
-	s.KeyPairName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPairResult
 type GetKeyPairOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the key pair.
 	KeyPair *KeyPair `locationName:"keyPair" type:"structure"`
@@ -5077,10 +7203,9 @@ func (s GetKeyPairOutput) GoString() string {
 	return s.String()
 }
 
-// SetKeyPair sets the KeyPair field's value.
-func (s *GetKeyPairOutput) SetKeyPair(v *KeyPair) *GetKeyPairOutput {
-	s.KeyPair = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetKeyPairOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPairsRequest
@@ -5102,18 +7227,14 @@ func (s GetKeyPairsInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetKeyPairsInput) SetPageToken(v string) *GetKeyPairsInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetKeyPairsResult
 type GetKeyPairsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the key pairs.
-	KeyPairs []*KeyPair `locationName:"keyPairs" type:"list"`
+	KeyPairs []KeyPair `locationName:"keyPairs" type:"list"`
 
 	// A token used for advancing to the next page of results from your get key
 	// pairs request.
@@ -5130,16 +7251,470 @@ func (s GetKeyPairsOutput) GoString() string {
 	return s.String()
 }
 
-// SetKeyPairs sets the KeyPairs field's value.
-func (s *GetKeyPairsOutput) SetKeyPairs(v []*KeyPair) *GetKeyPairsOutput {
-	s.KeyPairs = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetKeyPairsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetKeyPairsOutput) SetNextPageToken(v string) *GetKeyPairsOutput {
-	s.NextPageToken = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerRequest
+type GetLoadBalancerInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the load balancer.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancerInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancerInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetLoadBalancerInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetLoadBalancerInput"}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerMetricDataRequest
+type GetLoadBalancerMetricDataInput struct {
+	_ struct{} `type:"structure"`
+
+	// The end time of the period.
+	//
+	// EndTime is a required field
+	EndTime *time.Time `locationName:"endTime" type:"timestamp" timestampFormat:"unix" required:"true"`
+
+	// The name of the load balancer.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+
+	// The metric about which you want to return information. Valid values are listed
+	// below, along with the most useful statistics to include in your request.
+	//
+	//    * ClientTLSNegotiationErrorCount - The number of TLS connections initiated
+	//    by the client that did not establish a session with the load balancer.
+	//    Possible causes include a mismatch of ciphers or protocols.
+	//
+	// Statistics: The most useful statistic is Sum.
+	//
+	//    * HealthyHostCount - The number of target instances that are considered
+	//    healthy.
+	//
+	// Statistics: The most useful statistic are Average, Minimum, and Maximum.
+	//
+	//    * UnhealthyHostCount - The number of target instances that are considered
+	//    unhealthy.
+	//
+	// Statistics: The most useful statistic are Average, Minimum, and Maximum.
+	//
+	//    * HTTPCode_LB_4XX_Count - The number of HTTP 4XX client error codes that
+	//    originate from the load balancer. Client errors are generated when requests
+	//    are malformed or incomplete. These requests have not been received by
+	//    the target instance. This count does not include any response codes generated
+	//    by the target instances.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_LB_5XX_Count - The number of HTTP 5XX server error codes that
+	//    originate from the load balancer. This count does not include any response
+	//    codes generated by the target instances.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1. Note that Minimum, Maximum, and Average all
+	//    return 1.
+	//
+	//    * HTTPCode_Instance_2XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_Instance_3XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_Instance_4XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_Instance_5XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * InstanceResponseTime - The time elapsed, in seconds, after the request
+	//    leaves the load balancer until a response from the target instance is
+	//    received.
+	//
+	// Statistics: The most useful statistic is Average.
+	//
+	//    * RejectedConnectionCount - The number of connections that were rejected
+	//    because the load balancer had reached its maximum number of connections.
+	//
+	// Statistics: The most useful statistic is Sum.
+	//
+	//    * RequestCount - The number of requests processed over IPv4. This count
+	//    includes only the requests with a response generated by a target instance
+	//    of the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	// MetricName is a required field
+	MetricName LoadBalancerMetricName `locationName:"metricName" type:"string" required:"true" enum:"true"`
+
+	// The time period duration for your health data request.
+	//
+	// Period is a required field
+	Period *int64 `locationName:"period" min:"60" type:"integer" required:"true"`
+
+	// The start time of the period.
+	//
+	// StartTime is a required field
+	StartTime *time.Time `locationName:"startTime" type:"timestamp" timestampFormat:"unix" required:"true"`
+
+	// An array of statistics that you want to request metrics for. Valid values
+	// are listed below.
+	//
+	//    * SampleCount - The count (number) of data points used for the statistical
+	//    calculation.
+	//
+	//    * Average - The value of Sum / SampleCount during the specified period.
+	//    By comparing this statistic with the Minimum and Maximum, you can determine
+	//    the full scope of a metric and how close the average use is to the Minimum
+	//    and Maximum. This comparison helps you to know when to increase or decrease
+	//    your resources as needed.
+	//
+	//    * Sum - All values submitted for the matching metric added together. This
+	//    statistic can be useful for determining the total volume of a metric.
+	//
+	//    * Minimum - The lowest value observed during the specified period. You
+	//    can use this value to determine low volumes of activity for your application.
+	//
+	//    * Maximum - The highest value observed during the specified period. You
+	//    can use this value to determine high volumes of activity for your application.
+	//
+	// Statistics is a required field
+	Statistics []MetricStatistic `locationName:"statistics" type:"list" required:"true"`
+
+	// The unit for the time period request. Valid values are listed below.
+	//
+	// Unit is a required field
+	Unit MetricUnit `locationName:"unit" type:"string" required:"true" enum:"true"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancerMetricDataInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancerMetricDataInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetLoadBalancerMetricDataInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetLoadBalancerMetricDataInput"}
+
+	if s.EndTime == nil {
+		invalidParams.Add(aws.NewErrParamRequired("EndTime"))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+	if len(s.MetricName) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("MetricName"))
+	}
+
+	if s.Period == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Period"))
+	}
+	if s.Period != nil && *s.Period < 60 {
+		invalidParams.Add(aws.NewErrParamMinValue("Period", 60))
+	}
+
+	if s.StartTime == nil {
+		invalidParams.Add(aws.NewErrParamRequired("StartTime"))
+	}
+
+	if s.Statistics == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Statistics"))
+	}
+	if len(s.Unit) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("Unit"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerMetricDataResult
+type GetLoadBalancerMetricDataOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An array of metric datapoint objects.
+	MetricData []MetricDatapoint `locationName:"metricData" type:"list"`
+
+	// The metric about which you are receiving information. Valid values are listed
+	// below, along with the most useful statistics to include in your request.
+	//
+	//    * ClientTLSNegotiationErrorCount - The number of TLS connections initiated
+	//    by the client that did not establish a session with the load balancer.
+	//    Possible causes include a mismatch of ciphers or protocols.
+	//
+	// Statistics: The most useful statistic is Sum.
+	//
+	//    * HealthyHostCount - The number of target instances that are considered
+	//    healthy.
+	//
+	// Statistics: The most useful statistic are Average, Minimum, and Maximum.
+	//
+	//    * UnhealthyHostCount - The number of target instances that are considered
+	//    unhealthy.
+	//
+	// Statistics: The most useful statistic are Average, Minimum, and Maximum.
+	//
+	//    * HTTPCode_LB_4XX_Count - The number of HTTP 4XX client error codes that
+	//    originate from the load balancer. Client errors are generated when requests
+	//    are malformed or incomplete. These requests have not been received by
+	//    the target instance. This count does not include any response codes generated
+	//    by the target instances.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_LB_5XX_Count - The number of HTTP 5XX server error codes that
+	//    originate from the load balancer. This count does not include any response
+	//    codes generated by the target instances.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1. Note that Minimum, Maximum, and Average all
+	//    return 1.
+	//
+	//    * HTTPCode_Instance_2XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_Instance_3XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_Instance_4XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * HTTPCode_Instance_5XX_Count - The number of HTTP response codes generated
+	//    by the target instances. This does not include any response codes generated
+	//    by the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	//
+	//    * InstanceResponseTime - The time elapsed, in seconds, after the request
+	//    leaves the load balancer until a response from the target instance is
+	//    received.
+	//
+	// Statistics: The most useful statistic is Average.
+	//
+	//    * RejectedConnectionCount - The number of connections that were rejected
+	//    because the load balancer had reached its maximum number of connections.
+	//
+	// Statistics: The most useful statistic is Sum.
+	//
+	//    * RequestCount - The number of requests processed over IPv4. This count
+	//    includes only the requests with a response generated by a target instance
+	//    of the load balancer.
+	//
+	// Statistics: The most useful statistic is Sum. Note that Minimum, Maximum,
+	//    and Average all return 1.
+	MetricName LoadBalancerMetricName `locationName:"metricName" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancerMetricDataOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancerMetricDataOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLoadBalancerMetricDataOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerResult
+type GetLoadBalancerOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your load balancer.
+	LoadBalancer *LoadBalancer `locationName:"loadBalancer" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancerOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancerOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLoadBalancerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerTlsCertificatesRequest
+type GetLoadBalancerTlsCertificatesInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the load balancer you associated with your SSL/TLS certificate.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancerTlsCertificatesInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancerTlsCertificatesInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetLoadBalancerTlsCertificatesInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetLoadBalancerTlsCertificatesInput"}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancerTlsCertificatesResult
+type GetLoadBalancerTlsCertificatesOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An array of LoadBalancerTlsCertificate objects describing your SSL/TLS certificates.
+	TlsCertificates []LoadBalancerTlsCertificate `locationName:"tlsCertificates" type:"list"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancerTlsCertificatesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancerTlsCertificatesOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLoadBalancerTlsCertificatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancersRequest
+type GetLoadBalancersInput struct {
+	_ struct{} `type:"structure"`
+
+	// A token used for paginating the results from your GetLoadBalancers request.
+	PageToken *string `locationName:"pageToken" type:"string"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancersInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancersInput) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetLoadBalancersResult
+type GetLoadBalancersOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An array of LoadBalancer objects describing your load balancers.
+	LoadBalancers []LoadBalancer `locationName:"loadBalancers" type:"list"`
+
+	// A token used for advancing to the next page of results from your GetLoadBalancers
+	// request.
+	NextPageToken *string `locationName:"nextPageToken" type:"string"`
+}
+
+// String returns the string representation
+func (s GetLoadBalancersOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetLoadBalancersOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetLoadBalancersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationRequest
@@ -5176,15 +7751,11 @@ func (s *GetOperationInput) Validate() error {
 	return nil
 }
 
-// SetOperationId sets the OperationId field's value.
-func (s *GetOperationInput) SetOperationId(v string) *GetOperationInput {
-	s.OperationId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationResult
 type GetOperationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the results of your
 	// get operation request.
@@ -5201,10 +7772,9 @@ func (s GetOperationOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *GetOperationOutput) SetOperation(v *Operation) *GetOperationOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetOperationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationsForResourceRequest
@@ -5245,21 +7815,11 @@ func (s *GetOperationsForResourceInput) Validate() error {
 	return nil
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetOperationsForResourceInput) SetPageToken(v string) *GetOperationsForResourceInput {
-	s.PageToken = &v
-	return s
-}
-
-// SetResourceName sets the ResourceName field's value.
-func (s *GetOperationsForResourceInput) SetResourceName(v string) *GetOperationsForResourceInput {
-	s.ResourceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationsForResourceResult
 type GetOperationsForResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// (Deprecated) Returns the number of pages of results that remain.
 	//
@@ -5273,7 +7833,7 @@ type GetOperationsForResourceOutput struct {
 
 	// An array of key-value pairs containing information about the results of your
 	// get operations for resource request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -5286,22 +7846,9 @@ func (s GetOperationsForResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextPageCount sets the NextPageCount field's value.
-func (s *GetOperationsForResourceOutput) SetNextPageCount(v string) *GetOperationsForResourceOutput {
-	s.NextPageCount = &v
-	return s
-}
-
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetOperationsForResourceOutput) SetNextPageToken(v string) *GetOperationsForResourceOutput {
-	s.NextPageToken = &v
-	return s
-}
-
-// SetOperations sets the Operations field's value.
-func (s *GetOperationsForResourceOutput) SetOperations(v []*Operation) *GetOperationsForResourceOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetOperationsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationsRequest
@@ -5323,15 +7870,11 @@ func (s GetOperationsInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetOperationsInput) SetPageToken(v string) *GetOperationsInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetOperationsResult
 type GetOperationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A token used for advancing to the next page of results from your get operations
 	// request.
@@ -5339,7 +7882,7 @@ type GetOperationsOutput struct {
 
 	// An array of key-value pairs containing information about the results of your
 	// get operations request.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -5352,16 +7895,9 @@ func (s GetOperationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetOperationsOutput) SetNextPageToken(v string) *GetOperationsOutput {
-	s.NextPageToken = &v
-	return s
-}
-
-// SetOperations sets the Operations field's value.
-func (s *GetOperationsOutput) SetOperations(v []*Operation) *GetOperationsOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetOperationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRegionsRequest
@@ -5370,7 +7906,7 @@ type GetRegionsInput struct {
 
 	// A Boolean value indicating whether to also include Availability Zones in
 	// your get regions request. Availability Zones are indicated with a letter:
-	// e.g., us-east-1a.
+	// e.g., us-east-2a.
 	IncludeAvailabilityZones *bool `locationName:"includeAvailabilityZones" type:"boolean"`
 }
 
@@ -5384,19 +7920,15 @@ func (s GetRegionsInput) GoString() string {
 	return s.String()
 }
 
-// SetIncludeAvailabilityZones sets the IncludeAvailabilityZones field's value.
-func (s *GetRegionsInput) SetIncludeAvailabilityZones(v bool) *GetRegionsInput {
-	s.IncludeAvailabilityZones = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetRegionsResult
 type GetRegionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about your get regions
 	// request.
-	Regions []*Region `locationName:"regions" type:"list"`
+	Regions []Region `locationName:"regions" type:"list"`
 }
 
 // String returns the string representation
@@ -5409,10 +7941,9 @@ func (s GetRegionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetRegions sets the Regions field's value.
-func (s *GetRegionsOutput) SetRegions(v []*Region) *GetRegionsOutput {
-	s.Regions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRegionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIpRequest
@@ -5449,15 +7980,11 @@ func (s *GetStaticIpInput) Validate() error {
 	return nil
 }
 
-// SetStaticIpName sets the StaticIpName field's value.
-func (s *GetStaticIpInput) SetStaticIpName(v string) *GetStaticIpInput {
-	s.StaticIpName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIpResult
 type GetStaticIpOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the requested static
 	// IP.
@@ -5474,10 +8001,9 @@ func (s GetStaticIpOutput) GoString() string {
 	return s.String()
 }
 
-// SetStaticIp sets the StaticIp field's value.
-func (s *GetStaticIpOutput) SetStaticIp(v *StaticIp) *GetStaticIpOutput {
-	s.StaticIp = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetStaticIpOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIpsRequest
@@ -5499,15 +8025,11 @@ func (s GetStaticIpsInput) GoString() string {
 	return s.String()
 }
 
-// SetPageToken sets the PageToken field's value.
-func (s *GetStaticIpsInput) SetPageToken(v string) *GetStaticIpsInput {
-	s.PageToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/GetStaticIpsResult
 type GetStaticIpsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A token used for advancing to the next page of results from your get static
 	// IPs request.
@@ -5515,7 +8037,7 @@ type GetStaticIpsOutput struct {
 
 	// An array of key-value pairs containing information about your get static
 	// IPs request.
-	StaticIps []*StaticIp `locationName:"staticIps" type:"list"`
+	StaticIps []StaticIp `locationName:"staticIps" type:"list"`
 }
 
 // String returns the string representation
@@ -5528,16 +8050,9 @@ func (s GetStaticIpsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextPageToken sets the NextPageToken field's value.
-func (s *GetStaticIpsOutput) SetNextPageToken(v string) *GetStaticIpsOutput {
-	s.NextPageToken = &v
-	return s
-}
-
-// SetStaticIps sets the StaticIps field's value.
-func (s *GetStaticIpsOutput) SetStaticIps(v []*StaticIp) *GetStaticIpsOutput {
-	s.StaticIps = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetStaticIpsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ImportKeyPairRequest
@@ -5583,21 +8098,11 @@ func (s *ImportKeyPairInput) Validate() error {
 	return nil
 }
 
-// SetKeyPairName sets the KeyPairName field's value.
-func (s *ImportKeyPairInput) SetKeyPairName(v string) *ImportKeyPairInput {
-	s.KeyPairName = &v
-	return s
-}
-
-// SetPublicKeyBase64 sets the PublicKeyBase64 field's value.
-func (s *ImportKeyPairInput) SetPublicKeyBase64(v string) *ImportKeyPairInput {
-	s.PublicKeyBase64 = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ImportKeyPairResult
 type ImportKeyPairOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the request operation.
 	Operation *Operation `locationName:"operation" type:"structure"`
@@ -5613,10 +8118,9 @@ func (s ImportKeyPairOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *ImportKeyPairOutput) SetOperation(v *Operation) *ImportKeyPairOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ImportKeyPairOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an instance (a virtual private server).
@@ -5624,7 +8128,7 @@ func (s *ImportKeyPairOutput) SetOperation(v *Operation) *ImportKeyPairOutput {
 type Instance struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-1:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
+	// The Amazon Resource Name (ARN) of the instance (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/244ad76f-8aad-4741-809f-12345EXAMPLE).
 	Arn *string `locationName:"arn" type:"string"`
 
 	// The blueprint ID (e.g., os_amlinux_2016_03).
@@ -5652,7 +8156,7 @@ type Instance struct {
 	// The region name and availability zone where the instance is located.
 	Location *ResourceLocation `locationName:"location" type:"structure"`
 
-	// The name the user gave the instance (e.g., Amazon_Linux-1GB-Virginia-1).
+	// The name the user gave the instance (e.g., Amazon_Linux-1GB-Ohio-1).
 	Name *string `locationName:"name" type:"string"`
 
 	// Information about the public ports and monthly data transfer rates for the
@@ -5666,7 +8170,7 @@ type Instance struct {
 	PublicIpAddress *string `locationName:"publicIpAddress" type:"string"`
 
 	// The type of resource (usually Instance).
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The name of the SSH key being used to connect to the instance (e.g., LightsailDefaultKeyPair).
 	SshKeyName *string `locationName:"sshKeyName" type:"string"`
@@ -5693,114 +8197,6 @@ func (s Instance) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Instance) SetArn(v string) *Instance {
-	s.Arn = &v
-	return s
-}
-
-// SetBlueprintId sets the BlueprintId field's value.
-func (s *Instance) SetBlueprintId(v string) *Instance {
-	s.BlueprintId = &v
-	return s
-}
-
-// SetBlueprintName sets the BlueprintName field's value.
-func (s *Instance) SetBlueprintName(v string) *Instance {
-	s.BlueprintName = &v
-	return s
-}
-
-// SetBundleId sets the BundleId field's value.
-func (s *Instance) SetBundleId(v string) *Instance {
-	s.BundleId = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Instance) SetCreatedAt(v time.Time) *Instance {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetHardware sets the Hardware field's value.
-func (s *Instance) SetHardware(v *InstanceHardware) *Instance {
-	s.Hardware = v
-	return s
-}
-
-// SetIpv6Address sets the Ipv6Address field's value.
-func (s *Instance) SetIpv6Address(v string) *Instance {
-	s.Ipv6Address = &v
-	return s
-}
-
-// SetIsStaticIp sets the IsStaticIp field's value.
-func (s *Instance) SetIsStaticIp(v bool) *Instance {
-	s.IsStaticIp = &v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *Instance) SetLocation(v *ResourceLocation) *Instance {
-	s.Location = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Instance) SetName(v string) *Instance {
-	s.Name = &v
-	return s
-}
-
-// SetNetworking sets the Networking field's value.
-func (s *Instance) SetNetworking(v *InstanceNetworking) *Instance {
-	s.Networking = v
-	return s
-}
-
-// SetPrivateIpAddress sets the PrivateIpAddress field's value.
-func (s *Instance) SetPrivateIpAddress(v string) *Instance {
-	s.PrivateIpAddress = &v
-	return s
-}
-
-// SetPublicIpAddress sets the PublicIpAddress field's value.
-func (s *Instance) SetPublicIpAddress(v string) *Instance {
-	s.PublicIpAddress = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *Instance) SetResourceType(v ResourceType) *Instance {
-	s.ResourceType = v
-	return s
-}
-
-// SetSshKeyName sets the SshKeyName field's value.
-func (s *Instance) SetSshKeyName(v string) *Instance {
-	s.SshKeyName = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *Instance) SetState(v *InstanceState) *Instance {
-	s.State = v
-	return s
-}
-
-// SetSupportCode sets the SupportCode field's value.
-func (s *Instance) SetSupportCode(v string) *Instance {
-	s.SupportCode = &v
-	return s
-}
-
-// SetUsername sets the Username field's value.
-func (s *Instance) SetUsername(v string) *Instance {
-	s.Username = &v
-	return s
-}
-
 // The parameters for gaining temporary access to one of your Amazon Lightsail
 // instances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/InstanceAccessDetails
@@ -5820,15 +8216,32 @@ type InstanceAccessDetails struct {
 	// The public IP address of the Amazon Lightsail instance.
 	IpAddress *string `locationName:"ipAddress" type:"string"`
 
-	// For RDP access, the temporary password of the Amazon EC2 instance.
+	// For RDP access, the password for your Amazon Lightsail instance. Password
+	// will be an empty string if the password for your new instance is not ready
+	// yet. When you create an instance, it can take up to 15 minutes for the instance
+	// to be ready.
+	//
+	// If you create an instance using any key pair other than the default (LightsailDefaultKeyPair),
+	// password will always be an empty string.
+	//
+	// If you change the Administrator password on the instance, Lightsail will
+	// continue to return the original password value. When accessing the instance
+	// using RDP, you need to manually enter the Administrator password after changing
+	// it from the default.
 	Password *string `locationName:"password" type:"string"`
+
+	// For a Windows Server-based instance, an object with the data you can use
+	// to retrieve your password. This is only needed if password is empty and the
+	// instance is not new (and therefore the password is not ready yet). When you
+	// create an instance, it can take up to 15 minutes for the instance to be ready.
+	PasswordData *PasswordData `locationName:"passwordData" type:"structure"`
 
 	// For SSH access, the temporary private key. For OpenSSH clients (e.g., command
 	// line SSH), you should save this value to tempkey).
 	PrivateKey *string `locationName:"privateKey" type:"string"`
 
 	// The protocol for these Amazon Lightsail instance access details.
-	Protocol InstanceAccessProtocol `locationName:"protocol" type:"string"`
+	Protocol InstanceAccessProtocol `locationName:"protocol" type:"string" enum:"true"`
 
 	// The user name to use when logging in to the Amazon Lightsail instance.
 	Username *string `locationName:"username" type:"string"`
@@ -5844,54 +8257,6 @@ func (s InstanceAccessDetails) GoString() string {
 	return s.String()
 }
 
-// SetCertKey sets the CertKey field's value.
-func (s *InstanceAccessDetails) SetCertKey(v string) *InstanceAccessDetails {
-	s.CertKey = &v
-	return s
-}
-
-// SetExpiresAt sets the ExpiresAt field's value.
-func (s *InstanceAccessDetails) SetExpiresAt(v time.Time) *InstanceAccessDetails {
-	s.ExpiresAt = &v
-	return s
-}
-
-// SetInstanceName sets the InstanceName field's value.
-func (s *InstanceAccessDetails) SetInstanceName(v string) *InstanceAccessDetails {
-	s.InstanceName = &v
-	return s
-}
-
-// SetIpAddress sets the IpAddress field's value.
-func (s *InstanceAccessDetails) SetIpAddress(v string) *InstanceAccessDetails {
-	s.IpAddress = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *InstanceAccessDetails) SetPassword(v string) *InstanceAccessDetails {
-	s.Password = &v
-	return s
-}
-
-// SetPrivateKey sets the PrivateKey field's value.
-func (s *InstanceAccessDetails) SetPrivateKey(v string) *InstanceAccessDetails {
-	s.PrivateKey = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *InstanceAccessDetails) SetProtocol(v InstanceAccessProtocol) *InstanceAccessDetails {
-	s.Protocol = v
-	return s
-}
-
-// SetUsername sets the Username field's value.
-func (s *InstanceAccessDetails) SetUsername(v string) *InstanceAccessDetails {
-	s.Username = &v
-	return s
-}
-
 // Describes the hardware for the instance.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/InstanceHardware
 type InstanceHardware struct {
@@ -5901,7 +8266,7 @@ type InstanceHardware struct {
 	CpuCount *int64 `locationName:"cpuCount" type:"integer"`
 
 	// The disks attached to the instance.
-	Disks []*Disk `locationName:"disks" type:"list"`
+	Disks []Disk `locationName:"disks" type:"list"`
 
 	// The amount of RAM in GB on the instance (e.g., 1.0).
 	RamSizeInGb *float64 `locationName:"ramSizeInGb" type:"float"`
@@ -5917,22 +8282,76 @@ func (s InstanceHardware) GoString() string {
 	return s.String()
 }
 
-// SetCpuCount sets the CpuCount field's value.
-func (s *InstanceHardware) SetCpuCount(v int64) *InstanceHardware {
-	s.CpuCount = &v
-	return s
+// Describes information about the health of the instance.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/InstanceHealthSummary
+type InstanceHealthSummary struct {
+	_ struct{} `type:"structure"`
+
+	// Describes the overall instance health. Valid values are below.
+	InstanceHealth InstanceHealthState `locationName:"instanceHealth" type:"string" enum:"true"`
+
+	// More information about the instance health. If the instanceHealth is healthy,
+	// then an instanceHealthReason value is not provided.
+	//
+	// If instanceHealth is initial, the instanceHealthReason value can be one of
+	// the following:
+	//
+	//    * Lb.RegistrationInProgress - The target instance is in the process of
+	//    being registered with the load balancer.
+	//
+	//    * Lb.InitialHealthChecking - The Lightsail load balancer is still sending
+	//    the target instance the minimum number of health checks required to determine
+	//    its health status.
+	//
+	// If instanceHealth is unhealthy, the instanceHealthReason value can be one
+	// of the following:
+	//
+	//    * Instance.ResponseCodeMismatch - The health checks did not return an
+	//    expected HTTP code.
+	//
+	//    * Instance.Timeout - The health check requests timed out.
+	//
+	//    * Instance.FailedHealthChecks - The health checks failed because the connection
+	//    to the target instance timed out, the target instance response was malformed,
+	//    or the target instance failed the health check for an unknown reason.
+	//
+	//    * Lb.InternalError - The health checks failed due to an internal error.
+	//
+	// If instanceHealth is unused, the instanceHealthReason value can be one of
+	// the following:
+	//
+	//    * Instance.NotRegistered - The target instance is not registered with
+	//    the target group.
+	//
+	//    * Instance.NotInUse - The target group is not used by any load balancer,
+	//    or the target instance is in an Availability Zone that is not enabled
+	//    for its load balancer.
+	//
+	//    * Instance.IpUnusable - The target IP address is reserved for use by a
+	//    Lightsail load balancer.
+	//
+	//    * Instance.InvalidState - The target is in the stopped or terminated state.
+	//
+	// If instanceHealth is draining, the instanceHealthReason value can be one
+	// of the following:
+	//
+	//    * Instance.DeregistrationInProgress - The target instance is in the process
+	//    of being deregistered and the deregistration delay period has not expired.
+	InstanceHealthReason InstanceHealthReason `locationName:"instanceHealthReason" type:"string" enum:"true"`
+
+	// The name of the Lightsail instance for which you are requesting health check
+	// data.
+	InstanceName *string `locationName:"instanceName" type:"string"`
 }
 
-// SetDisks sets the Disks field's value.
-func (s *InstanceHardware) SetDisks(v []*Disk) *InstanceHardware {
-	s.Disks = v
-	return s
+// String returns the string representation
+func (s InstanceHealthSummary) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetRamSizeInGb sets the RamSizeInGb field's value.
-func (s *InstanceHardware) SetRamSizeInGb(v float64) *InstanceHardware {
-	s.RamSizeInGb = &v
-	return s
+// GoString returns the string representation
+func (s InstanceHealthSummary) GoString() string {
+	return s.String()
 }
 
 // Describes monthly data transfer rates and port information for an instance.
@@ -5945,7 +8364,7 @@ type InstanceNetworking struct {
 
 	// An array of key-value pairs containing information about the ports on the
 	// instance.
-	Ports []*InstancePortInfo `locationName:"ports" type:"list"`
+	Ports []InstancePortInfo `locationName:"ports" type:"list"`
 }
 
 // String returns the string representation
@@ -5958,31 +8377,19 @@ func (s InstanceNetworking) GoString() string {
 	return s.String()
 }
 
-// SetMonthlyTransfer sets the MonthlyTransfer field's value.
-func (s *InstanceNetworking) SetMonthlyTransfer(v *MonthlyTransfer) *InstanceNetworking {
-	s.MonthlyTransfer = v
-	return s
-}
-
-// SetPorts sets the Ports field's value.
-func (s *InstanceNetworking) SetPorts(v []*InstancePortInfo) *InstanceNetworking {
-	s.Ports = v
-	return s
-}
-
 // Describes information about the instance ports.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/InstancePortInfo
 type InstancePortInfo struct {
 	_ struct{} `type:"structure"`
 
 	// The access direction (inbound or outbound).
-	AccessDirection AccessDirection `locationName:"accessDirection" type:"string"`
+	AccessDirection AccessDirection `locationName:"accessDirection" type:"string" enum:"true"`
 
 	// The location from which access is allowed (e.g., Anywhere (0.0.0.0/0)).
 	AccessFrom *string `locationName:"accessFrom" type:"string"`
 
 	// The type of access (Public or Private).
-	AccessType PortAccessType `locationName:"accessType" type:"string"`
+	AccessType PortAccessType `locationName:"accessType" type:"string" enum:"true"`
 
 	// The common name.
 	CommonName *string `locationName:"commonName" type:"string"`
@@ -6008,7 +8415,7 @@ type InstancePortInfo struct {
 	//    can use UDP, which provides a connectionless datagram service that emphasizes
 	//    reduced latency over reliability. If you do require reliable data stream
 	//    service, use TCP instead.
-	Protocol NetworkProtocol `locationName:"protocol" type:"string"`
+	Protocol NetworkProtocol `locationName:"protocol" type:"string" enum:"true"`
 
 	// The last port in the range.
 	ToPort *int64 `locationName:"toPort" type:"integer"`
@@ -6022,48 +8429,6 @@ func (s InstancePortInfo) String() string {
 // GoString returns the string representation
 func (s InstancePortInfo) GoString() string {
 	return s.String()
-}
-
-// SetAccessDirection sets the AccessDirection field's value.
-func (s *InstancePortInfo) SetAccessDirection(v AccessDirection) *InstancePortInfo {
-	s.AccessDirection = v
-	return s
-}
-
-// SetAccessFrom sets the AccessFrom field's value.
-func (s *InstancePortInfo) SetAccessFrom(v string) *InstancePortInfo {
-	s.AccessFrom = &v
-	return s
-}
-
-// SetAccessType sets the AccessType field's value.
-func (s *InstancePortInfo) SetAccessType(v PortAccessType) *InstancePortInfo {
-	s.AccessType = v
-	return s
-}
-
-// SetCommonName sets the CommonName field's value.
-func (s *InstancePortInfo) SetCommonName(v string) *InstancePortInfo {
-	s.CommonName = &v
-	return s
-}
-
-// SetFromPort sets the FromPort field's value.
-func (s *InstancePortInfo) SetFromPort(v int64) *InstancePortInfo {
-	s.FromPort = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *InstancePortInfo) SetProtocol(v NetworkProtocol) *InstancePortInfo {
-	s.Protocol = v
-	return s
-}
-
-// SetToPort sets the ToPort field's value.
-func (s *InstancePortInfo) SetToPort(v int64) *InstancePortInfo {
-	s.ToPort = &v
-	return s
 }
 
 // Describes the port state.
@@ -6092,10 +8457,10 @@ type InstancePortState struct {
 	//    can use UDP, which provides a connectionless datagram service that emphasizes
 	//    reduced latency over reliability. If you do require reliable data stream
 	//    service, use TCP instead.
-	Protocol NetworkProtocol `locationName:"protocol" type:"string"`
+	Protocol NetworkProtocol `locationName:"protocol" type:"string" enum:"true"`
 
 	// Specifies whether the instance port is open or closed.
-	State PortState `locationName:"state" type:"string"`
+	State PortState `locationName:"state" type:"string" enum:"true"`
 
 	// The last port in the range.
 	ToPort *int64 `locationName:"toPort" type:"integer"`
@@ -6111,40 +8476,19 @@ func (s InstancePortState) GoString() string {
 	return s.String()
 }
 
-// SetFromPort sets the FromPort field's value.
-func (s *InstancePortState) SetFromPort(v int64) *InstancePortState {
-	s.FromPort = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *InstancePortState) SetProtocol(v NetworkProtocol) *InstancePortState {
-	s.Protocol = v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *InstancePortState) SetState(v PortState) *InstancePortState {
-	s.State = v
-	return s
-}
-
-// SetToPort sets the ToPort field's value.
-func (s *InstancePortState) SetToPort(v int64) *InstancePortState {
-	s.ToPort = &v
-	return s
-}
-
 // Describes the snapshot of the virtual private server, or instance.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/InstanceSnapshot
 type InstanceSnapshot struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-1:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
+	// The Amazon Resource Name (ARN) of the snapshot (e.g., arn:aws:lightsail:us-east-2:123456789101:InstanceSnapshot/d23b5706-3322-4d83-81e5-12345EXAMPLE).
 	Arn *string `locationName:"arn" type:"string"`
 
 	// The timestamp when the snapshot was created (e.g., 1479907467.024).
 	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
+
+	// An array of disk objects containing information about all block storage disks.
+	FromAttachedDisks []Disk `locationName:"fromAttachedDisks" type:"list"`
 
 	// The blueprint ID from which you created the snapshot (e.g., os_debian_8_3).
 	// A blueprint is a virtual private server (or instance) image used to create
@@ -6155,7 +8499,7 @@ type InstanceSnapshot struct {
 	FromBundleId *string `locationName:"fromBundleId" type:"string"`
 
 	// The Amazon Resource Name (ARN) of the instance from which the snapshot was
-	// created (e.g., arn:aws:lightsail:us-east-1:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
+	// created (e.g., arn:aws:lightsail:us-east-2:123456789101:Instance/64b8404c-ccb1-430b-8daf-12345EXAMPLE).
 	FromInstanceArn *string `locationName:"fromInstanceArn" type:"string"`
 
 	// The instance from which the snapshot was created.
@@ -6171,13 +8515,13 @@ type InstanceSnapshot struct {
 	Progress *string `locationName:"progress" type:"string"`
 
 	// The type of resource (usually InstanceSnapshot).
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The size in GB of the SSD.
 	SizeInGb *int64 `locationName:"sizeInGb" type:"integer"`
 
 	// The state the snapshot is in.
-	State InstanceSnapshotState `locationName:"state" type:"string"`
+	State InstanceSnapshotState `locationName:"state" type:"string" enum:"true"`
 
 	// The support code. Include this code in your email to support when you have
 	// questions about an instance or another resource in Lightsail. This code enables
@@ -6193,84 +8537,6 @@ func (s InstanceSnapshot) String() string {
 // GoString returns the string representation
 func (s InstanceSnapshot) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *InstanceSnapshot) SetArn(v string) *InstanceSnapshot {
-	s.Arn = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *InstanceSnapshot) SetCreatedAt(v time.Time) *InstanceSnapshot {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetFromBlueprintId sets the FromBlueprintId field's value.
-func (s *InstanceSnapshot) SetFromBlueprintId(v string) *InstanceSnapshot {
-	s.FromBlueprintId = &v
-	return s
-}
-
-// SetFromBundleId sets the FromBundleId field's value.
-func (s *InstanceSnapshot) SetFromBundleId(v string) *InstanceSnapshot {
-	s.FromBundleId = &v
-	return s
-}
-
-// SetFromInstanceArn sets the FromInstanceArn field's value.
-func (s *InstanceSnapshot) SetFromInstanceArn(v string) *InstanceSnapshot {
-	s.FromInstanceArn = &v
-	return s
-}
-
-// SetFromInstanceName sets the FromInstanceName field's value.
-func (s *InstanceSnapshot) SetFromInstanceName(v string) *InstanceSnapshot {
-	s.FromInstanceName = &v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *InstanceSnapshot) SetLocation(v *ResourceLocation) *InstanceSnapshot {
-	s.Location = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceSnapshot) SetName(v string) *InstanceSnapshot {
-	s.Name = &v
-	return s
-}
-
-// SetProgress sets the Progress field's value.
-func (s *InstanceSnapshot) SetProgress(v string) *InstanceSnapshot {
-	s.Progress = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *InstanceSnapshot) SetResourceType(v ResourceType) *InstanceSnapshot {
-	s.ResourceType = v
-	return s
-}
-
-// SetSizeInGb sets the SizeInGb field's value.
-func (s *InstanceSnapshot) SetSizeInGb(v int64) *InstanceSnapshot {
-	s.SizeInGb = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *InstanceSnapshot) SetState(v InstanceSnapshotState) *InstanceSnapshot {
-	s.State = v
-	return s
-}
-
-// SetSupportCode sets the SupportCode field's value.
-func (s *InstanceSnapshot) SetSupportCode(v string) *InstanceSnapshot {
-	s.SupportCode = &v
-	return s
 }
 
 // Describes the virtual private server (or instance) status.
@@ -6295,18 +8561,6 @@ func (s InstanceState) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *InstanceState) SetCode(v int64) *InstanceState {
-	s.Code = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceState) SetName(v string) *InstanceState {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/IsVpcPeeredRequest
 type IsVpcPeeredInput struct {
 	_ struct{} `type:"structure"`
@@ -6326,6 +8580,8 @@ func (s IsVpcPeeredInput) GoString() string {
 type IsVpcPeeredOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Returns true if the Lightsail VPC is peered; otherwise, false.
 	IsPeered *bool `locationName:"isPeered" type:"boolean"`
 }
@@ -6340,10 +8596,9 @@ func (s IsVpcPeeredOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsPeered sets the IsPeered field's value.
-func (s *IsVpcPeeredOutput) SetIsPeered(v bool) *IsVpcPeeredOutput {
-	s.IsPeered = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s IsVpcPeeredOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the SSH key pair.
@@ -6351,7 +8606,7 @@ func (s *IsVpcPeeredOutput) SetIsPeered(v bool) *IsVpcPeeredOutput {
 type KeyPair struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-1:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
+	// The Amazon Resource Name (ARN) of the key pair (e.g., arn:aws:lightsail:us-east-2:123456789101:KeyPair/05859e3d-331d-48ba-9034-12345EXAMPLE).
 	Arn *string `locationName:"arn" type:"string"`
 
 	// The timestamp when the key pair was created (e.g., 1479816991.349).
@@ -6367,7 +8622,7 @@ type KeyPair struct {
 	Name *string `locationName:"name" type:"string"`
 
 	// The resource type (usually KeyPair).
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The support code. Include this code in your email to support when you have
 	// questions about an instance or another resource in Lightsail. This code enables
@@ -6385,46 +8640,301 @@ func (s KeyPair) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *KeyPair) SetArn(v string) *KeyPair {
-	s.Arn = &v
-	return s
+// Describes the Lightsail load balancer.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/LoadBalancer
+type LoadBalancer struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the load balancer.
+	Arn *string `locationName:"arn" type:"string"`
+
+	// A string to string map of the configuration options for your load balancer.
+	// Valid values are listed below.
+	ConfigurationOptions map[string]string `locationName:"configurationOptions" type:"map"`
+
+	// The date when your load balancer was created.
+	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The DNS name of your Lightsail load balancer.
+	DnsName *string `locationName:"dnsName" type:"string"`
+
+	// The path you specified to perform your health checks. If no path is specified,
+	// the load balancer tries to make a request to the default (root) page.
+	HealthCheckPath *string `locationName:"healthCheckPath" type:"string"`
+
+	// An array of InstanceHealthSummary objects describing the health of the load
+	// balancer.
+	InstanceHealthSummary []InstanceHealthSummary `locationName:"instanceHealthSummary" type:"list"`
+
+	// The port where the load balancer will direct traffic to your Lightsail instances.
+	// For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
+	InstancePort *int64 `locationName:"instancePort" type:"integer"`
+
+	// The AWS Region where your load balancer was created (e.g., us-east-2a). Lightsail
+	// automatically creates your load balancer across Availability Zones.
+	Location *ResourceLocation `locationName:"location" type:"structure"`
+
+	// The name of the load balancer (e.g., my-load-balancer).
+	Name *string `locationName:"name" type:"string"`
+
+	// The protocol you have enabled for your load balancer. Valid values are below.
+	//
+	// You can't just have HTTP_HTTPS, but you can have just HTTP.
+	Protocol LoadBalancerProtocol `locationName:"protocol" type:"string" enum:"true"`
+
+	// An array of public port settings for your load balancer. For HTTP, use port
+	// 80. For HTTPS, use port 443.
+	PublicPorts []int64 `locationName:"publicPorts" type:"list"`
+
+	// The resource type (e.g., LoadBalancer.
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
+
+	// The status of your load balancer. Valid values are below.
+	State LoadBalancerState `locationName:"state" type:"string" enum:"true"`
+
+	// The support code. Include this code in your email to support when you have
+	// questions about your Lightsail load balancer. This code enables our support
+	// team to look up your Lightsail information more easily.
+	SupportCode *string `locationName:"supportCode" type:"string"`
+
+	// An array of LoadBalancerTlsCertificateSummary objects that provide additional
+	// information about the SSL/TLS certificates. For example, if true, the certificate
+	// is attached to the load balancer.
+	TlsCertificateSummaries []LoadBalancerTlsCertificateSummary `locationName:"tlsCertificateSummaries" type:"list"`
 }
 
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *KeyPair) SetCreatedAt(v time.Time) *KeyPair {
-	s.CreatedAt = &v
-	return s
+// String returns the string representation
+func (s LoadBalancer) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetFingerprint sets the Fingerprint field's value.
-func (s *KeyPair) SetFingerprint(v string) *KeyPair {
-	s.Fingerprint = &v
-	return s
+// GoString returns the string representation
+func (s LoadBalancer) GoString() string {
+	return s.String()
 }
 
-// SetLocation sets the Location field's value.
-func (s *KeyPair) SetLocation(v *ResourceLocation) *KeyPair {
-	s.Location = v
-	return s
+// Describes a load balancer SSL/TLS certificate.
+//
+// TLS is just an updated, more secure version of Secure Socket Layer (SSL).
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/LoadBalancerTlsCertificate
+type LoadBalancerTlsCertificate struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the SSL/TLS certificate.
+	Arn *string `locationName:"arn" type:"string"`
+
+	// The time when you created your SSL/TLS certificate.
+	CreatedAt *time.Time `locationName:"createdAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The domain name for your SSL/TLS certificate.
+	DomainName *string `locationName:"domainName" type:"string"`
+
+	// An array of LoadBalancerTlsCertificateDomainValidationRecord objects describing
+	// the records.
+	DomainValidationRecords []LoadBalancerTlsCertificateDomainValidationRecord `locationName:"domainValidationRecords" type:"list"`
+
+	// The reason for the SSL/TLS certificate validation failure.
+	FailureReason LoadBalancerTlsCertificateFailureReason `locationName:"failureReason" type:"string" enum:"true"`
+
+	// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
+	IsAttached *bool `locationName:"isAttached" type:"boolean"`
+
+	// The time when the SSL/TLS certificate was issued.
+	IssuedAt *time.Time `locationName:"issuedAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The issuer of the certificate.
+	Issuer *string `locationName:"issuer" type:"string"`
+
+	// The algorithm that was used to generate the key pair (the public and private
+	// key).
+	KeyAlgorithm *string `locationName:"keyAlgorithm" type:"string"`
+
+	// The load balancer name where your SSL/TLS certificate is attached.
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string"`
+
+	// The AWS Region and Availability Zone where you created your certificate.
+	Location *ResourceLocation `locationName:"location" type:"structure"`
+
+	// The name of the SSL/TLS certificate (e.g., my-certificate).
+	Name *string `locationName:"name" type:"string"`
+
+	// The timestamp when the SSL/TLS certificate expires.
+	NotAfter *time.Time `locationName:"notAfter" type:"timestamp" timestampFormat:"unix"`
+
+	// The timestamp when the SSL/TLS certificate is first valid.
+	NotBefore *time.Time `locationName:"notBefore" type:"timestamp" timestampFormat:"unix"`
+
+	// An object containing information about the status of Lightsail's managed
+	// renewal for the certificate.
+	RenewalSummary *LoadBalancerTlsCertificateRenewalSummary `locationName:"renewalSummary" type:"structure"`
+
+	// The resource type (e.g., LoadBalancerTlsCertificate).
+	//
+	//    * Instance - A Lightsail instance (a virtual private server)
+	//
+	//    * StaticIp - A static IP address
+	//
+	//    * KeyPair - The key pair used to connect to a Lightsail instance
+	//
+	//    * InstanceSnapshot - A Lightsail instance snapshot
+	//
+	//    * Domain - A DNS zone
+	//
+	//    * PeeredVpc - A peered VPC
+	//
+	//    * LoadBalancer - A Lightsail load balancer
+	//
+	//    * LoadBalancerTlsCertificate - An SSL/TLS certificate associated with
+	//    a Lightsail load balancer
+	//
+	//    * Disk - A Lightsail block storage disk
+	//
+	//    * DiskSnapshot - A block storage disk snapshot
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
+
+	// The reason the certificate was revoked. Valid values are below.
+	RevocationReason LoadBalancerTlsCertificateRevocationReason `locationName:"revocationReason" type:"string" enum:"true"`
+
+	// The timestamp when the SSL/TLS certificate was revoked.
+	RevokedAt *time.Time `locationName:"revokedAt" type:"timestamp" timestampFormat:"unix"`
+
+	// The serial number of the certificate.
+	Serial *string `locationName:"serial" type:"string"`
+
+	// The algorithm that was used to sign the certificate.
+	SignatureAlgorithm *string `locationName:"signatureAlgorithm" type:"string"`
+
+	// The status of the SSL/TLS certificate. Valid values are below.
+	Status LoadBalancerTlsCertificateStatus `locationName:"status" type:"string" enum:"true"`
+
+	// The name of the entity that is associated with the public key contained in
+	// the certificate.
+	Subject *string `locationName:"subject" type:"string"`
+
+	// One or more domains or subdomains included in the certificate. This list
+	// contains the domain names that are bound to the public key that is contained
+	// in the certificate. The subject alternative names include the canonical domain
+	// name (CNAME) of the certificate and additional domain names that can be used
+	// to connect to the website, such as example.com, www.example.com, or m.example.com.
+	SubjectAlternativeNames []string `locationName:"subjectAlternativeNames" type:"list"`
+
+	// The support code. Include this code in your email to support when you have
+	// questions about your Lightsail load balancer or SSL/TLS certificate. This
+	// code enables our support team to look up your Lightsail information more
+	// easily.
+	SupportCode *string `locationName:"supportCode" type:"string"`
 }
 
-// SetName sets the Name field's value.
-func (s *KeyPair) SetName(v string) *KeyPair {
-	s.Name = &v
-	return s
+// String returns the string representation
+func (s LoadBalancerTlsCertificate) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetResourceType sets the ResourceType field's value.
-func (s *KeyPair) SetResourceType(v ResourceType) *KeyPair {
-	s.ResourceType = v
-	return s
+// GoString returns the string representation
+func (s LoadBalancerTlsCertificate) GoString() string {
+	return s.String()
 }
 
-// SetSupportCode sets the SupportCode field's value.
-func (s *KeyPair) SetSupportCode(v string) *KeyPair {
-	s.SupportCode = &v
-	return s
+// Contains information about the domain names on an SSL/TLS certificate that
+// you will use to validate domain ownership.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/LoadBalancerTlsCertificateDomainValidationOption
+type LoadBalancerTlsCertificateDomainValidationOption struct {
+	_ struct{} `type:"structure"`
+
+	// The fully qualified domain name in the certificate request.
+	DomainName *string `locationName:"domainName" type:"string"`
+
+	// The status of the domain validation. Valid values are listed below.
+	ValidationStatus LoadBalancerTlsCertificateDomainStatus `locationName:"validationStatus" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s LoadBalancerTlsCertificateDomainValidationOption) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LoadBalancerTlsCertificateDomainValidationOption) GoString() string {
+	return s.String()
+}
+
+// Describes the validation record of each domain name in the SSL/TLS certificate.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/LoadBalancerTlsCertificateDomainValidationRecord
+type LoadBalancerTlsCertificateDomainValidationRecord struct {
+	_ struct{} `type:"structure"`
+
+	// The domain name against which your SSL/TLS certificate was validated.
+	DomainName *string `locationName:"domainName" type:"string"`
+
+	// A fully qualified domain name in the certificate. For example, example.com.
+	Name *string `locationName:"name" type:"string"`
+
+	// The type of validation record. For example, CNAME for domain validation.
+	Type *string `locationName:"type" type:"string"`
+
+	// The validation status. Valid values are listed below.
+	ValidationStatus LoadBalancerTlsCertificateDomainStatus `locationName:"validationStatus" type:"string" enum:"true"`
+
+	// The value for that type.
+	Value *string `locationName:"value" type:"string"`
+}
+
+// String returns the string representation
+func (s LoadBalancerTlsCertificateDomainValidationRecord) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LoadBalancerTlsCertificateDomainValidationRecord) GoString() string {
+	return s.String()
+}
+
+// Contains information about the status of Lightsail's managed renewal for
+// the certificate.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/LoadBalancerTlsCertificateRenewalSummary
+type LoadBalancerTlsCertificateRenewalSummary struct {
+	_ struct{} `type:"structure"`
+
+	// Contains information about the validation of each domain name in the certificate,
+	// as it pertains to Lightsail's managed renewal. This is different from the
+	// initial validation that occurs as a result of the RequestCertificate request.
+	DomainValidationOptions []LoadBalancerTlsCertificateDomainValidationOption `locationName:"domainValidationOptions" type:"list"`
+
+	// The status of Lightsail's managed renewal of the certificate. Valid values
+	// are listed below.
+	RenewalStatus LoadBalancerTlsCertificateRenewalStatus `locationName:"renewalStatus" type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s LoadBalancerTlsCertificateRenewalSummary) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LoadBalancerTlsCertificateRenewalSummary) GoString() string {
+	return s.String()
+}
+
+// Provides a summary of SSL/TLS certificate metadata.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/LoadBalancerTlsCertificateSummary
+type LoadBalancerTlsCertificateSummary struct {
+	_ struct{} `type:"structure"`
+
+	// When true, the SSL/TLS certificate is attached to the Lightsail load balancer.
+	IsAttached *bool `locationName:"isAttached" type:"boolean"`
+
+	// The name of the SSL/TLS certificate.
+	Name *string `locationName:"name" type:"string"`
+}
+
+// String returns the string representation
+func (s LoadBalancerTlsCertificateSummary) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LoadBalancerTlsCertificateSummary) GoString() string {
+	return s.String()
 }
 
 // Describes the metric data point.
@@ -6451,7 +8961,7 @@ type MetricDatapoint struct {
 	Timestamp *time.Time `locationName:"timestamp" type:"timestamp" timestampFormat:"unix"`
 
 	// The unit.
-	Unit MetricUnit `locationName:"unit" type:"string"`
+	Unit MetricUnit `locationName:"unit" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6462,48 +8972,6 @@ func (s MetricDatapoint) String() string {
 // GoString returns the string representation
 func (s MetricDatapoint) GoString() string {
 	return s.String()
-}
-
-// SetAverage sets the Average field's value.
-func (s *MetricDatapoint) SetAverage(v float64) *MetricDatapoint {
-	s.Average = &v
-	return s
-}
-
-// SetMaximum sets the Maximum field's value.
-func (s *MetricDatapoint) SetMaximum(v float64) *MetricDatapoint {
-	s.Maximum = &v
-	return s
-}
-
-// SetMinimum sets the Minimum field's value.
-func (s *MetricDatapoint) SetMinimum(v float64) *MetricDatapoint {
-	s.Minimum = &v
-	return s
-}
-
-// SetSampleCount sets the SampleCount field's value.
-func (s *MetricDatapoint) SetSampleCount(v float64) *MetricDatapoint {
-	s.SampleCount = &v
-	return s
-}
-
-// SetSum sets the Sum field's value.
-func (s *MetricDatapoint) SetSum(v float64) *MetricDatapoint {
-	s.Sum = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *MetricDatapoint) SetTimestamp(v time.Time) *MetricDatapoint {
-	s.Timestamp = &v
-	return s
-}
-
-// SetUnit sets the Unit field's value.
-func (s *MetricDatapoint) SetUnit(v MetricUnit) *MetricDatapoint {
-	s.Unit = v
-	return s
 }
 
 // Describes the monthly data transfer in and out of your virtual private server
@@ -6524,12 +8992,6 @@ func (s MonthlyTransfer) String() string {
 // GoString returns the string representation
 func (s MonthlyTransfer) GoString() string {
 	return s.String()
-}
-
-// SetGbPerMonthAllocated sets the GbPerMonthAllocated field's value.
-func (s *MonthlyTransfer) SetGbPerMonthAllocated(v int64) *MonthlyTransfer {
-	s.GbPerMonthAllocated = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/OpenInstancePublicPortsRequest
@@ -6575,21 +9037,11 @@ func (s *OpenInstancePublicPortsInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *OpenInstancePublicPortsInput) SetInstanceName(v string) *OpenInstancePublicPortsInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetPortInfo sets the PortInfo field's value.
-func (s *OpenInstancePublicPortsInput) SetPortInfo(v *PortInfo) *OpenInstancePublicPortsInput {
-	s.PortInfo = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/OpenInstancePublicPortsResult
 type OpenInstancePublicPortsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An array of key-value pairs containing information about the request operation.
 	Operation *Operation `locationName:"operation" type:"structure"`
@@ -6605,10 +9057,9 @@ func (s OpenInstancePublicPortsOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *OpenInstancePublicPortsOutput) SetOperation(v *Operation) *OpenInstancePublicPortsOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s OpenInstancePublicPortsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the API operation.
@@ -6634,20 +9085,20 @@ type Operation struct {
 	// The region and Availability Zone.
 	Location *ResourceLocation `locationName:"location" type:"structure"`
 
-	// Details about the operation (e.g., Debian-1GB-Virginia-1).
+	// Details about the operation (e.g., Debian-1GB-Ohio-1).
 	OperationDetails *string `locationName:"operationDetails" type:"string"`
 
 	// The type of operation.
-	OperationType OperationType `locationName:"operationType" type:"string"`
+	OperationType OperationType `locationName:"operationType" type:"string" enum:"true"`
 
 	// The resource name.
 	ResourceName *string `locationName:"resourceName" type:"string"`
 
 	// The resource type.
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The status of the operation.
-	Status OperationStatus `locationName:"status" type:"string"`
+	Status OperationStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The timestamp when the status was changed (e.g., 1479816991.349).
 	StatusChangedAt *time.Time `locationName:"statusChangedAt" type:"timestamp" timestampFormat:"unix"`
@@ -6663,76 +9114,45 @@ func (s Operation) GoString() string {
 	return s.String()
 }
 
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Operation) SetCreatedAt(v time.Time) *Operation {
-	s.CreatedAt = &v
-	return s
+// The password data for the Windows Server-based instance, including the ciphertext
+// and the key pair name.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PasswordData
+type PasswordData struct {
+	_ struct{} `type:"structure"`
+
+	// The encrypted password. Ciphertext will be an empty string if access to your
+	// new instance is not ready yet. When you create an instance, it can take up
+	// to 15 minutes for the instance to be ready.
+	//
+	// If you use the default key pair (LightsailDefaultKeyPair), the decrypted
+	// password will be available in the password field.
+	//
+	// If you are using a custom key pair, you need to use your own means of decryption.
+	//
+	// If you change the Administrator password on the instance, Lightsail will
+	// continue to return the original ciphertext value. When accessing the instance
+	// using RDP, you need to manually enter the Administrator password after changing
+	// it from the default.
+	Ciphertext *string `locationName:"ciphertext" type:"string"`
+
+	// The name of the key pair that you used when creating your instance. If no
+	// key pair name was specified when creating the instance, Lightsail uses the
+	// default key pair (LightsailDefaultKeyPair).
+	//
+	// If you are using a custom key pair, you need to use your own means of decrypting
+	// your password using the ciphertext. Lightsail creates the ciphertext by encrypting
+	// your password with the public key part of this key pair.
+	KeyPairName *string `locationName:"keyPairName" type:"string"`
 }
 
-// SetErrorCode sets the ErrorCode field's value.
-func (s *Operation) SetErrorCode(v string) *Operation {
-	s.ErrorCode = &v
-	return s
+// String returns the string representation
+func (s PasswordData) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetErrorDetails sets the ErrorDetails field's value.
-func (s *Operation) SetErrorDetails(v string) *Operation {
-	s.ErrorDetails = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Operation) SetId(v string) *Operation {
-	s.Id = &v
-	return s
-}
-
-// SetIsTerminal sets the IsTerminal field's value.
-func (s *Operation) SetIsTerminal(v bool) *Operation {
-	s.IsTerminal = &v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *Operation) SetLocation(v *ResourceLocation) *Operation {
-	s.Location = v
-	return s
-}
-
-// SetOperationDetails sets the OperationDetails field's value.
-func (s *Operation) SetOperationDetails(v string) *Operation {
-	s.OperationDetails = &v
-	return s
-}
-
-// SetOperationType sets the OperationType field's value.
-func (s *Operation) SetOperationType(v OperationType) *Operation {
-	s.OperationType = v
-	return s
-}
-
-// SetResourceName sets the ResourceName field's value.
-func (s *Operation) SetResourceName(v string) *Operation {
-	s.ResourceName = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *Operation) SetResourceType(v ResourceType) *Operation {
-	s.ResourceType = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Operation) SetStatus(v OperationStatus) *Operation {
-	s.Status = v
-	return s
-}
-
-// SetStatusChangedAt sets the StatusChangedAt field's value.
-func (s *Operation) SetStatusChangedAt(v time.Time) *Operation {
-	s.StatusChangedAt = &v
-	return s
+// GoString returns the string representation
+func (s PasswordData) GoString() string {
+	return s.String()
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PeerVpcRequest
@@ -6754,6 +9174,8 @@ func (s PeerVpcInput) GoString() string {
 type PeerVpcOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the request operation.
 	Operation *Operation `locationName:"operation" type:"structure"`
 }
@@ -6768,10 +9190,9 @@ func (s PeerVpcOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *PeerVpcOutput) SetOperation(v *Operation) *PeerVpcOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PeerVpcOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes information about the ports on your virtual private server (or
@@ -6784,7 +9205,7 @@ type PortInfo struct {
 	FromPort *int64 `locationName:"fromPort" type:"integer"`
 
 	// The protocol.
-	Protocol NetworkProtocol `locationName:"protocol" type:"string"`
+	Protocol NetworkProtocol `locationName:"protocol" type:"string" enum:"true"`
 
 	// The last port in the range.
 	ToPort *int64 `locationName:"toPort" type:"integer"`
@@ -6800,24 +9221,6 @@ func (s PortInfo) GoString() string {
 	return s.String()
 }
 
-// SetFromPort sets the FromPort field's value.
-func (s *PortInfo) SetFromPort(v int64) *PortInfo {
-	s.FromPort = &v
-	return s
-}
-
-// SetProtocol sets the Protocol field's value.
-func (s *PortInfo) SetProtocol(v NetworkProtocol) *PortInfo {
-	s.Protocol = v
-	return s
-}
-
-// SetToPort sets the ToPort field's value.
-func (s *PortInfo) SetToPort(v int64) *PortInfo {
-	s.ToPort = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutInstancePublicPortsRequest
 type PutInstancePublicPortsInput struct {
 	_ struct{} `type:"structure"`
@@ -6830,7 +9233,7 @@ type PutInstancePublicPortsInput struct {
 	// Specifies information about the public port(s).
 	//
 	// PortInfos is a required field
-	PortInfos []*PortInfo `locationName:"portInfos" type:"list" required:"true"`
+	PortInfos []PortInfo `locationName:"portInfos" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6861,21 +9264,11 @@ func (s *PutInstancePublicPortsInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *PutInstancePublicPortsInput) SetInstanceName(v string) *PutInstancePublicPortsInput {
-	s.InstanceName = &v
-	return s
-}
-
-// SetPortInfos sets the PortInfos field's value.
-func (s *PutInstancePublicPortsInput) SetPortInfos(v []*PortInfo) *PutInstancePublicPortsInput {
-	s.PortInfos = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/PutInstancePublicPortsResult
 type PutInstancePublicPortsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Describes metadata about the operation you just executed.
 	Operation *Operation `locationName:"operation" type:"structure"`
@@ -6891,10 +9284,9 @@ func (s PutInstancePublicPortsOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *PutInstancePublicPortsOutput) SetOperation(v *Operation) *PutInstancePublicPortsOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutInstancePublicPortsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootInstanceRequest
@@ -6931,18 +9323,14 @@ func (s *RebootInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *RebootInstanceInput) SetInstanceName(v string) *RebootInstanceInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/RebootInstanceResult
 type RebootInstanceOutput struct {
 	_ struct{} `type:"structure"`
 
-	// An array of key-value pairs containing information about the request operation.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	responseMetadata aws.Response
+
+	// An array of key-value pairs containing information about the request operations.
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -6955,10 +9343,9 @@ func (s RebootInstanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *RebootInstanceOutput) SetOperations(v []*Operation) *RebootInstanceOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RebootInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the AWS Region.
@@ -6966,8 +9353,8 @@ func (s *RebootInstanceOutput) SetOperations(v []*Operation) *RebootInstanceOutp
 type Region struct {
 	_ struct{} `type:"structure"`
 
-	// The Availability Zones. Follows the format us-east-1a (case-sensitive).
-	AvailabilityZones []*AvailabilityZone `locationName:"availabilityZones" type:"list"`
+	// The Availability Zones. Follows the format us-east-2a (case-sensitive).
+	AvailabilityZones []AvailabilityZone `locationName:"availabilityZones" type:"list"`
 
 	// The continent code (e.g., NA, meaning North America).
 	ContinentCode *string `locationName:"continentCode" type:"string"`
@@ -6976,11 +9363,11 @@ type Region struct {
 	// users in the eastern United States and eastern Canada).
 	Description *string `locationName:"description" type:"string"`
 
-	// The display name (e.g., Virginia).
+	// The display name (e.g., Ohio).
 	DisplayName *string `locationName:"displayName" type:"string"`
 
-	// The region name (e.g., us-east-1).
-	Name RegionName `locationName:"name" type:"string"`
+	// The region name (e.g., us-east-2).
+	Name RegionName `locationName:"name" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6991,36 +9378,6 @@ func (s Region) String() string {
 // GoString returns the string representation
 func (s Region) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *Region) SetAvailabilityZones(v []*AvailabilityZone) *Region {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetContinentCode sets the ContinentCode field's value.
-func (s *Region) SetContinentCode(v string) *Region {
-	s.ContinentCode = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Region) SetDescription(v string) *Region {
-	s.Description = &v
-	return s
-}
-
-// SetDisplayName sets the DisplayName field's value.
-func (s *Region) SetDisplayName(v string) *Region {
-	s.DisplayName = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Region) SetName(v RegionName) *Region {
-	s.Name = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ReleaseStaticIpRequest
@@ -7057,18 +9414,14 @@ func (s *ReleaseStaticIpInput) Validate() error {
 	return nil
 }
 
-// SetStaticIpName sets the StaticIpName field's value.
-func (s *ReleaseStaticIpInput) SetStaticIpName(v string) *ReleaseStaticIpInput {
-	s.StaticIpName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/ReleaseStaticIpResult
 type ReleaseStaticIpOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the request operation.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -7081,10 +9434,9 @@ func (s ReleaseStaticIpOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *ReleaseStaticIpOutput) SetOperations(v []*Operation) *ReleaseStaticIpOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ReleaseStaticIpOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the resource location.
@@ -7092,11 +9444,11 @@ func (s *ReleaseStaticIpOutput) SetOperations(v []*Operation) *ReleaseStaticIpOu
 type ResourceLocation struct {
 	_ struct{} `type:"structure"`
 
-	// The Availability Zone. Follows the format us-east-1a (case-sensitive).
+	// The Availability Zone. Follows the format us-east-2a (case-sensitive).
 	AvailabilityZone *string `locationName:"availabilityZone" type:"string"`
 
 	// The AWS Region name.
-	RegionName RegionName `locationName:"regionName" type:"string"`
+	RegionName RegionName `locationName:"regionName" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7107,18 +9459,6 @@ func (s ResourceLocation) String() string {
 // GoString returns the string representation
 func (s ResourceLocation) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *ResourceLocation) SetAvailabilityZone(v string) *ResourceLocation {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetRegionName sets the RegionName field's value.
-func (s *ResourceLocation) SetRegionName(v RegionName) *ResourceLocation {
-	s.RegionName = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartInstanceRequest
@@ -7155,18 +9495,14 @@ func (s *StartInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *StartInstanceInput) SetInstanceName(v string) *StartInstanceInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StartInstanceResult
 type StartInstanceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the request operation.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -7179,10 +9515,9 @@ func (s StartInstanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *StartInstanceOutput) SetOperations(v []*Operation) *StartInstanceOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the static IP.
@@ -7190,10 +9525,10 @@ func (s *StartInstanceOutput) SetOperations(v []*Operation) *StartInstanceOutput
 type StaticIp struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-1:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
+	// The Amazon Resource Name (ARN) of the static IP (e.g., arn:aws:lightsail:us-east-2:123456789101:StaticIp/9cbb4a9e-f8e3-4dfe-b57e-12345EXAMPLE).
 	Arn *string `locationName:"arn" type:"string"`
 
-	// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Virginia-1).
+	// The instance where the static IP is attached (e.g., Amazon_Linux-1GB-Ohio-1).
 	AttachedTo *string `locationName:"attachedTo" type:"string"`
 
 	// The timestamp when the static IP was created (e.g., 1479735304.222).
@@ -7208,11 +9543,11 @@ type StaticIp struct {
 	// The region and Availability Zone where the static IP was created.
 	Location *ResourceLocation `locationName:"location" type:"structure"`
 
-	// The name of the static IP (e.g., StaticIP-Virginia-EXAMPLE).
+	// The name of the static IP (e.g., StaticIP-Ohio-EXAMPLE).
 	Name *string `locationName:"name" type:"string"`
 
 	// The resource type (usually StaticIp).
-	ResourceType ResourceType `locationName:"resourceType" type:"string"`
+	ResourceType ResourceType `locationName:"resourceType" type:"string" enum:"true"`
 
 	// The support code. Include this code in your email to support when you have
 	// questions about an instance or another resource in Lightsail. This code enables
@@ -7230,63 +9565,17 @@ func (s StaticIp) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *StaticIp) SetArn(v string) *StaticIp {
-	s.Arn = &v
-	return s
-}
-
-// SetAttachedTo sets the AttachedTo field's value.
-func (s *StaticIp) SetAttachedTo(v string) *StaticIp {
-	s.AttachedTo = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *StaticIp) SetCreatedAt(v time.Time) *StaticIp {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetIpAddress sets the IpAddress field's value.
-func (s *StaticIp) SetIpAddress(v string) *StaticIp {
-	s.IpAddress = &v
-	return s
-}
-
-// SetIsAttached sets the IsAttached field's value.
-func (s *StaticIp) SetIsAttached(v bool) *StaticIp {
-	s.IsAttached = &v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *StaticIp) SetLocation(v *ResourceLocation) *StaticIp {
-	s.Location = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StaticIp) SetName(v string) *StaticIp {
-	s.Name = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *StaticIp) SetResourceType(v ResourceType) *StaticIp {
-	s.ResourceType = v
-	return s
-}
-
-// SetSupportCode sets the SupportCode field's value.
-func (s *StaticIp) SetSupportCode(v string) *StaticIp {
-	s.SupportCode = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopInstanceRequest
 type StopInstanceInput struct {
 	_ struct{} `type:"structure"`
+
+	// When set to True, forces a Lightsail instance that is stuck in a stopping
+	// state to stop.
+	//
+	// Only use the force parameter if your instance is stuck in the stopping state.
+	// In any other state, your instance should stop normally without adding this
+	// parameter to your API request.
+	Force *bool `locationName:"force" type:"boolean"`
 
 	// The name of the instance (a virtual private server) to stop.
 	//
@@ -7318,18 +9607,14 @@ func (s *StopInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceName sets the InstanceName field's value.
-func (s *StopInstanceInput) SetInstanceName(v string) *StopInstanceInput {
-	s.InstanceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/StopInstanceResult
 type StopInstanceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the request operation.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -7342,10 +9627,9 @@ func (s StopInstanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *StopInstanceOutput) SetOperations(v []*Operation) *StopInstanceOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UnpeerVpcRequest
@@ -7367,6 +9651,8 @@ func (s UnpeerVpcInput) GoString() string {
 type UnpeerVpcOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the request operation.
 	Operation *Operation `locationName:"operation" type:"structure"`
 }
@@ -7381,10 +9667,9 @@ func (s UnpeerVpcOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperation sets the Operation field's value.
-func (s *UnpeerVpcOutput) SetOperation(v *Operation) *UnpeerVpcOutput {
-	s.Operation = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UnpeerVpcOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateDomainEntryRequest
@@ -7430,24 +9715,14 @@ func (s *UpdateDomainEntryInput) Validate() error {
 	return nil
 }
 
-// SetDomainEntry sets the DomainEntry field's value.
-func (s *UpdateDomainEntryInput) SetDomainEntry(v *DomainEntry) *UpdateDomainEntryInput {
-	s.DomainEntry = v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *UpdateDomainEntryInput) SetDomainName(v string) *UpdateDomainEntryInput {
-	s.DomainName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateDomainEntryResult
 type UpdateDomainEntryOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of key-value pairs containing information about the request operation.
-	Operations []*Operation `locationName:"operations" type:"list"`
+	Operations []Operation `locationName:"operations" type:"list"`
 }
 
 // String returns the string representation
@@ -7460,10 +9735,88 @@ func (s UpdateDomainEntryOutput) GoString() string {
 	return s.String()
 }
 
-// SetOperations sets the Operations field's value.
-func (s *UpdateDomainEntryOutput) SetOperations(v []*Operation) *UpdateDomainEntryOutput {
-	s.Operations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDomainEntryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateLoadBalancerAttributeRequest
+type UpdateLoadBalancerAttributeInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the attribute you want to update. Valid values are below.
+	//
+	// AttributeName is a required field
+	AttributeName LoadBalancerAttributeName `locationName:"attributeName" type:"string" required:"true" enum:"true"`
+
+	// The value that you want to specify for the attribute name.
+	//
+	// AttributeValue is a required field
+	AttributeValue *string `locationName:"attributeValue" min:"1" type:"string" required:"true"`
+
+	// The name of the load balancer that you want to modify (e.g., my-load-balancer.
+	//
+	// LoadBalancerName is a required field
+	LoadBalancerName *string `locationName:"loadBalancerName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateLoadBalancerAttributeInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateLoadBalancerAttributeInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateLoadBalancerAttributeInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateLoadBalancerAttributeInput"}
+	if len(s.AttributeName) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("AttributeName"))
+	}
+
+	if s.AttributeValue == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AttributeValue"))
+	}
+	if s.AttributeValue != nil && len(*s.AttributeValue) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("AttributeValue", 1))
+	}
+
+	if s.LoadBalancerName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("LoadBalancerName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/lightsail-2016-11-28/UpdateLoadBalancerAttributeResult
+type UpdateLoadBalancerAttributeOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object describing the API operations.
+	Operations []Operation `locationName:"operations" type:"list"`
+}
+
+// String returns the string representation
+func (s UpdateLoadBalancerAttributeOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateLoadBalancerAttributeOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateLoadBalancerAttributeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type AccessDirection string
@@ -7474,6 +9827,15 @@ const (
 	AccessDirectionOutbound AccessDirection = "outbound"
 )
 
+func (enum AccessDirection) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AccessDirection) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BlueprintType string
 
 // Enum values for BlueprintType
@@ -7482,6 +9844,54 @@ const (
 	BlueprintTypeApp BlueprintType = "app"
 )
 
+func (enum BlueprintType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BlueprintType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type DiskSnapshotState string
+
+// Enum values for DiskSnapshotState
+const (
+	DiskSnapshotStatePending   DiskSnapshotState = "pending"
+	DiskSnapshotStateCompleted DiskSnapshotState = "completed"
+	DiskSnapshotStateError     DiskSnapshotState = "error"
+	DiskSnapshotStateUnknown   DiskSnapshotState = "unknown"
+)
+
+func (enum DiskSnapshotState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DiskSnapshotState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type DiskState string
+
+// Enum values for DiskState
+const (
+	DiskStatePending   DiskState = "pending"
+	DiskStateError     DiskState = "error"
+	DiskStateAvailable DiskState = "available"
+	DiskStateInUse     DiskState = "in-use"
+	DiskStateUnknown   DiskState = "unknown"
+)
+
+func (enum DiskState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DiskState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceAccessProtocol string
 
 // Enum values for InstanceAccessProtocol
@@ -7489,6 +9899,62 @@ const (
 	InstanceAccessProtocolSsh InstanceAccessProtocol = "ssh"
 	InstanceAccessProtocolRdp InstanceAccessProtocol = "rdp"
 )
+
+func (enum InstanceAccessProtocol) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceAccessProtocol) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InstanceHealthReason string
+
+// Enum values for InstanceHealthReason
+const (
+	InstanceHealthReasonLbRegistrationInProgress         InstanceHealthReason = "Lb.RegistrationInProgress"
+	InstanceHealthReasonLbInitialHealthChecking          InstanceHealthReason = "Lb.InitialHealthChecking"
+	InstanceHealthReasonLbInternalError                  InstanceHealthReason = "Lb.InternalError"
+	InstanceHealthReasonInstanceResponseCodeMismatch     InstanceHealthReason = "Instance.ResponseCodeMismatch"
+	InstanceHealthReasonInstanceTimeout                  InstanceHealthReason = "Instance.Timeout"
+	InstanceHealthReasonInstanceFailedHealthChecks       InstanceHealthReason = "Instance.FailedHealthChecks"
+	InstanceHealthReasonInstanceNotRegistered            InstanceHealthReason = "Instance.NotRegistered"
+	InstanceHealthReasonInstanceNotInUse                 InstanceHealthReason = "Instance.NotInUse"
+	InstanceHealthReasonInstanceDeregistrationInProgress InstanceHealthReason = "Instance.DeregistrationInProgress"
+	InstanceHealthReasonInstanceInvalidState             InstanceHealthReason = "Instance.InvalidState"
+	InstanceHealthReasonInstanceIpUnusable               InstanceHealthReason = "Instance.IpUnusable"
+)
+
+func (enum InstanceHealthReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceHealthReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InstanceHealthState string
+
+// Enum values for InstanceHealthState
+const (
+	InstanceHealthStateInitial     InstanceHealthState = "initial"
+	InstanceHealthStateHealthy     InstanceHealthState = "healthy"
+	InstanceHealthStateUnhealthy   InstanceHealthState = "unhealthy"
+	InstanceHealthStateUnused      InstanceHealthState = "unused"
+	InstanceHealthStateDraining    InstanceHealthState = "draining"
+	InstanceHealthStateUnavailable InstanceHealthState = "unavailable"
+)
+
+func (enum InstanceHealthState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceHealthState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InstanceMetricName string
 
@@ -7502,6 +9968,32 @@ const (
 	InstanceMetricNameStatusCheckFailedSystem   InstanceMetricName = "StatusCheckFailed_System"
 )
 
+func (enum InstanceMetricName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceMetricName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InstancePlatform string
+
+// Enum values for InstancePlatform
+const (
+	InstancePlatformLinuxUnix InstancePlatform = "LINUX_UNIX"
+	InstancePlatformWindows   InstancePlatform = "WINDOWS"
+)
+
+func (enum InstancePlatform) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstancePlatform) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstanceSnapshotState string
 
 // Enum values for InstanceSnapshotState
@@ -7510,6 +10002,202 @@ const (
 	InstanceSnapshotStateError     InstanceSnapshotState = "error"
 	InstanceSnapshotStateAvailable InstanceSnapshotState = "available"
 )
+
+func (enum InstanceSnapshotState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceSnapshotState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerAttributeName string
+
+// Enum values for LoadBalancerAttributeName
+const (
+	LoadBalancerAttributeNameHealthCheckPath                          LoadBalancerAttributeName = "HealthCheckPath"
+	LoadBalancerAttributeNameSessionStickinessEnabled                 LoadBalancerAttributeName = "SessionStickinessEnabled"
+	LoadBalancerAttributeNameSessionStickinessLbCookieDurationSeconds LoadBalancerAttributeName = "SessionStickiness_LB_CookieDurationSeconds"
+)
+
+func (enum LoadBalancerAttributeName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerAttributeName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerMetricName string
+
+// Enum values for LoadBalancerMetricName
+const (
+	LoadBalancerMetricNameClientTlsnegotiationErrorCount LoadBalancerMetricName = "ClientTLSNegotiationErrorCount"
+	LoadBalancerMetricNameHealthyHostCount               LoadBalancerMetricName = "HealthyHostCount"
+	LoadBalancerMetricNameUnhealthyHostCount             LoadBalancerMetricName = "UnhealthyHostCount"
+	LoadBalancerMetricNameHttpcodeLb4xxCount             LoadBalancerMetricName = "HTTPCode_LB_4XX_Count"
+	LoadBalancerMetricNameHttpcodeLb5xxCount             LoadBalancerMetricName = "HTTPCode_LB_5XX_Count"
+	LoadBalancerMetricNameHttpcodeInstance2xxCount       LoadBalancerMetricName = "HTTPCode_Instance_2XX_Count"
+	LoadBalancerMetricNameHttpcodeInstance3xxCount       LoadBalancerMetricName = "HTTPCode_Instance_3XX_Count"
+	LoadBalancerMetricNameHttpcodeInstance4xxCount       LoadBalancerMetricName = "HTTPCode_Instance_4XX_Count"
+	LoadBalancerMetricNameHttpcodeInstance5xxCount       LoadBalancerMetricName = "HTTPCode_Instance_5XX_Count"
+	LoadBalancerMetricNameInstanceResponseTime           LoadBalancerMetricName = "InstanceResponseTime"
+	LoadBalancerMetricNameRejectedConnectionCount        LoadBalancerMetricName = "RejectedConnectionCount"
+	LoadBalancerMetricNameRequestCount                   LoadBalancerMetricName = "RequestCount"
+)
+
+func (enum LoadBalancerMetricName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerMetricName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerProtocol string
+
+// Enum values for LoadBalancerProtocol
+const (
+	LoadBalancerProtocolHttpHttps LoadBalancerProtocol = "HTTP_HTTPS"
+	LoadBalancerProtocolHttp      LoadBalancerProtocol = "HTTP"
+)
+
+func (enum LoadBalancerProtocol) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerProtocol) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerState string
+
+// Enum values for LoadBalancerState
+const (
+	LoadBalancerStateActive         LoadBalancerState = "active"
+	LoadBalancerStateProvisioning   LoadBalancerState = "provisioning"
+	LoadBalancerStateActiveImpaired LoadBalancerState = "active_impaired"
+	LoadBalancerStateFailed         LoadBalancerState = "failed"
+	LoadBalancerStateUnknown        LoadBalancerState = "unknown"
+)
+
+func (enum LoadBalancerState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerTlsCertificateDomainStatus string
+
+// Enum values for LoadBalancerTlsCertificateDomainStatus
+const (
+	LoadBalancerTlsCertificateDomainStatusPendingValidation LoadBalancerTlsCertificateDomainStatus = "PENDING_VALIDATION"
+	LoadBalancerTlsCertificateDomainStatusFailed            LoadBalancerTlsCertificateDomainStatus = "FAILED"
+	LoadBalancerTlsCertificateDomainStatusSuccess           LoadBalancerTlsCertificateDomainStatus = "SUCCESS"
+)
+
+func (enum LoadBalancerTlsCertificateDomainStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerTlsCertificateDomainStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerTlsCertificateFailureReason string
+
+// Enum values for LoadBalancerTlsCertificateFailureReason
+const (
+	LoadBalancerTlsCertificateFailureReasonNoAvailableContacts            LoadBalancerTlsCertificateFailureReason = "NO_AVAILABLE_CONTACTS"
+	LoadBalancerTlsCertificateFailureReasonAdditionalVerificationRequired LoadBalancerTlsCertificateFailureReason = "ADDITIONAL_VERIFICATION_REQUIRED"
+	LoadBalancerTlsCertificateFailureReasonDomainNotAllowed               LoadBalancerTlsCertificateFailureReason = "DOMAIN_NOT_ALLOWED"
+	LoadBalancerTlsCertificateFailureReasonInvalidPublicDomain            LoadBalancerTlsCertificateFailureReason = "INVALID_PUBLIC_DOMAIN"
+	LoadBalancerTlsCertificateFailureReasonOther                          LoadBalancerTlsCertificateFailureReason = "OTHER"
+)
+
+func (enum LoadBalancerTlsCertificateFailureReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerTlsCertificateFailureReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerTlsCertificateRenewalStatus string
+
+// Enum values for LoadBalancerTlsCertificateRenewalStatus
+const (
+	LoadBalancerTlsCertificateRenewalStatusPendingAutoRenewal LoadBalancerTlsCertificateRenewalStatus = "PENDING_AUTO_RENEWAL"
+	LoadBalancerTlsCertificateRenewalStatusPendingValidation  LoadBalancerTlsCertificateRenewalStatus = "PENDING_VALIDATION"
+	LoadBalancerTlsCertificateRenewalStatusSuccess            LoadBalancerTlsCertificateRenewalStatus = "SUCCESS"
+	LoadBalancerTlsCertificateRenewalStatusFailed             LoadBalancerTlsCertificateRenewalStatus = "FAILED"
+)
+
+func (enum LoadBalancerTlsCertificateRenewalStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerTlsCertificateRenewalStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerTlsCertificateRevocationReason string
+
+// Enum values for LoadBalancerTlsCertificateRevocationReason
+const (
+	LoadBalancerTlsCertificateRevocationReasonUnspecified          LoadBalancerTlsCertificateRevocationReason = "UNSPECIFIED"
+	LoadBalancerTlsCertificateRevocationReasonKeyCompromise        LoadBalancerTlsCertificateRevocationReason = "KEY_COMPROMISE"
+	LoadBalancerTlsCertificateRevocationReasonCaCompromise         LoadBalancerTlsCertificateRevocationReason = "CA_COMPROMISE"
+	LoadBalancerTlsCertificateRevocationReasonAffiliationChanged   LoadBalancerTlsCertificateRevocationReason = "AFFILIATION_CHANGED"
+	LoadBalancerTlsCertificateRevocationReasonSuperceded           LoadBalancerTlsCertificateRevocationReason = "SUPERCEDED"
+	LoadBalancerTlsCertificateRevocationReasonCessationOfOperation LoadBalancerTlsCertificateRevocationReason = "CESSATION_OF_OPERATION"
+	LoadBalancerTlsCertificateRevocationReasonCertificateHold      LoadBalancerTlsCertificateRevocationReason = "CERTIFICATE_HOLD"
+	LoadBalancerTlsCertificateRevocationReasonRemoveFromCrl        LoadBalancerTlsCertificateRevocationReason = "REMOVE_FROM_CRL"
+	LoadBalancerTlsCertificateRevocationReasonPrivilegeWithdrawn   LoadBalancerTlsCertificateRevocationReason = "PRIVILEGE_WITHDRAWN"
+	LoadBalancerTlsCertificateRevocationReasonAACompromise         LoadBalancerTlsCertificateRevocationReason = "A_A_COMPROMISE"
+)
+
+func (enum LoadBalancerTlsCertificateRevocationReason) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerTlsCertificateRevocationReason) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type LoadBalancerTlsCertificateStatus string
+
+// Enum values for LoadBalancerTlsCertificateStatus
+const (
+	LoadBalancerTlsCertificateStatusPendingValidation  LoadBalancerTlsCertificateStatus = "PENDING_VALIDATION"
+	LoadBalancerTlsCertificateStatusIssued             LoadBalancerTlsCertificateStatus = "ISSUED"
+	LoadBalancerTlsCertificateStatusInactive           LoadBalancerTlsCertificateStatus = "INACTIVE"
+	LoadBalancerTlsCertificateStatusExpired            LoadBalancerTlsCertificateStatus = "EXPIRED"
+	LoadBalancerTlsCertificateStatusValidationTimedOut LoadBalancerTlsCertificateStatus = "VALIDATION_TIMED_OUT"
+	LoadBalancerTlsCertificateStatusRevoked            LoadBalancerTlsCertificateStatus = "REVOKED"
+	LoadBalancerTlsCertificateStatusFailed             LoadBalancerTlsCertificateStatus = "FAILED"
+	LoadBalancerTlsCertificateStatusUnknown            LoadBalancerTlsCertificateStatus = "UNKNOWN"
+)
+
+func (enum LoadBalancerTlsCertificateStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LoadBalancerTlsCertificateStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type MetricStatistic string
 
@@ -7521,6 +10209,15 @@ const (
 	MetricStatisticAverage     MetricStatistic = "Average"
 	MetricStatisticSampleCount MetricStatistic = "SampleCount"
 )
+
+func (enum MetricStatistic) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MetricStatistic) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type MetricUnit string
 
@@ -7555,6 +10252,15 @@ const (
 	MetricUnitNone            MetricUnit = "None"
 )
 
+func (enum MetricUnit) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MetricUnit) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type NetworkProtocol string
 
 // Enum values for NetworkProtocol
@@ -7564,6 +10270,15 @@ const (
 	NetworkProtocolUdp NetworkProtocol = "udp"
 )
 
+func (enum NetworkProtocol) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NetworkProtocol) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type OperationStatus string
 
 // Enum values for OperationStatus
@@ -7572,32 +10287,66 @@ const (
 	OperationStatusStarted    OperationStatus = "Started"
 	OperationStatusFailed     OperationStatus = "Failed"
 	OperationStatusCompleted  OperationStatus = "Completed"
+	OperationStatusSucceeded  OperationStatus = "Succeeded"
 )
+
+func (enum OperationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OperationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type OperationType string
 
 // Enum values for OperationType
 const (
-	OperationTypeDeleteInstance              OperationType = "DeleteInstance"
-	OperationTypeCreateInstance              OperationType = "CreateInstance"
-	OperationTypeStopInstance                OperationType = "StopInstance"
-	OperationTypeStartInstance               OperationType = "StartInstance"
-	OperationTypeRebootInstance              OperationType = "RebootInstance"
-	OperationTypeOpenInstancePublicPorts     OperationType = "OpenInstancePublicPorts"
-	OperationTypePutInstancePublicPorts      OperationType = "PutInstancePublicPorts"
-	OperationTypeCloseInstancePublicPorts    OperationType = "CloseInstancePublicPorts"
-	OperationTypeAllocateStaticIp            OperationType = "AllocateStaticIp"
-	OperationTypeReleaseStaticIp             OperationType = "ReleaseStaticIp"
-	OperationTypeAttachStaticIp              OperationType = "AttachStaticIp"
-	OperationTypeDetachStaticIp              OperationType = "DetachStaticIp"
-	OperationTypeUpdateDomainEntry           OperationType = "UpdateDomainEntry"
-	OperationTypeDeleteDomainEntry           OperationType = "DeleteDomainEntry"
-	OperationTypeCreateDomain                OperationType = "CreateDomain"
-	OperationTypeDeleteDomain                OperationType = "DeleteDomain"
-	OperationTypeCreateInstanceSnapshot      OperationType = "CreateInstanceSnapshot"
-	OperationTypeDeleteInstanceSnapshot      OperationType = "DeleteInstanceSnapshot"
-	OperationTypeCreateInstancesFromSnapshot OperationType = "CreateInstancesFromSnapshot"
+	OperationTypeDeleteInstance                   OperationType = "DeleteInstance"
+	OperationTypeCreateInstance                   OperationType = "CreateInstance"
+	OperationTypeStopInstance                     OperationType = "StopInstance"
+	OperationTypeStartInstance                    OperationType = "StartInstance"
+	OperationTypeRebootInstance                   OperationType = "RebootInstance"
+	OperationTypeOpenInstancePublicPorts          OperationType = "OpenInstancePublicPorts"
+	OperationTypePutInstancePublicPorts           OperationType = "PutInstancePublicPorts"
+	OperationTypeCloseInstancePublicPorts         OperationType = "CloseInstancePublicPorts"
+	OperationTypeAllocateStaticIp                 OperationType = "AllocateStaticIp"
+	OperationTypeReleaseStaticIp                  OperationType = "ReleaseStaticIp"
+	OperationTypeAttachStaticIp                   OperationType = "AttachStaticIp"
+	OperationTypeDetachStaticIp                   OperationType = "DetachStaticIp"
+	OperationTypeUpdateDomainEntry                OperationType = "UpdateDomainEntry"
+	OperationTypeDeleteDomainEntry                OperationType = "DeleteDomainEntry"
+	OperationTypeCreateDomain                     OperationType = "CreateDomain"
+	OperationTypeDeleteDomain                     OperationType = "DeleteDomain"
+	OperationTypeCreateInstanceSnapshot           OperationType = "CreateInstanceSnapshot"
+	OperationTypeDeleteInstanceSnapshot           OperationType = "DeleteInstanceSnapshot"
+	OperationTypeCreateInstancesFromSnapshot      OperationType = "CreateInstancesFromSnapshot"
+	OperationTypeCreateLoadBalancer               OperationType = "CreateLoadBalancer"
+	OperationTypeDeleteLoadBalancer               OperationType = "DeleteLoadBalancer"
+	OperationTypeAttachInstancesToLoadBalancer    OperationType = "AttachInstancesToLoadBalancer"
+	OperationTypeDetachInstancesFromLoadBalancer  OperationType = "DetachInstancesFromLoadBalancer"
+	OperationTypeUpdateLoadBalancerAttribute      OperationType = "UpdateLoadBalancerAttribute"
+	OperationTypeCreateLoadBalancerTlsCertificate OperationType = "CreateLoadBalancerTlsCertificate"
+	OperationTypeDeleteLoadBalancerTlsCertificate OperationType = "DeleteLoadBalancerTlsCertificate"
+	OperationTypeAttachLoadBalancerTlsCertificate OperationType = "AttachLoadBalancerTlsCertificate"
+	OperationTypeCreateDisk                       OperationType = "CreateDisk"
+	OperationTypeDeleteDisk                       OperationType = "DeleteDisk"
+	OperationTypeAttachDisk                       OperationType = "AttachDisk"
+	OperationTypeDetachDisk                       OperationType = "DetachDisk"
+	OperationTypeCreateDiskSnapshot               OperationType = "CreateDiskSnapshot"
+	OperationTypeDeleteDiskSnapshot               OperationType = "DeleteDiskSnapshot"
+	OperationTypeCreateDiskFromSnapshot           OperationType = "CreateDiskFromSnapshot"
 )
+
+func (enum OperationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OperationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PortAccessType string
 
@@ -7607,6 +10356,15 @@ const (
 	PortAccessTypePrivate PortAccessType = "Private"
 )
 
+func (enum PortAccessType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PortAccessType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PortState string
 
 // Enum values for PortState
@@ -7614,6 +10372,15 @@ const (
 	PortStateOpen   PortState = "open"
 	PortStateClosed PortState = "closed"
 )
+
+func (enum PortState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PortState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RegionName string
 
@@ -7623,8 +10390,9 @@ const (
 	RegionNameUsEast2      RegionName = "us-east-2"
 	RegionNameUsWest1      RegionName = "us-west-1"
 	RegionNameUsWest2      RegionName = "us-west-2"
-	RegionNameEuWest1      RegionName = "eu-west-1"
 	RegionNameEuCentral1   RegionName = "eu-central-1"
+	RegionNameEuWest1      RegionName = "eu-west-1"
+	RegionNameEuWest2      RegionName = "eu-west-2"
 	RegionNameApSouth1     RegionName = "ap-south-1"
 	RegionNameApSoutheast1 RegionName = "ap-southeast-1"
 	RegionNameApSoutheast2 RegionName = "ap-southeast-2"
@@ -7632,14 +10400,36 @@ const (
 	RegionNameApNortheast2 RegionName = "ap-northeast-2"
 )
 
+func (enum RegionName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RegionName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ResourceType string
 
 // Enum values for ResourceType
 const (
-	ResourceTypeInstance         ResourceType = "Instance"
-	ResourceTypeStaticIp         ResourceType = "StaticIp"
-	ResourceTypeKeyPair          ResourceType = "KeyPair"
-	ResourceTypeInstanceSnapshot ResourceType = "InstanceSnapshot"
-	ResourceTypeDomain           ResourceType = "Domain"
-	ResourceTypePeeredVpc        ResourceType = "PeeredVpc"
+	ResourceTypeInstance                   ResourceType = "Instance"
+	ResourceTypeStaticIp                   ResourceType = "StaticIp"
+	ResourceTypeKeyPair                    ResourceType = "KeyPair"
+	ResourceTypeInstanceSnapshot           ResourceType = "InstanceSnapshot"
+	ResourceTypeDomain                     ResourceType = "Domain"
+	ResourceTypePeeredVpc                  ResourceType = "PeeredVpc"
+	ResourceTypeLoadBalancer               ResourceType = "LoadBalancer"
+	ResourceTypeLoadBalancerTlsCertificate ResourceType = "LoadBalancerTlsCertificate"
+	ResourceTypeDisk                       ResourceType = "Disk"
+	ResourceTypeDiskSnapshot               ResourceType = "DiskSnapshot"
 )
+
+func (enum ResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

@@ -18,6 +18,7 @@ const opBulkPublish = "BulkPublish"
 type BulkPublishRequest struct {
 	*aws.Request
 	Input *BulkPublishInput
+	Copy  func(*BulkPublishInput) BulkPublishRequest
 }
 
 // Send marshals and sends the BulkPublish API request.
@@ -60,8 +61,11 @@ func (c *CognitoSync) BulkPublishRequest(input *BulkPublishInput) BulkPublishReq
 		input = &BulkPublishInput{}
 	}
 
-	req := c.newRequest(op, input, &BulkPublishOutput{})
-	return BulkPublishRequest{Request: req, Input: input}
+	output := &BulkPublishOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BulkPublishRequest{Request: req, Input: input, Copy: c.BulkPublishRequest}
 }
 
 const opDeleteDataset = "DeleteDataset"
@@ -70,6 +74,7 @@ const opDeleteDataset = "DeleteDataset"
 type DeleteDatasetRequest struct {
 	*aws.Request
 	Input *DeleteDatasetInput
+	Copy  func(*DeleteDatasetInput) DeleteDatasetRequest
 }
 
 // Send marshals and sends the DeleteDataset API request.
@@ -112,8 +117,11 @@ func (c *CognitoSync) DeleteDatasetRequest(input *DeleteDatasetInput) DeleteData
 		input = &DeleteDatasetInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDatasetOutput{})
-	return DeleteDatasetRequest{Request: req, Input: input}
+	output := &DeleteDatasetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDatasetRequest{Request: req, Input: input, Copy: c.DeleteDatasetRequest}
 }
 
 const opDescribeDataset = "DescribeDataset"
@@ -122,6 +130,7 @@ const opDescribeDataset = "DescribeDataset"
 type DescribeDatasetRequest struct {
 	*aws.Request
 	Input *DescribeDatasetInput
+	Copy  func(*DescribeDatasetInput) DescribeDatasetRequest
 }
 
 // Send marshals and sends the DescribeDataset API request.
@@ -164,8 +173,11 @@ func (c *CognitoSync) DescribeDatasetRequest(input *DescribeDatasetInput) Descri
 		input = &DescribeDatasetInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDatasetOutput{})
-	return DescribeDatasetRequest{Request: req, Input: input}
+	output := &DescribeDatasetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDatasetRequest{Request: req, Input: input, Copy: c.DescribeDatasetRequest}
 }
 
 const opDescribeIdentityPoolUsage = "DescribeIdentityPoolUsage"
@@ -174,6 +186,7 @@ const opDescribeIdentityPoolUsage = "DescribeIdentityPoolUsage"
 type DescribeIdentityPoolUsageRequest struct {
 	*aws.Request
 	Input *DescribeIdentityPoolUsageInput
+	Copy  func(*DescribeIdentityPoolUsageInput) DescribeIdentityPoolUsageRequest
 }
 
 // Send marshals and sends the DescribeIdentityPoolUsage API request.
@@ -214,8 +227,11 @@ func (c *CognitoSync) DescribeIdentityPoolUsageRequest(input *DescribeIdentityPo
 		input = &DescribeIdentityPoolUsageInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeIdentityPoolUsageOutput{})
-	return DescribeIdentityPoolUsageRequest{Request: req, Input: input}
+	output := &DescribeIdentityPoolUsageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeIdentityPoolUsageRequest{Request: req, Input: input, Copy: c.DescribeIdentityPoolUsageRequest}
 }
 
 const opDescribeIdentityUsage = "DescribeIdentityUsage"
@@ -224,6 +240,7 @@ const opDescribeIdentityUsage = "DescribeIdentityUsage"
 type DescribeIdentityUsageRequest struct {
 	*aws.Request
 	Input *DescribeIdentityUsageInput
+	Copy  func(*DescribeIdentityUsageInput) DescribeIdentityUsageRequest
 }
 
 // Send marshals and sends the DescribeIdentityUsage API request.
@@ -264,8 +281,11 @@ func (c *CognitoSync) DescribeIdentityUsageRequest(input *DescribeIdentityUsageI
 		input = &DescribeIdentityUsageInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeIdentityUsageOutput{})
-	return DescribeIdentityUsageRequest{Request: req, Input: input}
+	output := &DescribeIdentityUsageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeIdentityUsageRequest{Request: req, Input: input, Copy: c.DescribeIdentityUsageRequest}
 }
 
 const opGetBulkPublishDetails = "GetBulkPublishDetails"
@@ -274,6 +294,7 @@ const opGetBulkPublishDetails = "GetBulkPublishDetails"
 type GetBulkPublishDetailsRequest struct {
 	*aws.Request
 	Input *GetBulkPublishDetailsInput
+	Copy  func(*GetBulkPublishDetailsInput) GetBulkPublishDetailsRequest
 }
 
 // Send marshals and sends the GetBulkPublishDetails API request.
@@ -313,8 +334,11 @@ func (c *CognitoSync) GetBulkPublishDetailsRequest(input *GetBulkPublishDetailsI
 		input = &GetBulkPublishDetailsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBulkPublishDetailsOutput{})
-	return GetBulkPublishDetailsRequest{Request: req, Input: input}
+	output := &GetBulkPublishDetailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBulkPublishDetailsRequest{Request: req, Input: input, Copy: c.GetBulkPublishDetailsRequest}
 }
 
 const opGetCognitoEvents = "GetCognitoEvents"
@@ -323,6 +347,7 @@ const opGetCognitoEvents = "GetCognitoEvents"
 type GetCognitoEventsRequest struct {
 	*aws.Request
 	Input *GetCognitoEventsInput
+	Copy  func(*GetCognitoEventsInput) GetCognitoEventsRequest
 }
 
 // Send marshals and sends the GetCognitoEvents API request.
@@ -363,8 +388,11 @@ func (c *CognitoSync) GetCognitoEventsRequest(input *GetCognitoEventsInput) GetC
 		input = &GetCognitoEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCognitoEventsOutput{})
-	return GetCognitoEventsRequest{Request: req, Input: input}
+	output := &GetCognitoEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCognitoEventsRequest{Request: req, Input: input, Copy: c.GetCognitoEventsRequest}
 }
 
 const opGetIdentityPoolConfiguration = "GetIdentityPoolConfiguration"
@@ -373,6 +401,7 @@ const opGetIdentityPoolConfiguration = "GetIdentityPoolConfiguration"
 type GetIdentityPoolConfigurationRequest struct {
 	*aws.Request
 	Input *GetIdentityPoolConfigurationInput
+	Copy  func(*GetIdentityPoolConfigurationInput) GetIdentityPoolConfigurationRequest
 }
 
 // Send marshals and sends the GetIdentityPoolConfiguration API request.
@@ -412,8 +441,11 @@ func (c *CognitoSync) GetIdentityPoolConfigurationRequest(input *GetIdentityPool
 		input = &GetIdentityPoolConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetIdentityPoolConfigurationOutput{})
-	return GetIdentityPoolConfigurationRequest{Request: req, Input: input}
+	output := &GetIdentityPoolConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetIdentityPoolConfigurationRequest{Request: req, Input: input, Copy: c.GetIdentityPoolConfigurationRequest}
 }
 
 const opListDatasets = "ListDatasets"
@@ -422,6 +454,7 @@ const opListDatasets = "ListDatasets"
 type ListDatasetsRequest struct {
 	*aws.Request
 	Input *ListDatasetsInput
+	Copy  func(*ListDatasetsInput) ListDatasetsRequest
 }
 
 // Send marshals and sends the ListDatasets API request.
@@ -464,8 +497,11 @@ func (c *CognitoSync) ListDatasetsRequest(input *ListDatasetsInput) ListDatasets
 		input = &ListDatasetsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDatasetsOutput{})
-	return ListDatasetsRequest{Request: req, Input: input}
+	output := &ListDatasetsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDatasetsRequest{Request: req, Input: input, Copy: c.ListDatasetsRequest}
 }
 
 const opListIdentityPoolUsage = "ListIdentityPoolUsage"
@@ -474,6 +510,7 @@ const opListIdentityPoolUsage = "ListIdentityPoolUsage"
 type ListIdentityPoolUsageRequest struct {
 	*aws.Request
 	Input *ListIdentityPoolUsageInput
+	Copy  func(*ListIdentityPoolUsageInput) ListIdentityPoolUsageRequest
 }
 
 // Send marshals and sends the ListIdentityPoolUsage API request.
@@ -514,8 +551,11 @@ func (c *CognitoSync) ListIdentityPoolUsageRequest(input *ListIdentityPoolUsageI
 		input = &ListIdentityPoolUsageInput{}
 	}
 
-	req := c.newRequest(op, input, &ListIdentityPoolUsageOutput{})
-	return ListIdentityPoolUsageRequest{Request: req, Input: input}
+	output := &ListIdentityPoolUsageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListIdentityPoolUsageRequest{Request: req, Input: input, Copy: c.ListIdentityPoolUsageRequest}
 }
 
 const opListRecords = "ListRecords"
@@ -524,6 +564,7 @@ const opListRecords = "ListRecords"
 type ListRecordsRequest struct {
 	*aws.Request
 	Input *ListRecordsInput
+	Copy  func(*ListRecordsInput) ListRecordsRequest
 }
 
 // Send marshals and sends the ListRecords API request.
@@ -567,8 +608,11 @@ func (c *CognitoSync) ListRecordsRequest(input *ListRecordsInput) ListRecordsReq
 		input = &ListRecordsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListRecordsOutput{})
-	return ListRecordsRequest{Request: req, Input: input}
+	output := &ListRecordsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListRecordsRequest{Request: req, Input: input, Copy: c.ListRecordsRequest}
 }
 
 const opRegisterDevice = "RegisterDevice"
@@ -577,6 +621,7 @@ const opRegisterDevice = "RegisterDevice"
 type RegisterDeviceRequest struct {
 	*aws.Request
 	Input *RegisterDeviceInput
+	Copy  func(*RegisterDeviceInput) RegisterDeviceRequest
 }
 
 // Send marshals and sends the RegisterDevice API request.
@@ -616,8 +661,11 @@ func (c *CognitoSync) RegisterDeviceRequest(input *RegisterDeviceInput) Register
 		input = &RegisterDeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterDeviceOutput{})
-	return RegisterDeviceRequest{Request: req, Input: input}
+	output := &RegisterDeviceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterDeviceRequest{Request: req, Input: input, Copy: c.RegisterDeviceRequest}
 }
 
 const opSetCognitoEvents = "SetCognitoEvents"
@@ -626,6 +674,7 @@ const opSetCognitoEvents = "SetCognitoEvents"
 type SetCognitoEventsRequest struct {
 	*aws.Request
 	Input *SetCognitoEventsInput
+	Copy  func(*SetCognitoEventsInput) SetCognitoEventsRequest
 }
 
 // Send marshals and sends the SetCognitoEvents API request.
@@ -668,10 +717,13 @@ func (c *CognitoSync) SetCognitoEventsRequest(input *SetCognitoEventsInput) SetC
 		input = &SetCognitoEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &SetCognitoEventsOutput{})
+	output := &SetCognitoEventsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return SetCognitoEventsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetCognitoEventsRequest{Request: req, Input: input, Copy: c.SetCognitoEventsRequest}
 }
 
 const opSetIdentityPoolConfiguration = "SetIdentityPoolConfiguration"
@@ -680,6 +732,7 @@ const opSetIdentityPoolConfiguration = "SetIdentityPoolConfiguration"
 type SetIdentityPoolConfigurationRequest struct {
 	*aws.Request
 	Input *SetIdentityPoolConfigurationInput
+	Copy  func(*SetIdentityPoolConfigurationInput) SetIdentityPoolConfigurationRequest
 }
 
 // Send marshals and sends the SetIdentityPoolConfiguration API request.
@@ -719,8 +772,11 @@ func (c *CognitoSync) SetIdentityPoolConfigurationRequest(input *SetIdentityPool
 		input = &SetIdentityPoolConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &SetIdentityPoolConfigurationOutput{})
-	return SetIdentityPoolConfigurationRequest{Request: req, Input: input}
+	output := &SetIdentityPoolConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SetIdentityPoolConfigurationRequest{Request: req, Input: input, Copy: c.SetIdentityPoolConfigurationRequest}
 }
 
 const opSubscribeToDataset = "SubscribeToDataset"
@@ -729,6 +785,7 @@ const opSubscribeToDataset = "SubscribeToDataset"
 type SubscribeToDatasetRequest struct {
 	*aws.Request
 	Input *SubscribeToDatasetInput
+	Copy  func(*SubscribeToDatasetInput) SubscribeToDatasetRequest
 }
 
 // Send marshals and sends the SubscribeToDataset API request.
@@ -769,8 +826,11 @@ func (c *CognitoSync) SubscribeToDatasetRequest(input *SubscribeToDatasetInput) 
 		input = &SubscribeToDatasetInput{}
 	}
 
-	req := c.newRequest(op, input, &SubscribeToDatasetOutput{})
-	return SubscribeToDatasetRequest{Request: req, Input: input}
+	output := &SubscribeToDatasetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SubscribeToDatasetRequest{Request: req, Input: input, Copy: c.SubscribeToDatasetRequest}
 }
 
 const opUnsubscribeFromDataset = "UnsubscribeFromDataset"
@@ -779,6 +839,7 @@ const opUnsubscribeFromDataset = "UnsubscribeFromDataset"
 type UnsubscribeFromDatasetRequest struct {
 	*aws.Request
 	Input *UnsubscribeFromDatasetInput
+	Copy  func(*UnsubscribeFromDatasetInput) UnsubscribeFromDatasetRequest
 }
 
 // Send marshals and sends the UnsubscribeFromDataset API request.
@@ -819,8 +880,11 @@ func (c *CognitoSync) UnsubscribeFromDatasetRequest(input *UnsubscribeFromDatase
 		input = &UnsubscribeFromDatasetInput{}
 	}
 
-	req := c.newRequest(op, input, &UnsubscribeFromDatasetOutput{})
-	return UnsubscribeFromDatasetRequest{Request: req, Input: input}
+	output := &UnsubscribeFromDatasetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UnsubscribeFromDatasetRequest{Request: req, Input: input, Copy: c.UnsubscribeFromDatasetRequest}
 }
 
 const opUpdateRecords = "UpdateRecords"
@@ -829,6 +893,7 @@ const opUpdateRecords = "UpdateRecords"
 type UpdateRecordsRequest struct {
 	*aws.Request
 	Input *UpdateRecordsInput
+	Copy  func(*UpdateRecordsInput) UpdateRecordsRequest
 }
 
 // Send marshals and sends the UpdateRecords API request.
@@ -880,8 +945,11 @@ func (c *CognitoSync) UpdateRecordsRequest(input *UpdateRecordsInput) UpdateReco
 		input = &UpdateRecordsInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateRecordsOutput{})
-	return UpdateRecordsRequest{Request: req, Input: input}
+	output := &UpdateRecordsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateRecordsRequest{Request: req, Input: input, Copy: c.UpdateRecordsRequest}
 }
 
 // The input for the BulkPublish operation.
@@ -923,16 +991,25 @@ func (s *BulkPublishInput) Validate() error {
 	return nil
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *BulkPublishInput) SetIdentityPoolId(v string) *BulkPublishInput {
-	s.IdentityPoolId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BulkPublishInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The output for the BulkPublish operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/BulkPublishResponse
 type BulkPublishOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE)
 	// created by Amazon Cognito. GUID generation is unique within a region.
@@ -949,10 +1026,20 @@ func (s BulkPublishOutput) GoString() string {
 	return s.String()
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *BulkPublishOutput) SetIdentityPoolId(v string) *BulkPublishOutput {
-	s.IdentityPoolId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BulkPublishOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BulkPublishOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Configuration options for configure Cognito streams.
@@ -974,7 +1061,7 @@ type CognitoStreams struct {
 	//
 	// DISABLED - Streaming of updates to identity pool is disabled. Bulk publish
 	// will also fail if StreamingStatus is DISABLED.
-	StreamingStatus StreamingStatus `type:"string"`
+	StreamingStatus StreamingStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1003,22 +1090,27 @@ func (s *CognitoStreams) Validate() error {
 	return nil
 }
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *CognitoStreams) SetRoleArn(v string) *CognitoStreams {
-	s.RoleArn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CognitoStreams) MarshalFields(e protocol.FieldEncoder) error {
+	if s.RoleArn != nil {
+		v := *s.RoleArn
 
-// SetStreamName sets the StreamName field's value.
-func (s *CognitoStreams) SetStreamName(v string) *CognitoStreams {
-	s.StreamName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StreamName != nil {
+		v := *s.StreamName
 
-// SetStreamingStatus sets the StreamingStatus field's value.
-func (s *CognitoStreams) SetStreamingStatus(v StreamingStatus) *CognitoStreams {
-	s.StreamingStatus = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StreamName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.StreamingStatus) > 0 {
+		v := s.StreamingStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StreamingStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // A collection of data for an identity pool. An identity pool can have multiple
@@ -1064,46 +1156,51 @@ func (s Dataset) GoString() string {
 	return s.String()
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *Dataset) SetCreationDate(v time.Time) *Dataset {
-	s.CreationDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Dataset) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetDataStorage sets the DataStorage field's value.
-func (s *Dataset) SetDataStorage(v int64) *Dataset {
-	s.DataStorage = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.DataStorage != nil {
+		v := *s.DataStorage
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *Dataset) SetDatasetName(v string) *Dataset {
-	s.DatasetName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DataStorage", protocol.Int64Value(v), metadata)
+	}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *Dataset) SetIdentityId(v string) *Dataset {
-	s.IdentityId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *Dataset) SetLastModifiedBy(v string) *Dataset {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *Dataset) SetLastModifiedDate(v time.Time) *Dataset {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetNumRecords sets the NumRecords field's value.
-func (s *Dataset) SetNumRecords(v int64) *Dataset {
-	s.NumRecords = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.NumRecords != nil {
+		v := *s.NumRecords
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NumRecords", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // A request to delete the specific dataset.
@@ -1171,28 +1268,37 @@ func (s *DeleteDatasetInput) Validate() error {
 	return nil
 }
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *DeleteDatasetInput) SetDatasetName(v string) *DeleteDatasetInput {
-	s.DatasetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteDatasetInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *DeleteDatasetInput) SetIdentityId(v string) *DeleteDatasetInput {
-	s.IdentityId = &v
-	return s
-}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *DeleteDatasetInput) SetIdentityPoolId(v string) *DeleteDatasetInput {
-	s.IdentityPoolId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response to a successful DeleteDataset request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/DeleteDatasetResponse
 type DeleteDatasetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A collection of data for an identity pool. An identity pool can have multiple
 	// datasets. A dataset is per identity and can be general or associated with
@@ -1212,10 +1318,20 @@ func (s DeleteDatasetOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataset sets the Dataset field's value.
-func (s *DeleteDatasetOutput) SetDataset(v *Dataset) *DeleteDatasetOutput {
-	s.Dataset = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDatasetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteDatasetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Dataset != nil {
+		v := s.Dataset
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Dataset", v, metadata)
+	}
+	return nil
 }
 
 // A request for meta data about a dataset (creation date, number of records,
@@ -1284,28 +1400,37 @@ func (s *DescribeDatasetInput) Validate() error {
 	return nil
 }
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *DescribeDatasetInput) SetDatasetName(v string) *DescribeDatasetInput {
-	s.DatasetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeDatasetInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *DescribeDatasetInput) SetIdentityId(v string) *DescribeDatasetInput {
-	s.IdentityId = &v
-	return s
-}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *DescribeDatasetInput) SetIdentityPoolId(v string) *DescribeDatasetInput {
-	s.IdentityPoolId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response to a successful DescribeDataset request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/DescribeDatasetResponse
 type DescribeDatasetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Meta data for a collection of data for an identity. An identity can have
 	// multiple datasets. A dataset can be general or associated with a particular
@@ -1325,10 +1450,20 @@ func (s DescribeDatasetOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataset sets the Dataset field's value.
-func (s *DescribeDatasetOutput) SetDataset(v *Dataset) *DescribeDatasetOutput {
-	s.Dataset = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDatasetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeDatasetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Dataset != nil {
+		v := s.Dataset
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Dataset", v, metadata)
+	}
+	return nil
 }
 
 // A request for usage information about the identity pool.
@@ -1370,16 +1505,25 @@ func (s *DescribeIdentityPoolUsageInput) Validate() error {
 	return nil
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *DescribeIdentityPoolUsageInput) SetIdentityPoolId(v string) *DescribeIdentityPoolUsageInput {
-	s.IdentityPoolId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeIdentityPoolUsageInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response to a successful DescribeIdentityPoolUsage request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/DescribeIdentityPoolUsageResponse
 type DescribeIdentityPoolUsageOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the usage of the identity pool.
 	IdentityPoolUsage *IdentityPoolUsage `type:"structure"`
@@ -1395,10 +1539,20 @@ func (s DescribeIdentityPoolUsageOutput) GoString() string {
 	return s.String()
 }
 
-// SetIdentityPoolUsage sets the IdentityPoolUsage field's value.
-func (s *DescribeIdentityPoolUsageOutput) SetIdentityPoolUsage(v *IdentityPoolUsage) *DescribeIdentityPoolUsageOutput {
-	s.IdentityPoolUsage = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeIdentityPoolUsageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeIdentityPoolUsageOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IdentityPoolUsage != nil {
+		v := s.IdentityPoolUsage
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IdentityPoolUsage", v, metadata)
+	}
+	return nil
 }
 
 // A request for information about the usage of an identity pool.
@@ -1453,22 +1607,31 @@ func (s *DescribeIdentityUsageInput) Validate() error {
 	return nil
 }
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *DescribeIdentityUsageInput) SetIdentityId(v string) *DescribeIdentityUsageInput {
-	s.IdentityId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeIdentityUsageInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *DescribeIdentityUsageInput) SetIdentityPoolId(v string) *DescribeIdentityUsageInput {
-	s.IdentityPoolId = &v
-	return s
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The response to a successful DescribeIdentityUsage request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/DescribeIdentityUsageResponse
 type DescribeIdentityUsageOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Usage information for the identity.
 	IdentityUsage *IdentityUsage `type:"structure"`
@@ -1484,10 +1647,20 @@ func (s DescribeIdentityUsageOutput) GoString() string {
 	return s.String()
 }
 
-// SetIdentityUsage sets the IdentityUsage field's value.
-func (s *DescribeIdentityUsageOutput) SetIdentityUsage(v *IdentityUsage) *DescribeIdentityUsageOutput {
-	s.IdentityUsage = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeIdentityUsageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeIdentityUsageOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IdentityUsage != nil {
+		v := s.IdentityUsage
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IdentityUsage", v, metadata)
+	}
+	return nil
 }
 
 // The input for the GetBulkPublishDetails operation.
@@ -1529,16 +1702,25 @@ func (s *GetBulkPublishDetailsInput) Validate() error {
 	return nil
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *GetBulkPublishDetailsInput) SetIdentityPoolId(v string) *GetBulkPublishDetailsInput {
-	s.IdentityPoolId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBulkPublishDetailsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The output for the GetBulkPublishDetails operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/GetBulkPublishDetailsResponse
 type GetBulkPublishDetailsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation
 	// completed.
@@ -1557,7 +1739,7 @@ type GetBulkPublishDetailsOutput struct {
 	//
 	// FAILED - Some portion of the data has failed to publish, check FailureMessage
 	// for the cause.
-	BulkPublishStatus BulkPublishStatus `type:"string"`
+	BulkPublishStatus BulkPublishStatus `type:"string" enum:"true"`
 
 	// If BulkPublishStatus is FAILED this field will contain the error message
 	// that caused the bulk publish to fail.
@@ -1578,34 +1760,44 @@ func (s GetBulkPublishDetailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBulkPublishCompleteTime sets the BulkPublishCompleteTime field's value.
-func (s *GetBulkPublishDetailsOutput) SetBulkPublishCompleteTime(v time.Time) *GetBulkPublishDetailsOutput {
-	s.BulkPublishCompleteTime = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBulkPublishDetailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetBulkPublishStartTime sets the BulkPublishStartTime field's value.
-func (s *GetBulkPublishDetailsOutput) SetBulkPublishStartTime(v time.Time) *GetBulkPublishDetailsOutput {
-	s.BulkPublishStartTime = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBulkPublishDetailsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BulkPublishCompleteTime != nil {
+		v := *s.BulkPublishCompleteTime
 
-// SetBulkPublishStatus sets the BulkPublishStatus field's value.
-func (s *GetBulkPublishDetailsOutput) SetBulkPublishStatus(v BulkPublishStatus) *GetBulkPublishDetailsOutput {
-	s.BulkPublishStatus = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BulkPublishCompleteTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.BulkPublishStartTime != nil {
+		v := *s.BulkPublishStartTime
 
-// SetFailureMessage sets the FailureMessage field's value.
-func (s *GetBulkPublishDetailsOutput) SetFailureMessage(v string) *GetBulkPublishDetailsOutput {
-	s.FailureMessage = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BulkPublishStartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if len(s.BulkPublishStatus) > 0 {
+		v := s.BulkPublishStatus
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *GetBulkPublishDetailsOutput) SetIdentityPoolId(v string) *GetBulkPublishDetailsOutput {
-	s.IdentityPoolId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BulkPublishStatus", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.FailureMessage != nil {
+		v := *s.FailureMessage
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FailureMessage", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A request for a list of the configured Cognito Events
@@ -1646,10 +1838,17 @@ func (s *GetCognitoEventsInput) Validate() error {
 	return nil
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *GetCognitoEventsInput) SetIdentityPoolId(v string) *GetCognitoEventsInput {
-	s.IdentityPoolId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCognitoEventsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The response from the GetCognitoEvents request
@@ -1657,8 +1856,10 @@ func (s *GetCognitoEventsInput) SetIdentityPoolId(v string) *GetCognitoEventsInp
 type GetCognitoEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The Cognito Events returned from the GetCognitoEvents request
-	Events map[string]*string `type:"map"`
+	Events map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -1671,10 +1872,26 @@ func (s GetCognitoEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *GetCognitoEventsOutput) SetEvents(v map[string]*string) *GetCognitoEventsOutput {
-	s.Events = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCognitoEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetCognitoEventsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Events) > 0 {
+		v := s.Events
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Events", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // The input for the GetIdentityPoolConfiguration operation.
@@ -1717,16 +1934,25 @@ func (s *GetIdentityPoolConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *GetIdentityPoolConfigurationInput) SetIdentityPoolId(v string) *GetIdentityPoolConfigurationInput {
-	s.IdentityPoolId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIdentityPoolConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The output for the GetIdentityPoolConfiguration operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/GetIdentityPoolConfigurationResponse
 type GetIdentityPoolConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Options to apply to this identity pool for Amazon Cognito streams.
 	CognitoStreams *CognitoStreams `type:"structure"`
@@ -1749,22 +1975,32 @@ func (s GetIdentityPoolConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCognitoStreams sets the CognitoStreams field's value.
-func (s *GetIdentityPoolConfigurationOutput) SetCognitoStreams(v *CognitoStreams) *GetIdentityPoolConfigurationOutput {
-	s.CognitoStreams = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetIdentityPoolConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *GetIdentityPoolConfigurationOutput) SetIdentityPoolId(v string) *GetIdentityPoolConfigurationOutput {
-	s.IdentityPoolId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetIdentityPoolConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CognitoStreams != nil {
+		v := s.CognitoStreams
 
-// SetPushSync sets the PushSync field's value.
-func (s *GetIdentityPoolConfigurationOutput) SetPushSync(v *PushSync) *GetIdentityPoolConfigurationOutput {
-	s.PushSync = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoStreams", v, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PushSync != nil {
+		v := s.PushSync
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PushSync", v, metadata)
+	}
+	return nil
 }
 
 // Usage information for the identity pool.
@@ -1796,28 +2032,33 @@ func (s IdentityPoolUsage) GoString() string {
 	return s.String()
 }
 
-// SetDataStorage sets the DataStorage field's value.
-func (s *IdentityPoolUsage) SetDataStorage(v int64) *IdentityPoolUsage {
-	s.DataStorage = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s IdentityPoolUsage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DataStorage != nil {
+		v := *s.DataStorage
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *IdentityPoolUsage) SetIdentityPoolId(v string) *IdentityPoolUsage {
-	s.IdentityPoolId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DataStorage", protocol.Int64Value(v), metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *IdentityPoolUsage) SetLastModifiedDate(v time.Time) *IdentityPoolUsage {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetSyncSessionsCount sets the SyncSessionsCount field's value.
-func (s *IdentityPoolUsage) SetSyncSessionsCount(v int64) *IdentityPoolUsage {
-	s.SyncSessionsCount = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.SyncSessionsCount != nil {
+		v := *s.SyncSessionsCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SyncSessionsCount", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Usage information for the identity.
@@ -1853,34 +2094,39 @@ func (s IdentityUsage) GoString() string {
 	return s.String()
 }
 
-// SetDataStorage sets the DataStorage field's value.
-func (s *IdentityUsage) SetDataStorage(v int64) *IdentityUsage {
-	s.DataStorage = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s IdentityUsage) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DataStorage != nil {
+		v := *s.DataStorage
 
-// SetDatasetCount sets the DatasetCount field's value.
-func (s *IdentityUsage) SetDatasetCount(v int64) *IdentityUsage {
-	s.DatasetCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DataStorage", protocol.Int64Value(v), metadata)
+	}
+	if s.DatasetCount != nil {
+		v := *s.DatasetCount
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *IdentityUsage) SetIdentityId(v string) *IdentityUsage {
-	s.IdentityId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DatasetCount", protocol.Int64Value(v), metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *IdentityUsage) SetIdentityPoolId(v string) *IdentityUsage {
-	s.IdentityPoolId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *IdentityUsage) SetLastModifiedDate(v time.Time) *IdentityUsage {
-	s.LastModifiedDate = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Request for a list of datasets for an identity.
@@ -1941,28 +2187,35 @@ func (s *ListDatasetsInput) Validate() error {
 	return nil
 }
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *ListDatasetsInput) SetIdentityId(v string) *ListDatasetsInput {
-	s.IdentityId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDatasetsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *ListDatasetsInput) SetIdentityPoolId(v string) *ListDatasetsInput {
-	s.IdentityPoolId = &v
-	return s
-}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListDatasetsInput) SetMaxResults(v int64) *ListDatasetsInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDatasetsInput) SetNextToken(v string) *ListDatasetsInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returned for a successful ListDatasets request.
@@ -1970,11 +2223,13 @@ func (s *ListDatasetsInput) SetNextToken(v string) *ListDatasetsInput {
 type ListDatasetsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Number of datasets returned.
 	Count *int64 `type:"integer"`
 
 	// A set of datasets.
-	Datasets []*Dataset `type:"list"`
+	Datasets []Dataset `type:"list"`
 
 	// A pagination token for obtaining the next page of results.
 	NextToken *string `type:"string"`
@@ -1990,22 +2245,38 @@ func (s ListDatasetsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCount sets the Count field's value.
-func (s *ListDatasetsOutput) SetCount(v int64) *ListDatasetsOutput {
-	s.Count = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDatasetsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDatasets sets the Datasets field's value.
-func (s *ListDatasetsOutput) SetDatasets(v []*Dataset) *ListDatasetsOutput {
-	s.Datasets = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDatasetsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Count != nil {
+		v := *s.Count
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDatasetsOutput) SetNextToken(v string) *ListDatasetsOutput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Count", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Datasets) > 0 {
+		v := s.Datasets
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Datasets", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A request for usage information on an identity pool.
@@ -2030,16 +2301,23 @@ func (s ListIdentityPoolUsageInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListIdentityPoolUsageInput) SetMaxResults(v int64) *ListIdentityPoolUsageInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListIdentityPoolUsageInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListIdentityPoolUsageInput) SetNextToken(v string) *ListIdentityPoolUsageInput {
-	s.NextToken = &v
-	return s
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returned for a successful ListIdentityPoolUsage request.
@@ -2047,11 +2325,13 @@ func (s *ListIdentityPoolUsageInput) SetNextToken(v string) *ListIdentityPoolUsa
 type ListIdentityPoolUsageOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Total number of identities for the identity pool.
 	Count *int64 `type:"integer"`
 
 	// Usage information for the identity pools.
-	IdentityPoolUsages []*IdentityPoolUsage `type:"list"`
+	IdentityPoolUsages []IdentityPoolUsage `type:"list"`
 
 	// The maximum number of results to be returned.
 	MaxResults *int64 `type:"integer"`
@@ -2070,28 +2350,44 @@ func (s ListIdentityPoolUsageOutput) GoString() string {
 	return s.String()
 }
 
-// SetCount sets the Count field's value.
-func (s *ListIdentityPoolUsageOutput) SetCount(v int64) *ListIdentityPoolUsageOutput {
-	s.Count = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListIdentityPoolUsageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetIdentityPoolUsages sets the IdentityPoolUsages field's value.
-func (s *ListIdentityPoolUsageOutput) SetIdentityPoolUsages(v []*IdentityPoolUsage) *ListIdentityPoolUsageOutput {
-	s.IdentityPoolUsages = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListIdentityPoolUsageOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Count != nil {
+		v := *s.Count
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListIdentityPoolUsageOutput) SetMaxResults(v int64) *ListIdentityPoolUsageOutput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Count", protocol.Int64Value(v), metadata)
+	}
+	if len(s.IdentityPoolUsages) > 0 {
+		v := s.IdentityPoolUsages
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListIdentityPoolUsageOutput) SetNextToken(v string) *ListIdentityPoolUsageOutput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "IdentityPoolUsages", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A request for a list of records.
@@ -2171,52 +2467,61 @@ func (s *ListRecordsInput) Validate() error {
 	return nil
 }
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *ListRecordsInput) SetDatasetName(v string) *ListRecordsInput {
-	s.DatasetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListRecordsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *ListRecordsInput) SetIdentityId(v string) *ListRecordsInput {
-	s.IdentityId = &v
-	return s
-}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *ListRecordsInput) SetIdentityPoolId(v string) *ListRecordsInput {
-	s.IdentityPoolId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
 
-// SetLastSyncCount sets the LastSyncCount field's value.
-func (s *ListRecordsInput) SetLastSyncCount(v int64) *ListRecordsInput {
-	s.LastSyncCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListRecordsInput) SetMaxResults(v int64) *ListRecordsInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastSyncCount != nil {
+		v := *s.LastSyncCount
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListRecordsInput) SetNextToken(v string) *ListRecordsInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "lastSyncCount", protocol.Int64Value(v), metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
 
-// SetSyncSessionToken sets the SyncSessionToken field's value.
-func (s *ListRecordsInput) SetSyncSessionToken(v string) *ListRecordsInput {
-	s.SyncSessionToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SyncSessionToken != nil {
+		v := *s.SyncSessionToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "syncSessionToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returned for a successful ListRecordsRequest.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/ListRecordsResponse
 type ListRecordsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Total number of records.
 	Count *int64 `type:"integer"`
@@ -2234,13 +2539,13 @@ type ListRecordsOutput struct {
 	LastModifiedBy *string `type:"string"`
 
 	// Names of merged datasets.
-	MergedDatasetNames []*string `type:"list"`
+	MergedDatasetNames []string `type:"list"`
 
 	// A pagination token for obtaining the next page of results.
 	NextToken *string `type:"string"`
 
 	// A list of all records.
-	Records []*Record `type:"list"`
+	Records []Record `type:"list"`
 
 	// A token containing a session ID, identity ID, and expiration.
 	SyncSessionToken *string `type:"string"`
@@ -2256,58 +2561,80 @@ func (s ListRecordsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCount sets the Count field's value.
-func (s *ListRecordsOutput) SetCount(v int64) *ListRecordsOutput {
-	s.Count = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListRecordsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDatasetDeletedAfterRequestedSyncCount sets the DatasetDeletedAfterRequestedSyncCount field's value.
-func (s *ListRecordsOutput) SetDatasetDeletedAfterRequestedSyncCount(v bool) *ListRecordsOutput {
-	s.DatasetDeletedAfterRequestedSyncCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListRecordsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Count != nil {
+		v := *s.Count
 
-// SetDatasetExists sets the DatasetExists field's value.
-func (s *ListRecordsOutput) SetDatasetExists(v bool) *ListRecordsOutput {
-	s.DatasetExists = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Count", protocol.Int64Value(v), metadata)
+	}
+	if s.DatasetDeletedAfterRequestedSyncCount != nil {
+		v := *s.DatasetDeletedAfterRequestedSyncCount
 
-// SetDatasetSyncCount sets the DatasetSyncCount field's value.
-func (s *ListRecordsOutput) SetDatasetSyncCount(v int64) *ListRecordsOutput {
-	s.DatasetSyncCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DatasetDeletedAfterRequestedSyncCount", protocol.BoolValue(v), metadata)
+	}
+	if s.DatasetExists != nil {
+		v := *s.DatasetExists
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *ListRecordsOutput) SetLastModifiedBy(v string) *ListRecordsOutput {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DatasetExists", protocol.BoolValue(v), metadata)
+	}
+	if s.DatasetSyncCount != nil {
+		v := *s.DatasetSyncCount
 
-// SetMergedDatasetNames sets the MergedDatasetNames field's value.
-func (s *ListRecordsOutput) SetMergedDatasetNames(v []*string) *ListRecordsOutput {
-	s.MergedDatasetNames = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DatasetSyncCount", protocol.Int64Value(v), metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListRecordsOutput) SetNextToken(v string) *ListRecordsOutput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.MergedDatasetNames) > 0 {
+		v := s.MergedDatasetNames
 
-// SetRecords sets the Records field's value.
-func (s *ListRecordsOutput) SetRecords(v []*Record) *ListRecordsOutput {
-	s.Records = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "MergedDatasetNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetSyncSessionToken sets the SyncSessionToken field's value.
-func (s *ListRecordsOutput) SetSyncSessionToken(v string) *ListRecordsOutput {
-	s.SyncSessionToken = &v
-	return s
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Records) > 0 {
+		v := s.Records
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Records", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.SyncSessionToken != nil {
+		v := *s.SyncSessionToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SyncSessionToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Configuration options to be applied to the identity pool.
@@ -2316,7 +2643,7 @@ type PushSync struct {
 	_ struct{} `type:"structure"`
 
 	// List of SNS platform application ARNs that could be used by clients.
-	ApplicationArns []*string `type:"list"`
+	ApplicationArns []string `type:"list"`
 
 	// A role configured to allow Cognito to call SNS on behalf of the developer.
 	RoleArn *string `min:"20" type:"string"`
@@ -2345,16 +2672,27 @@ func (s *PushSync) Validate() error {
 	return nil
 }
 
-// SetApplicationArns sets the ApplicationArns field's value.
-func (s *PushSync) SetApplicationArns(v []*string) *PushSync {
-	s.ApplicationArns = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PushSync) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ApplicationArns) > 0 {
+		v := s.ApplicationArns
 
-// SetRoleArn sets the RoleArn field's value.
-func (s *PushSync) SetRoleArn(v string) *PushSync {
-	s.RoleArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ApplicationArns", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The basic data structure of a dataset.
@@ -2391,40 +2729,45 @@ func (s Record) GoString() string {
 	return s.String()
 }
 
-// SetDeviceLastModifiedDate sets the DeviceLastModifiedDate field's value.
-func (s *Record) SetDeviceLastModifiedDate(v time.Time) *Record {
-	s.DeviceLastModifiedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Record) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeviceLastModifiedDate != nil {
+		v := *s.DeviceLastModifiedDate
 
-// SetKey sets the Key field's value.
-func (s *Record) SetKey(v string) *Record {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeviceLastModifiedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetLastModifiedBy sets the LastModifiedBy field's value.
-func (s *Record) SetLastModifiedBy(v string) *Record {
-	s.LastModifiedBy = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedBy != nil {
+		v := *s.LastModifiedBy
 
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *Record) SetLastModifiedDate(v time.Time) *Record {
-	s.LastModifiedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedBy", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.LastModifiedDate != nil {
+		v := *s.LastModifiedDate
 
-// SetSyncCount sets the SyncCount field's value.
-func (s *Record) SetSyncCount(v int64) *Record {
-	s.SyncCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModifiedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.SyncCount != nil {
+		v := *s.SyncCount
 
-// SetValue sets the Value field's value.
-func (s *Record) SetValue(v string) *Record {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SyncCount", protocol.Int64Value(v), metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // An update operation for a record.
@@ -2443,7 +2786,7 @@ type RecordPatch struct {
 	// An operation, either replace or remove.
 	//
 	// Op is a required field
-	Op Operation `type:"string" required:"true"`
+	Op Operation `type:"string" required:"true" enum:"true"`
 
 	// Last known server sync count for this record. Set to 0 if unknown.
 	//
@@ -2488,34 +2831,39 @@ func (s *RecordPatch) Validate() error {
 	return nil
 }
 
-// SetDeviceLastModifiedDate sets the DeviceLastModifiedDate field's value.
-func (s *RecordPatch) SetDeviceLastModifiedDate(v time.Time) *RecordPatch {
-	s.DeviceLastModifiedDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RecordPatch) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeviceLastModifiedDate != nil {
+		v := *s.DeviceLastModifiedDate
 
-// SetKey sets the Key field's value.
-func (s *RecordPatch) SetKey(v string) *RecordPatch {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeviceLastModifiedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetOp sets the Op field's value.
-func (s *RecordPatch) SetOp(v Operation) *RecordPatch {
-	s.Op = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Op) > 0 {
+		v := s.Op
 
-// SetSyncCount sets the SyncCount field's value.
-func (s *RecordPatch) SetSyncCount(v int64) *RecordPatch {
-	s.SyncCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Op", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.SyncCount != nil {
+		v := *s.SyncCount
 
-// SetValue sets the Value field's value.
-func (s *RecordPatch) SetValue(v string) *RecordPatch {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SyncCount", protocol.Int64Value(v), metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A request to RegisterDevice.
@@ -2538,7 +2886,7 @@ type RegisterDeviceInput struct {
 	// The SNS platform type (e.g. GCM, SDM, APNS, APNS_SANDBOX).
 	//
 	// Platform is a required field
-	Platform Platform `type:"string" required:"true"`
+	Platform Platform `type:"string" required:"true" enum:"true"`
 
 	// The push token.
 	//
@@ -2587,34 +2935,43 @@ func (s *RegisterDeviceInput) Validate() error {
 	return nil
 }
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *RegisterDeviceInput) SetIdentityId(v string) *RegisterDeviceInput {
-	s.IdentityId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RegisterDeviceInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *RegisterDeviceInput) SetIdentityPoolId(v string) *RegisterDeviceInput {
-	s.IdentityPoolId = &v
-	return s
-}
+	if len(s.Platform) > 0 {
+		v := s.Platform
 
-// SetPlatform sets the Platform field's value.
-func (s *RegisterDeviceInput) SetPlatform(v Platform) *RegisterDeviceInput {
-	s.Platform = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Platform", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.Token != nil {
+		v := *s.Token
 
-// SetToken sets the Token field's value.
-func (s *RegisterDeviceInput) SetToken(v string) *RegisterDeviceInput {
-	s.Token = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Token", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response to a RegisterDevice request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/RegisterDeviceResponse
 type RegisterDeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique ID generated for this device by Cognito.
 	DeviceId *string `min:"1" type:"string"`
@@ -2630,10 +2987,20 @@ func (s RegisterDeviceOutput) GoString() string {
 	return s.String()
 }
 
-// SetDeviceId sets the DeviceId field's value.
-func (s *RegisterDeviceOutput) SetDeviceId(v string) *RegisterDeviceOutput {
-	s.DeviceId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterDeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RegisterDeviceOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeviceId != nil {
+		v := *s.DeviceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeviceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // A request to configure Cognito Events"
@@ -2644,7 +3011,7 @@ type SetCognitoEventsInput struct {
 	// The events to configure
 	//
 	// Events is a required field
-	Events map[string]*string `type:"map" required:"true"`
+	Events map[string]string `type:"map" required:"true"`
 
 	// The Cognito Identity Pool to use when configuring Cognito Events
 	//
@@ -2683,21 +3050,36 @@ func (s *SetCognitoEventsInput) Validate() error {
 	return nil
 }
 
-// SetEvents sets the Events field's value.
-func (s *SetCognitoEventsInput) SetEvents(v map[string]*string) *SetCognitoEventsInput {
-	s.Events = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SetCognitoEventsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *SetCognitoEventsInput) SetIdentityPoolId(v string) *SetCognitoEventsInput {
-	s.IdentityPoolId = &v
-	return s
+	if len(s.Events) > 0 {
+		v := s.Events
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Events", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/SetCognitoEventsOutput
 type SetCognitoEventsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2708,6 +3090,16 @@ func (s SetCognitoEventsOutput) String() string {
 // GoString returns the string representation
 func (s SetCognitoEventsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetCognitoEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SetCognitoEventsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // The input for the SetIdentityPoolConfiguration operation.
@@ -2765,28 +3157,37 @@ func (s *SetIdentityPoolConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetCognitoStreams sets the CognitoStreams field's value.
-func (s *SetIdentityPoolConfigurationInput) SetCognitoStreams(v *CognitoStreams) *SetIdentityPoolConfigurationInput {
-	s.CognitoStreams = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SetIdentityPoolConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *SetIdentityPoolConfigurationInput) SetIdentityPoolId(v string) *SetIdentityPoolConfigurationInput {
-	s.IdentityPoolId = &v
-	return s
-}
+	if s.CognitoStreams != nil {
+		v := s.CognitoStreams
 
-// SetPushSync sets the PushSync field's value.
-func (s *SetIdentityPoolConfigurationInput) SetPushSync(v *PushSync) *SetIdentityPoolConfigurationInput {
-	s.PushSync = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoStreams", v, metadata)
+	}
+	if s.PushSync != nil {
+		v := s.PushSync
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PushSync", v, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The output for the SetIdentityPoolConfiguration operation
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/SetIdentityPoolConfigurationResponse
 type SetIdentityPoolConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Options to apply to this identity pool for Amazon Cognito streams.
 	CognitoStreams *CognitoStreams `type:"structure"`
@@ -2809,22 +3210,32 @@ func (s SetIdentityPoolConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCognitoStreams sets the CognitoStreams field's value.
-func (s *SetIdentityPoolConfigurationOutput) SetCognitoStreams(v *CognitoStreams) *SetIdentityPoolConfigurationOutput {
-	s.CognitoStreams = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SetIdentityPoolConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *SetIdentityPoolConfigurationOutput) SetIdentityPoolId(v string) *SetIdentityPoolConfigurationOutput {
-	s.IdentityPoolId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SetIdentityPoolConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CognitoStreams != nil {
+		v := s.CognitoStreams
 
-// SetPushSync sets the PushSync field's value.
-func (s *SetIdentityPoolConfigurationOutput) SetPushSync(v *PushSync) *SetIdentityPoolConfigurationOutput {
-	s.PushSync = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoStreams", v, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.PushSync != nil {
+		v := s.PushSync
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "PushSync", v, metadata)
+	}
+	return nil
 }
 
 // A request to SubscribeToDatasetRequest.
@@ -2902,34 +3313,43 @@ func (s *SubscribeToDatasetInput) Validate() error {
 	return nil
 }
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *SubscribeToDatasetInput) SetDatasetName(v string) *SubscribeToDatasetInput {
-	s.DatasetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SubscribeToDatasetInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDeviceId sets the DeviceId field's value.
-func (s *SubscribeToDatasetInput) SetDeviceId(v string) *SubscribeToDatasetInput {
-	s.DeviceId = &v
-	return s
-}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *SubscribeToDatasetInput) SetIdentityId(v string) *SubscribeToDatasetInput {
-	s.IdentityId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DeviceId != nil {
+		v := *s.DeviceId
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *SubscribeToDatasetInput) SetIdentityPoolId(v string) *SubscribeToDatasetInput {
-	s.IdentityPoolId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DeviceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response to a SubscribeToDataset request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/SubscribeToDatasetResponse
 type SubscribeToDatasetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2940,6 +3360,16 @@ func (s SubscribeToDatasetOutput) String() string {
 // GoString returns the string representation
 func (s SubscribeToDatasetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SubscribeToDatasetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SubscribeToDatasetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // A request to UnsubscribeFromDataset.
@@ -3017,34 +3447,43 @@ func (s *UnsubscribeFromDatasetInput) Validate() error {
 	return nil
 }
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *UnsubscribeFromDatasetInput) SetDatasetName(v string) *UnsubscribeFromDatasetInput {
-	s.DatasetName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UnsubscribeFromDatasetInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDeviceId sets the DeviceId field's value.
-func (s *UnsubscribeFromDatasetInput) SetDeviceId(v string) *UnsubscribeFromDatasetInput {
-	s.DeviceId = &v
-	return s
-}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *UnsubscribeFromDatasetInput) SetIdentityId(v string) *UnsubscribeFromDatasetInput {
-	s.IdentityId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DeviceId != nil {
+		v := *s.DeviceId
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *UnsubscribeFromDatasetInput) SetIdentityPoolId(v string) *UnsubscribeFromDatasetInput {
-	s.IdentityPoolId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DeviceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response to an UnsubscribeFromDataset request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cognito-sync-2014-06-30/UnsubscribeFromDatasetResponse
 type UnsubscribeFromDatasetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3055,6 +3494,16 @@ func (s UnsubscribeFromDatasetOutput) String() string {
 // GoString returns the string representation
 func (s UnsubscribeFromDatasetOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UnsubscribeFromDatasetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UnsubscribeFromDatasetOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // A request to post updates to records or add and delete records for a dataset
@@ -3089,7 +3538,7 @@ type UpdateRecordsInput struct {
 	IdentityPoolId *string `location:"uri" locationName:"IdentityPoolId" min:"1" type:"string" required:"true"`
 
 	// A list of patch operations.
-	RecordPatches []*RecordPatch `type:"list"`
+	RecordPatches []RecordPatch `type:"list"`
 
 	// The SyncSessionToken returned by a previous call to ListRecords for this
 	// dataset and identity.
@@ -3141,9 +3590,6 @@ func (s *UpdateRecordsInput) Validate() error {
 	}
 	if s.RecordPatches != nil {
 		for i, v := range s.RecordPatches {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "RecordPatches", i), err.(aws.ErrInvalidParams))
 			}
@@ -3156,46 +3602,59 @@ func (s *UpdateRecordsInput) Validate() error {
 	return nil
 }
 
-// SetClientContext sets the ClientContext field's value.
-func (s *UpdateRecordsInput) SetClientContext(v string) *UpdateRecordsInput {
-	s.ClientContext = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateRecordsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetDatasetName sets the DatasetName field's value.
-func (s *UpdateRecordsInput) SetDatasetName(v string) *UpdateRecordsInput {
-	s.DatasetName = &v
-	return s
-}
+	if s.DeviceId != nil {
+		v := *s.DeviceId
 
-// SetDeviceId sets the DeviceId field's value.
-func (s *UpdateRecordsInput) SetDeviceId(v string) *UpdateRecordsInput {
-	s.DeviceId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeviceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.RecordPatches) > 0 {
+		v := s.RecordPatches
 
-// SetIdentityId sets the IdentityId field's value.
-func (s *UpdateRecordsInput) SetIdentityId(v string) *UpdateRecordsInput {
-	s.IdentityId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "RecordPatches", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetIdentityPoolId sets the IdentityPoolId field's value.
-func (s *UpdateRecordsInput) SetIdentityPoolId(v string) *UpdateRecordsInput {
-	s.IdentityPoolId = &v
-	return s
-}
+	}
+	if s.SyncSessionToken != nil {
+		v := *s.SyncSessionToken
 
-// SetRecordPatches sets the RecordPatches field's value.
-func (s *UpdateRecordsInput) SetRecordPatches(v []*RecordPatch) *UpdateRecordsInput {
-	s.RecordPatches = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SyncSessionToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ClientContext != nil {
+		v := *s.ClientContext
 
-// SetSyncSessionToken sets the SyncSessionToken field's value.
-func (s *UpdateRecordsInput) SetSyncSessionToken(v string) *UpdateRecordsInput {
-	s.SyncSessionToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-Client-Context", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DatasetName != nil {
+		v := *s.DatasetName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DatasetName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityId != nil {
+		v := *s.IdentityId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Returned for a successful UpdateRecordsRequest.
@@ -3203,8 +3662,10 @@ func (s *UpdateRecordsInput) SetSyncSessionToken(v string) *UpdateRecordsInput {
 type UpdateRecordsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of records that have been updated.
-	Records []*Record `type:"list"`
+	Records []Record `type:"list"`
 }
 
 // String returns the string representation
@@ -3217,10 +3678,26 @@ func (s UpdateRecordsOutput) GoString() string {
 	return s.String()
 }
 
-// SetRecords sets the Records field's value.
-func (s *UpdateRecordsOutput) SetRecords(v []*Record) *UpdateRecordsOutput {
-	s.Records = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateRecordsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateRecordsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Records) > 0 {
+		v := s.Records
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Records", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type BulkPublishStatus string
@@ -3233,6 +3710,15 @@ const (
 	BulkPublishStatusSucceeded  BulkPublishStatus = "SUCCEEDED"
 )
 
+func (enum BulkPublishStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BulkPublishStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Operation string
 
 // Enum values for Operation
@@ -3240,6 +3726,15 @@ const (
 	OperationReplace Operation = "replace"
 	OperationRemove  Operation = "remove"
 )
+
+func (enum Operation) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Operation) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Platform string
 
@@ -3251,6 +3746,15 @@ const (
 	PlatformAdm         Platform = "ADM"
 )
 
+func (enum Platform) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Platform) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StreamingStatus string
 
 // Enum values for StreamingStatus
@@ -3258,3 +3762,12 @@ const (
 	StreamingStatusEnabled  StreamingStatus = "ENABLED"
 	StreamingStatusDisabled StreamingStatus = "DISABLED"
 )
+
+func (enum StreamingStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StreamingStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

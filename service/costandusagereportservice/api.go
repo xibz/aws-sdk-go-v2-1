@@ -13,6 +13,7 @@ const opDeleteReportDefinition = "DeleteReportDefinition"
 type DeleteReportDefinitionRequest struct {
 	*aws.Request
 	Input *DeleteReportDefinitionInput
+	Copy  func(*DeleteReportDefinitionInput) DeleteReportDefinitionRequest
 }
 
 // Send marshals and sends the DeleteReportDefinition API request.
@@ -38,7 +39,7 @@ func (r DeleteReportDefinitionRequest) Send() (*DeleteReportDefinitionOutput, er
 //    }
 //
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DeleteReportDefinition
-func (c *CostandUsageReportService) DeleteReportDefinitionRequest(input *DeleteReportDefinitionInput) DeleteReportDefinitionRequest {
+func (c *CostAndUsageReportService) DeleteReportDefinitionRequest(input *DeleteReportDefinitionInput) DeleteReportDefinitionRequest {
 	op := &aws.Operation{
 		Name:       opDeleteReportDefinition,
 		HTTPMethod: "POST",
@@ -49,8 +50,11 @@ func (c *CostandUsageReportService) DeleteReportDefinitionRequest(input *DeleteR
 		input = &DeleteReportDefinitionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteReportDefinitionOutput{})
-	return DeleteReportDefinitionRequest{Request: req, Input: input}
+	output := &DeleteReportDefinitionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteReportDefinitionRequest{Request: req, Input: input, Copy: c.DeleteReportDefinitionRequest}
 }
 
 const opDescribeReportDefinitions = "DescribeReportDefinitions"
@@ -59,6 +63,7 @@ const opDescribeReportDefinitions = "DescribeReportDefinitions"
 type DescribeReportDefinitionsRequest struct {
 	*aws.Request
 	Input *DescribeReportDefinitionsInput
+	Copy  func(*DescribeReportDefinitionsInput) DescribeReportDefinitionsRequest
 }
 
 // Send marshals and sends the DescribeReportDefinitions API request.
@@ -84,7 +89,7 @@ func (r DescribeReportDefinitionsRequest) Send() (*DescribeReportDefinitionsOutp
 //    }
 //
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DescribeReportDefinitions
-func (c *CostandUsageReportService) DescribeReportDefinitionsRequest(input *DescribeReportDefinitionsInput) DescribeReportDefinitionsRequest {
+func (c *CostAndUsageReportService) DescribeReportDefinitionsRequest(input *DescribeReportDefinitionsInput) DescribeReportDefinitionsRequest {
 	op := &aws.Operation{
 		Name:       opDescribeReportDefinitions,
 		HTTPMethod: "POST",
@@ -101,58 +106,57 @@ func (c *CostandUsageReportService) DescribeReportDefinitionsRequest(input *Desc
 		input = &DescribeReportDefinitionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeReportDefinitionsOutput{})
-	return DescribeReportDefinitionsRequest{Request: req, Input: input}
+	output := &DescribeReportDefinitionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeReportDefinitionsRequest{Request: req, Input: input, Copy: c.DescribeReportDefinitionsRequest}
 }
 
-// DescribeReportDefinitionsPages iterates over the pages of a DescribeReportDefinitions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeReportDefinitions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeReportDefinitionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeReportDefinitions operation.
-//    pageNum := 0
-//    err := client.DescribeReportDefinitionsPages(params,
-//        func(page *DescribeReportDefinitionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeReportDefinitionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CostandUsageReportService) DescribeReportDefinitionsPages(input *DescribeReportDefinitionsInput, fn func(*DescribeReportDefinitionsOutput, bool) bool) error {
-	return c.DescribeReportDefinitionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeReportDefinitionsRequest) Paginate(opts ...aws.Option) DescribeReportDefinitionsPager {
+	return DescribeReportDefinitionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeReportDefinitionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeReportDefinitionsPagesWithContext same as DescribeReportDefinitionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CostandUsageReportService) DescribeReportDefinitionsPagesWithContext(ctx aws.Context, input *DescribeReportDefinitionsInput, fn func(*DescribeReportDefinitionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeReportDefinitionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeReportDefinitionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeReportDefinitionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeReportDefinitionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeReportDefinitionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeReportDefinitionsPager) CurrentPage() *DescribeReportDefinitionsOutput {
+	return p.Pager.CurrentPage().(*DescribeReportDefinitionsOutput)
 }
 
 const opPutReportDefinition = "PutReportDefinition"
@@ -161,6 +165,7 @@ const opPutReportDefinition = "PutReportDefinition"
 type PutReportDefinitionRequest struct {
 	*aws.Request
 	Input *PutReportDefinitionInput
+	Copy  func(*PutReportDefinitionInput) PutReportDefinitionRequest
 }
 
 // Send marshals and sends the PutReportDefinition API request.
@@ -186,7 +191,7 @@ func (r PutReportDefinitionRequest) Send() (*PutReportDefinitionOutput, error) {
 //    }
 //
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/PutReportDefinition
-func (c *CostandUsageReportService) PutReportDefinitionRequest(input *PutReportDefinitionInput) PutReportDefinitionRequest {
+func (c *CostAndUsageReportService) PutReportDefinitionRequest(input *PutReportDefinitionInput) PutReportDefinitionRequest {
 	op := &aws.Operation{
 		Name:       opPutReportDefinition,
 		HTTPMethod: "POST",
@@ -197,8 +202,11 @@ func (c *CostandUsageReportService) PutReportDefinitionRequest(input *PutReportD
 		input = &PutReportDefinitionInput{}
 	}
 
-	req := c.newRequest(op, input, &PutReportDefinitionOutput{})
-	return PutReportDefinitionRequest{Request: req, Input: input}
+	output := &PutReportDefinitionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutReportDefinitionRequest{Request: req, Input: input, Copy: c.PutReportDefinitionRequest}
 }
 
 // Request of DeleteReportDefinition
@@ -221,16 +229,12 @@ func (s DeleteReportDefinitionInput) GoString() string {
 	return s.String()
 }
 
-// SetReportName sets the ReportName field's value.
-func (s *DeleteReportDefinitionInput) SetReportName(v string) *DeleteReportDefinitionInput {
-	s.ReportName = &v
-	return s
-}
-
 // Response of DeleteReportDefinition
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DeleteReportDefinitionResponse
 type DeleteReportDefinitionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A message indicates if the deletion is successful.
 	ResponseMessage *string `type:"string"`
@@ -246,10 +250,9 @@ func (s DeleteReportDefinitionOutput) GoString() string {
 	return s.String()
 }
 
-// SetResponseMessage sets the ResponseMessage field's value.
-func (s *DeleteReportDefinitionOutput) SetResponseMessage(v string) *DeleteReportDefinitionOutput {
-	s.ResponseMessage = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteReportDefinitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request of DescribeReportDefinitions
@@ -287,28 +290,18 @@ func (s *DescribeReportDefinitionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeReportDefinitionsInput) SetMaxResults(v int64) *DescribeReportDefinitionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeReportDefinitionsInput) SetNextToken(v string) *DescribeReportDefinitionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Response of DescribeReportDefinitions
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/DescribeReportDefinitionsResponse
 type DescribeReportDefinitionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A generic string.
 	NextToken *string `type:"string"`
 
 	// A list of report definitions.
-	ReportDefinitions []*ReportDefinition `type:"list"`
+	ReportDefinitions []ReportDefinition `type:"list"`
 }
 
 // String returns the string representation
@@ -321,16 +314,9 @@ func (s DescribeReportDefinitionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeReportDefinitionsOutput) SetNextToken(v string) *DescribeReportDefinitionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetReportDefinitions sets the ReportDefinitions field's value.
-func (s *DescribeReportDefinitionsOutput) SetReportDefinitions(v []*ReportDefinition) *DescribeReportDefinitionsOutput {
-	s.ReportDefinitions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeReportDefinitionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request of PutReportDefinition
@@ -375,16 +361,12 @@ func (s *PutReportDefinitionInput) Validate() error {
 	return nil
 }
 
-// SetReportDefinition sets the ReportDefinition field's value.
-func (s *PutReportDefinitionInput) SetReportDefinition(v *ReportDefinition) *PutReportDefinitionInput {
-	s.ReportDefinition = v
-	return s
-}
-
 // Response of PutReportDefinition
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cur-2017-01-06/PutReportDefinitionResponse
 type PutReportDefinitionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -395,6 +377,11 @@ func (s PutReportDefinitionOutput) String() string {
 // GoString returns the string representation
 func (s PutReportDefinitionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutReportDefinitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The definition of AWS Cost and Usage Report. Customer can specify the report
@@ -415,12 +402,12 @@ type ReportDefinition struct {
 	// Preferred compression format for report.
 	//
 	// Compression is a required field
-	Compression CompressionFormat `type:"string" required:"true"`
+	Compression CompressionFormat `type:"string" required:"true" enum:"true"`
 
 	// Preferred format for report.
 	//
 	// Format is a required field
-	Format ReportFormat `type:"string" required:"true"`
+	Format ReportFormat `type:"string" required:"true" enum:"true"`
 
 	// Preferred name for a report, it has to be unique. Must starts with a number/letter,
 	// case sensitive. Limited to 256 characters.
@@ -441,12 +428,12 @@ type ReportDefinition struct {
 	// Region of customer S3 bucket.
 	//
 	// S3Region is a required field
-	S3Region AWSRegion `type:"string" required:"true"`
+	S3Region AWSRegion `type:"string" required:"true" enum:"true"`
 
 	// The frequency on which report data are measured and displayed.
 	//
 	// TimeUnit is a required field
-	TimeUnit TimeUnit `type:"string" required:"true"`
+	TimeUnit TimeUnit `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -497,60 +484,6 @@ func (s *ReportDefinition) Validate() error {
 	return nil
 }
 
-// SetAdditionalArtifacts sets the AdditionalArtifacts field's value.
-func (s *ReportDefinition) SetAdditionalArtifacts(v []AdditionalArtifact) *ReportDefinition {
-	s.AdditionalArtifacts = v
-	return s
-}
-
-// SetAdditionalSchemaElements sets the AdditionalSchemaElements field's value.
-func (s *ReportDefinition) SetAdditionalSchemaElements(v []SchemaElement) *ReportDefinition {
-	s.AdditionalSchemaElements = v
-	return s
-}
-
-// SetCompression sets the Compression field's value.
-func (s *ReportDefinition) SetCompression(v CompressionFormat) *ReportDefinition {
-	s.Compression = v
-	return s
-}
-
-// SetFormat sets the Format field's value.
-func (s *ReportDefinition) SetFormat(v ReportFormat) *ReportDefinition {
-	s.Format = v
-	return s
-}
-
-// SetReportName sets the ReportName field's value.
-func (s *ReportDefinition) SetReportName(v string) *ReportDefinition {
-	s.ReportName = &v
-	return s
-}
-
-// SetS3Bucket sets the S3Bucket field's value.
-func (s *ReportDefinition) SetS3Bucket(v string) *ReportDefinition {
-	s.S3Bucket = &v
-	return s
-}
-
-// SetS3Prefix sets the S3Prefix field's value.
-func (s *ReportDefinition) SetS3Prefix(v string) *ReportDefinition {
-	s.S3Prefix = &v
-	return s
-}
-
-// SetS3Region sets the S3Region field's value.
-func (s *ReportDefinition) SetS3Region(v AWSRegion) *ReportDefinition {
-	s.S3Region = v
-	return s
-}
-
-// SetTimeUnit sets the TimeUnit field's value.
-func (s *ReportDefinition) SetTimeUnit(v TimeUnit) *ReportDefinition {
-	s.TimeUnit = v
-	return s
-}
-
 // Region of customer S3 bucket.
 type AWSRegion string
 
@@ -566,6 +499,15 @@ const (
 	AWSRegionApNortheast1 AWSRegion = "ap-northeast-1"
 )
 
+func (enum AWSRegion) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AWSRegion) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Enable support for Redshift and/or QuickSight.
 type AdditionalArtifact string
 
@@ -574,6 +516,15 @@ const (
 	AdditionalArtifactRedshift   AdditionalArtifact = "REDSHIFT"
 	AdditionalArtifactQuicksight AdditionalArtifact = "QUICKSIGHT"
 )
+
+func (enum AdditionalArtifact) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AdditionalArtifact) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Preferred compression format for report.
 type CompressionFormat string
@@ -584,6 +535,15 @@ const (
 	CompressionFormatGzip CompressionFormat = "GZIP"
 )
 
+func (enum CompressionFormat) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CompressionFormat) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Preferred format for report.
 type ReportFormat string
 
@@ -591,6 +551,15 @@ type ReportFormat string
 const (
 	ReportFormatTextOrcsv ReportFormat = "textORcsv"
 )
+
+func (enum ReportFormat) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReportFormat) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Preference of including Resource IDs. You can include additional details
 // about individual resource IDs in your report.
@@ -601,6 +570,15 @@ const (
 	SchemaElementResources SchemaElement = "RESOURCES"
 )
 
+func (enum SchemaElement) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SchemaElement) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The frequency on which report data are measured and displayed.
 type TimeUnit string
 
@@ -609,3 +587,12 @@ const (
 	TimeUnitHourly TimeUnit = "HOURLY"
 	TimeUnitDaily  TimeUnit = "DAILY"
 )
+
+func (enum TimeUnit) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TimeUnit) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

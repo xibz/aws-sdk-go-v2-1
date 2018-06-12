@@ -75,8 +75,7 @@ type KinesisAPI interface {
 
 	DescribeStreamRequest(*kinesis.DescribeStreamInput) kinesis.DescribeStreamRequest
 
-	DescribeStreamPages(*kinesis.DescribeStreamInput, func(*kinesis.DescribeStreamOutput, bool) bool) error
-	DescribeStreamPagesWithContext(aws.Context, *kinesis.DescribeStreamInput, func(*kinesis.DescribeStreamOutput, bool) bool, ...aws.Option) error
+	DescribeStreamSummaryRequest(*kinesis.DescribeStreamSummaryInput) kinesis.DescribeStreamSummaryRequest
 
 	DisableEnhancedMonitoringRequest(*kinesis.DisableEnhancedMonitoringInput) kinesis.DisableEnhancedMonitoringRequest
 
@@ -88,10 +87,9 @@ type KinesisAPI interface {
 
 	IncreaseStreamRetentionPeriodRequest(*kinesis.IncreaseStreamRetentionPeriodInput) kinesis.IncreaseStreamRetentionPeriodRequest
 
-	ListStreamsRequest(*kinesis.ListStreamsInput) kinesis.ListStreamsRequest
+	ListShardsRequest(*kinesis.ListShardsInput) kinesis.ListShardsRequest
 
-	ListStreamsPages(*kinesis.ListStreamsInput, func(*kinesis.ListStreamsOutput, bool) bool) error
-	ListStreamsPagesWithContext(aws.Context, *kinesis.ListStreamsInput, func(*kinesis.ListStreamsOutput, bool) bool, ...aws.Option) error
+	ListStreamsRequest(*kinesis.ListStreamsInput) kinesis.ListStreamsRequest
 
 	ListTagsForStreamRequest(*kinesis.ListTagsForStreamInput) kinesis.ListTagsForStreamRequest
 

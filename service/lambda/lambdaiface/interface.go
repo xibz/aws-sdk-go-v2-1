@@ -9,7 +9,6 @@
 package lambdaiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
 )
 
@@ -77,6 +76,8 @@ type LambdaAPI interface {
 
 	DeleteFunctionRequest(*lambda.DeleteFunctionInput) lambda.DeleteFunctionRequest
 
+	DeleteFunctionConcurrencyRequest(*lambda.DeleteFunctionConcurrencyInput) lambda.DeleteFunctionConcurrencyRequest
+
 	GetAccountSettingsRequest(*lambda.GetAccountSettingsInput) lambda.GetAccountSettingsRequest
 
 	GetAliasRequest(*lambda.GetAliasInput) lambda.GetAliasRequest
@@ -97,19 +98,15 @@ type LambdaAPI interface {
 
 	ListEventSourceMappingsRequest(*lambda.ListEventSourceMappingsInput) lambda.ListEventSourceMappingsRequest
 
-	ListEventSourceMappingsPages(*lambda.ListEventSourceMappingsInput, func(*lambda.ListEventSourceMappingsOutput, bool) bool) error
-	ListEventSourceMappingsPagesWithContext(aws.Context, *lambda.ListEventSourceMappingsInput, func(*lambda.ListEventSourceMappingsOutput, bool) bool, ...aws.Option) error
-
 	ListFunctionsRequest(*lambda.ListFunctionsInput) lambda.ListFunctionsRequest
-
-	ListFunctionsPages(*lambda.ListFunctionsInput, func(*lambda.ListFunctionsOutput, bool) bool) error
-	ListFunctionsPagesWithContext(aws.Context, *lambda.ListFunctionsInput, func(*lambda.ListFunctionsOutput, bool) bool, ...aws.Option) error
 
 	ListTagsRequest(*lambda.ListTagsInput) lambda.ListTagsRequest
 
 	ListVersionsByFunctionRequest(*lambda.ListVersionsByFunctionInput) lambda.ListVersionsByFunctionRequest
 
 	PublishVersionRequest(*lambda.PublishVersionInput) lambda.PublishVersionRequest
+
+	PutFunctionConcurrencyRequest(*lambda.PutFunctionConcurrencyInput) lambda.PutFunctionConcurrencyRequest
 
 	RemovePermissionRequest(*lambda.RemovePermissionInput) lambda.RemovePermissionRequest
 

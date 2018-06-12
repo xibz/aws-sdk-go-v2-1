@@ -19,6 +19,7 @@ const opAbortMultipartUpload = "AbortMultipartUpload"
 type AbortMultipartUploadRequest struct {
 	*aws.Request
 	Input *AbortMultipartUploadInput
+	Copy  func(*AbortMultipartUploadInput) AbortMultipartUploadRequest
 }
 
 // Send marshals and sends the AbortMultipartUpload API request.
@@ -59,8 +60,11 @@ func (c *S3) AbortMultipartUploadRequest(input *AbortMultipartUploadInput) Abort
 		input = &AbortMultipartUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &AbortMultipartUploadOutput{})
-	return AbortMultipartUploadRequest{Request: req, Input: input}
+	output := &AbortMultipartUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AbortMultipartUploadRequest{Request: req, Input: input, Copy: c.AbortMultipartUploadRequest}
 }
 
 const opCompleteMultipartUpload = "CompleteMultipartUpload"
@@ -69,6 +73,7 @@ const opCompleteMultipartUpload = "CompleteMultipartUpload"
 type CompleteMultipartUploadRequest struct {
 	*aws.Request
 	Input *CompleteMultipartUploadInput
+	Copy  func(*CompleteMultipartUploadInput) CompleteMultipartUploadRequest
 }
 
 // Send marshals and sends the CompleteMultipartUpload API request.
@@ -105,8 +110,11 @@ func (c *S3) CompleteMultipartUploadRequest(input *CompleteMultipartUploadInput)
 		input = &CompleteMultipartUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &CompleteMultipartUploadOutput{})
-	return CompleteMultipartUploadRequest{Request: req, Input: input}
+	output := &CompleteMultipartUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CompleteMultipartUploadRequest{Request: req, Input: input, Copy: c.CompleteMultipartUploadRequest}
 }
 
 const opCopyObject = "CopyObject"
@@ -115,6 +123,7 @@ const opCopyObject = "CopyObject"
 type CopyObjectRequest struct {
 	*aws.Request
 	Input *CopyObjectInput
+	Copy  func(*CopyObjectInput) CopyObjectRequest
 }
 
 // Send marshals and sends the CopyObject API request.
@@ -151,8 +160,11 @@ func (c *S3) CopyObjectRequest(input *CopyObjectInput) CopyObjectRequest {
 		input = &CopyObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &CopyObjectOutput{})
-	return CopyObjectRequest{Request: req, Input: input}
+	output := &CopyObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CopyObjectRequest{Request: req, Input: input, Copy: c.CopyObjectRequest}
 }
 
 const opCreateBucket = "CreateBucket"
@@ -161,6 +173,7 @@ const opCreateBucket = "CreateBucket"
 type CreateBucketRequest struct {
 	*aws.Request
 	Input *CreateBucketInput
+	Copy  func(*CreateBucketInput) CreateBucketRequest
 }
 
 // Send marshals and sends the CreateBucket API request.
@@ -197,8 +210,11 @@ func (c *S3) CreateBucketRequest(input *CreateBucketInput) CreateBucketRequest {
 		input = &CreateBucketInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateBucketOutput{})
-	return CreateBucketRequest{Request: req, Input: input}
+	output := &CreateBucketOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateBucketRequest{Request: req, Input: input, Copy: c.CreateBucketRequest}
 }
 
 const opCreateMultipartUpload = "CreateMultipartUpload"
@@ -207,6 +223,7 @@ const opCreateMultipartUpload = "CreateMultipartUpload"
 type CreateMultipartUploadRequest struct {
 	*aws.Request
 	Input *CreateMultipartUploadInput
+	Copy  func(*CreateMultipartUploadInput) CreateMultipartUploadRequest
 }
 
 // Send marshals and sends the CreateMultipartUpload API request.
@@ -249,8 +266,11 @@ func (c *S3) CreateMultipartUploadRequest(input *CreateMultipartUploadInput) Cre
 		input = &CreateMultipartUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateMultipartUploadOutput{})
-	return CreateMultipartUploadRequest{Request: req, Input: input}
+	output := &CreateMultipartUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateMultipartUploadRequest{Request: req, Input: input, Copy: c.CreateMultipartUploadRequest}
 }
 
 const opDeleteBucket = "DeleteBucket"
@@ -259,6 +279,7 @@ const opDeleteBucket = "DeleteBucket"
 type DeleteBucketRequest struct {
 	*aws.Request
 	Input *DeleteBucketInput
+	Copy  func(*DeleteBucketInput) DeleteBucketRequest
 }
 
 // Send marshals and sends the DeleteBucket API request.
@@ -296,10 +317,13 @@ func (c *S3) DeleteBucketRequest(input *DeleteBucketInput) DeleteBucketRequest {
 		input = &DeleteBucketInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketOutput{})
+	output := &DeleteBucketOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketRequest{Request: req, Input: input, Copy: c.DeleteBucketRequest}
 }
 
 const opDeleteBucketAnalyticsConfiguration = "DeleteBucketAnalyticsConfiguration"
@@ -308,6 +332,7 @@ const opDeleteBucketAnalyticsConfiguration = "DeleteBucketAnalyticsConfiguration
 type DeleteBucketAnalyticsConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteBucketAnalyticsConfigurationInput
+	Copy  func(*DeleteBucketAnalyticsConfigurationInput) DeleteBucketAnalyticsConfigurationRequest
 }
 
 // Send marshals and sends the DeleteBucketAnalyticsConfiguration API request.
@@ -345,10 +370,13 @@ func (c *S3) DeleteBucketAnalyticsConfigurationRequest(input *DeleteBucketAnalyt
 		input = &DeleteBucketAnalyticsConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketAnalyticsConfigurationOutput{})
+	output := &DeleteBucketAnalyticsConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketAnalyticsConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketAnalyticsConfigurationRequest{Request: req, Input: input, Copy: c.DeleteBucketAnalyticsConfigurationRequest}
 }
 
 const opDeleteBucketCors = "DeleteBucketCors"
@@ -357,6 +385,7 @@ const opDeleteBucketCors = "DeleteBucketCors"
 type DeleteBucketCorsRequest struct {
 	*aws.Request
 	Input *DeleteBucketCorsInput
+	Copy  func(*DeleteBucketCorsInput) DeleteBucketCorsRequest
 }
 
 // Send marshals and sends the DeleteBucketCors API request.
@@ -393,10 +422,65 @@ func (c *S3) DeleteBucketCorsRequest(input *DeleteBucketCorsInput) DeleteBucketC
 		input = &DeleteBucketCorsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketCorsOutput{})
+	output := &DeleteBucketCorsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketCorsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketCorsRequest{Request: req, Input: input, Copy: c.DeleteBucketCorsRequest}
+}
+
+const opDeleteBucketEncryption = "DeleteBucketEncryption"
+
+// DeleteBucketEncryptionRequest is a API request type for the DeleteBucketEncryption API operation.
+type DeleteBucketEncryptionRequest struct {
+	*aws.Request
+	Input *DeleteBucketEncryptionInput
+	Copy  func(*DeleteBucketEncryptionInput) DeleteBucketEncryptionRequest
+}
+
+// Send marshals and sends the DeleteBucketEncryption API request.
+func (r DeleteBucketEncryptionRequest) Send() (*DeleteBucketEncryptionOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteBucketEncryptionOutput), nil
+}
+
+// DeleteBucketEncryptionRequest returns a request value for making API operation for
+// Amazon Simple Storage Service.
+//
+// Deletes the server-side encryption configuration from the bucket.
+//
+//    // Example sending a request using the DeleteBucketEncryptionRequest method.
+//    req := client.DeleteBucketEncryptionRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryption
+func (c *S3) DeleteBucketEncryptionRequest(input *DeleteBucketEncryptionInput) DeleteBucketEncryptionRequest {
+	op := &aws.Operation{
+		Name:       opDeleteBucketEncryption,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/{Bucket}?encryption",
+	}
+
+	if input == nil {
+		input = &DeleteBucketEncryptionInput{}
+	}
+
+	output := &DeleteBucketEncryptionOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketEncryptionRequest{Request: req, Input: input, Copy: c.DeleteBucketEncryptionRequest}
 }
 
 const opDeleteBucketInventoryConfiguration = "DeleteBucketInventoryConfiguration"
@@ -405,6 +489,7 @@ const opDeleteBucketInventoryConfiguration = "DeleteBucketInventoryConfiguration
 type DeleteBucketInventoryConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteBucketInventoryConfigurationInput
+	Copy  func(*DeleteBucketInventoryConfigurationInput) DeleteBucketInventoryConfigurationRequest
 }
 
 // Send marshals and sends the DeleteBucketInventoryConfiguration API request.
@@ -442,10 +527,13 @@ func (c *S3) DeleteBucketInventoryConfigurationRequest(input *DeleteBucketInvent
 		input = &DeleteBucketInventoryConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketInventoryConfigurationOutput{})
+	output := &DeleteBucketInventoryConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketInventoryConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketInventoryConfigurationRequest{Request: req, Input: input, Copy: c.DeleteBucketInventoryConfigurationRequest}
 }
 
 const opDeleteBucketLifecycle = "DeleteBucketLifecycle"
@@ -454,6 +542,7 @@ const opDeleteBucketLifecycle = "DeleteBucketLifecycle"
 type DeleteBucketLifecycleRequest struct {
 	*aws.Request
 	Input *DeleteBucketLifecycleInput
+	Copy  func(*DeleteBucketLifecycleInput) DeleteBucketLifecycleRequest
 }
 
 // Send marshals and sends the DeleteBucketLifecycle API request.
@@ -490,10 +579,13 @@ func (c *S3) DeleteBucketLifecycleRequest(input *DeleteBucketLifecycleInput) Del
 		input = &DeleteBucketLifecycleInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketLifecycleOutput{})
+	output := &DeleteBucketLifecycleOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketLifecycleRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketLifecycleRequest{Request: req, Input: input, Copy: c.DeleteBucketLifecycleRequest}
 }
 
 const opDeleteBucketMetricsConfiguration = "DeleteBucketMetricsConfiguration"
@@ -502,6 +594,7 @@ const opDeleteBucketMetricsConfiguration = "DeleteBucketMetricsConfiguration"
 type DeleteBucketMetricsConfigurationRequest struct {
 	*aws.Request
 	Input *DeleteBucketMetricsConfigurationInput
+	Copy  func(*DeleteBucketMetricsConfigurationInput) DeleteBucketMetricsConfigurationRequest
 }
 
 // Send marshals and sends the DeleteBucketMetricsConfiguration API request.
@@ -539,10 +632,13 @@ func (c *S3) DeleteBucketMetricsConfigurationRequest(input *DeleteBucketMetricsC
 		input = &DeleteBucketMetricsConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketMetricsConfigurationOutput{})
+	output := &DeleteBucketMetricsConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketMetricsConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketMetricsConfigurationRequest{Request: req, Input: input, Copy: c.DeleteBucketMetricsConfigurationRequest}
 }
 
 const opDeleteBucketPolicy = "DeleteBucketPolicy"
@@ -551,6 +647,7 @@ const opDeleteBucketPolicy = "DeleteBucketPolicy"
 type DeleteBucketPolicyRequest struct {
 	*aws.Request
 	Input *DeleteBucketPolicyInput
+	Copy  func(*DeleteBucketPolicyInput) DeleteBucketPolicyRequest
 }
 
 // Send marshals and sends the DeleteBucketPolicy API request.
@@ -587,10 +684,13 @@ func (c *S3) DeleteBucketPolicyRequest(input *DeleteBucketPolicyInput) DeleteBuc
 		input = &DeleteBucketPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketPolicyOutput{})
+	output := &DeleteBucketPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketPolicyRequest{Request: req, Input: input, Copy: c.DeleteBucketPolicyRequest}
 }
 
 const opDeleteBucketReplication = "DeleteBucketReplication"
@@ -599,6 +699,7 @@ const opDeleteBucketReplication = "DeleteBucketReplication"
 type DeleteBucketReplicationRequest struct {
 	*aws.Request
 	Input *DeleteBucketReplicationInput
+	Copy  func(*DeleteBucketReplicationInput) DeleteBucketReplicationRequest
 }
 
 // Send marshals and sends the DeleteBucketReplication API request.
@@ -635,10 +736,13 @@ func (c *S3) DeleteBucketReplicationRequest(input *DeleteBucketReplicationInput)
 		input = &DeleteBucketReplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketReplicationOutput{})
+	output := &DeleteBucketReplicationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketReplicationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketReplicationRequest{Request: req, Input: input, Copy: c.DeleteBucketReplicationRequest}
 }
 
 const opDeleteBucketTagging = "DeleteBucketTagging"
@@ -647,6 +751,7 @@ const opDeleteBucketTagging = "DeleteBucketTagging"
 type DeleteBucketTaggingRequest struct {
 	*aws.Request
 	Input *DeleteBucketTaggingInput
+	Copy  func(*DeleteBucketTaggingInput) DeleteBucketTaggingRequest
 }
 
 // Send marshals and sends the DeleteBucketTagging API request.
@@ -683,10 +788,13 @@ func (c *S3) DeleteBucketTaggingRequest(input *DeleteBucketTaggingInput) DeleteB
 		input = &DeleteBucketTaggingInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketTaggingOutput{})
+	output := &DeleteBucketTaggingOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketTaggingRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketTaggingRequest{Request: req, Input: input, Copy: c.DeleteBucketTaggingRequest}
 }
 
 const opDeleteBucketWebsite = "DeleteBucketWebsite"
@@ -695,6 +803,7 @@ const opDeleteBucketWebsite = "DeleteBucketWebsite"
 type DeleteBucketWebsiteRequest struct {
 	*aws.Request
 	Input *DeleteBucketWebsiteInput
+	Copy  func(*DeleteBucketWebsiteInput) DeleteBucketWebsiteRequest
 }
 
 // Send marshals and sends the DeleteBucketWebsite API request.
@@ -731,10 +840,13 @@ func (c *S3) DeleteBucketWebsiteRequest(input *DeleteBucketWebsiteInput) DeleteB
 		input = &DeleteBucketWebsiteInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBucketWebsiteOutput{})
+	output := &DeleteBucketWebsiteOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteBucketWebsiteRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBucketWebsiteRequest{Request: req, Input: input, Copy: c.DeleteBucketWebsiteRequest}
 }
 
 const opDeleteObject = "DeleteObject"
@@ -743,6 +855,7 @@ const opDeleteObject = "DeleteObject"
 type DeleteObjectRequest struct {
 	*aws.Request
 	Input *DeleteObjectInput
+	Copy  func(*DeleteObjectInput) DeleteObjectRequest
 }
 
 // Send marshals and sends the DeleteObject API request.
@@ -781,8 +894,11 @@ func (c *S3) DeleteObjectRequest(input *DeleteObjectInput) DeleteObjectRequest {
 		input = &DeleteObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteObjectOutput{})
-	return DeleteObjectRequest{Request: req, Input: input}
+	output := &DeleteObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteObjectRequest{Request: req, Input: input, Copy: c.DeleteObjectRequest}
 }
 
 const opDeleteObjectTagging = "DeleteObjectTagging"
@@ -791,6 +907,7 @@ const opDeleteObjectTagging = "DeleteObjectTagging"
 type DeleteObjectTaggingRequest struct {
 	*aws.Request
 	Input *DeleteObjectTaggingInput
+	Copy  func(*DeleteObjectTaggingInput) DeleteObjectTaggingRequest
 }
 
 // Send marshals and sends the DeleteObjectTagging API request.
@@ -827,8 +944,11 @@ func (c *S3) DeleteObjectTaggingRequest(input *DeleteObjectTaggingInput) DeleteO
 		input = &DeleteObjectTaggingInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteObjectTaggingOutput{})
-	return DeleteObjectTaggingRequest{Request: req, Input: input}
+	output := &DeleteObjectTaggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteObjectTaggingRequest{Request: req, Input: input, Copy: c.DeleteObjectTaggingRequest}
 }
 
 const opDeleteObjects = "DeleteObjects"
@@ -837,6 +957,7 @@ const opDeleteObjects = "DeleteObjects"
 type DeleteObjectsRequest struct {
 	*aws.Request
 	Input *DeleteObjectsInput
+	Copy  func(*DeleteObjectsInput) DeleteObjectsRequest
 }
 
 // Send marshals and sends the DeleteObjects API request.
@@ -874,8 +995,11 @@ func (c *S3) DeleteObjectsRequest(input *DeleteObjectsInput) DeleteObjectsReques
 		input = &DeleteObjectsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteObjectsOutput{})
-	return DeleteObjectsRequest{Request: req, Input: input}
+	output := &DeleteObjectsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteObjectsRequest{Request: req, Input: input, Copy: c.DeleteObjectsRequest}
 }
 
 const opGetBucketAccelerateConfiguration = "GetBucketAccelerateConfiguration"
@@ -884,6 +1008,7 @@ const opGetBucketAccelerateConfiguration = "GetBucketAccelerateConfiguration"
 type GetBucketAccelerateConfigurationRequest struct {
 	*aws.Request
 	Input *GetBucketAccelerateConfigurationInput
+	Copy  func(*GetBucketAccelerateConfigurationInput) GetBucketAccelerateConfigurationRequest
 }
 
 // Send marshals and sends the GetBucketAccelerateConfiguration API request.
@@ -920,8 +1045,11 @@ func (c *S3) GetBucketAccelerateConfigurationRequest(input *GetBucketAccelerateC
 		input = &GetBucketAccelerateConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketAccelerateConfigurationOutput{})
-	return GetBucketAccelerateConfigurationRequest{Request: req, Input: input}
+	output := &GetBucketAccelerateConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketAccelerateConfigurationRequest{Request: req, Input: input, Copy: c.GetBucketAccelerateConfigurationRequest}
 }
 
 const opGetBucketAcl = "GetBucketAcl"
@@ -930,6 +1058,7 @@ const opGetBucketAcl = "GetBucketAcl"
 type GetBucketAclRequest struct {
 	*aws.Request
 	Input *GetBucketAclInput
+	Copy  func(*GetBucketAclInput) GetBucketAclRequest
 }
 
 // Send marshals and sends the GetBucketAcl API request.
@@ -966,8 +1095,11 @@ func (c *S3) GetBucketAclRequest(input *GetBucketAclInput) GetBucketAclRequest {
 		input = &GetBucketAclInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketAclOutput{})
-	return GetBucketAclRequest{Request: req, Input: input}
+	output := &GetBucketAclOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketAclRequest{Request: req, Input: input, Copy: c.GetBucketAclRequest}
 }
 
 const opGetBucketAnalyticsConfiguration = "GetBucketAnalyticsConfiguration"
@@ -976,6 +1108,7 @@ const opGetBucketAnalyticsConfiguration = "GetBucketAnalyticsConfiguration"
 type GetBucketAnalyticsConfigurationRequest struct {
 	*aws.Request
 	Input *GetBucketAnalyticsConfigurationInput
+	Copy  func(*GetBucketAnalyticsConfigurationInput) GetBucketAnalyticsConfigurationRequest
 }
 
 // Send marshals and sends the GetBucketAnalyticsConfiguration API request.
@@ -1013,8 +1146,11 @@ func (c *S3) GetBucketAnalyticsConfigurationRequest(input *GetBucketAnalyticsCon
 		input = &GetBucketAnalyticsConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketAnalyticsConfigurationOutput{})
-	return GetBucketAnalyticsConfigurationRequest{Request: req, Input: input}
+	output := &GetBucketAnalyticsConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketAnalyticsConfigurationRequest{Request: req, Input: input, Copy: c.GetBucketAnalyticsConfigurationRequest}
 }
 
 const opGetBucketCors = "GetBucketCors"
@@ -1023,6 +1159,7 @@ const opGetBucketCors = "GetBucketCors"
 type GetBucketCorsRequest struct {
 	*aws.Request
 	Input *GetBucketCorsInput
+	Copy  func(*GetBucketCorsInput) GetBucketCorsRequest
 }
 
 // Send marshals and sends the GetBucketCors API request.
@@ -1059,8 +1196,61 @@ func (c *S3) GetBucketCorsRequest(input *GetBucketCorsInput) GetBucketCorsReques
 		input = &GetBucketCorsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketCorsOutput{})
-	return GetBucketCorsRequest{Request: req, Input: input}
+	output := &GetBucketCorsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketCorsRequest{Request: req, Input: input, Copy: c.GetBucketCorsRequest}
+}
+
+const opGetBucketEncryption = "GetBucketEncryption"
+
+// GetBucketEncryptionRequest is a API request type for the GetBucketEncryption API operation.
+type GetBucketEncryptionRequest struct {
+	*aws.Request
+	Input *GetBucketEncryptionInput
+	Copy  func(*GetBucketEncryptionInput) GetBucketEncryptionRequest
+}
+
+// Send marshals and sends the GetBucketEncryption API request.
+func (r GetBucketEncryptionRequest) Send() (*GetBucketEncryptionOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetBucketEncryptionOutput), nil
+}
+
+// GetBucketEncryptionRequest returns a request value for making API operation for
+// Amazon Simple Storage Service.
+//
+// Returns the server-side encryption configuration of a bucket.
+//
+//    // Example sending a request using the GetBucketEncryptionRequest method.
+//    req := client.GetBucketEncryptionRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryption
+func (c *S3) GetBucketEncryptionRequest(input *GetBucketEncryptionInput) GetBucketEncryptionRequest {
+	op := &aws.Operation{
+		Name:       opGetBucketEncryption,
+		HTTPMethod: "GET",
+		HTTPPath:   "/{Bucket}?encryption",
+	}
+
+	if input == nil {
+		input = &GetBucketEncryptionInput{}
+	}
+
+	output := &GetBucketEncryptionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketEncryptionRequest{Request: req, Input: input, Copy: c.GetBucketEncryptionRequest}
 }
 
 const opGetBucketInventoryConfiguration = "GetBucketInventoryConfiguration"
@@ -1069,6 +1259,7 @@ const opGetBucketInventoryConfiguration = "GetBucketInventoryConfiguration"
 type GetBucketInventoryConfigurationRequest struct {
 	*aws.Request
 	Input *GetBucketInventoryConfigurationInput
+	Copy  func(*GetBucketInventoryConfigurationInput) GetBucketInventoryConfigurationRequest
 }
 
 // Send marshals and sends the GetBucketInventoryConfiguration API request.
@@ -1106,8 +1297,11 @@ func (c *S3) GetBucketInventoryConfigurationRequest(input *GetBucketInventoryCon
 		input = &GetBucketInventoryConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketInventoryConfigurationOutput{})
-	return GetBucketInventoryConfigurationRequest{Request: req, Input: input}
+	output := &GetBucketInventoryConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketInventoryConfigurationRequest{Request: req, Input: input, Copy: c.GetBucketInventoryConfigurationRequest}
 }
 
 const opGetBucketLifecycle = "GetBucketLifecycle"
@@ -1116,6 +1310,7 @@ const opGetBucketLifecycle = "GetBucketLifecycle"
 type GetBucketLifecycleRequest struct {
 	*aws.Request
 	Input *GetBucketLifecycleInput
+	Copy  func(*GetBucketLifecycleInput) GetBucketLifecycleRequest
 }
 
 // Send marshals and sends the GetBucketLifecycle API request.
@@ -1155,8 +1350,11 @@ func (c *S3) GetBucketLifecycleRequest(input *GetBucketLifecycleInput) GetBucket
 		input = &GetBucketLifecycleInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketLifecycleOutput{})
-	return GetBucketLifecycleRequest{Request: req, Input: input}
+	output := &GetBucketLifecycleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketLifecycleRequest{Request: req, Input: input, Copy: c.GetBucketLifecycleRequest}
 }
 
 const opGetBucketLifecycleConfiguration = "GetBucketLifecycleConfiguration"
@@ -1165,6 +1363,7 @@ const opGetBucketLifecycleConfiguration = "GetBucketLifecycleConfiguration"
 type GetBucketLifecycleConfigurationRequest struct {
 	*aws.Request
 	Input *GetBucketLifecycleConfigurationInput
+	Copy  func(*GetBucketLifecycleConfigurationInput) GetBucketLifecycleConfigurationRequest
 }
 
 // Send marshals and sends the GetBucketLifecycleConfiguration API request.
@@ -1201,8 +1400,11 @@ func (c *S3) GetBucketLifecycleConfigurationRequest(input *GetBucketLifecycleCon
 		input = &GetBucketLifecycleConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketLifecycleConfigurationOutput{})
-	return GetBucketLifecycleConfigurationRequest{Request: req, Input: input}
+	output := &GetBucketLifecycleConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketLifecycleConfigurationRequest{Request: req, Input: input, Copy: c.GetBucketLifecycleConfigurationRequest}
 }
 
 const opGetBucketLocation = "GetBucketLocation"
@@ -1211,6 +1413,7 @@ const opGetBucketLocation = "GetBucketLocation"
 type GetBucketLocationRequest struct {
 	*aws.Request
 	Input *GetBucketLocationInput
+	Copy  func(*GetBucketLocationInput) GetBucketLocationRequest
 }
 
 // Send marshals and sends the GetBucketLocation API request.
@@ -1247,8 +1450,11 @@ func (c *S3) GetBucketLocationRequest(input *GetBucketLocationInput) GetBucketLo
 		input = &GetBucketLocationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketLocationOutput{})
-	return GetBucketLocationRequest{Request: req, Input: input}
+	output := &GetBucketLocationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketLocationRequest{Request: req, Input: input, Copy: c.GetBucketLocationRequest}
 }
 
 const opGetBucketLogging = "GetBucketLogging"
@@ -1257,6 +1463,7 @@ const opGetBucketLogging = "GetBucketLogging"
 type GetBucketLoggingRequest struct {
 	*aws.Request
 	Input *GetBucketLoggingInput
+	Copy  func(*GetBucketLoggingInput) GetBucketLoggingRequest
 }
 
 // Send marshals and sends the GetBucketLogging API request.
@@ -1294,8 +1501,11 @@ func (c *S3) GetBucketLoggingRequest(input *GetBucketLoggingInput) GetBucketLogg
 		input = &GetBucketLoggingInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketLoggingOutput{})
-	return GetBucketLoggingRequest{Request: req, Input: input}
+	output := &GetBucketLoggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketLoggingRequest{Request: req, Input: input, Copy: c.GetBucketLoggingRequest}
 }
 
 const opGetBucketMetricsConfiguration = "GetBucketMetricsConfiguration"
@@ -1304,6 +1514,7 @@ const opGetBucketMetricsConfiguration = "GetBucketMetricsConfiguration"
 type GetBucketMetricsConfigurationRequest struct {
 	*aws.Request
 	Input *GetBucketMetricsConfigurationInput
+	Copy  func(*GetBucketMetricsConfigurationInput) GetBucketMetricsConfigurationRequest
 }
 
 // Send marshals and sends the GetBucketMetricsConfiguration API request.
@@ -1341,8 +1552,11 @@ func (c *S3) GetBucketMetricsConfigurationRequest(input *GetBucketMetricsConfigu
 		input = &GetBucketMetricsConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketMetricsConfigurationOutput{})
-	return GetBucketMetricsConfigurationRequest{Request: req, Input: input}
+	output := &GetBucketMetricsConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketMetricsConfigurationRequest{Request: req, Input: input, Copy: c.GetBucketMetricsConfigurationRequest}
 }
 
 const opGetBucketNotification = "GetBucketNotification"
@@ -1351,6 +1565,7 @@ const opGetBucketNotification = "GetBucketNotification"
 type GetBucketNotificationRequest struct {
 	*aws.Request
 	Input *GetBucketNotificationConfigurationInput
+	Copy  func(*GetBucketNotificationConfigurationInput) GetBucketNotificationRequest
 }
 
 // Send marshals and sends the GetBucketNotification API request.
@@ -1390,8 +1605,11 @@ func (c *S3) GetBucketNotificationRequest(input *GetBucketNotificationConfigurat
 		input = &GetBucketNotificationConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketNotificationOutput{})
-	return GetBucketNotificationRequest{Request: req, Input: input}
+	output := &GetBucketNotificationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketNotificationRequest{Request: req, Input: input, Copy: c.GetBucketNotificationRequest}
 }
 
 const opGetBucketNotificationConfiguration = "GetBucketNotificationConfiguration"
@@ -1400,6 +1618,7 @@ const opGetBucketNotificationConfiguration = "GetBucketNotificationConfiguration
 type GetBucketNotificationConfigurationRequest struct {
 	*aws.Request
 	Input *GetBucketNotificationConfigurationInput
+	Copy  func(*GetBucketNotificationConfigurationInput) GetBucketNotificationConfigurationRequest
 }
 
 // Send marshals and sends the GetBucketNotificationConfiguration API request.
@@ -1436,8 +1655,11 @@ func (c *S3) GetBucketNotificationConfigurationRequest(input *GetBucketNotificat
 		input = &GetBucketNotificationConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketNotificationConfigurationOutput{})
-	return GetBucketNotificationConfigurationRequest{Request: req, Input: input}
+	output := &GetBucketNotificationConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketNotificationConfigurationRequest{Request: req, Input: input, Copy: c.GetBucketNotificationConfigurationRequest}
 }
 
 const opGetBucketPolicy = "GetBucketPolicy"
@@ -1446,6 +1668,7 @@ const opGetBucketPolicy = "GetBucketPolicy"
 type GetBucketPolicyRequest struct {
 	*aws.Request
 	Input *GetBucketPolicyInput
+	Copy  func(*GetBucketPolicyInput) GetBucketPolicyRequest
 }
 
 // Send marshals and sends the GetBucketPolicy API request.
@@ -1482,8 +1705,11 @@ func (c *S3) GetBucketPolicyRequest(input *GetBucketPolicyInput) GetBucketPolicy
 		input = &GetBucketPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketPolicyOutput{})
-	return GetBucketPolicyRequest{Request: req, Input: input}
+	output := &GetBucketPolicyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketPolicyRequest{Request: req, Input: input, Copy: c.GetBucketPolicyRequest}
 }
 
 const opGetBucketReplication = "GetBucketReplication"
@@ -1492,6 +1718,7 @@ const opGetBucketReplication = "GetBucketReplication"
 type GetBucketReplicationRequest struct {
 	*aws.Request
 	Input *GetBucketReplicationInput
+	Copy  func(*GetBucketReplicationInput) GetBucketReplicationRequest
 }
 
 // Send marshals and sends the GetBucketReplication API request.
@@ -1528,8 +1755,11 @@ func (c *S3) GetBucketReplicationRequest(input *GetBucketReplicationInput) GetBu
 		input = &GetBucketReplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketReplicationOutput{})
-	return GetBucketReplicationRequest{Request: req, Input: input}
+	output := &GetBucketReplicationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketReplicationRequest{Request: req, Input: input, Copy: c.GetBucketReplicationRequest}
 }
 
 const opGetBucketRequestPayment = "GetBucketRequestPayment"
@@ -1538,6 +1768,7 @@ const opGetBucketRequestPayment = "GetBucketRequestPayment"
 type GetBucketRequestPaymentRequest struct {
 	*aws.Request
 	Input *GetBucketRequestPaymentInput
+	Copy  func(*GetBucketRequestPaymentInput) GetBucketRequestPaymentRequest
 }
 
 // Send marshals and sends the GetBucketRequestPayment API request.
@@ -1574,8 +1805,11 @@ func (c *S3) GetBucketRequestPaymentRequest(input *GetBucketRequestPaymentInput)
 		input = &GetBucketRequestPaymentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketRequestPaymentOutput{})
-	return GetBucketRequestPaymentRequest{Request: req, Input: input}
+	output := &GetBucketRequestPaymentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketRequestPaymentRequest{Request: req, Input: input, Copy: c.GetBucketRequestPaymentRequest}
 }
 
 const opGetBucketTagging = "GetBucketTagging"
@@ -1584,6 +1818,7 @@ const opGetBucketTagging = "GetBucketTagging"
 type GetBucketTaggingRequest struct {
 	*aws.Request
 	Input *GetBucketTaggingInput
+	Copy  func(*GetBucketTaggingInput) GetBucketTaggingRequest
 }
 
 // Send marshals and sends the GetBucketTagging API request.
@@ -1620,8 +1855,11 @@ func (c *S3) GetBucketTaggingRequest(input *GetBucketTaggingInput) GetBucketTagg
 		input = &GetBucketTaggingInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketTaggingOutput{})
-	return GetBucketTaggingRequest{Request: req, Input: input}
+	output := &GetBucketTaggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketTaggingRequest{Request: req, Input: input, Copy: c.GetBucketTaggingRequest}
 }
 
 const opGetBucketVersioning = "GetBucketVersioning"
@@ -1630,6 +1868,7 @@ const opGetBucketVersioning = "GetBucketVersioning"
 type GetBucketVersioningRequest struct {
 	*aws.Request
 	Input *GetBucketVersioningInput
+	Copy  func(*GetBucketVersioningInput) GetBucketVersioningRequest
 }
 
 // Send marshals and sends the GetBucketVersioning API request.
@@ -1666,8 +1905,11 @@ func (c *S3) GetBucketVersioningRequest(input *GetBucketVersioningInput) GetBuck
 		input = &GetBucketVersioningInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketVersioningOutput{})
-	return GetBucketVersioningRequest{Request: req, Input: input}
+	output := &GetBucketVersioningOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketVersioningRequest{Request: req, Input: input, Copy: c.GetBucketVersioningRequest}
 }
 
 const opGetBucketWebsite = "GetBucketWebsite"
@@ -1676,6 +1918,7 @@ const opGetBucketWebsite = "GetBucketWebsite"
 type GetBucketWebsiteRequest struct {
 	*aws.Request
 	Input *GetBucketWebsiteInput
+	Copy  func(*GetBucketWebsiteInput) GetBucketWebsiteRequest
 }
 
 // Send marshals and sends the GetBucketWebsite API request.
@@ -1712,8 +1955,11 @@ func (c *S3) GetBucketWebsiteRequest(input *GetBucketWebsiteInput) GetBucketWebs
 		input = &GetBucketWebsiteInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBucketWebsiteOutput{})
-	return GetBucketWebsiteRequest{Request: req, Input: input}
+	output := &GetBucketWebsiteOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBucketWebsiteRequest{Request: req, Input: input, Copy: c.GetBucketWebsiteRequest}
 }
 
 const opGetObject = "GetObject"
@@ -1722,6 +1968,7 @@ const opGetObject = "GetObject"
 type GetObjectRequest struct {
 	*aws.Request
 	Input *GetObjectInput
+	Copy  func(*GetObjectInput) GetObjectRequest
 }
 
 // Send marshals and sends the GetObject API request.
@@ -1758,8 +2005,11 @@ func (c *S3) GetObjectRequest(input *GetObjectInput) GetObjectRequest {
 		input = &GetObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &GetObjectOutput{})
-	return GetObjectRequest{Request: req, Input: input}
+	output := &GetObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetObjectRequest{Request: req, Input: input, Copy: c.GetObjectRequest}
 }
 
 const opGetObjectAcl = "GetObjectAcl"
@@ -1768,6 +2018,7 @@ const opGetObjectAcl = "GetObjectAcl"
 type GetObjectAclRequest struct {
 	*aws.Request
 	Input *GetObjectAclInput
+	Copy  func(*GetObjectAclInput) GetObjectAclRequest
 }
 
 // Send marshals and sends the GetObjectAcl API request.
@@ -1804,8 +2055,11 @@ func (c *S3) GetObjectAclRequest(input *GetObjectAclInput) GetObjectAclRequest {
 		input = &GetObjectAclInput{}
 	}
 
-	req := c.newRequest(op, input, &GetObjectAclOutput{})
-	return GetObjectAclRequest{Request: req, Input: input}
+	output := &GetObjectAclOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetObjectAclRequest{Request: req, Input: input, Copy: c.GetObjectAclRequest}
 }
 
 const opGetObjectTagging = "GetObjectTagging"
@@ -1814,6 +2068,7 @@ const opGetObjectTagging = "GetObjectTagging"
 type GetObjectTaggingRequest struct {
 	*aws.Request
 	Input *GetObjectTaggingInput
+	Copy  func(*GetObjectTaggingInput) GetObjectTaggingRequest
 }
 
 // Send marshals and sends the GetObjectTagging API request.
@@ -1850,8 +2105,11 @@ func (c *S3) GetObjectTaggingRequest(input *GetObjectTaggingInput) GetObjectTagg
 		input = &GetObjectTaggingInput{}
 	}
 
-	req := c.newRequest(op, input, &GetObjectTaggingOutput{})
-	return GetObjectTaggingRequest{Request: req, Input: input}
+	output := &GetObjectTaggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetObjectTaggingRequest{Request: req, Input: input, Copy: c.GetObjectTaggingRequest}
 }
 
 const opGetObjectTorrent = "GetObjectTorrent"
@@ -1860,6 +2118,7 @@ const opGetObjectTorrent = "GetObjectTorrent"
 type GetObjectTorrentRequest struct {
 	*aws.Request
 	Input *GetObjectTorrentInput
+	Copy  func(*GetObjectTorrentInput) GetObjectTorrentRequest
 }
 
 // Send marshals and sends the GetObjectTorrent API request.
@@ -1896,8 +2155,11 @@ func (c *S3) GetObjectTorrentRequest(input *GetObjectTorrentInput) GetObjectTorr
 		input = &GetObjectTorrentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetObjectTorrentOutput{})
-	return GetObjectTorrentRequest{Request: req, Input: input}
+	output := &GetObjectTorrentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetObjectTorrentRequest{Request: req, Input: input, Copy: c.GetObjectTorrentRequest}
 }
 
 const opHeadBucket = "HeadBucket"
@@ -1906,6 +2168,7 @@ const opHeadBucket = "HeadBucket"
 type HeadBucketRequest struct {
 	*aws.Request
 	Input *HeadBucketInput
+	Copy  func(*HeadBucketInput) HeadBucketRequest
 }
 
 // Send marshals and sends the HeadBucket API request.
@@ -1943,10 +2206,13 @@ func (c *S3) HeadBucketRequest(input *HeadBucketInput) HeadBucketRequest {
 		input = &HeadBucketInput{}
 	}
 
-	req := c.newRequest(op, input, &HeadBucketOutput{})
+	output := &HeadBucketOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return HeadBucketRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return HeadBucketRequest{Request: req, Input: input, Copy: c.HeadBucketRequest}
 }
 
 const opHeadObject = "HeadObject"
@@ -1955,6 +2221,7 @@ const opHeadObject = "HeadObject"
 type HeadObjectRequest struct {
 	*aws.Request
 	Input *HeadObjectInput
+	Copy  func(*HeadObjectInput) HeadObjectRequest
 }
 
 // Send marshals and sends the HeadObject API request.
@@ -1996,8 +2263,11 @@ func (c *S3) HeadObjectRequest(input *HeadObjectInput) HeadObjectRequest {
 		input = &HeadObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &HeadObjectOutput{})
-	return HeadObjectRequest{Request: req, Input: input}
+	output := &HeadObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return HeadObjectRequest{Request: req, Input: input, Copy: c.HeadObjectRequest}
 }
 
 const opListBucketAnalyticsConfigurations = "ListBucketAnalyticsConfigurations"
@@ -2006,6 +2276,7 @@ const opListBucketAnalyticsConfigurations = "ListBucketAnalyticsConfigurations"
 type ListBucketAnalyticsConfigurationsRequest struct {
 	*aws.Request
 	Input *ListBucketAnalyticsConfigurationsInput
+	Copy  func(*ListBucketAnalyticsConfigurationsInput) ListBucketAnalyticsConfigurationsRequest
 }
 
 // Send marshals and sends the ListBucketAnalyticsConfigurations API request.
@@ -2042,8 +2313,11 @@ func (c *S3) ListBucketAnalyticsConfigurationsRequest(input *ListBucketAnalytics
 		input = &ListBucketAnalyticsConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBucketAnalyticsConfigurationsOutput{})
-	return ListBucketAnalyticsConfigurationsRequest{Request: req, Input: input}
+	output := &ListBucketAnalyticsConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBucketAnalyticsConfigurationsRequest{Request: req, Input: input, Copy: c.ListBucketAnalyticsConfigurationsRequest}
 }
 
 const opListBucketInventoryConfigurations = "ListBucketInventoryConfigurations"
@@ -2052,6 +2326,7 @@ const opListBucketInventoryConfigurations = "ListBucketInventoryConfigurations"
 type ListBucketInventoryConfigurationsRequest struct {
 	*aws.Request
 	Input *ListBucketInventoryConfigurationsInput
+	Copy  func(*ListBucketInventoryConfigurationsInput) ListBucketInventoryConfigurationsRequest
 }
 
 // Send marshals and sends the ListBucketInventoryConfigurations API request.
@@ -2088,8 +2363,11 @@ func (c *S3) ListBucketInventoryConfigurationsRequest(input *ListBucketInventory
 		input = &ListBucketInventoryConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBucketInventoryConfigurationsOutput{})
-	return ListBucketInventoryConfigurationsRequest{Request: req, Input: input}
+	output := &ListBucketInventoryConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBucketInventoryConfigurationsRequest{Request: req, Input: input, Copy: c.ListBucketInventoryConfigurationsRequest}
 }
 
 const opListBucketMetricsConfigurations = "ListBucketMetricsConfigurations"
@@ -2098,6 +2376,7 @@ const opListBucketMetricsConfigurations = "ListBucketMetricsConfigurations"
 type ListBucketMetricsConfigurationsRequest struct {
 	*aws.Request
 	Input *ListBucketMetricsConfigurationsInput
+	Copy  func(*ListBucketMetricsConfigurationsInput) ListBucketMetricsConfigurationsRequest
 }
 
 // Send marshals and sends the ListBucketMetricsConfigurations API request.
@@ -2134,8 +2413,11 @@ func (c *S3) ListBucketMetricsConfigurationsRequest(input *ListBucketMetricsConf
 		input = &ListBucketMetricsConfigurationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBucketMetricsConfigurationsOutput{})
-	return ListBucketMetricsConfigurationsRequest{Request: req, Input: input}
+	output := &ListBucketMetricsConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBucketMetricsConfigurationsRequest{Request: req, Input: input, Copy: c.ListBucketMetricsConfigurationsRequest}
 }
 
 const opListBuckets = "ListBuckets"
@@ -2144,6 +2426,7 @@ const opListBuckets = "ListBuckets"
 type ListBucketsRequest struct {
 	*aws.Request
 	Input *ListBucketsInput
+	Copy  func(*ListBucketsInput) ListBucketsRequest
 }
 
 // Send marshals and sends the ListBuckets API request.
@@ -2180,8 +2463,11 @@ func (c *S3) ListBucketsRequest(input *ListBucketsInput) ListBucketsRequest {
 		input = &ListBucketsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBucketsOutput{})
-	return ListBucketsRequest{Request: req, Input: input}
+	output := &ListBucketsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBucketsRequest{Request: req, Input: input, Copy: c.ListBucketsRequest}
 }
 
 const opListMultipartUploads = "ListMultipartUploads"
@@ -2190,6 +2476,7 @@ const opListMultipartUploads = "ListMultipartUploads"
 type ListMultipartUploadsRequest struct {
 	*aws.Request
 	Input *ListMultipartUploadsInput
+	Copy  func(*ListMultipartUploadsInput) ListMultipartUploadsRequest
 }
 
 // Send marshals and sends the ListMultipartUploads API request.
@@ -2232,58 +2519,57 @@ func (c *S3) ListMultipartUploadsRequest(input *ListMultipartUploadsInput) ListM
 		input = &ListMultipartUploadsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListMultipartUploadsOutput{})
-	return ListMultipartUploadsRequest{Request: req, Input: input}
+	output := &ListMultipartUploadsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListMultipartUploadsRequest{Request: req, Input: input, Copy: c.ListMultipartUploadsRequest}
 }
 
-// ListMultipartUploadsPages iterates over the pages of a ListMultipartUploads operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListMultipartUploads method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListMultipartUploadsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListMultipartUploads operation.
-//    pageNum := 0
-//    err := client.ListMultipartUploadsPages(params,
-//        func(page *ListMultipartUploadsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListMultipartUploadsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *S3) ListMultipartUploadsPages(input *ListMultipartUploadsInput, fn func(*ListMultipartUploadsOutput, bool) bool) error {
-	return c.ListMultipartUploadsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListMultipartUploadsRequest) Paginate(opts ...aws.Option) ListMultipartUploadsPager {
+	return ListMultipartUploadsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListMultipartUploadsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListMultipartUploadsPagesWithContext same as ListMultipartUploadsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *S3) ListMultipartUploadsPagesWithContext(ctx aws.Context, input *ListMultipartUploadsInput, fn func(*ListMultipartUploadsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListMultipartUploadsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListMultipartUploadsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListMultipartUploadsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListMultipartUploadsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListMultipartUploadsPager struct {
+	aws.Pager
+}
+
+func (p *ListMultipartUploadsPager) CurrentPage() *ListMultipartUploadsOutput {
+	return p.Pager.CurrentPage().(*ListMultipartUploadsOutput)
 }
 
 const opListObjectVersions = "ListObjectVersions"
@@ -2292,6 +2578,7 @@ const opListObjectVersions = "ListObjectVersions"
 type ListObjectVersionsRequest struct {
 	*aws.Request
 	Input *ListObjectVersionsInput
+	Copy  func(*ListObjectVersionsInput) ListObjectVersionsRequest
 }
 
 // Send marshals and sends the ListObjectVersions API request.
@@ -2334,58 +2621,57 @@ func (c *S3) ListObjectVersionsRequest(input *ListObjectVersionsInput) ListObjec
 		input = &ListObjectVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectVersionsOutput{})
-	return ListObjectVersionsRequest{Request: req, Input: input}
+	output := &ListObjectVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectVersionsRequest{Request: req, Input: input, Copy: c.ListObjectVersionsRequest}
 }
 
-// ListObjectVersionsPages iterates over the pages of a ListObjectVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectVersions operation.
-//    pageNum := 0
-//    err := client.ListObjectVersionsPages(params,
-//        func(page *ListObjectVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *S3) ListObjectVersionsPages(input *ListObjectVersionsInput, fn func(*ListObjectVersionsOutput, bool) bool) error {
-	return c.ListObjectVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectVersionsRequest) Paginate(opts ...aws.Option) ListObjectVersionsPager {
+	return ListObjectVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectVersionsPagesWithContext same as ListObjectVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *S3) ListObjectVersionsPagesWithContext(ctx aws.Context, input *ListObjectVersionsInput, fn func(*ListObjectVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectVersionsPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectVersionsPager) CurrentPage() *ListObjectVersionsOutput {
+	return p.Pager.CurrentPage().(*ListObjectVersionsOutput)
 }
 
 const opListObjects = "ListObjects"
@@ -2394,6 +2680,7 @@ const opListObjects = "ListObjects"
 type ListObjectsRequest struct {
 	*aws.Request
 	Input *ListObjectsInput
+	Copy  func(*ListObjectsInput) ListObjectsRequest
 }
 
 // Send marshals and sends the ListObjects API request.
@@ -2438,58 +2725,57 @@ func (c *S3) ListObjectsRequest(input *ListObjectsInput) ListObjectsRequest {
 		input = &ListObjectsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectsOutput{})
-	return ListObjectsRequest{Request: req, Input: input}
+	output := &ListObjectsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectsRequest{Request: req, Input: input, Copy: c.ListObjectsRequest}
 }
 
-// ListObjectsPages iterates over the pages of a ListObjects operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjects method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjects operation.
-//    pageNum := 0
-//    err := client.ListObjectsPages(params,
-//        func(page *ListObjectsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *S3) ListObjectsPages(input *ListObjectsInput, fn func(*ListObjectsOutput, bool) bool) error {
-	return c.ListObjectsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectsRequest) Paginate(opts ...aws.Option) ListObjectsPager {
+	return ListObjectsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectsPagesWithContext same as ListObjectsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *S3) ListObjectsPagesWithContext(ctx aws.Context, input *ListObjectsInput, fn func(*ListObjectsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectsPager struct {
+	aws.Pager
+}
+
+func (p *ListObjectsPager) CurrentPage() *ListObjectsOutput {
+	return p.Pager.CurrentPage().(*ListObjectsOutput)
 }
 
 const opListObjectsV2 = "ListObjectsV2"
@@ -2498,6 +2784,7 @@ const opListObjectsV2 = "ListObjectsV2"
 type ListObjectsV2Request struct {
 	*aws.Request
 	Input *ListObjectsV2Input
+	Copy  func(*ListObjectsV2Input) ListObjectsV2Request
 }
 
 // Send marshals and sends the ListObjectsV2 API request.
@@ -2543,58 +2830,57 @@ func (c *S3) ListObjectsV2Request(input *ListObjectsV2Input) ListObjectsV2Reques
 		input = &ListObjectsV2Input{}
 	}
 
-	req := c.newRequest(op, input, &ListObjectsV2Output{})
-	return ListObjectsV2Request{Request: req, Input: input}
+	output := &ListObjectsV2Output{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListObjectsV2Request{Request: req, Input: input, Copy: c.ListObjectsV2Request}
 }
 
-// ListObjectsV2Pages iterates over the pages of a ListObjectsV2 operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListObjectsV2 method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListObjectsV2Request operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListObjectsV2 operation.
-//    pageNum := 0
-//    err := client.ListObjectsV2Pages(params,
-//        func(page *ListObjectsV2Output, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListObjectsV2Request(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *S3) ListObjectsV2Pages(input *ListObjectsV2Input, fn func(*ListObjectsV2Output, bool) bool) error {
-	return c.ListObjectsV2PagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListObjectsV2Request) Paginate(opts ...aws.Option) ListObjectsV2Pager {
+	return ListObjectsV2Pager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListObjectsV2Input
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListObjectsV2PagesWithContext same as ListObjectsV2Pages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *S3) ListObjectsV2PagesWithContext(ctx aws.Context, input *ListObjectsV2Input, fn func(*ListObjectsV2Output, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListObjectsV2Input
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListObjectsV2Request(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListObjectsV2Output), !p.HasNextPage())
-	}
-	return p.Err()
+// ListObjectsV2Pager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListObjectsV2Pager struct {
+	aws.Pager
+}
+
+func (p *ListObjectsV2Pager) CurrentPage() *ListObjectsV2Output {
+	return p.Pager.CurrentPage().(*ListObjectsV2Output)
 }
 
 const opListParts = "ListParts"
@@ -2603,6 +2889,7 @@ const opListParts = "ListParts"
 type ListPartsRequest struct {
 	*aws.Request
 	Input *ListPartsInput
+	Copy  func(*ListPartsInput) ListPartsRequest
 }
 
 // Send marshals and sends the ListParts API request.
@@ -2645,58 +2932,57 @@ func (c *S3) ListPartsRequest(input *ListPartsInput) ListPartsRequest {
 		input = &ListPartsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPartsOutput{})
-	return ListPartsRequest{Request: req, Input: input}
+	output := &ListPartsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPartsRequest{Request: req, Input: input, Copy: c.ListPartsRequest}
 }
 
-// ListPartsPages iterates over the pages of a ListParts operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListParts method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListPartsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListParts operation.
-//    pageNum := 0
-//    err := client.ListPartsPages(params,
-//        func(page *ListPartsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListPartsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *S3) ListPartsPages(input *ListPartsInput, fn func(*ListPartsOutput, bool) bool) error {
-	return c.ListPartsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListPartsRequest) Paginate(opts ...aws.Option) ListPartsPager {
+	return ListPartsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListPartsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListPartsPagesWithContext same as ListPartsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *S3) ListPartsPagesWithContext(ctx aws.Context, input *ListPartsInput, fn func(*ListPartsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListPartsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListPartsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListPartsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListPartsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListPartsPager struct {
+	aws.Pager
+}
+
+func (p *ListPartsPager) CurrentPage() *ListPartsOutput {
+	return p.Pager.CurrentPage().(*ListPartsOutput)
 }
 
 const opPutBucketAccelerateConfiguration = "PutBucketAccelerateConfiguration"
@@ -2705,6 +2991,7 @@ const opPutBucketAccelerateConfiguration = "PutBucketAccelerateConfiguration"
 type PutBucketAccelerateConfigurationRequest struct {
 	*aws.Request
 	Input *PutBucketAccelerateConfigurationInput
+	Copy  func(*PutBucketAccelerateConfigurationInput) PutBucketAccelerateConfigurationRequest
 }
 
 // Send marshals and sends the PutBucketAccelerateConfiguration API request.
@@ -2741,10 +3028,13 @@ func (c *S3) PutBucketAccelerateConfigurationRequest(input *PutBucketAccelerateC
 		input = &PutBucketAccelerateConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketAccelerateConfigurationOutput{})
+	output := &PutBucketAccelerateConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketAccelerateConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketAccelerateConfigurationRequest{Request: req, Input: input, Copy: c.PutBucketAccelerateConfigurationRequest}
 }
 
 const opPutBucketAcl = "PutBucketAcl"
@@ -2753,6 +3043,7 @@ const opPutBucketAcl = "PutBucketAcl"
 type PutBucketAclRequest struct {
 	*aws.Request
 	Input *PutBucketAclInput
+	Copy  func(*PutBucketAclInput) PutBucketAclRequest
 }
 
 // Send marshals and sends the PutBucketAcl API request.
@@ -2789,10 +3080,13 @@ func (c *S3) PutBucketAclRequest(input *PutBucketAclInput) PutBucketAclRequest {
 		input = &PutBucketAclInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketAclOutput{})
+	output := &PutBucketAclOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketAclRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketAclRequest{Request: req, Input: input, Copy: c.PutBucketAclRequest}
 }
 
 const opPutBucketAnalyticsConfiguration = "PutBucketAnalyticsConfiguration"
@@ -2801,6 +3095,7 @@ const opPutBucketAnalyticsConfiguration = "PutBucketAnalyticsConfiguration"
 type PutBucketAnalyticsConfigurationRequest struct {
 	*aws.Request
 	Input *PutBucketAnalyticsConfigurationInput
+	Copy  func(*PutBucketAnalyticsConfigurationInput) PutBucketAnalyticsConfigurationRequest
 }
 
 // Send marshals and sends the PutBucketAnalyticsConfiguration API request.
@@ -2838,10 +3133,13 @@ func (c *S3) PutBucketAnalyticsConfigurationRequest(input *PutBucketAnalyticsCon
 		input = &PutBucketAnalyticsConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketAnalyticsConfigurationOutput{})
+	output := &PutBucketAnalyticsConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketAnalyticsConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketAnalyticsConfigurationRequest{Request: req, Input: input, Copy: c.PutBucketAnalyticsConfigurationRequest}
 }
 
 const opPutBucketCors = "PutBucketCors"
@@ -2850,6 +3148,7 @@ const opPutBucketCors = "PutBucketCors"
 type PutBucketCorsRequest struct {
 	*aws.Request
 	Input *PutBucketCorsInput
+	Copy  func(*PutBucketCorsInput) PutBucketCorsRequest
 }
 
 // Send marshals and sends the PutBucketCors API request.
@@ -2886,10 +3185,66 @@ func (c *S3) PutBucketCorsRequest(input *PutBucketCorsInput) PutBucketCorsReques
 		input = &PutBucketCorsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketCorsOutput{})
+	output := &PutBucketCorsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketCorsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketCorsRequest{Request: req, Input: input, Copy: c.PutBucketCorsRequest}
+}
+
+const opPutBucketEncryption = "PutBucketEncryption"
+
+// PutBucketEncryptionRequest is a API request type for the PutBucketEncryption API operation.
+type PutBucketEncryptionRequest struct {
+	*aws.Request
+	Input *PutBucketEncryptionInput
+	Copy  func(*PutBucketEncryptionInput) PutBucketEncryptionRequest
+}
+
+// Send marshals and sends the PutBucketEncryption API request.
+func (r PutBucketEncryptionRequest) Send() (*PutBucketEncryptionOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*PutBucketEncryptionOutput), nil
+}
+
+// PutBucketEncryptionRequest returns a request value for making API operation for
+// Amazon Simple Storage Service.
+//
+// Creates a new server-side encryption configuration (or replaces an existing
+// one, if present).
+//
+//    // Example sending a request using the PutBucketEncryptionRequest method.
+//    req := client.PutBucketEncryptionRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryption
+func (c *S3) PutBucketEncryptionRequest(input *PutBucketEncryptionInput) PutBucketEncryptionRequest {
+	op := &aws.Operation{
+		Name:       opPutBucketEncryption,
+		HTTPMethod: "PUT",
+		HTTPPath:   "/{Bucket}?encryption",
+	}
+
+	if input == nil {
+		input = &PutBucketEncryptionInput{}
+	}
+
+	output := &PutBucketEncryptionOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketEncryptionRequest{Request: req, Input: input, Copy: c.PutBucketEncryptionRequest}
 }
 
 const opPutBucketInventoryConfiguration = "PutBucketInventoryConfiguration"
@@ -2898,6 +3253,7 @@ const opPutBucketInventoryConfiguration = "PutBucketInventoryConfiguration"
 type PutBucketInventoryConfigurationRequest struct {
 	*aws.Request
 	Input *PutBucketInventoryConfigurationInput
+	Copy  func(*PutBucketInventoryConfigurationInput) PutBucketInventoryConfigurationRequest
 }
 
 // Send marshals and sends the PutBucketInventoryConfiguration API request.
@@ -2935,10 +3291,13 @@ func (c *S3) PutBucketInventoryConfigurationRequest(input *PutBucketInventoryCon
 		input = &PutBucketInventoryConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketInventoryConfigurationOutput{})
+	output := &PutBucketInventoryConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketInventoryConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketInventoryConfigurationRequest{Request: req, Input: input, Copy: c.PutBucketInventoryConfigurationRequest}
 }
 
 const opPutBucketLifecycle = "PutBucketLifecycle"
@@ -2947,6 +3306,7 @@ const opPutBucketLifecycle = "PutBucketLifecycle"
 type PutBucketLifecycleRequest struct {
 	*aws.Request
 	Input *PutBucketLifecycleInput
+	Copy  func(*PutBucketLifecycleInput) PutBucketLifecycleRequest
 }
 
 // Send marshals and sends the PutBucketLifecycle API request.
@@ -2986,10 +3346,13 @@ func (c *S3) PutBucketLifecycleRequest(input *PutBucketLifecycleInput) PutBucket
 		input = &PutBucketLifecycleInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketLifecycleOutput{})
+	output := &PutBucketLifecycleOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketLifecycleRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketLifecycleRequest{Request: req, Input: input, Copy: c.PutBucketLifecycleRequest}
 }
 
 const opPutBucketLifecycleConfiguration = "PutBucketLifecycleConfiguration"
@@ -2998,6 +3361,7 @@ const opPutBucketLifecycleConfiguration = "PutBucketLifecycleConfiguration"
 type PutBucketLifecycleConfigurationRequest struct {
 	*aws.Request
 	Input *PutBucketLifecycleConfigurationInput
+	Copy  func(*PutBucketLifecycleConfigurationInput) PutBucketLifecycleConfigurationRequest
 }
 
 // Send marshals and sends the PutBucketLifecycleConfiguration API request.
@@ -3035,10 +3399,13 @@ func (c *S3) PutBucketLifecycleConfigurationRequest(input *PutBucketLifecycleCon
 		input = &PutBucketLifecycleConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketLifecycleConfigurationOutput{})
+	output := &PutBucketLifecycleConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketLifecycleConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketLifecycleConfigurationRequest{Request: req, Input: input, Copy: c.PutBucketLifecycleConfigurationRequest}
 }
 
 const opPutBucketLogging = "PutBucketLogging"
@@ -3047,6 +3414,7 @@ const opPutBucketLogging = "PutBucketLogging"
 type PutBucketLoggingRequest struct {
 	*aws.Request
 	Input *PutBucketLoggingInput
+	Copy  func(*PutBucketLoggingInput) PutBucketLoggingRequest
 }
 
 // Send marshals and sends the PutBucketLogging API request.
@@ -3085,10 +3453,13 @@ func (c *S3) PutBucketLoggingRequest(input *PutBucketLoggingInput) PutBucketLogg
 		input = &PutBucketLoggingInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketLoggingOutput{})
+	output := &PutBucketLoggingOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketLoggingRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketLoggingRequest{Request: req, Input: input, Copy: c.PutBucketLoggingRequest}
 }
 
 const opPutBucketMetricsConfiguration = "PutBucketMetricsConfiguration"
@@ -3097,6 +3468,7 @@ const opPutBucketMetricsConfiguration = "PutBucketMetricsConfiguration"
 type PutBucketMetricsConfigurationRequest struct {
 	*aws.Request
 	Input *PutBucketMetricsConfigurationInput
+	Copy  func(*PutBucketMetricsConfigurationInput) PutBucketMetricsConfigurationRequest
 }
 
 // Send marshals and sends the PutBucketMetricsConfiguration API request.
@@ -3134,10 +3506,13 @@ func (c *S3) PutBucketMetricsConfigurationRequest(input *PutBucketMetricsConfigu
 		input = &PutBucketMetricsConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketMetricsConfigurationOutput{})
+	output := &PutBucketMetricsConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketMetricsConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketMetricsConfigurationRequest{Request: req, Input: input, Copy: c.PutBucketMetricsConfigurationRequest}
 }
 
 const opPutBucketNotification = "PutBucketNotification"
@@ -3146,6 +3521,7 @@ const opPutBucketNotification = "PutBucketNotification"
 type PutBucketNotificationRequest struct {
 	*aws.Request
 	Input *PutBucketNotificationInput
+	Copy  func(*PutBucketNotificationInput) PutBucketNotificationRequest
 }
 
 // Send marshals and sends the PutBucketNotification API request.
@@ -3185,10 +3561,13 @@ func (c *S3) PutBucketNotificationRequest(input *PutBucketNotificationInput) Put
 		input = &PutBucketNotificationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketNotificationOutput{})
+	output := &PutBucketNotificationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketNotificationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketNotificationRequest{Request: req, Input: input, Copy: c.PutBucketNotificationRequest}
 }
 
 const opPutBucketNotificationConfiguration = "PutBucketNotificationConfiguration"
@@ -3197,6 +3576,7 @@ const opPutBucketNotificationConfiguration = "PutBucketNotificationConfiguration
 type PutBucketNotificationConfigurationRequest struct {
 	*aws.Request
 	Input *PutBucketNotificationConfigurationInput
+	Copy  func(*PutBucketNotificationConfigurationInput) PutBucketNotificationConfigurationRequest
 }
 
 // Send marshals and sends the PutBucketNotificationConfiguration API request.
@@ -3233,10 +3613,13 @@ func (c *S3) PutBucketNotificationConfigurationRequest(input *PutBucketNotificat
 		input = &PutBucketNotificationConfigurationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketNotificationConfigurationOutput{})
+	output := &PutBucketNotificationConfigurationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketNotificationConfigurationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketNotificationConfigurationRequest{Request: req, Input: input, Copy: c.PutBucketNotificationConfigurationRequest}
 }
 
 const opPutBucketPolicy = "PutBucketPolicy"
@@ -3245,6 +3628,7 @@ const opPutBucketPolicy = "PutBucketPolicy"
 type PutBucketPolicyRequest struct {
 	*aws.Request
 	Input *PutBucketPolicyInput
+	Copy  func(*PutBucketPolicyInput) PutBucketPolicyRequest
 }
 
 // Send marshals and sends the PutBucketPolicy API request.
@@ -3282,10 +3666,13 @@ func (c *S3) PutBucketPolicyRequest(input *PutBucketPolicyInput) PutBucketPolicy
 		input = &PutBucketPolicyInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketPolicyOutput{})
+	output := &PutBucketPolicyOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketPolicyRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketPolicyRequest{Request: req, Input: input, Copy: c.PutBucketPolicyRequest}
 }
 
 const opPutBucketReplication = "PutBucketReplication"
@@ -3294,6 +3681,7 @@ const opPutBucketReplication = "PutBucketReplication"
 type PutBucketReplicationRequest struct {
 	*aws.Request
 	Input *PutBucketReplicationInput
+	Copy  func(*PutBucketReplicationInput) PutBucketReplicationRequest
 }
 
 // Send marshals and sends the PutBucketReplication API request.
@@ -3331,10 +3719,13 @@ func (c *S3) PutBucketReplicationRequest(input *PutBucketReplicationInput) PutBu
 		input = &PutBucketReplicationInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketReplicationOutput{})
+	output := &PutBucketReplicationOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketReplicationRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketReplicationRequest{Request: req, Input: input, Copy: c.PutBucketReplicationRequest}
 }
 
 const opPutBucketRequestPayment = "PutBucketRequestPayment"
@@ -3343,6 +3734,7 @@ const opPutBucketRequestPayment = "PutBucketRequestPayment"
 type PutBucketRequestPaymentRequest struct {
 	*aws.Request
 	Input *PutBucketRequestPaymentInput
+	Copy  func(*PutBucketRequestPaymentInput) PutBucketRequestPaymentRequest
 }
 
 // Send marshals and sends the PutBucketRequestPayment API request.
@@ -3383,10 +3775,13 @@ func (c *S3) PutBucketRequestPaymentRequest(input *PutBucketRequestPaymentInput)
 		input = &PutBucketRequestPaymentInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketRequestPaymentOutput{})
+	output := &PutBucketRequestPaymentOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketRequestPaymentRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketRequestPaymentRequest{Request: req, Input: input, Copy: c.PutBucketRequestPaymentRequest}
 }
 
 const opPutBucketTagging = "PutBucketTagging"
@@ -3395,6 +3790,7 @@ const opPutBucketTagging = "PutBucketTagging"
 type PutBucketTaggingRequest struct {
 	*aws.Request
 	Input *PutBucketTaggingInput
+	Copy  func(*PutBucketTaggingInput) PutBucketTaggingRequest
 }
 
 // Send marshals and sends the PutBucketTagging API request.
@@ -3431,10 +3827,13 @@ func (c *S3) PutBucketTaggingRequest(input *PutBucketTaggingInput) PutBucketTagg
 		input = &PutBucketTaggingInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketTaggingOutput{})
+	output := &PutBucketTaggingOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketTaggingRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketTaggingRequest{Request: req, Input: input, Copy: c.PutBucketTaggingRequest}
 }
 
 const opPutBucketVersioning = "PutBucketVersioning"
@@ -3443,6 +3842,7 @@ const opPutBucketVersioning = "PutBucketVersioning"
 type PutBucketVersioningRequest struct {
 	*aws.Request
 	Input *PutBucketVersioningInput
+	Copy  func(*PutBucketVersioningInput) PutBucketVersioningRequest
 }
 
 // Send marshals and sends the PutBucketVersioning API request.
@@ -3480,10 +3880,13 @@ func (c *S3) PutBucketVersioningRequest(input *PutBucketVersioningInput) PutBuck
 		input = &PutBucketVersioningInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketVersioningOutput{})
+	output := &PutBucketVersioningOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketVersioningRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketVersioningRequest{Request: req, Input: input, Copy: c.PutBucketVersioningRequest}
 }
 
 const opPutBucketWebsite = "PutBucketWebsite"
@@ -3492,6 +3895,7 @@ const opPutBucketWebsite = "PutBucketWebsite"
 type PutBucketWebsiteRequest struct {
 	*aws.Request
 	Input *PutBucketWebsiteInput
+	Copy  func(*PutBucketWebsiteInput) PutBucketWebsiteRequest
 }
 
 // Send marshals and sends the PutBucketWebsite API request.
@@ -3528,10 +3932,13 @@ func (c *S3) PutBucketWebsiteRequest(input *PutBucketWebsiteInput) PutBucketWebs
 		input = &PutBucketWebsiteInput{}
 	}
 
-	req := c.newRequest(op, input, &PutBucketWebsiteOutput{})
+	output := &PutBucketWebsiteOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restxml.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutBucketWebsiteRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutBucketWebsiteRequest{Request: req, Input: input, Copy: c.PutBucketWebsiteRequest}
 }
 
 const opPutObject = "PutObject"
@@ -3540,6 +3947,7 @@ const opPutObject = "PutObject"
 type PutObjectRequest struct {
 	*aws.Request
 	Input *PutObjectInput
+	Copy  func(*PutObjectInput) PutObjectRequest
 }
 
 // Send marshals and sends the PutObject API request.
@@ -3576,8 +3984,11 @@ func (c *S3) PutObjectRequest(input *PutObjectInput) PutObjectRequest {
 		input = &PutObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &PutObjectOutput{})
-	return PutObjectRequest{Request: req, Input: input}
+	output := &PutObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutObjectRequest{Request: req, Input: input, Copy: c.PutObjectRequest}
 }
 
 const opPutObjectAcl = "PutObjectAcl"
@@ -3586,6 +3997,7 @@ const opPutObjectAcl = "PutObjectAcl"
 type PutObjectAclRequest struct {
 	*aws.Request
 	Input *PutObjectAclInput
+	Copy  func(*PutObjectAclInput) PutObjectAclRequest
 }
 
 // Send marshals and sends the PutObjectAcl API request.
@@ -3623,8 +4035,11 @@ func (c *S3) PutObjectAclRequest(input *PutObjectAclInput) PutObjectAclRequest {
 		input = &PutObjectAclInput{}
 	}
 
-	req := c.newRequest(op, input, &PutObjectAclOutput{})
-	return PutObjectAclRequest{Request: req, Input: input}
+	output := &PutObjectAclOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutObjectAclRequest{Request: req, Input: input, Copy: c.PutObjectAclRequest}
 }
 
 const opPutObjectTagging = "PutObjectTagging"
@@ -3633,6 +4048,7 @@ const opPutObjectTagging = "PutObjectTagging"
 type PutObjectTaggingRequest struct {
 	*aws.Request
 	Input *PutObjectTaggingInput
+	Copy  func(*PutObjectTaggingInput) PutObjectTaggingRequest
 }
 
 // Send marshals and sends the PutObjectTagging API request.
@@ -3669,8 +4085,11 @@ func (c *S3) PutObjectTaggingRequest(input *PutObjectTaggingInput) PutObjectTagg
 		input = &PutObjectTaggingInput{}
 	}
 
-	req := c.newRequest(op, input, &PutObjectTaggingOutput{})
-	return PutObjectTaggingRequest{Request: req, Input: input}
+	output := &PutObjectTaggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutObjectTaggingRequest{Request: req, Input: input, Copy: c.PutObjectTaggingRequest}
 }
 
 const opRestoreObject = "RestoreObject"
@@ -3679,6 +4098,7 @@ const opRestoreObject = "RestoreObject"
 type RestoreObjectRequest struct {
 	*aws.Request
 	Input *RestoreObjectInput
+	Copy  func(*RestoreObjectInput) RestoreObjectRequest
 }
 
 // Send marshals and sends the RestoreObject API request.
@@ -3715,8 +4135,11 @@ func (c *S3) RestoreObjectRequest(input *RestoreObjectInput) RestoreObjectReques
 		input = &RestoreObjectInput{}
 	}
 
-	req := c.newRequest(op, input, &RestoreObjectOutput{})
-	return RestoreObjectRequest{Request: req, Input: input}
+	output := &RestoreObjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RestoreObjectRequest{Request: req, Input: input, Copy: c.RestoreObjectRequest}
 }
 
 const opUploadPart = "UploadPart"
@@ -3725,6 +4148,7 @@ const opUploadPart = "UploadPart"
 type UploadPartRequest struct {
 	*aws.Request
 	Input *UploadPartInput
+	Copy  func(*UploadPartInput) UploadPartRequest
 }
 
 // Send marshals and sends the UploadPart API request.
@@ -3767,8 +4191,11 @@ func (c *S3) UploadPartRequest(input *UploadPartInput) UploadPartRequest {
 		input = &UploadPartInput{}
 	}
 
-	req := c.newRequest(op, input, &UploadPartOutput{})
-	return UploadPartRequest{Request: req, Input: input}
+	output := &UploadPartOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UploadPartRequest{Request: req, Input: input, Copy: c.UploadPartRequest}
 }
 
 const opUploadPartCopy = "UploadPartCopy"
@@ -3777,6 +4204,7 @@ const opUploadPartCopy = "UploadPartCopy"
 type UploadPartCopyRequest struct {
 	*aws.Request
 	Input *UploadPartCopyInput
+	Copy  func(*UploadPartCopyInput) UploadPartCopyRequest
 }
 
 // Send marshals and sends the UploadPartCopy API request.
@@ -3813,8 +4241,11 @@ func (c *S3) UploadPartCopyRequest(input *UploadPartCopyInput) UploadPartCopyReq
 		input = &UploadPartCopyInput{}
 	}
 
-	req := c.newRequest(op, input, &UploadPartCopyOutput{})
-	return UploadPartCopyRequest{Request: req, Input: input}
+	output := &UploadPartCopyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UploadPartCopyRequest{Request: req, Input: input, Copy: c.UploadPartCopyRequest}
 }
 
 // Specifies the days since the initiation of an Incomplete Multipart Upload
@@ -3838,10 +4269,15 @@ func (s AbortIncompleteMultipartUpload) GoString() string {
 	return s.String()
 }
 
-// SetDaysAfterInitiation sets the DaysAfterInitiation field's value.
-func (s *AbortIncompleteMultipartUpload) SetDaysAfterInitiation(v int64) *AbortIncompleteMultipartUpload {
-	s.DaysAfterInitiation = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AbortIncompleteMultipartUpload) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DaysAfterInitiation != nil {
+		v := *s.DaysAfterInitiation
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DaysAfterInitiation", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AbortMultipartUploadRequest
@@ -3858,7 +4294,7 @@ type AbortMultipartUploadInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// UploadId is a required field
 	UploadId *string `location:"querystring" locationName:"uploadId" type:"string" required:"true"`
@@ -3899,12 +4335,6 @@ func (s *AbortMultipartUploadInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *AbortMultipartUploadInput) SetBucket(v string) *AbortMultipartUploadInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *AbortMultipartUploadInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -3912,31 +4342,45 @@ func (s *AbortMultipartUploadInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *AbortMultipartUploadInput) SetKey(v string) *AbortMultipartUploadInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AbortMultipartUploadInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *AbortMultipartUploadInput) SetRequestPayer(v RequestPayer) *AbortMultipartUploadInput {
-	s.RequestPayer = v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetUploadId sets the UploadId field's value.
-func (s *AbortMultipartUploadInput) SetUploadId(v string) *AbortMultipartUploadInput {
-	s.UploadId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "uploadId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AbortMultipartUploadOutput
 type AbortMultipartUploadOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3949,10 +4393,20 @@ func (s AbortMultipartUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *AbortMultipartUploadOutput) SetRequestCharged(v RequestCharged) *AbortMultipartUploadOutput {
-	s.RequestCharged = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AbortMultipartUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AbortMultipartUploadOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AccelerateConfiguration
@@ -3960,7 +4414,7 @@ type AccelerateConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// The accelerate configuration of the bucket.
-	Status BucketAccelerateStatus `type:"string"`
+	Status BucketAccelerateStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3973,10 +4427,15 @@ func (s AccelerateConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *AccelerateConfiguration) SetStatus(v BucketAccelerateStatus) *AccelerateConfiguration {
-	s.Status = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AccelerateConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AccessControlPolicy
@@ -3984,7 +4443,7 @@ type AccessControlPolicy struct {
 	_ struct{} `type:"structure"`
 
 	// A list of grants.
-	Grants []*Grant `locationName:"AccessControlList" locationNameList:"Grant" type:"list"`
+	Grants []Grant `locationName:"AccessControlList" locationNameList:"Grant" type:"list"`
 
 	Owner *Owner `type:"structure"`
 }
@@ -4004,9 +4463,6 @@ func (s *AccessControlPolicy) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "AccessControlPolicy"}
 	if s.Grants != nil {
 		for i, v := range s.Grants {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Grants", i), err.(aws.ErrInvalidParams))
 			}
@@ -4019,16 +4475,72 @@ func (s *AccessControlPolicy) Validate() error {
 	return nil
 }
 
-// SetGrants sets the Grants field's value.
-func (s *AccessControlPolicy) SetGrants(v []*Grant) *AccessControlPolicy {
-	s.Grants = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AccessControlPolicy) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Grants) > 0 {
+		v := s.Grants
+
+		metadata := protocol.Metadata{ListLocationName: "Grant"}
+		ls0 := e.List(protocol.BodyTarget, "AccessControlList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Owner != nil {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	return nil
 }
 
-// SetOwner sets the Owner field's value.
-func (s *AccessControlPolicy) SetOwner(v *Owner) *AccessControlPolicy {
-	s.Owner = v
-	return s
+// Container for information regarding the access control for replicas.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AccessControlTranslation
+type AccessControlTranslation struct {
+	_ struct{} `type:"structure"`
+
+	// The override value for the owner of the replica object.
+	//
+	// Owner is a required field
+	Owner OwnerOverride `type:"string" required:"true" enum:"true"`
+}
+
+// String returns the string representation
+func (s AccessControlTranslation) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s AccessControlTranslation) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *AccessControlTranslation) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "AccessControlTranslation"}
+	if len(s.Owner) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("Owner"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AccessControlTranslation) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Owner) > 0 {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnalyticsAndOperator
@@ -4039,7 +4551,7 @@ type AnalyticsAndOperator struct {
 	Prefix *string `type:"string"`
 
 	// The list of tags to use when evaluating an AND predicate.
-	Tags []*Tag `locationName:"Tag" locationNameList:"Tag" type:"list" flattened:"true"`
+	Tags []Tag `locationName:"Tag" locationNameList:"Tag" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -4057,9 +4569,6 @@ func (s *AnalyticsAndOperator) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "AnalyticsAndOperator"}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -4072,16 +4581,27 @@ func (s *AnalyticsAndOperator) Validate() error {
 	return nil
 }
 
-// SetPrefix sets the Prefix field's value.
-func (s *AnalyticsAndOperator) SetPrefix(v string) *AnalyticsAndOperator {
-	s.Prefix = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AnalyticsAndOperator) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTags sets the Tags field's value.
-func (s *AnalyticsAndOperator) SetTags(v []*Tag) *AnalyticsAndOperator {
-	s.Tags = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Tag", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnalyticsConfiguration
@@ -4143,22 +4663,27 @@ func (s *AnalyticsConfiguration) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *AnalyticsConfiguration) SetFilter(v *AnalyticsFilter) *AnalyticsConfiguration {
-	s.Filter = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AnalyticsConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetId sets the Id field's value.
-func (s *AnalyticsConfiguration) SetId(v string) *AnalyticsConfiguration {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetStorageClassAnalysis sets the StorageClassAnalysis field's value.
-func (s *AnalyticsConfiguration) SetStorageClassAnalysis(v *StorageClassAnalysis) *AnalyticsConfiguration {
-	s.StorageClassAnalysis = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.StorageClassAnalysis != nil {
+		v := s.StorageClassAnalysis
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "StorageClassAnalysis", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnalyticsExportDestination
@@ -4200,10 +4725,15 @@ func (s *AnalyticsExportDestination) Validate() error {
 	return nil
 }
 
-// SetS3BucketDestination sets the S3BucketDestination field's value.
-func (s *AnalyticsExportDestination) SetS3BucketDestination(v *AnalyticsS3BucketDestination) *AnalyticsExportDestination {
-	s.S3BucketDestination = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AnalyticsExportDestination) MarshalFields(e protocol.FieldEncoder) error {
+	if s.S3BucketDestination != nil {
+		v := s.S3BucketDestination
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "S3BucketDestination", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnalyticsFilter
@@ -4251,22 +4781,27 @@ func (s *AnalyticsFilter) Validate() error {
 	return nil
 }
 
-// SetAnd sets the And field's value.
-func (s *AnalyticsFilter) SetAnd(v *AnalyticsAndOperator) *AnalyticsFilter {
-	s.And = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AnalyticsFilter) MarshalFields(e protocol.FieldEncoder) error {
+	if s.And != nil {
+		v := s.And
 
-// SetPrefix sets the Prefix field's value.
-func (s *AnalyticsFilter) SetPrefix(v string) *AnalyticsFilter {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "And", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTag sets the Tag field's value.
-func (s *AnalyticsFilter) SetTag(v *Tag) *AnalyticsFilter {
-	s.Tag = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.Tag != nil {
+		v := s.Tag
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Tag", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/AnalyticsS3BucketDestination
@@ -4285,7 +4820,7 @@ type AnalyticsS3BucketDestination struct {
 	// The file format used when exporting data to Amazon S3.
 	//
 	// Format is a required field
-	Format AnalyticsS3ExportFileFormat `type:"string" required:"true"`
+	Format AnalyticsS3ExportFileFormat `type:"string" required:"true" enum:"true"`
 
 	// The prefix to use when exporting data. The exported data begins with this
 	// prefix.
@@ -4319,12 +4854,6 @@ func (s *AnalyticsS3BucketDestination) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *AnalyticsS3BucketDestination) SetBucket(v string) *AnalyticsS3BucketDestination {
-	s.Bucket = &v
-	return s
-}
-
 func (s *AnalyticsS3BucketDestination) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -4332,22 +4861,33 @@ func (s *AnalyticsS3BucketDestination) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetBucketAccountId sets the BucketAccountId field's value.
-func (s *AnalyticsS3BucketDestination) SetBucketAccountId(v string) *AnalyticsS3BucketDestination {
-	s.BucketAccountId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AnalyticsS3BucketDestination) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetFormat sets the Format field's value.
-func (s *AnalyticsS3BucketDestination) SetFormat(v AnalyticsS3ExportFileFormat) *AnalyticsS3BucketDestination {
-	s.Format = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.BucketAccountId != nil {
+		v := *s.BucketAccountId
 
-// SetPrefix sets the Prefix field's value.
-func (s *AnalyticsS3BucketDestination) SetPrefix(v string) *AnalyticsS3BucketDestination {
-	s.Prefix = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BucketAccountId", protocol.StringValue(v), metadata)
+	}
+	if len(s.Format) > 0 {
+		v := s.Format
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Format", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Bucket
@@ -4371,16 +4911,21 @@ func (s Bucket) GoString() string {
 	return s.String()
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *Bucket) SetCreationDate(v time.Time) *Bucket {
-	s.CreationDate = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Bucket) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationDate != nil {
+		v := *s.CreationDate
 
-// SetName sets the Name field's value.
-func (s *Bucket) SetName(v string) *Bucket {
-	s.Name = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketLifecycleConfiguration
@@ -4388,7 +4933,7 @@ type BucketLifecycleConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// Rules is a required field
-	Rules []*LifecycleRule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
+	Rules []LifecycleRule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
 }
 
 // String returns the string representation
@@ -4410,9 +4955,6 @@ func (s *BucketLifecycleConfiguration) Validate() error {
 	}
 	if s.Rules != nil {
 		for i, v := range s.Rules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Rules", i), err.(aws.ErrInvalidParams))
 			}
@@ -4425,16 +4967,30 @@ func (s *BucketLifecycleConfiguration) Validate() error {
 	return nil
 }
 
-// SetRules sets the Rules field's value.
-func (s *BucketLifecycleConfiguration) SetRules(v []*LifecycleRule) *BucketLifecycleConfiguration {
-	s.Rules = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BucketLifecycleConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Rules) > 0 {
+		v := s.Rules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Rule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/BucketLoggingStatus
 type BucketLoggingStatus struct {
 	_ struct{} `type:"structure"`
 
+	// Container for logging information. Presence of this element indicates that
+	// logging is enabled. Parameters TargetBucket and TargetPrefix are required
+	// in this case.
 	LoggingEnabled *LoggingEnabled `type:"structure"`
 }
 
@@ -4463,10 +5019,15 @@ func (s *BucketLoggingStatus) Validate() error {
 	return nil
 }
 
-// SetLoggingEnabled sets the LoggingEnabled field's value.
-func (s *BucketLoggingStatus) SetLoggingEnabled(v *LoggingEnabled) *BucketLoggingStatus {
-	s.LoggingEnabled = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BucketLoggingStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.LoggingEnabled != nil {
+		v := s.LoggingEnabled
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LoggingEnabled", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CORSConfiguration
@@ -4474,7 +5035,7 @@ type CORSConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// CORSRules is a required field
-	CORSRules []*CORSRule `locationName:"CORSRule" type:"list" flattened:"true" required:"true"`
+	CORSRules []CORSRule `locationName:"CORSRule" type:"list" flattened:"true" required:"true"`
 }
 
 // String returns the string representation
@@ -4496,9 +5057,6 @@ func (s *CORSConfiguration) Validate() error {
 	}
 	if s.CORSRules != nil {
 		for i, v := range s.CORSRules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "CORSRules", i), err.(aws.ErrInvalidParams))
 			}
@@ -4511,10 +5069,21 @@ func (s *CORSConfiguration) Validate() error {
 	return nil
 }
 
-// SetCORSRules sets the CORSRules field's value.
-func (s *CORSConfiguration) SetCORSRules(v []*CORSRule) *CORSConfiguration {
-	s.CORSRules = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CORSConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CORSRules) > 0 {
+		v := s.CORSRules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CORSRule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CORSRule
@@ -4522,23 +5091,23 @@ type CORSRule struct {
 	_ struct{} `type:"structure"`
 
 	// Specifies which headers are allowed in a pre-flight OPTIONS request.
-	AllowedHeaders []*string `locationName:"AllowedHeader" type:"list" flattened:"true"`
+	AllowedHeaders []string `locationName:"AllowedHeader" type:"list" flattened:"true"`
 
 	// Identifies HTTP methods that the domain/origin specified in the rule is allowed
 	// to execute.
 	//
 	// AllowedMethods is a required field
-	AllowedMethods []*string `locationName:"AllowedMethod" type:"list" flattened:"true" required:"true"`
+	AllowedMethods []string `locationName:"AllowedMethod" type:"list" flattened:"true" required:"true"`
 
 	// One or more origins you want customers to be able to access the bucket from.
 	//
 	// AllowedOrigins is a required field
-	AllowedOrigins []*string `locationName:"AllowedOrigin" type:"list" flattened:"true" required:"true"`
+	AllowedOrigins []string `locationName:"AllowedOrigin" type:"list" flattened:"true" required:"true"`
 
 	// One or more headers in the response that you want customers to be able to
 	// access from their applications (for example, from a JavaScript XMLHttpRequest
 	// object).
-	ExposeHeaders []*string `locationName:"ExposeHeader" type:"list" flattened:"true"`
+	ExposeHeaders []string `locationName:"ExposeHeader" type:"list" flattened:"true"`
 
 	// The time in seconds that your browser is to cache the preflight response
 	// for the specified resource.
@@ -4573,34 +5142,207 @@ func (s *CORSRule) Validate() error {
 	return nil
 }
 
-// SetAllowedHeaders sets the AllowedHeaders field's value.
-func (s *CORSRule) SetAllowedHeaders(v []*string) *CORSRule {
-	s.AllowedHeaders = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CORSRule) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AllowedHeaders) > 0 {
+		v := s.AllowedHeaders
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "AllowedHeader", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	if len(s.AllowedMethods) > 0 {
+		v := s.AllowedMethods
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "AllowedMethod", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	if len(s.AllowedOrigins) > 0 {
+		v := s.AllowedOrigins
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "AllowedOrigin", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	if len(s.ExposeHeaders) > 0 {
+		v := s.ExposeHeaders
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "ExposeHeader", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	if s.MaxAgeSeconds != nil {
+		v := *s.MaxAgeSeconds
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxAgeSeconds", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
-// SetAllowedMethods sets the AllowedMethods field's value.
-func (s *CORSRule) SetAllowedMethods(v []*string) *CORSRule {
-	s.AllowedMethods = v
-	return s
+// Describes how a CSV-formatted input object is formatted.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CSVInput
+type CSVInput struct {
+	_ struct{} `type:"structure"`
+
+	// Single character used to indicate a row should be ignored when present at
+	// the start of a row.
+	Comments *string `type:"string"`
+
+	// Value used to separate individual fields in a record.
+	FieldDelimiter *string `type:"string"`
+
+	// Describes the first line of input. Valid values: None, Ignore, Use.
+	FileHeaderInfo FileHeaderInfo `type:"string" enum:"true"`
+
+	// Value used for escaping where the field delimiter is part of the value.
+	QuoteCharacter *string `type:"string"`
+
+	// Single character used for escaping the quote character inside an already
+	// escaped value.
+	QuoteEscapeCharacter *string `type:"string"`
+
+	// Value used to separate individual records.
+	RecordDelimiter *string `type:"string"`
 }
 
-// SetAllowedOrigins sets the AllowedOrigins field's value.
-func (s *CORSRule) SetAllowedOrigins(v []*string) *CORSRule {
-	s.AllowedOrigins = v
-	return s
+// String returns the string representation
+func (s CSVInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetExposeHeaders sets the ExposeHeaders field's value.
-func (s *CORSRule) SetExposeHeaders(v []*string) *CORSRule {
-	s.ExposeHeaders = v
-	return s
+// GoString returns the string representation
+func (s CSVInput) GoString() string {
+	return s.String()
 }
 
-// SetMaxAgeSeconds sets the MaxAgeSeconds field's value.
-func (s *CORSRule) SetMaxAgeSeconds(v int64) *CORSRule {
-	s.MaxAgeSeconds = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CSVInput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Comments != nil {
+		v := *s.Comments
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Comments", protocol.StringValue(v), metadata)
+	}
+	if s.FieldDelimiter != nil {
+		v := *s.FieldDelimiter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FieldDelimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.FileHeaderInfo) > 0 {
+		v := s.FileHeaderInfo
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FileHeaderInfo", v, metadata)
+	}
+	if s.QuoteCharacter != nil {
+		v := *s.QuoteCharacter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "QuoteCharacter", protocol.StringValue(v), metadata)
+	}
+	if s.QuoteEscapeCharacter != nil {
+		v := *s.QuoteEscapeCharacter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "QuoteEscapeCharacter", protocol.StringValue(v), metadata)
+	}
+	if s.RecordDelimiter != nil {
+		v := *s.RecordDelimiter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecordDelimiter", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
+// Describes how CSV-formatted results are formatted.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CSVOutput
+type CSVOutput struct {
+	_ struct{} `type:"structure"`
+
+	// Value used to separate individual fields in a record.
+	FieldDelimiter *string `type:"string"`
+
+	// Value used for escaping where the field delimiter is part of the value.
+	QuoteCharacter *string `type:"string"`
+
+	// Single character used for escaping the quote character inside an already
+	// escaped value.
+	QuoteEscapeCharacter *string `type:"string"`
+
+	// Indicates whether or not all output fields should be quoted.
+	QuoteFields QuoteFields `type:"string" enum:"true"`
+
+	// Value used to separate individual records.
+	RecordDelimiter *string `type:"string"`
+}
+
+// String returns the string representation
+func (s CSVOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CSVOutput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CSVOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.FieldDelimiter != nil {
+		v := *s.FieldDelimiter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FieldDelimiter", protocol.StringValue(v), metadata)
+	}
+	if s.QuoteCharacter != nil {
+		v := *s.QuoteCharacter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "QuoteCharacter", protocol.StringValue(v), metadata)
+	}
+	if s.QuoteEscapeCharacter != nil {
+		v := *s.QuoteEscapeCharacter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "QuoteEscapeCharacter", protocol.StringValue(v), metadata)
+	}
+	if len(s.QuoteFields) > 0 {
+		v := s.QuoteFields
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "QuoteFields", v, metadata)
+	}
+	if s.RecordDelimiter != nil {
+		v := *s.RecordDelimiter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecordDelimiter", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CloudFunctionConfiguration
@@ -4610,7 +5352,7 @@ type CloudFunctionConfiguration struct {
 	CloudFunction *string `type:"string"`
 
 	// Bucket event for which to send notifications.
-	Event Event `deprecated:"true" type:"string"`
+	Event Event `deprecated:"true" type:"string" enum:"true"`
 
 	Events []Event `locationName:"Event" type:"list" flattened:"true"`
 
@@ -4631,34 +5373,45 @@ func (s CloudFunctionConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetCloudFunction sets the CloudFunction field's value.
-func (s *CloudFunctionConfiguration) SetCloudFunction(v string) *CloudFunctionConfiguration {
-	s.CloudFunction = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CloudFunctionConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CloudFunction != nil {
+		v := *s.CloudFunction
 
-// SetEvent sets the Event field's value.
-func (s *CloudFunctionConfiguration) SetEvent(v Event) *CloudFunctionConfiguration {
-	s.Event = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CloudFunction", protocol.StringValue(v), metadata)
+	}
+	if len(s.Event) > 0 {
+		v := s.Event
 
-// SetEvents sets the Events field's value.
-func (s *CloudFunctionConfiguration) SetEvents(v []Event) *CloudFunctionConfiguration {
-	s.Events = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Event", v, metadata)
+	}
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetId sets the Id field's value.
-func (s *CloudFunctionConfiguration) SetId(v string) *CloudFunctionConfiguration {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Event", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetInvocationRole sets the InvocationRole field's value.
-func (s *CloudFunctionConfiguration) SetInvocationRole(v string) *CloudFunctionConfiguration {
-	s.InvocationRole = &v
-	return s
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.InvocationRole != nil {
+		v := *s.InvocationRole
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "InvocationRole", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CommonPrefix
@@ -4678,10 +5431,15 @@ func (s CommonPrefix) GoString() string {
 	return s.String()
 }
 
-// SetPrefix sets the Prefix field's value.
-func (s *CommonPrefix) SetPrefix(v string) *CommonPrefix {
-	s.Prefix = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CommonPrefix) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompleteMultipartUploadRequest
@@ -4700,7 +5458,7 @@ type CompleteMultipartUploadInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// UploadId is a required field
 	UploadId *string `location:"querystring" locationName:"uploadId" type:"string" required:"true"`
@@ -4741,12 +5499,6 @@ func (s *CompleteMultipartUploadInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *CompleteMultipartUploadInput) SetBucket(v string) *CompleteMultipartUploadInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *CompleteMultipartUploadInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -4754,33 +5506,47 @@ func (s *CompleteMultipartUploadInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *CompleteMultipartUploadInput) SetKey(v string) *CompleteMultipartUploadInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CompleteMultipartUploadInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMultipartUpload sets the MultipartUpload field's value.
-func (s *CompleteMultipartUploadInput) SetMultipartUpload(v *CompletedMultipartUpload) *CompleteMultipartUploadInput {
-	s.MultipartUpload = v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *CompleteMultipartUploadInput) SetRequestPayer(v RequestPayer) *CompleteMultipartUploadInput {
-	s.RequestPayer = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetUploadId sets the UploadId field's value.
-func (s *CompleteMultipartUploadInput) SetUploadId(v string) *CompleteMultipartUploadInput {
-	s.UploadId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.MultipartUpload != nil {
+		v := s.MultipartUpload
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "CompleteMultipartUpload", v, metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "uploadId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompleteMultipartUploadOutput
 type CompleteMultipartUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	Bucket *string `type:"string"`
 
@@ -4797,7 +5563,7 @@ type CompleteMultipartUploadOutput struct {
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// If present, specifies the ID of the AWS Key Management Service (KMS) master
 	// encryption key that was used for the object.
@@ -4805,7 +5571,7 @@ type CompleteMultipartUploadOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// Version of the object.
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
@@ -4821,10 +5587,9 @@ func (s CompleteMultipartUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *CompleteMultipartUploadOutput) SetBucket(v string) *CompleteMultipartUploadOutput {
-	s.Bucket = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CompleteMultipartUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 func (s *CompleteMultipartUploadOutput) getBucket() (v string) {
@@ -4834,59 +5599,70 @@ func (s *CompleteMultipartUploadOutput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetETag sets the ETag field's value.
-func (s *CompleteMultipartUploadOutput) SetETag(v string) *CompleteMultipartUploadOutput {
-	s.ETag = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CompleteMultipartUploadOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetExpiration sets the Expiration field's value.
-func (s *CompleteMultipartUploadOutput) SetExpiration(v string) *CompleteMultipartUploadOutput {
-	s.Expiration = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetKey sets the Key field's value.
-func (s *CompleteMultipartUploadOutput) SetKey(v string) *CompleteMultipartUploadOutput {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetLocation sets the Location field's value.
-func (s *CompleteMultipartUploadOutput) SetLocation(v string) *CompleteMultipartUploadOutput {
-	s.Location = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Location != nil {
+		v := *s.Location
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *CompleteMultipartUploadOutput) SetRequestCharged(v RequestCharged) *CompleteMultipartUploadOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Location", protocol.StringValue(v), metadata)
+	}
+	if s.Expiration != nil {
+		v := *s.Expiration
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *CompleteMultipartUploadOutput) SetSSEKMSKeyId(v string) *CompleteMultipartUploadOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-expiration", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *CompleteMultipartUploadOutput) SetServerSideEncryption(v ServerSideEncryption) *CompleteMultipartUploadOutput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
 
-// SetVersionId sets the VersionId field's value.
-func (s *CompleteMultipartUploadOutput) SetVersionId(v string) *CompleteMultipartUploadOutput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompletedMultipartUpload
 type CompletedMultipartUpload struct {
 	_ struct{} `type:"structure"`
 
-	Parts []*CompletedPart `locationName:"Part" type:"list" flattened:"true"`
+	Parts []CompletedPart `locationName:"Part" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -4899,10 +5675,21 @@ func (s CompletedMultipartUpload) GoString() string {
 	return s.String()
 }
 
-// SetParts sets the Parts field's value.
-func (s *CompletedMultipartUpload) SetParts(v []*CompletedPart) *CompletedMultipartUpload {
-	s.Parts = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CompletedMultipartUpload) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Parts) > 0 {
+		v := s.Parts
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Part", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CompletedPart
@@ -4927,16 +5714,21 @@ func (s CompletedPart) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *CompletedPart) SetETag(v string) *CompletedPart {
-	s.ETag = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CompletedPart) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetPartNumber sets the PartNumber field's value.
-func (s *CompletedPart) SetPartNumber(v int64) *CompletedPart {
-	s.PartNumber = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.PartNumber != nil {
+		v := *s.PartNumber
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PartNumber", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Condition
@@ -4970,16 +5762,21 @@ func (s Condition) GoString() string {
 	return s.String()
 }
 
-// SetHttpErrorCodeReturnedEquals sets the HttpErrorCodeReturnedEquals field's value.
-func (s *Condition) SetHttpErrorCodeReturnedEquals(v string) *Condition {
-	s.HttpErrorCodeReturnedEquals = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Condition) MarshalFields(e protocol.FieldEncoder) error {
+	if s.HttpErrorCodeReturnedEquals != nil {
+		v := *s.HttpErrorCodeReturnedEquals
 
-// SetKeyPrefixEquals sets the KeyPrefixEquals field's value.
-func (s *Condition) SetKeyPrefixEquals(v string) *Condition {
-	s.KeyPrefixEquals = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HttpErrorCodeReturnedEquals", protocol.StringValue(v), metadata)
+	}
+	if s.KeyPrefixEquals != nil {
+		v := *s.KeyPrefixEquals
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyPrefixEquals", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectRequest
@@ -4987,7 +5784,7 @@ type CopyObjectInput struct {
 	_ struct{} `type:"structure"`
 
 	// The canned ACL to apply to the object.
-	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string"`
+	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string" enum:"true"`
 
 	// Bucket is a required field
 	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
@@ -5060,17 +5857,17 @@ type CopyObjectInput struct {
 	Key *string `location:"uri" locationName:"Key" min:"1" type:"string" required:"true"`
 
 	// A map of metadata to store with the object in S3.
-	Metadata map[string]*string `location:"headers" locationName:"x-amz-meta-" type:"map"`
+	Metadata map[string]string `location:"headers" locationName:"x-amz-meta-" type:"map"`
 
 	// Specifies whether the metadata is copied from the source object or replaced
 	// with metadata provided in the request.
-	MetadataDirective MetadataDirective `location:"header" locationName:"x-amz-metadata-directive" type:"string"`
+	MetadataDirective MetadataDirective `location:"header" locationName:"x-amz-metadata-directive" type:"string" enum:"true"`
 
 	// Confirms that the requester knows that she or he will be charged for the
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
 	SSECustomerAlgorithm *string `location:"header" locationName:"x-amz-server-side-encryption-customer-algorithm" type:"string"`
@@ -5095,10 +5892,10 @@ type CopyObjectInput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// The type of storage to use for the object. Defaults to 'STANDARD'.
-	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string"`
+	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string" enum:"true"`
 
 	// The tag-set for the object destination object this value must be used in
 	// conjunction with the TaggingDirective. The tag-set must be encoded as URL
@@ -5107,7 +5904,7 @@ type CopyObjectInput struct {
 
 	// Specifies whether the object tag-set are copied from the source object or
 	// replaced with tag-set provided in the request.
-	TaggingDirective TaggingDirective `location:"header" locationName:"x-amz-tagging-directive" type:"string"`
+	TaggingDirective TaggingDirective `location:"header" locationName:"x-amz-tagging-directive" type:"string" enum:"true"`
 
 	// If the bucket is configured as a website, redirects requests for this object
 	// to another object in the same bucket or to an external URL. Amazon S3 stores
@@ -5150,95 +5947,11 @@ func (s *CopyObjectInput) Validate() error {
 	return nil
 }
 
-// SetACL sets the ACL field's value.
-func (s *CopyObjectInput) SetACL(v ObjectCannedACL) *CopyObjectInput {
-	s.ACL = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *CopyObjectInput) SetBucket(v string) *CopyObjectInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *CopyObjectInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetCacheControl sets the CacheControl field's value.
-func (s *CopyObjectInput) SetCacheControl(v string) *CopyObjectInput {
-	s.CacheControl = &v
-	return s
-}
-
-// SetContentDisposition sets the ContentDisposition field's value.
-func (s *CopyObjectInput) SetContentDisposition(v string) *CopyObjectInput {
-	s.ContentDisposition = &v
-	return s
-}
-
-// SetContentEncoding sets the ContentEncoding field's value.
-func (s *CopyObjectInput) SetContentEncoding(v string) *CopyObjectInput {
-	s.ContentEncoding = &v
-	return s
-}
-
-// SetContentLanguage sets the ContentLanguage field's value.
-func (s *CopyObjectInput) SetContentLanguage(v string) *CopyObjectInput {
-	s.ContentLanguage = &v
-	return s
-}
-
-// SetContentType sets the ContentType field's value.
-func (s *CopyObjectInput) SetContentType(v string) *CopyObjectInput {
-	s.ContentType = &v
-	return s
-}
-
-// SetCopySource sets the CopySource field's value.
-func (s *CopyObjectInput) SetCopySource(v string) *CopyObjectInput {
-	s.CopySource = &v
-	return s
-}
-
-// SetCopySourceIfMatch sets the CopySourceIfMatch field's value.
-func (s *CopyObjectInput) SetCopySourceIfMatch(v string) *CopyObjectInput {
-	s.CopySourceIfMatch = &v
-	return s
-}
-
-// SetCopySourceIfModifiedSince sets the CopySourceIfModifiedSince field's value.
-func (s *CopyObjectInput) SetCopySourceIfModifiedSince(v time.Time) *CopyObjectInput {
-	s.CopySourceIfModifiedSince = &v
-	return s
-}
-
-// SetCopySourceIfNoneMatch sets the CopySourceIfNoneMatch field's value.
-func (s *CopyObjectInput) SetCopySourceIfNoneMatch(v string) *CopyObjectInput {
-	s.CopySourceIfNoneMatch = &v
-	return s
-}
-
-// SetCopySourceIfUnmodifiedSince sets the CopySourceIfUnmodifiedSince field's value.
-func (s *CopyObjectInput) SetCopySourceIfUnmodifiedSince(v time.Time) *CopyObjectInput {
-	s.CopySourceIfUnmodifiedSince = &v
-	return s
-}
-
-// SetCopySourceSSECustomerAlgorithm sets the CopySourceSSECustomerAlgorithm field's value.
-func (s *CopyObjectInput) SetCopySourceSSECustomerAlgorithm(v string) *CopyObjectInput {
-	s.CopySourceSSECustomerAlgorithm = &v
-	return s
-}
-
-// SetCopySourceSSECustomerKey sets the CopySourceSSECustomerKey field's value.
-func (s *CopyObjectInput) SetCopySourceSSECustomerKey(v string) *CopyObjectInput {
-	s.CopySourceSSECustomerKey = &v
-	return s
 }
 
 func (s *CopyObjectInput) getCopySourceSSECustomerKey() (v string) {
@@ -5248,78 +5961,6 @@ func (s *CopyObjectInput) getCopySourceSSECustomerKey() (v string) {
 	return *s.CopySourceSSECustomerKey
 }
 
-// SetCopySourceSSECustomerKeyMD5 sets the CopySourceSSECustomerKeyMD5 field's value.
-func (s *CopyObjectInput) SetCopySourceSSECustomerKeyMD5(v string) *CopyObjectInput {
-	s.CopySourceSSECustomerKeyMD5 = &v
-	return s
-}
-
-// SetExpires sets the Expires field's value.
-func (s *CopyObjectInput) SetExpires(v time.Time) *CopyObjectInput {
-	s.Expires = &v
-	return s
-}
-
-// SetGrantFullControl sets the GrantFullControl field's value.
-func (s *CopyObjectInput) SetGrantFullControl(v string) *CopyObjectInput {
-	s.GrantFullControl = &v
-	return s
-}
-
-// SetGrantRead sets the GrantRead field's value.
-func (s *CopyObjectInput) SetGrantRead(v string) *CopyObjectInput {
-	s.GrantRead = &v
-	return s
-}
-
-// SetGrantReadACP sets the GrantReadACP field's value.
-func (s *CopyObjectInput) SetGrantReadACP(v string) *CopyObjectInput {
-	s.GrantReadACP = &v
-	return s
-}
-
-// SetGrantWriteACP sets the GrantWriteACP field's value.
-func (s *CopyObjectInput) SetGrantWriteACP(v string) *CopyObjectInput {
-	s.GrantWriteACP = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *CopyObjectInput) SetKey(v string) *CopyObjectInput {
-	s.Key = &v
-	return s
-}
-
-// SetMetadata sets the Metadata field's value.
-func (s *CopyObjectInput) SetMetadata(v map[string]*string) *CopyObjectInput {
-	s.Metadata = v
-	return s
-}
-
-// SetMetadataDirective sets the MetadataDirective field's value.
-func (s *CopyObjectInput) SetMetadataDirective(v MetadataDirective) *CopyObjectInput {
-	s.MetadataDirective = v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *CopyObjectInput) SetRequestPayer(v RequestPayer) *CopyObjectInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *CopyObjectInput) SetSSECustomerAlgorithm(v string) *CopyObjectInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *CopyObjectInput) SetSSECustomerKey(v string) *CopyObjectInput {
-	s.SSECustomerKey = &v
-	return s
-}
-
 func (s *CopyObjectInput) getSSECustomerKey() (v string) {
 	if s.SSECustomerKey == nil {
 		return v
@@ -5327,51 +5968,221 @@ func (s *CopyObjectInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *CopyObjectInput) SetSSECustomerKeyMD5(v string) *CopyObjectInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CopyObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *CopyObjectInput) SetSSEKMSKeyId(v string) *CopyObjectInput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+	if len(s.ACL) > 0 {
+		v := s.ACL
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *CopyObjectInput) SetServerSideEncryption(v ServerSideEncryption) *CopyObjectInput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-acl", v, metadata)
+	}
+	if s.CacheControl != nil {
+		v := *s.CacheControl
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *CopyObjectInput) SetStorageClass(v StorageClass) *CopyObjectInput {
-	s.StorageClass = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Cache-Control", protocol.StringValue(v), metadata)
+	}
+	if s.ContentDisposition != nil {
+		v := *s.ContentDisposition
 
-// SetTagging sets the Tagging field's value.
-func (s *CopyObjectInput) SetTagging(v string) *CopyObjectInput {
-	s.Tagging = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Disposition", protocol.StringValue(v), metadata)
+	}
+	if s.ContentEncoding != nil {
+		v := *s.ContentEncoding
 
-// SetTaggingDirective sets the TaggingDirective field's value.
-func (s *CopyObjectInput) SetTaggingDirective(v TaggingDirective) *CopyObjectInput {
-	s.TaggingDirective = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Encoding", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLanguage != nil {
+		v := *s.ContentLanguage
 
-// SetWebsiteRedirectLocation sets the WebsiteRedirectLocation field's value.
-func (s *CopyObjectInput) SetWebsiteRedirectLocation(v string) *CopyObjectInput {
-	s.WebsiteRedirectLocation = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Language", protocol.StringValue(v), metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue(v), metadata)
+	}
+	if s.CopySource != nil {
+		v := *s.CopySource
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceIfMatch != nil {
+		v := *s.CopySourceIfMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-match", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceIfModifiedSince != nil {
+		v := *s.CopySourceIfModifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-modified-since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.CopySourceIfNoneMatch != nil {
+		v := *s.CopySourceIfNoneMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-none-match", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceIfUnmodifiedSince != nil {
+		v := *s.CopySourceIfUnmodifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-unmodified-since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.CopySourceSSECustomerAlgorithm != nil {
+		v := *s.CopySourceSSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceSSECustomerKey != nil {
+		v := *s.CopySourceSSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceSSECustomerKeyMD5 != nil {
+		v := *s.CopySourceSSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.Expires != nil {
+		v := *s.Expires
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Expires", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.GrantFullControl != nil {
+		v := *s.GrantFullControl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-full-control", protocol.StringValue(v), metadata)
+	}
+	if s.GrantRead != nil {
+		v := *s.GrantRead
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read", protocol.StringValue(v), metadata)
+	}
+	if s.GrantReadACP != nil {
+		v := *s.GrantReadACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read-acp", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWriteACP != nil {
+		v := *s.GrantWriteACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write-acp", protocol.StringValue(v), metadata)
+	}
+	if len(s.MetadataDirective) > 0 {
+		v := s.MetadataDirective
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-metadata-directive", v, metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-storage-class", v, metadata)
+	}
+	if s.Tagging != nil {
+		v := *s.Tagging
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-tagging", protocol.StringValue(v), metadata)
+	}
+	if len(s.TaggingDirective) > 0 {
+		v := s.TaggingDirective
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-tagging-directive", v, metadata)
+	}
+	if s.WebsiteRedirectLocation != nil {
+		v := *s.WebsiteRedirectLocation
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-website-redirect-location", protocol.StringValue(v), metadata)
+	}
+	if len(s.Metadata) > 0 {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.HeadersTarget, "x-amz-meta-", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectOutput
 type CopyObjectOutput struct {
 	_ struct{} `type:"structure" payload:"CopyObjectResult"`
+
+	responseMetadata aws.Response
 
 	CopyObjectResult *CopyObjectResult `type:"structure"`
 
@@ -5382,7 +6193,7 @@ type CopyObjectOutput struct {
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// If server-side encryption with a customer-provided encryption key was requested,
 	// the response will include this header confirming the encryption algorithm
@@ -5400,7 +6211,7 @@ type CopyObjectOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// Version ID of the newly created copy.
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
@@ -5416,58 +6227,68 @@ func (s CopyObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetCopyObjectResult sets the CopyObjectResult field's value.
-func (s *CopyObjectOutput) SetCopyObjectResult(v *CopyObjectResult) *CopyObjectOutput {
-	s.CopyObjectResult = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CopyObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCopySourceVersionId sets the CopySourceVersionId field's value.
-func (s *CopyObjectOutput) SetCopySourceVersionId(v string) *CopyObjectOutput {
-	s.CopySourceVersionId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CopyObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CopySourceVersionId != nil {
+		v := *s.CopySourceVersionId
 
-// SetExpiration sets the Expiration field's value.
-func (s *CopyObjectOutput) SetExpiration(v string) *CopyObjectOutput {
-	s.Expiration = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-version-id", protocol.StringValue(v), metadata)
+	}
+	if s.Expiration != nil {
+		v := *s.Expiration
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *CopyObjectOutput) SetRequestCharged(v RequestCharged) *CopyObjectOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-expiration", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *CopyObjectOutput) SetSSECustomerAlgorithm(v string) *CopyObjectOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *CopyObjectOutput) SetSSECustomerKeyMD5(v string) *CopyObjectOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *CopyObjectOutput) SetSSEKMSKeyId(v string) *CopyObjectOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *CopyObjectOutput) SetServerSideEncryption(v ServerSideEncryption) *CopyObjectOutput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
 
-// SetVersionId sets the VersionId field's value.
-func (s *CopyObjectOutput) SetVersionId(v string) *CopyObjectOutput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	if s.CopyObjectResult != nil {
+		v := s.CopyObjectResult
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CopyObjectResult", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyObjectResult
@@ -5489,16 +6310,21 @@ func (s CopyObjectResult) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *CopyObjectResult) SetETag(v string) *CopyObjectResult {
-	s.ETag = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CopyObjectResult) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetLastModified sets the LastModified field's value.
-func (s *CopyObjectResult) SetLastModified(v time.Time) *CopyObjectResult {
-	s.LastModified = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CopyPartResult
@@ -5522,16 +6348,21 @@ func (s CopyPartResult) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *CopyPartResult) SetETag(v string) *CopyPartResult {
-	s.ETag = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CopyPartResult) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetLastModified sets the LastModified field's value.
-func (s *CopyPartResult) SetLastModified(v time.Time) *CopyPartResult {
-	s.LastModified = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketConfiguration
@@ -5540,7 +6371,7 @@ type CreateBucketConfiguration struct {
 
 	// Specifies the region where the bucket will be created. If you don't specify
 	// a region, the bucket will be created in US Standard.
-	LocationConstraint BucketLocationConstraint `type:"string"`
+	LocationConstraint BucketLocationConstraint `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -5553,10 +6384,15 @@ func (s CreateBucketConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetLocationConstraint sets the LocationConstraint field's value.
-func (s *CreateBucketConfiguration) SetLocationConstraint(v BucketLocationConstraint) *CreateBucketConfiguration {
-	s.LocationConstraint = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateBucketConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.LocationConstraint) > 0 {
+		v := s.LocationConstraint
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LocationConstraint", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketRequest
@@ -5564,7 +6400,7 @@ type CreateBucketInput struct {
 	_ struct{} `type:"structure" payload:"CreateBucketConfiguration"`
 
 	// The canned ACL to apply to the bucket.
-	ACL BucketCannedACL `location:"header" locationName:"x-amz-acl" type:"string"`
+	ACL BucketCannedACL `location:"header" locationName:"x-amz-acl" type:"string" enum:"true"`
 
 	// Bucket is a required field
 	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
@@ -5612,18 +6448,6 @@ func (s *CreateBucketInput) Validate() error {
 	return nil
 }
 
-// SetACL sets the ACL field's value.
-func (s *CreateBucketInput) SetACL(v BucketCannedACL) *CreateBucketInput {
-	s.ACL = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *CreateBucketInput) SetBucket(v string) *CreateBucketInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *CreateBucketInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -5631,45 +6455,65 @@ func (s *CreateBucketInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetCreateBucketConfiguration sets the CreateBucketConfiguration field's value.
-func (s *CreateBucketInput) SetCreateBucketConfiguration(v *CreateBucketConfiguration) *CreateBucketInput {
-	s.CreateBucketConfiguration = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateBucketInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetGrantFullControl sets the GrantFullControl field's value.
-func (s *CreateBucketInput) SetGrantFullControl(v string) *CreateBucketInput {
-	s.GrantFullControl = &v
-	return s
-}
+	if len(s.ACL) > 0 {
+		v := s.ACL
 
-// SetGrantRead sets the GrantRead field's value.
-func (s *CreateBucketInput) SetGrantRead(v string) *CreateBucketInput {
-	s.GrantRead = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-acl", v, metadata)
+	}
+	if s.GrantFullControl != nil {
+		v := *s.GrantFullControl
 
-// SetGrantReadACP sets the GrantReadACP field's value.
-func (s *CreateBucketInput) SetGrantReadACP(v string) *CreateBucketInput {
-	s.GrantReadACP = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-full-control", protocol.StringValue(v), metadata)
+	}
+	if s.GrantRead != nil {
+		v := *s.GrantRead
 
-// SetGrantWrite sets the GrantWrite field's value.
-func (s *CreateBucketInput) SetGrantWrite(v string) *CreateBucketInput {
-	s.GrantWrite = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read", protocol.StringValue(v), metadata)
+	}
+	if s.GrantReadACP != nil {
+		v := *s.GrantReadACP
 
-// SetGrantWriteACP sets the GrantWriteACP field's value.
-func (s *CreateBucketInput) SetGrantWriteACP(v string) *CreateBucketInput {
-	s.GrantWriteACP = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read-acp", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWrite != nil {
+		v := *s.GrantWrite
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWriteACP != nil {
+		v := *s.GrantWriteACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write-acp", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.CreateBucketConfiguration != nil {
+		v := s.CreateBucketConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "CreateBucketConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateBucketOutput
 type CreateBucketOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	Location *string `location:"header" locationName:"Location" type:"string"`
 }
@@ -5684,10 +6528,20 @@ func (s CreateBucketOutput) GoString() string {
 	return s.String()
 }
 
-// SetLocation sets the Location field's value.
-func (s *CreateBucketOutput) SetLocation(v string) *CreateBucketOutput {
-	s.Location = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateBucketOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateBucketOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Location != nil {
+		v := *s.Location
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Location", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUploadRequest
@@ -5695,7 +6549,7 @@ type CreateMultipartUploadInput struct {
 	_ struct{} `type:"structure"`
 
 	// The canned ACL to apply to the object.
-	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string"`
+	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string" enum:"true"`
 
 	// Bucket is a required field
 	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
@@ -5736,13 +6590,13 @@ type CreateMultipartUploadInput struct {
 	Key *string `location:"uri" locationName:"Key" min:"1" type:"string" required:"true"`
 
 	// A map of metadata to store with the object in S3.
-	Metadata map[string]*string `location:"headers" locationName:"x-amz-meta-" type:"map"`
+	Metadata map[string]string `location:"headers" locationName:"x-amz-meta-" type:"map"`
 
 	// Confirms that the requester knows that she or he will be charged for the
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
 	SSECustomerAlgorithm *string `location:"header" locationName:"x-amz-server-side-encryption-customer-algorithm" type:"string"`
@@ -5767,10 +6621,10 @@ type CreateMultipartUploadInput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// The type of storage to use for the object. Defaults to 'STANDARD'.
-	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string"`
+	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string" enum:"true"`
 
 	// The tag-set for the object. The tag-set must be encoded as URL Query parameters
 	Tagging *string `location:"header" locationName:"x-amz-tagging" type:"string"`
@@ -5812,113 +6666,11 @@ func (s *CreateMultipartUploadInput) Validate() error {
 	return nil
 }
 
-// SetACL sets the ACL field's value.
-func (s *CreateMultipartUploadInput) SetACL(v ObjectCannedACL) *CreateMultipartUploadInput {
-	s.ACL = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *CreateMultipartUploadInput) SetBucket(v string) *CreateMultipartUploadInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *CreateMultipartUploadInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetCacheControl sets the CacheControl field's value.
-func (s *CreateMultipartUploadInput) SetCacheControl(v string) *CreateMultipartUploadInput {
-	s.CacheControl = &v
-	return s
-}
-
-// SetContentDisposition sets the ContentDisposition field's value.
-func (s *CreateMultipartUploadInput) SetContentDisposition(v string) *CreateMultipartUploadInput {
-	s.ContentDisposition = &v
-	return s
-}
-
-// SetContentEncoding sets the ContentEncoding field's value.
-func (s *CreateMultipartUploadInput) SetContentEncoding(v string) *CreateMultipartUploadInput {
-	s.ContentEncoding = &v
-	return s
-}
-
-// SetContentLanguage sets the ContentLanguage field's value.
-func (s *CreateMultipartUploadInput) SetContentLanguage(v string) *CreateMultipartUploadInput {
-	s.ContentLanguage = &v
-	return s
-}
-
-// SetContentType sets the ContentType field's value.
-func (s *CreateMultipartUploadInput) SetContentType(v string) *CreateMultipartUploadInput {
-	s.ContentType = &v
-	return s
-}
-
-// SetExpires sets the Expires field's value.
-func (s *CreateMultipartUploadInput) SetExpires(v time.Time) *CreateMultipartUploadInput {
-	s.Expires = &v
-	return s
-}
-
-// SetGrantFullControl sets the GrantFullControl field's value.
-func (s *CreateMultipartUploadInput) SetGrantFullControl(v string) *CreateMultipartUploadInput {
-	s.GrantFullControl = &v
-	return s
-}
-
-// SetGrantRead sets the GrantRead field's value.
-func (s *CreateMultipartUploadInput) SetGrantRead(v string) *CreateMultipartUploadInput {
-	s.GrantRead = &v
-	return s
-}
-
-// SetGrantReadACP sets the GrantReadACP field's value.
-func (s *CreateMultipartUploadInput) SetGrantReadACP(v string) *CreateMultipartUploadInput {
-	s.GrantReadACP = &v
-	return s
-}
-
-// SetGrantWriteACP sets the GrantWriteACP field's value.
-func (s *CreateMultipartUploadInput) SetGrantWriteACP(v string) *CreateMultipartUploadInput {
-	s.GrantWriteACP = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *CreateMultipartUploadInput) SetKey(v string) *CreateMultipartUploadInput {
-	s.Key = &v
-	return s
-}
-
-// SetMetadata sets the Metadata field's value.
-func (s *CreateMultipartUploadInput) SetMetadata(v map[string]*string) *CreateMultipartUploadInput {
-	s.Metadata = v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *CreateMultipartUploadInput) SetRequestPayer(v RequestPayer) *CreateMultipartUploadInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *CreateMultipartUploadInput) SetSSECustomerAlgorithm(v string) *CreateMultipartUploadInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *CreateMultipartUploadInput) SetSSECustomerKey(v string) *CreateMultipartUploadInput {
-	s.SSECustomerKey = &v
-	return s
 }
 
 func (s *CreateMultipartUploadInput) getSSECustomerKey() (v string) {
@@ -5928,45 +6680,161 @@ func (s *CreateMultipartUploadInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *CreateMultipartUploadInput) SetSSECustomerKeyMD5(v string) *CreateMultipartUploadInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateMultipartUploadInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *CreateMultipartUploadInput) SetSSEKMSKeyId(v string) *CreateMultipartUploadInput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+	if len(s.ACL) > 0 {
+		v := s.ACL
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *CreateMultipartUploadInput) SetServerSideEncryption(v ServerSideEncryption) *CreateMultipartUploadInput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-acl", v, metadata)
+	}
+	if s.CacheControl != nil {
+		v := *s.CacheControl
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *CreateMultipartUploadInput) SetStorageClass(v StorageClass) *CreateMultipartUploadInput {
-	s.StorageClass = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Cache-Control", protocol.StringValue(v), metadata)
+	}
+	if s.ContentDisposition != nil {
+		v := *s.ContentDisposition
 
-// SetTagging sets the Tagging field's value.
-func (s *CreateMultipartUploadInput) SetTagging(v string) *CreateMultipartUploadInput {
-	s.Tagging = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Disposition", protocol.StringValue(v), metadata)
+	}
+	if s.ContentEncoding != nil {
+		v := *s.ContentEncoding
 
-// SetWebsiteRedirectLocation sets the WebsiteRedirectLocation field's value.
-func (s *CreateMultipartUploadInput) SetWebsiteRedirectLocation(v string) *CreateMultipartUploadInput {
-	s.WebsiteRedirectLocation = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Encoding", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLanguage != nil {
+		v := *s.ContentLanguage
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Language", protocol.StringValue(v), metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue(v), metadata)
+	}
+	if s.Expires != nil {
+		v := *s.Expires
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Expires", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.GrantFullControl != nil {
+		v := *s.GrantFullControl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-full-control", protocol.StringValue(v), metadata)
+	}
+	if s.GrantRead != nil {
+		v := *s.GrantRead
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read", protocol.StringValue(v), metadata)
+	}
+	if s.GrantReadACP != nil {
+		v := *s.GrantReadACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read-acp", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWriteACP != nil {
+		v := *s.GrantWriteACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write-acp", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-storage-class", v, metadata)
+	}
+	if s.Tagging != nil {
+		v := *s.Tagging
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-tagging", protocol.StringValue(v), metadata)
+	}
+	if s.WebsiteRedirectLocation != nil {
+		v := *s.WebsiteRedirectLocation
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-website-redirect-location", protocol.StringValue(v), metadata)
+	}
+	if len(s.Metadata) > 0 {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.HeadersTarget, "x-amz-meta-", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/CreateMultipartUploadOutput
 type CreateMultipartUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Date when multipart upload will become eligible for abort operation by lifecycle.
 	AbortDate *time.Time `location:"header" locationName:"x-amz-abort-date" type:"timestamp" timestampFormat:"rfc822"`
@@ -5983,7 +6851,7 @@ type CreateMultipartUploadOutput struct {
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// If server-side encryption with a customer-provided encryption key was requested,
 	// the response will include this header confirming the encryption algorithm
@@ -6001,7 +6869,7 @@ type CreateMultipartUploadOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// ID for the initiated multipart upload.
 	UploadId *string `type:"string"`
@@ -6017,22 +6885,9 @@ func (s CreateMultipartUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetAbortDate sets the AbortDate field's value.
-func (s *CreateMultipartUploadOutput) SetAbortDate(v time.Time) *CreateMultipartUploadOutput {
-	s.AbortDate = &v
-	return s
-}
-
-// SetAbortRuleId sets the AbortRuleId field's value.
-func (s *CreateMultipartUploadOutput) SetAbortRuleId(v string) *CreateMultipartUploadOutput {
-	s.AbortRuleId = &v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *CreateMultipartUploadOutput) SetBucket(v string) *CreateMultipartUploadOutput {
-	s.Bucket = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateMultipartUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 func (s *CreateMultipartUploadOutput) getBucket() (v string) {
@@ -6042,46 +6897,69 @@ func (s *CreateMultipartUploadOutput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *CreateMultipartUploadOutput) SetKey(v string) *CreateMultipartUploadOutput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateMultipartUploadOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *CreateMultipartUploadOutput) SetRequestCharged(v RequestCharged) *CreateMultipartUploadOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *CreateMultipartUploadOutput) SetSSECustomerAlgorithm(v string) *CreateMultipartUploadOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *CreateMultipartUploadOutput) SetSSECustomerKeyMD5(v string) *CreateMultipartUploadOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UploadId", protocol.StringValue(v), metadata)
+	}
+	if s.AbortDate != nil {
+		v := *s.AbortDate
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *CreateMultipartUploadOutput) SetSSEKMSKeyId(v string) *CreateMultipartUploadOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-abort-date", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.AbortRuleId != nil {
+		v := *s.AbortRuleId
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *CreateMultipartUploadOutput) SetServerSideEncryption(v ServerSideEncryption) *CreateMultipartUploadOutput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-abort-rule-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetUploadId sets the UploadId field's value.
-func (s *CreateMultipartUploadOutput) SetUploadId(v string) *CreateMultipartUploadOutput {
-	s.UploadId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Delete
@@ -6089,7 +6967,7 @@ type Delete struct {
 	_ struct{} `type:"structure"`
 
 	// Objects is a required field
-	Objects []*ObjectIdentifier `locationName:"Object" type:"list" flattened:"true" required:"true"`
+	Objects []ObjectIdentifier `locationName:"Object" type:"list" flattened:"true" required:"true"`
 
 	// Element to enable quiet mode for the request. When you add this element,
 	// you must set its value to true.
@@ -6115,9 +6993,6 @@ func (s *Delete) Validate() error {
 	}
 	if s.Objects != nil {
 		for i, v := range s.Objects {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Objects", i), err.(aws.ErrInvalidParams))
 			}
@@ -6130,16 +7005,27 @@ func (s *Delete) Validate() error {
 	return nil
 }
 
-// SetObjects sets the Objects field's value.
-func (s *Delete) SetObjects(v []*ObjectIdentifier) *Delete {
-	s.Objects = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Delete) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Objects) > 0 {
+		v := s.Objects
 
-// SetQuiet sets the Quiet field's value.
-func (s *Delete) SetQuiet(v bool) *Delete {
-	s.Quiet = &v
-	return s
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Object", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Quiet != nil {
+		v := *s.Quiet
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Quiet", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketAnalyticsConfigurationRequest
@@ -6185,12 +7071,6 @@ func (s *DeleteBucketAnalyticsConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketAnalyticsConfigurationInput) SetBucket(v string) *DeleteBucketAnalyticsConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketAnalyticsConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6198,15 +7078,29 @@ func (s *DeleteBucketAnalyticsConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *DeleteBucketAnalyticsConfigurationInput) SetId(v string) *DeleteBucketAnalyticsConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketAnalyticsConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketAnalyticsConfigurationOutput
 type DeleteBucketAnalyticsConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6217,6 +7111,16 @@ func (s DeleteBucketAnalyticsConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketAnalyticsConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketAnalyticsConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketAnalyticsConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketCorsRequest
@@ -6251,12 +7155,6 @@ func (s *DeleteBucketCorsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketCorsInput) SetBucket(v string) *DeleteBucketCorsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketCorsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6264,9 +7162,23 @@ func (s *DeleteBucketCorsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketCorsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketCorsOutput
 type DeleteBucketCorsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6277,6 +7189,97 @@ func (s DeleteBucketCorsOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketCorsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketCorsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketCorsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryptionRequest
+type DeleteBucketEncryptionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the bucket containing the server-side encryption configuration
+	// to delete.
+	//
+	// Bucket is a required field
+	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteBucketEncryptionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteBucketEncryptionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteBucketEncryptionInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteBucketEncryptionInput"}
+
+	if s.Bucket == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Bucket"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+func (s *DeleteBucketEncryptionInput) getBucket() (v string) {
+	if s.Bucket == nil {
+		return v
+	}
+	return *s.Bucket
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketEncryptionInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketEncryptionOutput
+type DeleteBucketEncryptionOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeleteBucketEncryptionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteBucketEncryptionOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketEncryptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketEncryptionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketRequest
@@ -6311,17 +7314,23 @@ func (s *DeleteBucketInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketInput) SetBucket(v string) *DeleteBucketInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketInventoryConfigurationRequest
@@ -6367,12 +7376,6 @@ func (s *DeleteBucketInventoryConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketInventoryConfigurationInput) SetBucket(v string) *DeleteBucketInventoryConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketInventoryConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6380,15 +7383,29 @@ func (s *DeleteBucketInventoryConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *DeleteBucketInventoryConfigurationInput) SetId(v string) *DeleteBucketInventoryConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketInventoryConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketInventoryConfigurationOutput
 type DeleteBucketInventoryConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6399,6 +7416,16 @@ func (s DeleteBucketInventoryConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketInventoryConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketInventoryConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketInventoryConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketLifecycleRequest
@@ -6433,12 +7460,6 @@ func (s *DeleteBucketLifecycleInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketLifecycleInput) SetBucket(v string) *DeleteBucketLifecycleInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketLifecycleInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6446,9 +7467,23 @@ func (s *DeleteBucketLifecycleInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketLifecycleInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketLifecycleOutput
 type DeleteBucketLifecycleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6459,6 +7494,16 @@ func (s DeleteBucketLifecycleOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketLifecycleOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketLifecycleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketLifecycleOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfigurationRequest
@@ -6504,12 +7549,6 @@ func (s *DeleteBucketMetricsConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketMetricsConfigurationInput) SetBucket(v string) *DeleteBucketMetricsConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketMetricsConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6517,15 +7556,29 @@ func (s *DeleteBucketMetricsConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *DeleteBucketMetricsConfigurationInput) SetId(v string) *DeleteBucketMetricsConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketMetricsConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketMetricsConfigurationOutput
 type DeleteBucketMetricsConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6538,9 +7591,21 @@ func (s DeleteBucketMetricsConfigurationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketMetricsConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketMetricsConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketOutput
 type DeleteBucketOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6551,6 +7616,16 @@ func (s DeleteBucketOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketPolicyRequest
@@ -6585,12 +7660,6 @@ func (s *DeleteBucketPolicyInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketPolicyInput) SetBucket(v string) *DeleteBucketPolicyInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketPolicyInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6598,9 +7667,23 @@ func (s *DeleteBucketPolicyInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketPolicyOutput
 type DeleteBucketPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6611,6 +7694,16 @@ func (s DeleteBucketPolicyOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketReplicationRequest
@@ -6645,12 +7738,6 @@ func (s *DeleteBucketReplicationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketReplicationInput) SetBucket(v string) *DeleteBucketReplicationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketReplicationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6658,9 +7745,23 @@ func (s *DeleteBucketReplicationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketReplicationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketReplicationOutput
 type DeleteBucketReplicationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6671,6 +7772,16 @@ func (s DeleteBucketReplicationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketReplicationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketReplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketReplicationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketTaggingRequest
@@ -6705,12 +7816,6 @@ func (s *DeleteBucketTaggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketTaggingInput) SetBucket(v string) *DeleteBucketTaggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketTaggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6718,9 +7823,23 @@ func (s *DeleteBucketTaggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketTaggingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketTaggingOutput
 type DeleteBucketTaggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6731,6 +7850,16 @@ func (s DeleteBucketTaggingOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketTaggingOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketTaggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketTaggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketWebsiteRequest
@@ -6765,12 +7894,6 @@ func (s *DeleteBucketWebsiteInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteBucketWebsiteInput) SetBucket(v string) *DeleteBucketWebsiteInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteBucketWebsiteInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6778,9 +7901,23 @@ func (s *DeleteBucketWebsiteInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketWebsiteInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucketWebsiteOutput
 type DeleteBucketWebsiteOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6791,6 +7928,16 @@ func (s DeleteBucketWebsiteOutput) String() string {
 // GoString returns the string representation
 func (s DeleteBucketWebsiteOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBucketWebsiteOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteBucketWebsiteOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteMarkerEntry
@@ -6823,34 +7970,39 @@ func (s DeleteMarkerEntry) GoString() string {
 	return s.String()
 }
 
-// SetIsLatest sets the IsLatest field's value.
-func (s *DeleteMarkerEntry) SetIsLatest(v bool) *DeleteMarkerEntry {
-	s.IsLatest = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteMarkerEntry) MarshalFields(e protocol.FieldEncoder) error {
+	if s.IsLatest != nil {
+		v := *s.IsLatest
 
-// SetKey sets the Key field's value.
-func (s *DeleteMarkerEntry) SetKey(v string) *DeleteMarkerEntry {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsLatest", protocol.BoolValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetLastModified sets the LastModified field's value.
-func (s *DeleteMarkerEntry) SetLastModified(v time.Time) *DeleteMarkerEntry {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetOwner sets the Owner field's value.
-func (s *DeleteMarkerEntry) SetOwner(v *Owner) *DeleteMarkerEntry {
-	s.Owner = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Owner != nil {
+		v := s.Owner
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteMarkerEntry) SetVersionId(v string) *DeleteMarkerEntry {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectRequest
@@ -6871,7 +8023,7 @@ type DeleteObjectInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// VersionId used to reference a specific version of the object.
 	VersionId *string `location:"querystring" locationName:"versionId" type:"string"`
@@ -6908,12 +8060,6 @@ func (s *DeleteObjectInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteObjectInput) SetBucket(v string) *DeleteObjectInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteObjectInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -6921,33 +8067,47 @@ func (s *DeleteObjectInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *DeleteObjectInput) SetKey(v string) *DeleteObjectInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMFA sets the MFA field's value.
-func (s *DeleteObjectInput) SetMFA(v string) *DeleteObjectInput {
-	s.MFA = &v
-	return s
-}
+	if s.MFA != nil {
+		v := *s.MFA
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *DeleteObjectInput) SetRequestPayer(v RequestPayer) *DeleteObjectInput {
-	s.RequestPayer = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-mfa", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteObjectInput) SetVersionId(v string) *DeleteObjectInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectOutput
 type DeleteObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Specifies whether the versioned object that was permanently deleted was (true)
 	// or was not (false) a delete marker.
@@ -6955,7 +8115,7 @@ type DeleteObjectOutput struct {
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// Returns the version ID of the delete marker created as a result of the DELETE
 	// operation.
@@ -6972,22 +8132,32 @@ func (s DeleteObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDeleteMarker sets the DeleteMarker field's value.
-func (s *DeleteObjectOutput) SetDeleteMarker(v bool) *DeleteObjectOutput {
-	s.DeleteMarker = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *DeleteObjectOutput) SetRequestCharged(v RequestCharged) *DeleteObjectOutput {
-	s.RequestCharged = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeleteMarker != nil {
+		v := *s.DeleteMarker
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteObjectOutput) SetVersionId(v string) *DeleteObjectOutput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-delete-marker", protocol.BoolValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTaggingRequest
@@ -7035,12 +8205,6 @@ func (s *DeleteObjectTaggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteObjectTaggingInput) SetBucket(v string) *DeleteObjectTaggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteObjectTaggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7048,21 +8212,35 @@ func (s *DeleteObjectTaggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *DeleteObjectTaggingInput) SetKey(v string) *DeleteObjectTaggingInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectTaggingInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteObjectTaggingInput) SetVersionId(v string) *DeleteObjectTaggingInput {
-	s.VersionId = &v
-	return s
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectTaggingOutput
 type DeleteObjectTaggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The versionId of the object the tag-set was removed from.
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
@@ -7078,10 +8256,20 @@ func (s DeleteObjectTaggingOutput) GoString() string {
 	return s.String()
 }
 
-// SetVersionId sets the VersionId field's value.
-func (s *DeleteObjectTaggingOutput) SetVersionId(v string) *DeleteObjectTaggingOutput {
-	s.VersionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteObjectTaggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectTaggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectsRequest
@@ -7102,7 +8290,7 @@ type DeleteObjectsInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7138,12 +8326,6 @@ func (s *DeleteObjectsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *DeleteObjectsInput) SetBucket(v string) *DeleteObjectsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *DeleteObjectsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7151,35 +8333,49 @@ func (s *DeleteObjectsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetDelete sets the Delete field's value.
-func (s *DeleteObjectsInput) SetDelete(v *Delete) *DeleteObjectsInput {
-	s.Delete = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMFA sets the MFA field's value.
-func (s *DeleteObjectsInput) SetMFA(v string) *DeleteObjectsInput {
-	s.MFA = &v
-	return s
-}
+	if s.MFA != nil {
+		v := *s.MFA
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *DeleteObjectsInput) SetRequestPayer(v RequestPayer) *DeleteObjectsInput {
-	s.RequestPayer = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-mfa", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Delete != nil {
+		v := s.Delete
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "Delete", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObjectsOutput
 type DeleteObjectsOutput struct {
 	_ struct{} `type:"structure"`
 
-	Deleted []*DeletedObject `type:"list" flattened:"true"`
+	responseMetadata aws.Response
 
-	Errors []*Error `locationName:"Error" type:"list" flattened:"true"`
+	Deleted []DeletedObject `type:"list" flattened:"true"`
+
+	Errors []Error `locationName:"Error" type:"list" flattened:"true"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7192,22 +8388,44 @@ func (s DeleteObjectsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDeleted sets the Deleted field's value.
-func (s *DeleteObjectsOutput) SetDeleted(v []*DeletedObject) *DeleteObjectsOutput {
-	s.Deleted = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteObjectsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetErrors sets the Errors field's value.
-func (s *DeleteObjectsOutput) SetErrors(v []*Error) *DeleteObjectsOutput {
-	s.Errors = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteObjectsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Deleted) > 0 {
+		v := s.Deleted
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *DeleteObjectsOutput) SetRequestCharged(v RequestCharged) *DeleteObjectsOutput {
-	s.RequestCharged = v
-	return s
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Deleted", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.Errors) > 0 {
+		v := s.Errors
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Error", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeletedObject
@@ -7233,33 +8451,46 @@ func (s DeletedObject) GoString() string {
 	return s.String()
 }
 
-// SetDeleteMarker sets the DeleteMarker field's value.
-func (s *DeletedObject) SetDeleteMarker(v bool) *DeletedObject {
-	s.DeleteMarker = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeletedObject) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DeleteMarker != nil {
+		v := *s.DeleteMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeleteMarker", protocol.BoolValue(v), metadata)
+	}
+	if s.DeleteMarkerVersionId != nil {
+		v := *s.DeleteMarkerVersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DeleteMarkerVersionId", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
-// SetDeleteMarkerVersionId sets the DeleteMarkerVersionId field's value.
-func (s *DeletedObject) SetDeleteMarkerVersionId(v string) *DeletedObject {
-	s.DeleteMarkerVersionId = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *DeletedObject) SetKey(v string) *DeletedObject {
-	s.Key = &v
-	return s
-}
-
-// SetVersionId sets the VersionId field's value.
-func (s *DeletedObject) SetVersionId(v string) *DeletedObject {
-	s.VersionId = &v
-	return s
-}
-
+// Container for replication destination information.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Destination
 type Destination struct {
 	_ struct{} `type:"structure"`
+
+	// Container for information regarding the access control for replicas.
+	AccessControlTranslation *AccessControlTranslation `type:"structure"`
+
+	// Account ID of the destination bucket. Currently this is only being verified
+	// if Access Control Translation is enabled
+	Account *string `type:"string"`
 
 	// Amazon resource name (ARN) of the bucket where you want Amazon S3 to store
 	// replicas of the object identified by the rule.
@@ -7267,8 +8498,11 @@ type Destination struct {
 	// Bucket is a required field
 	Bucket *string `type:"string" required:"true"`
 
+	// Container for information regarding encryption based configuration for replicas.
+	EncryptionConfiguration *EncryptionConfiguration `type:"structure"`
+
 	// The class of storage used to store the object.
-	StorageClass StorageClass `type:"string"`
+	StorageClass StorageClass `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7288,17 +8522,16 @@ func (s *Destination) Validate() error {
 	if s.Bucket == nil {
 		invalidParams.Add(aws.NewErrParamRequired("Bucket"))
 	}
+	if s.AccessControlTranslation != nil {
+		if err := s.AccessControlTranslation.Validate(); err != nil {
+			invalidParams.AddNested("AccessControlTranslation", err.(aws.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *Destination) SetBucket(v string) *Destination {
-	s.Bucket = &v
-	return s
 }
 
 func (s *Destination) getBucket() (v string) {
@@ -7308,10 +8541,136 @@ func (s *Destination) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *Destination) SetStorageClass(v StorageClass) *Destination {
-	s.StorageClass = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Destination) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccessControlTranslation != nil {
+		v := s.AccessControlTranslation
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AccessControlTranslation", v, metadata)
+	}
+	if s.Account != nil {
+		v := *s.Account
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Account", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.EncryptionConfiguration != nil {
+		v := s.EncryptionConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EncryptionConfiguration", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	return nil
+}
+
+// Describes the server-side encryption that will be applied to the restore
+// results.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Encryption
+type Encryption struct {
+	_ struct{} `type:"structure"`
+
+	// The server-side encryption algorithm used when storing job results in Amazon
+	// S3 (e.g., AES256, aws:kms).
+	//
+	// EncryptionType is a required field
+	EncryptionType ServerSideEncryption `type:"string" required:"true" enum:"true"`
+
+	// If the encryption type is aws:kms, this optional value can be used to specify
+	// the encryption context for the restore results.
+	KMSContext *string `type:"string"`
+
+	// If the encryption type is aws:kms, this optional value specifies the AWS
+	// KMS key ID to use for encryption of job results.
+	KMSKeyId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s Encryption) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s Encryption) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *Encryption) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "Encryption"}
+	if len(s.EncryptionType) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("EncryptionType"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Encryption) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.EncryptionType) > 0 {
+		v := s.EncryptionType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EncryptionType", v, metadata)
+	}
+	if s.KMSContext != nil {
+		v := *s.KMSContext
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KMSContext", protocol.StringValue(v), metadata)
+	}
+	if s.KMSKeyId != nil {
+		v := *s.KMSKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KMSKeyId", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
+// Container for information regarding encryption based configuration for replicas.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/EncryptionConfiguration
+type EncryptionConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// The id of the KMS key used to encrypt the replica object.
+	ReplicaKmsKeyID *string `type:"string"`
+}
+
+// String returns the string representation
+func (s EncryptionConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EncryptionConfiguration) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EncryptionConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ReplicaKmsKeyID != nil {
+		v := *s.ReplicaKmsKeyID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReplicaKmsKeyID", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Error
@@ -7337,28 +8696,33 @@ func (s Error) GoString() string {
 	return s.String()
 }
 
-// SetCode sets the Code field's value.
-func (s *Error) SetCode(v string) *Error {
-	s.Code = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Error) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Code != nil {
+		v := *s.Code
 
-// SetKey sets the Key field's value.
-func (s *Error) SetKey(v string) *Error {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Code", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetMessage sets the Message field's value.
-func (s *Error) SetMessage(v string) *Error {
-	s.Message = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Message != nil {
+		v := *s.Message
 
-// SetVersionId sets the VersionId field's value.
-func (s *Error) SetVersionId(v string) *Error {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Message", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ErrorDocument
@@ -7398,10 +8762,15 @@ func (s *ErrorDocument) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *ErrorDocument) SetKey(v string) *ErrorDocument {
-	s.Key = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ErrorDocument) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Container for key value pair that defines the criteria for the filter rule.
@@ -7413,7 +8782,7 @@ type FilterRule struct {
 	// the filtering rule applies. Maximum prefix length can be up to 1,024 characters.
 	// Overlapping prefixes and suffixes are not supported. For more information,
 	// go to Configuring Event Notifications (http://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html)
-	Name FilterRuleName `type:"string"`
+	Name FilterRuleName `type:"string" enum:"true"`
 
 	Value *string `type:"string"`
 }
@@ -7428,16 +8797,21 @@ func (s FilterRule) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *FilterRule) SetName(v FilterRuleName) *FilterRule {
-	s.Name = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FilterRule) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Name) > 0 {
+		v := s.Name
 
-// SetValue sets the Value field's value.
-func (s *FilterRule) SetValue(v string) *FilterRule {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", v, metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfigurationRequest
@@ -7474,12 +8848,6 @@ func (s *GetBucketAccelerateConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketAccelerateConfigurationInput) SetBucket(v string) *GetBucketAccelerateConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketAccelerateConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7487,12 +8855,26 @@ func (s *GetBucketAccelerateConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketAccelerateConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAccelerateConfigurationOutput
 type GetBucketAccelerateConfigurationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The accelerate configuration of the bucket.
-	Status BucketAccelerateStatus `type:"string"`
+	Status BucketAccelerateStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7505,10 +8887,20 @@ func (s GetBucketAccelerateConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *GetBucketAccelerateConfigurationOutput) SetStatus(v BucketAccelerateStatus) *GetBucketAccelerateConfigurationOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketAccelerateConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketAccelerateConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAclRequest
@@ -7543,12 +8935,6 @@ func (s *GetBucketAclInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketAclInput) SetBucket(v string) *GetBucketAclInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketAclInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7556,12 +8942,26 @@ func (s *GetBucketAclInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketAclInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAclOutput
 type GetBucketAclOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of grants.
-	Grants []*Grant `locationName:"AccessControlList" locationNameList:"Grant" type:"list"`
+	Grants []Grant `locationName:"AccessControlList" locationNameList:"Grant" type:"list"`
 
 	Owner *Owner `type:"structure"`
 }
@@ -7576,16 +8976,32 @@ func (s GetBucketAclOutput) GoString() string {
 	return s.String()
 }
 
-// SetGrants sets the Grants field's value.
-func (s *GetBucketAclOutput) SetGrants(v []*Grant) *GetBucketAclOutput {
-	s.Grants = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketAclOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetOwner sets the Owner field's value.
-func (s *GetBucketAclOutput) SetOwner(v *Owner) *GetBucketAclOutput {
-	s.Owner = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketAclOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Grants) > 0 {
+		v := s.Grants
+
+		metadata := protocol.Metadata{ListLocationName: "Grant"}
+		ls0 := e.List(protocol.BodyTarget, "AccessControlList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Owner != nil {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfigurationRequest
@@ -7631,12 +9047,6 @@ func (s *GetBucketAnalyticsConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketAnalyticsConfigurationInput) SetBucket(v string) *GetBucketAnalyticsConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketAnalyticsConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7644,15 +9054,29 @@ func (s *GetBucketAnalyticsConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *GetBucketAnalyticsConfigurationInput) SetId(v string) *GetBucketAnalyticsConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketAnalyticsConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketAnalyticsConfigurationOutput
 type GetBucketAnalyticsConfigurationOutput struct {
 	_ struct{} `type:"structure" payload:"AnalyticsConfiguration"`
+
+	responseMetadata aws.Response
 
 	// The configuration and any analyses for the analytics filter.
 	AnalyticsConfiguration *AnalyticsConfiguration `type:"structure"`
@@ -7668,10 +9092,20 @@ func (s GetBucketAnalyticsConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetAnalyticsConfiguration sets the AnalyticsConfiguration field's value.
-func (s *GetBucketAnalyticsConfigurationOutput) SetAnalyticsConfiguration(v *AnalyticsConfiguration) *GetBucketAnalyticsConfigurationOutput {
-	s.AnalyticsConfiguration = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketAnalyticsConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketAnalyticsConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AnalyticsConfiguration != nil {
+		v := s.AnalyticsConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "AnalyticsConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCorsRequest
@@ -7706,12 +9140,6 @@ func (s *GetBucketCorsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketCorsInput) SetBucket(v string) *GetBucketCorsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketCorsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7719,11 +9147,25 @@ func (s *GetBucketCorsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketCorsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketCorsOutput
 type GetBucketCorsOutput struct {
 	_ struct{} `type:"structure"`
 
-	CORSRules []*CORSRule `locationName:"CORSRule" type:"list" flattened:"true"`
+	responseMetadata aws.Response
+
+	CORSRules []CORSRule `locationName:"CORSRule" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -7736,10 +9178,117 @@ func (s GetBucketCorsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCORSRules sets the CORSRules field's value.
-func (s *GetBucketCorsOutput) SetCORSRules(v []*CORSRule) *GetBucketCorsOutput {
-	s.CORSRules = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketCorsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketCorsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CORSRules) > 0 {
+		v := s.CORSRules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CORSRule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryptionRequest
+type GetBucketEncryptionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the bucket from which the server-side encryption configuration
+	// is retrieved.
+	//
+	// Bucket is a required field
+	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetBucketEncryptionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetBucketEncryptionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetBucketEncryptionInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetBucketEncryptionInput"}
+
+	if s.Bucket == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Bucket"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+func (s *GetBucketEncryptionInput) getBucket() (v string) {
+	if s.Bucket == nil {
+		return v
+	}
+	return *s.Bucket
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketEncryptionInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketEncryptionOutput
+type GetBucketEncryptionOutput struct {
+	_ struct{} `type:"structure" payload:"ServerSideEncryptionConfiguration"`
+
+	responseMetadata aws.Response
+
+	// Container for server-side encryption configuration rules. Currently S3 supports
+	// one rule only.
+	ServerSideEncryptionConfiguration *ServerSideEncryptionConfiguration `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetBucketEncryptionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetBucketEncryptionOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketEncryptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketEncryptionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ServerSideEncryptionConfiguration != nil {
+		v := s.ServerSideEncryptionConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ServerSideEncryptionConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfigurationRequest
@@ -7785,12 +9334,6 @@ func (s *GetBucketInventoryConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketInventoryConfigurationInput) SetBucket(v string) *GetBucketInventoryConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketInventoryConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7798,15 +9341,29 @@ func (s *GetBucketInventoryConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *GetBucketInventoryConfigurationInput) SetId(v string) *GetBucketInventoryConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketInventoryConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketInventoryConfigurationOutput
 type GetBucketInventoryConfigurationOutput struct {
 	_ struct{} `type:"structure" payload:"InventoryConfiguration"`
+
+	responseMetadata aws.Response
 
 	// Specifies the inventory configuration.
 	InventoryConfiguration *InventoryConfiguration `type:"structure"`
@@ -7822,10 +9379,20 @@ func (s GetBucketInventoryConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetInventoryConfiguration sets the InventoryConfiguration field's value.
-func (s *GetBucketInventoryConfigurationOutput) SetInventoryConfiguration(v *InventoryConfiguration) *GetBucketInventoryConfigurationOutput {
-	s.InventoryConfiguration = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketInventoryConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketInventoryConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.InventoryConfiguration != nil {
+		v := s.InventoryConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "InventoryConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfigurationRequest
@@ -7860,12 +9427,6 @@ func (s *GetBucketLifecycleConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketLifecycleConfigurationInput) SetBucket(v string) *GetBucketLifecycleConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketLifecycleConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7873,11 +9434,25 @@ func (s *GetBucketLifecycleConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLifecycleConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleConfigurationOutput
 type GetBucketLifecycleConfigurationOutput struct {
 	_ struct{} `type:"structure"`
 
-	Rules []*LifecycleRule `locationName:"Rule" type:"list" flattened:"true"`
+	responseMetadata aws.Response
+
+	Rules []LifecycleRule `locationName:"Rule" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -7890,10 +9465,26 @@ func (s GetBucketLifecycleConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetRules sets the Rules field's value.
-func (s *GetBucketLifecycleConfigurationOutput) SetRules(v []*LifecycleRule) *GetBucketLifecycleConfigurationOutput {
-	s.Rules = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketLifecycleConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLifecycleConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Rules) > 0 {
+		v := s.Rules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Rule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleRequest
@@ -7928,12 +9519,6 @@ func (s *GetBucketLifecycleInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketLifecycleInput) SetBucket(v string) *GetBucketLifecycleInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketLifecycleInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -7941,11 +9526,25 @@ func (s *GetBucketLifecycleInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLifecycleInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLifecycleOutput
 type GetBucketLifecycleOutput struct {
 	_ struct{} `type:"structure"`
 
-	Rules []*Rule `locationName:"Rule" type:"list" flattened:"true"`
+	responseMetadata aws.Response
+
+	Rules []Rule `locationName:"Rule" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -7958,10 +9557,26 @@ func (s GetBucketLifecycleOutput) GoString() string {
 	return s.String()
 }
 
-// SetRules sets the Rules field's value.
-func (s *GetBucketLifecycleOutput) SetRules(v []*Rule) *GetBucketLifecycleOutput {
-	s.Rules = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketLifecycleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLifecycleOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Rules) > 0 {
+		v := s.Rules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Rule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocationRequest
@@ -7996,12 +9611,6 @@ func (s *GetBucketLocationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketLocationInput) SetBucket(v string) *GetBucketLocationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketLocationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8009,11 +9618,25 @@ func (s *GetBucketLocationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLocationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLocationOutput
 type GetBucketLocationOutput struct {
 	_ struct{} `type:"structure"`
 
-	LocationConstraint BucketLocationConstraint `type:"string"`
+	responseMetadata aws.Response
+
+	LocationConstraint BucketLocationConstraint `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8026,10 +9649,20 @@ func (s GetBucketLocationOutput) GoString() string {
 	return s.String()
 }
 
-// SetLocationConstraint sets the LocationConstraint field's value.
-func (s *GetBucketLocationOutput) SetLocationConstraint(v BucketLocationConstraint) *GetBucketLocationOutput {
-	s.LocationConstraint = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketLocationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLocationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.LocationConstraint) > 0 {
+		v := s.LocationConstraint
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LocationConstraint", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLoggingRequest
@@ -8064,12 +9697,6 @@ func (s *GetBucketLoggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketLoggingInput) SetBucket(v string) *GetBucketLoggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketLoggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8077,10 +9704,27 @@ func (s *GetBucketLoggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLoggingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketLoggingOutput
 type GetBucketLoggingOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
+	// Container for logging information. Presence of this element indicates that
+	// logging is enabled. Parameters TargetBucket and TargetPrefix are required
+	// in this case.
 	LoggingEnabled *LoggingEnabled `type:"structure"`
 }
 
@@ -8094,10 +9738,20 @@ func (s GetBucketLoggingOutput) GoString() string {
 	return s.String()
 }
 
-// SetLoggingEnabled sets the LoggingEnabled field's value.
-func (s *GetBucketLoggingOutput) SetLoggingEnabled(v *LoggingEnabled) *GetBucketLoggingOutput {
-	s.LoggingEnabled = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketLoggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketLoggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.LoggingEnabled != nil {
+		v := s.LoggingEnabled
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LoggingEnabled", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationRequest
@@ -8143,12 +9797,6 @@ func (s *GetBucketMetricsConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketMetricsConfigurationInput) SetBucket(v string) *GetBucketMetricsConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketMetricsConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8156,15 +9804,29 @@ func (s *GetBucketMetricsConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *GetBucketMetricsConfigurationInput) SetId(v string) *GetBucketMetricsConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketMetricsConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketMetricsConfigurationOutput
 type GetBucketMetricsConfigurationOutput struct {
 	_ struct{} `type:"structure" payload:"MetricsConfiguration"`
+
+	responseMetadata aws.Response
 
 	// Specifies the metrics configuration.
 	MetricsConfiguration *MetricsConfiguration `type:"structure"`
@@ -8180,10 +9842,20 @@ func (s GetBucketMetricsConfigurationOutput) GoString() string {
 	return s.String()
 }
 
-// SetMetricsConfiguration sets the MetricsConfiguration field's value.
-func (s *GetBucketMetricsConfigurationOutput) SetMetricsConfiguration(v *MetricsConfiguration) *GetBucketMetricsConfigurationOutput {
-	s.MetricsConfiguration = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketMetricsConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketMetricsConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MetricsConfiguration != nil {
+		v := s.MetricsConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "MetricsConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketNotificationInput
@@ -8220,17 +9892,23 @@ func (s *GetBucketNotificationConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketNotificationConfigurationInput) SetBucket(v string) *GetBucketNotificationConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketNotificationConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketNotificationConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Container for specifying the notification configuration of the bucket. If
@@ -8239,11 +9917,13 @@ func (s *GetBucketNotificationConfigurationInput) getBucket() (v string) {
 type GetBucketNotificationConfigurationOutput struct {
 	_ struct{} `type:"structure"`
 
-	LambdaFunctionConfigurations []*LambdaFunctionConfiguration `locationName:"CloudFunctionConfiguration" type:"list" flattened:"true"`
+	responseMetadata aws.Response
 
-	QueueConfigurations []*QueueConfiguration `locationName:"QueueConfiguration" type:"list" flattened:"true"`
+	LambdaFunctionConfigurations []LambdaFunctionConfiguration `locationName:"CloudFunctionConfiguration" type:"list" flattened:"true"`
 
-	TopicConfigurations []*TopicConfiguration `locationName:"TopicConfiguration" type:"list" flattened:"true"`
+	QueueConfigurations []QueueConfiguration `locationName:"QueueConfiguration" type:"list" flattened:"true"`
+
+	TopicConfigurations []TopicConfiguration `locationName:"TopicConfiguration" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -8261,9 +9941,6 @@ func (s *GetBucketNotificationConfigurationOutput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "GetBucketNotificationConfigurationOutput"}
 	if s.LambdaFunctionConfigurations != nil {
 		for i, v := range s.LambdaFunctionConfigurations {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "LambdaFunctionConfigurations", i), err.(aws.ErrInvalidParams))
 			}
@@ -8271,9 +9948,6 @@ func (s *GetBucketNotificationConfigurationOutput) Validate() error {
 	}
 	if s.QueueConfigurations != nil {
 		for i, v := range s.QueueConfigurations {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "QueueConfigurations", i), err.(aws.ErrInvalidParams))
 			}
@@ -8281,9 +9955,6 @@ func (s *GetBucketNotificationConfigurationOutput) Validate() error {
 	}
 	if s.TopicConfigurations != nil {
 		for i, v := range s.TopicConfigurations {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TopicConfigurations", i), err.(aws.ErrInvalidParams))
 			}
@@ -8296,27 +9967,57 @@ func (s *GetBucketNotificationConfigurationOutput) Validate() error {
 	return nil
 }
 
-// SetLambdaFunctionConfigurations sets the LambdaFunctionConfigurations field's value.
-func (s *GetBucketNotificationConfigurationOutput) SetLambdaFunctionConfigurations(v []*LambdaFunctionConfiguration) *GetBucketNotificationConfigurationOutput {
-	s.LambdaFunctionConfigurations = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketNotificationConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetQueueConfigurations sets the QueueConfigurations field's value.
-func (s *GetBucketNotificationConfigurationOutput) SetQueueConfigurations(v []*QueueConfiguration) *GetBucketNotificationConfigurationOutput {
-	s.QueueConfigurations = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketNotificationConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.LambdaFunctionConfigurations) > 0 {
+		v := s.LambdaFunctionConfigurations
 
-// SetTopicConfigurations sets the TopicConfigurations field's value.
-func (s *GetBucketNotificationConfigurationOutput) SetTopicConfigurations(v []*TopicConfiguration) *GetBucketNotificationConfigurationOutput {
-	s.TopicConfigurations = v
-	return s
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CloudFunctionConfiguration", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.QueueConfigurations) > 0 {
+		v := s.QueueConfigurations
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "QueueConfiguration", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.TopicConfigurations) > 0 {
+		v := s.TopicConfigurations
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "TopicConfiguration", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NotificationConfigurationDeprecated
 type GetBucketNotificationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	CloudFunctionConfiguration *CloudFunctionConfiguration `type:"structure"`
 
@@ -8335,22 +10036,32 @@ func (s GetBucketNotificationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCloudFunctionConfiguration sets the CloudFunctionConfiguration field's value.
-func (s *GetBucketNotificationOutput) SetCloudFunctionConfiguration(v *CloudFunctionConfiguration) *GetBucketNotificationOutput {
-	s.CloudFunctionConfiguration = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetQueueConfiguration sets the QueueConfiguration field's value.
-func (s *GetBucketNotificationOutput) SetQueueConfiguration(v *QueueConfigurationDeprecated) *GetBucketNotificationOutput {
-	s.QueueConfiguration = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketNotificationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CloudFunctionConfiguration != nil {
+		v := s.CloudFunctionConfiguration
 
-// SetTopicConfiguration sets the TopicConfiguration field's value.
-func (s *GetBucketNotificationOutput) SetTopicConfiguration(v *TopicConfigurationDeprecated) *GetBucketNotificationOutput {
-	s.TopicConfiguration = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CloudFunctionConfiguration", v, metadata)
+	}
+	if s.QueueConfiguration != nil {
+		v := s.QueueConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "QueueConfiguration", v, metadata)
+	}
+	if s.TopicConfiguration != nil {
+		v := s.TopicConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "TopicConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyRequest
@@ -8385,12 +10096,6 @@ func (s *GetBucketPolicyInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketPolicyInput) SetBucket(v string) *GetBucketPolicyInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketPolicyInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8398,9 +10103,23 @@ func (s *GetBucketPolicyInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketPolicyOutput
 type GetBucketPolicyOutput struct {
 	_ struct{} `type:"structure" payload:"Policy"`
+
+	responseMetadata aws.Response
 
 	// The bucket policy as a JSON document.
 	Policy *string `type:"string"`
@@ -8416,10 +10135,20 @@ func (s GetBucketPolicyOutput) GoString() string {
 	return s.String()
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *GetBucketPolicyOutput) SetPolicy(v string) *GetBucketPolicyOutput {
-	s.Policy = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Policy != nil {
+		v := *s.Policy
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "Policy", protocol.StringStream(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplicationRequest
@@ -8454,12 +10183,6 @@ func (s *GetBucketReplicationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketReplicationInput) SetBucket(v string) *GetBucketReplicationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketReplicationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8467,9 +10190,23 @@ func (s *GetBucketReplicationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketReplicationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketReplicationOutput
 type GetBucketReplicationOutput struct {
 	_ struct{} `type:"structure" payload:"ReplicationConfiguration"`
+
+	responseMetadata aws.Response
 
 	// Container for replication rules. You can add as many as 1,000 rules. Total
 	// replication configuration size can be up to 2 MB.
@@ -8486,10 +10223,20 @@ func (s GetBucketReplicationOutput) GoString() string {
 	return s.String()
 }
 
-// SetReplicationConfiguration sets the ReplicationConfiguration field's value.
-func (s *GetBucketReplicationOutput) SetReplicationConfiguration(v *ReplicationConfiguration) *GetBucketReplicationOutput {
-	s.ReplicationConfiguration = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketReplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketReplicationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ReplicationConfiguration != nil {
+		v := s.ReplicationConfiguration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "ReplicationConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPaymentRequest
@@ -8524,12 +10271,6 @@ func (s *GetBucketRequestPaymentInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketRequestPaymentInput) SetBucket(v string) *GetBucketRequestPaymentInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketRequestPaymentInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8537,12 +10278,26 @@ func (s *GetBucketRequestPaymentInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketRequestPaymentInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketRequestPaymentOutput
 type GetBucketRequestPaymentOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Specifies who pays for the download and request fees.
-	Payer Payer `type:"string"`
+	Payer Payer `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8555,10 +10310,20 @@ func (s GetBucketRequestPaymentOutput) GoString() string {
 	return s.String()
 }
 
-// SetPayer sets the Payer field's value.
-func (s *GetBucketRequestPaymentOutput) SetPayer(v Payer) *GetBucketRequestPaymentOutput {
-	s.Payer = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketRequestPaymentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketRequestPaymentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Payer) > 0 {
+		v := s.Payer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Payer", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTaggingRequest
@@ -8593,12 +10358,6 @@ func (s *GetBucketTaggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketTaggingInput) SetBucket(v string) *GetBucketTaggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketTaggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8606,12 +10365,26 @@ func (s *GetBucketTaggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketTaggingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketTaggingOutput
 type GetBucketTaggingOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// TagSet is a required field
-	TagSet []*Tag `locationNameList:"Tag" type:"list" required:"true"`
+	TagSet []Tag `locationNameList:"Tag" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -8624,10 +10397,26 @@ func (s GetBucketTaggingOutput) GoString() string {
 	return s.String()
 }
 
-// SetTagSet sets the TagSet field's value.
-func (s *GetBucketTaggingOutput) SetTagSet(v []*Tag) *GetBucketTaggingOutput {
-	s.TagSet = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketTaggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketTaggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.TagSet) > 0 {
+		v := s.TagSet
+
+		metadata := protocol.Metadata{ListLocationName: "Tag"}
+		ls0 := e.List(protocol.BodyTarget, "TagSet", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioningRequest
@@ -8662,12 +10451,6 @@ func (s *GetBucketVersioningInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketVersioningInput) SetBucket(v string) *GetBucketVersioningInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketVersioningInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8675,17 +10458,31 @@ func (s *GetBucketVersioningInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketVersioningInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketVersioningOutput
 type GetBucketVersioningOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Specifies whether MFA delete is enabled in the bucket versioning configuration.
 	// This element is only returned if the bucket has been configured with MFA
 	// delete. If the bucket has never been so configured, this element is not returned.
-	MFADelete MFADeleteStatus `locationName:"MfaDelete" type:"string"`
+	MFADelete MFADeleteStatus `locationName:"MfaDelete" type:"string" enum:"true"`
 
 	// The versioning state of the bucket.
-	Status BucketVersioningStatus `type:"string"`
+	Status BucketVersioningStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8698,16 +10495,26 @@ func (s GetBucketVersioningOutput) GoString() string {
 	return s.String()
 }
 
-// SetMFADelete sets the MFADelete field's value.
-func (s *GetBucketVersioningOutput) SetMFADelete(v MFADeleteStatus) *GetBucketVersioningOutput {
-	s.MFADelete = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketVersioningOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetStatus sets the Status field's value.
-func (s *GetBucketVersioningOutput) SetStatus(v BucketVersioningStatus) *GetBucketVersioningOutput {
-	s.Status = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketVersioningOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.MFADelete) > 0 {
+		v := s.MFADelete
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MfaDelete", v, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsiteRequest
@@ -8742,12 +10549,6 @@ func (s *GetBucketWebsiteInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetBucketWebsiteInput) SetBucket(v string) *GetBucketWebsiteInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetBucketWebsiteInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8755,9 +10556,23 @@ func (s *GetBucketWebsiteInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketWebsiteInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetBucketWebsiteOutput
 type GetBucketWebsiteOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	ErrorDocument *ErrorDocument `type:"structure"`
 
@@ -8765,7 +10580,7 @@ type GetBucketWebsiteOutput struct {
 
 	RedirectAllRequestsTo *RedirectAllRequestsTo `type:"structure"`
 
-	RoutingRules []*RoutingRule `locationNameList:"RoutingRule" type:"list"`
+	RoutingRules []RoutingRule `locationNameList:"RoutingRule" type:"list"`
 }
 
 // String returns the string representation
@@ -8778,28 +10593,44 @@ func (s GetBucketWebsiteOutput) GoString() string {
 	return s.String()
 }
 
-// SetErrorDocument sets the ErrorDocument field's value.
-func (s *GetBucketWebsiteOutput) SetErrorDocument(v *ErrorDocument) *GetBucketWebsiteOutput {
-	s.ErrorDocument = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBucketWebsiteOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetIndexDocument sets the IndexDocument field's value.
-func (s *GetBucketWebsiteOutput) SetIndexDocument(v *IndexDocument) *GetBucketWebsiteOutput {
-	s.IndexDocument = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetBucketWebsiteOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorDocument != nil {
+		v := s.ErrorDocument
 
-// SetRedirectAllRequestsTo sets the RedirectAllRequestsTo field's value.
-func (s *GetBucketWebsiteOutput) SetRedirectAllRequestsTo(v *RedirectAllRequestsTo) *GetBucketWebsiteOutput {
-	s.RedirectAllRequestsTo = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ErrorDocument", v, metadata)
+	}
+	if s.IndexDocument != nil {
+		v := s.IndexDocument
 
-// SetRoutingRules sets the RoutingRules field's value.
-func (s *GetBucketWebsiteOutput) SetRoutingRules(v []*RoutingRule) *GetBucketWebsiteOutput {
-	s.RoutingRules = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexDocument", v, metadata)
+	}
+	if s.RedirectAllRequestsTo != nil {
+		v := s.RedirectAllRequestsTo
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RedirectAllRequestsTo", v, metadata)
+	}
+	if len(s.RoutingRules) > 0 {
+		v := s.RoutingRules
+
+		metadata := protocol.Metadata{ListLocationName: "RoutingRule"}
+		ls0 := e.List(protocol.BodyTarget, "RoutingRules", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAclRequest
@@ -8816,7 +10647,7 @@ type GetObjectAclInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// VersionId used to reference a specific version of the object.
 	VersionId *string `location:"querystring" locationName:"versionId" type:"string"`
@@ -8853,12 +10684,6 @@ func (s *GetObjectAclInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetObjectAclInput) SetBucket(v string) *GetObjectAclInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetObjectAclInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -8866,36 +10691,50 @@ func (s *GetObjectAclInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *GetObjectAclInput) SetKey(v string) *GetObjectAclInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectAclInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *GetObjectAclInput) SetRequestPayer(v RequestPayer) *GetObjectAclInput {
-	s.RequestPayer = v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetVersionId sets the VersionId field's value.
-func (s *GetObjectAclInput) SetVersionId(v string) *GetObjectAclInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectAclOutput
 type GetObjectAclOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of grants.
-	Grants []*Grant `locationName:"AccessControlList" locationNameList:"Grant" type:"list"`
+	Grants []Grant `locationName:"AccessControlList" locationNameList:"Grant" type:"list"`
 
 	Owner *Owner `type:"structure"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8908,22 +10747,38 @@ func (s GetObjectAclOutput) GoString() string {
 	return s.String()
 }
 
-// SetGrants sets the Grants field's value.
-func (s *GetObjectAclOutput) SetGrants(v []*Grant) *GetObjectAclOutput {
-	s.Grants = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetObjectAclOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetOwner sets the Owner field's value.
-func (s *GetObjectAclOutput) SetOwner(v *Owner) *GetObjectAclOutput {
-	s.Owner = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectAclOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Grants) > 0 {
+		v := s.Grants
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *GetObjectAclOutput) SetRequestCharged(v RequestCharged) *GetObjectAclOutput {
-	s.RequestCharged = v
-	return s
+		metadata := protocol.Metadata{ListLocationName: "Grant"}
+		ls0 := e.List(protocol.BodyTarget, "AccessControlList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Owner != nil {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectRequest
@@ -8965,7 +10820,7 @@ type GetObjectInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Sets the Cache-Control header of the response.
 	ResponseCacheControl *string `location:"querystring" locationName:"response-cache-control" type:"string"`
@@ -9035,113 +10890,11 @@ func (s *GetObjectInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetObjectInput) SetBucket(v string) *GetObjectInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetObjectInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetIfMatch sets the IfMatch field's value.
-func (s *GetObjectInput) SetIfMatch(v string) *GetObjectInput {
-	s.IfMatch = &v
-	return s
-}
-
-// SetIfModifiedSince sets the IfModifiedSince field's value.
-func (s *GetObjectInput) SetIfModifiedSince(v time.Time) *GetObjectInput {
-	s.IfModifiedSince = &v
-	return s
-}
-
-// SetIfNoneMatch sets the IfNoneMatch field's value.
-func (s *GetObjectInput) SetIfNoneMatch(v string) *GetObjectInput {
-	s.IfNoneMatch = &v
-	return s
-}
-
-// SetIfUnmodifiedSince sets the IfUnmodifiedSince field's value.
-func (s *GetObjectInput) SetIfUnmodifiedSince(v time.Time) *GetObjectInput {
-	s.IfUnmodifiedSince = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *GetObjectInput) SetKey(v string) *GetObjectInput {
-	s.Key = &v
-	return s
-}
-
-// SetPartNumber sets the PartNumber field's value.
-func (s *GetObjectInput) SetPartNumber(v int64) *GetObjectInput {
-	s.PartNumber = &v
-	return s
-}
-
-// SetRange sets the Range field's value.
-func (s *GetObjectInput) SetRange(v string) *GetObjectInput {
-	s.Range = &v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *GetObjectInput) SetRequestPayer(v RequestPayer) *GetObjectInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetResponseCacheControl sets the ResponseCacheControl field's value.
-func (s *GetObjectInput) SetResponseCacheControl(v string) *GetObjectInput {
-	s.ResponseCacheControl = &v
-	return s
-}
-
-// SetResponseContentDisposition sets the ResponseContentDisposition field's value.
-func (s *GetObjectInput) SetResponseContentDisposition(v string) *GetObjectInput {
-	s.ResponseContentDisposition = &v
-	return s
-}
-
-// SetResponseContentEncoding sets the ResponseContentEncoding field's value.
-func (s *GetObjectInput) SetResponseContentEncoding(v string) *GetObjectInput {
-	s.ResponseContentEncoding = &v
-	return s
-}
-
-// SetResponseContentLanguage sets the ResponseContentLanguage field's value.
-func (s *GetObjectInput) SetResponseContentLanguage(v string) *GetObjectInput {
-	s.ResponseContentLanguage = &v
-	return s
-}
-
-// SetResponseContentType sets the ResponseContentType field's value.
-func (s *GetObjectInput) SetResponseContentType(v string) *GetObjectInput {
-	s.ResponseContentType = &v
-	return s
-}
-
-// SetResponseExpires sets the ResponseExpires field's value.
-func (s *GetObjectInput) SetResponseExpires(v time.Time) *GetObjectInput {
-	s.ResponseExpires = &v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *GetObjectInput) SetSSECustomerAlgorithm(v string) *GetObjectInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *GetObjectInput) SetSSECustomerKey(v string) *GetObjectInput {
-	s.SSECustomerKey = &v
-	return s
 }
 
 func (s *GetObjectInput) getSSECustomerKey() (v string) {
@@ -9151,21 +10904,131 @@ func (s *GetObjectInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *GetObjectInput) SetSSECustomerKeyMD5(v string) *GetObjectInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetVersionId sets the VersionId field's value.
-func (s *GetObjectInput) SetVersionId(v string) *GetObjectInput {
-	s.VersionId = &v
-	return s
+	if s.IfMatch != nil {
+		v := *s.IfMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-Match", protocol.StringValue(v), metadata)
+	}
+	if s.IfModifiedSince != nil {
+		v := *s.IfModifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-Modified-Since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.IfNoneMatch != nil {
+		v := *s.IfNoneMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-None-Match", protocol.StringValue(v), metadata)
+	}
+	if s.IfUnmodifiedSince != nil {
+		v := *s.IfUnmodifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-Unmodified-Since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.Range != nil {
+		v := *s.Range
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Range", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.PartNumber != nil {
+		v := *s.PartNumber
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "partNumber", protocol.Int64Value(v), metadata)
+	}
+	if s.ResponseCacheControl != nil {
+		v := *s.ResponseCacheControl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "response-cache-control", protocol.StringValue(v), metadata)
+	}
+	if s.ResponseContentDisposition != nil {
+		v := *s.ResponseContentDisposition
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "response-content-disposition", protocol.StringValue(v), metadata)
+	}
+	if s.ResponseContentEncoding != nil {
+		v := *s.ResponseContentEncoding
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "response-content-encoding", protocol.StringValue(v), metadata)
+	}
+	if s.ResponseContentLanguage != nil {
+		v := *s.ResponseContentLanguage
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "response-content-language", protocol.StringValue(v), metadata)
+	}
+	if s.ResponseContentType != nil {
+		v := *s.ResponseContentType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "response-content-type", protocol.StringValue(v), metadata)
+	}
+	if s.ResponseExpires != nil {
+		v := *s.ResponseExpires
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "response-expires", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectOutput
 type GetObjectOutput struct {
 	_ struct{} `type:"structure" payload:"Body"`
+
+	responseMetadata aws.Response
 
 	AcceptRanges *string `location:"header" locationName:"accept-ranges" type:"string"`
 
@@ -9216,7 +11079,7 @@ type GetObjectOutput struct {
 	LastModified *time.Time `location:"header" locationName:"Last-Modified" type:"timestamp" timestampFormat:"rfc822"`
 
 	// A map of metadata to store with the object in S3.
-	Metadata map[string]*string `location:"headers" locationName:"x-amz-meta-" type:"map"`
+	Metadata map[string]string `location:"headers" locationName:"x-amz-meta-" type:"map"`
 
 	// This is set to the number of metadata entries not returned in x-amz-meta
 	// headers. This can happen if you create metadata using an API like SOAP that
@@ -9227,11 +11090,11 @@ type GetObjectOutput struct {
 	// The count of parts this object has.
 	PartsCount *int64 `location:"header" locationName:"x-amz-mp-parts-count" type:"integer"`
 
-	ReplicationStatus ReplicationStatus `location:"header" locationName:"x-amz-replication-status" type:"string"`
+	ReplicationStatus ReplicationStatus `location:"header" locationName:"x-amz-replication-status" type:"string" enum:"true"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// Provides information about object restoration operation and expiration time
 	// of the restored object copy.
@@ -9253,9 +11116,9 @@ type GetObjectOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
-	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string"`
+	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string" enum:"true"`
 
 	// The number of tags, if any, on the object.
 	TagCount *int64 `location:"header" locationName:"x-amz-tagging-count" type:"integer"`
@@ -9279,172 +11142,183 @@ func (s GetObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetAcceptRanges sets the AcceptRanges field's value.
-func (s *GetObjectOutput) SetAcceptRanges(v string) *GetObjectOutput {
-	s.AcceptRanges = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetBody sets the Body field's value.
-func (s *GetObjectOutput) SetBody(v io.ReadCloser) *GetObjectOutput {
-	s.Body = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AcceptRanges != nil {
+		v := *s.AcceptRanges
 
-// SetCacheControl sets the CacheControl field's value.
-func (s *GetObjectOutput) SetCacheControl(v string) *GetObjectOutput {
-	s.CacheControl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "accept-ranges", protocol.StringValue(v), metadata)
+	}
+	if s.CacheControl != nil {
+		v := *s.CacheControl
 
-// SetContentDisposition sets the ContentDisposition field's value.
-func (s *GetObjectOutput) SetContentDisposition(v string) *GetObjectOutput {
-	s.ContentDisposition = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Cache-Control", protocol.StringValue(v), metadata)
+	}
+	if s.ContentDisposition != nil {
+		v := *s.ContentDisposition
 
-// SetContentEncoding sets the ContentEncoding field's value.
-func (s *GetObjectOutput) SetContentEncoding(v string) *GetObjectOutput {
-	s.ContentEncoding = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Disposition", protocol.StringValue(v), metadata)
+	}
+	if s.ContentEncoding != nil {
+		v := *s.ContentEncoding
 
-// SetContentLanguage sets the ContentLanguage field's value.
-func (s *GetObjectOutput) SetContentLanguage(v string) *GetObjectOutput {
-	s.ContentLanguage = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Encoding", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLanguage != nil {
+		v := *s.ContentLanguage
 
-// SetContentLength sets the ContentLength field's value.
-func (s *GetObjectOutput) SetContentLength(v int64) *GetObjectOutput {
-	s.ContentLength = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Language", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLength != nil {
+		v := *s.ContentLength
 
-// SetContentRange sets the ContentRange field's value.
-func (s *GetObjectOutput) SetContentRange(v string) *GetObjectOutput {
-	s.ContentRange = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Length", protocol.Int64Value(v), metadata)
+	}
+	if s.ContentRange != nil {
+		v := *s.ContentRange
 
-// SetContentType sets the ContentType field's value.
-func (s *GetObjectOutput) SetContentType(v string) *GetObjectOutput {
-	s.ContentType = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Range", protocol.StringValue(v), metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetDeleteMarker sets the DeleteMarker field's value.
-func (s *GetObjectOutput) SetDeleteMarker(v bool) *GetObjectOutput {
-	s.DeleteMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue(v), metadata)
+	}
+	if s.DeleteMarker != nil {
+		v := *s.DeleteMarker
 
-// SetETag sets the ETag field's value.
-func (s *GetObjectOutput) SetETag(v string) *GetObjectOutput {
-	s.ETag = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-delete-marker", protocol.BoolValue(v), metadata)
+	}
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetExpiration sets the Expiration field's value.
-func (s *GetObjectOutput) SetExpiration(v string) *GetObjectOutput {
-	s.Expiration = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.Expiration != nil {
+		v := *s.Expiration
 
-// SetExpires sets the Expires field's value.
-func (s *GetObjectOutput) SetExpires(v string) *GetObjectOutput {
-	s.Expires = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-expiration", protocol.StringValue(v), metadata)
+	}
+	if s.Expires != nil {
+		v := *s.Expires
 
-// SetLastModified sets the LastModified field's value.
-func (s *GetObjectOutput) SetLastModified(v time.Time) *GetObjectOutput {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Expires", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetMetadata sets the Metadata field's value.
-func (s *GetObjectOutput) SetMetadata(v map[string]*string) *GetObjectOutput {
-	s.Metadata = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Last-Modified", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.MissingMeta != nil {
+		v := *s.MissingMeta
 
-// SetMissingMeta sets the MissingMeta field's value.
-func (s *GetObjectOutput) SetMissingMeta(v int64) *GetObjectOutput {
-	s.MissingMeta = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-missing-meta", protocol.Int64Value(v), metadata)
+	}
+	if s.PartsCount != nil {
+		v := *s.PartsCount
 
-// SetPartsCount sets the PartsCount field's value.
-func (s *GetObjectOutput) SetPartsCount(v int64) *GetObjectOutput {
-	s.PartsCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-mp-parts-count", protocol.Int64Value(v), metadata)
+	}
+	if len(s.ReplicationStatus) > 0 {
+		v := s.ReplicationStatus
 
-// SetReplicationStatus sets the ReplicationStatus field's value.
-func (s *GetObjectOutput) SetReplicationStatus(v ReplicationStatus) *GetObjectOutput {
-	s.ReplicationStatus = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-replication-status", v, metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *GetObjectOutput) SetRequestCharged(v RequestCharged) *GetObjectOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.Restore != nil {
+		v := *s.Restore
 
-// SetRestore sets the Restore field's value.
-func (s *GetObjectOutput) SetRestore(v string) *GetObjectOutput {
-	s.Restore = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-restore", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *GetObjectOutput) SetSSECustomerAlgorithm(v string) *GetObjectOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *GetObjectOutput) SetSSECustomerKeyMD5(v string) *GetObjectOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *GetObjectOutput) SetSSEKMSKeyId(v string) *GetObjectOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *GetObjectOutput) SetServerSideEncryption(v ServerSideEncryption) *GetObjectOutput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *GetObjectOutput) SetStorageClass(v StorageClass) *GetObjectOutput {
-	s.StorageClass = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-storage-class", v, metadata)
+	}
+	if s.TagCount != nil {
+		v := *s.TagCount
 
-// SetTagCount sets the TagCount field's value.
-func (s *GetObjectOutput) SetTagCount(v int64) *GetObjectOutput {
-	s.TagCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-tagging-count", protocol.Int64Value(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
 
-// SetVersionId sets the VersionId field's value.
-func (s *GetObjectOutput) SetVersionId(v string) *GetObjectOutput {
-	s.VersionId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	if s.WebsiteRedirectLocation != nil {
+		v := *s.WebsiteRedirectLocation
 
-// SetWebsiteRedirectLocation sets the WebsiteRedirectLocation field's value.
-func (s *GetObjectOutput) SetWebsiteRedirectLocation(v string) *GetObjectOutput {
-	s.WebsiteRedirectLocation = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-website-redirect-location", protocol.StringValue(v), metadata)
+	}
+	if len(s.Metadata) > 0 {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.HeadersTarget, "x-amz-meta-", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	// Skipping Body Output type's body not valid.
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTaggingRequest
@@ -9491,12 +11365,6 @@ func (s *GetObjectTaggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetObjectTaggingInput) SetBucket(v string) *GetObjectTaggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetObjectTaggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -9504,24 +11372,38 @@ func (s *GetObjectTaggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *GetObjectTaggingInput) SetKey(v string) *GetObjectTaggingInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectTaggingInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetVersionId sets the VersionId field's value.
-func (s *GetObjectTaggingInput) SetVersionId(v string) *GetObjectTaggingInput {
-	s.VersionId = &v
-	return s
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTaggingOutput
 type GetObjectTaggingOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// TagSet is a required field
-	TagSet []*Tag `locationNameList:"Tag" type:"list" required:"true"`
+	TagSet []Tag `locationNameList:"Tag" type:"list" required:"true"`
 
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
 }
@@ -9536,16 +11418,32 @@ func (s GetObjectTaggingOutput) GoString() string {
 	return s.String()
 }
 
-// SetTagSet sets the TagSet field's value.
-func (s *GetObjectTaggingOutput) SetTagSet(v []*Tag) *GetObjectTaggingOutput {
-	s.TagSet = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetObjectTaggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetVersionId sets the VersionId field's value.
-func (s *GetObjectTaggingOutput) SetVersionId(v string) *GetObjectTaggingOutput {
-	s.VersionId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectTaggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.TagSet) > 0 {
+		v := s.TagSet
+
+		metadata := protocol.Metadata{ListLocationName: "Tag"}
+		ls0 := e.List(protocol.BodyTarget, "TagSet", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrentRequest
@@ -9562,7 +11460,7 @@ type GetObjectTorrentInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9596,12 +11494,6 @@ func (s *GetObjectTorrentInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *GetObjectTorrentInput) SetBucket(v string) *GetObjectTorrentInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *GetObjectTorrentInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -9609,27 +11501,41 @@ func (s *GetObjectTorrentInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *GetObjectTorrentInput) SetKey(v string) *GetObjectTorrentInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectTorrentInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *GetObjectTorrentInput) SetRequestPayer(v RequestPayer) *GetObjectTorrentInput {
-	s.RequestPayer = v
-	return s
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObjectTorrentOutput
 type GetObjectTorrentOutput struct {
 	_ struct{} `type:"structure" payload:"Body"`
 
+	responseMetadata aws.Response
+
 	Body io.ReadCloser `type:"blob"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9642,16 +11548,21 @@ func (s GetObjectTorrentOutput) GoString() string {
 	return s.String()
 }
 
-// SetBody sets the Body field's value.
-func (s *GetObjectTorrentOutput) SetBody(v io.ReadCloser) *GetObjectTorrentOutput {
-	s.Body = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetObjectTorrentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *GetObjectTorrentOutput) SetRequestCharged(v RequestCharged) *GetObjectTorrentOutput {
-	s.RequestCharged = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetObjectTorrentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	// Skipping Body Output type's body not valid.
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GlacierJobParameters
@@ -9661,7 +11572,7 @@ type GlacierJobParameters struct {
 	// Glacier retrieval tier at which the restore will be processed.
 	//
 	// Tier is a required field
-	Tier Tier `type:"string" required:"true"`
+	Tier Tier `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -9687,10 +11598,15 @@ func (s *GlacierJobParameters) Validate() error {
 	return nil
 }
 
-// SetTier sets the Tier field's value.
-func (s *GlacierJobParameters) SetTier(v Tier) *GlacierJobParameters {
-	s.Tier = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GlacierJobParameters) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Tier) > 0 {
+		v := s.Tier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Tier", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Grant
@@ -9700,7 +11616,7 @@ type Grant struct {
 	Grantee *Grantee `type:"structure" xmlPrefix:"xsi" xmlURI:"http://www.w3.org/2001/XMLSchema-instance"`
 
 	// Specifies the permission given to the grantee.
-	Permission Permission `type:"string"`
+	Permission Permission `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9728,16 +11644,27 @@ func (s *Grant) Validate() error {
 	return nil
 }
 
-// SetGrantee sets the Grantee field's value.
-func (s *Grant) SetGrantee(v *Grantee) *Grant {
-	s.Grantee = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Grant) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Grantee != nil {
+		v := s.Grantee
+		attrs := make([]protocol.Attribute, 0, 1)
 
-// SetPermission sets the Permission field's value.
-func (s *Grant) SetPermission(v Permission) *Grant {
-	s.Permission = v
-	return s
+		if len(s.Grantee.Type) > 0 {
+
+			v := s.Grantee.Type
+			attrs = append(attrs, protocol.Attribute{Name: "xsi:type", Value: v, Meta: protocol.Metadata{}})
+		}
+		metadata := protocol.Metadata{Attributes: attrs, XMLNamespacePrefix: "xsi", XMLNamespaceURI: "http://www.w3.org/2001/XMLSchema-instance"}
+		e.SetFields(protocol.BodyTarget, "Grantee", v, metadata)
+	}
+	if len(s.Permission) > 0 {
+		v := s.Permission
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Permission", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Grantee
@@ -9756,7 +11683,7 @@ type Grantee struct {
 	// Type of grantee
 	//
 	// Type is a required field
-	Type Type `locationName:"xsi:type" type:"string" xmlAttribute:"true" required:"true"`
+	Type Type `locationName:"xsi:type" type:"string" xmlAttribute:"true" required:"true" enum:"true"`
 
 	// URI of the grantee group.
 	URI *string `type:"string"`
@@ -9785,34 +11712,34 @@ func (s *Grantee) Validate() error {
 	return nil
 }
 
-// SetDisplayName sets the DisplayName field's value.
-func (s *Grantee) SetDisplayName(v string) *Grantee {
-	s.DisplayName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Grantee) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DisplayName != nil {
+		v := *s.DisplayName
 
-// SetEmailAddress sets the EmailAddress field's value.
-func (s *Grantee) SetEmailAddress(v string) *Grantee {
-	s.EmailAddress = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DisplayName", protocol.StringValue(v), metadata)
+	}
+	if s.EmailAddress != nil {
+		v := *s.EmailAddress
 
-// SetID sets the ID field's value.
-func (s *Grantee) SetID(v string) *Grantee {
-	s.ID = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EmailAddress", protocol.StringValue(v), metadata)
+	}
+	if s.ID != nil {
+		v := *s.ID
 
-// SetType sets the Type field's value.
-func (s *Grantee) SetType(v Type) *Grantee {
-	s.Type = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ID", protocol.StringValue(v), metadata)
+	}
+	// Skipping Type XML Attribute.
+	if s.URI != nil {
+		v := *s.URI
 
-// SetURI sets the URI field's value.
-func (s *Grantee) SetURI(v string) *Grantee {
-	s.URI = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "URI", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucketRequest
@@ -9847,12 +11774,6 @@ func (s *HeadBucketInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *HeadBucketInput) SetBucket(v string) *HeadBucketInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *HeadBucketInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -9860,9 +11781,23 @@ func (s *HeadBucketInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s HeadBucketInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadBucketOutput
 type HeadBucketOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -9873,6 +11808,16 @@ func (s HeadBucketOutput) String() string {
 // GoString returns the string representation
 func (s HeadBucketOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s HeadBucketOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s HeadBucketOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObjectRequest
@@ -9915,7 +11860,7 @@ type HeadObjectInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
 	SSECustomerAlgorithm *string `location:"header" locationName:"x-amz-server-side-encryption-customer-algorithm" type:"string"`
@@ -9967,77 +11912,11 @@ func (s *HeadObjectInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *HeadObjectInput) SetBucket(v string) *HeadObjectInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *HeadObjectInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetIfMatch sets the IfMatch field's value.
-func (s *HeadObjectInput) SetIfMatch(v string) *HeadObjectInput {
-	s.IfMatch = &v
-	return s
-}
-
-// SetIfModifiedSince sets the IfModifiedSince field's value.
-func (s *HeadObjectInput) SetIfModifiedSince(v time.Time) *HeadObjectInput {
-	s.IfModifiedSince = &v
-	return s
-}
-
-// SetIfNoneMatch sets the IfNoneMatch field's value.
-func (s *HeadObjectInput) SetIfNoneMatch(v string) *HeadObjectInput {
-	s.IfNoneMatch = &v
-	return s
-}
-
-// SetIfUnmodifiedSince sets the IfUnmodifiedSince field's value.
-func (s *HeadObjectInput) SetIfUnmodifiedSince(v time.Time) *HeadObjectInput {
-	s.IfUnmodifiedSince = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *HeadObjectInput) SetKey(v string) *HeadObjectInput {
-	s.Key = &v
-	return s
-}
-
-// SetPartNumber sets the PartNumber field's value.
-func (s *HeadObjectInput) SetPartNumber(v int64) *HeadObjectInput {
-	s.PartNumber = &v
-	return s
-}
-
-// SetRange sets the Range field's value.
-func (s *HeadObjectInput) SetRange(v string) *HeadObjectInput {
-	s.Range = &v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *HeadObjectInput) SetRequestPayer(v RequestPayer) *HeadObjectInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *HeadObjectInput) SetSSECustomerAlgorithm(v string) *HeadObjectInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *HeadObjectInput) SetSSECustomerKey(v string) *HeadObjectInput {
-	s.SSECustomerKey = &v
-	return s
 }
 
 func (s *HeadObjectInput) getSSECustomerKey() (v string) {
@@ -10047,21 +11926,95 @@ func (s *HeadObjectInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *HeadObjectInput) SetSSECustomerKeyMD5(v string) *HeadObjectInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s HeadObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetVersionId sets the VersionId field's value.
-func (s *HeadObjectInput) SetVersionId(v string) *HeadObjectInput {
-	s.VersionId = &v
-	return s
+	if s.IfMatch != nil {
+		v := *s.IfMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-Match", protocol.StringValue(v), metadata)
+	}
+	if s.IfModifiedSince != nil {
+		v := *s.IfModifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-Modified-Since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.IfNoneMatch != nil {
+		v := *s.IfNoneMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-None-Match", protocol.StringValue(v), metadata)
+	}
+	if s.IfUnmodifiedSince != nil {
+		v := *s.IfUnmodifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "If-Unmodified-Since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.Range != nil {
+		v := *s.Range
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Range", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.PartNumber != nil {
+		v := *s.PartNumber
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "partNumber", protocol.Int64Value(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/HeadObjectOutput
 type HeadObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	AcceptRanges *string `location:"header" locationName:"accept-ranges" type:"string"`
 
@@ -10106,7 +12059,7 @@ type HeadObjectOutput struct {
 	LastModified *time.Time `location:"header" locationName:"Last-Modified" type:"timestamp" timestampFormat:"rfc822"`
 
 	// A map of metadata to store with the object in S3.
-	Metadata map[string]*string `location:"headers" locationName:"x-amz-meta-" type:"map"`
+	Metadata map[string]string `location:"headers" locationName:"x-amz-meta-" type:"map"`
 
 	// This is set to the number of metadata entries not returned in x-amz-meta
 	// headers. This can happen if you create metadata using an API like SOAP that
@@ -10117,11 +12070,11 @@ type HeadObjectOutput struct {
 	// The count of parts this object has.
 	PartsCount *int64 `location:"header" locationName:"x-amz-mp-parts-count" type:"integer"`
 
-	ReplicationStatus ReplicationStatus `location:"header" locationName:"x-amz-replication-status" type:"string"`
+	ReplicationStatus ReplicationStatus `location:"header" locationName:"x-amz-replication-status" type:"string" enum:"true"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// Provides information about object restoration operation and expiration time
 	// of the restored object copy.
@@ -10143,9 +12096,9 @@ type HeadObjectOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
-	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string"`
+	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string" enum:"true"`
 
 	// Version of the object.
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
@@ -10166,154 +12119,170 @@ func (s HeadObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetAcceptRanges sets the AcceptRanges field's value.
-func (s *HeadObjectOutput) SetAcceptRanges(v string) *HeadObjectOutput {
-	s.AcceptRanges = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s HeadObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCacheControl sets the CacheControl field's value.
-func (s *HeadObjectOutput) SetCacheControl(v string) *HeadObjectOutput {
-	s.CacheControl = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s HeadObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AcceptRanges != nil {
+		v := *s.AcceptRanges
 
-// SetContentDisposition sets the ContentDisposition field's value.
-func (s *HeadObjectOutput) SetContentDisposition(v string) *HeadObjectOutput {
-	s.ContentDisposition = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "accept-ranges", protocol.StringValue(v), metadata)
+	}
+	if s.CacheControl != nil {
+		v := *s.CacheControl
 
-// SetContentEncoding sets the ContentEncoding field's value.
-func (s *HeadObjectOutput) SetContentEncoding(v string) *HeadObjectOutput {
-	s.ContentEncoding = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Cache-Control", protocol.StringValue(v), metadata)
+	}
+	if s.ContentDisposition != nil {
+		v := *s.ContentDisposition
 
-// SetContentLanguage sets the ContentLanguage field's value.
-func (s *HeadObjectOutput) SetContentLanguage(v string) *HeadObjectOutput {
-	s.ContentLanguage = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Disposition", protocol.StringValue(v), metadata)
+	}
+	if s.ContentEncoding != nil {
+		v := *s.ContentEncoding
 
-// SetContentLength sets the ContentLength field's value.
-func (s *HeadObjectOutput) SetContentLength(v int64) *HeadObjectOutput {
-	s.ContentLength = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Encoding", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLanguage != nil {
+		v := *s.ContentLanguage
 
-// SetContentType sets the ContentType field's value.
-func (s *HeadObjectOutput) SetContentType(v string) *HeadObjectOutput {
-	s.ContentType = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Language", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLength != nil {
+		v := *s.ContentLength
 
-// SetDeleteMarker sets the DeleteMarker field's value.
-func (s *HeadObjectOutput) SetDeleteMarker(v bool) *HeadObjectOutput {
-	s.DeleteMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Length", protocol.Int64Value(v), metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
 
-// SetETag sets the ETag field's value.
-func (s *HeadObjectOutput) SetETag(v string) *HeadObjectOutput {
-	s.ETag = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue(v), metadata)
+	}
+	if s.DeleteMarker != nil {
+		v := *s.DeleteMarker
 
-// SetExpiration sets the Expiration field's value.
-func (s *HeadObjectOutput) SetExpiration(v string) *HeadObjectOutput {
-	s.Expiration = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-delete-marker", protocol.BoolValue(v), metadata)
+	}
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetExpires sets the Expires field's value.
-func (s *HeadObjectOutput) SetExpires(v string) *HeadObjectOutput {
-	s.Expires = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.Expiration != nil {
+		v := *s.Expiration
 
-// SetLastModified sets the LastModified field's value.
-func (s *HeadObjectOutput) SetLastModified(v time.Time) *HeadObjectOutput {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-expiration", protocol.StringValue(v), metadata)
+	}
+	if s.Expires != nil {
+		v := *s.Expires
 
-// SetMetadata sets the Metadata field's value.
-func (s *HeadObjectOutput) SetMetadata(v map[string]*string) *HeadObjectOutput {
-	s.Metadata = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Expires", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetMissingMeta sets the MissingMeta field's value.
-func (s *HeadObjectOutput) SetMissingMeta(v int64) *HeadObjectOutput {
-	s.MissingMeta = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Last-Modified", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.MissingMeta != nil {
+		v := *s.MissingMeta
 
-// SetPartsCount sets the PartsCount field's value.
-func (s *HeadObjectOutput) SetPartsCount(v int64) *HeadObjectOutput {
-	s.PartsCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-missing-meta", protocol.Int64Value(v), metadata)
+	}
+	if s.PartsCount != nil {
+		v := *s.PartsCount
 
-// SetReplicationStatus sets the ReplicationStatus field's value.
-func (s *HeadObjectOutput) SetReplicationStatus(v ReplicationStatus) *HeadObjectOutput {
-	s.ReplicationStatus = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-mp-parts-count", protocol.Int64Value(v), metadata)
+	}
+	if len(s.ReplicationStatus) > 0 {
+		v := s.ReplicationStatus
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *HeadObjectOutput) SetRequestCharged(v RequestCharged) *HeadObjectOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-replication-status", v, metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetRestore sets the Restore field's value.
-func (s *HeadObjectOutput) SetRestore(v string) *HeadObjectOutput {
-	s.Restore = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.Restore != nil {
+		v := *s.Restore
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *HeadObjectOutput) SetSSECustomerAlgorithm(v string) *HeadObjectOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-restore", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *HeadObjectOutput) SetSSECustomerKeyMD5(v string) *HeadObjectOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *HeadObjectOutput) SetSSEKMSKeyId(v string) *HeadObjectOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *HeadObjectOutput) SetServerSideEncryption(v ServerSideEncryption) *HeadObjectOutput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *HeadObjectOutput) SetStorageClass(v StorageClass) *HeadObjectOutput {
-	s.StorageClass = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
 
-// SetVersionId sets the VersionId field's value.
-func (s *HeadObjectOutput) SetVersionId(v string) *HeadObjectOutput {
-	s.VersionId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-storage-class", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
 
-// SetWebsiteRedirectLocation sets the WebsiteRedirectLocation field's value.
-func (s *HeadObjectOutput) SetWebsiteRedirectLocation(v string) *HeadObjectOutput {
-	s.WebsiteRedirectLocation = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	if s.WebsiteRedirectLocation != nil {
+		v := *s.WebsiteRedirectLocation
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-website-redirect-location", protocol.StringValue(v), metadata)
+	}
+	if len(s.Metadata) > 0 {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.HeadersTarget, "x-amz-meta-", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/IndexDocument
@@ -10353,10 +12322,15 @@ func (s *IndexDocument) Validate() error {
 	return nil
 }
 
-// SetSuffix sets the Suffix field's value.
-func (s *IndexDocument) SetSuffix(v string) *IndexDocument {
-	s.Suffix = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s IndexDocument) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Suffix != nil {
+		v := *s.Suffix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Suffix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Initiator
@@ -10381,16 +12355,70 @@ func (s Initiator) GoString() string {
 	return s.String()
 }
 
-// SetDisplayName sets the DisplayName field's value.
-func (s *Initiator) SetDisplayName(v string) *Initiator {
-	s.DisplayName = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Initiator) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DisplayName != nil {
+		v := *s.DisplayName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DisplayName", protocol.StringValue(v), metadata)
+	}
+	if s.ID != nil {
+		v := *s.ID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ID", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
-// SetID sets the ID field's value.
-func (s *Initiator) SetID(v string) *Initiator {
-	s.ID = &v
-	return s
+// Describes the serialization format of the object.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InputSerialization
+type InputSerialization struct {
+	_ struct{} `type:"structure"`
+
+	// Describes the serialization of a CSV-encoded object.
+	CSV *CSVInput `type:"structure"`
+
+	// Specifies object's compression format. Valid values: NONE, GZIP. Default
+	// Value: NONE.
+	CompressionType CompressionType `type:"string" enum:"true"`
+
+	// Specifies JSON as object's input serialization format.
+	JSON *JSONInput `type:"structure"`
+}
+
+// String returns the string representation
+func (s InputSerialization) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s InputSerialization) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InputSerialization) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CSV != nil {
+		v := s.CSV
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CSV", v, metadata)
+	}
+	if len(s.CompressionType) > 0 {
+		v := s.CompressionType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CompressionType", v, metadata)
+	}
+	if s.JSON != nil {
+		v := s.JSON
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "JSON", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryConfiguration
@@ -10414,7 +12442,7 @@ type InventoryConfiguration struct {
 	// Specifies which object version(s) to included in the inventory results.
 	//
 	// IncludedObjectVersions is a required field
-	IncludedObjectVersions InventoryIncludedObjectVersions `type:"string" required:"true"`
+	IncludedObjectVersions InventoryIncludedObjectVersions `type:"string" required:"true" enum:"true"`
 
 	// Specifies whether the inventory is enabled or disabled.
 	//
@@ -10484,46 +12512,57 @@ func (s *InventoryConfiguration) Validate() error {
 	return nil
 }
 
-// SetDestination sets the Destination field's value.
-func (s *InventoryConfiguration) SetDestination(v *InventoryDestination) *InventoryConfiguration {
-	s.Destination = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InventoryConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Destination != nil {
+		v := s.Destination
 
-// SetFilter sets the Filter field's value.
-func (s *InventoryConfiguration) SetFilter(v *InventoryFilter) *InventoryConfiguration {
-	s.Filter = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Destination", v, metadata)
+	}
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetId sets the Id field's value.
-func (s *InventoryConfiguration) SetId(v string) *InventoryConfiguration {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetIncludedObjectVersions sets the IncludedObjectVersions field's value.
-func (s *InventoryConfiguration) SetIncludedObjectVersions(v InventoryIncludedObjectVersions) *InventoryConfiguration {
-	s.IncludedObjectVersions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if len(s.IncludedObjectVersions) > 0 {
+		v := s.IncludedObjectVersions
 
-// SetIsEnabled sets the IsEnabled field's value.
-func (s *InventoryConfiguration) SetIsEnabled(v bool) *InventoryConfiguration {
-	s.IsEnabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IncludedObjectVersions", v, metadata)
+	}
+	if s.IsEnabled != nil {
+		v := *s.IsEnabled
 
-// SetOptionalFields sets the OptionalFields field's value.
-func (s *InventoryConfiguration) SetOptionalFields(v []InventoryOptionalField) *InventoryConfiguration {
-	s.OptionalFields = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsEnabled", protocol.BoolValue(v), metadata)
+	}
+	if len(s.OptionalFields) > 0 {
+		v := s.OptionalFields
 
-// SetSchedule sets the Schedule field's value.
-func (s *InventoryConfiguration) SetSchedule(v *InventorySchedule) *InventoryConfiguration {
-	s.Schedule = v
-	return s
+		metadata := protocol.Metadata{ListLocationName: "Field"}
+		ls0 := e.List(protocol.BodyTarget, "OptionalFields", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
+
+	}
+	if s.Schedule != nil {
+		v := s.Schedule
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Schedule", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryDestination
@@ -10566,10 +12605,70 @@ func (s *InventoryDestination) Validate() error {
 	return nil
 }
 
-// SetS3BucketDestination sets the S3BucketDestination field's value.
-func (s *InventoryDestination) SetS3BucketDestination(v *InventoryS3BucketDestination) *InventoryDestination {
-	s.S3BucketDestination = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InventoryDestination) MarshalFields(e protocol.FieldEncoder) error {
+	if s.S3BucketDestination != nil {
+		v := s.S3BucketDestination
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "S3BucketDestination", v, metadata)
+	}
+	return nil
+}
+
+// Contains the type of server-side encryption used to encrypt the inventory
+// results.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryEncryption
+type InventoryEncryption struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the use of SSE-KMS to encrypt delievered Inventory reports.
+	SSEKMS *SSEKMS `locationName:"SSE-KMS" type:"structure"`
+
+	// Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
+	SSES3 *SSES3 `locationName:"SSE-S3" type:"structure"`
+}
+
+// String returns the string representation
+func (s InventoryEncryption) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s InventoryEncryption) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *InventoryEncryption) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "InventoryEncryption"}
+	if s.SSEKMS != nil {
+		if err := s.SSEKMS.Validate(); err != nil {
+			invalidParams.AddNested("SSEKMS", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InventoryEncryption) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SSEKMS != nil {
+		v := s.SSEKMS
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SSE-KMS", v, metadata)
+	}
+	if s.SSES3 != nil {
+		v := s.SSES3
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SSE-S3", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryFilter
@@ -10606,10 +12705,15 @@ func (s *InventoryFilter) Validate() error {
 	return nil
 }
 
-// SetPrefix sets the Prefix field's value.
-func (s *InventoryFilter) SetPrefix(v string) *InventoryFilter {
-	s.Prefix = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InventoryFilter) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventoryS3BucketDestination
@@ -10625,10 +12729,14 @@ type InventoryS3BucketDestination struct {
 	// Bucket is a required field
 	Bucket *string `type:"string" required:"true"`
 
+	// Contains the type of server-side encryption used to encrypt the inventory
+	// results.
+	Encryption *InventoryEncryption `type:"structure"`
+
 	// Specifies the output format of the inventory results.
 	//
 	// Format is a required field
-	Format InventoryFormat `type:"string" required:"true"`
+	Format InventoryFormat `type:"string" required:"true" enum:"true"`
 
 	// The prefix that is prepended to all inventory results.
 	Prefix *string `type:"string"`
@@ -10654,23 +12762,16 @@ func (s *InventoryS3BucketDestination) Validate() error {
 	if len(s.Format) == 0 {
 		invalidParams.Add(aws.NewErrParamRequired("Format"))
 	}
+	if s.Encryption != nil {
+		if err := s.Encryption.Validate(); err != nil {
+			invalidParams.AddNested("Encryption", err.(aws.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAccountId sets the AccountId field's value.
-func (s *InventoryS3BucketDestination) SetAccountId(v string) *InventoryS3BucketDestination {
-	s.AccountId = &v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *InventoryS3BucketDestination) SetBucket(v string) *InventoryS3BucketDestination {
-	s.Bucket = &v
-	return s
 }
 
 func (s *InventoryS3BucketDestination) getBucket() (v string) {
@@ -10680,16 +12781,39 @@ func (s *InventoryS3BucketDestination) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetFormat sets the Format field's value.
-func (s *InventoryS3BucketDestination) SetFormat(v InventoryFormat) *InventoryS3BucketDestination {
-	s.Format = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InventoryS3BucketDestination) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccountId != nil {
+		v := *s.AccountId
 
-// SetPrefix sets the Prefix field's value.
-func (s *InventoryS3BucketDestination) SetPrefix(v string) *InventoryS3BucketDestination {
-	s.Prefix = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AccountId", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Encryption != nil {
+		v := s.Encryption
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Encryption", v, metadata)
+	}
+	if len(s.Format) > 0 {
+		v := s.Format
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Format", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/InventorySchedule
@@ -10699,7 +12823,7 @@ type InventorySchedule struct {
 	// Specifies how frequently inventory results are produced.
 	//
 	// Frequency is a required field
-	Frequency InventoryFrequency `type:"string" required:"true"`
+	Frequency InventoryFrequency `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -10725,10 +12849,73 @@ func (s *InventorySchedule) Validate() error {
 	return nil
 }
 
-// SetFrequency sets the Frequency field's value.
-func (s *InventorySchedule) SetFrequency(v InventoryFrequency) *InventorySchedule {
-	s.Frequency = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InventorySchedule) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Frequency) > 0 {
+		v := s.Frequency
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Frequency", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/JSONInput
+type JSONInput struct {
+	_ struct{} `type:"structure"`
+
+	// The type of JSON. Valid values: Document, Lines.
+	Type JSONType `type:"string" enum:"true"`
+}
+
+// String returns the string representation
+func (s JSONInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s JSONInput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s JSONInput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/JSONOutput
+type JSONOutput struct {
+	_ struct{} `type:"structure"`
+
+	// The value used to separate individual records in the output.
+	RecordDelimiter *string `type:"string"`
+}
+
+// String returns the string representation
+func (s JSONOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s JSONOutput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s JSONOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.RecordDelimiter != nil {
+		v := *s.RecordDelimiter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecordDelimiter", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Container for object key name prefix and suffix filtering rules.
@@ -10738,7 +12925,7 @@ type KeyFilter struct {
 
 	// A list of containers for key value pair that defines the criteria for the
 	// filter rule.
-	FilterRules []*FilterRule `locationName:"FilterRule" type:"list" flattened:"true"`
+	FilterRules []FilterRule `locationName:"FilterRule" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -10751,10 +12938,21 @@ func (s KeyFilter) GoString() string {
 	return s.String()
 }
 
-// SetFilterRules sets the FilterRules field's value.
-func (s *KeyFilter) SetFilterRules(v []*FilterRule) *KeyFilter {
-	s.FilterRules = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s KeyFilter) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.FilterRules) > 0 {
+		v := s.FilterRules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "FilterRule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Container for specifying the AWS Lambda notification configuration.
@@ -10808,28 +13006,39 @@ func (s *LambdaFunctionConfiguration) Validate() error {
 	return nil
 }
 
-// SetEvents sets the Events field's value.
-func (s *LambdaFunctionConfiguration) SetEvents(v []Event) *LambdaFunctionConfiguration {
-	s.Events = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LambdaFunctionConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetFilter sets the Filter field's value.
-func (s *LambdaFunctionConfiguration) SetFilter(v *NotificationConfigurationFilter) *LambdaFunctionConfiguration {
-	s.Filter = v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Event", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetId sets the Id field's value.
-func (s *LambdaFunctionConfiguration) SetId(v string) *LambdaFunctionConfiguration {
-	s.Id = &v
-	return s
-}
+	}
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetLambdaFunctionArn sets the LambdaFunctionArn field's value.
-func (s *LambdaFunctionConfiguration) SetLambdaFunctionArn(v string) *LambdaFunctionConfiguration {
-	s.LambdaFunctionArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.LambdaFunctionArn != nil {
+		v := *s.LambdaFunctionArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CloudFunction", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleConfiguration
@@ -10837,7 +13046,7 @@ type LifecycleConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// Rules is a required field
-	Rules []*Rule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
+	Rules []Rule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
 }
 
 // String returns the string representation
@@ -10859,9 +13068,6 @@ func (s *LifecycleConfiguration) Validate() error {
 	}
 	if s.Rules != nil {
 		for i, v := range s.Rules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Rules", i), err.(aws.ErrInvalidParams))
 			}
@@ -10874,10 +13080,21 @@ func (s *LifecycleConfiguration) Validate() error {
 	return nil
 }
 
-// SetRules sets the Rules field's value.
-func (s *LifecycleConfiguration) SetRules(v []*Rule) *LifecycleConfiguration {
-	s.Rules = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LifecycleConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Rules) > 0 {
+		v := s.Rules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Rule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleExpiration
@@ -10909,22 +13126,27 @@ func (s LifecycleExpiration) GoString() string {
 	return s.String()
 }
 
-// SetDate sets the Date field's value.
-func (s *LifecycleExpiration) SetDate(v time.Time) *LifecycleExpiration {
-	s.Date = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LifecycleExpiration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Date != nil {
+		v := *s.Date
 
-// SetDays sets the Days field's value.
-func (s *LifecycleExpiration) SetDays(v int64) *LifecycleExpiration {
-	s.Days = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Date", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Days != nil {
+		v := *s.Days
 
-// SetExpiredObjectDeleteMarker sets the ExpiredObjectDeleteMarker field's value.
-func (s *LifecycleExpiration) SetExpiredObjectDeleteMarker(v bool) *LifecycleExpiration {
-	s.ExpiredObjectDeleteMarker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Days", protocol.Int64Value(v), metadata)
+	}
+	if s.ExpiredObjectDeleteMarker != nil {
+		v := *s.ExpiredObjectDeleteMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExpiredObjectDeleteMarker", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LifecycleRule
@@ -10951,7 +13173,7 @@ type LifecycleRule struct {
 	// period in the object's lifetime.
 	NoncurrentVersionExpiration *NoncurrentVersionExpiration `type:"structure"`
 
-	NoncurrentVersionTransitions []*NoncurrentVersionTransition `locationName:"NoncurrentVersionTransition" type:"list" flattened:"true"`
+	NoncurrentVersionTransitions []NoncurrentVersionTransition `locationName:"NoncurrentVersionTransition" type:"list" flattened:"true"`
 
 	// Prefix identifying one or more objects to which the rule applies. This is
 	// deprecated; use Filter instead.
@@ -10961,9 +13183,9 @@ type LifecycleRule struct {
 	// is not currently being applied.
 	//
 	// Status is a required field
-	Status ExpirationStatus `type:"string" required:"true"`
+	Status ExpirationStatus `type:"string" required:"true" enum:"true"`
 
-	Transitions []*Transition `locationName:"Transition" type:"list" flattened:"true"`
+	Transitions []Transition `locationName:"Transition" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -10994,58 +13216,75 @@ func (s *LifecycleRule) Validate() error {
 	return nil
 }
 
-// SetAbortIncompleteMultipartUpload sets the AbortIncompleteMultipartUpload field's value.
-func (s *LifecycleRule) SetAbortIncompleteMultipartUpload(v *AbortIncompleteMultipartUpload) *LifecycleRule {
-	s.AbortIncompleteMultipartUpload = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LifecycleRule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortIncompleteMultipartUpload != nil {
+		v := s.AbortIncompleteMultipartUpload
 
-// SetExpiration sets the Expiration field's value.
-func (s *LifecycleRule) SetExpiration(v *LifecycleExpiration) *LifecycleRule {
-	s.Expiration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AbortIncompleteMultipartUpload", v, metadata)
+	}
+	if s.Expiration != nil {
+		v := s.Expiration
 
-// SetFilter sets the Filter field's value.
-func (s *LifecycleRule) SetFilter(v *LifecycleRuleFilter) *LifecycleRule {
-	s.Filter = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Expiration", v, metadata)
+	}
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetID sets the ID field's value.
-func (s *LifecycleRule) SetID(v string) *LifecycleRule {
-	s.ID = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.ID != nil {
+		v := *s.ID
 
-// SetNoncurrentVersionExpiration sets the NoncurrentVersionExpiration field's value.
-func (s *LifecycleRule) SetNoncurrentVersionExpiration(v *NoncurrentVersionExpiration) *LifecycleRule {
-	s.NoncurrentVersionExpiration = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ID", protocol.StringValue(v), metadata)
+	}
+	if s.NoncurrentVersionExpiration != nil {
+		v := s.NoncurrentVersionExpiration
 
-// SetNoncurrentVersionTransitions sets the NoncurrentVersionTransitions field's value.
-func (s *LifecycleRule) SetNoncurrentVersionTransitions(v []*NoncurrentVersionTransition) *LifecycleRule {
-	s.NoncurrentVersionTransitions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "NoncurrentVersionExpiration", v, metadata)
+	}
+	if len(s.NoncurrentVersionTransitions) > 0 {
+		v := s.NoncurrentVersionTransitions
 
-// SetPrefix sets the Prefix field's value.
-func (s *LifecycleRule) SetPrefix(v string) *LifecycleRule {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "NoncurrentVersionTransition", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetStatus sets the Status field's value.
-func (s *LifecycleRule) SetStatus(v ExpirationStatus) *LifecycleRule {
-	s.Status = v
-	return s
-}
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTransitions sets the Transitions field's value.
-func (s *LifecycleRule) SetTransitions(v []*Transition) *LifecycleRule {
-	s.Transitions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	if len(s.Transitions) > 0 {
+		v := s.Transitions
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Transition", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // This is used in a Lifecycle Rule Filter to apply a logical AND to two or
@@ -11059,7 +13298,7 @@ type LifecycleRuleAndOperator struct {
 
 	// All of these tags must exist in the object's tag set in order for the rule
 	// to apply.
-	Tags []*Tag `locationName:"Tag" locationNameList:"Tag" type:"list" flattened:"true"`
+	Tags []Tag `locationName:"Tag" locationNameList:"Tag" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -11077,9 +13316,6 @@ func (s *LifecycleRuleAndOperator) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "LifecycleRuleAndOperator"}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -11092,16 +13328,27 @@ func (s *LifecycleRuleAndOperator) Validate() error {
 	return nil
 }
 
-// SetPrefix sets the Prefix field's value.
-func (s *LifecycleRuleAndOperator) SetPrefix(v string) *LifecycleRuleAndOperator {
-	s.Prefix = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LifecycleRuleAndOperator) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTags sets the Tags field's value.
-func (s *LifecycleRuleAndOperator) SetTags(v []*Tag) *LifecycleRuleAndOperator {
-	s.Tags = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Tag", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // The Filter is used to identify objects that a Lifecycle Rule applies to.
@@ -11152,22 +13399,27 @@ func (s *LifecycleRuleFilter) Validate() error {
 	return nil
 }
 
-// SetAnd sets the And field's value.
-func (s *LifecycleRuleFilter) SetAnd(v *LifecycleRuleAndOperator) *LifecycleRuleFilter {
-	s.And = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LifecycleRuleFilter) MarshalFields(e protocol.FieldEncoder) error {
+	if s.And != nil {
+		v := s.And
 
-// SetPrefix sets the Prefix field's value.
-func (s *LifecycleRuleFilter) SetPrefix(v string) *LifecycleRuleFilter {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "And", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTag sets the Tag field's value.
-func (s *LifecycleRuleFilter) SetTag(v *Tag) *LifecycleRuleFilter {
-	s.Tag = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.Tag != nil {
+		v := s.Tag
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Tag", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurationsRequest
@@ -11208,12 +13460,6 @@ func (s *ListBucketAnalyticsConfigurationsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListBucketAnalyticsConfigurationsInput) SetBucket(v string) *ListBucketAnalyticsConfigurationsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListBucketAnalyticsConfigurationsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -11221,18 +13467,32 @@ func (s *ListBucketAnalyticsConfigurationsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListBucketAnalyticsConfigurationsInput) SetContinuationToken(v string) *ListBucketAnalyticsConfigurationsInput {
-	s.ContinuationToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketAnalyticsConfigurationsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "continuation-token", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketAnalyticsConfigurationsOutput
 type ListBucketAnalyticsConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of analytics configurations for a bucket.
-	AnalyticsConfigurationList []*AnalyticsConfiguration `locationName:"AnalyticsConfiguration" type:"list" flattened:"true"`
+	AnalyticsConfigurationList []AnalyticsConfiguration `locationName:"AnalyticsConfiguration" type:"list" flattened:"true"`
 
 	// The ContinuationToken that represents where this request began.
 	ContinuationToken *string `type:"string"`
@@ -11258,28 +13518,44 @@ func (s ListBucketAnalyticsConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAnalyticsConfigurationList sets the AnalyticsConfigurationList field's value.
-func (s *ListBucketAnalyticsConfigurationsOutput) SetAnalyticsConfigurationList(v []*AnalyticsConfiguration) *ListBucketAnalyticsConfigurationsOutput {
-	s.AnalyticsConfigurationList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBucketAnalyticsConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListBucketAnalyticsConfigurationsOutput) SetContinuationToken(v string) *ListBucketAnalyticsConfigurationsOutput {
-	s.ContinuationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketAnalyticsConfigurationsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AnalyticsConfigurationList) > 0 {
+		v := s.AnalyticsConfigurationList
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListBucketAnalyticsConfigurationsOutput) SetIsTruncated(v bool) *ListBucketAnalyticsConfigurationsOutput {
-	s.IsTruncated = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "AnalyticsConfiguration", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetNextContinuationToken sets the NextContinuationToken field's value.
-func (s *ListBucketAnalyticsConfigurationsOutput) SetNextContinuationToken(v string) *ListBucketAnalyticsConfigurationsOutput {
-	s.NextContinuationToken = &v
-	return s
+	}
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContinuationToken", protocol.StringValue(v), metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.NextContinuationToken != nil {
+		v := *s.NextContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextContinuationToken", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurationsRequest
@@ -11322,12 +13598,6 @@ func (s *ListBucketInventoryConfigurationsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListBucketInventoryConfigurationsInput) SetBucket(v string) *ListBucketInventoryConfigurationsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListBucketInventoryConfigurationsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -11335,22 +13605,36 @@ func (s *ListBucketInventoryConfigurationsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListBucketInventoryConfigurationsInput) SetContinuationToken(v string) *ListBucketInventoryConfigurationsInput {
-	s.ContinuationToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketInventoryConfigurationsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "continuation-token", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketInventoryConfigurationsOutput
 type ListBucketInventoryConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// If sent in the request, the marker that is used as a starting point for this
 	// inventory configuration list response.
 	ContinuationToken *string `type:"string"`
 
 	// The list of inventory configurations for a bucket.
-	InventoryConfigurationList []*InventoryConfiguration `locationName:"InventoryConfiguration" type:"list" flattened:"true"`
+	InventoryConfigurationList []InventoryConfiguration `locationName:"InventoryConfiguration" type:"list" flattened:"true"`
 
 	// Indicates whether the returned list of inventory configurations is truncated
 	// in this response. A value of true indicates that the list is truncated.
@@ -11372,28 +13656,44 @@ func (s ListBucketInventoryConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListBucketInventoryConfigurationsOutput) SetContinuationToken(v string) *ListBucketInventoryConfigurationsOutput {
-	s.ContinuationToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBucketInventoryConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetInventoryConfigurationList sets the InventoryConfigurationList field's value.
-func (s *ListBucketInventoryConfigurationsOutput) SetInventoryConfigurationList(v []*InventoryConfiguration) *ListBucketInventoryConfigurationsOutput {
-	s.InventoryConfigurationList = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketInventoryConfigurationsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListBucketInventoryConfigurationsOutput) SetIsTruncated(v bool) *ListBucketInventoryConfigurationsOutput {
-	s.IsTruncated = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContinuationToken", protocol.StringValue(v), metadata)
+	}
+	if len(s.InventoryConfigurationList) > 0 {
+		v := s.InventoryConfigurationList
 
-// SetNextContinuationToken sets the NextContinuationToken field's value.
-func (s *ListBucketInventoryConfigurationsOutput) SetNextContinuationToken(v string) *ListBucketInventoryConfigurationsOutput {
-	s.NextContinuationToken = &v
-	return s
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "InventoryConfiguration", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.NextContinuationToken != nil {
+		v := *s.NextContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextContinuationToken", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsRequest
@@ -11436,12 +13736,6 @@ func (s *ListBucketMetricsConfigurationsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListBucketMetricsConfigurationsInput) SetBucket(v string) *ListBucketMetricsConfigurationsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListBucketMetricsConfigurationsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -11449,15 +13743,29 @@ func (s *ListBucketMetricsConfigurationsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListBucketMetricsConfigurationsInput) SetContinuationToken(v string) *ListBucketMetricsConfigurationsInput {
-	s.ContinuationToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketMetricsConfigurationsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "continuation-token", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketMetricsConfigurationsOutput
 type ListBucketMetricsConfigurationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The marker that is used as a starting point for this metrics configuration
 	// list response. This value is present if it was sent in the request.
@@ -11469,7 +13777,7 @@ type ListBucketMetricsConfigurationsOutput struct {
 	IsTruncated *bool `type:"boolean"`
 
 	// The list of metrics configurations for a bucket.
-	MetricsConfigurationList []*MetricsConfiguration `locationName:"MetricsConfiguration" type:"list" flattened:"true"`
+	MetricsConfigurationList []MetricsConfiguration `locationName:"MetricsConfiguration" type:"list" flattened:"true"`
 
 	// The marker used to continue a metrics configuration listing that has been
 	// truncated. Use the NextContinuationToken from a previously truncated list
@@ -11488,28 +13796,44 @@ func (s ListBucketMetricsConfigurationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListBucketMetricsConfigurationsOutput) SetContinuationToken(v string) *ListBucketMetricsConfigurationsOutput {
-	s.ContinuationToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBucketMetricsConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListBucketMetricsConfigurationsOutput) SetIsTruncated(v bool) *ListBucketMetricsConfigurationsOutput {
-	s.IsTruncated = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketMetricsConfigurationsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
 
-// SetMetricsConfigurationList sets the MetricsConfigurationList field's value.
-func (s *ListBucketMetricsConfigurationsOutput) SetMetricsConfigurationList(v []*MetricsConfiguration) *ListBucketMetricsConfigurationsOutput {
-	s.MetricsConfigurationList = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContinuationToken", protocol.StringValue(v), metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
 
-// SetNextContinuationToken sets the NextContinuationToken field's value.
-func (s *ListBucketMetricsConfigurationsOutput) SetNextContinuationToken(v string) *ListBucketMetricsConfigurationsOutput {
-	s.NextContinuationToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if len(s.MetricsConfigurationList) > 0 {
+		v := s.MetricsConfigurationList
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "MetricsConfiguration", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextContinuationToken != nil {
+		v := *s.NextContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextContinuationToken", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketsInput
@@ -11527,11 +13851,19 @@ func (s ListBucketsInput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBucketsOutput
 type ListBucketsOutput struct {
 	_ struct{} `type:"structure"`
 
-	Buckets []*Bucket `locationNameList:"Bucket" type:"list"`
+	responseMetadata aws.Response
+
+	Buckets []Bucket `locationNameList:"Bucket" type:"list"`
 
 	Owner *Owner `type:"structure"`
 }
@@ -11546,16 +13878,32 @@ func (s ListBucketsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBuckets sets the Buckets field's value.
-func (s *ListBucketsOutput) SetBuckets(v []*Bucket) *ListBucketsOutput {
-	s.Buckets = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBucketsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetOwner sets the Owner field's value.
-func (s *ListBucketsOutput) SetOwner(v *Owner) *ListBucketsOutput {
-	s.Owner = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBucketsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Buckets) > 0 {
+		v := s.Buckets
+
+		metadata := protocol.Metadata{ListLocationName: "Bucket"}
+		ls0 := e.List(protocol.BodyTarget, "Buckets", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.Owner != nil {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploadsRequest
@@ -11574,7 +13922,7 @@ type ListMultipartUploadsInput struct {
 	// with an ASCII value from 0 to 10. For characters that are not supported in
 	// XML 1.0, you can add this parameter to request that Amazon S3 encode the
 	// keys in the response.
-	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string"`
+	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string" enum:"true"`
 
 	// Together with upload-id-marker, this parameter specifies the multipart upload
 	// after which listing should begin.
@@ -11619,12 +13967,6 @@ func (s *ListMultipartUploadsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListMultipartUploadsInput) SetBucket(v string) *ListMultipartUploadsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListMultipartUploadsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -11632,55 +13974,69 @@ func (s *ListMultipartUploadsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListMultipartUploadsInput) SetDelimiter(v string) *ListMultipartUploadsInput {
-	s.Delimiter = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListMultipartUploadsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListMultipartUploadsInput) SetEncodingType(v EncodingType) *ListMultipartUploadsInput {
-	s.EncodingType = v
-	return s
-}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetKeyMarker sets the KeyMarker field's value.
-func (s *ListMultipartUploadsInput) SetKeyMarker(v string) *ListMultipartUploadsInput {
-	s.KeyMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetMaxUploads sets the MaxUploads field's value.
-func (s *ListMultipartUploadsInput) SetMaxUploads(v int64) *ListMultipartUploadsInput {
-	s.MaxUploads = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListMultipartUploadsInput) SetPrefix(v string) *ListMultipartUploadsInput {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "encoding-type", v, metadata)
+	}
+	if s.KeyMarker != nil {
+		v := *s.KeyMarker
 
-// SetUploadIdMarker sets the UploadIdMarker field's value.
-func (s *ListMultipartUploadsInput) SetUploadIdMarker(v string) *ListMultipartUploadsInput {
-	s.UploadIdMarker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "key-marker", protocol.StringValue(v), metadata)
+	}
+	if s.MaxUploads != nil {
+		v := *s.MaxUploads
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "max-uploads", protocol.Int64Value(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "prefix", protocol.StringValue(v), metadata)
+	}
+	if s.UploadIdMarker != nil {
+		v := *s.UploadIdMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "upload-id-marker", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListMultipartUploadsOutput
 type ListMultipartUploadsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Name of the bucket to which the multipart upload was initiated.
 	Bucket *string `type:"string"`
 
-	CommonPrefixes []*CommonPrefix `type:"list" flattened:"true"`
+	CommonPrefixes []CommonPrefix `type:"list" flattened:"true"`
 
 	Delimiter *string `type:"string"`
 
 	// Encoding type used by Amazon S3 to encode object keys in the response.
-	EncodingType EncodingType `type:"string"`
+	EncodingType EncodingType `type:"string" enum:"true"`
 
 	// Indicates whether the returned list of multipart uploads is truncated. A
 	// value of true indicates that the list was truncated. The list can be truncated
@@ -11710,7 +14066,7 @@ type ListMultipartUploadsOutput struct {
 	// Upload ID after which listing began.
 	UploadIdMarker *string `type:"string"`
 
-	Uploads []*MultipartUpload `locationName:"Upload" type:"list" flattened:"true"`
+	Uploads []MultipartUpload `locationName:"Upload" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -11723,10 +14079,9 @@ func (s ListMultipartUploadsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListMultipartUploadsOutput) SetBucket(v string) *ListMultipartUploadsOutput {
-	s.Bucket = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListMultipartUploadsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 func (s *ListMultipartUploadsOutput) getBucket() (v string) {
@@ -11736,70 +14091,93 @@ func (s *ListMultipartUploadsOutput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetCommonPrefixes sets the CommonPrefixes field's value.
-func (s *ListMultipartUploadsOutput) SetCommonPrefixes(v []*CommonPrefix) *ListMultipartUploadsOutput {
-	s.CommonPrefixes = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListMultipartUploadsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListMultipartUploadsOutput) SetDelimiter(v string) *ListMultipartUploadsOutput {
-	s.Delimiter = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if len(s.CommonPrefixes) > 0 {
+		v := s.CommonPrefixes
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListMultipartUploadsOutput) SetEncodingType(v EncodingType) *ListMultipartUploadsOutput {
-	s.EncodingType = v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CommonPrefixes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListMultipartUploadsOutput) SetIsTruncated(v bool) *ListMultipartUploadsOutput {
-	s.IsTruncated = &v
-	return s
-}
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetKeyMarker sets the KeyMarker field's value.
-func (s *ListMultipartUploadsOutput) SetKeyMarker(v string) *ListMultipartUploadsOutput {
-	s.KeyMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetMaxUploads sets the MaxUploads field's value.
-func (s *ListMultipartUploadsOutput) SetMaxUploads(v int64) *ListMultipartUploadsOutput {
-	s.MaxUploads = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EncodingType", v, metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
 
-// SetNextKeyMarker sets the NextKeyMarker field's value.
-func (s *ListMultipartUploadsOutput) SetNextKeyMarker(v string) *ListMultipartUploadsOutput {
-	s.NextKeyMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.KeyMarker != nil {
+		v := *s.KeyMarker
 
-// SetNextUploadIdMarker sets the NextUploadIdMarker field's value.
-func (s *ListMultipartUploadsOutput) SetNextUploadIdMarker(v string) *ListMultipartUploadsOutput {
-	s.NextUploadIdMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyMarker", protocol.StringValue(v), metadata)
+	}
+	if s.MaxUploads != nil {
+		v := *s.MaxUploads
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListMultipartUploadsOutput) SetPrefix(v string) *ListMultipartUploadsOutput {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxUploads", protocol.Int64Value(v), metadata)
+	}
+	if s.NextKeyMarker != nil {
+		v := *s.NextKeyMarker
 
-// SetUploadIdMarker sets the UploadIdMarker field's value.
-func (s *ListMultipartUploadsOutput) SetUploadIdMarker(v string) *ListMultipartUploadsOutput {
-	s.UploadIdMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextKeyMarker", protocol.StringValue(v), metadata)
+	}
+	if s.NextUploadIdMarker != nil {
+		v := *s.NextUploadIdMarker
 
-// SetUploads sets the Uploads field's value.
-func (s *ListMultipartUploadsOutput) SetUploads(v []*MultipartUpload) *ListMultipartUploadsOutput {
-	s.Uploads = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextUploadIdMarker", protocol.StringValue(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.UploadIdMarker != nil {
+		v := *s.UploadIdMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UploadIdMarker", protocol.StringValue(v), metadata)
+	}
+	if len(s.Uploads) > 0 {
+		v := s.Uploads
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Upload", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersionsRequest
@@ -11818,7 +14196,7 @@ type ListObjectVersionsInput struct {
 	// with an ASCII value from 0 to 10. For characters that are not supported in
 	// XML 1.0, you can add this parameter to request that Amazon S3 encode the
 	// keys in the response.
-	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string"`
+	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string" enum:"true"`
 
 	// Specifies the key to start with when listing objects in a bucket.
 	KeyMarker *string `location:"querystring" locationName:"key-marker" type:"string"`
@@ -11858,12 +14236,6 @@ func (s *ListObjectVersionsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListObjectVersionsInput) SetBucket(v string) *ListObjectVersionsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListObjectVersionsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -11871,54 +14243,68 @@ func (s *ListObjectVersionsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListObjectVersionsInput) SetDelimiter(v string) *ListObjectVersionsInput {
-	s.Delimiter = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListObjectVersionsInput) SetEncodingType(v EncodingType) *ListObjectVersionsInput {
-	s.EncodingType = v
-	return s
-}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetKeyMarker sets the KeyMarker field's value.
-func (s *ListObjectVersionsInput) SetKeyMarker(v string) *ListObjectVersionsInput {
-	s.KeyMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetMaxKeys sets the MaxKeys field's value.
-func (s *ListObjectVersionsInput) SetMaxKeys(v int64) *ListObjectVersionsInput {
-	s.MaxKeys = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListObjectVersionsInput) SetPrefix(v string) *ListObjectVersionsInput {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "encoding-type", v, metadata)
+	}
+	if s.KeyMarker != nil {
+		v := *s.KeyMarker
 
-// SetVersionIdMarker sets the VersionIdMarker field's value.
-func (s *ListObjectVersionsInput) SetVersionIdMarker(v string) *ListObjectVersionsInput {
-	s.VersionIdMarker = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "key-marker", protocol.StringValue(v), metadata)
+	}
+	if s.MaxKeys != nil {
+		v := *s.MaxKeys
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "max-keys", protocol.Int64Value(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "prefix", protocol.StringValue(v), metadata)
+	}
+	if s.VersionIdMarker != nil {
+		v := *s.VersionIdMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "version-id-marker", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectVersionsOutput
 type ListObjectVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
-	CommonPrefixes []*CommonPrefix `type:"list" flattened:"true"`
+	responseMetadata aws.Response
 
-	DeleteMarkers []*DeleteMarkerEntry `locationName:"DeleteMarker" type:"list" flattened:"true"`
+	CommonPrefixes []CommonPrefix `type:"list" flattened:"true"`
+
+	DeleteMarkers []DeleteMarkerEntry `locationName:"DeleteMarker" type:"list" flattened:"true"`
 
 	Delimiter *string `type:"string"`
 
 	// Encoding type used by Amazon S3 to encode object keys in the response.
-	EncodingType EncodingType `type:"string"`
+	EncodingType EncodingType `type:"string" enum:"true"`
 
 	// A flag that indicates whether or not Amazon S3 returned all of the results
 	// that satisfied the search criteria. If your results were truncated, you can
@@ -11944,7 +14330,7 @@ type ListObjectVersionsOutput struct {
 
 	VersionIdMarker *string `type:"string"`
 
-	Versions []*ObjectVersion `locationName:"Version" type:"list" flattened:"true"`
+	Versions []ObjectVersion `locationName:"Version" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -11957,82 +14343,110 @@ func (s ListObjectVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCommonPrefixes sets the CommonPrefixes field's value.
-func (s *ListObjectVersionsOutput) SetCommonPrefixes(v []*CommonPrefix) *ListObjectVersionsOutput {
-	s.CommonPrefixes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDeleteMarkers sets the DeleteMarkers field's value.
-func (s *ListObjectVersionsOutput) SetDeleteMarkers(v []*DeleteMarkerEntry) *ListObjectVersionsOutput {
-	s.DeleteMarkers = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CommonPrefixes) > 0 {
+		v := s.CommonPrefixes
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListObjectVersionsOutput) SetDelimiter(v string) *ListObjectVersionsOutput {
-	s.Delimiter = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CommonPrefixes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListObjectVersionsOutput) SetEncodingType(v EncodingType) *ListObjectVersionsOutput {
-	s.EncodingType = v
-	return s
-}
+	}
+	if len(s.DeleteMarkers) > 0 {
+		v := s.DeleteMarkers
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListObjectVersionsOutput) SetIsTruncated(v bool) *ListObjectVersionsOutput {
-	s.IsTruncated = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "DeleteMarker", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetKeyMarker sets the KeyMarker field's value.
-func (s *ListObjectVersionsOutput) SetKeyMarker(v string) *ListObjectVersionsOutput {
-	s.KeyMarker = &v
-	return s
-}
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetMaxKeys sets the MaxKeys field's value.
-func (s *ListObjectVersionsOutput) SetMaxKeys(v int64) *ListObjectVersionsOutput {
-	s.MaxKeys = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetName sets the Name field's value.
-func (s *ListObjectVersionsOutput) SetName(v string) *ListObjectVersionsOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EncodingType", v, metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
 
-// SetNextKeyMarker sets the NextKeyMarker field's value.
-func (s *ListObjectVersionsOutput) SetNextKeyMarker(v string) *ListObjectVersionsOutput {
-	s.NextKeyMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.KeyMarker != nil {
+		v := *s.KeyMarker
 
-// SetNextVersionIdMarker sets the NextVersionIdMarker field's value.
-func (s *ListObjectVersionsOutput) SetNextVersionIdMarker(v string) *ListObjectVersionsOutput {
-	s.NextVersionIdMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyMarker", protocol.StringValue(v), metadata)
+	}
+	if s.MaxKeys != nil {
+		v := *s.MaxKeys
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListObjectVersionsOutput) SetPrefix(v string) *ListObjectVersionsOutput {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxKeys", protocol.Int64Value(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetVersionIdMarker sets the VersionIdMarker field's value.
-func (s *ListObjectVersionsOutput) SetVersionIdMarker(v string) *ListObjectVersionsOutput {
-	s.VersionIdMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), metadata)
+	}
+	if s.NextKeyMarker != nil {
+		v := *s.NextKeyMarker
 
-// SetVersions sets the Versions field's value.
-func (s *ListObjectVersionsOutput) SetVersions(v []*ObjectVersion) *ListObjectVersionsOutput {
-	s.Versions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextKeyMarker", protocol.StringValue(v), metadata)
+	}
+	if s.NextVersionIdMarker != nil {
+		v := *s.NextVersionIdMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextVersionIdMarker", protocol.StringValue(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.VersionIdMarker != nil {
+		v := *s.VersionIdMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionIdMarker", protocol.StringValue(v), metadata)
+	}
+	if len(s.Versions) > 0 {
+		v := s.Versions
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Version", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsRequest
@@ -12051,7 +14465,7 @@ type ListObjectsInput struct {
 	// with an ASCII value from 0 to 10. For characters that are not supported in
 	// XML 1.0, you can add this parameter to request that Amazon S3 encode the
 	// keys in the response.
-	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string"`
+	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string" enum:"true"`
 
 	// Specifies the key to start with when listing objects in a bucket.
 	Marker *string `location:"querystring" locationName:"marker" type:"string"`
@@ -12066,7 +14480,7 @@ type ListObjectsInput struct {
 	// Confirms that the requester knows that she or he will be charged for the
 	// list objects request. Bucket owners need not specify this parameter in their
 	// requests.
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -12093,12 +14507,6 @@ func (s *ListObjectsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListObjectsInput) SetBucket(v string) *ListObjectsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListObjectsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -12106,54 +14514,68 @@ func (s *ListObjectsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListObjectsInput) SetDelimiter(v string) *ListObjectsInput {
-	s.Delimiter = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListObjectsInput) SetEncodingType(v EncodingType) *ListObjectsInput {
-	s.EncodingType = v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetMarker sets the Marker field's value.
-func (s *ListObjectsInput) SetMarker(v string) *ListObjectsInput {
-	s.Marker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetMaxKeys sets the MaxKeys field's value.
-func (s *ListObjectsInput) SetMaxKeys(v int64) *ListObjectsInput {
-	s.MaxKeys = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListObjectsInput) SetPrefix(v string) *ListObjectsInput {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *ListObjectsInput) SetRequestPayer(v RequestPayer) *ListObjectsInput {
-	s.RequestPayer = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "encoding-type", v, metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "marker", protocol.StringValue(v), metadata)
+	}
+	if s.MaxKeys != nil {
+		v := *s.MaxKeys
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "max-keys", protocol.Int64Value(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "prefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsOutput
 type ListObjectsOutput struct {
 	_ struct{} `type:"structure"`
 
-	CommonPrefixes []*CommonPrefix `type:"list" flattened:"true"`
+	responseMetadata aws.Response
 
-	Contents []*Object `type:"list" flattened:"true"`
+	CommonPrefixes []CommonPrefix `type:"list" flattened:"true"`
+
+	Contents []Object `type:"list" flattened:"true"`
 
 	Delimiter *string `type:"string"`
 
 	// Encoding type used by Amazon S3 to encode object keys in the response.
-	EncodingType EncodingType `type:"string"`
+	EncodingType EncodingType `type:"string" enum:"true"`
 
 	// A flag that indicates whether or not Amazon S3 returned all of the results
 	// that satisfied the search criteria.
@@ -12187,64 +14609,86 @@ func (s ListObjectsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCommonPrefixes sets the CommonPrefixes field's value.
-func (s *ListObjectsOutput) SetCommonPrefixes(v []*CommonPrefix) *ListObjectsOutput {
-	s.CommonPrefixes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetContents sets the Contents field's value.
-func (s *ListObjectsOutput) SetContents(v []*Object) *ListObjectsOutput {
-	s.Contents = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CommonPrefixes) > 0 {
+		v := s.CommonPrefixes
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListObjectsOutput) SetDelimiter(v string) *ListObjectsOutput {
-	s.Delimiter = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CommonPrefixes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListObjectsOutput) SetEncodingType(v EncodingType) *ListObjectsOutput {
-	s.EncodingType = v
-	return s
-}
+	}
+	if len(s.Contents) > 0 {
+		v := s.Contents
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListObjectsOutput) SetIsTruncated(v bool) *ListObjectsOutput {
-	s.IsTruncated = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Contents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetMarker sets the Marker field's value.
-func (s *ListObjectsOutput) SetMarker(v string) *ListObjectsOutput {
-	s.Marker = &v
-	return s
-}
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetMaxKeys sets the MaxKeys field's value.
-func (s *ListObjectsOutput) SetMaxKeys(v int64) *ListObjectsOutput {
-	s.MaxKeys = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetName sets the Name field's value.
-func (s *ListObjectsOutput) SetName(v string) *ListObjectsOutput {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EncodingType", v, metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
 
-// SetNextMarker sets the NextMarker field's value.
-func (s *ListObjectsOutput) SetNextMarker(v string) *ListObjectsOutput {
-	s.NextMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.Marker != nil {
+		v := *s.Marker
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListObjectsOutput) SetPrefix(v string) *ListObjectsOutput {
-	s.Prefix = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Marker", protocol.StringValue(v), metadata)
+	}
+	if s.MaxKeys != nil {
+		v := *s.MaxKeys
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxKeys", protocol.Int64Value(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), metadata)
+	}
+	if s.NextMarker != nil {
+		v := *s.NextMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextMarker", protocol.StringValue(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2Request
@@ -12265,7 +14709,7 @@ type ListObjectsV2Input struct {
 	Delimiter *string `location:"querystring" locationName:"delimiter" type:"string"`
 
 	// Encoding type used by Amazon S3 to encode object keys in the response.
-	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string"`
+	EncodingType EncodingType `location:"querystring" locationName:"encoding-type" type:"string" enum:"true"`
 
 	// The owner field is not present in listV2 by default, if you want to return
 	// owner field with each key in the result then set the fetch owner field to
@@ -12282,7 +14726,7 @@ type ListObjectsV2Input struct {
 	// Confirms that the requester knows that she or he will be charged for the
 	// list objects request in V2 style. Bucket owners need not specify this parameter
 	// in their requests.
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts
 	// listing after this specified key. StartAfter can be any key in the bucket
@@ -12313,12 +14757,6 @@ func (s *ListObjectsV2Input) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListObjectsV2Input) SetBucket(v string) *ListObjectsV2Input {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListObjectsV2Input) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -12326,64 +14764,78 @@ func (s *ListObjectsV2Input) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListObjectsV2Input) SetContinuationToken(v string) *ListObjectsV2Input {
-	s.ContinuationToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectsV2Input) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListObjectsV2Input) SetDelimiter(v string) *ListObjectsV2Input {
-	s.Delimiter = &v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListObjectsV2Input) SetEncodingType(v EncodingType) *ListObjectsV2Input {
-	s.EncodingType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetFetchOwner sets the FetchOwner field's value.
-func (s *ListObjectsV2Input) SetFetchOwner(v bool) *ListObjectsV2Input {
-	s.FetchOwner = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
 
-// SetMaxKeys sets the MaxKeys field's value.
-func (s *ListObjectsV2Input) SetMaxKeys(v int64) *ListObjectsV2Input {
-	s.MaxKeys = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "continuation-token", protocol.StringValue(v), metadata)
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListObjectsV2Input) SetPrefix(v string) *ListObjectsV2Input {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *ListObjectsV2Input) SetRequestPayer(v RequestPayer) *ListObjectsV2Input {
-	s.RequestPayer = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "encoding-type", v, metadata)
+	}
+	if s.FetchOwner != nil {
+		v := *s.FetchOwner
 
-// SetStartAfter sets the StartAfter field's value.
-func (s *ListObjectsV2Input) SetStartAfter(v string) *ListObjectsV2Input {
-	s.StartAfter = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "fetch-owner", protocol.BoolValue(v), metadata)
+	}
+	if s.MaxKeys != nil {
+		v := *s.MaxKeys
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "max-keys", protocol.Int64Value(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "prefix", protocol.StringValue(v), metadata)
+	}
+	if s.StartAfter != nil {
+		v := *s.StartAfter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "start-after", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjectsV2Output
 type ListObjectsV2Output struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// CommonPrefixes contains all (if there are any) keys between Prefix and the
 	// next occurrence of the string specified by delimiter
-	CommonPrefixes []*CommonPrefix `type:"list" flattened:"true"`
+	CommonPrefixes []CommonPrefix `type:"list" flattened:"true"`
 
 	// Metadata about each object returned.
-	Contents []*Object `type:"list" flattened:"true"`
+	Contents []Object `type:"list" flattened:"true"`
 
 	// ContinuationToken indicates Amazon S3 that the list is being continued on
 	// this bucket with a token. ContinuationToken is obfuscated and is not a real
@@ -12394,7 +14846,7 @@ type ListObjectsV2Output struct {
 	Delimiter *string `type:"string"`
 
 	// Encoding type used by Amazon S3 to encode object keys in the response.
-	EncodingType EncodingType `type:"string"`
+	EncodingType EncodingType `type:"string" enum:"true"`
 
 	// A flag that indicates whether or not Amazon S3 returned all of the results
 	// that satisfied the search criteria.
@@ -12436,76 +14888,98 @@ func (s ListObjectsV2Output) GoString() string {
 	return s.String()
 }
 
-// SetCommonPrefixes sets the CommonPrefixes field's value.
-func (s *ListObjectsV2Output) SetCommonPrefixes(v []*CommonPrefix) *ListObjectsV2Output {
-	s.CommonPrefixes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListObjectsV2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetContents sets the Contents field's value.
-func (s *ListObjectsV2Output) SetContents(v []*Object) *ListObjectsV2Output {
-	s.Contents = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListObjectsV2Output) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.CommonPrefixes) > 0 {
+		v := s.CommonPrefixes
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ListObjectsV2Output) SetContinuationToken(v string) *ListObjectsV2Output {
-	s.ContinuationToken = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "CommonPrefixes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetDelimiter sets the Delimiter field's value.
-func (s *ListObjectsV2Output) SetDelimiter(v string) *ListObjectsV2Output {
-	s.Delimiter = &v
-	return s
-}
+	}
+	if len(s.Contents) > 0 {
+		v := s.Contents
 
-// SetEncodingType sets the EncodingType field's value.
-func (s *ListObjectsV2Output) SetEncodingType(v EncodingType) *ListObjectsV2Output {
-	s.EncodingType = v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Contents", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListObjectsV2Output) SetIsTruncated(v bool) *ListObjectsV2Output {
-	s.IsTruncated = &v
-	return s
-}
+	}
+	if s.ContinuationToken != nil {
+		v := *s.ContinuationToken
 
-// SetKeyCount sets the KeyCount field's value.
-func (s *ListObjectsV2Output) SetKeyCount(v int64) *ListObjectsV2Output {
-	s.KeyCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ContinuationToken", protocol.StringValue(v), metadata)
+	}
+	if s.Delimiter != nil {
+		v := *s.Delimiter
 
-// SetMaxKeys sets the MaxKeys field's value.
-func (s *ListObjectsV2Output) SetMaxKeys(v int64) *ListObjectsV2Output {
-	s.MaxKeys = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Delimiter", protocol.StringValue(v), metadata)
+	}
+	if len(s.EncodingType) > 0 {
+		v := s.EncodingType
 
-// SetName sets the Name field's value.
-func (s *ListObjectsV2Output) SetName(v string) *ListObjectsV2Output {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EncodingType", v, metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
 
-// SetNextContinuationToken sets the NextContinuationToken field's value.
-func (s *ListObjectsV2Output) SetNextContinuationToken(v string) *ListObjectsV2Output {
-	s.NextContinuationToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.KeyCount != nil {
+		v := *s.KeyCount
 
-// SetPrefix sets the Prefix field's value.
-func (s *ListObjectsV2Output) SetPrefix(v string) *ListObjectsV2Output {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyCount", protocol.Int64Value(v), metadata)
+	}
+	if s.MaxKeys != nil {
+		v := *s.MaxKeys
 
-// SetStartAfter sets the StartAfter field's value.
-func (s *ListObjectsV2Output) SetStartAfter(v string) *ListObjectsV2Output {
-	s.StartAfter = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxKeys", protocol.Int64Value(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), metadata)
+	}
+	if s.NextContinuationToken != nil {
+		v := *s.NextContinuationToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextContinuationToken", protocol.StringValue(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.StartAfter != nil {
+		v := *s.StartAfter
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartAfter", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListPartsRequest
@@ -12529,7 +15003,7 @@ type ListPartsInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Upload ID identifying the multipart upload whose parts are being listed.
 	//
@@ -12572,12 +15046,6 @@ func (s *ListPartsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *ListPartsInput) SetBucket(v string) *ListPartsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *ListPartsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -12585,39 +15053,53 @@ func (s *ListPartsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *ListPartsInput) SetKey(v string) *ListPartsInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListPartsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMaxParts sets the MaxParts field's value.
-func (s *ListPartsInput) SetMaxParts(v int64) *ListPartsInput {
-	s.MaxParts = &v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetPartNumberMarker sets the PartNumberMarker field's value.
-func (s *ListPartsInput) SetPartNumberMarker(v int64) *ListPartsInput {
-	s.PartNumberMarker = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *ListPartsInput) SetRequestPayer(v RequestPayer) *ListPartsInput {
-	s.RequestPayer = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetUploadId sets the UploadId field's value.
-func (s *ListPartsInput) SetUploadId(v string) *ListPartsInput {
-	s.UploadId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.MaxParts != nil {
+		v := *s.MaxParts
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "max-parts", protocol.Int64Value(v), metadata)
+	}
+	if s.PartNumberMarker != nil {
+		v := *s.PartNumberMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "part-number-marker", protocol.Int64Value(v), metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "uploadId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListPartsOutput
 type ListPartsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Date when multipart upload will become eligible for abort operation by lifecycle.
 	AbortDate *time.Time `location:"header" locationName:"x-amz-abort-date" type:"timestamp" timestampFormat:"rfc822"`
@@ -12651,14 +15133,14 @@ type ListPartsOutput struct {
 	// Part number after which listing begins.
 	PartNumberMarker *int64 `type:"integer"`
 
-	Parts []*Part `locationName:"Part" type:"list" flattened:"true"`
+	Parts []Part `locationName:"Part" type:"list" flattened:"true"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// The class of storage used to store the object.
-	StorageClass StorageClass `type:"string"`
+	StorageClass StorageClass `type:"string" enum:"true"`
 
 	// Upload ID identifying the multipart upload whose parts are being listed.
 	UploadId *string `type:"string"`
@@ -12674,22 +15156,9 @@ func (s ListPartsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAbortDate sets the AbortDate field's value.
-func (s *ListPartsOutput) SetAbortDate(v time.Time) *ListPartsOutput {
-	s.AbortDate = &v
-	return s
-}
-
-// SetAbortRuleId sets the AbortRuleId field's value.
-func (s *ListPartsOutput) SetAbortRuleId(v string) *ListPartsOutput {
-	s.AbortRuleId = &v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *ListPartsOutput) SetBucket(v string) *ListPartsOutput {
-	s.Bucket = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPartsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 func (s *ListPartsOutput) getBucket() (v string) {
@@ -12699,72 +15168,249 @@ func (s *ListPartsOutput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetInitiator sets the Initiator field's value.
-func (s *ListPartsOutput) SetInitiator(v *Initiator) *ListPartsOutput {
-	s.Initiator = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListPartsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Initiator != nil {
+		v := s.Initiator
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Initiator", v, metadata)
+	}
+	if s.IsTruncated != nil {
+		v := *s.IsTruncated
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsTruncated", protocol.BoolValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.MaxParts != nil {
+		v := *s.MaxParts
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaxParts", protocol.Int64Value(v), metadata)
+	}
+	if s.NextPartNumberMarker != nil {
+		v := *s.NextPartNumberMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextPartNumberMarker", protocol.Int64Value(v), metadata)
+	}
+	if s.Owner != nil {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if s.PartNumberMarker != nil {
+		v := *s.PartNumberMarker
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PartNumberMarker", protocol.Int64Value(v), metadata)
+	}
+	if len(s.Parts) > 0 {
+		v := s.Parts
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Part", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UploadId", protocol.StringValue(v), metadata)
+	}
+	if s.AbortDate != nil {
+		v := *s.AbortDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-abort-date", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.AbortRuleId != nil {
+		v := *s.AbortRuleId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-abort-rule-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	return nil
 }
 
-// SetIsTruncated sets the IsTruncated field's value.
-func (s *ListPartsOutput) SetIsTruncated(v bool) *ListPartsOutput {
-	s.IsTruncated = &v
-	return s
+// Describes an S3 location that will receive the results of the restore request.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/S3Location
+type Location struct {
+	_ struct{} `type:"structure"`
+
+	// A list of grants that control access to the staged results.
+	AccessControlList []Grant `locationNameList:"Grant" type:"list"`
+
+	// The name of the bucket where the restore results will be placed.
+	//
+	// BucketName is a required field
+	BucketName *string `type:"string" required:"true"`
+
+	// The canned ACL to apply to the restore results.
+	CannedACL ObjectCannedACL `type:"string" enum:"true"`
+
+	// Describes the server-side encryption that will be applied to the restore
+	// results.
+	Encryption *Encryption `type:"structure"`
+
+	// The prefix that is prepended to the restore results for this request.
+	//
+	// Prefix is a required field
+	Prefix *string `type:"string" required:"true"`
+
+	// The class of storage used to store the restore results.
+	StorageClass StorageClass `type:"string" enum:"true"`
+
+	// The tag-set that is applied to the restore results.
+	Tagging *Tagging `type:"structure"`
+
+	// A list of metadata to store with the restore results in S3.
+	UserMetadata []MetadataEntry `locationNameList:"MetadataEntry" type:"list"`
 }
 
-// SetKey sets the Key field's value.
-func (s *ListPartsOutput) SetKey(v string) *ListPartsOutput {
-	s.Key = &v
-	return s
+// String returns the string representation
+func (s Location) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetMaxParts sets the MaxParts field's value.
-func (s *ListPartsOutput) SetMaxParts(v int64) *ListPartsOutput {
-	s.MaxParts = &v
-	return s
+// GoString returns the string representation
+func (s Location) GoString() string {
+	return s.String()
 }
 
-// SetNextPartNumberMarker sets the NextPartNumberMarker field's value.
-func (s *ListPartsOutput) SetNextPartNumberMarker(v int64) *ListPartsOutput {
-	s.NextPartNumberMarker = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *Location) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "Location"}
+
+	if s.BucketName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("BucketName"))
+	}
+
+	if s.Prefix == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Prefix"))
+	}
+	if s.AccessControlList != nil {
+		for i, v := range s.AccessControlList {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AccessControlList", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+	if s.Encryption != nil {
+		if err := s.Encryption.Validate(); err != nil {
+			invalidParams.AddNested("Encryption", err.(aws.ErrInvalidParams))
+		}
+	}
+	if s.Tagging != nil {
+		if err := s.Tagging.Validate(); err != nil {
+			invalidParams.AddNested("Tagging", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetOwner sets the Owner field's value.
-func (s *ListPartsOutput) SetOwner(v *Owner) *ListPartsOutput {
-	s.Owner = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Location) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AccessControlList) > 0 {
+		v := s.AccessControlList
+
+		metadata := protocol.Metadata{ListLocationName: "Grant"}
+		ls0 := e.List(protocol.BodyTarget, "AccessControlList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.BucketName != nil {
+		v := *s.BucketName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BucketName", protocol.StringValue(v), metadata)
+	}
+	if len(s.CannedACL) > 0 {
+		v := s.CannedACL
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CannedACL", v, metadata)
+	}
+	if s.Encryption != nil {
+		v := s.Encryption
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Encryption", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	if s.Tagging != nil {
+		v := s.Tagging
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Tagging", v, metadata)
+	}
+	if len(s.UserMetadata) > 0 {
+		v := s.UserMetadata
+
+		metadata := protocol.Metadata{ListLocationName: "MetadataEntry"}
+		ls0 := e.List(protocol.BodyTarget, "UserMetadata", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
-// SetPartNumberMarker sets the PartNumberMarker field's value.
-func (s *ListPartsOutput) SetPartNumberMarker(v int64) *ListPartsOutput {
-	s.PartNumberMarker = &v
-	return s
-}
-
-// SetParts sets the Parts field's value.
-func (s *ListPartsOutput) SetParts(v []*Part) *ListPartsOutput {
-	s.Parts = v
-	return s
-}
-
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *ListPartsOutput) SetRequestCharged(v RequestCharged) *ListPartsOutput {
-	s.RequestCharged = v
-	return s
-}
-
-// SetStorageClass sets the StorageClass field's value.
-func (s *ListPartsOutput) SetStorageClass(v StorageClass) *ListPartsOutput {
-	s.StorageClass = v
-	return s
-}
-
-// SetUploadId sets the UploadId field's value.
-func (s *ListPartsOutput) SetUploadId(v string) *ListPartsOutput {
-	s.UploadId = &v
-	return s
-}
-
+// Container for logging information. Presence of this element indicates that
+// logging is enabled. Parameters TargetBucket and TargetPrefix are required
+// in this case.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/LoggingEnabled
 type LoggingEnabled struct {
 	_ struct{} `type:"structure"`
@@ -12775,13 +15421,17 @@ type LoggingEnabled struct {
 	// to deliver their logs to the same target bucket. In this case you should
 	// choose a different TargetPrefix for each source bucket so that the delivered
 	// log files can be distinguished by key.
-	TargetBucket *string `type:"string"`
+	//
+	// TargetBucket is a required field
+	TargetBucket *string `type:"string" required:"true"`
 
-	TargetGrants []*TargetGrant `locationNameList:"Grant" type:"list"`
+	TargetGrants []TargetGrant `locationNameList:"Grant" type:"list"`
 
 	// This element lets you specify a prefix for the keys that the log files will
 	// be stored under.
-	TargetPrefix *string `type:"string"`
+	//
+	// TargetPrefix is a required field
+	TargetPrefix *string `type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -12797,11 +15447,16 @@ func (s LoggingEnabled) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *LoggingEnabled) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "LoggingEnabled"}
+
+	if s.TargetBucket == nil {
+		invalidParams.Add(aws.NewErrParamRequired("TargetBucket"))
+	}
+
+	if s.TargetPrefix == nil {
+		invalidParams.Add(aws.NewErrParamRequired("TargetPrefix"))
+	}
 	if s.TargetGrants != nil {
 		for i, v := range s.TargetGrants {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TargetGrants", i), err.(aws.ErrInvalidParams))
 			}
@@ -12814,22 +15469,70 @@ func (s *LoggingEnabled) Validate() error {
 	return nil
 }
 
-// SetTargetBucket sets the TargetBucket field's value.
-func (s *LoggingEnabled) SetTargetBucket(v string) *LoggingEnabled {
-	s.TargetBucket = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LoggingEnabled) MarshalFields(e protocol.FieldEncoder) error {
+	if s.TargetBucket != nil {
+		v := *s.TargetBucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TargetBucket", protocol.StringValue(v), metadata)
+	}
+	if len(s.TargetGrants) > 0 {
+		v := s.TargetGrants
+
+		metadata := protocol.Metadata{ListLocationName: "Grant"}
+		ls0 := e.List(protocol.BodyTarget, "TargetGrants", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.TargetPrefix != nil {
+		v := *s.TargetPrefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TargetPrefix", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
-// SetTargetGrants sets the TargetGrants field's value.
-func (s *LoggingEnabled) SetTargetGrants(v []*TargetGrant) *LoggingEnabled {
-	s.TargetGrants = v
-	return s
+// A metadata key-value pair to store with an object.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetadataEntry
+type MetadataEntry struct {
+	_ struct{} `type:"structure"`
+
+	Name *string `type:"string"`
+
+	Value *string `type:"string"`
 }
 
-// SetTargetPrefix sets the TargetPrefix field's value.
-func (s *LoggingEnabled) SetTargetPrefix(v string) *LoggingEnabled {
-	s.TargetPrefix = &v
-	return s
+// String returns the string representation
+func (s MetadataEntry) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s MetadataEntry) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MetadataEntry) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.StringValue(v), metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsAndOperator
@@ -12840,7 +15543,7 @@ type MetricsAndOperator struct {
 	Prefix *string `type:"string"`
 
 	// The list of tags used when evaluating an AND predicate.
-	Tags []*Tag `locationName:"Tag" locationNameList:"Tag" type:"list" flattened:"true"`
+	Tags []Tag `locationName:"Tag" locationNameList:"Tag" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -12858,9 +15561,6 @@ func (s *MetricsAndOperator) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "MetricsAndOperator"}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -12873,16 +15573,27 @@ func (s *MetricsAndOperator) Validate() error {
 	return nil
 }
 
-// SetPrefix sets the Prefix field's value.
-func (s *MetricsAndOperator) SetPrefix(v string) *MetricsAndOperator {
-	s.Prefix = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MetricsAndOperator) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTags sets the Tags field's value.
-func (s *MetricsAndOperator) SetTags(v []*Tag) *MetricsAndOperator {
-	s.Tags = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if len(s.Tags) > 0 {
+		v := s.Tags
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Tag", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsConfiguration
@@ -12929,16 +15640,21 @@ func (s *MetricsConfiguration) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *MetricsConfiguration) SetFilter(v *MetricsFilter) *MetricsConfiguration {
-	s.Filter = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MetricsConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetId sets the Id field's value.
-func (s *MetricsConfiguration) SetId(v string) *MetricsConfiguration {
-	s.Id = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MetricsFilter
@@ -12987,22 +15703,27 @@ func (s *MetricsFilter) Validate() error {
 	return nil
 }
 
-// SetAnd sets the And field's value.
-func (s *MetricsFilter) SetAnd(v *MetricsAndOperator) *MetricsFilter {
-	s.And = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MetricsFilter) MarshalFields(e protocol.FieldEncoder) error {
+	if s.And != nil {
+		v := s.And
 
-// SetPrefix sets the Prefix field's value.
-func (s *MetricsFilter) SetPrefix(v string) *MetricsFilter {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "And", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetTag sets the Tag field's value.
-func (s *MetricsFilter) SetTag(v *Tag) *MetricsFilter {
-	s.Tag = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.Tag != nil {
+		v := s.Tag
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Tag", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/MultipartUpload
@@ -13021,7 +15742,7 @@ type MultipartUpload struct {
 	Owner *Owner `type:"structure"`
 
 	// The class of storage used to store the object.
-	StorageClass StorageClass `type:"string"`
+	StorageClass StorageClass `type:"string" enum:"true"`
 
 	// Upload ID that identifies the multipart upload.
 	UploadId *string `type:"string"`
@@ -13037,40 +15758,45 @@ func (s MultipartUpload) GoString() string {
 	return s.String()
 }
 
-// SetInitiated sets the Initiated field's value.
-func (s *MultipartUpload) SetInitiated(v time.Time) *MultipartUpload {
-	s.Initiated = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s MultipartUpload) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Initiated != nil {
+		v := *s.Initiated
 
-// SetInitiator sets the Initiator field's value.
-func (s *MultipartUpload) SetInitiator(v *Initiator) *MultipartUpload {
-	s.Initiator = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Initiated", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Initiator != nil {
+		v := s.Initiator
 
-// SetKey sets the Key field's value.
-func (s *MultipartUpload) SetKey(v string) *MultipartUpload {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Initiator", v, metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetOwner sets the Owner field's value.
-func (s *MultipartUpload) SetOwner(v *Owner) *MultipartUpload {
-	s.Owner = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Owner != nil {
+		v := s.Owner
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *MultipartUpload) SetStorageClass(v StorageClass) *MultipartUpload {
-	s.StorageClass = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
 
-// SetUploadId sets the UploadId field's value.
-func (s *MultipartUpload) SetUploadId(v string) *MultipartUpload {
-	s.UploadId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UploadId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Specifies when noncurrent object versions expire. Upon expiration, Amazon
@@ -13099,17 +15825,23 @@ func (s NoncurrentVersionExpiration) GoString() string {
 	return s.String()
 }
 
-// SetNoncurrentDays sets the NoncurrentDays field's value.
-func (s *NoncurrentVersionExpiration) SetNoncurrentDays(v int64) *NoncurrentVersionExpiration {
-	s.NoncurrentDays = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s NoncurrentVersionExpiration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NoncurrentDays != nil {
+		v := *s.NoncurrentDays
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NoncurrentDays", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Container for the transition rule that describes when noncurrent objects
-// transition to the STANDARD_IA or GLACIER storage class. If your bucket is
-// versioning-enabled (or versioning is suspended), you can set this action
-// to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA
-// or GLACIER storage class at a specific period in the object's lifetime.
+// transition to the STANDARD_IA, ONEZONE_IA or GLACIER storage class. If your
+// bucket is versioning-enabled (or versioning is suspended), you can set this
+// action to request that Amazon S3 transition noncurrent object versions to
+// the STANDARD_IA, ONEZONE_IA or GLACIER storage class at a specific period
+// in the object's lifetime.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/NoncurrentVersionTransition
 type NoncurrentVersionTransition struct {
 	_ struct{} `type:"structure"`
@@ -13121,7 +15853,7 @@ type NoncurrentVersionTransition struct {
 	NoncurrentDays *int64 `type:"integer"`
 
 	// The class of storage used to store the object.
-	StorageClass TransitionStorageClass `type:"string"`
+	StorageClass TransitionStorageClass `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -13134,16 +15866,21 @@ func (s NoncurrentVersionTransition) GoString() string {
 	return s.String()
 }
 
-// SetNoncurrentDays sets the NoncurrentDays field's value.
-func (s *NoncurrentVersionTransition) SetNoncurrentDays(v int64) *NoncurrentVersionTransition {
-	s.NoncurrentDays = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s NoncurrentVersionTransition) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NoncurrentDays != nil {
+		v := *s.NoncurrentDays
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *NoncurrentVersionTransition) SetStorageClass(v TransitionStorageClass) *NoncurrentVersionTransition {
-	s.StorageClass = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NoncurrentDays", protocol.Int64Value(v), metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	return nil
 }
 
 // Container for object key name filtering rules. For information about key
@@ -13166,10 +15903,15 @@ func (s NotificationConfigurationFilter) GoString() string {
 	return s.String()
 }
 
-// SetKey sets the Key field's value.
-func (s *NotificationConfigurationFilter) SetKey(v *KeyFilter) *NotificationConfigurationFilter {
-	s.Key = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s NotificationConfigurationFilter) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "S3Key", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Object
@@ -13187,7 +15929,7 @@ type Object struct {
 	Size *int64 `type:"integer"`
 
 	// The class of storage used to store the object.
-	StorageClass ObjectStorageClass `type:"string"`
+	StorageClass ObjectStorageClass `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -13200,40 +15942,45 @@ func (s Object) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *Object) SetETag(v string) *Object {
-	s.ETag = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Object) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetKey sets the Key field's value.
-func (s *Object) SetKey(v string) *Object {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
 
-// SetLastModified sets the LastModified field's value.
-func (s *Object) SetLastModified(v time.Time) *Object {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetOwner sets the Owner field's value.
-func (s *Object) SetOwner(v *Owner) *Object {
-	s.Owner = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Owner != nil {
+		v := s.Owner
 
-// SetSize sets the Size field's value.
-func (s *Object) SetSize(v int64) *Object {
-	s.Size = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *Object) SetStorageClass(v ObjectStorageClass) *Object {
-	s.StorageClass = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectIdentifier
@@ -13276,16 +16023,21 @@ func (s *ObjectIdentifier) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *ObjectIdentifier) SetKey(v string) *ObjectIdentifier {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ObjectIdentifier) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := *s.Key
 
-// SetVersionId sets the VersionId field's value.
-func (s *ObjectIdentifier) SetVersionId(v string) *ObjectIdentifier {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ObjectVersion
@@ -13310,7 +16062,7 @@ type ObjectVersion struct {
 	Size *int64 `type:"integer"`
 
 	// The class of storage used to store the object.
-	StorageClass ObjectVersionStorageClass `type:"string"`
+	StorageClass ObjectVersionStorageClass `type:"string" enum:"true"`
 
 	// Version ID of an object.
 	VersionId *string `type:"string"`
@@ -13326,52 +16078,141 @@ func (s ObjectVersion) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *ObjectVersion) SetETag(v string) *ObjectVersion {
-	s.ETag = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ObjectVersion) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.IsLatest != nil {
+		v := *s.IsLatest
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsLatest", protocol.BoolValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Owner != nil {
+		v := s.Owner
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Owner", v, metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VersionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
-// SetIsLatest sets the IsLatest field's value.
-func (s *ObjectVersion) SetIsLatest(v bool) *ObjectVersion {
-	s.IsLatest = &v
-	return s
+// Describes the location where the restore job's output is stored.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OutputLocation
+type OutputLocation struct {
+	_ struct{} `type:"structure"`
+
+	// Describes an S3 location that will receive the results of the restore request.
+	S3 *Location `type:"structure"`
 }
 
-// SetKey sets the Key field's value.
-func (s *ObjectVersion) SetKey(v string) *ObjectVersion {
-	s.Key = &v
-	return s
+// String returns the string representation
+func (s OutputLocation) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetLastModified sets the LastModified field's value.
-func (s *ObjectVersion) SetLastModified(v time.Time) *ObjectVersion {
-	s.LastModified = &v
-	return s
+// GoString returns the string representation
+func (s OutputLocation) GoString() string {
+	return s.String()
 }
 
-// SetOwner sets the Owner field's value.
-func (s *ObjectVersion) SetOwner(v *Owner) *ObjectVersion {
-	s.Owner = v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *OutputLocation) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "OutputLocation"}
+	if s.S3 != nil {
+		if err := s.S3.Validate(); err != nil {
+			invalidParams.AddNested("S3", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetSize sets the Size field's value.
-func (s *ObjectVersion) SetSize(v int64) *ObjectVersion {
-	s.Size = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s OutputLocation) MarshalFields(e protocol.FieldEncoder) error {
+	if s.S3 != nil {
+		v := s.S3
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "S3", v, metadata)
+	}
+	return nil
 }
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *ObjectVersion) SetStorageClass(v ObjectVersionStorageClass) *ObjectVersion {
-	s.StorageClass = v
-	return s
+// Describes how results of the Select job are serialized.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/OutputSerialization
+type OutputSerialization struct {
+	_ struct{} `type:"structure"`
+
+	// Describes the serialization of CSV-encoded Select results.
+	CSV *CSVOutput `type:"structure"`
+
+	// Specifies JSON as request's output serialization format.
+	JSON *JSONOutput `type:"structure"`
 }
 
-// SetVersionId sets the VersionId field's value.
-func (s *ObjectVersion) SetVersionId(v string) *ObjectVersion {
-	s.VersionId = &v
-	return s
+// String returns the string representation
+func (s OutputSerialization) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s OutputSerialization) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s OutputSerialization) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CSV != nil {
+		v := s.CSV
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CSV", v, metadata)
+	}
+	if s.JSON != nil {
+		v := s.JSON
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "JSON", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Owner
@@ -13393,16 +16234,21 @@ func (s Owner) GoString() string {
 	return s.String()
 }
 
-// SetDisplayName sets the DisplayName field's value.
-func (s *Owner) SetDisplayName(v string) *Owner {
-	s.DisplayName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Owner) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DisplayName != nil {
+		v := *s.DisplayName
 
-// SetID sets the ID field's value.
-func (s *Owner) SetID(v string) *Owner {
-	s.ID = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DisplayName", protocol.StringValue(v), metadata)
+	}
+	if s.ID != nil {
+		v := *s.ID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ID", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Part
@@ -13433,28 +16279,33 @@ func (s Part) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *Part) SetETag(v string) *Part {
-	s.ETag = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Part) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetLastModified sets the LastModified field's value.
-func (s *Part) SetLastModified(v time.Time) *Part {
-	s.LastModified = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.LastModified != nil {
+		v := *s.LastModified
 
-// SetPartNumber sets the PartNumber field's value.
-func (s *Part) SetPartNumber(v int64) *Part {
-	s.PartNumber = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LastModified", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.PartNumber != nil {
+		v := *s.PartNumber
 
-// SetSize sets the Size field's value.
-func (s *Part) SetSize(v int64) *Part {
-	s.Size = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PartNumber", protocol.Int64Value(v), metadata)
+	}
+	if s.Size != nil {
+		v := *s.Size
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Size", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAccelerateConfigurationRequest
@@ -13500,18 +16351,6 @@ func (s *PutBucketAccelerateConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetAccelerateConfiguration sets the AccelerateConfiguration field's value.
-func (s *PutBucketAccelerateConfigurationInput) SetAccelerateConfiguration(v *AccelerateConfiguration) *PutBucketAccelerateConfigurationInput {
-	s.AccelerateConfiguration = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketAccelerateConfigurationInput) SetBucket(v string) *PutBucketAccelerateConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketAccelerateConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -13519,9 +16358,29 @@ func (s *PutBucketAccelerateConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketAccelerateConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.AccelerateConfiguration != nil {
+		v := s.AccelerateConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "AccelerateConfiguration", v, metadata)
+	}
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAccelerateConfigurationOutput
 type PutBucketAccelerateConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13534,12 +16393,22 @@ func (s PutBucketAccelerateConfigurationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketAccelerateConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketAccelerateConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAclRequest
 type PutBucketAclInput struct {
 	_ struct{} `type:"structure" payload:"AccessControlPolicy"`
 
 	// The canned ACL to apply to the bucket.
-	ACL BucketCannedACL `location:"header" locationName:"x-amz-acl" type:"string"`
+	ACL BucketCannedACL `location:"header" locationName:"x-amz-acl" type:"string" enum:"true"`
 
 	AccessControlPolicy *AccessControlPolicy `locationName:"AccessControlPolicy" type:"structure" xmlURI:"http://s3.amazonaws.com/doc/2006-03-01/"`
 
@@ -13592,24 +16461,6 @@ func (s *PutBucketAclInput) Validate() error {
 	return nil
 }
 
-// SetACL sets the ACL field's value.
-func (s *PutBucketAclInput) SetACL(v BucketCannedACL) *PutBucketAclInput {
-	s.ACL = v
-	return s
-}
-
-// SetAccessControlPolicy sets the AccessControlPolicy field's value.
-func (s *PutBucketAclInput) SetAccessControlPolicy(v *AccessControlPolicy) *PutBucketAclInput {
-	s.AccessControlPolicy = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketAclInput) SetBucket(v string) *PutBucketAclInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketAclInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -13617,39 +16468,65 @@ func (s *PutBucketAclInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetGrantFullControl sets the GrantFullControl field's value.
-func (s *PutBucketAclInput) SetGrantFullControl(v string) *PutBucketAclInput {
-	s.GrantFullControl = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketAclInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetGrantRead sets the GrantRead field's value.
-func (s *PutBucketAclInput) SetGrantRead(v string) *PutBucketAclInput {
-	s.GrantRead = &v
-	return s
-}
+	if len(s.ACL) > 0 {
+		v := s.ACL
 
-// SetGrantReadACP sets the GrantReadACP field's value.
-func (s *PutBucketAclInput) SetGrantReadACP(v string) *PutBucketAclInput {
-	s.GrantReadACP = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-acl", v, metadata)
+	}
+	if s.GrantFullControl != nil {
+		v := *s.GrantFullControl
 
-// SetGrantWrite sets the GrantWrite field's value.
-func (s *PutBucketAclInput) SetGrantWrite(v string) *PutBucketAclInput {
-	s.GrantWrite = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-full-control", protocol.StringValue(v), metadata)
+	}
+	if s.GrantRead != nil {
+		v := *s.GrantRead
 
-// SetGrantWriteACP sets the GrantWriteACP field's value.
-func (s *PutBucketAclInput) SetGrantWriteACP(v string) *PutBucketAclInput {
-	s.GrantWriteACP = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read", protocol.StringValue(v), metadata)
+	}
+	if s.GrantReadACP != nil {
+		v := *s.GrantReadACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read-acp", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWrite != nil {
+		v := *s.GrantWrite
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWriteACP != nil {
+		v := *s.GrantWriteACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write-acp", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.AccessControlPolicy != nil {
+		v := s.AccessControlPolicy
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "AccessControlPolicy", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAclOutput
 type PutBucketAclOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13660,6 +16537,16 @@ func (s PutBucketAclOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketAclOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketAclOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketAclOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAnalyticsConfigurationRequest
@@ -13719,18 +16606,6 @@ func (s *PutBucketAnalyticsConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetAnalyticsConfiguration sets the AnalyticsConfiguration field's value.
-func (s *PutBucketAnalyticsConfigurationInput) SetAnalyticsConfiguration(v *AnalyticsConfiguration) *PutBucketAnalyticsConfigurationInput {
-	s.AnalyticsConfiguration = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketAnalyticsConfigurationInput) SetBucket(v string) *PutBucketAnalyticsConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketAnalyticsConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -13738,15 +16613,35 @@ func (s *PutBucketAnalyticsConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *PutBucketAnalyticsConfigurationInput) SetId(v string) *PutBucketAnalyticsConfigurationInput {
-	s.Id = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketAnalyticsConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.AnalyticsConfiguration != nil {
+		v := s.AnalyticsConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "AnalyticsConfiguration", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketAnalyticsConfigurationOutput
 type PutBucketAnalyticsConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13757,6 +16652,16 @@ func (s PutBucketAnalyticsConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketAnalyticsConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketAnalyticsConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketAnalyticsConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketCorsRequest
@@ -13803,12 +16708,6 @@ func (s *PutBucketCorsInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketCorsInput) SetBucket(v string) *PutBucketCorsInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketCorsInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -13816,15 +16715,29 @@ func (s *PutBucketCorsInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetCORSConfiguration sets the CORSConfiguration field's value.
-func (s *PutBucketCorsInput) SetCORSConfiguration(v *CORSConfiguration) *PutBucketCorsInput {
-	s.CORSConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketCorsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.CORSConfiguration != nil {
+		v := s.CORSConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "CORSConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketCorsOutput
 type PutBucketCorsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13835,6 +16748,118 @@ func (s PutBucketCorsOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketCorsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketCorsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketCorsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryptionRequest
+type PutBucketEncryptionInput struct {
+	_ struct{} `type:"structure" payload:"ServerSideEncryptionConfiguration"`
+
+	// The name of the bucket for which the server-side encryption configuration
+	// is set.
+	//
+	// Bucket is a required field
+	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
+
+	// Container for server-side encryption configuration rules. Currently S3 supports
+	// one rule only.
+	//
+	// ServerSideEncryptionConfiguration is a required field
+	ServerSideEncryptionConfiguration *ServerSideEncryptionConfiguration `locationName:"ServerSideEncryptionConfiguration" type:"structure" required:"true" xmlURI:"http://s3.amazonaws.com/doc/2006-03-01/"`
+}
+
+// String returns the string representation
+func (s PutBucketEncryptionInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutBucketEncryptionInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutBucketEncryptionInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PutBucketEncryptionInput"}
+
+	if s.Bucket == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Bucket"))
+	}
+
+	if s.ServerSideEncryptionConfiguration == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ServerSideEncryptionConfiguration"))
+	}
+	if s.ServerSideEncryptionConfiguration != nil {
+		if err := s.ServerSideEncryptionConfiguration.Validate(); err != nil {
+			invalidParams.AddNested("ServerSideEncryptionConfiguration", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+func (s *PutBucketEncryptionInput) getBucket() (v string) {
+	if s.Bucket == nil {
+		return v
+	}
+	return *s.Bucket
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketEncryptionInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ServerSideEncryptionConfiguration != nil {
+		v := s.ServerSideEncryptionConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "ServerSideEncryptionConfiguration", v, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketEncryptionOutput
+type PutBucketEncryptionOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s PutBucketEncryptionOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutBucketEncryptionOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketEncryptionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketEncryptionOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketInventoryConfigurationRequest
@@ -13894,12 +16919,6 @@ func (s *PutBucketInventoryConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketInventoryConfigurationInput) SetBucket(v string) *PutBucketInventoryConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketInventoryConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -13907,21 +16926,35 @@ func (s *PutBucketInventoryConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *PutBucketInventoryConfigurationInput) SetId(v string) *PutBucketInventoryConfigurationInput {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketInventoryConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetInventoryConfiguration sets the InventoryConfiguration field's value.
-func (s *PutBucketInventoryConfigurationInput) SetInventoryConfiguration(v *InventoryConfiguration) *PutBucketInventoryConfigurationInput {
-	s.InventoryConfiguration = v
-	return s
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.InventoryConfiguration != nil {
+		v := s.InventoryConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "InventoryConfiguration", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketInventoryConfigurationOutput
 type PutBucketInventoryConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -13932,6 +16965,16 @@ func (s PutBucketInventoryConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketInventoryConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketInventoryConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketInventoryConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfigurationRequest
@@ -13973,12 +17016,6 @@ func (s *PutBucketLifecycleConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketLifecycleConfigurationInput) SetBucket(v string) *PutBucketLifecycleConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketLifecycleConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -13986,15 +17023,29 @@ func (s *PutBucketLifecycleConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetLifecycleConfiguration sets the LifecycleConfiguration field's value.
-func (s *PutBucketLifecycleConfigurationInput) SetLifecycleConfiguration(v *BucketLifecycleConfiguration) *PutBucketLifecycleConfigurationInput {
-	s.LifecycleConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketLifecycleConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.LifecycleConfiguration != nil {
+		v := s.LifecycleConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "LifecycleConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleConfigurationOutput
 type PutBucketLifecycleConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14005,6 +17056,16 @@ func (s PutBucketLifecycleConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketLifecycleConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketLifecycleConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketLifecycleConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleRequest
@@ -14046,12 +17107,6 @@ func (s *PutBucketLifecycleInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketLifecycleInput) SetBucket(v string) *PutBucketLifecycleInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketLifecycleInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14059,15 +17114,29 @@ func (s *PutBucketLifecycleInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetLifecycleConfiguration sets the LifecycleConfiguration field's value.
-func (s *PutBucketLifecycleInput) SetLifecycleConfiguration(v *LifecycleConfiguration) *PutBucketLifecycleInput {
-	s.LifecycleConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketLifecycleInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.LifecycleConfiguration != nil {
+		v := s.LifecycleConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "LifecycleConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLifecycleOutput
 type PutBucketLifecycleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14078,6 +17147,16 @@ func (s PutBucketLifecycleOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketLifecycleOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketLifecycleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketLifecycleOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLoggingRequest
@@ -14124,12 +17203,6 @@ func (s *PutBucketLoggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketLoggingInput) SetBucket(v string) *PutBucketLoggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketLoggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14137,15 +17210,29 @@ func (s *PutBucketLoggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetBucketLoggingStatus sets the BucketLoggingStatus field's value.
-func (s *PutBucketLoggingInput) SetBucketLoggingStatus(v *BucketLoggingStatus) *PutBucketLoggingInput {
-	s.BucketLoggingStatus = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketLoggingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.BucketLoggingStatus != nil {
+		v := s.BucketLoggingStatus
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "BucketLoggingStatus", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketLoggingOutput
 type PutBucketLoggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14156,6 +17243,16 @@ func (s PutBucketLoggingOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketLoggingOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketLoggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketLoggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfigurationRequest
@@ -14215,12 +17312,6 @@ func (s *PutBucketMetricsConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketMetricsConfigurationInput) SetBucket(v string) *PutBucketMetricsConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketMetricsConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14228,21 +17319,35 @@ func (s *PutBucketMetricsConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetId sets the Id field's value.
-func (s *PutBucketMetricsConfigurationInput) SetId(v string) *PutBucketMetricsConfigurationInput {
-	s.Id = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketMetricsConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetMetricsConfiguration sets the MetricsConfiguration field's value.
-func (s *PutBucketMetricsConfigurationInput) SetMetricsConfiguration(v *MetricsConfiguration) *PutBucketMetricsConfigurationInput {
-	s.MetricsConfiguration = v
-	return s
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.MetricsConfiguration != nil {
+		v := s.MetricsConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "MetricsConfiguration", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketMetricsConfigurationOutput
 type PutBucketMetricsConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14253,6 +17358,16 @@ func (s PutBucketMetricsConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketMetricsConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketMetricsConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketMetricsConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationConfigurationRequest
@@ -14302,12 +17417,6 @@ func (s *PutBucketNotificationConfigurationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketNotificationConfigurationInput) SetBucket(v string) *PutBucketNotificationConfigurationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketNotificationConfigurationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14315,15 +17424,29 @@ func (s *PutBucketNotificationConfigurationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetNotificationConfiguration sets the NotificationConfiguration field's value.
-func (s *PutBucketNotificationConfigurationInput) SetNotificationConfiguration(v *GetBucketNotificationConfigurationOutput) *PutBucketNotificationConfigurationInput {
-	s.NotificationConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketNotificationConfigurationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.NotificationConfiguration != nil {
+		v := s.NotificationConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "NotificationConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationConfigurationOutput
 type PutBucketNotificationConfigurationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14334,6 +17457,16 @@ func (s PutBucketNotificationConfigurationOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketNotificationConfigurationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketNotificationConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketNotificationConfigurationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationRequest
@@ -14375,12 +17508,6 @@ func (s *PutBucketNotificationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketNotificationInput) SetBucket(v string) *PutBucketNotificationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketNotificationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14388,15 +17515,29 @@ func (s *PutBucketNotificationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetNotificationConfiguration sets the NotificationConfiguration field's value.
-func (s *PutBucketNotificationInput) SetNotificationConfiguration(v *GetBucketNotificationOutput) *PutBucketNotificationInput {
-	s.NotificationConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketNotificationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.NotificationConfiguration != nil {
+		v := s.NotificationConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "NotificationConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketNotificationOutput
 type PutBucketNotificationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14409,12 +17550,26 @@ func (s PutBucketNotificationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketNotificationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketPolicyRequest
 type PutBucketPolicyInput struct {
 	_ struct{} `type:"structure" payload:"Policy"`
 
 	// Bucket is a required field
 	Bucket *string `location:"uri" locationName:"Bucket" type:"string" required:"true"`
+
+	// Set this parameter to true to confirm that you want to remove your permissions
+	// to change this bucket policy in the future.
+	ConfirmRemoveSelfBucketAccess *bool `location:"header" locationName:"x-amz-confirm-remove-self-bucket-access" type:"boolean"`
 
 	// The bucket policy as a JSON document.
 	//
@@ -14450,12 +17605,6 @@ func (s *PutBucketPolicyInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketPolicyInput) SetBucket(v string) *PutBucketPolicyInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketPolicyInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14463,15 +17612,35 @@ func (s *PutBucketPolicyInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetPolicy sets the Policy field's value.
-func (s *PutBucketPolicyInput) SetPolicy(v string) *PutBucketPolicyInput {
-	s.Policy = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketPolicyInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.ConfirmRemoveSelfBucketAccess != nil {
+		v := *s.ConfirmRemoveSelfBucketAccess
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-confirm-remove-self-bucket-access", protocol.BoolValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Policy != nil {
+		v := *s.Policy
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "Policy", protocol.StringStream(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketPolicyOutput
 type PutBucketPolicyOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14482,6 +17651,16 @@ func (s PutBucketPolicyOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketPolicyOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketPolicyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketPolicyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketReplicationRequest
@@ -14531,12 +17710,6 @@ func (s *PutBucketReplicationInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketReplicationInput) SetBucket(v string) *PutBucketReplicationInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketReplicationInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14544,15 +17717,29 @@ func (s *PutBucketReplicationInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetReplicationConfiguration sets the ReplicationConfiguration field's value.
-func (s *PutBucketReplicationInput) SetReplicationConfiguration(v *ReplicationConfiguration) *PutBucketReplicationInput {
-	s.ReplicationConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketReplicationInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.ReplicationConfiguration != nil {
+		v := s.ReplicationConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "ReplicationConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketReplicationOutput
 type PutBucketReplicationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14563,6 +17750,16 @@ func (s PutBucketReplicationOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketReplicationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketReplicationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketReplicationOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketRequestPaymentRequest
@@ -14609,12 +17806,6 @@ func (s *PutBucketRequestPaymentInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketRequestPaymentInput) SetBucket(v string) *PutBucketRequestPaymentInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketRequestPaymentInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14622,15 +17813,29 @@ func (s *PutBucketRequestPaymentInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetRequestPaymentConfiguration sets the RequestPaymentConfiguration field's value.
-func (s *PutBucketRequestPaymentInput) SetRequestPaymentConfiguration(v *RequestPaymentConfiguration) *PutBucketRequestPaymentInput {
-	s.RequestPaymentConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketRequestPaymentInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.RequestPaymentConfiguration != nil {
+		v := s.RequestPaymentConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "RequestPaymentConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketRequestPaymentOutput
 type PutBucketRequestPaymentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14641,6 +17846,16 @@ func (s PutBucketRequestPaymentOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketRequestPaymentOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketRequestPaymentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketRequestPaymentOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketTaggingRequest
@@ -14687,12 +17902,6 @@ func (s *PutBucketTaggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketTaggingInput) SetBucket(v string) *PutBucketTaggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketTaggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14700,15 +17909,29 @@ func (s *PutBucketTaggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetTagging sets the Tagging field's value.
-func (s *PutBucketTaggingInput) SetTagging(v *Tagging) *PutBucketTaggingInput {
-	s.Tagging = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketTaggingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Tagging != nil {
+		v := s.Tagging
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "Tagging", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketTaggingOutput
 type PutBucketTaggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14719,6 +17942,16 @@ func (s PutBucketTaggingOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketTaggingOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketTaggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketTaggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketVersioningRequest
@@ -14764,12 +17997,6 @@ func (s *PutBucketVersioningInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketVersioningInput) SetBucket(v string) *PutBucketVersioningInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketVersioningInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14777,21 +18004,35 @@ func (s *PutBucketVersioningInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetMFA sets the MFA field's value.
-func (s *PutBucketVersioningInput) SetMFA(v string) *PutBucketVersioningInput {
-	s.MFA = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketVersioningInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetVersioningConfiguration sets the VersioningConfiguration field's value.
-func (s *PutBucketVersioningInput) SetVersioningConfiguration(v *VersioningConfiguration) *PutBucketVersioningInput {
-	s.VersioningConfiguration = v
-	return s
+	if s.MFA != nil {
+		v := *s.MFA
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-mfa", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.VersioningConfiguration != nil {
+		v := s.VersioningConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "VersioningConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketVersioningOutput
 type PutBucketVersioningOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14802,6 +18043,16 @@ func (s PutBucketVersioningOutput) String() string {
 // GoString returns the string representation
 func (s PutBucketVersioningOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketVersioningOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketVersioningOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketWebsiteRequest
@@ -14848,12 +18099,6 @@ func (s *PutBucketWebsiteInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutBucketWebsiteInput) SetBucket(v string) *PutBucketWebsiteInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutBucketWebsiteInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14861,15 +18106,29 @@ func (s *PutBucketWebsiteInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetWebsiteConfiguration sets the WebsiteConfiguration field's value.
-func (s *PutBucketWebsiteInput) SetWebsiteConfiguration(v *WebsiteConfiguration) *PutBucketWebsiteInput {
-	s.WebsiteConfiguration = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketWebsiteInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.WebsiteConfiguration != nil {
+		v := s.WebsiteConfiguration
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "WebsiteConfiguration", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutBucketWebsiteOutput
 type PutBucketWebsiteOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -14882,12 +18141,22 @@ func (s PutBucketWebsiteOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutBucketWebsiteOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutBucketWebsiteOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAclRequest
 type PutObjectAclInput struct {
 	_ struct{} `type:"structure" payload:"AccessControlPolicy"`
 
 	// The canned ACL to apply to the object.
-	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string"`
+	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string" enum:"true"`
 
 	AccessControlPolicy *AccessControlPolicy `locationName:"AccessControlPolicy" type:"structure" xmlURI:"http://s3.amazonaws.com/doc/2006-03-01/"`
 
@@ -14917,7 +18186,7 @@ type PutObjectAclInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// VersionId used to reference a specific version of the object.
 	VersionId *string `location:"querystring" locationName:"versionId" type:"string"`
@@ -14959,24 +18228,6 @@ func (s *PutObjectAclInput) Validate() error {
 	return nil
 }
 
-// SetACL sets the ACL field's value.
-func (s *PutObjectAclInput) SetACL(v ObjectCannedACL) *PutObjectAclInput {
-	s.ACL = v
-	return s
-}
-
-// SetAccessControlPolicy sets the AccessControlPolicy field's value.
-func (s *PutObjectAclInput) SetAccessControlPolicy(v *AccessControlPolicy) *PutObjectAclInput {
-	s.AccessControlPolicy = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *PutObjectAclInput) SetBucket(v string) *PutObjectAclInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutObjectAclInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -14984,61 +18235,87 @@ func (s *PutObjectAclInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetGrantFullControl sets the GrantFullControl field's value.
-func (s *PutObjectAclInput) SetGrantFullControl(v string) *PutObjectAclInput {
-	s.GrantFullControl = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutObjectAclInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetGrantRead sets the GrantRead field's value.
-func (s *PutObjectAclInput) SetGrantRead(v string) *PutObjectAclInput {
-	s.GrantRead = &v
-	return s
-}
+	if len(s.ACL) > 0 {
+		v := s.ACL
 
-// SetGrantReadACP sets the GrantReadACP field's value.
-func (s *PutObjectAclInput) SetGrantReadACP(v string) *PutObjectAclInput {
-	s.GrantReadACP = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-acl", v, metadata)
+	}
+	if s.GrantFullControl != nil {
+		v := *s.GrantFullControl
 
-// SetGrantWrite sets the GrantWrite field's value.
-func (s *PutObjectAclInput) SetGrantWrite(v string) *PutObjectAclInput {
-	s.GrantWrite = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-full-control", protocol.StringValue(v), metadata)
+	}
+	if s.GrantRead != nil {
+		v := *s.GrantRead
 
-// SetGrantWriteACP sets the GrantWriteACP field's value.
-func (s *PutObjectAclInput) SetGrantWriteACP(v string) *PutObjectAclInput {
-	s.GrantWriteACP = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read", protocol.StringValue(v), metadata)
+	}
+	if s.GrantReadACP != nil {
+		v := *s.GrantReadACP
 
-// SetKey sets the Key field's value.
-func (s *PutObjectAclInput) SetKey(v string) *PutObjectAclInput {
-	s.Key = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read-acp", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWrite != nil {
+		v := *s.GrantWrite
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *PutObjectAclInput) SetRequestPayer(v RequestPayer) *PutObjectAclInput {
-	s.RequestPayer = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWriteACP != nil {
+		v := *s.GrantWriteACP
 
-// SetVersionId sets the VersionId field's value.
-func (s *PutObjectAclInput) SetVersionId(v string) *PutObjectAclInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write-acp", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.AccessControlPolicy != nil {
+		v := s.AccessControlPolicy
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "AccessControlPolicy", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectAclOutput
 type PutObjectAclOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -15051,10 +18328,20 @@ func (s PutObjectAclOutput) GoString() string {
 	return s.String()
 }
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *PutObjectAclOutput) SetRequestCharged(v RequestCharged) *PutObjectAclOutput {
-	s.RequestCharged = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutObjectAclOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutObjectAclOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectRequest
@@ -15062,7 +18349,7 @@ type PutObjectInput struct {
 	_ struct{} `type:"structure" payload:"Body"`
 
 	// The canned ACL to apply to the object.
-	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string"`
+	ACL ObjectCannedACL `location:"header" locationName:"x-amz-acl" type:"string" enum:"true"`
 
 	// Object data.
 	Body io.ReadSeeker `type:"blob"`
@@ -15117,13 +18404,13 @@ type PutObjectInput struct {
 	Key *string `location:"uri" locationName:"Key" min:"1" type:"string" required:"true"`
 
 	// A map of metadata to store with the object in S3.
-	Metadata map[string]*string `location:"headers" locationName:"x-amz-meta-" type:"map"`
+	Metadata map[string]string `location:"headers" locationName:"x-amz-meta-" type:"map"`
 
 	// Confirms that the requester knows that she or he will be charged for the
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
 	SSECustomerAlgorithm *string `location:"header" locationName:"x-amz-server-side-encryption-customer-algorithm" type:"string"`
@@ -15148,10 +18435,10 @@ type PutObjectInput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// The type of storage to use for the object. Defaults to 'STANDARD'.
-	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string"`
+	StorageClass StorageClass `location:"header" locationName:"x-amz-storage-class" type:"string" enum:"true"`
 
 	// The tag-set for the object. The tag-set must be encoded as URL Query parameters
 	Tagging *string `location:"header" locationName:"x-amz-tagging" type:"string"`
@@ -15193,131 +18480,11 @@ func (s *PutObjectInput) Validate() error {
 	return nil
 }
 
-// SetACL sets the ACL field's value.
-func (s *PutObjectInput) SetACL(v ObjectCannedACL) *PutObjectInput {
-	s.ACL = v
-	return s
-}
-
-// SetBody sets the Body field's value.
-func (s *PutObjectInput) SetBody(v io.ReadSeeker) *PutObjectInput {
-	s.Body = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *PutObjectInput) SetBucket(v string) *PutObjectInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutObjectInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetCacheControl sets the CacheControl field's value.
-func (s *PutObjectInput) SetCacheControl(v string) *PutObjectInput {
-	s.CacheControl = &v
-	return s
-}
-
-// SetContentDisposition sets the ContentDisposition field's value.
-func (s *PutObjectInput) SetContentDisposition(v string) *PutObjectInput {
-	s.ContentDisposition = &v
-	return s
-}
-
-// SetContentEncoding sets the ContentEncoding field's value.
-func (s *PutObjectInput) SetContentEncoding(v string) *PutObjectInput {
-	s.ContentEncoding = &v
-	return s
-}
-
-// SetContentLanguage sets the ContentLanguage field's value.
-func (s *PutObjectInput) SetContentLanguage(v string) *PutObjectInput {
-	s.ContentLanguage = &v
-	return s
-}
-
-// SetContentLength sets the ContentLength field's value.
-func (s *PutObjectInput) SetContentLength(v int64) *PutObjectInput {
-	s.ContentLength = &v
-	return s
-}
-
-// SetContentMD5 sets the ContentMD5 field's value.
-func (s *PutObjectInput) SetContentMD5(v string) *PutObjectInput {
-	s.ContentMD5 = &v
-	return s
-}
-
-// SetContentType sets the ContentType field's value.
-func (s *PutObjectInput) SetContentType(v string) *PutObjectInput {
-	s.ContentType = &v
-	return s
-}
-
-// SetExpires sets the Expires field's value.
-func (s *PutObjectInput) SetExpires(v time.Time) *PutObjectInput {
-	s.Expires = &v
-	return s
-}
-
-// SetGrantFullControl sets the GrantFullControl field's value.
-func (s *PutObjectInput) SetGrantFullControl(v string) *PutObjectInput {
-	s.GrantFullControl = &v
-	return s
-}
-
-// SetGrantRead sets the GrantRead field's value.
-func (s *PutObjectInput) SetGrantRead(v string) *PutObjectInput {
-	s.GrantRead = &v
-	return s
-}
-
-// SetGrantReadACP sets the GrantReadACP field's value.
-func (s *PutObjectInput) SetGrantReadACP(v string) *PutObjectInput {
-	s.GrantReadACP = &v
-	return s
-}
-
-// SetGrantWriteACP sets the GrantWriteACP field's value.
-func (s *PutObjectInput) SetGrantWriteACP(v string) *PutObjectInput {
-	s.GrantWriteACP = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *PutObjectInput) SetKey(v string) *PutObjectInput {
-	s.Key = &v
-	return s
-}
-
-// SetMetadata sets the Metadata field's value.
-func (s *PutObjectInput) SetMetadata(v map[string]*string) *PutObjectInput {
-	s.Metadata = v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *PutObjectInput) SetRequestPayer(v RequestPayer) *PutObjectInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *PutObjectInput) SetSSECustomerAlgorithm(v string) *PutObjectInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *PutObjectInput) SetSSECustomerKey(v string) *PutObjectInput {
-	s.SSECustomerKey = &v
-	return s
 }
 
 func (s *PutObjectInput) getSSECustomerKey() (v string) {
@@ -15327,45 +18494,179 @@ func (s *PutObjectInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *PutObjectInput) SetSSECustomerKeyMD5(v string) *PutObjectInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *PutObjectInput) SetSSEKMSKeyId(v string) *PutObjectInput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+	if len(s.ACL) > 0 {
+		v := s.ACL
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *PutObjectInput) SetServerSideEncryption(v ServerSideEncryption) *PutObjectInput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-acl", v, metadata)
+	}
+	if s.CacheControl != nil {
+		v := *s.CacheControl
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *PutObjectInput) SetStorageClass(v StorageClass) *PutObjectInput {
-	s.StorageClass = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Cache-Control", protocol.StringValue(v), metadata)
+	}
+	if s.ContentDisposition != nil {
+		v := *s.ContentDisposition
 
-// SetTagging sets the Tagging field's value.
-func (s *PutObjectInput) SetTagging(v string) *PutObjectInput {
-	s.Tagging = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Disposition", protocol.StringValue(v), metadata)
+	}
+	if s.ContentEncoding != nil {
+		v := *s.ContentEncoding
 
-// SetWebsiteRedirectLocation sets the WebsiteRedirectLocation field's value.
-func (s *PutObjectInput) SetWebsiteRedirectLocation(v string) *PutObjectInput {
-	s.WebsiteRedirectLocation = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Encoding", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLanguage != nil {
+		v := *s.ContentLanguage
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Language", protocol.StringValue(v), metadata)
+	}
+	if s.ContentLength != nil {
+		v := *s.ContentLength
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Length", protocol.Int64Value(v), metadata)
+	}
+	if s.ContentMD5 != nil {
+		v := *s.ContentMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.ContentType != nil {
+		v := *s.ContentType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue(v), metadata)
+	}
+	if s.Expires != nil {
+		v := *s.Expires
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Expires", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.GrantFullControl != nil {
+		v := *s.GrantFullControl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-full-control", protocol.StringValue(v), metadata)
+	}
+	if s.GrantRead != nil {
+		v := *s.GrantRead
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read", protocol.StringValue(v), metadata)
+	}
+	if s.GrantReadACP != nil {
+		v := *s.GrantReadACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-read-acp", protocol.StringValue(v), metadata)
+	}
+	if s.GrantWriteACP != nil {
+		v := *s.GrantWriteACP
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-grant-write-acp", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-storage-class", v, metadata)
+	}
+	if s.Tagging != nil {
+		v := *s.Tagging
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-tagging", protocol.StringValue(v), metadata)
+	}
+	if s.WebsiteRedirectLocation != nil {
+		v := *s.WebsiteRedirectLocation
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-website-redirect-location", protocol.StringValue(v), metadata)
+	}
+	if len(s.Metadata) > 0 {
+		v := s.Metadata
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.HeadersTarget, "x-amz-meta-", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.StringValue(v1))
+		}
+		ms0.End()
+
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Body != nil {
+		v := s.Body
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "Body", protocol.ReadSeekerStream{V: v}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectOutput
 type PutObjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Entity tag for the uploaded object.
 	ETag *string `location:"header" locationName:"ETag" type:"string"`
@@ -15376,7 +18677,7 @@ type PutObjectOutput struct {
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// If server-side encryption with a customer-provided encryption key was requested,
 	// the response will include this header confirming the encryption algorithm
@@ -15394,7 +18695,7 @@ type PutObjectOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 
 	// Version of the object.
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
@@ -15410,52 +18711,62 @@ func (s PutObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *PutObjectOutput) SetETag(v string) *PutObjectOutput {
-	s.ETag = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetExpiration sets the Expiration field's value.
-func (s *PutObjectOutput) SetExpiration(v string) *PutObjectOutput {
-	s.Expiration = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *PutObjectOutput) SetRequestCharged(v RequestCharged) *PutObjectOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if s.Expiration != nil {
+		v := *s.Expiration
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *PutObjectOutput) SetSSECustomerAlgorithm(v string) *PutObjectOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-expiration", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *PutObjectOutput) SetSSECustomerKeyMD5(v string) *PutObjectOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *PutObjectOutput) SetSSEKMSKeyId(v string) *PutObjectOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *PutObjectOutput) SetServerSideEncryption(v ServerSideEncryption) *PutObjectOutput {
-	s.ServerSideEncryption = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
 
-// SetVersionId sets the VersionId field's value.
-func (s *PutObjectOutput) SetVersionId(v string) *PutObjectOutput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTaggingRequest
@@ -15514,12 +18825,6 @@ func (s *PutObjectTaggingInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *PutObjectTaggingInput) SetBucket(v string) *PutObjectTaggingInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *PutObjectTaggingInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -15527,27 +18832,41 @@ func (s *PutObjectTaggingInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *PutObjectTaggingInput) SetKey(v string) *PutObjectTaggingInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutObjectTaggingInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTagging sets the Tagging field's value.
-func (s *PutObjectTaggingInput) SetTagging(v *Tagging) *PutObjectTaggingInput {
-	s.Tagging = v
-	return s
-}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetVersionId sets the VersionId field's value.
-func (s *PutObjectTaggingInput) SetVersionId(v string) *PutObjectTaggingInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Tagging != nil {
+		v := s.Tagging
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "Tagging", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObjectTaggingOutput
 type PutObjectTaggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	VersionId *string `location:"header" locationName:"x-amz-version-id" type:"string"`
 }
@@ -15562,10 +18881,20 @@ func (s PutObjectTaggingOutput) GoString() string {
 	return s.String()
 }
 
-// SetVersionId sets the VersionId field's value.
-func (s *PutObjectTaggingOutput) SetVersionId(v string) *PutObjectTaggingOutput {
-	s.VersionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutObjectTaggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutObjectTaggingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-version-id", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Container for specifying an configuration when you want Amazon S3 to publish
@@ -15620,28 +18949,39 @@ func (s *QueueConfiguration) Validate() error {
 	return nil
 }
 
-// SetEvents sets the Events field's value.
-func (s *QueueConfiguration) SetEvents(v []Event) *QueueConfiguration {
-	s.Events = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s QueueConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetFilter sets the Filter field's value.
-func (s *QueueConfiguration) SetFilter(v *NotificationConfigurationFilter) *QueueConfiguration {
-	s.Filter = v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Event", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetId sets the Id field's value.
-func (s *QueueConfiguration) SetId(v string) *QueueConfiguration {
-	s.Id = &v
-	return s
-}
+	}
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetQueueArn sets the QueueArn field's value.
-func (s *QueueConfiguration) SetQueueArn(v string) *QueueConfiguration {
-	s.QueueArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.QueueArn != nil {
+		v := *s.QueueArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Queue", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/QueueConfigurationDeprecated
@@ -15649,7 +18989,7 @@ type QueueConfigurationDeprecated struct {
 	_ struct{} `type:"structure"`
 
 	// Bucket event for which to send notifications.
-	Event Event `deprecated:"true" type:"string"`
+	Event Event `deprecated:"true" type:"string" enum:"true"`
 
 	Events []Event `locationName:"Event" type:"list" flattened:"true"`
 
@@ -15670,28 +19010,39 @@ func (s QueueConfigurationDeprecated) GoString() string {
 	return s.String()
 }
 
-// SetEvent sets the Event field's value.
-func (s *QueueConfigurationDeprecated) SetEvent(v Event) *QueueConfigurationDeprecated {
-	s.Event = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s QueueConfigurationDeprecated) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Event) > 0 {
+		v := s.Event
 
-// SetEvents sets the Events field's value.
-func (s *QueueConfigurationDeprecated) SetEvents(v []Event) *QueueConfigurationDeprecated {
-	s.Events = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Event", v, metadata)
+	}
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetId sets the Id field's value.
-func (s *QueueConfigurationDeprecated) SetId(v string) *QueueConfigurationDeprecated {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Event", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetQueue sets the Queue field's value.
-func (s *QueueConfigurationDeprecated) SetQueue(v string) *QueueConfigurationDeprecated {
-	s.Queue = &v
-	return s
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.Queue != nil {
+		v := *s.Queue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Queue", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Redirect
@@ -15707,7 +19058,7 @@ type Redirect struct {
 
 	// Protocol to use (http, https) when redirecting requests. The default is the
 	// protocol that is used in the original request.
-	Protocol Protocol `type:"string"`
+	Protocol Protocol `type:"string" enum:"true"`
 
 	// The object key prefix to use in the redirect request. For example, to redirect
 	// requests for all pages with prefix docs/ (objects in the docs/ folder) to
@@ -15733,34 +19084,39 @@ func (s Redirect) GoString() string {
 	return s.String()
 }
 
-// SetHostName sets the HostName field's value.
-func (s *Redirect) SetHostName(v string) *Redirect {
-	s.HostName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Redirect) MarshalFields(e protocol.FieldEncoder) error {
+	if s.HostName != nil {
+		v := *s.HostName
 
-// SetHttpRedirectCode sets the HttpRedirectCode field's value.
-func (s *Redirect) SetHttpRedirectCode(v string) *Redirect {
-	s.HttpRedirectCode = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HostName", protocol.StringValue(v), metadata)
+	}
+	if s.HttpRedirectCode != nil {
+		v := *s.HttpRedirectCode
 
-// SetProtocol sets the Protocol field's value.
-func (s *Redirect) SetProtocol(v Protocol) *Redirect {
-	s.Protocol = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HttpRedirectCode", protocol.StringValue(v), metadata)
+	}
+	if len(s.Protocol) > 0 {
+		v := s.Protocol
 
-// SetReplaceKeyPrefixWith sets the ReplaceKeyPrefixWith field's value.
-func (s *Redirect) SetReplaceKeyPrefixWith(v string) *Redirect {
-	s.ReplaceKeyPrefixWith = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Protocol", v, metadata)
+	}
+	if s.ReplaceKeyPrefixWith != nil {
+		v := *s.ReplaceKeyPrefixWith
 
-// SetReplaceKeyWith sets the ReplaceKeyWith field's value.
-func (s *Redirect) SetReplaceKeyWith(v string) *Redirect {
-	s.ReplaceKeyWith = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReplaceKeyPrefixWith", protocol.StringValue(v), metadata)
+	}
+	if s.ReplaceKeyWith != nil {
+		v := *s.ReplaceKeyWith
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReplaceKeyWith", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RedirectAllRequestsTo
@@ -15774,7 +19130,7 @@ type RedirectAllRequestsTo struct {
 
 	// Protocol to use (http, https) when redirecting requests. The default is the
 	// protocol that is used in the original request.
-	Protocol Protocol `type:"string"`
+	Protocol Protocol `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -15801,16 +19157,21 @@ func (s *RedirectAllRequestsTo) Validate() error {
 	return nil
 }
 
-// SetHostName sets the HostName field's value.
-func (s *RedirectAllRequestsTo) SetHostName(v string) *RedirectAllRequestsTo {
-	s.HostName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RedirectAllRequestsTo) MarshalFields(e protocol.FieldEncoder) error {
+	if s.HostName != nil {
+		v := *s.HostName
 
-// SetProtocol sets the Protocol field's value.
-func (s *RedirectAllRequestsTo) SetProtocol(v Protocol) *RedirectAllRequestsTo {
-	s.Protocol = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HostName", protocol.StringValue(v), metadata)
+	}
+	if len(s.Protocol) > 0 {
+		v := s.Protocol
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Protocol", v, metadata)
+	}
+	return nil
 }
 
 // Container for replication rules. You can add as many as 1,000 rules. Total
@@ -15829,7 +19190,7 @@ type ReplicationConfiguration struct {
 	// configuration must have at least one rule and can contain up to 1,000 rules.
 	//
 	// Rules is a required field
-	Rules []*ReplicationRule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
+	Rules []ReplicationRule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
 }
 
 // String returns the string representation
@@ -15855,9 +19216,6 @@ func (s *ReplicationConfiguration) Validate() error {
 	}
 	if s.Rules != nil {
 		for i, v := range s.Rules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Rules", i), err.(aws.ErrInvalidParams))
 			}
@@ -15870,22 +19228,36 @@ func (s *ReplicationConfiguration) Validate() error {
 	return nil
 }
 
-// SetRole sets the Role field's value.
-func (s *ReplicationConfiguration) SetRole(v string) *ReplicationConfiguration {
-	s.Role = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ReplicationConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Role != nil {
+		v := *s.Role
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Role", protocol.StringValue(v), metadata)
+	}
+	if len(s.Rules) > 0 {
+		v := s.Rules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Rule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
-// SetRules sets the Rules field's value.
-func (s *ReplicationConfiguration) SetRules(v []*ReplicationRule) *ReplicationConfiguration {
-	s.Rules = v
-	return s
-}
-
+// Container for information about a particular replication rule.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ReplicationRule
 type ReplicationRule struct {
 	_ struct{} `type:"structure"`
 
+	// Container for replication destination information.
+	//
 	// Destination is a required field
 	Destination *Destination `type:"structure" required:"true"`
 
@@ -15899,10 +19271,13 @@ type ReplicationRule struct {
 	// Prefix is a required field
 	Prefix *string `type:"string" required:"true"`
 
+	// Container for filters that define which source objects should be replicated.
+	SourceSelectionCriteria *SourceSelectionCriteria `type:"structure"`
+
 	// The rule is ignored if status is not Enabled.
 	//
 	// Status is a required field
-	Status ReplicationRuleStatus `type:"string" required:"true"`
+	Status ReplicationRuleStatus `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -15934,6 +19309,11 @@ func (s *ReplicationRule) Validate() error {
 			invalidParams.AddNested("Destination", err.(aws.ErrInvalidParams))
 		}
 	}
+	if s.SourceSelectionCriteria != nil {
+		if err := s.SourceSelectionCriteria.Validate(); err != nil {
+			invalidParams.AddNested("SourceSelectionCriteria", err.(aws.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -15941,28 +19321,39 @@ func (s *ReplicationRule) Validate() error {
 	return nil
 }
 
-// SetDestination sets the Destination field's value.
-func (s *ReplicationRule) SetDestination(v *Destination) *ReplicationRule {
-	s.Destination = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ReplicationRule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Destination != nil {
+		v := s.Destination
 
-// SetID sets the ID field's value.
-func (s *ReplicationRule) SetID(v string) *ReplicationRule {
-	s.ID = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Destination", v, metadata)
+	}
+	if s.ID != nil {
+		v := *s.ID
 
-// SetPrefix sets the Prefix field's value.
-func (s *ReplicationRule) SetPrefix(v string) *ReplicationRule {
-	s.Prefix = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ID", protocol.StringValue(v), metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
 
-// SetStatus sets the Status field's value.
-func (s *ReplicationRule) SetStatus(v ReplicationRuleStatus) *ReplicationRule {
-	s.Status = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if s.SourceSelectionCriteria != nil {
+		v := s.SourceSelectionCriteria
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SourceSelectionCriteria", v, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RequestPaymentConfiguration
@@ -15972,7 +19363,7 @@ type RequestPaymentConfiguration struct {
 	// Specifies who pays for the download and request fees.
 	//
 	// Payer is a required field
-	Payer Payer `type:"string" required:"true"`
+	Payer Payer `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -15998,10 +19389,15 @@ func (s *RequestPaymentConfiguration) Validate() error {
 	return nil
 }
 
-// SetPayer sets the Payer field's value.
-func (s *RequestPaymentConfiguration) SetPayer(v Payer) *RequestPaymentConfiguration {
-	s.Payer = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RequestPaymentConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Payer) > 0 {
+		v := s.Payer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Payer", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObjectRequest
@@ -16018,8 +19414,9 @@ type RestoreObjectInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
+	// Container for restore job parameters.
 	RestoreRequest *RestoreRequest `locationName:"RestoreRequest" type:"structure" xmlURI:"http://s3.amazonaws.com/doc/2006-03-01/"`
 
 	VersionId *string `location:"querystring" locationName:"versionId" type:"string"`
@@ -16061,12 +19458,6 @@ func (s *RestoreObjectInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *RestoreObjectInput) SetBucket(v string) *RestoreObjectInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *RestoreObjectInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
@@ -16074,37 +19465,55 @@ func (s *RestoreObjectInput) getBucket() (v string) {
 	return *s.Bucket
 }
 
-// SetKey sets the Key field's value.
-func (s *RestoreObjectInput) SetKey(v string) *RestoreObjectInput {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RestoreObjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *RestoreObjectInput) SetRequestPayer(v RequestPayer) *RestoreObjectInput {
-	s.RequestPayer = v
-	return s
-}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
 
-// SetRestoreRequest sets the RestoreRequest field's value.
-func (s *RestoreObjectInput) SetRestoreRequest(v *RestoreRequest) *RestoreObjectInput {
-	s.RestoreRequest = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
 
-// SetVersionId sets the VersionId field's value.
-func (s *RestoreObjectInput) SetVersionId(v string) *RestoreObjectInput {
-	s.VersionId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.RestoreRequest != nil {
+		v := s.RestoreRequest
+
+		metadata := protocol.Metadata{XMLNamespaceURI: "http://s3.amazonaws.com/doc/2006-03-01/"}
+		e.SetFields(protocol.PayloadTarget, "RestoreRequest", v, metadata)
+	}
+	if s.VersionId != nil {
+		v := *s.VersionId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "versionId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreObjectOutput
 type RestoreObjectOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
+
+	// Indicates the path in the provided S3 output location where Select results
+	// will be restored to.
+	RestoreOutputPath *string `location:"header" locationName:"x-amz-restore-output-path" type:"string"`
 }
 
 // String returns the string representation
@@ -16117,23 +19526,55 @@ func (s RestoreObjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *RestoreObjectOutput) SetRequestCharged(v RequestCharged) *RestoreObjectOutput {
-	s.RequestCharged = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RestoreObjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RestoreObjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.RestoreOutputPath != nil {
+		v := *s.RestoreOutputPath
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-restore-output-path", protocol.StringValue(v), metadata)
+	}
+	return nil
+}
+
+// Container for restore job parameters.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RestoreRequest
 type RestoreRequest struct {
 	_ struct{} `type:"structure"`
 
-	// Lifetime of the active copy in days
-	//
-	// Days is a required field
-	Days *int64 `type:"integer" required:"true"`
+	// Lifetime of the active copy in days. Do not use with restores that specify
+	// OutputLocation.
+	Days *int64 `type:"integer"`
 
-	// Glacier related prameters pertaining to this job.
+	// The optional description for the job.
+	Description *string `type:"string"`
+
+	// Glacier related parameters pertaining to this job. Do not use with restores
+	// that specify OutputLocation.
 	GlacierJobParameters *GlacierJobParameters `type:"structure"`
+
+	// Describes the location where the restore job's output is stored.
+	OutputLocation *OutputLocation `type:"structure"`
+
+	// Describes the parameters for Select job types.
+	SelectParameters *SelectParameters `type:"structure"`
+
+	// Glacier retrieval tier at which the restore will be processed.
+	Tier Tier `type:"string" enum:"true"`
+
+	// Type of restore request.
+	Type RestoreRequestType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -16149,13 +19590,19 @@ func (s RestoreRequest) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *RestoreRequest) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "RestoreRequest"}
-
-	if s.Days == nil {
-		invalidParams.Add(aws.NewErrParamRequired("Days"))
-	}
 	if s.GlacierJobParameters != nil {
 		if err := s.GlacierJobParameters.Validate(); err != nil {
 			invalidParams.AddNested("GlacierJobParameters", err.(aws.ErrInvalidParams))
+		}
+	}
+	if s.OutputLocation != nil {
+		if err := s.OutputLocation.Validate(); err != nil {
+			invalidParams.AddNested("OutputLocation", err.(aws.ErrInvalidParams))
+		}
+	}
+	if s.SelectParameters != nil {
+		if err := s.SelectParameters.Validate(); err != nil {
+			invalidParams.AddNested("SelectParameters", err.(aws.ErrInvalidParams))
 		}
 	}
 
@@ -16165,16 +19612,51 @@ func (s *RestoreRequest) Validate() error {
 	return nil
 }
 
-// SetDays sets the Days field's value.
-func (s *RestoreRequest) SetDays(v int64) *RestoreRequest {
-	s.Days = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RestoreRequest) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Days != nil {
+		v := *s.Days
 
-// SetGlacierJobParameters sets the GlacierJobParameters field's value.
-func (s *RestoreRequest) SetGlacierJobParameters(v *GlacierJobParameters) *RestoreRequest {
-	s.GlacierJobParameters = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Days", protocol.Int64Value(v), metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Description", protocol.StringValue(v), metadata)
+	}
+	if s.GlacierJobParameters != nil {
+		v := s.GlacierJobParameters
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "GlacierJobParameters", v, metadata)
+	}
+	if s.OutputLocation != nil {
+		v := s.OutputLocation
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "OutputLocation", v, metadata)
+	}
+	if s.SelectParameters != nil {
+		v := s.SelectParameters
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SelectParameters", v, metadata)
+	}
+	if len(s.Tier) > 0 {
+		v := s.Tier
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Tier", v, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/RoutingRule
@@ -16219,16 +19701,21 @@ func (s *RoutingRule) Validate() error {
 	return nil
 }
 
-// SetCondition sets the Condition field's value.
-func (s *RoutingRule) SetCondition(v *Condition) *RoutingRule {
-	s.Condition = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RoutingRule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Condition != nil {
+		v := s.Condition
 
-// SetRedirect sets the Redirect field's value.
-func (s *RoutingRule) SetRedirect(v *Redirect) *RoutingRule {
-	s.Redirect = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Condition", v, metadata)
+	}
+	if s.Redirect != nil {
+		v := s.Redirect
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Redirect", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Rule
@@ -16252,10 +19739,11 @@ type Rule struct {
 	NoncurrentVersionExpiration *NoncurrentVersionExpiration `type:"structure"`
 
 	// Container for the transition rule that describes when noncurrent objects
-	// transition to the STANDARD_IA or GLACIER storage class. If your bucket is
-	// versioning-enabled (or versioning is suspended), you can set this action
-	// to request that Amazon S3 transition noncurrent object versions to the STANDARD_IA
-	// or GLACIER storage class at a specific period in the object's lifetime.
+	// transition to the STANDARD_IA, ONEZONE_IA or GLACIER storage class. If your
+	// bucket is versioning-enabled (or versioning is suspended), you can set this
+	// action to request that Amazon S3 transition noncurrent object versions to
+	// the STANDARD_IA, ONEZONE_IA or GLACIER storage class at a specific period
+	// in the object's lifetime.
 	NoncurrentVersionTransition *NoncurrentVersionTransition `type:"structure"`
 
 	// Prefix identifying one or more objects to which the rule applies.
@@ -16267,7 +19755,7 @@ type Rule struct {
 	// is not currently being applied.
 	//
 	// Status is a required field
-	Status ExpirationStatus `type:"string" required:"true"`
+	Status ExpirationStatus `type:"string" required:"true" enum:"true"`
 
 	Transition *Transition `type:"structure"`
 }
@@ -16299,52 +19787,472 @@ func (s *Rule) Validate() error {
 	return nil
 }
 
-// SetAbortIncompleteMultipartUpload sets the AbortIncompleteMultipartUpload field's value.
-func (s *Rule) SetAbortIncompleteMultipartUpload(v *AbortIncompleteMultipartUpload) *Rule {
-	s.AbortIncompleteMultipartUpload = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Rule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AbortIncompleteMultipartUpload != nil {
+		v := s.AbortIncompleteMultipartUpload
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AbortIncompleteMultipartUpload", v, metadata)
+	}
+	if s.Expiration != nil {
+		v := s.Expiration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Expiration", v, metadata)
+	}
+	if s.ID != nil {
+		v := *s.ID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ID", protocol.StringValue(v), metadata)
+	}
+	if s.NoncurrentVersionExpiration != nil {
+		v := s.NoncurrentVersionExpiration
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "NoncurrentVersionExpiration", v, metadata)
+	}
+	if s.NoncurrentVersionTransition != nil {
+		v := s.NoncurrentVersionTransition
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "NoncurrentVersionTransition", v, metadata)
+	}
+	if s.Prefix != nil {
+		v := *s.Prefix
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Prefix", protocol.StringValue(v), metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	if s.Transition != nil {
+		v := s.Transition
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Transition", v, metadata)
+	}
+	return nil
 }
 
-// SetExpiration sets the Expiration field's value.
-func (s *Rule) SetExpiration(v *LifecycleExpiration) *Rule {
-	s.Expiration = v
-	return s
+// Specifies the use of SSE-KMS to encrypt delievered Inventory reports.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SSEKMS
+type SSEKMS struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the ID of the AWS Key Management Service (KMS) master encryption
+	// key to use for encrypting Inventory reports.
+	//
+	// KeyId is a required field
+	KeyId *string `type:"string" required:"true"`
 }
 
-// SetID sets the ID field's value.
-func (s *Rule) SetID(v string) *Rule {
-	s.ID = &v
-	return s
+// String returns the string representation
+func (s SSEKMS) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetNoncurrentVersionExpiration sets the NoncurrentVersionExpiration field's value.
-func (s *Rule) SetNoncurrentVersionExpiration(v *NoncurrentVersionExpiration) *Rule {
-	s.NoncurrentVersionExpiration = v
-	return s
+// GoString returns the string representation
+func (s SSEKMS) GoString() string {
+	return s.String()
 }
 
-// SetNoncurrentVersionTransition sets the NoncurrentVersionTransition field's value.
-func (s *Rule) SetNoncurrentVersionTransition(v *NoncurrentVersionTransition) *Rule {
-	s.NoncurrentVersionTransition = v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *SSEKMS) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "SSEKMS"}
+
+	if s.KeyId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("KeyId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetPrefix sets the Prefix field's value.
-func (s *Rule) SetPrefix(v string) *Rule {
-	s.Prefix = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SSEKMS) MarshalFields(e protocol.FieldEncoder) error {
+	if s.KeyId != nil {
+		v := *s.KeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
-// SetStatus sets the Status field's value.
-func (s *Rule) SetStatus(v ExpirationStatus) *Rule {
-	s.Status = v
-	return s
+// Specifies the use of SSE-S3 to encrypt delievered Inventory reports.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SSES3
+type SSES3 struct {
+	_ struct{} `type:"structure"`
 }
 
-// SetTransition sets the Transition field's value.
-func (s *Rule) SetTransition(v *Transition) *Rule {
-	s.Transition = v
-	return s
+// String returns the string representation
+func (s SSES3) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s SSES3) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SSES3) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
+// Describes the parameters for Select job types.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SelectParameters
+type SelectParameters struct {
+	_ struct{} `type:"structure"`
+
+	// The expression that is used to query the object.
+	//
+	// Expression is a required field
+	Expression *string `type:"string" required:"true"`
+
+	// The type of the provided expression (e.g., SQL).
+	//
+	// ExpressionType is a required field
+	ExpressionType ExpressionType `type:"string" required:"true" enum:"true"`
+
+	// Describes the serialization format of the object.
+	//
+	// InputSerialization is a required field
+	InputSerialization *InputSerialization `type:"structure" required:"true"`
+
+	// Describes how the results of the Select job are serialized.
+	//
+	// OutputSerialization is a required field
+	OutputSerialization *OutputSerialization `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s SelectParameters) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s SelectParameters) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *SelectParameters) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "SelectParameters"}
+
+	if s.Expression == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Expression"))
+	}
+	if len(s.ExpressionType) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("ExpressionType"))
+	}
+
+	if s.InputSerialization == nil {
+		invalidParams.Add(aws.NewErrParamRequired("InputSerialization"))
+	}
+
+	if s.OutputSerialization == nil {
+		invalidParams.Add(aws.NewErrParamRequired("OutputSerialization"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SelectParameters) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Expression != nil {
+		v := *s.Expression
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Expression", protocol.StringValue(v), metadata)
+	}
+	if len(s.ExpressionType) > 0 {
+		v := s.ExpressionType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ExpressionType", v, metadata)
+	}
+	if s.InputSerialization != nil {
+		v := s.InputSerialization
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "InputSerialization", v, metadata)
+	}
+	if s.OutputSerialization != nil {
+		v := s.OutputSerialization
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "OutputSerialization", v, metadata)
+	}
+	return nil
+}
+
+// Describes the default server-side encryption to apply to new objects in the
+// bucket. If Put Object request does not specify any server-side encryption,
+// this default encryption will be applied.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionByDefault
+type ServerSideEncryptionByDefault struct {
+	_ struct{} `type:"structure"`
+
+	// KMS master key ID to use for the default encryption. This parameter is allowed
+	// if SSEAlgorithm is aws:kms.
+	KMSMasterKeyID *string `type:"string"`
+
+	// Server-side encryption algorithm to use for the default encryption.
+	//
+	// SSEAlgorithm is a required field
+	SSEAlgorithm ServerSideEncryption `type:"string" required:"true" enum:"true"`
+}
+
+// String returns the string representation
+func (s ServerSideEncryptionByDefault) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ServerSideEncryptionByDefault) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ServerSideEncryptionByDefault) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ServerSideEncryptionByDefault"}
+	if len(s.SSEAlgorithm) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("SSEAlgorithm"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ServerSideEncryptionByDefault) MarshalFields(e protocol.FieldEncoder) error {
+	if s.KMSMasterKeyID != nil {
+		v := *s.KMSMasterKeyID
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KMSMasterKeyID", protocol.StringValue(v), metadata)
+	}
+	if len(s.SSEAlgorithm) > 0 {
+		v := s.SSEAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SSEAlgorithm", v, metadata)
+	}
+	return nil
+}
+
+// Container for server-side encryption configuration rules. Currently S3 supports
+// one rule only.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionConfiguration
+type ServerSideEncryptionConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// Container for information about a particular server-side encryption configuration
+	// rule.
+	//
+	// Rules is a required field
+	Rules []ServerSideEncryptionRule `locationName:"Rule" type:"list" flattened:"true" required:"true"`
+}
+
+// String returns the string representation
+func (s ServerSideEncryptionConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ServerSideEncryptionConfiguration) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ServerSideEncryptionConfiguration) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ServerSideEncryptionConfiguration"}
+
+	if s.Rules == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Rules"))
+	}
+	if s.Rules != nil {
+		for i, v := range s.Rules {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Rules", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ServerSideEncryptionConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Rules) > 0 {
+		v := s.Rules
+
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Rule", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
+}
+
+// Container for information about a particular server-side encryption configuration
+// rule.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ServerSideEncryptionRule
+type ServerSideEncryptionRule struct {
+	_ struct{} `type:"structure"`
+
+	// Describes the default server-side encryption to apply to new objects in the
+	// bucket. If Put Object request does not specify any server-side encryption,
+	// this default encryption will be applied.
+	ApplyServerSideEncryptionByDefault *ServerSideEncryptionByDefault `type:"structure"`
+}
+
+// String returns the string representation
+func (s ServerSideEncryptionRule) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ServerSideEncryptionRule) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ServerSideEncryptionRule) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ServerSideEncryptionRule"}
+	if s.ApplyServerSideEncryptionByDefault != nil {
+		if err := s.ApplyServerSideEncryptionByDefault.Validate(); err != nil {
+			invalidParams.AddNested("ApplyServerSideEncryptionByDefault", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ServerSideEncryptionRule) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApplyServerSideEncryptionByDefault != nil {
+		v := s.ApplyServerSideEncryptionByDefault
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ApplyServerSideEncryptionByDefault", v, metadata)
+	}
+	return nil
+}
+
+// Container for filters that define which source objects should be replicated.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SourceSelectionCriteria
+type SourceSelectionCriteria struct {
+	_ struct{} `type:"structure"`
+
+	// Container for filter information of selection of KMS Encrypted S3 objects.
+	SseKmsEncryptedObjects *SseKmsEncryptedObjects `type:"structure"`
+}
+
+// String returns the string representation
+func (s SourceSelectionCriteria) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s SourceSelectionCriteria) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *SourceSelectionCriteria) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "SourceSelectionCriteria"}
+	if s.SseKmsEncryptedObjects != nil {
+		if err := s.SseKmsEncryptedObjects.Validate(); err != nil {
+			invalidParams.AddNested("SseKmsEncryptedObjects", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SourceSelectionCriteria) MarshalFields(e protocol.FieldEncoder) error {
+	if s.SseKmsEncryptedObjects != nil {
+		v := s.SseKmsEncryptedObjects
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SseKmsEncryptedObjects", v, metadata)
+	}
+	return nil
+}
+
+// Container for filter information of selection of KMS Encrypted S3 objects.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/SseKmsEncryptedObjects
+type SseKmsEncryptedObjects struct {
+	_ struct{} `type:"structure"`
+
+	// The replication for KMS encrypted S3 objects is disabled if status is not
+	// Enabled.
+	//
+	// Status is a required field
+	Status SseKmsEncryptedObjectsStatus `type:"string" required:"true" enum:"true"`
+}
+
+// String returns the string representation
+func (s SseKmsEncryptedObjects) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s SseKmsEncryptedObjects) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *SseKmsEncryptedObjects) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "SseKmsEncryptedObjects"}
+	if len(s.Status) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("Status"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SseKmsEncryptedObjects) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StorageClassAnalysis
@@ -16381,10 +20289,15 @@ func (s *StorageClassAnalysis) Validate() error {
 	return nil
 }
 
-// SetDataExport sets the DataExport field's value.
-func (s *StorageClassAnalysis) SetDataExport(v *StorageClassAnalysisDataExport) *StorageClassAnalysis {
-	s.DataExport = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StorageClassAnalysis) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DataExport != nil {
+		v := s.DataExport
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DataExport", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/StorageClassAnalysisDataExport
@@ -16399,7 +20312,7 @@ type StorageClassAnalysisDataExport struct {
 	// The version of the output schema to use when exporting data. Must be V_1.
 	//
 	// OutputSchemaVersion is a required field
-	OutputSchemaVersion StorageClassAnalysisSchemaVersion `type:"string" required:"true"`
+	OutputSchemaVersion StorageClassAnalysisSchemaVersion `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -16434,16 +20347,21 @@ func (s *StorageClassAnalysisDataExport) Validate() error {
 	return nil
 }
 
-// SetDestination sets the Destination field's value.
-func (s *StorageClassAnalysisDataExport) SetDestination(v *AnalyticsExportDestination) *StorageClassAnalysisDataExport {
-	s.Destination = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StorageClassAnalysisDataExport) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Destination != nil {
+		v := s.Destination
 
-// SetOutputSchemaVersion sets the OutputSchemaVersion field's value.
-func (s *StorageClassAnalysisDataExport) SetOutputSchemaVersion(v StorageClassAnalysisSchemaVersion) *StorageClassAnalysisDataExport {
-	s.OutputSchemaVersion = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Destination", v, metadata)
+	}
+	if len(s.OutputSchemaVersion) > 0 {
+		v := s.OutputSchemaVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OutputSchemaVersion", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tag
@@ -16492,16 +20410,21 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Tag) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := *s.Key
 
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Tagging
@@ -16509,7 +20432,7 @@ type Tagging struct {
 	_ struct{} `type:"structure"`
 
 	// TagSet is a required field
-	TagSet []*Tag `locationNameList:"Tag" type:"list" required:"true"`
+	TagSet []Tag `locationNameList:"Tag" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -16531,9 +20454,6 @@ func (s *Tagging) Validate() error {
 	}
 	if s.TagSet != nil {
 		for i, v := range s.TagSet {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagSet", i), err.(aws.ErrInvalidParams))
 			}
@@ -16546,10 +20466,21 @@ func (s *Tagging) Validate() error {
 	return nil
 }
 
-// SetTagSet sets the TagSet field's value.
-func (s *Tagging) SetTagSet(v []*Tag) *Tagging {
-	s.TagSet = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Tagging) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.TagSet) > 0 {
+		v := s.TagSet
+
+		metadata := protocol.Metadata{ListLocationName: "Tag"}
+		ls0 := e.List(protocol.BodyTarget, "TagSet", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TargetGrant
@@ -16559,7 +20490,7 @@ type TargetGrant struct {
 	Grantee *Grantee `type:"structure" xmlPrefix:"xsi" xmlURI:"http://www.w3.org/2001/XMLSchema-instance"`
 
 	// Logging permissions assigned to the Grantee for the bucket.
-	Permission BucketLogsPermission `type:"string"`
+	Permission BucketLogsPermission `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -16587,16 +20518,27 @@ func (s *TargetGrant) Validate() error {
 	return nil
 }
 
-// SetGrantee sets the Grantee field's value.
-func (s *TargetGrant) SetGrantee(v *Grantee) *TargetGrant {
-	s.Grantee = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TargetGrant) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Grantee != nil {
+		v := s.Grantee
+		attrs := make([]protocol.Attribute, 0, 1)
 
-// SetPermission sets the Permission field's value.
-func (s *TargetGrant) SetPermission(v BucketLogsPermission) *TargetGrant {
-	s.Permission = v
-	return s
+		if len(s.Grantee.Type) > 0 {
+
+			v := s.Grantee.Type
+			attrs = append(attrs, protocol.Attribute{Name: "xsi:type", Value: v, Meta: protocol.Metadata{}})
+		}
+		metadata := protocol.Metadata{Attributes: attrs, XMLNamespacePrefix: "xsi", XMLNamespaceURI: "http://www.w3.org/2001/XMLSchema-instance"}
+		e.SetFields(protocol.BodyTarget, "Grantee", v, metadata)
+	}
+	if len(s.Permission) > 0 {
+		v := s.Permission
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Permission", v, metadata)
+	}
+	return nil
 }
 
 // Container for specifying the configuration when you want Amazon S3 to publish
@@ -16651,28 +20593,39 @@ func (s *TopicConfiguration) Validate() error {
 	return nil
 }
 
-// SetEvents sets the Events field's value.
-func (s *TopicConfiguration) SetEvents(v []Event) *TopicConfiguration {
-	s.Events = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TopicConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetFilter sets the Filter field's value.
-func (s *TopicConfiguration) SetFilter(v *NotificationConfigurationFilter) *TopicConfiguration {
-	s.Filter = v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Event", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetId sets the Id field's value.
-func (s *TopicConfiguration) SetId(v string) *TopicConfiguration {
-	s.Id = &v
-	return s
-}
+	}
+	if s.Filter != nil {
+		v := s.Filter
 
-// SetTopicArn sets the TopicArn field's value.
-func (s *TopicConfiguration) SetTopicArn(v string) *TopicConfiguration {
-	s.TopicArn = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Filter", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.TopicArn != nil {
+		v := *s.TopicArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Topic", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/TopicConfigurationDeprecated
@@ -16680,7 +20633,7 @@ type TopicConfigurationDeprecated struct {
 	_ struct{} `type:"structure"`
 
 	// Bucket event for which to send notifications.
-	Event Event `deprecated:"true" type:"string"`
+	Event Event `deprecated:"true" type:"string" enum:"true"`
 
 	Events []Event `locationName:"Event" type:"list" flattened:"true"`
 
@@ -16703,28 +20656,39 @@ func (s TopicConfigurationDeprecated) GoString() string {
 	return s.String()
 }
 
-// SetEvent sets the Event field's value.
-func (s *TopicConfigurationDeprecated) SetEvent(v Event) *TopicConfigurationDeprecated {
-	s.Event = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TopicConfigurationDeprecated) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Event) > 0 {
+		v := s.Event
 
-// SetEvents sets the Events field's value.
-func (s *TopicConfigurationDeprecated) SetEvents(v []Event) *TopicConfigurationDeprecated {
-	s.Events = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Event", v, metadata)
+	}
+	if len(s.Events) > 0 {
+		v := s.Events
 
-// SetId sets the Id field's value.
-func (s *TopicConfigurationDeprecated) SetId(v string) *TopicConfigurationDeprecated {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{Flatten: true}
+		ls0 := e.List(protocol.BodyTarget, "Event", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.StringValue(v1))
+		}
+		ls0.End()
 
-// SetTopic sets the Topic field's value.
-func (s *TopicConfigurationDeprecated) SetTopic(v string) *TopicConfigurationDeprecated {
-	s.Topic = &v
-	return s
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.StringValue(v), metadata)
+	}
+	if s.Topic != nil {
+		v := *s.Topic
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Topic", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/Transition
@@ -16740,7 +20704,7 @@ type Transition struct {
 	Days *int64 `type:"integer"`
 
 	// The class of storage used to store the object.
-	StorageClass TransitionStorageClass `type:"string"`
+	StorageClass TransitionStorageClass `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -16753,22 +20717,27 @@ func (s Transition) GoString() string {
 	return s.String()
 }
 
-// SetDate sets the Date field's value.
-func (s *Transition) SetDate(v time.Time) *Transition {
-	s.Date = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Transition) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Date != nil {
+		v := *s.Date
 
-// SetDays sets the Days field's value.
-func (s *Transition) SetDays(v int64) *Transition {
-	s.Days = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Date", protocol.TimeValue{V: v, Format: protocol.ISO8601TimeFormat}, metadata)
+	}
+	if s.Days != nil {
+		v := *s.Days
 
-// SetStorageClass sets the StorageClass field's value.
-func (s *Transition) SetStorageClass(v TransitionStorageClass) *Transition {
-	s.StorageClass = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Days", protocol.Int64Value(v), metadata)
+	}
+	if len(s.StorageClass) > 0 {
+		v := s.StorageClass
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageClass", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopyRequest
@@ -16830,7 +20799,7 @@ type UploadPartCopyInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
 	SSECustomerAlgorithm *string `location:"header" locationName:"x-amz-server-side-encryption-customer-algorithm" type:"string"`
@@ -16897,65 +20866,11 @@ func (s *UploadPartCopyInput) Validate() error {
 	return nil
 }
 
-// SetBucket sets the Bucket field's value.
-func (s *UploadPartCopyInput) SetBucket(v string) *UploadPartCopyInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *UploadPartCopyInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetCopySource sets the CopySource field's value.
-func (s *UploadPartCopyInput) SetCopySource(v string) *UploadPartCopyInput {
-	s.CopySource = &v
-	return s
-}
-
-// SetCopySourceIfMatch sets the CopySourceIfMatch field's value.
-func (s *UploadPartCopyInput) SetCopySourceIfMatch(v string) *UploadPartCopyInput {
-	s.CopySourceIfMatch = &v
-	return s
-}
-
-// SetCopySourceIfModifiedSince sets the CopySourceIfModifiedSince field's value.
-func (s *UploadPartCopyInput) SetCopySourceIfModifiedSince(v time.Time) *UploadPartCopyInput {
-	s.CopySourceIfModifiedSince = &v
-	return s
-}
-
-// SetCopySourceIfNoneMatch sets the CopySourceIfNoneMatch field's value.
-func (s *UploadPartCopyInput) SetCopySourceIfNoneMatch(v string) *UploadPartCopyInput {
-	s.CopySourceIfNoneMatch = &v
-	return s
-}
-
-// SetCopySourceIfUnmodifiedSince sets the CopySourceIfUnmodifiedSince field's value.
-func (s *UploadPartCopyInput) SetCopySourceIfUnmodifiedSince(v time.Time) *UploadPartCopyInput {
-	s.CopySourceIfUnmodifiedSince = &v
-	return s
-}
-
-// SetCopySourceRange sets the CopySourceRange field's value.
-func (s *UploadPartCopyInput) SetCopySourceRange(v string) *UploadPartCopyInput {
-	s.CopySourceRange = &v
-	return s
-}
-
-// SetCopySourceSSECustomerAlgorithm sets the CopySourceSSECustomerAlgorithm field's value.
-func (s *UploadPartCopyInput) SetCopySourceSSECustomerAlgorithm(v string) *UploadPartCopyInput {
-	s.CopySourceSSECustomerAlgorithm = &v
-	return s
-}
-
-// SetCopySourceSSECustomerKey sets the CopySourceSSECustomerKey field's value.
-func (s *UploadPartCopyInput) SetCopySourceSSECustomerKey(v string) *UploadPartCopyInput {
-	s.CopySourceSSECustomerKey = &v
-	return s
 }
 
 func (s *UploadPartCopyInput) getCopySourceSSECustomerKey() (v string) {
@@ -16965,42 +20880,6 @@ func (s *UploadPartCopyInput) getCopySourceSSECustomerKey() (v string) {
 	return *s.CopySourceSSECustomerKey
 }
 
-// SetCopySourceSSECustomerKeyMD5 sets the CopySourceSSECustomerKeyMD5 field's value.
-func (s *UploadPartCopyInput) SetCopySourceSSECustomerKeyMD5(v string) *UploadPartCopyInput {
-	s.CopySourceSSECustomerKeyMD5 = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *UploadPartCopyInput) SetKey(v string) *UploadPartCopyInput {
-	s.Key = &v
-	return s
-}
-
-// SetPartNumber sets the PartNumber field's value.
-func (s *UploadPartCopyInput) SetPartNumber(v int64) *UploadPartCopyInput {
-	s.PartNumber = &v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *UploadPartCopyInput) SetRequestPayer(v RequestPayer) *UploadPartCopyInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *UploadPartCopyInput) SetSSECustomerAlgorithm(v string) *UploadPartCopyInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *UploadPartCopyInput) SetSSECustomerKey(v string) *UploadPartCopyInput {
-	s.SSECustomerKey = &v
-	return s
-}
-
 func (s *UploadPartCopyInput) getSSECustomerKey() (v string) {
 	if s.SSECustomerKey == nil {
 		return v
@@ -17008,21 +20887,119 @@ func (s *UploadPartCopyInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *UploadPartCopyInput) SetSSECustomerKeyMD5(v string) *UploadPartCopyInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UploadPartCopyInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetUploadId sets the UploadId field's value.
-func (s *UploadPartCopyInput) SetUploadId(v string) *UploadPartCopyInput {
-	s.UploadId = &v
-	return s
+	if s.CopySource != nil {
+		v := *s.CopySource
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceIfMatch != nil {
+		v := *s.CopySourceIfMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-match", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceIfModifiedSince != nil {
+		v := *s.CopySourceIfModifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-modified-since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.CopySourceIfNoneMatch != nil {
+		v := *s.CopySourceIfNoneMatch
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-none-match", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceIfUnmodifiedSince != nil {
+		v := *s.CopySourceIfUnmodifiedSince
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-if-unmodified-since", protocol.TimeValue{V: v, Format: protocol.RFC822TimeFromat}, metadata)
+	}
+	if s.CopySourceRange != nil {
+		v := *s.CopySourceRange
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-range", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceSSECustomerAlgorithm != nil {
+		v := *s.CopySourceSSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceSSECustomerKey != nil {
+		v := *s.CopySourceSSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.CopySourceSSECustomerKeyMD5 != nil {
+		v := *s.CopySourceSSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.PartNumber != nil {
+		v := *s.PartNumber
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "partNumber", protocol.Int64Value(v), metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "uploadId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartCopyOutput
 type UploadPartCopyOutput struct {
 	_ struct{} `type:"structure" payload:"CopyPartResult"`
+
+	responseMetadata aws.Response
 
 	CopyPartResult *CopyPartResult `type:"structure"`
 
@@ -17032,7 +21009,7 @@ type UploadPartCopyOutput struct {
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// If server-side encryption with a customer-provided encryption key was requested,
 	// the response will include this header confirming the encryption algorithm
@@ -17050,7 +21027,7 @@ type UploadPartCopyOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -17063,46 +21040,56 @@ func (s UploadPartCopyOutput) GoString() string {
 	return s.String()
 }
 
-// SetCopyPartResult sets the CopyPartResult field's value.
-func (s *UploadPartCopyOutput) SetCopyPartResult(v *CopyPartResult) *UploadPartCopyOutput {
-	s.CopyPartResult = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UploadPartCopyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetCopySourceVersionId sets the CopySourceVersionId field's value.
-func (s *UploadPartCopyOutput) SetCopySourceVersionId(v string) *UploadPartCopyOutput {
-	s.CopySourceVersionId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UploadPartCopyOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CopySourceVersionId != nil {
+		v := *s.CopySourceVersionId
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *UploadPartCopyOutput) SetRequestCharged(v RequestCharged) *UploadPartCopyOutput {
-	s.RequestCharged = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-copy-source-version-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *UploadPartCopyOutput) SetSSECustomerAlgorithm(v string) *UploadPartCopyOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *UploadPartCopyOutput) SetSSECustomerKeyMD5(v string) *UploadPartCopyOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *UploadPartCopyOutput) SetSSEKMSKeyId(v string) *UploadPartCopyOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *UploadPartCopyOutput) SetServerSideEncryption(v ServerSideEncryption) *UploadPartCopyOutput {
-	s.ServerSideEncryption = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	if s.CopyPartResult != nil {
+		v := s.CopyPartResult
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.PayloadTarget, "CopyPartResult", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartRequest
@@ -17139,7 +21126,7 @@ type UploadPartInput struct {
 	// request. Bucket owners need not specify this parameter in their requests.
 	// Documentation on downloading objects from requester pays buckets can be found
 	// at http://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
-	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string"`
+	RequestPayer RequestPayer `location:"header" locationName:"x-amz-request-payer" type:"string" enum:"true"`
 
 	// Specifies the algorithm to use to when encrypting the object (e.g., AES256).
 	SSECustomerAlgorithm *string `location:"header" locationName:"x-amz-server-side-encryption-customer-algorithm" type:"string"`
@@ -17202,65 +21189,11 @@ func (s *UploadPartInput) Validate() error {
 	return nil
 }
 
-// SetBody sets the Body field's value.
-func (s *UploadPartInput) SetBody(v io.ReadSeeker) *UploadPartInput {
-	s.Body = v
-	return s
-}
-
-// SetBucket sets the Bucket field's value.
-func (s *UploadPartInput) SetBucket(v string) *UploadPartInput {
-	s.Bucket = &v
-	return s
-}
-
 func (s *UploadPartInput) getBucket() (v string) {
 	if s.Bucket == nil {
 		return v
 	}
 	return *s.Bucket
-}
-
-// SetContentLength sets the ContentLength field's value.
-func (s *UploadPartInput) SetContentLength(v int64) *UploadPartInput {
-	s.ContentLength = &v
-	return s
-}
-
-// SetContentMD5 sets the ContentMD5 field's value.
-func (s *UploadPartInput) SetContentMD5(v string) *UploadPartInput {
-	s.ContentMD5 = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *UploadPartInput) SetKey(v string) *UploadPartInput {
-	s.Key = &v
-	return s
-}
-
-// SetPartNumber sets the PartNumber field's value.
-func (s *UploadPartInput) SetPartNumber(v int64) *UploadPartInput {
-	s.PartNumber = &v
-	return s
-}
-
-// SetRequestPayer sets the RequestPayer field's value.
-func (s *UploadPartInput) SetRequestPayer(v RequestPayer) *UploadPartInput {
-	s.RequestPayer = v
-	return s
-}
-
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *UploadPartInput) SetSSECustomerAlgorithm(v string) *UploadPartInput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
-
-// SetSSECustomerKey sets the SSECustomerKey field's value.
-func (s *UploadPartInput) SetSSECustomerKey(v string) *UploadPartInput {
-	s.SSECustomerKey = &v
-	return s
 }
 
 func (s *UploadPartInput) getSSECustomerKey() (v string) {
@@ -17270,28 +21203,90 @@ func (s *UploadPartInput) getSSECustomerKey() (v string) {
 	return *s.SSECustomerKey
 }
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *UploadPartInput) SetSSECustomerKeyMD5(v string) *UploadPartInput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UploadPartInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetUploadId sets the UploadId field's value.
-func (s *UploadPartInput) SetUploadId(v string) *UploadPartInput {
-	s.UploadId = &v
-	return s
+	if s.ContentLength != nil {
+		v := *s.ContentLength
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-Length", protocol.Int64Value(v), metadata)
+	}
+	if s.ContentMD5 != nil {
+		v := *s.ContentMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "Content-MD5", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestPayer) > 0 {
+		v := s.RequestPayer
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-payer", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKey != nil {
+		v := *s.SSECustomerKey
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.Bucket != nil {
+		v := *s.Bucket
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Bucket", protocol.StringValue(v), metadata)
+	}
+	if s.Key != nil {
+		v := *s.Key
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "Key", protocol.StringValue(v), metadata)
+	}
+	if s.Body != nil {
+		v := s.Body
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "Body", protocol.ReadSeekerStream{V: v}, metadata)
+	}
+	if s.PartNumber != nil {
+		v := *s.PartNumber
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "partNumber", protocol.Int64Value(v), metadata)
+	}
+	if s.UploadId != nil {
+		v := *s.UploadId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "uploadId", protocol.StringValue(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/UploadPartOutput
 type UploadPartOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Entity tag for the uploaded object.
 	ETag *string `location:"header" locationName:"ETag" type:"string"`
 
 	// If present, indicates that the requester was successfully charged for the
 	// request.
-	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string"`
+	RequestCharged RequestCharged `location:"header" locationName:"x-amz-request-charged" type:"string" enum:"true"`
 
 	// If server-side encryption with a customer-provided encryption key was requested,
 	// the response will include this header confirming the encryption algorithm
@@ -17309,7 +21304,7 @@ type UploadPartOutput struct {
 
 	// The Server-side encryption algorithm used when storing this object in S3
 	// (e.g., AES256, aws:kms).
-	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string"`
+	ServerSideEncryption ServerSideEncryption `location:"header" locationName:"x-amz-server-side-encryption" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -17322,40 +21317,50 @@ func (s UploadPartOutput) GoString() string {
 	return s.String()
 }
 
-// SetETag sets the ETag field's value.
-func (s *UploadPartOutput) SetETag(v string) *UploadPartOutput {
-	s.ETag = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UploadPartOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetRequestCharged sets the RequestCharged field's value.
-func (s *UploadPartOutput) SetRequestCharged(v RequestCharged) *UploadPartOutput {
-	s.RequestCharged = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UploadPartOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ETag != nil {
+		v := *s.ETag
 
-// SetSSECustomerAlgorithm sets the SSECustomerAlgorithm field's value.
-func (s *UploadPartOutput) SetSSECustomerAlgorithm(v string) *UploadPartOutput {
-	s.SSECustomerAlgorithm = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "ETag", protocol.StringValue(v), metadata)
+	}
+	if len(s.RequestCharged) > 0 {
+		v := s.RequestCharged
 
-// SetSSECustomerKeyMD5 sets the SSECustomerKeyMD5 field's value.
-func (s *UploadPartOutput) SetSSECustomerKeyMD5(v string) *UploadPartOutput {
-	s.SSECustomerKeyMD5 = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-request-charged", v, metadata)
+	}
+	if s.SSECustomerAlgorithm != nil {
+		v := *s.SSECustomerAlgorithm
 
-// SetSSEKMSKeyId sets the SSEKMSKeyId field's value.
-func (s *UploadPartOutput) SetSSEKMSKeyId(v string) *UploadPartOutput {
-	s.SSEKMSKeyId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-algorithm", protocol.StringValue(v), metadata)
+	}
+	if s.SSECustomerKeyMD5 != nil {
+		v := *s.SSECustomerKeyMD5
 
-// SetServerSideEncryption sets the ServerSideEncryption field's value.
-func (s *UploadPartOutput) SetServerSideEncryption(v ServerSideEncryption) *UploadPartOutput {
-	s.ServerSideEncryption = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-customer-key-MD5", protocol.StringValue(v), metadata)
+	}
+	if s.SSEKMSKeyId != nil {
+		v := *s.SSEKMSKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption-aws-kms-key-id", protocol.StringValue(v), metadata)
+	}
+	if len(s.ServerSideEncryption) > 0 {
+		v := s.ServerSideEncryption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.HeaderTarget, "x-amz-server-side-encryption", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/VersioningConfiguration
@@ -17365,10 +21370,10 @@ type VersioningConfiguration struct {
 	// Specifies whether MFA delete is enabled in the bucket versioning configuration.
 	// This element is only returned if the bucket has been configured with MFA
 	// delete. If the bucket has never been so configured, this element is not returned.
-	MFADelete MFADelete `locationName:"MfaDelete" type:"string"`
+	MFADelete MFADelete `locationName:"MfaDelete" type:"string" enum:"true"`
 
 	// The versioning state of the bucket.
-	Status BucketVersioningStatus `type:"string"`
+	Status BucketVersioningStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -17381,16 +21386,21 @@ func (s VersioningConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetMFADelete sets the MFADelete field's value.
-func (s *VersioningConfiguration) SetMFADelete(v MFADelete) *VersioningConfiguration {
-	s.MFADelete = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s VersioningConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.MFADelete) > 0 {
+		v := s.MFADelete
 
-// SetStatus sets the Status field's value.
-func (s *VersioningConfiguration) SetStatus(v BucketVersioningStatus) *VersioningConfiguration {
-	s.Status = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MfaDelete", v, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/WebsiteConfiguration
@@ -17403,7 +21413,7 @@ type WebsiteConfiguration struct {
 
 	RedirectAllRequestsTo *RedirectAllRequestsTo `type:"structure"`
 
-	RoutingRules []*RoutingRule `locationNameList:"RoutingRule" type:"list"`
+	RoutingRules []RoutingRule `locationNameList:"RoutingRule" type:"list"`
 }
 
 // String returns the string representation
@@ -17436,9 +21446,6 @@ func (s *WebsiteConfiguration) Validate() error {
 	}
 	if s.RoutingRules != nil {
 		for i, v := range s.RoutingRules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "RoutingRules", i), err.(aws.ErrInvalidParams))
 			}
@@ -17451,28 +21458,39 @@ func (s *WebsiteConfiguration) Validate() error {
 	return nil
 }
 
-// SetErrorDocument sets the ErrorDocument field's value.
-func (s *WebsiteConfiguration) SetErrorDocument(v *ErrorDocument) *WebsiteConfiguration {
-	s.ErrorDocument = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s WebsiteConfiguration) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorDocument != nil {
+		v := s.ErrorDocument
 
-// SetIndexDocument sets the IndexDocument field's value.
-func (s *WebsiteConfiguration) SetIndexDocument(v *IndexDocument) *WebsiteConfiguration {
-	s.IndexDocument = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ErrorDocument", v, metadata)
+	}
+	if s.IndexDocument != nil {
+		v := s.IndexDocument
 
-// SetRedirectAllRequestsTo sets the RedirectAllRequestsTo field's value.
-func (s *WebsiteConfiguration) SetRedirectAllRequestsTo(v *RedirectAllRequestsTo) *WebsiteConfiguration {
-	s.RedirectAllRequestsTo = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "IndexDocument", v, metadata)
+	}
+	if s.RedirectAllRequestsTo != nil {
+		v := s.RedirectAllRequestsTo
 
-// SetRoutingRules sets the RoutingRules field's value.
-func (s *WebsiteConfiguration) SetRoutingRules(v []*RoutingRule) *WebsiteConfiguration {
-	s.RoutingRules = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "RedirectAllRequestsTo", v, metadata)
+	}
+	if len(s.RoutingRules) > 0 {
+		v := s.RoutingRules
+
+		metadata := protocol.Metadata{ListLocationName: "RoutingRule"}
+		ls0 := e.List(protocol.BodyTarget, "RoutingRules", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type AnalyticsS3ExportFileFormat string
@@ -17482,6 +21500,15 @@ const (
 	AnalyticsS3ExportFileFormatCsv AnalyticsS3ExportFileFormat = "CSV"
 )
 
+func (enum AnalyticsS3ExportFileFormat) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AnalyticsS3ExportFileFormat) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BucketAccelerateStatus string
 
 // Enum values for BucketAccelerateStatus
@@ -17489,6 +21516,15 @@ const (
 	BucketAccelerateStatusEnabled   BucketAccelerateStatus = "Enabled"
 	BucketAccelerateStatusSuspended BucketAccelerateStatus = "Suspended"
 )
+
+func (enum BucketAccelerateStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BucketAccelerateStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type BucketCannedACL string
 
@@ -17499,6 +21535,15 @@ const (
 	BucketCannedACLPublicReadWrite   BucketCannedACL = "public-read-write"
 	BucketCannedACLAuthenticatedRead BucketCannedACL = "authenticated-read"
 )
+
+func (enum BucketCannedACL) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BucketCannedACL) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type BucketLocationConstraint string
 
@@ -17517,6 +21562,15 @@ const (
 	BucketLocationConstraintEuCentral1   BucketLocationConstraint = "eu-central-1"
 )
 
+func (enum BucketLocationConstraint) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BucketLocationConstraint) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BucketLogsPermission string
 
 // Enum values for BucketLogsPermission
@@ -17526,6 +21580,15 @@ const (
 	BucketLogsPermissionWrite       BucketLogsPermission = "WRITE"
 )
 
+func (enum BucketLogsPermission) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BucketLogsPermission) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BucketVersioningStatus string
 
 // Enum values for BucketVersioningStatus
@@ -17533,6 +21596,32 @@ const (
 	BucketVersioningStatusEnabled   BucketVersioningStatus = "Enabled"
 	BucketVersioningStatusSuspended BucketVersioningStatus = "Suspended"
 )
+
+func (enum BucketVersioningStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BucketVersioningStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type CompressionType string
+
+// Enum values for CompressionType
+const (
+	CompressionTypeNone CompressionType = "NONE"
+	CompressionTypeGzip CompressionType = "GZIP"
+)
+
+func (enum CompressionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CompressionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Requests Amazon S3 to encode the object keys in the response and specifies
 // the encoding method to use. An object key may contain any Unicode character;
@@ -17546,6 +21635,15 @@ type EncodingType string
 const (
 	EncodingTypeUrl EncodingType = "url"
 )
+
+func (enum EncodingType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EncodingType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Bucket event for which to send notifications.
 type Event string
@@ -17563,6 +21661,15 @@ const (
 	EventS3ObjectRemovedDeleteMarkerCreated     Event = "s3:ObjectRemoved:DeleteMarkerCreated"
 )
 
+func (enum Event) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Event) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ExpirationStatus string
 
 // Enum values for ExpirationStatus
@@ -17570,6 +21677,49 @@ const (
 	ExpirationStatusEnabled  ExpirationStatus = "Enabled"
 	ExpirationStatusDisabled ExpirationStatus = "Disabled"
 )
+
+func (enum ExpirationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExpirationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type ExpressionType string
+
+// Enum values for ExpressionType
+const (
+	ExpressionTypeSql ExpressionType = "SQL"
+)
+
+func (enum ExpressionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExpressionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type FileHeaderInfo string
+
+// Enum values for FileHeaderInfo
+const (
+	FileHeaderInfoUse    FileHeaderInfo = "USE"
+	FileHeaderInfoIgnore FileHeaderInfo = "IGNORE"
+	FileHeaderInfoNone   FileHeaderInfo = "NONE"
+)
+
+func (enum FileHeaderInfo) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FileHeaderInfo) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type FilterRuleName string
 
@@ -17579,12 +21729,31 @@ const (
 	FilterRuleNameSuffix FilterRuleName = "suffix"
 )
 
+func (enum FilterRuleName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FilterRuleName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InventoryFormat string
 
 // Enum values for InventoryFormat
 const (
 	InventoryFormatCsv InventoryFormat = "CSV"
+	InventoryFormatOrc InventoryFormat = "ORC"
 )
+
+func (enum InventoryFormat) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryFormat) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InventoryFrequency string
 
@@ -17594,6 +21763,15 @@ const (
 	InventoryFrequencyWeekly InventoryFrequency = "Weekly"
 )
 
+func (enum InventoryFrequency) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryFrequency) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InventoryIncludedObjectVersions string
 
 // Enum values for InventoryIncludedObjectVersions
@@ -17601,6 +21779,15 @@ const (
 	InventoryIncludedObjectVersionsAll     InventoryIncludedObjectVersions = "All"
 	InventoryIncludedObjectVersionsCurrent InventoryIncludedObjectVersions = "Current"
 )
+
+func (enum InventoryIncludedObjectVersions) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryIncludedObjectVersions) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InventoryOptionalField string
 
@@ -17612,7 +21799,34 @@ const (
 	InventoryOptionalFieldEtag                InventoryOptionalField = "ETag"
 	InventoryOptionalFieldIsMultipartUploaded InventoryOptionalField = "IsMultipartUploaded"
 	InventoryOptionalFieldReplicationStatus   InventoryOptionalField = "ReplicationStatus"
+	InventoryOptionalFieldEncryptionStatus    InventoryOptionalField = "EncryptionStatus"
 )
+
+func (enum InventoryOptionalField) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryOptionalField) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type JSONType string
+
+// Enum values for JSONType
+const (
+	JSONTypeDocument JSONType = "DOCUMENT"
+	JSONTypeLines    JSONType = "LINES"
+)
+
+func (enum JSONType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum JSONType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type MFADelete string
 
@@ -17622,6 +21836,15 @@ const (
 	MFADeleteDisabled MFADelete = "Disabled"
 )
 
+func (enum MFADelete) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MFADelete) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MFADeleteStatus string
 
 // Enum values for MFADeleteStatus
@@ -17630,6 +21853,15 @@ const (
 	MFADeleteStatusDisabled MFADeleteStatus = "Disabled"
 )
 
+func (enum MFADeleteStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MFADeleteStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MetadataDirective string
 
 // Enum values for MetadataDirective
@@ -17637,6 +21869,15 @@ const (
 	MetadataDirectiveCopy    MetadataDirective = "COPY"
 	MetadataDirectiveReplace MetadataDirective = "REPLACE"
 )
+
+func (enum MetadataDirective) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MetadataDirective) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ObjectCannedACL string
 
@@ -17651,6 +21892,15 @@ const (
 	ObjectCannedACLBucketOwnerFullControl ObjectCannedACL = "bucket-owner-full-control"
 )
 
+func (enum ObjectCannedACL) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ObjectCannedACL) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ObjectStorageClass string
 
 // Enum values for ObjectStorageClass
@@ -17658,7 +21908,18 @@ const (
 	ObjectStorageClassStandard          ObjectStorageClass = "STANDARD"
 	ObjectStorageClassReducedRedundancy ObjectStorageClass = "REDUCED_REDUNDANCY"
 	ObjectStorageClassGlacier           ObjectStorageClass = "GLACIER"
+	ObjectStorageClassStandardIa        ObjectStorageClass = "STANDARD_IA"
+	ObjectStorageClassOnezoneIa         ObjectStorageClass = "ONEZONE_IA"
 )
+
+func (enum ObjectStorageClass) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ObjectStorageClass) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ObjectVersionStorageClass string
 
@@ -17667,6 +21928,31 @@ const (
 	ObjectVersionStorageClassStandard ObjectVersionStorageClass = "STANDARD"
 )
 
+func (enum ObjectVersionStorageClass) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ObjectVersionStorageClass) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type OwnerOverride string
+
+// Enum values for OwnerOverride
+const (
+	OwnerOverrideDestination OwnerOverride = "Destination"
+)
+
+func (enum OwnerOverride) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OwnerOverride) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Payer string
 
 // Enum values for Payer
@@ -17674,6 +21960,15 @@ const (
 	PayerRequester   Payer = "Requester"
 	PayerBucketOwner Payer = "BucketOwner"
 )
+
+func (enum Payer) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Payer) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Permission string
 
@@ -17686,6 +21981,15 @@ const (
 	PermissionReadAcp     Permission = "READ_ACP"
 )
 
+func (enum Permission) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Permission) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Protocol string
 
 // Enum values for Protocol
@@ -17694,6 +21998,32 @@ const (
 	ProtocolHttps Protocol = "https"
 )
 
+func (enum Protocol) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Protocol) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type QuoteFields string
+
+// Enum values for QuoteFields
+const (
+	QuoteFieldsAlways   QuoteFields = "ALWAYS"
+	QuoteFieldsAsneeded QuoteFields = "ASNEEDED"
+)
+
+func (enum QuoteFields) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum QuoteFields) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ReplicationRuleStatus string
 
 // Enum values for ReplicationRuleStatus
@@ -17701,6 +22031,15 @@ const (
 	ReplicationRuleStatusEnabled  ReplicationRuleStatus = "Enabled"
 	ReplicationRuleStatusDisabled ReplicationRuleStatus = "Disabled"
 )
+
+func (enum ReplicationRuleStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReplicationRuleStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ReplicationStatus string
 
@@ -17712,6 +22051,15 @@ const (
 	ReplicationStatusReplica  ReplicationStatus = "REPLICA"
 )
 
+func (enum ReplicationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReplicationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // If present, indicates that the requester was successfully charged for the
 // request.
 type RequestCharged string
@@ -17720,6 +22068,15 @@ type RequestCharged string
 const (
 	RequestChargedRequester RequestCharged = "requester"
 )
+
+func (enum RequestCharged) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RequestCharged) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Confirms that the requester knows that she or he will be charged for the
 // request. Bucket owners need not specify this parameter in their requests.
@@ -17732,6 +22089,31 @@ const (
 	RequestPayerRequester RequestPayer = "requester"
 )
 
+func (enum RequestPayer) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RequestPayer) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type RestoreRequestType string
+
+// Enum values for RestoreRequestType
+const (
+	RestoreRequestTypeSelect RestoreRequestType = "SELECT"
+)
+
+func (enum RestoreRequestType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RestoreRequestType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ServerSideEncryption string
 
 // Enum values for ServerSideEncryption
@@ -17740,6 +22122,32 @@ const (
 	ServerSideEncryptionAwsKms ServerSideEncryption = "aws:kms"
 )
 
+func (enum ServerSideEncryption) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ServerSideEncryption) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type SseKmsEncryptedObjectsStatus string
+
+// Enum values for SseKmsEncryptedObjectsStatus
+const (
+	SseKmsEncryptedObjectsStatusEnabled  SseKmsEncryptedObjectsStatus = "Enabled"
+	SseKmsEncryptedObjectsStatusDisabled SseKmsEncryptedObjectsStatus = "Disabled"
+)
+
+func (enum SseKmsEncryptedObjectsStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SseKmsEncryptedObjectsStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StorageClass string
 
 // Enum values for StorageClass
@@ -17747,7 +22155,17 @@ const (
 	StorageClassStandard          StorageClass = "STANDARD"
 	StorageClassReducedRedundancy StorageClass = "REDUCED_REDUNDANCY"
 	StorageClassStandardIa        StorageClass = "STANDARD_IA"
+	StorageClassOnezoneIa         StorageClass = "ONEZONE_IA"
 )
+
+func (enum StorageClass) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StorageClass) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type StorageClassAnalysisSchemaVersion string
 
@@ -17756,6 +22174,15 @@ const (
 	StorageClassAnalysisSchemaVersionV1 StorageClassAnalysisSchemaVersion = "V_1"
 )
 
+func (enum StorageClassAnalysisSchemaVersion) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StorageClassAnalysisSchemaVersion) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TaggingDirective string
 
 // Enum values for TaggingDirective
@@ -17763,6 +22190,15 @@ const (
 	TaggingDirectiveCopy    TaggingDirective = "COPY"
 	TaggingDirectiveReplace TaggingDirective = "REPLACE"
 )
+
+func (enum TaggingDirective) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TaggingDirective) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Tier string
 
@@ -17773,13 +22209,32 @@ const (
 	TierExpedited Tier = "Expedited"
 )
 
+func (enum Tier) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Tier) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TransitionStorageClass string
 
 // Enum values for TransitionStorageClass
 const (
 	TransitionStorageClassGlacier    TransitionStorageClass = "GLACIER"
 	TransitionStorageClassStandardIa TransitionStorageClass = "STANDARD_IA"
+	TransitionStorageClassOnezoneIa  TransitionStorageClass = "ONEZONE_IA"
 )
+
+func (enum TransitionStorageClass) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TransitionStorageClass) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Type string
 
@@ -17789,3 +22244,12 @@ const (
 	TypeAmazonCustomerByEmail Type = "AmazonCustomerByEmail"
 	TypeGroup                 Type = "Group"
 )
+
+func (enum Type) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Type) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

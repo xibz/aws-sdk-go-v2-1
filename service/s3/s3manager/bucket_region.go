@@ -17,10 +17,10 @@ import (
 // For example to get the region of a bucket which exists in "eu-central-1"
 // you could provide a region hint of "us-west-2".
 //
-//    sess := session.Must(session.NewSession())
+//    cfg, err := external.LoadDefaultAWSConfig()
 //
 //    bucket := "my-bucket"
-//    region, err := s3manager.GetBucketRegion(ctx, sess, bucket, "us-west-2")
+//    region, err := s3manager.GetBucketRegion(ctx, cfg, bucket, "us-west-2")
 //    if err != nil {
 //        if aerr, ok := err.(awserr.Error); ok && aerr.Code() == "NotFound" {
 //             fmt.Fprintf(os.Stderr, "unable to find bucket %s's region not found\n", bucket)
@@ -34,6 +34,8 @@ func GetBucketRegion(ctx aws.Context, cfg aws.Config, bucket, regionHint string,
 	cfg.Region = regionHint
 
 	svc := s3.New(cfg)
+	svc.ForcePathStyle = true
+	svc.Credentials = aws.AnonymousCredentials
 	return GetBucketRegionWithClient(ctx, svc, bucket, opts...)
 }
 
@@ -48,8 +50,6 @@ func GetBucketRegionWithClient(ctx aws.Context, svc s3iface.S3API, bucket string
 	req := svc.HeadBucketRequest(&s3.HeadBucketInput{
 		Bucket: aws.String(bucket),
 	})
-	req.Config.S3ForcePathStyle = true
-	req.Config.Credentials = aws.AnonymousCredentials
 	req.SetContext(ctx)
 
 	// Disable HTTP redirects to prevent an invalid 301 from eating the response

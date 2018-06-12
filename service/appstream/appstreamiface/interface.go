@@ -65,6 +65,8 @@ import (
 type AppStreamAPI interface {
 	AssociateFleetRequest(*appstream.AssociateFleetInput) appstream.AssociateFleetRequest
 
+	CopyImageRequest(*appstream.CopyImageInput) appstream.CopyImageRequest
+
 	CreateDirectoryConfigRequest(*appstream.CreateDirectoryConfigInput) appstream.CreateDirectoryConfigRequest
 
 	CreateFleetRequest(*appstream.CreateFleetInput) appstream.CreateFleetRequest
@@ -107,6 +109,8 @@ type AppStreamAPI interface {
 
 	ListAssociatedStacksRequest(*appstream.ListAssociatedStacksInput) appstream.ListAssociatedStacksRequest
 
+	ListTagsForResourceRequest(*appstream.ListTagsForResourceInput) appstream.ListTagsForResourceRequest
+
 	StartFleetRequest(*appstream.StartFleetInput) appstream.StartFleetRequest
 
 	StartImageBuilderRequest(*appstream.StartImageBuilderInput) appstream.StartImageBuilderRequest
@@ -114,6 +118,10 @@ type AppStreamAPI interface {
 	StopFleetRequest(*appstream.StopFleetInput) appstream.StopFleetRequest
 
 	StopImageBuilderRequest(*appstream.StopImageBuilderInput) appstream.StopImageBuilderRequest
+
+	TagResourceRequest(*appstream.TagResourceInput) appstream.TagResourceRequest
+
+	UntagResourceRequest(*appstream.UntagResourceInput) appstream.UntagResourceRequest
 
 	UpdateDirectoryConfigRequest(*appstream.UpdateDirectoryConfigInput) appstream.UpdateDirectoryConfigRequest
 

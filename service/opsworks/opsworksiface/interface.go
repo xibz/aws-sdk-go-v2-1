@@ -115,9 +115,6 @@ type OpsWorksAPI interface {
 
 	DescribeEcsClustersRequest(*opsworks.DescribeEcsClustersInput) opsworks.DescribeEcsClustersRequest
 
-	DescribeEcsClustersPages(*opsworks.DescribeEcsClustersInput, func(*opsworks.DescribeEcsClustersOutput, bool) bool) error
-	DescribeEcsClustersPagesWithContext(aws.Context, *opsworks.DescribeEcsClustersInput, func(*opsworks.DescribeEcsClustersOutput, bool) bool, ...aws.Option) error
-
 	DescribeElasticIpsRequest(*opsworks.DescribeElasticIpsInput) opsworks.DescribeElasticIpsRequest
 
 	DescribeElasticLoadBalancersRequest(*opsworks.DescribeElasticLoadBalancersInput) opsworks.DescribeElasticLoadBalancersRequest
@@ -129,6 +126,8 @@ type OpsWorksAPI interface {
 	DescribeLoadBasedAutoScalingRequest(*opsworks.DescribeLoadBasedAutoScalingInput) opsworks.DescribeLoadBasedAutoScalingRequest
 
 	DescribeMyUserProfileRequest(*opsworks.DescribeMyUserProfileInput) opsworks.DescribeMyUserProfileRequest
+
+	DescribeOperatingSystemsRequest(*opsworks.DescribeOperatingSystemsInput) opsworks.DescribeOperatingSystemsRequest
 
 	DescribePermissionsRequest(*opsworks.DescribePermissionsInput) opsworks.DescribePermissionsRequest
 

@@ -137,7 +137,7 @@ func Test{{ .OpName }}(t *testing.T) {
 		input := {{ .ParamsString }}
 		{{ range $k, $v := .JSONValues -}}
 			input.{{ $k }} = {{ $v }} 
-		{{- end }}
+		{{ end }}
 		req := svc.{{ .TestCase.Given.ExportedName }}Request(input)
 	{{- else }}
 		req := svc.{{ .TestCase.Given.ExportedName }}Request(nil)
@@ -322,7 +322,7 @@ func (i *testCase) TestCase(idx int) string {
 			TestCase:   i,
 			Body:       fmt.Sprintf("%q", i.OutputTest.Body),
 			OpName:     strings.ToUpper(opName[0:1]) + opName[1:],
-			Assertions: GenerateAssertions(i.Data, i.Given.OutputRef.Shape, "out"),
+			Assertions: GenerateAssertions(i.Data, i.Given.OutputRef.Shape, "out", false),
 		}
 
 		if err := tplOutputTestCase.Execute(&buf, output); err != nil {
@@ -345,7 +345,7 @@ func walkMap(m map[string]interface{}) string {
 		str += fmt.Sprintf("%q:", k)
 		switch v.(type) {
 		case bool:
-			str += fmt.Sprintf("%b,\n", v.(bool))
+			str += fmt.Sprintf("%t,\n", v.(bool))
 		case string:
 			str += fmt.Sprintf("%q,\n", v.(string))
 		case int:
@@ -397,6 +397,7 @@ func generateTestSuite(filename string) string {
 
 	for i, suite := range suites {
 		svcPrefix := inout + "Service" + strconv.Itoa(i+1)
+		suite.API.EnableSelectGeneratedMarshalers()
 		suite.API.Metadata.ServiceAbbreviation = svcPrefix + "ProtocolTest"
 		suite.API.Operations = map[string]*api.Operation{}
 		for idx, c := range suite.Cases {
@@ -459,7 +460,7 @@ func findMember(shape *api.Shape, key string) string {
 // GenerateAssertions builds assertions for a shape based on its type.
 //
 // The shape's recursive values also will have assertions generated for them.
-func GenerateAssertions(out interface{}, shape *api.Shape, prefix string) string {
+func GenerateAssertions(out interface{}, shape *api.Shape, prefix string, parentCollection bool) string {
 	if shape == nil {
 		return ""
 	}
@@ -471,6 +472,11 @@ func GenerateAssertions(out interface{}, shape *api.Shape, prefix string) string
 		)
 	}
 
+	pointer := "*"
+	if parentCollection {
+		pointer = ""
+	}
+
 	switch t := out.(type) {
 	case map[string]interface{}:
 		keys := util.SortedKeys(t)
@@ -480,16 +486,16 @@ func GenerateAssertions(out interface{}, shape *api.Shape, prefix string) string
 			for _, k := range keys {
 				v := t[k]
 				s := shape.ValueRef.Shape
-				code += GenerateAssertions(v, s, prefix+"[\""+k+"\"]")
+				code += GenerateAssertions(v, s, prefix+"[\""+k+"\"]", true)
 			}
 		} else if shape.Type == "jsonvalue" {
-			code += fmt.Sprintf("reflect.DeepEqual(%s, map[string]interface{}%s)", prefix, walkMap(out.(map[string]interface{})))
+			code += fmt.Sprintf("reflect.DeepEqual(%s, map[string]interface{}%s)\n", prefix, walkMap(out.(map[string]interface{})))
 		} else {
 			for _, k := range keys {
 				v := t[k]
 				m := findMember(shape, k)
 				s := shape.MemberRefs[m].Shape
-				code += GenerateAssertions(v, s, prefix+"."+m+"")
+				code += GenerateAssertions(v, s, prefix+"."+m+"", false)
 			}
 		}
 		return code
@@ -497,7 +503,7 @@ func GenerateAssertions(out interface{}, shape *api.Shape, prefix string) string
 		code := ""
 		for i, v := range t {
 			s := shape.MemberRef.Shape
-			code += GenerateAssertions(v, s, prefix+"["+strconv.Itoa(i)+"]")
+			code += GenerateAssertions(v, s, prefix+"["+strconv.Itoa(i)+"]", true)
 		}
 		return code
 	default:
@@ -515,15 +521,32 @@ func GenerateAssertions(out interface{}, shape *api.Shape, prefix string) string
 		case "integer", "long":
 			return fmtAssertEqual(
 				fmt.Sprintf("int64(%#v)", out),
-				fmt.Sprintf("*%s", prefix),
+				fmt.Sprintf("%s%s", pointer, prefix),
+			)
+		case "string":
+			expr := fmt.Sprintf("string(%#v)", out)
+			if parentCollection && !reflect.ValueOf(out).IsValid() {
+				expr = `""`
+			}
+
+			return fmtAssertEqual(
+				expr,
+				fmt.Sprintf("%s%s", pointer, prefix),
 			)
 		default:
-			if !reflect.ValueOf(out).IsValid() {
+			if !(parentCollection || reflect.ValueOf(out).IsValid()) {
 				return fmtAssertNil(prefix)
 			}
+
+			if parentCollection {
+				// TODO: Fix
+				return ""
+				//return fmtAssertNil(prefix)
+			}
+
 			return fmtAssertEqual(
 				fmt.Sprintf("%#v", out),
-				fmt.Sprintf("*%s", prefix),
+				fmt.Sprintf("%s%s", pointer, prefix),
 			)
 		}
 	}
@@ -541,6 +564,7 @@ func getType(t string) uint {
 }
 
 func main() {
+	fmt.Println("Generating test suite", os.Args[1:])
 	out := generateTestSuite(os.Args[1])
 	if len(os.Args) == 3 {
 		f, err := os.Create(os.Args[2])

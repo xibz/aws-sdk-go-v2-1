@@ -15,6 +15,7 @@ const opAssumeRole = "AssumeRole"
 type AssumeRoleRequest struct {
 	*aws.Request
 	Input *AssumeRoleInput
+	Copy  func(*AssumeRoleInput) AssumeRoleRequest
 }
 
 // Send marshals and sends the AssumeRole API request.
@@ -64,9 +65,18 @@ func (r AssumeRoleRequest) Send() (*AssumeRoleOutput, error) {
 // Scenarios for Temporary Credentials (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html#sts-introduction)
 // in the IAM User Guide.
 //
-// The temporary security credentials are valid for the duration that you specified
-// when calling AssumeRole, which can be from 900 seconds (15 minutes) to a
-// maximum of 3600 seconds (1 hour). The default is 1 hour.
+// By default, the temporary security credentials created by AssumeRole last
+// for one hour. However, you can use the optional DurationSeconds parameter
+// to specify the duration of your session. You can provide a value from 900
+// seconds (15 minutes) up to the maximum session duration setting for the role.
+// This setting can have a value from 1 hour to 12 hours. To learn how to view
+// the maximum value for your role, see View the Maximum Session Duration Setting
+// for a Role (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+// in the IAM User Guide. The maximum session duration limit applies when you
+// use the AssumeRole* API operations or the assume-role* CLI operations but
+// does not apply when you use those operations to create a console URL. For
+// more information, see Using IAM Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
+// in the IAM User Guide.
 //
 // The temporary security credentials created by AssumeRole can be used to make
 // API calls to any AWS service with the following exception: you cannot call
@@ -97,7 +107,12 @@ func (r AssumeRoleRequest) Send() (*AssumeRoleOutput, error) {
 // the user to call AssumeRole on the ARN of the role in the other account.
 // If the user is in the same account as the role, then you can either attach
 // a policy to the user (identical to the previous different account user),
-// or you can add the user as a principal directly in the role's trust policy
+// or you can add the user as a principal directly in the role's trust policy.
+// In this case, the trust policy acts as the only resource-based policy in
+// IAM, and users in the same account as the role do not need explicit permission
+// to assume the role. For more information about trust policies and resource-based
+// policies, see IAM Policies (http://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html)
+// in the IAM User Guide.
 //
 // Using MFA with AssumeRole
 //
@@ -139,8 +154,11 @@ func (c *STS) AssumeRoleRequest(input *AssumeRoleInput) AssumeRoleRequest {
 		input = &AssumeRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &AssumeRoleOutput{})
-	return AssumeRoleRequest{Request: req, Input: input}
+	output := &AssumeRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssumeRoleRequest{Request: req, Input: input, Copy: c.AssumeRoleRequest}
 }
 
 const opAssumeRoleWithSAML = "AssumeRoleWithSAML"
@@ -149,6 +167,7 @@ const opAssumeRoleWithSAML = "AssumeRoleWithSAML"
 type AssumeRoleWithSAMLRequest struct {
 	*aws.Request
 	Input *AssumeRoleWithSAMLInput
+	Copy  func(*AssumeRoleWithSAMLInput) AssumeRoleWithSAMLRequest
 }
 
 // Send marshals and sends the AssumeRoleWithSAML API request.
@@ -177,11 +196,20 @@ func (r AssumeRoleWithSAMLRequest) Send() (*AssumeRoleWithSAMLOutput, error) {
 // an access key ID, a secret access key, and a security token. Applications
 // can use these temporary security credentials to sign calls to AWS services.
 //
-// The temporary security credentials are valid for the duration that you specified
-// when calling AssumeRole, or until the time specified in the SAML authentication
-// response's SessionNotOnOrAfter value, whichever is shorter. The duration
-// can be from 900 seconds (15 minutes) to a maximum of 3600 seconds (1 hour).
-// The default is 1 hour.
+// By default, the temporary security credentials created by AssumeRoleWithSAML
+// last for one hour. However, you can use the optional DurationSeconds parameter
+// to specify the duration of your session. Your role session lasts for the
+// duration that you specify, or until the time specified in the SAML authentication
+// response's SessionNotOnOrAfter value, whichever is shorter. You can provide
+// a DurationSeconds value from 900 seconds (15 minutes) up to the maximum session
+// duration setting for the role. This setting can have a value from 1 hour
+// to 12 hours. To learn how to view the maximum value for your role, see View
+// the Maximum Session Duration Setting for a Role (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+// in the IAM User Guide. The maximum session duration limit applies when you
+// use the AssumeRole* API operations or the assume-role* CLI operations but
+// does not apply when you use those operations to create a console URL. For
+// more information, see Using IAM Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
+// in the IAM User Guide.
 //
 // The temporary security credentials created by AssumeRoleWithSAML can be used
 // to make API calls to any AWS service with the following exception: you cannot
@@ -251,8 +279,11 @@ func (c *STS) AssumeRoleWithSAMLRequest(input *AssumeRoleWithSAMLInput) AssumeRo
 		input = &AssumeRoleWithSAMLInput{}
 	}
 
-	req := c.newRequest(op, input, &AssumeRoleWithSAMLOutput{})
-	return AssumeRoleWithSAMLRequest{Request: req, Input: input}
+	output := &AssumeRoleWithSAMLOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssumeRoleWithSAMLRequest{Request: req, Input: input, Copy: c.AssumeRoleWithSAMLRequest}
 }
 
 const opAssumeRoleWithWebIdentity = "AssumeRoleWithWebIdentity"
@@ -261,6 +292,7 @@ const opAssumeRoleWithWebIdentity = "AssumeRoleWithWebIdentity"
 type AssumeRoleWithWebIdentityRequest struct {
 	*aws.Request
 	Input *AssumeRoleWithWebIdentityInput
+	Copy  func(*AssumeRoleWithWebIdentityInput) AssumeRoleWithWebIdentityRequest
 }
 
 // Send marshals and sends the AssumeRoleWithWebIdentity API request.
@@ -307,9 +339,18 @@ func (r AssumeRoleWithWebIdentityRequest) Send() (*AssumeRoleWithWebIdentityOutp
 // key ID, a secret access key, and a security token. Applications can use these
 // temporary security credentials to sign calls to AWS service APIs.
 //
-// The credentials are valid for the duration that you specified when calling
-// AssumeRoleWithWebIdentity, which can be from 900 seconds (15 minutes) to
-// a maximum of 3600 seconds (1 hour). The default is 1 hour.
+// By default, the temporary security credentials created by AssumeRoleWithWebIdentity
+// last for one hour. However, you can use the optional DurationSeconds parameter
+// to specify the duration of your session. You can provide a value from 900
+// seconds (15 minutes) up to the maximum session duration setting for the role.
+// This setting can have a value from 1 hour to 12 hours. To learn how to view
+// the maximum value for your role, see View the Maximum Session Duration Setting
+// for a Role (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+// in the IAM User Guide. The maximum session duration limit applies when you
+// use the AssumeRole* API operations or the assume-role* CLI operations but
+// does not apply when you use those operations to create a console URL. For
+// more information, see Using IAM Roles (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html)
+// in the IAM User Guide.
 //
 // The temporary security credentials created by AssumeRoleWithWebIdentity can
 // be used to make API calls to any AWS service with the following exception:
@@ -361,7 +402,7 @@ func (r AssumeRoleWithWebIdentityRequest) Send() (*AssumeRoleWithWebIdentityOutp
 //    the information from these providers to get and use temporary security
 //    credentials.
 //
-//    * Web Identity Federation with Mobile Applications (http://aws.amazon.com/articles/4617974389850313).
+//    * Web Identity Federation with Mobile Applications (http://aws.amazon.com/articles/web-identity-federation-with-mobile-applications).
 //    This article discusses web identity federation and shows an example of
 //    how to use web identity federation to get access to content in Amazon
 //    S3.
@@ -385,8 +426,11 @@ func (c *STS) AssumeRoleWithWebIdentityRequest(input *AssumeRoleWithWebIdentityI
 		input = &AssumeRoleWithWebIdentityInput{}
 	}
 
-	req := c.newRequest(op, input, &AssumeRoleWithWebIdentityOutput{})
-	return AssumeRoleWithWebIdentityRequest{Request: req, Input: input}
+	output := &AssumeRoleWithWebIdentityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssumeRoleWithWebIdentityRequest{Request: req, Input: input, Copy: c.AssumeRoleWithWebIdentityRequest}
 }
 
 const opDecodeAuthorizationMessage = "DecodeAuthorizationMessage"
@@ -395,6 +439,7 @@ const opDecodeAuthorizationMessage = "DecodeAuthorizationMessage"
 type DecodeAuthorizationMessageRequest struct {
 	*aws.Request
 	Input *DecodeAuthorizationMessageInput
+	Copy  func(*DecodeAuthorizationMessageInput) DecodeAuthorizationMessageRequest
 }
 
 // Send marshals and sends the DecodeAuthorizationMessage API request.
@@ -462,8 +507,11 @@ func (c *STS) DecodeAuthorizationMessageRequest(input *DecodeAuthorizationMessag
 		input = &DecodeAuthorizationMessageInput{}
 	}
 
-	req := c.newRequest(op, input, &DecodeAuthorizationMessageOutput{})
-	return DecodeAuthorizationMessageRequest{Request: req, Input: input}
+	output := &DecodeAuthorizationMessageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DecodeAuthorizationMessageRequest{Request: req, Input: input, Copy: c.DecodeAuthorizationMessageRequest}
 }
 
 const opGetCallerIdentity = "GetCallerIdentity"
@@ -472,6 +520,7 @@ const opGetCallerIdentity = "GetCallerIdentity"
 type GetCallerIdentityRequest struct {
 	*aws.Request
 	Input *GetCallerIdentityInput
+	Copy  func(*GetCallerIdentityInput) GetCallerIdentityRequest
 }
 
 // Send marshals and sends the GetCallerIdentity API request.
@@ -509,8 +558,11 @@ func (c *STS) GetCallerIdentityRequest(input *GetCallerIdentityInput) GetCallerI
 		input = &GetCallerIdentityInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCallerIdentityOutput{})
-	return GetCallerIdentityRequest{Request: req, Input: input}
+	output := &GetCallerIdentityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCallerIdentityRequest{Request: req, Input: input, Copy: c.GetCallerIdentityRequest}
 }
 
 const opGetFederationToken = "GetFederationToken"
@@ -519,6 +571,7 @@ const opGetFederationToken = "GetFederationToken"
 type GetFederationTokenRequest struct {
 	*aws.Request
 	Input *GetFederationTokenInput
+	Copy  func(*GetFederationTokenInput) GetFederationTokenRequest
 }
 
 // Send marshals and sends the GetFederationToken API request.
@@ -632,8 +685,11 @@ func (c *STS) GetFederationTokenRequest(input *GetFederationTokenInput) GetFeder
 		input = &GetFederationTokenInput{}
 	}
 
-	req := c.newRequest(op, input, &GetFederationTokenOutput{})
-	return GetFederationTokenRequest{Request: req, Input: input}
+	output := &GetFederationTokenOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetFederationTokenRequest{Request: req, Input: input, Copy: c.GetFederationTokenRequest}
 }
 
 const opGetSessionToken = "GetSessionToken"
@@ -642,6 +698,7 @@ const opGetSessionToken = "GetSessionToken"
 type GetSessionTokenRequest struct {
 	*aws.Request
 	Input *GetSessionTokenInput
+	Copy  func(*GetSessionTokenInput) GetSessionTokenRequest
 }
 
 // Send marshals and sends the GetSessionToken API request.
@@ -723,8 +780,11 @@ func (c *STS) GetSessionTokenRequest(input *GetSessionTokenInput) GetSessionToke
 		input = &GetSessionTokenInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSessionTokenOutput{})
-	return GetSessionTokenRequest{Request: req, Input: input}
+	output := &GetSessionTokenOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSessionTokenRequest{Request: req, Input: input, Copy: c.GetSessionTokenRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleRequest
@@ -732,15 +792,23 @@ type AssumeRoleInput struct {
 	_ struct{} `type:"structure"`
 
 	// The duration, in seconds, of the role session. The value can range from 900
-	// seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set
-	// to 3600 seconds.
+	// seconds (15 minutes) up to the maximum session duration setting for the role.
+	// This setting can have a value from 1 hour to 12 hours. If you specify a value
+	// higher than this setting, the operation fails. For example, if you specify
+	// a session duration of 12 hours, but your administrator set the maximum session
+	// duration to 6 hours, your operation fails. To learn how to view the maximum
+	// value for your role, see View the Maximum Session Duration Setting for a
+	// Role (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+	// in the IAM User Guide.
 	//
-	// This is separate from the duration of a console session that you might request
-	// using the returned credentials. The request to the federation endpoint for
-	// a console sign-in token takes a SessionDuration parameter that specifies
-	// the maximum length of the console session, separately from the DurationSeconds
-	// parameter on this API. For more information, see Creating a URL that Enables
-	// Federated Users to Access the AWS Management Console (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
+	// By default, the value is set to 3600 seconds.
+	//
+	// The DurationSeconds parameter is separate from the duration of a console
+	// session that you might request using the returned credentials. The request
+	// to the federation endpoint for a console sign-in token takes a SessionDuration
+	// parameter that specifies the maximum length of the console session. For more
+	// information, see Creating a URL that Enables Federated Users to Access the
+	// AWS Management Console (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
 	// in the IAM User Guide.
 	DurationSeconds *int64 `min:"900" type:"integer"`
 
@@ -877,53 +945,13 @@ func (s *AssumeRoleInput) Validate() error {
 	return nil
 }
 
-// SetDurationSeconds sets the DurationSeconds field's value.
-func (s *AssumeRoleInput) SetDurationSeconds(v int64) *AssumeRoleInput {
-	s.DurationSeconds = &v
-	return s
-}
-
-// SetExternalId sets the ExternalId field's value.
-func (s *AssumeRoleInput) SetExternalId(v string) *AssumeRoleInput {
-	s.ExternalId = &v
-	return s
-}
-
-// SetPolicy sets the Policy field's value.
-func (s *AssumeRoleInput) SetPolicy(v string) *AssumeRoleInput {
-	s.Policy = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *AssumeRoleInput) SetRoleArn(v string) *AssumeRoleInput {
-	s.RoleArn = &v
-	return s
-}
-
-// SetRoleSessionName sets the RoleSessionName field's value.
-func (s *AssumeRoleInput) SetRoleSessionName(v string) *AssumeRoleInput {
-	s.RoleSessionName = &v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *AssumeRoleInput) SetSerialNumber(v string) *AssumeRoleInput {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetTokenCode sets the TokenCode field's value.
-func (s *AssumeRoleInput) SetTokenCode(v string) *AssumeRoleInput {
-	s.TokenCode = &v
-	return s
-}
-
 // Contains the response to a successful AssumeRole request, including temporary
 // AWS credentials that can be used to make AWS requests.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleResponse
 type AssumeRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers
 	// that you can use to refer to the resulting temporary security credentials.
@@ -957,40 +985,36 @@ func (s AssumeRoleOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssumedRoleUser sets the AssumedRoleUser field's value.
-func (s *AssumeRoleOutput) SetAssumedRoleUser(v *AssumedRoleUser) *AssumeRoleOutput {
-	s.AssumedRoleUser = v
-	return s
-}
-
-// SetCredentials sets the Credentials field's value.
-func (s *AssumeRoleOutput) SetCredentials(v *Credentials) *AssumeRoleOutput {
-	s.Credentials = v
-	return s
-}
-
-// SetPackedPolicySize sets the PackedPolicySize field's value.
-func (s *AssumeRoleOutput) SetPackedPolicySize(v int64) *AssumeRoleOutput {
-	s.PackedPolicySize = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssumeRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAMLRequest
 type AssumeRoleWithSAMLInput struct {
 	_ struct{} `type:"structure"`
 
-	// The duration, in seconds, of the role session. The value can range from 900
-	// seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set
-	// to 3600 seconds. An expiration can also be specified in the SAML authentication
-	// response's SessionNotOnOrAfter value. The actual expiration time is whichever
-	// value is shorter.
+	// The duration, in seconds, of the role session. Your role session lasts for
+	// the duration that you specify for the DurationSeconds parameter, or until
+	// the time specified in the SAML authentication response's SessionNotOnOrAfter
+	// value, whichever is shorter. You can provide a DurationSeconds value from
+	// 900 seconds (15 minutes) up to the maximum session duration setting for the
+	// role. This setting can have a value from 1 hour to 12 hours. If you specify
+	// a value higher than this setting, the operation fails. For example, if you
+	// specify a session duration of 12 hours, but your administrator set the maximum
+	// session duration to 6 hours, your operation fails. To learn how to view the
+	// maximum value for your role, see View the Maximum Session Duration Setting
+	// for a Role (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+	// in the IAM User Guide.
 	//
-	// This is separate from the duration of a console session that you might request
-	// using the returned credentials. The request to the federation endpoint for
-	// a console sign-in token takes a SessionDuration parameter that specifies
-	// the maximum length of the console session, separately from the DurationSeconds
-	// parameter on this API. For more information, see Enabling SAML 2.0 Federated
-	// Users to Access the AWS Management Console (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html)
+	// By default, the value is set to 3600 seconds.
+	//
+	// The DurationSeconds parameter is separate from the duration of a console
+	// session that you might request using the returned credentials. The request
+	// to the federation endpoint for a console sign-in token takes a SessionDuration
+	// parameter that specifies the maximum length of the console session. For more
+	// information, see Creating a URL that Enables Federated Users to Access the
+	// AWS Management Console (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
 	// in the IAM User Guide.
 	DurationSeconds *int64 `min:"900" type:"integer"`
 
@@ -1087,41 +1111,13 @@ func (s *AssumeRoleWithSAMLInput) Validate() error {
 	return nil
 }
 
-// SetDurationSeconds sets the DurationSeconds field's value.
-func (s *AssumeRoleWithSAMLInput) SetDurationSeconds(v int64) *AssumeRoleWithSAMLInput {
-	s.DurationSeconds = &v
-	return s
-}
-
-// SetPolicy sets the Policy field's value.
-func (s *AssumeRoleWithSAMLInput) SetPolicy(v string) *AssumeRoleWithSAMLInput {
-	s.Policy = &v
-	return s
-}
-
-// SetPrincipalArn sets the PrincipalArn field's value.
-func (s *AssumeRoleWithSAMLInput) SetPrincipalArn(v string) *AssumeRoleWithSAMLInput {
-	s.PrincipalArn = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *AssumeRoleWithSAMLInput) SetRoleArn(v string) *AssumeRoleWithSAMLInput {
-	s.RoleArn = &v
-	return s
-}
-
-// SetSAMLAssertion sets the SAMLAssertion field's value.
-func (s *AssumeRoleWithSAMLInput) SetSAMLAssertion(v string) *AssumeRoleWithSAMLInput {
-	s.SAMLAssertion = &v
-	return s
-}
-
 // Contains the response to a successful AssumeRoleWithSAML request, including
 // temporary AWS credentials that can be used to make AWS requests.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAMLResponse
 type AssumeRoleWithSAMLOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifiers for the temporary security credentials that the operation
 	// returns.
@@ -1183,52 +1179,9 @@ func (s AssumeRoleWithSAMLOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssumedRoleUser sets the AssumedRoleUser field's value.
-func (s *AssumeRoleWithSAMLOutput) SetAssumedRoleUser(v *AssumedRoleUser) *AssumeRoleWithSAMLOutput {
-	s.AssumedRoleUser = v
-	return s
-}
-
-// SetAudience sets the Audience field's value.
-func (s *AssumeRoleWithSAMLOutput) SetAudience(v string) *AssumeRoleWithSAMLOutput {
-	s.Audience = &v
-	return s
-}
-
-// SetCredentials sets the Credentials field's value.
-func (s *AssumeRoleWithSAMLOutput) SetCredentials(v *Credentials) *AssumeRoleWithSAMLOutput {
-	s.Credentials = v
-	return s
-}
-
-// SetIssuer sets the Issuer field's value.
-func (s *AssumeRoleWithSAMLOutput) SetIssuer(v string) *AssumeRoleWithSAMLOutput {
-	s.Issuer = &v
-	return s
-}
-
-// SetNameQualifier sets the NameQualifier field's value.
-func (s *AssumeRoleWithSAMLOutput) SetNameQualifier(v string) *AssumeRoleWithSAMLOutput {
-	s.NameQualifier = &v
-	return s
-}
-
-// SetPackedPolicySize sets the PackedPolicySize field's value.
-func (s *AssumeRoleWithSAMLOutput) SetPackedPolicySize(v int64) *AssumeRoleWithSAMLOutput {
-	s.PackedPolicySize = &v
-	return s
-}
-
-// SetSubject sets the Subject field's value.
-func (s *AssumeRoleWithSAMLOutput) SetSubject(v string) *AssumeRoleWithSAMLOutput {
-	s.Subject = &v
-	return s
-}
-
-// SetSubjectType sets the SubjectType field's value.
-func (s *AssumeRoleWithSAMLOutput) SetSubjectType(v string) *AssumeRoleWithSAMLOutput {
-	s.SubjectType = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssumeRoleWithSAMLOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentityRequest
@@ -1236,15 +1189,23 @@ type AssumeRoleWithWebIdentityInput struct {
 	_ struct{} `type:"structure"`
 
 	// The duration, in seconds, of the role session. The value can range from 900
-	// seconds (15 minutes) to 3600 seconds (1 hour). By default, the value is set
-	// to 3600 seconds.
+	// seconds (15 minutes) up to the maximum session duration setting for the role.
+	// This setting can have a value from 1 hour to 12 hours. If you specify a value
+	// higher than this setting, the operation fails. For example, if you specify
+	// a session duration of 12 hours, but your administrator set the maximum session
+	// duration to 6 hours, your operation fails. To learn how to view the maximum
+	// value for your role, see View the Maximum Session Duration Setting for a
+	// Role (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session)
+	// in the IAM User Guide.
 	//
-	// This is separate from the duration of a console session that you might request
-	// using the returned credentials. The request to the federation endpoint for
-	// a console sign-in token takes a SessionDuration parameter that specifies
-	// the maximum length of the console session, separately from the DurationSeconds
-	// parameter on this API. For more information, see Creating a URL that Enables
-	// Federated Users to Access the AWS Management Console (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
+	// By default, the value is set to 3600 seconds.
+	//
+	// The DurationSeconds parameter is separate from the duration of a console
+	// session that you might request using the returned credentials. The request
+	// to the federation endpoint for a console sign-in token takes a SessionDuration
+	// parameter that specifies the maximum length of the console session. For more
+	// information, see Creating a URL that Enables Federated Users to Access the
+	// AWS Management Console (http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html)
 	// in the IAM User Guide.
 	DurationSeconds *int64 `min:"900" type:"integer"`
 
@@ -1359,47 +1320,13 @@ func (s *AssumeRoleWithWebIdentityInput) Validate() error {
 	return nil
 }
 
-// SetDurationSeconds sets the DurationSeconds field's value.
-func (s *AssumeRoleWithWebIdentityInput) SetDurationSeconds(v int64) *AssumeRoleWithWebIdentityInput {
-	s.DurationSeconds = &v
-	return s
-}
-
-// SetPolicy sets the Policy field's value.
-func (s *AssumeRoleWithWebIdentityInput) SetPolicy(v string) *AssumeRoleWithWebIdentityInput {
-	s.Policy = &v
-	return s
-}
-
-// SetProviderId sets the ProviderId field's value.
-func (s *AssumeRoleWithWebIdentityInput) SetProviderId(v string) *AssumeRoleWithWebIdentityInput {
-	s.ProviderId = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *AssumeRoleWithWebIdentityInput) SetRoleArn(v string) *AssumeRoleWithWebIdentityInput {
-	s.RoleArn = &v
-	return s
-}
-
-// SetRoleSessionName sets the RoleSessionName field's value.
-func (s *AssumeRoleWithWebIdentityInput) SetRoleSessionName(v string) *AssumeRoleWithWebIdentityInput {
-	s.RoleSessionName = &v
-	return s
-}
-
-// SetWebIdentityToken sets the WebIdentityToken field's value.
-func (s *AssumeRoleWithWebIdentityInput) SetWebIdentityToken(v string) *AssumeRoleWithWebIdentityInput {
-	s.WebIdentityToken = &v
-	return s
-}
-
 // Contains the response to a successful AssumeRoleWithWebIdentity request,
 // including temporary AWS credentials that can be used to make AWS requests.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithWebIdentityResponse
 type AssumeRoleWithWebIdentityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers
 	// that you can use to refer to the resulting temporary security credentials.
@@ -1452,40 +1379,9 @@ func (s AssumeRoleWithWebIdentityOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssumedRoleUser sets the AssumedRoleUser field's value.
-func (s *AssumeRoleWithWebIdentityOutput) SetAssumedRoleUser(v *AssumedRoleUser) *AssumeRoleWithWebIdentityOutput {
-	s.AssumedRoleUser = v
-	return s
-}
-
-// SetAudience sets the Audience field's value.
-func (s *AssumeRoleWithWebIdentityOutput) SetAudience(v string) *AssumeRoleWithWebIdentityOutput {
-	s.Audience = &v
-	return s
-}
-
-// SetCredentials sets the Credentials field's value.
-func (s *AssumeRoleWithWebIdentityOutput) SetCredentials(v *Credentials) *AssumeRoleWithWebIdentityOutput {
-	s.Credentials = v
-	return s
-}
-
-// SetPackedPolicySize sets the PackedPolicySize field's value.
-func (s *AssumeRoleWithWebIdentityOutput) SetPackedPolicySize(v int64) *AssumeRoleWithWebIdentityOutput {
-	s.PackedPolicySize = &v
-	return s
-}
-
-// SetProvider sets the Provider field's value.
-func (s *AssumeRoleWithWebIdentityOutput) SetProvider(v string) *AssumeRoleWithWebIdentityOutput {
-	s.Provider = &v
-	return s
-}
-
-// SetSubjectFromWebIdentityToken sets the SubjectFromWebIdentityToken field's value.
-func (s *AssumeRoleWithWebIdentityOutput) SetSubjectFromWebIdentityToken(v string) *AssumeRoleWithWebIdentityOutput {
-	s.SubjectFromWebIdentityToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssumeRoleWithWebIdentityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The identifiers for the temporary security credentials that the operation
@@ -1518,18 +1414,6 @@ func (s AssumedRoleUser) String() string {
 // GoString returns the string representation
 func (s AssumedRoleUser) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *AssumedRoleUser) SetArn(v string) *AssumedRoleUser {
-	s.Arn = &v
-	return s
-}
-
-// SetAssumedRoleId sets the AssumedRoleId field's value.
-func (s *AssumedRoleUser) SetAssumedRoleId(v string) *AssumedRoleUser {
-	s.AssumedRoleId = &v
-	return s
 }
 
 // AWS credentials for API authentication.
@@ -1566,30 +1450,6 @@ func (s Credentials) String() string {
 // GoString returns the string representation
 func (s Credentials) GoString() string {
 	return s.String()
-}
-
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *Credentials) SetAccessKeyId(v string) *Credentials {
-	s.AccessKeyId = &v
-	return s
-}
-
-// SetExpiration sets the Expiration field's value.
-func (s *Credentials) SetExpiration(v time.Time) *Credentials {
-	s.Expiration = &v
-	return s
-}
-
-// SetSecretAccessKey sets the SecretAccessKey field's value.
-func (s *Credentials) SetSecretAccessKey(v string) *Credentials {
-	s.SecretAccessKey = &v
-	return s
-}
-
-// SetSessionToken sets the SessionToken field's value.
-func (s *Credentials) SetSessionToken(v string) *Credentials {
-	s.SessionToken = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessageRequest
@@ -1629,18 +1489,14 @@ func (s *DecodeAuthorizationMessageInput) Validate() error {
 	return nil
 }
 
-// SetEncodedMessage sets the EncodedMessage field's value.
-func (s *DecodeAuthorizationMessageInput) SetEncodedMessage(v string) *DecodeAuthorizationMessageInput {
-	s.EncodedMessage = &v
-	return s
-}
-
 // A document that contains additional information about the authorization status
 // of a request from an encoded message that is returned in response to an AWS
 // request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/DecodeAuthorizationMessageResponse
 type DecodeAuthorizationMessageOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An XML document that contains the decoded message.
 	DecodedMessage *string `type:"string"`
@@ -1656,10 +1512,9 @@ func (s DecodeAuthorizationMessageOutput) GoString() string {
 	return s.String()
 }
 
-// SetDecodedMessage sets the DecodedMessage field's value.
-func (s *DecodeAuthorizationMessageOutput) SetDecodedMessage(v string) *DecodeAuthorizationMessageOutput {
-	s.DecodedMessage = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DecodeAuthorizationMessageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Identifiers for the federated user that is associated with the credentials.
@@ -1692,18 +1547,6 @@ func (s FederatedUser) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *FederatedUser) SetArn(v string) *FederatedUser {
-	s.Arn = &v
-	return s
-}
-
-// SetFederatedUserId sets the FederatedUserId field's value.
-func (s *FederatedUser) SetFederatedUserId(v string) *FederatedUser {
-	s.FederatedUserId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentityRequest
 type GetCallerIdentityInput struct {
 	_ struct{} `type:"structure"`
@@ -1724,6 +1567,8 @@ func (s GetCallerIdentityInput) GoString() string {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetCallerIdentityResponse
 type GetCallerIdentityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The AWS account ID number of the account that owns or contains the calling
 	// entity.
@@ -1749,22 +1594,9 @@ func (s GetCallerIdentityOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccount sets the Account field's value.
-func (s *GetCallerIdentityOutput) SetAccount(v string) *GetCallerIdentityOutput {
-	s.Account = &v
-	return s
-}
-
-// SetArn sets the Arn field's value.
-func (s *GetCallerIdentityOutput) SetArn(v string) *GetCallerIdentityOutput {
-	s.Arn = &v
-	return s
-}
-
-// SetUserId sets the UserId field's value.
-func (s *GetCallerIdentityOutput) SetUserId(v string) *GetCallerIdentityOutput {
-	s.UserId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCallerIdentityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationTokenRequest
@@ -1857,29 +1689,13 @@ func (s *GetFederationTokenInput) Validate() error {
 	return nil
 }
 
-// SetDurationSeconds sets the DurationSeconds field's value.
-func (s *GetFederationTokenInput) SetDurationSeconds(v int64) *GetFederationTokenInput {
-	s.DurationSeconds = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetFederationTokenInput) SetName(v string) *GetFederationTokenInput {
-	s.Name = &v
-	return s
-}
-
-// SetPolicy sets the Policy field's value.
-func (s *GetFederationTokenInput) SetPolicy(v string) *GetFederationTokenInput {
-	s.Policy = &v
-	return s
-}
-
 // Contains the response to a successful GetFederationToken request, including
 // temporary AWS credentials that can be used to make AWS requests.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetFederationTokenResponse
 type GetFederationTokenOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The temporary security credentials, which include an access key ID, a secret
 	// access key, and a security (or session) token.
@@ -1912,22 +1728,9 @@ func (s GetFederationTokenOutput) GoString() string {
 	return s.String()
 }
 
-// SetCredentials sets the Credentials field's value.
-func (s *GetFederationTokenOutput) SetCredentials(v *Credentials) *GetFederationTokenOutput {
-	s.Credentials = v
-	return s
-}
-
-// SetFederatedUser sets the FederatedUser field's value.
-func (s *GetFederationTokenOutput) SetFederatedUser(v *FederatedUser) *GetFederationTokenOutput {
-	s.FederatedUser = v
-	return s
-}
-
-// SetPackedPolicySize sets the PackedPolicySize field's value.
-func (s *GetFederationTokenOutput) SetPackedPolicySize(v int64) *GetFederationTokenOutput {
-	s.PackedPolicySize = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetFederationTokenOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionTokenRequest
@@ -1995,29 +1798,13 @@ func (s *GetSessionTokenInput) Validate() error {
 	return nil
 }
 
-// SetDurationSeconds sets the DurationSeconds field's value.
-func (s *GetSessionTokenInput) SetDurationSeconds(v int64) *GetSessionTokenInput {
-	s.DurationSeconds = &v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *GetSessionTokenInput) SetSerialNumber(v string) *GetSessionTokenInput {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetTokenCode sets the TokenCode field's value.
-func (s *GetSessionTokenInput) SetTokenCode(v string) *GetSessionTokenInput {
-	s.TokenCode = &v
-	return s
-}
-
 // Contains the response to a successful GetSessionToken request, including
 // temporary AWS credentials that can be used to make AWS requests.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/GetSessionTokenResponse
 type GetSessionTokenOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The temporary security credentials, which include an access key ID, a secret
 	// access key, and a security (or session) token.
@@ -2039,8 +1826,7 @@ func (s GetSessionTokenOutput) GoString() string {
 	return s.String()
 }
 
-// SetCredentials sets the Credentials field's value.
-func (s *GetSessionTokenOutput) SetCredentials(v *Credentials) *GetSessionTokenOutput {
-	s.Credentials = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSessionTokenOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }

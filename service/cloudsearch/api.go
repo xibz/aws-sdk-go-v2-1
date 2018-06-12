@@ -15,6 +15,7 @@ const opBuildSuggesters = "BuildSuggesters"
 type BuildSuggestersRequest struct {
 	*aws.Request
 	Input *BuildSuggestersInput
+	Copy  func(*BuildSuggestersInput) BuildSuggestersRequest
 }
 
 // Send marshals and sends the BuildSuggesters API request.
@@ -51,8 +52,11 @@ func (c *CloudSearch) BuildSuggestersRequest(input *BuildSuggestersInput) BuildS
 		input = &BuildSuggestersInput{}
 	}
 
-	req := c.newRequest(op, input, &BuildSuggestersOutput{})
-	return BuildSuggestersRequest{Request: req, Input: input}
+	output := &BuildSuggestersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BuildSuggestersRequest{Request: req, Input: input, Copy: c.BuildSuggestersRequest}
 }
 
 const opCreateDomain = "CreateDomain"
@@ -61,6 +65,7 @@ const opCreateDomain = "CreateDomain"
 type CreateDomainRequest struct {
 	*aws.Request
 	Input *CreateDomainInput
+	Copy  func(*CreateDomainInput) CreateDomainRequest
 }
 
 // Send marshals and sends the CreateDomain API request.
@@ -97,8 +102,11 @@ func (c *CloudSearch) CreateDomainRequest(input *CreateDomainInput) CreateDomain
 		input = &CreateDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDomainOutput{})
-	return CreateDomainRequest{Request: req, Input: input}
+	output := &CreateDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDomainRequest{Request: req, Input: input, Copy: c.CreateDomainRequest}
 }
 
 const opDefineAnalysisScheme = "DefineAnalysisScheme"
@@ -107,6 +115,7 @@ const opDefineAnalysisScheme = "DefineAnalysisScheme"
 type DefineAnalysisSchemeRequest struct {
 	*aws.Request
 	Input *DefineAnalysisSchemeInput
+	Copy  func(*DefineAnalysisSchemeInput) DefineAnalysisSchemeRequest
 }
 
 // Send marshals and sends the DefineAnalysisScheme API request.
@@ -144,8 +153,11 @@ func (c *CloudSearch) DefineAnalysisSchemeRequest(input *DefineAnalysisSchemeInp
 		input = &DefineAnalysisSchemeInput{}
 	}
 
-	req := c.newRequest(op, input, &DefineAnalysisSchemeOutput{})
-	return DefineAnalysisSchemeRequest{Request: req, Input: input}
+	output := &DefineAnalysisSchemeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DefineAnalysisSchemeRequest{Request: req, Input: input, Copy: c.DefineAnalysisSchemeRequest}
 }
 
 const opDefineExpression = "DefineExpression"
@@ -154,6 +166,7 @@ const opDefineExpression = "DefineExpression"
 type DefineExpressionRequest struct {
 	*aws.Request
 	Input *DefineExpressionInput
+	Copy  func(*DefineExpressionInput) DefineExpressionRequest
 }
 
 // Send marshals and sends the DefineExpression API request.
@@ -191,8 +204,11 @@ func (c *CloudSearch) DefineExpressionRequest(input *DefineExpressionInput) Defi
 		input = &DefineExpressionInput{}
 	}
 
-	req := c.newRequest(op, input, &DefineExpressionOutput{})
-	return DefineExpressionRequest{Request: req, Input: input}
+	output := &DefineExpressionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DefineExpressionRequest{Request: req, Input: input, Copy: c.DefineExpressionRequest}
 }
 
 const opDefineIndexField = "DefineIndexField"
@@ -201,6 +217,7 @@ const opDefineIndexField = "DefineIndexField"
 type DefineIndexFieldRequest struct {
 	*aws.Request
 	Input *DefineIndexFieldInput
+	Copy  func(*DefineIndexFieldInput) DefineIndexFieldRequest
 }
 
 // Send marshals and sends the DefineIndexField API request.
@@ -242,8 +259,11 @@ func (c *CloudSearch) DefineIndexFieldRequest(input *DefineIndexFieldInput) Defi
 		input = &DefineIndexFieldInput{}
 	}
 
-	req := c.newRequest(op, input, &DefineIndexFieldOutput{})
-	return DefineIndexFieldRequest{Request: req, Input: input}
+	output := &DefineIndexFieldOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DefineIndexFieldRequest{Request: req, Input: input, Copy: c.DefineIndexFieldRequest}
 }
 
 const opDefineSuggester = "DefineSuggester"
@@ -252,6 +272,7 @@ const opDefineSuggester = "DefineSuggester"
 type DefineSuggesterRequest struct {
 	*aws.Request
 	Input *DefineSuggesterInput
+	Copy  func(*DefineSuggesterInput) DefineSuggesterRequest
 }
 
 // Send marshals and sends the DefineSuggester API request.
@@ -291,8 +312,11 @@ func (c *CloudSearch) DefineSuggesterRequest(input *DefineSuggesterInput) Define
 		input = &DefineSuggesterInput{}
 	}
 
-	req := c.newRequest(op, input, &DefineSuggesterOutput{})
-	return DefineSuggesterRequest{Request: req, Input: input}
+	output := &DefineSuggesterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DefineSuggesterRequest{Request: req, Input: input, Copy: c.DefineSuggesterRequest}
 }
 
 const opDeleteAnalysisScheme = "DeleteAnalysisScheme"
@@ -301,6 +325,7 @@ const opDeleteAnalysisScheme = "DeleteAnalysisScheme"
 type DeleteAnalysisSchemeRequest struct {
 	*aws.Request
 	Input *DeleteAnalysisSchemeInput
+	Copy  func(*DeleteAnalysisSchemeInput) DeleteAnalysisSchemeRequest
 }
 
 // Send marshals and sends the DeleteAnalysisScheme API request.
@@ -337,8 +362,11 @@ func (c *CloudSearch) DeleteAnalysisSchemeRequest(input *DeleteAnalysisSchemeInp
 		input = &DeleteAnalysisSchemeInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAnalysisSchemeOutput{})
-	return DeleteAnalysisSchemeRequest{Request: req, Input: input}
+	output := &DeleteAnalysisSchemeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAnalysisSchemeRequest{Request: req, Input: input, Copy: c.DeleteAnalysisSchemeRequest}
 }
 
 const opDeleteDomain = "DeleteDomain"
@@ -347,6 +375,7 @@ const opDeleteDomain = "DeleteDomain"
 type DeleteDomainRequest struct {
 	*aws.Request
 	Input *DeleteDomainInput
+	Copy  func(*DeleteDomainInput) DeleteDomainRequest
 }
 
 // Send marshals and sends the DeleteDomain API request.
@@ -384,8 +413,11 @@ func (c *CloudSearch) DeleteDomainRequest(input *DeleteDomainInput) DeleteDomain
 		input = &DeleteDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDomainOutput{})
-	return DeleteDomainRequest{Request: req, Input: input}
+	output := &DeleteDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDomainRequest{Request: req, Input: input, Copy: c.DeleteDomainRequest}
 }
 
 const opDeleteExpression = "DeleteExpression"
@@ -394,6 +426,7 @@ const opDeleteExpression = "DeleteExpression"
 type DeleteExpressionRequest struct {
 	*aws.Request
 	Input *DeleteExpressionInput
+	Copy  func(*DeleteExpressionInput) DeleteExpressionRequest
 }
 
 // Send marshals and sends the DeleteExpression API request.
@@ -430,8 +463,11 @@ func (c *CloudSearch) DeleteExpressionRequest(input *DeleteExpressionInput) Dele
 		input = &DeleteExpressionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteExpressionOutput{})
-	return DeleteExpressionRequest{Request: req, Input: input}
+	output := &DeleteExpressionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteExpressionRequest{Request: req, Input: input, Copy: c.DeleteExpressionRequest}
 }
 
 const opDeleteIndexField = "DeleteIndexField"
@@ -440,6 +476,7 @@ const opDeleteIndexField = "DeleteIndexField"
 type DeleteIndexFieldRequest struct {
 	*aws.Request
 	Input *DeleteIndexFieldInput
+	Copy  func(*DeleteIndexFieldInput) DeleteIndexFieldRequest
 }
 
 // Send marshals and sends the DeleteIndexField API request.
@@ -476,8 +513,11 @@ func (c *CloudSearch) DeleteIndexFieldRequest(input *DeleteIndexFieldInput) Dele
 		input = &DeleteIndexFieldInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteIndexFieldOutput{})
-	return DeleteIndexFieldRequest{Request: req, Input: input}
+	output := &DeleteIndexFieldOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteIndexFieldRequest{Request: req, Input: input, Copy: c.DeleteIndexFieldRequest}
 }
 
 const opDeleteSuggester = "DeleteSuggester"
@@ -486,6 +526,7 @@ const opDeleteSuggester = "DeleteSuggester"
 type DeleteSuggesterRequest struct {
 	*aws.Request
 	Input *DeleteSuggesterInput
+	Copy  func(*DeleteSuggesterInput) DeleteSuggesterRequest
 }
 
 // Send marshals and sends the DeleteSuggester API request.
@@ -522,8 +563,11 @@ func (c *CloudSearch) DeleteSuggesterRequest(input *DeleteSuggesterInput) Delete
 		input = &DeleteSuggesterInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSuggesterOutput{})
-	return DeleteSuggesterRequest{Request: req, Input: input}
+	output := &DeleteSuggesterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSuggesterRequest{Request: req, Input: input, Copy: c.DeleteSuggesterRequest}
 }
 
 const opDescribeAnalysisSchemes = "DescribeAnalysisSchemes"
@@ -532,6 +576,7 @@ const opDescribeAnalysisSchemes = "DescribeAnalysisSchemes"
 type DescribeAnalysisSchemesRequest struct {
 	*aws.Request
 	Input *DescribeAnalysisSchemesInput
+	Copy  func(*DescribeAnalysisSchemesInput) DescribeAnalysisSchemesRequest
 }
 
 // Send marshals and sends the DescribeAnalysisSchemes API request.
@@ -572,8 +617,11 @@ func (c *CloudSearch) DescribeAnalysisSchemesRequest(input *DescribeAnalysisSche
 		input = &DescribeAnalysisSchemesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAnalysisSchemesOutput{})
-	return DescribeAnalysisSchemesRequest{Request: req, Input: input}
+	output := &DescribeAnalysisSchemesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAnalysisSchemesRequest{Request: req, Input: input, Copy: c.DescribeAnalysisSchemesRequest}
 }
 
 const opDescribeAvailabilityOptions = "DescribeAvailabilityOptions"
@@ -582,6 +630,7 @@ const opDescribeAvailabilityOptions = "DescribeAvailabilityOptions"
 type DescribeAvailabilityOptionsRequest struct {
 	*aws.Request
 	Input *DescribeAvailabilityOptionsInput
+	Copy  func(*DescribeAvailabilityOptionsInput) DescribeAvailabilityOptionsRequest
 }
 
 // Send marshals and sends the DescribeAvailabilityOptions API request.
@@ -620,8 +669,11 @@ func (c *CloudSearch) DescribeAvailabilityOptionsRequest(input *DescribeAvailabi
 		input = &DescribeAvailabilityOptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAvailabilityOptionsOutput{})
-	return DescribeAvailabilityOptionsRequest{Request: req, Input: input}
+	output := &DescribeAvailabilityOptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAvailabilityOptionsRequest{Request: req, Input: input, Copy: c.DescribeAvailabilityOptionsRequest}
 }
 
 const opDescribeDomains = "DescribeDomains"
@@ -630,6 +682,7 @@ const opDescribeDomains = "DescribeDomains"
 type DescribeDomainsRequest struct {
 	*aws.Request
 	Input *DescribeDomainsInput
+	Copy  func(*DescribeDomainsInput) DescribeDomainsRequest
 }
 
 // Send marshals and sends the DescribeDomains API request.
@@ -669,8 +722,11 @@ func (c *CloudSearch) DescribeDomainsRequest(input *DescribeDomainsInput) Descri
 		input = &DescribeDomainsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDomainsOutput{})
-	return DescribeDomainsRequest{Request: req, Input: input}
+	output := &DescribeDomainsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDomainsRequest{Request: req, Input: input, Copy: c.DescribeDomainsRequest}
 }
 
 const opDescribeExpressions = "DescribeExpressions"
@@ -679,6 +735,7 @@ const opDescribeExpressions = "DescribeExpressions"
 type DescribeExpressionsRequest struct {
 	*aws.Request
 	Input *DescribeExpressionsInput
+	Copy  func(*DescribeExpressionsInput) DescribeExpressionsRequest
 }
 
 // Send marshals and sends the DescribeExpressions API request.
@@ -718,8 +775,11 @@ func (c *CloudSearch) DescribeExpressionsRequest(input *DescribeExpressionsInput
 		input = &DescribeExpressionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeExpressionsOutput{})
-	return DescribeExpressionsRequest{Request: req, Input: input}
+	output := &DescribeExpressionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeExpressionsRequest{Request: req, Input: input, Copy: c.DescribeExpressionsRequest}
 }
 
 const opDescribeIndexFields = "DescribeIndexFields"
@@ -728,6 +788,7 @@ const opDescribeIndexFields = "DescribeIndexFields"
 type DescribeIndexFieldsRequest struct {
 	*aws.Request
 	Input *DescribeIndexFieldsInput
+	Copy  func(*DescribeIndexFieldsInput) DescribeIndexFieldsRequest
 }
 
 // Send marshals and sends the DescribeIndexFields API request.
@@ -767,8 +828,11 @@ func (c *CloudSearch) DescribeIndexFieldsRequest(input *DescribeIndexFieldsInput
 		input = &DescribeIndexFieldsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeIndexFieldsOutput{})
-	return DescribeIndexFieldsRequest{Request: req, Input: input}
+	output := &DescribeIndexFieldsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeIndexFieldsRequest{Request: req, Input: input, Copy: c.DescribeIndexFieldsRequest}
 }
 
 const opDescribeScalingParameters = "DescribeScalingParameters"
@@ -777,6 +841,7 @@ const opDescribeScalingParameters = "DescribeScalingParameters"
 type DescribeScalingParametersRequest struct {
 	*aws.Request
 	Input *DescribeScalingParametersInput
+	Copy  func(*DescribeScalingParametersInput) DescribeScalingParametersRequest
 }
 
 // Send marshals and sends the DescribeScalingParameters API request.
@@ -814,8 +879,11 @@ func (c *CloudSearch) DescribeScalingParametersRequest(input *DescribeScalingPar
 		input = &DescribeScalingParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeScalingParametersOutput{})
-	return DescribeScalingParametersRequest{Request: req, Input: input}
+	output := &DescribeScalingParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeScalingParametersRequest{Request: req, Input: input, Copy: c.DescribeScalingParametersRequest}
 }
 
 const opDescribeServiceAccessPolicies = "DescribeServiceAccessPolicies"
@@ -824,6 +892,7 @@ const opDescribeServiceAccessPolicies = "DescribeServiceAccessPolicies"
 type DescribeServiceAccessPoliciesRequest struct {
 	*aws.Request
 	Input *DescribeServiceAccessPoliciesInput
+	Copy  func(*DescribeServiceAccessPoliciesInput) DescribeServiceAccessPoliciesRequest
 }
 
 // Send marshals and sends the DescribeServiceAccessPolicies API request.
@@ -863,8 +932,11 @@ func (c *CloudSearch) DescribeServiceAccessPoliciesRequest(input *DescribeServic
 		input = &DescribeServiceAccessPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeServiceAccessPoliciesOutput{})
-	return DescribeServiceAccessPoliciesRequest{Request: req, Input: input}
+	output := &DescribeServiceAccessPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeServiceAccessPoliciesRequest{Request: req, Input: input, Copy: c.DescribeServiceAccessPoliciesRequest}
 }
 
 const opDescribeSuggesters = "DescribeSuggesters"
@@ -873,6 +945,7 @@ const opDescribeSuggesters = "DescribeSuggesters"
 type DescribeSuggestersRequest struct {
 	*aws.Request
 	Input *DescribeSuggestersInput
+	Copy  func(*DescribeSuggestersInput) DescribeSuggestersRequest
 }
 
 // Send marshals and sends the DescribeSuggesters API request.
@@ -913,8 +986,11 @@ func (c *CloudSearch) DescribeSuggestersRequest(input *DescribeSuggestersInput) 
 		input = &DescribeSuggestersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSuggestersOutput{})
-	return DescribeSuggestersRequest{Request: req, Input: input}
+	output := &DescribeSuggestersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSuggestersRequest{Request: req, Input: input, Copy: c.DescribeSuggestersRequest}
 }
 
 const opIndexDocuments = "IndexDocuments"
@@ -923,6 +999,7 @@ const opIndexDocuments = "IndexDocuments"
 type IndexDocumentsRequest struct {
 	*aws.Request
 	Input *IndexDocumentsInput
+	Copy  func(*IndexDocumentsInput) IndexDocumentsRequest
 }
 
 // Send marshals and sends the IndexDocuments API request.
@@ -959,8 +1036,11 @@ func (c *CloudSearch) IndexDocumentsRequest(input *IndexDocumentsInput) IndexDoc
 		input = &IndexDocumentsInput{}
 	}
 
-	req := c.newRequest(op, input, &IndexDocumentsOutput{})
-	return IndexDocumentsRequest{Request: req, Input: input}
+	output := &IndexDocumentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return IndexDocumentsRequest{Request: req, Input: input, Copy: c.IndexDocumentsRequest}
 }
 
 const opListDomainNames = "ListDomainNames"
@@ -969,6 +1049,7 @@ const opListDomainNames = "ListDomainNames"
 type ListDomainNamesRequest struct {
 	*aws.Request
 	Input *ListDomainNamesInput
+	Copy  func(*ListDomainNamesInput) ListDomainNamesRequest
 }
 
 // Send marshals and sends the ListDomainNames API request.
@@ -1003,8 +1084,11 @@ func (c *CloudSearch) ListDomainNamesRequest(input *ListDomainNamesInput) ListDo
 		input = &ListDomainNamesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDomainNamesOutput{})
-	return ListDomainNamesRequest{Request: req, Input: input}
+	output := &ListDomainNamesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDomainNamesRequest{Request: req, Input: input, Copy: c.ListDomainNamesRequest}
 }
 
 const opUpdateAvailabilityOptions = "UpdateAvailabilityOptions"
@@ -1013,6 +1097,7 @@ const opUpdateAvailabilityOptions = "UpdateAvailabilityOptions"
 type UpdateAvailabilityOptionsRequest struct {
 	*aws.Request
 	Input *UpdateAvailabilityOptionsInput
+	Copy  func(*UpdateAvailabilityOptionsInput) UpdateAvailabilityOptionsRequest
 }
 
 // Send marshals and sends the UpdateAvailabilityOptions API request.
@@ -1052,8 +1137,11 @@ func (c *CloudSearch) UpdateAvailabilityOptionsRequest(input *UpdateAvailability
 		input = &UpdateAvailabilityOptionsInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAvailabilityOptionsOutput{})
-	return UpdateAvailabilityOptionsRequest{Request: req, Input: input}
+	output := &UpdateAvailabilityOptionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAvailabilityOptionsRequest{Request: req, Input: input, Copy: c.UpdateAvailabilityOptionsRequest}
 }
 
 const opUpdateScalingParameters = "UpdateScalingParameters"
@@ -1062,6 +1150,7 @@ const opUpdateScalingParameters = "UpdateScalingParameters"
 type UpdateScalingParametersRequest struct {
 	*aws.Request
 	Input *UpdateScalingParametersInput
+	Copy  func(*UpdateScalingParametersInput) UpdateScalingParametersRequest
 }
 
 // Send marshals and sends the UpdateScalingParameters API request.
@@ -1103,8 +1192,11 @@ func (c *CloudSearch) UpdateScalingParametersRequest(input *UpdateScalingParamet
 		input = &UpdateScalingParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateScalingParametersOutput{})
-	return UpdateScalingParametersRequest{Request: req, Input: input}
+	output := &UpdateScalingParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateScalingParametersRequest{Request: req, Input: input, Copy: c.UpdateScalingParametersRequest}
 }
 
 const opUpdateServiceAccessPolicies = "UpdateServiceAccessPolicies"
@@ -1113,6 +1205,7 @@ const opUpdateServiceAccessPolicies = "UpdateServiceAccessPolicies"
 type UpdateServiceAccessPoliciesRequest struct {
 	*aws.Request
 	Input *UpdateServiceAccessPoliciesInput
+	Copy  func(*UpdateServiceAccessPoliciesInput) UpdateServiceAccessPoliciesRequest
 }
 
 // Send marshals and sends the UpdateServiceAccessPolicies API request.
@@ -1149,8 +1242,11 @@ func (c *CloudSearch) UpdateServiceAccessPoliciesRequest(input *UpdateServiceAcc
 		input = &UpdateServiceAccessPoliciesInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateServiceAccessPoliciesOutput{})
-	return UpdateServiceAccessPoliciesRequest{Request: req, Input: input}
+	output := &UpdateServiceAccessPoliciesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateServiceAccessPoliciesRequest{Request: req, Input: input, Copy: c.UpdateServiceAccessPoliciesRequest}
 }
 
 // The configured access rules for the domain's document and search endpoints,
@@ -1182,18 +1278,6 @@ func (s AccessPoliciesStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *AccessPoliciesStatus) SetOptions(v string) *AccessPoliciesStatus {
-	s.Options = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AccessPoliciesStatus) SetStatus(v *OptionStatus) *AccessPoliciesStatus {
-	s.Status = v
-	return s
-}
-
 // Synonyms, stopwords, and stemming options for an analysis scheme. Includes
 // tokenization dictionary for Japanese.
 type AnalysisOptions struct {
@@ -1203,7 +1287,7 @@ type AnalysisOptions struct {
 	// The available levels vary depending on the language. For more information,
 	// see Language Specific Text Processing Settings (http://docs.aws.amazon.com/cloudsearch/latest/developerguide/text-processing.html#text-processing-settings)
 	// in the Amazon CloudSearch Developer Guide
-	AlgorithmicStemming AlgorithmicStemming `type:"string"`
+	AlgorithmicStemming AlgorithmicStemming `type:"string" enum:"true"`
 
 	// A JSON array that contains a collection of terms, tokens, readings and part
 	// of speech for Japanese Tokenizaiton. The Japanese tokenization dictionary
@@ -1246,36 +1330,6 @@ func (s AnalysisOptions) GoString() string {
 	return s.String()
 }
 
-// SetAlgorithmicStemming sets the AlgorithmicStemming field's value.
-func (s *AnalysisOptions) SetAlgorithmicStemming(v AlgorithmicStemming) *AnalysisOptions {
-	s.AlgorithmicStemming = v
-	return s
-}
-
-// SetJapaneseTokenizationDictionary sets the JapaneseTokenizationDictionary field's value.
-func (s *AnalysisOptions) SetJapaneseTokenizationDictionary(v string) *AnalysisOptions {
-	s.JapaneseTokenizationDictionary = &v
-	return s
-}
-
-// SetStemmingDictionary sets the StemmingDictionary field's value.
-func (s *AnalysisOptions) SetStemmingDictionary(v string) *AnalysisOptions {
-	s.StemmingDictionary = &v
-	return s
-}
-
-// SetStopwords sets the Stopwords field's value.
-func (s *AnalysisOptions) SetStopwords(v string) *AnalysisOptions {
-	s.Stopwords = &v
-	return s
-}
-
-// SetSynonyms sets the Synonyms field's value.
-func (s *AnalysisOptions) SetSynonyms(v string) *AnalysisOptions {
-	s.Synonyms = &v
-	return s
-}
-
 // Configuration information for an analysis scheme. Each analysis scheme has
 // a unique name and specifies the language of the text to be processed. The
 // following options can be configured for an analysis scheme: Synonyms, Stopwords,
@@ -1291,7 +1345,7 @@ type AnalysisScheme struct {
 	// for multiple languages.
 	//
 	// AnalysisSchemeLanguage is a required field
-	AnalysisSchemeLanguage AnalysisSchemeLanguage `type:"string" required:"true"`
+	AnalysisSchemeLanguage AnalysisSchemeLanguage `type:"string" required:"true" enum:"true"`
 
 	// Names must begin with a letter and can contain the following characters:
 	// a-z (lowercase), 0-9, and _ (underscore).
@@ -1330,24 +1384,6 @@ func (s *AnalysisScheme) Validate() error {
 	return nil
 }
 
-// SetAnalysisOptions sets the AnalysisOptions field's value.
-func (s *AnalysisScheme) SetAnalysisOptions(v *AnalysisOptions) *AnalysisScheme {
-	s.AnalysisOptions = v
-	return s
-}
-
-// SetAnalysisSchemeLanguage sets the AnalysisSchemeLanguage field's value.
-func (s *AnalysisScheme) SetAnalysisSchemeLanguage(v AnalysisSchemeLanguage) *AnalysisScheme {
-	s.AnalysisSchemeLanguage = v
-	return s
-}
-
-// SetAnalysisSchemeName sets the AnalysisSchemeName field's value.
-func (s *AnalysisScheme) SetAnalysisSchemeName(v string) *AnalysisScheme {
-	s.AnalysisSchemeName = &v
-	return s
-}
-
 // The status and configuration of an AnalysisScheme.
 type AnalysisSchemeStatus struct {
 	_ struct{} `type:"structure"`
@@ -1376,18 +1412,6 @@ func (s AnalysisSchemeStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *AnalysisSchemeStatus) SetOptions(v *AnalysisScheme) *AnalysisSchemeStatus {
-	s.Options = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AnalysisSchemeStatus) SetStatus(v *OptionStatus) *AnalysisSchemeStatus {
-	s.Status = v
-	return s
-}
-
 // The status and configuration of the domain's availability options.
 type AvailabilityOptionsStatus struct {
 	_ struct{} `type:"structure"`
@@ -1411,18 +1435,6 @@ func (s AvailabilityOptionsStatus) String() string {
 // GoString returns the string representation
 func (s AvailabilityOptionsStatus) GoString() string {
 	return s.String()
-}
-
-// SetOptions sets the Options field's value.
-func (s *AvailabilityOptionsStatus) SetOptions(v bool) *AvailabilityOptionsStatus {
-	s.Options = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AvailabilityOptionsStatus) SetStatus(v *OptionStatus) *AvailabilityOptionsStatus {
-	s.Status = v
-	return s
 }
 
 // Container for the parameters to the BuildSuggester operation. Specifies the
@@ -1466,19 +1478,15 @@ func (s *BuildSuggestersInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *BuildSuggestersInput) SetDomainName(v string) *BuildSuggestersInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a BuildSuggester request. Contains a list of the fields used
 // for suggestions.
 type BuildSuggestersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of field names.
-	FieldNames []*string `type:"list"`
+	FieldNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -1491,10 +1499,9 @@ func (s BuildSuggestersOutput) GoString() string {
 	return s.String()
 }
 
-// SetFieldNames sets the FieldNames field's value.
-func (s *BuildSuggestersOutput) SetFieldNames(v []*string) *BuildSuggestersOutput {
-	s.FieldNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BuildSuggestersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the CreateDomain operation. Specifies a name
@@ -1537,16 +1544,12 @@ func (s *CreateDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *CreateDomainInput) SetDomainName(v string) *CreateDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a CreateDomainRequest. Contains the status of a newly created
 // domain.
 type CreateDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The current status of the search domain.
 	DomainStatus *DomainStatus `type:"structure"`
@@ -1562,10 +1565,9 @@ func (s CreateDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatus sets the DomainStatus field's value.
-func (s *CreateDomainOutput) SetDomainStatus(v *DomainStatus) *CreateDomainOutput {
-	s.DomainStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Options for a field that contains an array of dates. Present if IndexFieldType
@@ -1597,36 +1599,6 @@ func (s DateArrayOptions) String() string {
 // GoString returns the string representation
 func (s DateArrayOptions) GoString() string {
 	return s.String()
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *DateArrayOptions) SetDefaultValue(v string) *DateArrayOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *DateArrayOptions) SetFacetEnabled(v bool) *DateArrayOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *DateArrayOptions) SetReturnEnabled(v bool) *DateArrayOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *DateArrayOptions) SetSearchEnabled(v bool) *DateArrayOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSourceFields sets the SourceFields field's value.
-func (s *DateArrayOptions) SetSourceFields(v string) *DateArrayOptions {
-	s.SourceFields = &v
-	return s
 }
 
 // Options for a date field. Dates and times are specified in UTC (Coordinated
@@ -1691,42 +1663,6 @@ func (s *DateOptions) Validate() error {
 	return nil
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *DateOptions) SetDefaultValue(v string) *DateOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *DateOptions) SetFacetEnabled(v bool) *DateOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *DateOptions) SetReturnEnabled(v bool) *DateOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *DateOptions) SetSearchEnabled(v bool) *DateOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSortEnabled sets the SortEnabled field's value.
-func (s *DateOptions) SetSortEnabled(v bool) *DateOptions {
-	s.SortEnabled = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *DateOptions) SetSourceField(v string) *DateOptions {
-	s.SourceField = &v
-	return s
-}
-
 // Container for the parameters to the DefineAnalysisScheme operation. Specifies
 // the name of the domain you want to update and the analysis scheme configuration.
 type DefineAnalysisSchemeInput struct {
@@ -1785,22 +1721,12 @@ func (s *DefineAnalysisSchemeInput) Validate() error {
 	return nil
 }
 
-// SetAnalysisScheme sets the AnalysisScheme field's value.
-func (s *DefineAnalysisSchemeInput) SetAnalysisScheme(v *AnalysisScheme) *DefineAnalysisSchemeInput {
-	s.AnalysisScheme = v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DefineAnalysisSchemeInput) SetDomainName(v string) *DefineAnalysisSchemeInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DefineAnalysisScheme request. Contains the status of the
 // newly-configured analysis scheme.
 type DefineAnalysisSchemeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status and configuration of an AnalysisScheme.
 	//
@@ -1818,10 +1744,9 @@ func (s DefineAnalysisSchemeOutput) GoString() string {
 	return s.String()
 }
 
-// SetAnalysisScheme sets the AnalysisScheme field's value.
-func (s *DefineAnalysisSchemeOutput) SetAnalysisScheme(v *AnalysisSchemeStatus) *DefineAnalysisSchemeOutput {
-	s.AnalysisScheme = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DefineAnalysisSchemeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DefineExpression operation. Specifies
@@ -1882,22 +1807,12 @@ func (s *DefineExpressionInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DefineExpressionInput) SetDomainName(v string) *DefineExpressionInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetExpression sets the Expression field's value.
-func (s *DefineExpressionInput) SetExpression(v *Expression) *DefineExpressionInput {
-	s.Expression = v
-	return s
-}
-
 // The result of a DefineExpression request. Contains the status of the newly-configured
 // expression.
 type DefineExpressionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The value of an Expression and its current status.
 	//
@@ -1915,10 +1830,9 @@ func (s DefineExpressionOutput) GoString() string {
 	return s.String()
 }
 
-// SetExpression sets the Expression field's value.
-func (s *DefineExpressionOutput) SetExpression(v *ExpressionStatus) *DefineExpressionOutput {
-	s.Expression = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DefineExpressionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DefineIndexField operation. Specifies
@@ -1976,22 +1890,12 @@ func (s *DefineIndexFieldInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DefineIndexFieldInput) SetDomainName(v string) *DefineIndexFieldInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetIndexField sets the IndexField field's value.
-func (s *DefineIndexFieldInput) SetIndexField(v *IndexField) *DefineIndexFieldInput {
-	s.IndexField = v
-	return s
-}
-
 // The result of a DefineIndexField request. Contains the status of the newly-configured
 // index field.
 type DefineIndexFieldOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The value of an IndexField and its current status.
 	//
@@ -2009,10 +1913,9 @@ func (s DefineIndexFieldOutput) GoString() string {
 	return s.String()
 }
 
-// SetIndexField sets the IndexField field's value.
-func (s *DefineIndexFieldOutput) SetIndexField(v *IndexFieldStatus) *DefineIndexFieldOutput {
-	s.IndexField = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DefineIndexFieldOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DefineSuggester operation. Specifies
@@ -2072,22 +1975,12 @@ func (s *DefineSuggesterInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DefineSuggesterInput) SetDomainName(v string) *DefineSuggesterInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetSuggester sets the Suggester field's value.
-func (s *DefineSuggesterInput) SetSuggester(v *Suggester) *DefineSuggesterInput {
-	s.Suggester = v
-	return s
-}
-
 // The result of a DefineSuggester request. Contains the status of the newly-configured
 // suggester.
 type DefineSuggesterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The value of a Suggester and its current status.
 	//
@@ -2105,10 +1998,9 @@ func (s DefineSuggesterOutput) GoString() string {
 	return s.String()
 }
 
-// SetSuggester sets the Suggester field's value.
-func (s *DefineSuggesterOutput) SetSuggester(v *SuggesterStatus) *DefineSuggesterOutput {
-	s.Suggester = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DefineSuggesterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DeleteAnalysisScheme operation. Specifies
@@ -2165,22 +2057,12 @@ func (s *DeleteAnalysisSchemeInput) Validate() error {
 	return nil
 }
 
-// SetAnalysisSchemeName sets the AnalysisSchemeName field's value.
-func (s *DeleteAnalysisSchemeInput) SetAnalysisSchemeName(v string) *DeleteAnalysisSchemeInput {
-	s.AnalysisSchemeName = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteAnalysisSchemeInput) SetDomainName(v string) *DeleteAnalysisSchemeInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DeleteAnalysisScheme request. Contains the status of the
 // deleted analysis scheme.
 type DeleteAnalysisSchemeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the analysis scheme being deleted.
 	//
@@ -2198,10 +2080,9 @@ func (s DeleteAnalysisSchemeOutput) GoString() string {
 	return s.String()
 }
 
-// SetAnalysisScheme sets the AnalysisScheme field's value.
-func (s *DeleteAnalysisSchemeOutput) SetAnalysisScheme(v *AnalysisSchemeStatus) *DeleteAnalysisSchemeOutput {
-	s.AnalysisScheme = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAnalysisSchemeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DeleteDomain operation. Specifies the
@@ -2242,16 +2123,12 @@ func (s *DeleteDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteDomainInput) SetDomainName(v string) *DeleteDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DeleteDomain request. Contains the status of a newly deleted
 // domain, or no status if the domain has already been completely deleted.
 type DeleteDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The current status of the search domain.
 	DomainStatus *DomainStatus `type:"structure"`
@@ -2267,10 +2144,9 @@ func (s DeleteDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatus sets the DomainStatus field's value.
-func (s *DeleteDomainOutput) SetDomainStatus(v *DomainStatus) *DeleteDomainOutput {
-	s.DomainStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DeleteExpression operation. Specifies
@@ -2327,22 +2203,12 @@ func (s *DeleteExpressionInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteExpressionInput) SetDomainName(v string) *DeleteExpressionInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetExpressionName sets the ExpressionName field's value.
-func (s *DeleteExpressionInput) SetExpressionName(v string) *DeleteExpressionInput {
-	s.ExpressionName = &v
-	return s
-}
-
 // The result of a DeleteExpression request. Specifies the expression being
 // deleted.
 type DeleteExpressionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the expression being deleted.
 	//
@@ -2360,10 +2226,9 @@ func (s DeleteExpressionOutput) GoString() string {
 	return s.String()
 }
 
-// SetExpression sets the Expression field's value.
-func (s *DeleteExpressionOutput) SetExpression(v *ExpressionStatus) *DeleteExpressionOutput {
-	s.Expression = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteExpressionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DeleteIndexField operation. Specifies
@@ -2421,21 +2286,11 @@ func (s *DeleteIndexFieldInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteIndexFieldInput) SetDomainName(v string) *DeleteIndexFieldInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetIndexFieldName sets the IndexFieldName field's value.
-func (s *DeleteIndexFieldInput) SetIndexFieldName(v string) *DeleteIndexFieldInput {
-	s.IndexFieldName = &v
-	return s
-}
-
 // The result of a DeleteIndexField request.
 type DeleteIndexFieldOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the index field being deleted.
 	//
@@ -2453,10 +2308,9 @@ func (s DeleteIndexFieldOutput) GoString() string {
 	return s.String()
 }
 
-// SetIndexField sets the IndexField field's value.
-func (s *DeleteIndexFieldOutput) SetIndexField(v *IndexFieldStatus) *DeleteIndexFieldOutput {
-	s.IndexField = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteIndexFieldOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DeleteSuggester operation. Specifies
@@ -2513,22 +2367,12 @@ func (s *DeleteSuggesterInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteSuggesterInput) SetDomainName(v string) *DeleteSuggesterInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetSuggesterName sets the SuggesterName field's value.
-func (s *DeleteSuggesterInput) SetSuggesterName(v string) *DeleteSuggesterInput {
-	s.SuggesterName = &v
-	return s
-}
-
 // The result of a DeleteSuggester request. Contains the status of the deleted
 // suggester.
 type DeleteSuggesterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the suggester being deleted.
 	//
@@ -2546,10 +2390,9 @@ func (s DeleteSuggesterOutput) GoString() string {
 	return s.String()
 }
 
-// SetSuggester sets the Suggester field's value.
-func (s *DeleteSuggesterOutput) SetSuggester(v *SuggesterStatus) *DeleteSuggesterOutput {
-	s.Suggester = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSuggesterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeAnalysisSchemes operation. Specifies
@@ -2561,7 +2404,7 @@ type DescribeAnalysisSchemesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The analysis schemes you want to describe.
-	AnalysisSchemeNames []*string `type:"list"`
+	AnalysisSchemeNames []string `type:"list"`
 
 	// Whether to display the deployed configuration (true) or include any pending
 	// changes (false). Defaults to false.
@@ -2600,33 +2443,17 @@ func (s *DescribeAnalysisSchemesInput) Validate() error {
 	return nil
 }
 
-// SetAnalysisSchemeNames sets the AnalysisSchemeNames field's value.
-func (s *DescribeAnalysisSchemesInput) SetAnalysisSchemeNames(v []*string) *DescribeAnalysisSchemesInput {
-	s.AnalysisSchemeNames = v
-	return s
-}
-
-// SetDeployed sets the Deployed field's value.
-func (s *DescribeAnalysisSchemesInput) SetDeployed(v bool) *DescribeAnalysisSchemesInput {
-	s.Deployed = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeAnalysisSchemesInput) SetDomainName(v string) *DescribeAnalysisSchemesInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DescribeAnalysisSchemes request. Contains the analysis schemes
 // configured for the domain specified in the request.
 type DescribeAnalysisSchemesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The analysis scheme descriptions.
 	//
 	// AnalysisSchemes is a required field
-	AnalysisSchemes []*AnalysisSchemeStatus `type:"list" required:"true"`
+	AnalysisSchemes []AnalysisSchemeStatus `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2639,10 +2466,9 @@ func (s DescribeAnalysisSchemesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAnalysisSchemes sets the AnalysisSchemes field's value.
-func (s *DescribeAnalysisSchemesOutput) SetAnalysisSchemes(v []*AnalysisSchemeStatus) *DescribeAnalysisSchemesOutput {
-	s.AnalysisSchemes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAnalysisSchemesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeAvailabilityOptions operation.
@@ -2689,22 +2515,12 @@ func (s *DescribeAvailabilityOptionsInput) Validate() error {
 	return nil
 }
 
-// SetDeployed sets the Deployed field's value.
-func (s *DescribeAvailabilityOptionsInput) SetDeployed(v bool) *DescribeAvailabilityOptionsInput {
-	s.Deployed = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeAvailabilityOptionsInput) SetDomainName(v string) *DescribeAvailabilityOptionsInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DescribeAvailabilityOptions request. Indicates whether or
 // not the Multi-AZ option is enabled for the domain specified in the request.
 type DescribeAvailabilityOptionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The availability options configured for the domain. Indicates whether Multi-AZ
 	// is enabled for the domain.
@@ -2721,10 +2537,9 @@ func (s DescribeAvailabilityOptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityOptions sets the AvailabilityOptions field's value.
-func (s *DescribeAvailabilityOptionsOutput) SetAvailabilityOptions(v *AvailabilityOptionsStatus) *DescribeAvailabilityOptionsOutput {
-	s.AvailabilityOptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAvailabilityOptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeDomains operation. By default
@@ -2734,7 +2549,7 @@ type DescribeDomainsInput struct {
 	_ struct{} `type:"structure"`
 
 	// The names of the domains you want to include in the response.
-	DomainNames []*string `type:"list"`
+	DomainNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2747,21 +2562,17 @@ func (s DescribeDomainsInput) GoString() string {
 	return s.String()
 }
 
-// SetDomainNames sets the DomainNames field's value.
-func (s *DescribeDomainsInput) SetDomainNames(v []*string) *DescribeDomainsInput {
-	s.DomainNames = v
-	return s
-}
-
 // The result of a DescribeDomains request. Contains the status of the domains
 // specified in the request or all domains owned by the account.
 type DescribeDomainsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list that contains the status of each requested domain.
 	//
 	// DomainStatusList is a required field
-	DomainStatusList []*DomainStatus `type:"list" required:"true"`
+	DomainStatusList []DomainStatus `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2774,10 +2585,9 @@ func (s DescribeDomainsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatusList sets the DomainStatusList field's value.
-func (s *DescribeDomainsOutput) SetDomainStatusList(v []*DomainStatus) *DescribeDomainsOutput {
-	s.DomainStatusList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDomainsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeDomains operation. Specifies
@@ -2799,7 +2609,7 @@ type DescribeExpressionsInput struct {
 
 	// Limits the DescribeExpressions response to the specified expressions. If
 	// not specified, all expressions are shown.
-	ExpressionNames []*string `type:"list"`
+	ExpressionNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2829,33 +2639,17 @@ func (s *DescribeExpressionsInput) Validate() error {
 	return nil
 }
 
-// SetDeployed sets the Deployed field's value.
-func (s *DescribeExpressionsInput) SetDeployed(v bool) *DescribeExpressionsInput {
-	s.Deployed = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeExpressionsInput) SetDomainName(v string) *DescribeExpressionsInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetExpressionNames sets the ExpressionNames field's value.
-func (s *DescribeExpressionsInput) SetExpressionNames(v []*string) *DescribeExpressionsInput {
-	s.ExpressionNames = v
-	return s
-}
-
 // The result of a DescribeExpressions request. Contains the expressions configured
 // for the domain specified in the request.
 type DescribeExpressionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The expressions configured for the domain.
 	//
 	// Expressions is a required field
-	Expressions []*ExpressionStatus `type:"list" required:"true"`
+	Expressions []ExpressionStatus `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2868,10 +2662,9 @@ func (s DescribeExpressionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetExpressions sets the Expressions field's value.
-func (s *DescribeExpressionsOutput) SetExpressions(v []*ExpressionStatus) *DescribeExpressionsOutput {
-	s.Expressions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeExpressionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeIndexFields operation. Specifies
@@ -2893,7 +2686,7 @@ type DescribeIndexFieldsInput struct {
 
 	// A list of the index fields you want to describe. If not specified, information
 	// is returned for all configured index fields.
-	FieldNames []*string `type:"list"`
+	FieldNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2923,33 +2716,17 @@ func (s *DescribeIndexFieldsInput) Validate() error {
 	return nil
 }
 
-// SetDeployed sets the Deployed field's value.
-func (s *DescribeIndexFieldsInput) SetDeployed(v bool) *DescribeIndexFieldsInput {
-	s.Deployed = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeIndexFieldsInput) SetDomainName(v string) *DescribeIndexFieldsInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetFieldNames sets the FieldNames field's value.
-func (s *DescribeIndexFieldsInput) SetFieldNames(v []*string) *DescribeIndexFieldsInput {
-	s.FieldNames = v
-	return s
-}
-
 // The result of a DescribeIndexFields request. Contains the index fields configured
 // for the domain specified in the request.
 type DescribeIndexFieldsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The index fields configured for the domain.
 	//
 	// IndexFields is a required field
-	IndexFields []*IndexFieldStatus `type:"list" required:"true"`
+	IndexFields []IndexFieldStatus `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2962,10 +2739,9 @@ func (s DescribeIndexFieldsOutput) GoString() string {
 	return s.String()
 }
 
-// SetIndexFields sets the IndexFields field's value.
-func (s *DescribeIndexFieldsOutput) SetIndexFields(v []*IndexFieldStatus) *DescribeIndexFieldsOutput {
-	s.IndexFields = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeIndexFieldsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeScalingParameters operation.
@@ -3009,16 +2785,12 @@ func (s *DescribeScalingParametersInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeScalingParametersInput) SetDomainName(v string) *DescribeScalingParametersInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DescribeScalingParameters request. Contains the scaling parameters
 // configured for the domain specified in the request.
 type DescribeScalingParametersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status and configuration of a search domain's scaling parameters.
 	//
@@ -3036,10 +2808,9 @@ func (s DescribeScalingParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetScalingParameters sets the ScalingParameters field's value.
-func (s *DescribeScalingParametersOutput) SetScalingParameters(v *ScalingParametersStatus) *DescribeScalingParametersOutput {
-	s.ScalingParameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeScalingParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeServiceAccessPolicies operation.
@@ -3086,21 +2857,11 @@ func (s *DescribeServiceAccessPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetDeployed sets the Deployed field's value.
-func (s *DescribeServiceAccessPoliciesInput) SetDeployed(v bool) *DescribeServiceAccessPoliciesInput {
-	s.Deployed = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeServiceAccessPoliciesInput) SetDomainName(v string) *DescribeServiceAccessPoliciesInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of a DescribeServiceAccessPolicies request.
 type DescribeServiceAccessPoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The access rules configured for the domain specified in the request.
 	//
@@ -3118,10 +2879,9 @@ func (s DescribeServiceAccessPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *DescribeServiceAccessPoliciesOutput) SetAccessPolicies(v *AccessPoliciesStatus) *DescribeServiceAccessPoliciesOutput {
-	s.AccessPolicies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeServiceAccessPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the DescribeSuggester operation. Specifies
@@ -3142,7 +2902,7 @@ type DescribeSuggestersInput struct {
 	DomainName *string `min:"3" type:"string" required:"true"`
 
 	// The suggesters you want to describe.
-	SuggesterNames []*string `type:"list"`
+	SuggesterNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3172,32 +2932,16 @@ func (s *DescribeSuggestersInput) Validate() error {
 	return nil
 }
 
-// SetDeployed sets the Deployed field's value.
-func (s *DescribeSuggestersInput) SetDeployed(v bool) *DescribeSuggestersInput {
-	s.Deployed = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeSuggestersInput) SetDomainName(v string) *DescribeSuggestersInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetSuggesterNames sets the SuggesterNames field's value.
-func (s *DescribeSuggestersInput) SetSuggesterNames(v []*string) *DescribeSuggestersInput {
-	s.SuggesterNames = v
-	return s
-}
-
 // The result of a DescribeSuggesters request.
 type DescribeSuggestersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The suggesters configured for the domain specified in the request.
 	//
 	// Suggesters is a required field
-	Suggesters []*SuggesterStatus `type:"list" required:"true"`
+	Suggesters []SuggesterStatus `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3210,10 +2954,9 @@ func (s DescribeSuggestersOutput) GoString() string {
 	return s.String()
 }
 
-// SetSuggesters sets the Suggesters field's value.
-func (s *DescribeSuggestersOutput) SetSuggesters(v []*SuggesterStatus) *DescribeSuggestersOutput {
-	s.Suggesters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSuggestersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Options for a search suggester.
@@ -3225,7 +2968,7 @@ type DocumentSuggesterOptions struct {
 	// With low, suggestions must differ from the specified string by no more than
 	// one character. With high, suggestions can differ by up to two characters.
 	// The default is none.
-	FuzzyMatching SuggesterFuzzyMatching `type:"string"`
+	FuzzyMatching SuggesterFuzzyMatching `type:"string" enum:"true"`
 
 	// An expression that computes a score for each suggestion to control how they
 	// are sorted. The scores are rounded to the nearest integer, with a floor of
@@ -3267,24 +3010,6 @@ func (s *DocumentSuggesterOptions) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetFuzzyMatching sets the FuzzyMatching field's value.
-func (s *DocumentSuggesterOptions) SetFuzzyMatching(v SuggesterFuzzyMatching) *DocumentSuggesterOptions {
-	s.FuzzyMatching = v
-	return s
-}
-
-// SetSortExpression sets the SortExpression field's value.
-func (s *DocumentSuggesterOptions) SetSortExpression(v string) *DocumentSuggesterOptions {
-	s.SortExpression = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *DocumentSuggesterOptions) SetSourceField(v string) *DocumentSuggesterOptions {
-	s.SourceField = &v
-	return s
 }
 
 // The current status of the search domain.
@@ -3358,84 +3083,6 @@ func (s DomainStatus) GoString() string {
 	return s.String()
 }
 
-// SetARN sets the ARN field's value.
-func (s *DomainStatus) SetARN(v string) *DomainStatus {
-	s.ARN = &v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *DomainStatus) SetCreated(v bool) *DomainStatus {
-	s.Created = &v
-	return s
-}
-
-// SetDeleted sets the Deleted field's value.
-func (s *DomainStatus) SetDeleted(v bool) *DomainStatus {
-	s.Deleted = &v
-	return s
-}
-
-// SetDocService sets the DocService field's value.
-func (s *DomainStatus) SetDocService(v *ServiceEndpoint) *DomainStatus {
-	s.DocService = v
-	return s
-}
-
-// SetDomainId sets the DomainId field's value.
-func (s *DomainStatus) SetDomainId(v string) *DomainStatus {
-	s.DomainId = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DomainStatus) SetDomainName(v string) *DomainStatus {
-	s.DomainName = &v
-	return s
-}
-
-// SetLimits sets the Limits field's value.
-func (s *DomainStatus) SetLimits(v *Limits) *DomainStatus {
-	s.Limits = v
-	return s
-}
-
-// SetProcessing sets the Processing field's value.
-func (s *DomainStatus) SetProcessing(v bool) *DomainStatus {
-	s.Processing = &v
-	return s
-}
-
-// SetRequiresIndexDocuments sets the RequiresIndexDocuments field's value.
-func (s *DomainStatus) SetRequiresIndexDocuments(v bool) *DomainStatus {
-	s.RequiresIndexDocuments = &v
-	return s
-}
-
-// SetSearchInstanceCount sets the SearchInstanceCount field's value.
-func (s *DomainStatus) SetSearchInstanceCount(v int64) *DomainStatus {
-	s.SearchInstanceCount = &v
-	return s
-}
-
-// SetSearchInstanceType sets the SearchInstanceType field's value.
-func (s *DomainStatus) SetSearchInstanceType(v string) *DomainStatus {
-	s.SearchInstanceType = &v
-	return s
-}
-
-// SetSearchPartitionCount sets the SearchPartitionCount field's value.
-func (s *DomainStatus) SetSearchPartitionCount(v int64) *DomainStatus {
-	s.SearchPartitionCount = &v
-	return s
-}
-
-// SetSearchService sets the SearchService field's value.
-func (s *DomainStatus) SetSearchService(v *ServiceEndpoint) *DomainStatus {
-	s.SearchService = v
-	return s
-}
-
 // Options for a field that contains an array of double-precision 64-bit floating
 // point values. Present if IndexFieldType specifies the field is of type double-array.
 // All options are enabled by default.
@@ -3466,36 +3113,6 @@ func (s DoubleArrayOptions) String() string {
 // GoString returns the string representation
 func (s DoubleArrayOptions) GoString() string {
 	return s.String()
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *DoubleArrayOptions) SetDefaultValue(v float64) *DoubleArrayOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *DoubleArrayOptions) SetFacetEnabled(v bool) *DoubleArrayOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *DoubleArrayOptions) SetReturnEnabled(v bool) *DoubleArrayOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *DoubleArrayOptions) SetSearchEnabled(v bool) *DoubleArrayOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSourceFields sets the SourceFields field's value.
-func (s *DoubleArrayOptions) SetSourceFields(v string) *DoubleArrayOptions {
-	s.SourceFields = &v
-	return s
 }
 
 // Options for a double-precision 64-bit floating point field. Present if IndexFieldType
@@ -3545,42 +3162,6 @@ func (s *DoubleOptions) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *DoubleOptions) SetDefaultValue(v float64) *DoubleOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *DoubleOptions) SetFacetEnabled(v bool) *DoubleOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *DoubleOptions) SetReturnEnabled(v bool) *DoubleOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *DoubleOptions) SetSearchEnabled(v bool) *DoubleOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSortEnabled sets the SortEnabled field's value.
-func (s *DoubleOptions) SetSortEnabled(v bool) *DoubleOptions {
-	s.SortEnabled = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *DoubleOptions) SetSourceField(v string) *DoubleOptions {
-	s.SourceField = &v
-	return s
 }
 
 // A named expression that can be evaluated at search time. Can be used to sort
@@ -3638,18 +3219,6 @@ func (s *Expression) Validate() error {
 	return nil
 }
 
-// SetExpressionName sets the ExpressionName field's value.
-func (s *Expression) SetExpressionName(v string) *Expression {
-	s.ExpressionName = &v
-	return s
-}
-
-// SetExpressionValue sets the ExpressionValue field's value.
-func (s *Expression) SetExpressionValue(v string) *Expression {
-	s.ExpressionValue = &v
-	return s
-}
-
 // The value of an Expression and its current status.
 type ExpressionStatus struct {
 	_ struct{} `type:"structure"`
@@ -3673,18 +3242,6 @@ func (s ExpressionStatus) String() string {
 // GoString returns the string representation
 func (s ExpressionStatus) GoString() string {
 	return s.String()
-}
-
-// SetOptions sets the Options field's value.
-func (s *ExpressionStatus) SetOptions(v *Expression) *ExpressionStatus {
-	s.Options = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ExpressionStatus) SetStatus(v *OptionStatus) *ExpressionStatus {
-	s.Status = v
-	return s
 }
 
 // Container for the parameters to the IndexDocuments operation. Specifies the
@@ -3728,19 +3285,15 @@ func (s *IndexDocumentsInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *IndexDocumentsInput) SetDomainName(v string) *IndexDocumentsInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of an IndexDocuments request. Contains the status of the indexing
 // operation, including the fields being indexed.
 type IndexDocumentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of the fields that are currently being indexed.
-	FieldNames []*string `type:"list"`
+	FieldNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3753,10 +3306,9 @@ func (s IndexDocumentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetFieldNames sets the FieldNames field's value.
-func (s *IndexDocumentsOutput) SetFieldNames(v []*string) *IndexDocumentsOutput {
-	s.FieldNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s IndexDocumentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Configuration information for a field in the index, including its name, type,
@@ -3807,7 +3359,7 @@ type IndexField struct {
 	// in the Amazon CloudSearch Developer Guide.
 	//
 	// IndexFieldType is a required field
-	IndexFieldType IndexFieldType `type:"string" required:"true"`
+	IndexFieldType IndexFieldType `type:"string" required:"true" enum:"true"`
 
 	// Options for a field that contains an array of 64-bit signed integers. Present
 	// if IndexFieldType specifies the field is of type int-array. All options are
@@ -3903,84 +3455,6 @@ func (s *IndexField) Validate() error {
 	return nil
 }
 
-// SetDateArrayOptions sets the DateArrayOptions field's value.
-func (s *IndexField) SetDateArrayOptions(v *DateArrayOptions) *IndexField {
-	s.DateArrayOptions = v
-	return s
-}
-
-// SetDateOptions sets the DateOptions field's value.
-func (s *IndexField) SetDateOptions(v *DateOptions) *IndexField {
-	s.DateOptions = v
-	return s
-}
-
-// SetDoubleArrayOptions sets the DoubleArrayOptions field's value.
-func (s *IndexField) SetDoubleArrayOptions(v *DoubleArrayOptions) *IndexField {
-	s.DoubleArrayOptions = v
-	return s
-}
-
-// SetDoubleOptions sets the DoubleOptions field's value.
-func (s *IndexField) SetDoubleOptions(v *DoubleOptions) *IndexField {
-	s.DoubleOptions = v
-	return s
-}
-
-// SetIndexFieldName sets the IndexFieldName field's value.
-func (s *IndexField) SetIndexFieldName(v string) *IndexField {
-	s.IndexFieldName = &v
-	return s
-}
-
-// SetIndexFieldType sets the IndexFieldType field's value.
-func (s *IndexField) SetIndexFieldType(v IndexFieldType) *IndexField {
-	s.IndexFieldType = v
-	return s
-}
-
-// SetIntArrayOptions sets the IntArrayOptions field's value.
-func (s *IndexField) SetIntArrayOptions(v *IntArrayOptions) *IndexField {
-	s.IntArrayOptions = v
-	return s
-}
-
-// SetIntOptions sets the IntOptions field's value.
-func (s *IndexField) SetIntOptions(v *IntOptions) *IndexField {
-	s.IntOptions = v
-	return s
-}
-
-// SetLatLonOptions sets the LatLonOptions field's value.
-func (s *IndexField) SetLatLonOptions(v *LatLonOptions) *IndexField {
-	s.LatLonOptions = v
-	return s
-}
-
-// SetLiteralArrayOptions sets the LiteralArrayOptions field's value.
-func (s *IndexField) SetLiteralArrayOptions(v *LiteralArrayOptions) *IndexField {
-	s.LiteralArrayOptions = v
-	return s
-}
-
-// SetLiteralOptions sets the LiteralOptions field's value.
-func (s *IndexField) SetLiteralOptions(v *LiteralOptions) *IndexField {
-	s.LiteralOptions = v
-	return s
-}
-
-// SetTextArrayOptions sets the TextArrayOptions field's value.
-func (s *IndexField) SetTextArrayOptions(v *TextArrayOptions) *IndexField {
-	s.TextArrayOptions = v
-	return s
-}
-
-// SetTextOptions sets the TextOptions field's value.
-func (s *IndexField) SetTextOptions(v *TextOptions) *IndexField {
-	s.TextOptions = v
-	return s
-}
-
 // The value of an IndexField and its current status.
 type IndexFieldStatus struct {
 	_ struct{} `type:"structure"`
@@ -4005,18 +3479,6 @@ func (s IndexFieldStatus) String() string {
 // GoString returns the string representation
 func (s IndexFieldStatus) GoString() string {
 	return s.String()
-}
-
-// SetOptions sets the Options field's value.
-func (s *IndexFieldStatus) SetOptions(v *IndexField) *IndexFieldStatus {
-	s.Options = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *IndexFieldStatus) SetStatus(v *OptionStatus) *IndexFieldStatus {
-	s.Status = v
-	return s
 }
 
 // Options for a field that contains an array of 64-bit signed integers. Present
@@ -4049,36 +3511,6 @@ func (s IntArrayOptions) String() string {
 // GoString returns the string representation
 func (s IntArrayOptions) GoString() string {
 	return s.String()
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *IntArrayOptions) SetDefaultValue(v int64) *IntArrayOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *IntArrayOptions) SetFacetEnabled(v bool) *IntArrayOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *IntArrayOptions) SetReturnEnabled(v bool) *IntArrayOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *IntArrayOptions) SetSearchEnabled(v bool) *IntArrayOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSourceFields sets the SourceFields field's value.
-func (s *IntArrayOptions) SetSourceFields(v string) *IntArrayOptions {
-	s.SourceFields = &v
-	return s
 }
 
 // Options for a 64-bit signed integer field. Present if IndexFieldType specifies
@@ -4128,42 +3560,6 @@ func (s *IntOptions) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *IntOptions) SetDefaultValue(v int64) *IntOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *IntOptions) SetFacetEnabled(v bool) *IntOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *IntOptions) SetReturnEnabled(v bool) *IntOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *IntOptions) SetSearchEnabled(v bool) *IntOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSortEnabled sets the SortEnabled field's value.
-func (s *IntOptions) SetSortEnabled(v bool) *IntOptions {
-	s.SortEnabled = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *IntOptions) SetSourceField(v string) *IntOptions {
-	s.SourceField = &v
-	return s
 }
 
 // Options for a latlon field. A latlon field contains a location stored as
@@ -4227,42 +3623,6 @@ func (s *LatLonOptions) Validate() error {
 	return nil
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *LatLonOptions) SetDefaultValue(v string) *LatLonOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *LatLonOptions) SetFacetEnabled(v bool) *LatLonOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *LatLonOptions) SetReturnEnabled(v bool) *LatLonOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *LatLonOptions) SetSearchEnabled(v bool) *LatLonOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSortEnabled sets the SortEnabled field's value.
-func (s *LatLonOptions) SetSortEnabled(v bool) *LatLonOptions {
-	s.SortEnabled = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *LatLonOptions) SetSourceField(v string) *LatLonOptions {
-	s.SourceField = &v
-	return s
-}
-
 type Limits struct {
 	_ struct{} `type:"structure"`
 
@@ -4281,18 +3641,6 @@ func (s Limits) String() string {
 // GoString returns the string representation
 func (s Limits) GoString() string {
 	return s.String()
-}
-
-// SetMaximumPartitionCount sets the MaximumPartitionCount field's value.
-func (s *Limits) SetMaximumPartitionCount(v int64) *Limits {
-	s.MaximumPartitionCount = &v
-	return s
-}
-
-// SetMaximumReplicationCount sets the MaximumReplicationCount field's value.
-func (s *Limits) SetMaximumReplicationCount(v int64) *Limits {
-	s.MaximumReplicationCount = &v
-	return s
 }
 
 type ListDomainNamesInput struct {
@@ -4314,8 +3662,10 @@ func (s ListDomainNamesInput) GoString() string {
 type ListDomainNamesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of the search domains owned by an account.
-	DomainNames map[string]*string `type:"map"`
+	DomainNames map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -4328,10 +3678,9 @@ func (s ListDomainNamesOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainNames sets the DomainNames field's value.
-func (s *ListDomainNamesOutput) SetDomainNames(v map[string]*string) *ListDomainNamesOutput {
-	s.DomainNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDomainNamesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Options for a field that contains an array of literal strings. Present if
@@ -4364,36 +3713,6 @@ func (s LiteralArrayOptions) String() string {
 // GoString returns the string representation
 func (s LiteralArrayOptions) GoString() string {
 	return s.String()
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *LiteralArrayOptions) SetDefaultValue(v string) *LiteralArrayOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *LiteralArrayOptions) SetFacetEnabled(v bool) *LiteralArrayOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *LiteralArrayOptions) SetReturnEnabled(v bool) *LiteralArrayOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *LiteralArrayOptions) SetSearchEnabled(v bool) *LiteralArrayOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSourceFields sets the SourceFields field's value.
-func (s *LiteralArrayOptions) SetSourceFields(v string) *LiteralArrayOptions {
-	s.SourceFields = &v
-	return s
 }
 
 // Options for literal field. Present if IndexFieldType specifies the field
@@ -4456,42 +3775,6 @@ func (s *LiteralOptions) Validate() error {
 	return nil
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *LiteralOptions) SetDefaultValue(v string) *LiteralOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetFacetEnabled sets the FacetEnabled field's value.
-func (s *LiteralOptions) SetFacetEnabled(v bool) *LiteralOptions {
-	s.FacetEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *LiteralOptions) SetReturnEnabled(v bool) *LiteralOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSearchEnabled sets the SearchEnabled field's value.
-func (s *LiteralOptions) SetSearchEnabled(v bool) *LiteralOptions {
-	s.SearchEnabled = &v
-	return s
-}
-
-// SetSortEnabled sets the SortEnabled field's value.
-func (s *LiteralOptions) SetSortEnabled(v bool) *LiteralOptions {
-	s.SortEnabled = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *LiteralOptions) SetSourceField(v string) *LiteralOptions {
-	s.SourceField = &v
-	return s
-}
-
 // The status of domain configuration option.
 type OptionStatus struct {
 	_ struct{} `type:"structure"`
@@ -4516,7 +3799,7 @@ type OptionStatus struct {
 	//    option value or update or remove the incompatible documents.
 	//
 	// State is a required field
-	State OptionState `type:"string" required:"true"`
+	State OptionState `type:"string" required:"true" enum:"true"`
 
 	// A timestamp for when this option was last updated.
 	//
@@ -4537,43 +3820,13 @@ func (s OptionStatus) GoString() string {
 	return s.String()
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *OptionStatus) SetCreationDate(v time.Time) *OptionStatus {
-	s.CreationDate = &v
-	return s
-}
-
-// SetPendingDeletion sets the PendingDeletion field's value.
-func (s *OptionStatus) SetPendingDeletion(v bool) *OptionStatus {
-	s.PendingDeletion = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *OptionStatus) SetState(v OptionState) *OptionStatus {
-	s.State = v
-	return s
-}
-
-// SetUpdateDate sets the UpdateDate field's value.
-func (s *OptionStatus) SetUpdateDate(v time.Time) *OptionStatus {
-	s.UpdateDate = &v
-	return s
-}
-
-// SetUpdateVersion sets the UpdateVersion field's value.
-func (s *OptionStatus) SetUpdateVersion(v int64) *OptionStatus {
-	s.UpdateVersion = &v
-	return s
-}
-
 // The desired instance type and desired number of replicas of each index partition.
 type ScalingParameters struct {
 	_ struct{} `type:"structure"`
 
 	// The instance type that you want to preconfigure for your domain. For example,
 	// search.m1.small.
-	DesiredInstanceType PartitionInstanceType `type:"string"`
+	DesiredInstanceType PartitionInstanceType `type:"string" enum:"true"`
 
 	// The number of partitions you want to preconfigure for your domain. Only valid
 	// when you select m2.2xlarge as the desired instance type.
@@ -4591,24 +3844,6 @@ func (s ScalingParameters) String() string {
 // GoString returns the string representation
 func (s ScalingParameters) GoString() string {
 	return s.String()
-}
-
-// SetDesiredInstanceType sets the DesiredInstanceType field's value.
-func (s *ScalingParameters) SetDesiredInstanceType(v PartitionInstanceType) *ScalingParameters {
-	s.DesiredInstanceType = v
-	return s
-}
-
-// SetDesiredPartitionCount sets the DesiredPartitionCount field's value.
-func (s *ScalingParameters) SetDesiredPartitionCount(v int64) *ScalingParameters {
-	s.DesiredPartitionCount = &v
-	return s
-}
-
-// SetDesiredReplicationCount sets the DesiredReplicationCount field's value.
-func (s *ScalingParameters) SetDesiredReplicationCount(v int64) *ScalingParameters {
-	s.DesiredReplicationCount = &v
-	return s
 }
 
 // The status and configuration of a search domain's scaling parameters.
@@ -4636,18 +3871,6 @@ func (s ScalingParametersStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *ScalingParametersStatus) SetOptions(v *ScalingParameters) *ScalingParametersStatus {
-	s.Options = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ScalingParametersStatus) SetStatus(v *OptionStatus) *ScalingParametersStatus {
-	s.Status = v
-	return s
-}
-
 // The endpoint to which service requests can be submitted.
 type ServiceEndpoint struct {
 	_ struct{} `type:"structure"`
@@ -4665,12 +3888,6 @@ func (s ServiceEndpoint) String() string {
 // GoString returns the string representation
 func (s ServiceEndpoint) GoString() string {
 	return s.String()
-}
-
-// SetEndpoint sets the Endpoint field's value.
-func (s *ServiceEndpoint) SetEndpoint(v string) *ServiceEndpoint {
-	s.Endpoint = &v
-	return s
 }
 
 // Configuration information for a search suggester. Each suggester has a unique
@@ -4727,18 +3944,6 @@ func (s *Suggester) Validate() error {
 	return nil
 }
 
-// SetDocumentSuggesterOptions sets the DocumentSuggesterOptions field's value.
-func (s *Suggester) SetDocumentSuggesterOptions(v *DocumentSuggesterOptions) *Suggester {
-	s.DocumentSuggesterOptions = v
-	return s
-}
-
-// SetSuggesterName sets the SuggesterName field's value.
-func (s *Suggester) SetSuggesterName(v string) *Suggester {
-	s.SuggesterName = &v
-	return s
-}
-
 // The value of a Suggester and its current status.
 type SuggesterStatus struct {
 	_ struct{} `type:"structure"`
@@ -4764,18 +3969,6 @@ func (s SuggesterStatus) String() string {
 // GoString returns the string representation
 func (s SuggesterStatus) GoString() string {
 	return s.String()
-}
-
-// SetOptions sets the Options field's value.
-func (s *SuggesterStatus) SetOptions(v *Suggester) *SuggesterStatus {
-	s.Options = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *SuggesterStatus) SetStatus(v *OptionStatus) *SuggesterStatus {
-	s.Status = v
-	return s
 }
 
 // Options for a field that contains an array of text strings. Present if IndexFieldType
@@ -4808,36 +4001,6 @@ func (s TextArrayOptions) String() string {
 // GoString returns the string representation
 func (s TextArrayOptions) GoString() string {
 	return s.String()
-}
-
-// SetAnalysisScheme sets the AnalysisScheme field's value.
-func (s *TextArrayOptions) SetAnalysisScheme(v string) *TextArrayOptions {
-	s.AnalysisScheme = &v
-	return s
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *TextArrayOptions) SetDefaultValue(v string) *TextArrayOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetHighlightEnabled sets the HighlightEnabled field's value.
-func (s *TextArrayOptions) SetHighlightEnabled(v bool) *TextArrayOptions {
-	s.HighlightEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *TextArrayOptions) SetReturnEnabled(v bool) *TextArrayOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSourceFields sets the SourceFields field's value.
-func (s *TextArrayOptions) SetSourceFields(v string) *TextArrayOptions {
-	s.SourceFields = &v
-	return s
 }
 
 // Options for text field. Present if IndexFieldType specifies the field is
@@ -4901,42 +4064,6 @@ func (s *TextOptions) Validate() error {
 	return nil
 }
 
-// SetAnalysisScheme sets the AnalysisScheme field's value.
-func (s *TextOptions) SetAnalysisScheme(v string) *TextOptions {
-	s.AnalysisScheme = &v
-	return s
-}
-
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *TextOptions) SetDefaultValue(v string) *TextOptions {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetHighlightEnabled sets the HighlightEnabled field's value.
-func (s *TextOptions) SetHighlightEnabled(v bool) *TextOptions {
-	s.HighlightEnabled = &v
-	return s
-}
-
-// SetReturnEnabled sets the ReturnEnabled field's value.
-func (s *TextOptions) SetReturnEnabled(v bool) *TextOptions {
-	s.ReturnEnabled = &v
-	return s
-}
-
-// SetSortEnabled sets the SortEnabled field's value.
-func (s *TextOptions) SetSortEnabled(v bool) *TextOptions {
-	s.SortEnabled = &v
-	return s
-}
-
-// SetSourceField sets the SourceField field's value.
-func (s *TextOptions) SetSourceField(v string) *TextOptions {
-	s.SourceField = &v
-	return s
-}
-
 // Container for the parameters to the UpdateAvailabilityOptions operation.
 // Specifies the name of the domain you want to update and the Multi-AZ availability
 // option.
@@ -4991,22 +4118,12 @@ func (s *UpdateAvailabilityOptionsInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *UpdateAvailabilityOptionsInput) SetDomainName(v string) *UpdateAvailabilityOptionsInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetMultiAZ sets the MultiAZ field's value.
-func (s *UpdateAvailabilityOptionsInput) SetMultiAZ(v bool) *UpdateAvailabilityOptionsInput {
-	s.MultiAZ = &v
-	return s
-}
-
 // The result of a UpdateAvailabilityOptions request. Contains the status of
 // the domain's availability options.
 type UpdateAvailabilityOptionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The newly-configured availability options. Indicates whether Multi-AZ is
 	// enabled for the domain.
@@ -5023,10 +4140,9 @@ func (s UpdateAvailabilityOptionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityOptions sets the AvailabilityOptions field's value.
-func (s *UpdateAvailabilityOptionsOutput) SetAvailabilityOptions(v *AvailabilityOptionsStatus) *UpdateAvailabilityOptionsOutput {
-	s.AvailabilityOptions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAvailabilityOptionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the UpdateScalingParameters operation. Specifies
@@ -5080,22 +4196,12 @@ func (s *UpdateScalingParametersInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *UpdateScalingParametersInput) SetDomainName(v string) *UpdateScalingParametersInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetScalingParameters sets the ScalingParameters field's value.
-func (s *UpdateScalingParametersInput) SetScalingParameters(v *ScalingParameters) *UpdateScalingParametersInput {
-	s.ScalingParameters = v
-	return s
-}
-
 // The result of a UpdateScalingParameters request. Contains the status of the
 // newly-configured scaling parameters.
 type UpdateScalingParametersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status and configuration of a search domain's scaling parameters.
 	//
@@ -5113,10 +4219,9 @@ func (s UpdateScalingParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetScalingParameters sets the ScalingParameters field's value.
-func (s *UpdateScalingParametersOutput) SetScalingParameters(v *ScalingParametersStatus) *UpdateScalingParametersOutput {
-	s.ScalingParameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateScalingParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Container for the parameters to the UpdateServiceAccessPolicies operation.
@@ -5171,22 +4276,12 @@ func (s *UpdateServiceAccessPoliciesInput) Validate() error {
 	return nil
 }
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *UpdateServiceAccessPoliciesInput) SetAccessPolicies(v string) *UpdateServiceAccessPoliciesInput {
-	s.AccessPolicies = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *UpdateServiceAccessPoliciesInput) SetDomainName(v string) *UpdateServiceAccessPoliciesInput {
-	s.DomainName = &v
-	return s
-}
-
 // The result of an UpdateServiceAccessPolicies request. Contains the new access
 // policies.
 type UpdateServiceAccessPoliciesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The access rules configured for the domain.
 	//
@@ -5204,10 +4299,9 @@ func (s UpdateServiceAccessPoliciesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *UpdateServiceAccessPoliciesOutput) SetAccessPolicies(v *AccessPoliciesStatus) *UpdateServiceAccessPoliciesOutput {
-	s.AccessPolicies = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateServiceAccessPoliciesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type AlgorithmicStemming string
@@ -5219,6 +4313,15 @@ const (
 	AlgorithmicStemmingLight   AlgorithmicStemming = "light"
 	AlgorithmicStemmingFull    AlgorithmicStemming = "full"
 )
+
+func (enum AlgorithmicStemming) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AlgorithmicStemming) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // An IETF RFC 4646 (http://tools.ietf.org/html/rfc4646) language code or mul
 // for multiple languages.
@@ -5263,6 +4366,15 @@ const (
 	AnalysisSchemeLanguageZhHant AnalysisSchemeLanguage = "zh-Hant"
 )
 
+func (enum AnalysisSchemeLanguage) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AnalysisSchemeLanguage) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The type of field. The valid options for a field depend on the field type.
 // For more information about the supported field types, see Configuring Index
 // Fields (http://docs.aws.amazon.com/cloudsearch/latest/developerguide/configuring-index-fields.html)
@@ -5284,6 +4396,15 @@ const (
 	IndexFieldTypeDateArray    IndexFieldType = "date-array"
 )
 
+func (enum IndexFieldType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum IndexFieldType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The state of processing a change to an option. One of:
 //
 //    * RequiresIndexDocuments: The option's latest value will not be deployed
@@ -5304,6 +4425,15 @@ const (
 	OptionStateFailedToValidate       OptionState = "FailedToValidate"
 )
 
+func (enum OptionState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OptionState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The instance type (such as search.m1.small) on which an index partition is
 // hosted.
 type PartitionInstanceType string
@@ -5320,6 +4450,15 @@ const (
 	PartitionInstanceTypeSearchM32xlarge PartitionInstanceType = "search.m3.2xlarge"
 )
 
+func (enum PartitionInstanceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PartitionInstanceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SuggesterFuzzyMatching string
 
 // Enum values for SuggesterFuzzyMatching
@@ -5328,3 +4467,12 @@ const (
 	SuggesterFuzzyMatchingLow  SuggesterFuzzyMatching = "low"
 	SuggesterFuzzyMatchingHigh SuggesterFuzzyMatching = "high"
 )
+
+func (enum SuggesterFuzzyMatching) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SuggesterFuzzyMatching) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

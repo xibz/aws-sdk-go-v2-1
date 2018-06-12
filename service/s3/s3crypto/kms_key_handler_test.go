@@ -26,7 +26,7 @@ func TestBuildKMSEncryptHandler(t *testing.T) {
 func TestBuildKMSEncryptHandlerWithMatDesc(t *testing.T) {
 	svc := kms.New(unit.Config())
 	handler := NewKMSKeyGeneratorWithMatDesc(svc, "testid", MaterialDescription{
-		"Testing": aws.String("123"),
+		"Testing": "123",
 	})
 	if handler == nil {
 		t.Error("expected non-nil handler")
@@ -34,8 +34,8 @@ func TestBuildKMSEncryptHandlerWithMatDesc(t *testing.T) {
 
 	kmsHandler := handler.(*kmsKeyHandler)
 	expected := MaterialDescription{
-		"kms_cmk_id": aws.String("testid"),
-		"Testing":    aws.String("123"),
+		"kms_cmk_id": "testid",
+		"Testing":    "123",
 	}
 
 	if !reflect.DeepEqual(expected, kmsHandler.CipherData.MaterialDescription) {
@@ -51,7 +51,6 @@ func TestKMSGenerateCipherData(t *testing.T) {
 	cfg := unit.Config()
 	cfg.Retryer = aws.DefaultRetryer{NumMaxRetries: 0}
 	cfg.EndpointResolver = aws.ResolveWithEndpointURL(ts.URL)
-	cfg.S3ForcePathStyle = true
 	cfg.Region = "us-west-2"
 
 	svc := kms.New(cfg)
@@ -82,7 +81,6 @@ func TestKMSDecrypt(t *testing.T) {
 	cfg := unit.Config()
 	cfg.Retryer = aws.DefaultRetryer{NumMaxRetries: 0}
 	cfg.EndpointResolver = aws.ResolveWithEndpointURL(ts.URL)
-	cfg.S3ForcePathStyle = true
 	cfg.Region = "us-west-2"
 
 	handler, err := (kmsKeyHandler{kms: kms.New(cfg)}).decryptHandler(Envelope{MatDesc: `{"kms_cmk_id":"test"}`})
@@ -110,7 +108,6 @@ func TestKMSDecryptBadJSON(t *testing.T) {
 	cfg := unit.Config()
 	cfg.Retryer = aws.DefaultRetryer{NumMaxRetries: 0}
 	cfg.EndpointResolver = aws.ResolveWithEndpointURL(ts.URL)
-	cfg.S3ForcePathStyle = true
 	cfg.Region = "us-west-2"
 
 	_, err := (kmsKeyHandler{kms: kms.New(cfg)}).decryptHandler(Envelope{MatDesc: `{"kms_cmk_id":"test"`})

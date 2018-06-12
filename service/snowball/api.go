@@ -16,6 +16,7 @@ const opCancelCluster = "CancelCluster"
 type CancelClusterRequest struct {
 	*aws.Request
 	Input *CancelClusterInput
+	Copy  func(*CancelClusterInput) CancelClusterRequest
 }
 
 // Send marshals and sends the CancelCluster API request.
@@ -54,8 +55,11 @@ func (c *Snowball) CancelClusterRequest(input *CancelClusterInput) CancelCluster
 		input = &CancelClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelClusterOutput{})
-	return CancelClusterRequest{Request: req, Input: input}
+	output := &CancelClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelClusterRequest{Request: req, Input: input, Copy: c.CancelClusterRequest}
 }
 
 const opCancelJob = "CancelJob"
@@ -64,6 +68,7 @@ const opCancelJob = "CancelJob"
 type CancelJobRequest struct {
 	*aws.Request
 	Input *CancelJobInput
+	Copy  func(*CancelJobInput) CancelJobRequest
 }
 
 // Send marshals and sends the CancelJob API request.
@@ -103,8 +108,11 @@ func (c *Snowball) CancelJobRequest(input *CancelJobInput) CancelJobRequest {
 		input = &CancelJobInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelJobOutput{})
-	return CancelJobRequest{Request: req, Input: input}
+	output := &CancelJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelJobRequest{Request: req, Input: input, Copy: c.CancelJobRequest}
 }
 
 const opCreateAddress = "CreateAddress"
@@ -113,6 +121,7 @@ const opCreateAddress = "CreateAddress"
 type CreateAddressRequest struct {
 	*aws.Request
 	Input *CreateAddressInput
+	Copy  func(*CreateAddressInput) CreateAddressRequest
 }
 
 // Send marshals and sends the CreateAddress API request.
@@ -152,8 +161,11 @@ func (c *Snowball) CreateAddressRequest(input *CreateAddressInput) CreateAddress
 		input = &CreateAddressInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAddressOutput{})
-	return CreateAddressRequest{Request: req, Input: input}
+	output := &CreateAddressOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAddressRequest{Request: req, Input: input, Copy: c.CreateAddressRequest}
 }
 
 const opCreateCluster = "CreateCluster"
@@ -162,6 +174,7 @@ const opCreateCluster = "CreateCluster"
 type CreateClusterRequest struct {
 	*aws.Request
 	Input *CreateClusterInput
+	Copy  func(*CreateClusterInput) CreateClusterRequest
 }
 
 // Send marshals and sends the CreateCluster API request.
@@ -200,8 +213,11 @@ func (c *Snowball) CreateClusterRequest(input *CreateClusterInput) CreateCluster
 		input = &CreateClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterOutput{})
-	return CreateClusterRequest{Request: req, Input: input}
+	output := &CreateClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterRequest{Request: req, Input: input, Copy: c.CreateClusterRequest}
 }
 
 const opCreateJob = "CreateJob"
@@ -210,6 +226,7 @@ const opCreateJob = "CreateJob"
 type CreateJobRequest struct {
 	*aws.Request
 	Input *CreateJobInput
+	Copy  func(*CreateJobInput) CreateJobRequest
 }
 
 // Send marshals and sends the CreateJob API request.
@@ -250,8 +267,11 @@ func (c *Snowball) CreateJobRequest(input *CreateJobInput) CreateJobRequest {
 		input = &CreateJobInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateJobOutput{})
-	return CreateJobRequest{Request: req, Input: input}
+	output := &CreateJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateJobRequest{Request: req, Input: input, Copy: c.CreateJobRequest}
 }
 
 const opDescribeAddress = "DescribeAddress"
@@ -260,6 +280,7 @@ const opDescribeAddress = "DescribeAddress"
 type DescribeAddressRequest struct {
 	*aws.Request
 	Input *DescribeAddressInput
+	Copy  func(*DescribeAddressInput) DescribeAddressRequest
 }
 
 // Send marshals and sends the DescribeAddress API request.
@@ -297,8 +318,11 @@ func (c *Snowball) DescribeAddressRequest(input *DescribeAddressInput) DescribeA
 		input = &DescribeAddressInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAddressOutput{})
-	return DescribeAddressRequest{Request: req, Input: input}
+	output := &DescribeAddressOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAddressRequest{Request: req, Input: input, Copy: c.DescribeAddressRequest}
 }
 
 const opDescribeAddresses = "DescribeAddresses"
@@ -307,6 +331,7 @@ const opDescribeAddresses = "DescribeAddresses"
 type DescribeAddressesRequest struct {
 	*aws.Request
 	Input *DescribeAddressesInput
+	Copy  func(*DescribeAddressesInput) DescribeAddressesRequest
 }
 
 // Send marshals and sends the DescribeAddresses API request.
@@ -351,58 +376,57 @@ func (c *Snowball) DescribeAddressesRequest(input *DescribeAddressesInput) Descr
 		input = &DescribeAddressesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAddressesOutput{})
-	return DescribeAddressesRequest{Request: req, Input: input}
+	output := &DescribeAddressesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAddressesRequest{Request: req, Input: input, Copy: c.DescribeAddressesRequest}
 }
 
-// DescribeAddressesPages iterates over the pages of a DescribeAddresses operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeAddresses method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeAddressesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeAddresses operation.
-//    pageNum := 0
-//    err := client.DescribeAddressesPages(params,
-//        func(page *DescribeAddressesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeAddressesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Snowball) DescribeAddressesPages(input *DescribeAddressesInput, fn func(*DescribeAddressesOutput, bool) bool) error {
-	return c.DescribeAddressesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeAddressesRequest) Paginate(opts ...aws.Option) DescribeAddressesPager {
+	return DescribeAddressesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeAddressesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeAddressesPagesWithContext same as DescribeAddressesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Snowball) DescribeAddressesPagesWithContext(ctx aws.Context, input *DescribeAddressesInput, fn func(*DescribeAddressesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeAddressesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeAddressesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeAddressesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeAddressesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeAddressesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeAddressesPager) CurrentPage() *DescribeAddressesOutput {
+	return p.Pager.CurrentPage().(*DescribeAddressesOutput)
 }
 
 const opDescribeCluster = "DescribeCluster"
@@ -411,6 +435,7 @@ const opDescribeCluster = "DescribeCluster"
 type DescribeClusterRequest struct {
 	*aws.Request
 	Input *DescribeClusterInput
+	Copy  func(*DescribeClusterInput) DescribeClusterRequest
 }
 
 // Send marshals and sends the DescribeCluster API request.
@@ -448,8 +473,11 @@ func (c *Snowball) DescribeClusterRequest(input *DescribeClusterInput) DescribeC
 		input = &DescribeClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClusterOutput{})
-	return DescribeClusterRequest{Request: req, Input: input}
+	output := &DescribeClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClusterRequest{Request: req, Input: input, Copy: c.DescribeClusterRequest}
 }
 
 const opDescribeJob = "DescribeJob"
@@ -458,6 +486,7 @@ const opDescribeJob = "DescribeJob"
 type DescribeJobRequest struct {
 	*aws.Request
 	Input *DescribeJobInput
+	Copy  func(*DescribeJobInput) DescribeJobRequest
 }
 
 // Send marshals and sends the DescribeJob API request.
@@ -495,8 +524,11 @@ func (c *Snowball) DescribeJobRequest(input *DescribeJobInput) DescribeJobReques
 		input = &DescribeJobInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeJobOutput{})
-	return DescribeJobRequest{Request: req, Input: input}
+	output := &DescribeJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeJobRequest{Request: req, Input: input, Copy: c.DescribeJobRequest}
 }
 
 const opGetJobManifest = "GetJobManifest"
@@ -505,6 +537,7 @@ const opGetJobManifest = "GetJobManifest"
 type GetJobManifestRequest struct {
 	*aws.Request
 	Input *GetJobManifestInput
+	Copy  func(*GetJobManifestInput) GetJobManifestRequest
 }
 
 // Send marshals and sends the GetJobManifest API request.
@@ -558,8 +591,11 @@ func (c *Snowball) GetJobManifestRequest(input *GetJobManifestInput) GetJobManif
 		input = &GetJobManifestInput{}
 	}
 
-	req := c.newRequest(op, input, &GetJobManifestOutput{})
-	return GetJobManifestRequest{Request: req, Input: input}
+	output := &GetJobManifestOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetJobManifestRequest{Request: req, Input: input, Copy: c.GetJobManifestRequest}
 }
 
 const opGetJobUnlockCode = "GetJobUnlockCode"
@@ -568,6 +604,7 @@ const opGetJobUnlockCode = "GetJobUnlockCode"
 type GetJobUnlockCodeRequest struct {
 	*aws.Request
 	Input *GetJobUnlockCodeInput
+	Copy  func(*GetJobUnlockCodeInput) GetJobUnlockCodeRequest
 }
 
 // Send marshals and sends the GetJobUnlockCode API request.
@@ -616,8 +653,11 @@ func (c *Snowball) GetJobUnlockCodeRequest(input *GetJobUnlockCodeInput) GetJobU
 		input = &GetJobUnlockCodeInput{}
 	}
 
-	req := c.newRequest(op, input, &GetJobUnlockCodeOutput{})
-	return GetJobUnlockCodeRequest{Request: req, Input: input}
+	output := &GetJobUnlockCodeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetJobUnlockCodeRequest{Request: req, Input: input, Copy: c.GetJobUnlockCodeRequest}
 }
 
 const opGetSnowballUsage = "GetSnowballUsage"
@@ -626,6 +666,7 @@ const opGetSnowballUsage = "GetSnowballUsage"
 type GetSnowballUsageRequest struct {
 	*aws.Request
 	Input *GetSnowballUsageInput
+	Copy  func(*GetSnowballUsageInput) GetSnowballUsageRequest
 }
 
 // Send marshals and sends the GetSnowballUsage API request.
@@ -666,8 +707,11 @@ func (c *Snowball) GetSnowballUsageRequest(input *GetSnowballUsageInput) GetSnow
 		input = &GetSnowballUsageInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSnowballUsageOutput{})
-	return GetSnowballUsageRequest{Request: req, Input: input}
+	output := &GetSnowballUsageOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSnowballUsageRequest{Request: req, Input: input, Copy: c.GetSnowballUsageRequest}
 }
 
 const opListClusterJobs = "ListClusterJobs"
@@ -676,6 +720,7 @@ const opListClusterJobs = "ListClusterJobs"
 type ListClusterJobsRequest struct {
 	*aws.Request
 	Input *ListClusterJobsInput
+	Copy  func(*ListClusterJobsInput) ListClusterJobsRequest
 }
 
 // Send marshals and sends the ListClusterJobs API request.
@@ -714,8 +759,11 @@ func (c *Snowball) ListClusterJobsRequest(input *ListClusterJobsInput) ListClust
 		input = &ListClusterJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListClusterJobsOutput{})
-	return ListClusterJobsRequest{Request: req, Input: input}
+	output := &ListClusterJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListClusterJobsRequest{Request: req, Input: input, Copy: c.ListClusterJobsRequest}
 }
 
 const opListClusters = "ListClusters"
@@ -724,6 +772,7 @@ const opListClusters = "ListClusters"
 type ListClustersRequest struct {
 	*aws.Request
 	Input *ListClustersInput
+	Copy  func(*ListClustersInput) ListClustersRequest
 }
 
 // Send marshals and sends the ListClusters API request.
@@ -762,8 +811,11 @@ func (c *Snowball) ListClustersRequest(input *ListClustersInput) ListClustersReq
 		input = &ListClustersInput{}
 	}
 
-	req := c.newRequest(op, input, &ListClustersOutput{})
-	return ListClustersRequest{Request: req, Input: input}
+	output := &ListClustersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListClustersRequest{Request: req, Input: input, Copy: c.ListClustersRequest}
 }
 
 const opListJobs = "ListJobs"
@@ -772,6 +824,7 @@ const opListJobs = "ListJobs"
 type ListJobsRequest struct {
 	*aws.Request
 	Input *ListJobsInput
+	Copy  func(*ListJobsInput) ListJobsRequest
 }
 
 // Send marshals and sends the ListJobs API request.
@@ -818,58 +871,57 @@ func (c *Snowball) ListJobsRequest(input *ListJobsInput) ListJobsRequest {
 		input = &ListJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListJobsOutput{})
-	return ListJobsRequest{Request: req, Input: input}
+	output := &ListJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListJobsRequest{Request: req, Input: input, Copy: c.ListJobsRequest}
 }
 
-// ListJobsPages iterates over the pages of a ListJobs operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListJobs method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListJobsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListJobs operation.
-//    pageNum := 0
-//    err := client.ListJobsPages(params,
-//        func(page *ListJobsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListJobsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Snowball) ListJobsPages(input *ListJobsInput, fn func(*ListJobsOutput, bool) bool) error {
-	return c.ListJobsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListJobsRequest) Paginate(opts ...aws.Option) ListJobsPager {
+	return ListJobsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListJobsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListJobsPagesWithContext same as ListJobsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Snowball) ListJobsPagesWithContext(ctx aws.Context, input *ListJobsInput, fn func(*ListJobsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListJobsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListJobsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListJobsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListJobsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListJobsPager struct {
+	aws.Pager
+}
+
+func (p *ListJobsPager) CurrentPage() *ListJobsOutput {
+	return p.Pager.CurrentPage().(*ListJobsOutput)
 }
 
 const opUpdateCluster = "UpdateCluster"
@@ -878,6 +930,7 @@ const opUpdateCluster = "UpdateCluster"
 type UpdateClusterRequest struct {
 	*aws.Request
 	Input *UpdateClusterInput
+	Copy  func(*UpdateClusterInput) UpdateClusterRequest
 }
 
 // Send marshals and sends the UpdateCluster API request.
@@ -917,8 +970,11 @@ func (c *Snowball) UpdateClusterRequest(input *UpdateClusterInput) UpdateCluster
 		input = &UpdateClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateClusterOutput{})
-	return UpdateClusterRequest{Request: req, Input: input}
+	output := &UpdateClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateClusterRequest{Request: req, Input: input, Copy: c.UpdateClusterRequest}
 }
 
 const opUpdateJob = "UpdateJob"
@@ -927,6 +983,7 @@ const opUpdateJob = "UpdateJob"
 type UpdateJobRequest struct {
 	*aws.Request
 	Input *UpdateJobInput
+	Copy  func(*UpdateJobInput) UpdateJobRequest
 }
 
 // Send marshals and sends the UpdateJob API request.
@@ -965,8 +1022,11 @@ func (c *Snowball) UpdateJobRequest(input *UpdateJobInput) UpdateJobRequest {
 		input = &UpdateJobInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateJobOutput{})
-	return UpdateJobRequest{Request: req, Input: input}
+	output := &UpdateJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateJobRequest{Request: req, Input: input, Copy: c.UpdateJobRequest}
 }
 
 // The address that you want the Snowball or Snowballs associated with a specific
@@ -1082,90 +1142,6 @@ func (s *Address) Validate() error {
 	return nil
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *Address) SetAddressId(v string) *Address {
-	s.AddressId = &v
-	return s
-}
-
-// SetCity sets the City field's value.
-func (s *Address) SetCity(v string) *Address {
-	s.City = &v
-	return s
-}
-
-// SetCompany sets the Company field's value.
-func (s *Address) SetCompany(v string) *Address {
-	s.Company = &v
-	return s
-}
-
-// SetCountry sets the Country field's value.
-func (s *Address) SetCountry(v string) *Address {
-	s.Country = &v
-	return s
-}
-
-// SetIsRestricted sets the IsRestricted field's value.
-func (s *Address) SetIsRestricted(v bool) *Address {
-	s.IsRestricted = &v
-	return s
-}
-
-// SetLandmark sets the Landmark field's value.
-func (s *Address) SetLandmark(v string) *Address {
-	s.Landmark = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Address) SetName(v string) *Address {
-	s.Name = &v
-	return s
-}
-
-// SetPhoneNumber sets the PhoneNumber field's value.
-func (s *Address) SetPhoneNumber(v string) *Address {
-	s.PhoneNumber = &v
-	return s
-}
-
-// SetPostalCode sets the PostalCode field's value.
-func (s *Address) SetPostalCode(v string) *Address {
-	s.PostalCode = &v
-	return s
-}
-
-// SetPrefectureOrDistrict sets the PrefectureOrDistrict field's value.
-func (s *Address) SetPrefectureOrDistrict(v string) *Address {
-	s.PrefectureOrDistrict = &v
-	return s
-}
-
-// SetStateOrProvince sets the StateOrProvince field's value.
-func (s *Address) SetStateOrProvince(v string) *Address {
-	s.StateOrProvince = &v
-	return s
-}
-
-// SetStreet1 sets the Street1 field's value.
-func (s *Address) SetStreet1(v string) *Address {
-	s.Street1 = &v
-	return s
-}
-
-// SetStreet2 sets the Street2 field's value.
-func (s *Address) SetStreet2(v string) *Address {
-	s.Street2 = &v
-	return s
-}
-
-// SetStreet3 sets the Street3 field's value.
-func (s *Address) SetStreet3(v string) *Address {
-	s.Street3 = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelClusterRequest
 type CancelClusterInput struct {
 	_ struct{} `type:"structure"`
@@ -1204,15 +1180,11 @@ func (s *CancelClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *CancelClusterInput) SetClusterId(v string) *CancelClusterInput {
-	s.ClusterId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelClusterResult
 type CancelClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1223,6 +1195,11 @@ func (s CancelClusterOutput) String() string {
 // GoString returns the string representation
 func (s CancelClusterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelJobRequest
@@ -1263,15 +1240,11 @@ func (s *CancelJobInput) Validate() error {
 	return nil
 }
 
-// SetJobId sets the JobId field's value.
-func (s *CancelJobInput) SetJobId(v string) *CancelJobInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CancelJobResult
 type CancelJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1284,6 +1257,11 @@ func (s CancelJobOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains a cluster's state, a cluster's ID, and other important information.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ClusterListEntry
 type ClusterListEntry struct {
@@ -1294,7 +1272,7 @@ type ClusterListEntry struct {
 
 	// The current state of this cluster. For information about the state of a specific
 	// node, see JobListEntry$JobState.
-	ClusterState ClusterState `type:"string"`
+	ClusterState ClusterState `type:"string" enum:"true"`
 
 	// The creation date for this cluster.
 	CreationDate *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -1314,30 +1292,6 @@ func (s ClusterListEntry) GoString() string {
 	return s.String()
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ClusterListEntry) SetClusterId(v string) *ClusterListEntry {
-	s.ClusterId = &v
-	return s
-}
-
-// SetClusterState sets the ClusterState field's value.
-func (s *ClusterListEntry) SetClusterState(v ClusterState) *ClusterListEntry {
-	s.ClusterState = v
-	return s
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *ClusterListEntry) SetCreationDate(v time.Time) *ClusterListEntry {
-	s.CreationDate = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ClusterListEntry) SetDescription(v string) *ClusterListEntry {
-	s.Description = &v
-	return s
-}
-
 // Contains metadata about a specific cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ClusterMetadata
 type ClusterMetadata struct {
@@ -1350,7 +1304,7 @@ type ClusterMetadata struct {
 	ClusterId *string `min:"1" type:"string"`
 
 	// The current status of the cluster.
-	ClusterState ClusterState `type:"string"`
+	ClusterState ClusterState `type:"string" enum:"true"`
 
 	// The creation date for this cluster.
 	CreationDate *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -1364,7 +1318,7 @@ type ClusterMetadata struct {
 
 	// The type of job for this cluster. Currently, the only job type supported
 	// for clusters is LOCAL_USE.
-	JobType JobType `type:"string"`
+	JobType JobType `type:"string" enum:"true"`
 
 	// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This
 	// ARN was created using the CreateKey (http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
@@ -1400,11 +1354,11 @@ type ClusterMetadata struct {
 	//    * In India, Snowball Edges are delivered in one to seven days.
 	//
 	//    * In the US, you have access to one-day shipping and two-day shipping.
-	ShippingOption ShippingOption `type:"string"`
+	ShippingOption ShippingOption `type:"string" enum:"true"`
 
 	// The type of AWS Snowball appliance to use for this cluster. Currently, the
 	// only supported appliance type for cluster jobs is EDGE.
-	SnowballType Type `type:"string"`
+	SnowballType Type `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1415,84 +1369,6 @@ func (s ClusterMetadata) String() string {
 // GoString returns the string representation
 func (s ClusterMetadata) GoString() string {
 	return s.String()
-}
-
-// SetAddressId sets the AddressId field's value.
-func (s *ClusterMetadata) SetAddressId(v string) *ClusterMetadata {
-	s.AddressId = &v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *ClusterMetadata) SetClusterId(v string) *ClusterMetadata {
-	s.ClusterId = &v
-	return s
-}
-
-// SetClusterState sets the ClusterState field's value.
-func (s *ClusterMetadata) SetClusterState(v ClusterState) *ClusterMetadata {
-	s.ClusterState = v
-	return s
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *ClusterMetadata) SetCreationDate(v time.Time) *ClusterMetadata {
-	s.CreationDate = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ClusterMetadata) SetDescription(v string) *ClusterMetadata {
-	s.Description = &v
-	return s
-}
-
-// SetForwardingAddressId sets the ForwardingAddressId field's value.
-func (s *ClusterMetadata) SetForwardingAddressId(v string) *ClusterMetadata {
-	s.ForwardingAddressId = &v
-	return s
-}
-
-// SetJobType sets the JobType field's value.
-func (s *ClusterMetadata) SetJobType(v JobType) *ClusterMetadata {
-	s.JobType = v
-	return s
-}
-
-// SetKmsKeyARN sets the KmsKeyARN field's value.
-func (s *ClusterMetadata) SetKmsKeyARN(v string) *ClusterMetadata {
-	s.KmsKeyARN = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *ClusterMetadata) SetNotification(v *Notification) *ClusterMetadata {
-	s.Notification = v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *ClusterMetadata) SetResources(v *JobResource) *ClusterMetadata {
-	s.Resources = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *ClusterMetadata) SetRoleARN(v string) *ClusterMetadata {
-	s.RoleARN = &v
-	return s
-}
-
-// SetShippingOption sets the ShippingOption field's value.
-func (s *ClusterMetadata) SetShippingOption(v ShippingOption) *ClusterMetadata {
-	s.ShippingOption = v
-	return s
-}
-
-// SetSnowballType sets the SnowballType field's value.
-func (s *ClusterMetadata) SetSnowballType(v Type) *ClusterMetadata {
-	s.SnowballType = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateAddressRequest
@@ -1534,15 +1410,11 @@ func (s *CreateAddressInput) Validate() error {
 	return nil
 }
 
-// SetAddress sets the Address field's value.
-func (s *CreateAddressInput) SetAddress(v *Address) *CreateAddressInput {
-	s.Address = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateAddressResult
 type CreateAddressOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The automatically generated ID for a specific address. You'll use this ID
 	// when you create a job to specify which address you want the Snowball for
@@ -1560,17 +1432,16 @@ func (s CreateAddressOutput) GoString() string {
 	return s.String()
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *CreateAddressOutput) SetAddressId(v string) *CreateAddressOutput {
-	s.AddressId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAddressOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateClusterRequest
 type CreateClusterInput struct {
 	_ struct{} `type:"structure"`
 
-	// The ID for the address that you want the cluster shipped to.>
+	// The ID for the address that you want the cluster shipped to.
 	//
 	// AddressId is a required field
 	AddressId *string `min:"40" type:"string" required:"true"`
@@ -1587,7 +1458,7 @@ type CreateClusterInput struct {
 	// for clusters is LOCAL_USE.
 	//
 	// JobType is a required field
-	JobType JobType `type:"string" required:"true"`
+	JobType JobType `type:"string" required:"true" enum:"true"`
 
 	// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN
 	// values are created by using the CreateKey (http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
@@ -1629,11 +1500,11 @@ type CreateClusterInput struct {
 	//    * In the US, you have access to one-day shipping and two-day shipping.
 	//
 	// ShippingOption is a required field
-	ShippingOption ShippingOption `type:"string" required:"true"`
+	ShippingOption ShippingOption `type:"string" required:"true" enum:"true"`
 
 	// The type of AWS Snowball appliance to use for this cluster. Currently, the
 	// only supported appliance type for cluster jobs is EDGE.
-	SnowballType Type `type:"string"`
+	SnowballType Type `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1688,69 +1559,11 @@ func (s *CreateClusterInput) Validate() error {
 	return nil
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *CreateClusterInput) SetAddressId(v string) *CreateClusterInput {
-	s.AddressId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateClusterInput) SetDescription(v string) *CreateClusterInput {
-	s.Description = &v
-	return s
-}
-
-// SetForwardingAddressId sets the ForwardingAddressId field's value.
-func (s *CreateClusterInput) SetForwardingAddressId(v string) *CreateClusterInput {
-	s.ForwardingAddressId = &v
-	return s
-}
-
-// SetJobType sets the JobType field's value.
-func (s *CreateClusterInput) SetJobType(v JobType) *CreateClusterInput {
-	s.JobType = v
-	return s
-}
-
-// SetKmsKeyARN sets the KmsKeyARN field's value.
-func (s *CreateClusterInput) SetKmsKeyARN(v string) *CreateClusterInput {
-	s.KmsKeyARN = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *CreateClusterInput) SetNotification(v *Notification) *CreateClusterInput {
-	s.Notification = v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *CreateClusterInput) SetResources(v *JobResource) *CreateClusterInput {
-	s.Resources = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *CreateClusterInput) SetRoleARN(v string) *CreateClusterInput {
-	s.RoleARN = &v
-	return s
-}
-
-// SetShippingOption sets the ShippingOption field's value.
-func (s *CreateClusterInput) SetShippingOption(v ShippingOption) *CreateClusterInput {
-	s.ShippingOption = v
-	return s
-}
-
-// SetSnowballType sets the SnowballType field's value.
-func (s *CreateClusterInput) SetSnowballType(v Type) *CreateClusterInput {
-	s.SnowballType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateClusterResult
 type CreateClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The automatically generated ID for a cluster.
 	ClusterId *string `min:"39" type:"string"`
@@ -1766,10 +1579,9 @@ func (s CreateClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *CreateClusterOutput) SetClusterId(v string) *CreateClusterOutput {
-	s.ClusterId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateJobRequest
@@ -1793,7 +1605,7 @@ type CreateJobInput struct {
 	ForwardingAddressId *string `min:"40" type:"string"`
 
 	// Defines the type of job that you're creating.
-	JobType JobType `type:"string"`
+	JobType JobType `type:"string" enum:"true"`
 
 	// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created
 	// using the CreateKey (http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
@@ -1836,16 +1648,16 @@ type CreateJobInput struct {
 	//    * In India, Snowballs are delivered in one to seven days.
 	//
 	//    * In the US, you have access to one-day shipping and two-day shipping.
-	ShippingOption ShippingOption `type:"string"`
+	ShippingOption ShippingOption `type:"string" enum:"true"`
 
 	// If your job is being created in one of the US regions, you have the option
 	// of specifying what size Snowball you'd like for this job. In all other regions,
 	// Snowballs come with 80 TB in storage capacity.
-	SnowballCapacityPreference Capacity `type:"string"`
+	SnowballCapacityPreference Capacity `type:"string" enum:"true"`
 
 	// The type of AWS Snowball appliance to use for this job. Currently, the only
 	// supported appliance type for cluster jobs is EDGE.
-	SnowballType Type `type:"string"`
+	SnowballType Type `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1885,81 +1697,11 @@ func (s *CreateJobInput) Validate() error {
 	return nil
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *CreateJobInput) SetAddressId(v string) *CreateJobInput {
-	s.AddressId = &v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *CreateJobInput) SetClusterId(v string) *CreateJobInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateJobInput) SetDescription(v string) *CreateJobInput {
-	s.Description = &v
-	return s
-}
-
-// SetForwardingAddressId sets the ForwardingAddressId field's value.
-func (s *CreateJobInput) SetForwardingAddressId(v string) *CreateJobInput {
-	s.ForwardingAddressId = &v
-	return s
-}
-
-// SetJobType sets the JobType field's value.
-func (s *CreateJobInput) SetJobType(v JobType) *CreateJobInput {
-	s.JobType = v
-	return s
-}
-
-// SetKmsKeyARN sets the KmsKeyARN field's value.
-func (s *CreateJobInput) SetKmsKeyARN(v string) *CreateJobInput {
-	s.KmsKeyARN = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *CreateJobInput) SetNotification(v *Notification) *CreateJobInput {
-	s.Notification = v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *CreateJobInput) SetResources(v *JobResource) *CreateJobInput {
-	s.Resources = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *CreateJobInput) SetRoleARN(v string) *CreateJobInput {
-	s.RoleARN = &v
-	return s
-}
-
-// SetShippingOption sets the ShippingOption field's value.
-func (s *CreateJobInput) SetShippingOption(v ShippingOption) *CreateJobInput {
-	s.ShippingOption = v
-	return s
-}
-
-// SetSnowballCapacityPreference sets the SnowballCapacityPreference field's value.
-func (s *CreateJobInput) SetSnowballCapacityPreference(v Capacity) *CreateJobInput {
-	s.SnowballCapacityPreference = v
-	return s
-}
-
-// SetSnowballType sets the SnowballType field's value.
-func (s *CreateJobInput) SetSnowballType(v Type) *CreateJobInput {
-	s.SnowballType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/CreateJobResult
 type CreateJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
 	JobId *string `min:"39" type:"string"`
@@ -1975,10 +1717,9 @@ func (s CreateJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobId sets the JobId field's value.
-func (s *CreateJobOutput) SetJobId(v string) *CreateJobOutput {
-	s.JobId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Defines the real-time status of a Snowball's data transfer while the appliance
@@ -2013,30 +1754,6 @@ func (s DataTransfer) String() string {
 // GoString returns the string representation
 func (s DataTransfer) GoString() string {
 	return s.String()
-}
-
-// SetBytesTransferred sets the BytesTransferred field's value.
-func (s *DataTransfer) SetBytesTransferred(v int64) *DataTransfer {
-	s.BytesTransferred = &v
-	return s
-}
-
-// SetObjectsTransferred sets the ObjectsTransferred field's value.
-func (s *DataTransfer) SetObjectsTransferred(v int64) *DataTransfer {
-	s.ObjectsTransferred = &v
-	return s
-}
-
-// SetTotalBytes sets the TotalBytes field's value.
-func (s *DataTransfer) SetTotalBytes(v int64) *DataTransfer {
-	s.TotalBytes = &v
-	return s
-}
-
-// SetTotalObjects sets the TotalObjects field's value.
-func (s *DataTransfer) SetTotalObjects(v int64) *DataTransfer {
-	s.TotalObjects = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddressRequest
@@ -2076,15 +1793,11 @@ func (s *DescribeAddressInput) Validate() error {
 	return nil
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *DescribeAddressInput) SetAddressId(v string) *DescribeAddressInput {
-	s.AddressId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddressResult
 type DescribeAddressOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The address that you want the Snowball or Snowballs associated with a specific
 	// job to be shipped to.
@@ -2101,10 +1814,9 @@ func (s DescribeAddressOutput) GoString() string {
 	return s.String()
 }
 
-// SetAddress sets the Address field's value.
-func (s *DescribeAddressOutput) SetAddress(v *Address) *DescribeAddressOutput {
-	s.Address = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAddressOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddressesRequest
@@ -2143,24 +1855,14 @@ func (s *DescribeAddressesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeAddressesInput) SetMaxResults(v int64) *DescribeAddressesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAddressesInput) SetNextToken(v string) *DescribeAddressesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeAddressesResult
 type DescribeAddressesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The Snowball shipping addresses that were created for this account.
-	Addresses []*Address `type:"list"`
+	Addresses []Address `type:"list"`
 
 	// HTTP requests are stateless. If you use the automatically generated NextToken
 	// value in your next DescribeAddresses call, your list of returned addresses
@@ -2178,16 +1880,9 @@ func (s DescribeAddressesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAddresses sets the Addresses field's value.
-func (s *DescribeAddressesOutput) SetAddresses(v []*Address) *DescribeAddressesOutput {
-	s.Addresses = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAddressesOutput) SetNextToken(v string) *DescribeAddressesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAddressesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeClusterRequest
@@ -2227,15 +1922,11 @@ func (s *DescribeClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *DescribeClusterInput) SetClusterId(v string) *DescribeClusterInput {
-	s.ClusterId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeClusterResult
 type DescribeClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about a specific cluster, including shipping information, cluster
 	// status, and other important metadata.
@@ -2252,10 +1943,9 @@ func (s DescribeClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterMetadata sets the ClusterMetadata field's value.
-func (s *DescribeClusterOutput) SetClusterMetadata(v *ClusterMetadata) *DescribeClusterOutput {
-	s.ClusterMetadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeJobRequest
@@ -2295,15 +1985,11 @@ func (s *DescribeJobInput) Validate() error {
 	return nil
 }
 
-// SetJobId sets the JobId field's value.
-func (s *DescribeJobInput) SetJobId(v string) *DescribeJobInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/DescribeJobResult
 type DescribeJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about a specific job, including shipping information, job status,
 	// and other important metadata.
@@ -2311,7 +1997,7 @@ type DescribeJobOutput struct {
 
 	// Information about a specific job part (in the case of an export job), including
 	// shipping information, job status, and other important metadata.
-	SubJobMetadata []*JobMetadata `type:"list"`
+	SubJobMetadata []JobMetadata `type:"list"`
 }
 
 // String returns the string representation
@@ -2324,16 +2010,9 @@ func (s DescribeJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobMetadata sets the JobMetadata field's value.
-func (s *DescribeJobOutput) SetJobMetadata(v *JobMetadata) *DescribeJobOutput {
-	s.JobMetadata = v
-	return s
-}
-
-// SetSubJobMetadata sets the SubJobMetadata field's value.
-func (s *DescribeJobOutput) SetSubJobMetadata(v []*JobMetadata) *DescribeJobOutput {
-	s.SubJobMetadata = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The container for the EventTriggerDefinition$EventResourceARN.
@@ -2354,12 +2033,6 @@ func (s EventTriggerDefinition) String() string {
 // GoString returns the string representation
 func (s EventTriggerDefinition) GoString() string {
 	return s.String()
-}
-
-// SetEventResourceARN sets the EventResourceARN field's value.
-func (s *EventTriggerDefinition) SetEventResourceARN(v string) *EventTriggerDefinition {
-	s.EventResourceARN = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobManifestRequest
@@ -2400,15 +2073,11 @@ func (s *GetJobManifestInput) Validate() error {
 	return nil
 }
 
-// SetJobId sets the JobId field's value.
-func (s *GetJobManifestInput) SetJobId(v string) *GetJobManifestInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobManifestResult
 type GetJobManifestOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon S3 presigned URL for the manifest file associated with the specified
 	// JobId value.
@@ -2425,10 +2094,9 @@ func (s GetJobManifestOutput) GoString() string {
 	return s.String()
 }
 
-// SetManifestURI sets the ManifestURI field's value.
-func (s *GetJobManifestOutput) SetManifestURI(v string) *GetJobManifestOutput {
-	s.ManifestURI = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetJobManifestOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobUnlockCodeRequest
@@ -2469,15 +2137,11 @@ func (s *GetJobUnlockCodeInput) Validate() error {
 	return nil
 }
 
-// SetJobId sets the JobId field's value.
-func (s *GetJobUnlockCodeInput) SetJobId(v string) *GetJobUnlockCodeInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetJobUnlockCodeResult
 type GetJobUnlockCodeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The UnlockCode value for the specified job. The UnlockCode value can be accessed
 	// for up to 90 days after the job has been created.
@@ -2494,10 +2158,9 @@ func (s GetJobUnlockCodeOutput) GoString() string {
 	return s.String()
 }
 
-// SetUnlockCode sets the UnlockCode field's value.
-func (s *GetJobUnlockCodeOutput) SetUnlockCode(v string) *GetJobUnlockCodeOutput {
-	s.UnlockCode = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetJobUnlockCodeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/GetSnowballUsageRequest
@@ -2519,6 +2182,8 @@ func (s GetSnowballUsageInput) GoString() string {
 type GetSnowballUsageOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The service limit for number of Snowballs this account can have at once.
 	// The default service limit is 1 (one).
 	SnowballLimit *int64 `type:"integer"`
@@ -2537,16 +2202,9 @@ func (s GetSnowballUsageOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnowballLimit sets the SnowballLimit field's value.
-func (s *GetSnowballUsageOutput) SetSnowballLimit(v int64) *GetSnowballUsageOutput {
-	s.SnowballLimit = &v
-	return s
-}
-
-// SetSnowballsInUse sets the SnowballsInUse field's value.
-func (s *GetSnowballUsageOutput) SetSnowballsInUse(v int64) *GetSnowballUsageOutput {
-	s.SnowballsInUse = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSnowballUsageOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Each JobListEntry object contains a job's state, a job's ID, and a value
@@ -2574,13 +2232,13 @@ type JobListEntry struct {
 	JobId *string `min:"1" type:"string"`
 
 	// The current state of this job.
-	JobState JobState `type:"string"`
+	JobState JobState `type:"string" enum:"true"`
 
 	// The type of job.
-	JobType JobType `type:"string"`
+	JobType JobType `type:"string" enum:"true"`
 
 	// The type of appliance used with this job.
-	SnowballType Type `type:"string"`
+	SnowballType Type `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2591,48 +2249,6 @@ func (s JobListEntry) String() string {
 // GoString returns the string representation
 func (s JobListEntry) GoString() string {
 	return s.String()
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *JobListEntry) SetCreationDate(v time.Time) *JobListEntry {
-	s.CreationDate = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *JobListEntry) SetDescription(v string) *JobListEntry {
-	s.Description = &v
-	return s
-}
-
-// SetIsMaster sets the IsMaster field's value.
-func (s *JobListEntry) SetIsMaster(v bool) *JobListEntry {
-	s.IsMaster = &v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *JobListEntry) SetJobId(v string) *JobListEntry {
-	s.JobId = &v
-	return s
-}
-
-// SetJobState sets the JobState field's value.
-func (s *JobListEntry) SetJobState(v JobState) *JobListEntry {
-	s.JobState = v
-	return s
-}
-
-// SetJobType sets the JobType field's value.
-func (s *JobListEntry) SetJobType(v JobType) *JobListEntry {
-	s.JobType = v
-	return s
-}
-
-// SetSnowballType sets the SnowballType field's value.
-func (s *JobListEntry) SetSnowballType(v Type) *JobListEntry {
-	s.SnowballType = v
-	return s
 }
 
 // Contains job logs. Whenever Snowball is used to import data into or export
@@ -2679,24 +2295,6 @@ func (s JobLogs) GoString() string {
 	return s.String()
 }
 
-// SetJobCompletionReportURI sets the JobCompletionReportURI field's value.
-func (s *JobLogs) SetJobCompletionReportURI(v string) *JobLogs {
-	s.JobCompletionReportURI = &v
-	return s
-}
-
-// SetJobFailureLogURI sets the JobFailureLogURI field's value.
-func (s *JobLogs) SetJobFailureLogURI(v string) *JobLogs {
-	s.JobFailureLogURI = &v
-	return s
-}
-
-// SetJobSuccessLogURI sets the JobSuccessLogURI field's value.
-func (s *JobLogs) SetJobSuccessLogURI(v string) *JobLogs {
-	s.JobSuccessLogURI = &v
-	return s
-}
-
 // Contains information about a specific job including shipping information,
 // job status, and other important metadata. This information is returned as
 // a part of the response syntax of the DescribeJob action.
@@ -2735,10 +2333,10 @@ type JobMetadata struct {
 	JobLogInfo *JobLogs `type:"structure"`
 
 	// The current status of the jobs.
-	JobState JobState `type:"string"`
+	JobState JobState `type:"string" enum:"true"`
 
 	// The type of job.
-	JobType JobType `type:"string"`
+	JobType JobType `type:"string" enum:"true"`
 
 	// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS)
 	// key associated with this job. This ARN was created using the CreateKey (http://docs.aws.amazon.com/kms/latest/APIReference/API_CreateKey.html)
@@ -2767,10 +2365,10 @@ type JobMetadata struct {
 	// The Snowball capacity preference for this job, specified at job creation.
 	// In US regions, you can choose between 50 TB and 80 TB Snowballs. All other
 	// regions use 80 TB capacity Snowballs.
-	SnowballCapacityPreference Capacity `type:"string"`
+	SnowballCapacityPreference Capacity `type:"string" enum:"true"`
 
 	// The type of appliance used with this job.
-	SnowballType Type `type:"string"`
+	SnowballType Type `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2783,108 +2381,6 @@ func (s JobMetadata) GoString() string {
 	return s.String()
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *JobMetadata) SetAddressId(v string) *JobMetadata {
-	s.AddressId = &v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *JobMetadata) SetClusterId(v string) *JobMetadata {
-	s.ClusterId = &v
-	return s
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *JobMetadata) SetCreationDate(v time.Time) *JobMetadata {
-	s.CreationDate = &v
-	return s
-}
-
-// SetDataTransferProgress sets the DataTransferProgress field's value.
-func (s *JobMetadata) SetDataTransferProgress(v *DataTransfer) *JobMetadata {
-	s.DataTransferProgress = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *JobMetadata) SetDescription(v string) *JobMetadata {
-	s.Description = &v
-	return s
-}
-
-// SetForwardingAddressId sets the ForwardingAddressId field's value.
-func (s *JobMetadata) SetForwardingAddressId(v string) *JobMetadata {
-	s.ForwardingAddressId = &v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *JobMetadata) SetJobId(v string) *JobMetadata {
-	s.JobId = &v
-	return s
-}
-
-// SetJobLogInfo sets the JobLogInfo field's value.
-func (s *JobMetadata) SetJobLogInfo(v *JobLogs) *JobMetadata {
-	s.JobLogInfo = v
-	return s
-}
-
-// SetJobState sets the JobState field's value.
-func (s *JobMetadata) SetJobState(v JobState) *JobMetadata {
-	s.JobState = v
-	return s
-}
-
-// SetJobType sets the JobType field's value.
-func (s *JobMetadata) SetJobType(v JobType) *JobMetadata {
-	s.JobType = v
-	return s
-}
-
-// SetKmsKeyARN sets the KmsKeyARN field's value.
-func (s *JobMetadata) SetKmsKeyARN(v string) *JobMetadata {
-	s.KmsKeyARN = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *JobMetadata) SetNotification(v *Notification) *JobMetadata {
-	s.Notification = v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *JobMetadata) SetResources(v *JobResource) *JobMetadata {
-	s.Resources = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *JobMetadata) SetRoleARN(v string) *JobMetadata {
-	s.RoleARN = &v
-	return s
-}
-
-// SetShippingDetails sets the ShippingDetails field's value.
-func (s *JobMetadata) SetShippingDetails(v *ShippingDetails) *JobMetadata {
-	s.ShippingDetails = v
-	return s
-}
-
-// SetSnowballCapacityPreference sets the SnowballCapacityPreference field's value.
-func (s *JobMetadata) SetSnowballCapacityPreference(v Capacity) *JobMetadata {
-	s.SnowballCapacityPreference = v
-	return s
-}
-
-// SetSnowballType sets the SnowballType field's value.
-func (s *JobMetadata) SetSnowballType(v Type) *JobMetadata {
-	s.SnowballType = v
-	return s
-}
-
 // Contains an array of S3Resource objects. Each S3Resource object represents
 // an Amazon S3 bucket that your transferred data will be exported from or imported
 // into.
@@ -2893,10 +2389,10 @@ type JobResource struct {
 	_ struct{} `type:"structure"`
 
 	// The Python-language Lambda functions for this job.
-	LambdaResources []*LambdaResource `type:"list"`
+	LambdaResources []LambdaResource `type:"list"`
 
 	// An array of S3Resource objects.
-	S3Resources []*S3Resource `type:"list"`
+	S3Resources []S3Resource `type:"list"`
 }
 
 // String returns the string representation
@@ -2914,9 +2410,6 @@ func (s *JobResource) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "JobResource"}
 	if s.S3Resources != nil {
 		for i, v := range s.S3Resources {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "S3Resources", i), err.(aws.ErrInvalidParams))
 			}
@@ -2927,18 +2420,6 @@ func (s *JobResource) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetLambdaResources sets the LambdaResources field's value.
-func (s *JobResource) SetLambdaResources(v []*LambdaResource) *JobResource {
-	s.LambdaResources = v
-	return s
-}
-
-// SetS3Resources sets the S3Resources field's value.
-func (s *JobResource) SetS3Resources(v []*S3Resource) *JobResource {
-	s.S3Resources = v
-	return s
 }
 
 // Contains a key range. For export jobs, a S3Resource object can have an optional
@@ -2984,18 +2465,6 @@ func (s *KeyRange) Validate() error {
 	return nil
 }
 
-// SetBeginMarker sets the BeginMarker field's value.
-func (s *KeyRange) SetBeginMarker(v string) *KeyRange {
-	s.BeginMarker = &v
-	return s
-}
-
-// SetEndMarker sets the EndMarker field's value.
-func (s *KeyRange) SetEndMarker(v string) *KeyRange {
-	s.EndMarker = &v
-	return s
-}
-
 // Identifies
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/LambdaResource
 type LambdaResource struct {
@@ -3003,7 +2472,7 @@ type LambdaResource struct {
 
 	// The array of ARNs for S3Resource objects to trigger the LambdaResource objects
 	// associated with this job.
-	EventTriggers []*EventTriggerDefinition `type:"list"`
+	EventTriggers []EventTriggerDefinition `type:"list"`
 
 	// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be
 	// triggered by PUT object actions on the associated local Amazon S3 resource.
@@ -3018,18 +2487,6 @@ func (s LambdaResource) String() string {
 // GoString returns the string representation
 func (s LambdaResource) GoString() string {
 	return s.String()
-}
-
-// SetEventTriggers sets the EventTriggers field's value.
-func (s *LambdaResource) SetEventTriggers(v []*EventTriggerDefinition) *LambdaResource {
-	s.EventTriggers = v
-	return s
-}
-
-// SetLambdaArn sets the LambdaArn field's value.
-func (s *LambdaResource) SetLambdaArn(v string) *LambdaResource {
-	s.LambdaArn = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClusterJobsRequest
@@ -3080,31 +2537,15 @@ func (s *ListClusterJobsInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *ListClusterJobsInput) SetClusterId(v string) *ListClusterJobsInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListClusterJobsInput) SetMaxResults(v int64) *ListClusterJobsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListClusterJobsInput) SetNextToken(v string) *ListClusterJobsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClusterJobsResult
 type ListClusterJobsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Each JobListEntry object contains a job's state, a job's ID, and a value
 	// that indicates whether the job is a job part, in the case of export jobs.
-	JobListEntries []*JobListEntry `type:"list"`
+	JobListEntries []JobListEntry `type:"list"`
 
 	// HTTP requests are stateless. If you use the automatically generated NextToken
 	// value in your next ListClusterJobsResult call, your list of returned jobs
@@ -3122,16 +2563,9 @@ func (s ListClusterJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobListEntries sets the JobListEntries field's value.
-func (s *ListClusterJobsOutput) SetJobListEntries(v []*JobListEntry) *ListClusterJobsOutput {
-	s.JobListEntries = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListClusterJobsOutput) SetNextToken(v string) *ListClusterJobsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListClusterJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClustersRequest
@@ -3170,25 +2604,15 @@ func (s *ListClustersInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListClustersInput) SetMaxResults(v int64) *ListClustersInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListClustersInput) SetNextToken(v string) *ListClustersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListClustersResult
 type ListClustersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Each ClusterListEntry object contains a cluster's state, a cluster's ID,
 	// and other important status information.
-	ClusterListEntries []*ClusterListEntry `type:"list"`
+	ClusterListEntries []ClusterListEntry `type:"list"`
 
 	// HTTP requests are stateless. If you use the automatically generated NextToken
 	// value in your next ClusterListEntry call, your list of returned clusters
@@ -3206,16 +2630,9 @@ func (s ListClustersOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusterListEntries sets the ClusterListEntries field's value.
-func (s *ListClustersOutput) SetClusterListEntries(v []*ClusterListEntry) *ListClustersOutput {
-	s.ClusterListEntries = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListClustersOutput) SetNextToken(v string) *ListClustersOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListClustersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListJobsRequest
@@ -3254,25 +2671,15 @@ func (s *ListJobsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListJobsInput) SetMaxResults(v int64) *ListJobsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListJobsInput) SetNextToken(v string) *ListJobsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ListJobsResult
 type ListJobsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Each JobListEntry object contains a job's state, a job's ID, and a value
 	// that indicates whether the job is a job part, in the case of export jobs.
-	JobListEntries []*JobListEntry `type:"list"`
+	JobListEntries []JobListEntry `type:"list"`
 
 	// HTTP requests are stateless. If you use this automatically generated NextToken
 	// value in your next ListJobs call, your returned JobListEntry objects will
@@ -3290,16 +2697,9 @@ func (s ListJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobListEntries sets the JobListEntries field's value.
-func (s *ListJobsOutput) SetJobListEntries(v []*JobListEntry) *ListJobsOutput {
-	s.JobListEntries = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListJobsOutput) SetNextToken(v string) *ListJobsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The Amazon Simple Notification Service (Amazon SNS) notification settings
@@ -3339,24 +2739,6 @@ func (s Notification) String() string {
 // GoString returns the string representation
 func (s Notification) GoString() string {
 	return s.String()
-}
-
-// SetJobStatesToNotify sets the JobStatesToNotify field's value.
-func (s *Notification) SetJobStatesToNotify(v []JobState) *Notification {
-	s.JobStatesToNotify = v
-	return s
-}
-
-// SetNotifyAll sets the NotifyAll field's value.
-func (s *Notification) SetNotifyAll(v bool) *Notification {
-	s.NotifyAll = &v
-	return s
-}
-
-// SetSnsTopicARN sets the SnsTopicARN field's value.
-func (s *Notification) SetSnsTopicARN(v string) *Notification {
-	s.SnsTopicARN = &v
-	return s
 }
 
 // Each S3Resource object represents an Amazon S3 bucket that your transferred
@@ -3403,18 +2785,6 @@ func (s *S3Resource) Validate() error {
 	return nil
 }
 
-// SetBucketArn sets the BucketArn field's value.
-func (s *S3Resource) SetBucketArn(v string) *S3Resource {
-	s.BucketArn = &v
-	return s
-}
-
-// SetKeyRange sets the KeyRange field's value.
-func (s *S3Resource) SetKeyRange(v *KeyRange) *S3Resource {
-	s.KeyRange = v
-	return s
-}
-
 // The Status and TrackingNumber information for an inbound or outbound shipment.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/Shipment
 type Shipment struct {
@@ -3441,30 +2811,18 @@ func (s Shipment) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *Shipment) SetStatus(v string) *Shipment {
-	s.Status = &v
-	return s
-}
-
-// SetTrackingNumber sets the TrackingNumber field's value.
-func (s *Shipment) SetTrackingNumber(v string) *Shipment {
-	s.TrackingNumber = &v
-	return s
-}
-
 // A job's shipping information, including inbound and outbound tracking numbers
 // and shipping speed options.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/ShippingDetails
 type ShippingDetails struct {
 	_ struct{} `type:"structure"`
 
-	// The Status and TrackingNumber values for a Snowball being delivered to the
-	// address that you specified for a particular job.
-	InboundShipment *Shipment `type:"structure"`
-
 	// The Status and TrackingNumber values for a Snowball being returned to AWS
 	// for a particular job.
+	InboundShipment *Shipment `type:"structure"`
+
+	// The Status and TrackingNumber values for a Snowball being delivered to the
+	// address that you specified for a particular job.
 	OutboundShipment *Shipment `type:"structure"`
 
 	// The shipping speed for a particular job. This speed doesn't dictate how soon
@@ -3484,7 +2842,7 @@ type ShippingDetails struct {
 	//
 	//    * In the United States of America (US), you have access to one-day shipping
 	//    and two-day shipping.
-	ShippingOption ShippingOption `type:"string"`
+	ShippingOption ShippingOption `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3495,24 +2853,6 @@ func (s ShippingDetails) String() string {
 // GoString returns the string representation
 func (s ShippingDetails) GoString() string {
 	return s.String()
-}
-
-// SetInboundShipment sets the InboundShipment field's value.
-func (s *ShippingDetails) SetInboundShipment(v *Shipment) *ShippingDetails {
-	s.InboundShipment = v
-	return s
-}
-
-// SetOutboundShipment sets the OutboundShipment field's value.
-func (s *ShippingDetails) SetOutboundShipment(v *Shipment) *ShippingDetails {
-	s.OutboundShipment = v
-	return s
-}
-
-// SetShippingOption sets the ShippingOption field's value.
-func (s *ShippingDetails) SetShippingOption(v ShippingOption) *ShippingDetails {
-	s.ShippingOption = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateClusterRequest
@@ -3547,7 +2887,7 @@ type UpdateClusterInput struct {
 	RoleARN *string `type:"string"`
 
 	// The updated shipping option value of this cluster's ShippingDetails object.
-	ShippingOption ShippingOption `type:"string"`
+	ShippingOption ShippingOption `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3591,57 +2931,11 @@ func (s *UpdateClusterInput) Validate() error {
 	return nil
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *UpdateClusterInput) SetAddressId(v string) *UpdateClusterInput {
-	s.AddressId = &v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *UpdateClusterInput) SetClusterId(v string) *UpdateClusterInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateClusterInput) SetDescription(v string) *UpdateClusterInput {
-	s.Description = &v
-	return s
-}
-
-// SetForwardingAddressId sets the ForwardingAddressId field's value.
-func (s *UpdateClusterInput) SetForwardingAddressId(v string) *UpdateClusterInput {
-	s.ForwardingAddressId = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *UpdateClusterInput) SetNotification(v *Notification) *UpdateClusterInput {
-	s.Notification = v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *UpdateClusterInput) SetResources(v *JobResource) *UpdateClusterInput {
-	s.Resources = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *UpdateClusterInput) SetRoleARN(v string) *UpdateClusterInput {
-	s.RoleARN = &v
-	return s
-}
-
-// SetShippingOption sets the ShippingOption field's value.
-func (s *UpdateClusterInput) SetShippingOption(v ShippingOption) *UpdateClusterInput {
-	s.ShippingOption = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateClusterResult
 type UpdateClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3652,6 +2946,11 @@ func (s UpdateClusterOutput) String() string {
 // GoString returns the string representation
 func (s UpdateClusterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateJobRequest
@@ -3686,11 +2985,11 @@ type UpdateJobInput struct {
 	RoleARN *string `type:"string"`
 
 	// The updated shipping option value of this job's ShippingDetails object.
-	ShippingOption ShippingOption `type:"string"`
+	ShippingOption ShippingOption `type:"string" enum:"true"`
 
 	// The updated SnowballCapacityPreference of this job's JobMetadata object.
 	// The 50 TB Snowballs are only available in the US regions.
-	SnowballCapacityPreference Capacity `type:"string"`
+	SnowballCapacityPreference Capacity `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3734,63 +3033,11 @@ func (s *UpdateJobInput) Validate() error {
 	return nil
 }
 
-// SetAddressId sets the AddressId field's value.
-func (s *UpdateJobInput) SetAddressId(v string) *UpdateJobInput {
-	s.AddressId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateJobInput) SetDescription(v string) *UpdateJobInput {
-	s.Description = &v
-	return s
-}
-
-// SetForwardingAddressId sets the ForwardingAddressId field's value.
-func (s *UpdateJobInput) SetForwardingAddressId(v string) *UpdateJobInput {
-	s.ForwardingAddressId = &v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *UpdateJobInput) SetJobId(v string) *UpdateJobInput {
-	s.JobId = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *UpdateJobInput) SetNotification(v *Notification) *UpdateJobInput {
-	s.Notification = v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *UpdateJobInput) SetResources(v *JobResource) *UpdateJobInput {
-	s.Resources = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *UpdateJobInput) SetRoleARN(v string) *UpdateJobInput {
-	s.RoleARN = &v
-	return s
-}
-
-// SetShippingOption sets the ShippingOption field's value.
-func (s *UpdateJobInput) SetShippingOption(v ShippingOption) *UpdateJobInput {
-	s.ShippingOption = v
-	return s
-}
-
-// SetSnowballCapacityPreference sets the SnowballCapacityPreference field's value.
-func (s *UpdateJobInput) SetSnowballCapacityPreference(v Capacity) *UpdateJobInput {
-	s.SnowballCapacityPreference = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/snowball-2016-06-30/UpdateJobResult
 type UpdateJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3803,6 +3050,11 @@ func (s UpdateJobOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 type Capacity string
 
 // Enum values for Capacity
@@ -3812,6 +3064,15 @@ const (
 	CapacityT100         Capacity = "T100"
 	CapacityNoPreference Capacity = "NoPreference"
 )
+
+func (enum Capacity) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Capacity) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ClusterState string
 
@@ -3823,6 +3084,15 @@ const (
 	ClusterStateComplete       ClusterState = "Complete"
 	ClusterStateCancelled      ClusterState = "Cancelled"
 )
+
+func (enum ClusterState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ClusterState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type JobState string
 
@@ -3842,6 +3112,15 @@ const (
 	JobStatePending             JobState = "Pending"
 )
 
+func (enum JobState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum JobState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type JobType string
 
 // Enum values for JobType
@@ -3850,6 +3129,15 @@ const (
 	JobTypeExport   JobType = "EXPORT"
 	JobTypeLocalUse JobType = "LOCAL_USE"
 )
+
+func (enum JobType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum JobType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ShippingOption string
 
@@ -3861,6 +3149,15 @@ const (
 	ShippingOptionStandard  ShippingOption = "STANDARD"
 )
 
+func (enum ShippingOption) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ShippingOption) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Type string
 
 // Enum values for Type
@@ -3868,3 +3165,12 @@ const (
 	TypeStandard Type = "STANDARD"
 	TypeEdge     Type = "EDGE"
 )
+
+func (enum Type) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Type) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

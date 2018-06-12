@@ -15,6 +15,7 @@ const opDescribeAffectedEntities = "DescribeAffectedEntities"
 type DescribeAffectedEntitiesRequest struct {
 	*aws.Request
 	Input *DescribeAffectedEntitiesInput
+	Copy  func(*DescribeAffectedEntitiesInput) DescribeAffectedEntitiesRequest
 }
 
 // Send marshals and sends the DescribeAffectedEntities API request.
@@ -65,58 +66,57 @@ func (c *Health) DescribeAffectedEntitiesRequest(input *DescribeAffectedEntities
 		input = &DescribeAffectedEntitiesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAffectedEntitiesOutput{})
-	return DescribeAffectedEntitiesRequest{Request: req, Input: input}
+	output := &DescribeAffectedEntitiesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAffectedEntitiesRequest{Request: req, Input: input, Copy: c.DescribeAffectedEntitiesRequest}
 }
 
-// DescribeAffectedEntitiesPages iterates over the pages of a DescribeAffectedEntities operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeAffectedEntities method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeAffectedEntitiesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeAffectedEntities operation.
-//    pageNum := 0
-//    err := client.DescribeAffectedEntitiesPages(params,
-//        func(page *DescribeAffectedEntitiesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeAffectedEntitiesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Health) DescribeAffectedEntitiesPages(input *DescribeAffectedEntitiesInput, fn func(*DescribeAffectedEntitiesOutput, bool) bool) error {
-	return c.DescribeAffectedEntitiesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeAffectedEntitiesRequest) Paginate(opts ...aws.Option) DescribeAffectedEntitiesPager {
+	return DescribeAffectedEntitiesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeAffectedEntitiesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeAffectedEntitiesPagesWithContext same as DescribeAffectedEntitiesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Health) DescribeAffectedEntitiesPagesWithContext(ctx aws.Context, input *DescribeAffectedEntitiesInput, fn func(*DescribeAffectedEntitiesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeAffectedEntitiesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeAffectedEntitiesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeAffectedEntitiesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeAffectedEntitiesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeAffectedEntitiesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeAffectedEntitiesPager) CurrentPage() *DescribeAffectedEntitiesOutput {
+	return p.Pager.CurrentPage().(*DescribeAffectedEntitiesOutput)
 }
 
 const opDescribeEntityAggregates = "DescribeEntityAggregates"
@@ -125,6 +125,7 @@ const opDescribeEntityAggregates = "DescribeEntityAggregates"
 type DescribeEntityAggregatesRequest struct {
 	*aws.Request
 	Input *DescribeEntityAggregatesInput
+	Copy  func(*DescribeEntityAggregatesInput) DescribeEntityAggregatesRequest
 }
 
 // Send marshals and sends the DescribeEntityAggregates API request.
@@ -163,8 +164,11 @@ func (c *Health) DescribeEntityAggregatesRequest(input *DescribeEntityAggregates
 		input = &DescribeEntityAggregatesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEntityAggregatesOutput{})
-	return DescribeEntityAggregatesRequest{Request: req, Input: input}
+	output := &DescribeEntityAggregatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEntityAggregatesRequest{Request: req, Input: input, Copy: c.DescribeEntityAggregatesRequest}
 }
 
 const opDescribeEventAggregates = "DescribeEventAggregates"
@@ -173,6 +177,7 @@ const opDescribeEventAggregates = "DescribeEventAggregates"
 type DescribeEventAggregatesRequest struct {
 	*aws.Request
 	Input *DescribeEventAggregatesInput
+	Copy  func(*DescribeEventAggregatesInput) DescribeEventAggregatesRequest
 }
 
 // Send marshals and sends the DescribeEventAggregates API request.
@@ -217,58 +222,57 @@ func (c *Health) DescribeEventAggregatesRequest(input *DescribeEventAggregatesIn
 		input = &DescribeEventAggregatesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventAggregatesOutput{})
-	return DescribeEventAggregatesRequest{Request: req, Input: input}
+	output := &DescribeEventAggregatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventAggregatesRequest{Request: req, Input: input, Copy: c.DescribeEventAggregatesRequest}
 }
 
-// DescribeEventAggregatesPages iterates over the pages of a DescribeEventAggregates operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEventAggregates method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEventAggregatesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEventAggregates operation.
-//    pageNum := 0
-//    err := client.DescribeEventAggregatesPages(params,
-//        func(page *DescribeEventAggregatesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEventAggregatesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Health) DescribeEventAggregatesPages(input *DescribeEventAggregatesInput, fn func(*DescribeEventAggregatesOutput, bool) bool) error {
-	return c.DescribeEventAggregatesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEventAggregatesRequest) Paginate(opts ...aws.Option) DescribeEventAggregatesPager {
+	return DescribeEventAggregatesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEventAggregatesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEventAggregatesPagesWithContext same as DescribeEventAggregatesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Health) DescribeEventAggregatesPagesWithContext(ctx aws.Context, input *DescribeEventAggregatesInput, fn func(*DescribeEventAggregatesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEventAggregatesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEventAggregatesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventAggregatesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEventAggregatesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEventAggregatesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEventAggregatesPager) CurrentPage() *DescribeEventAggregatesOutput {
+	return p.Pager.CurrentPage().(*DescribeEventAggregatesOutput)
 }
 
 const opDescribeEventDetails = "DescribeEventDetails"
@@ -277,6 +281,7 @@ const opDescribeEventDetails = "DescribeEventDetails"
 type DescribeEventDetailsRequest struct {
 	*aws.Request
 	Input *DescribeEventDetailsInput
+	Copy  func(*DescribeEventDetailsInput) DescribeEventDetailsRequest
 }
 
 // Send marshals and sends the DescribeEventDetails API request.
@@ -320,8 +325,11 @@ func (c *Health) DescribeEventDetailsRequest(input *DescribeEventDetailsInput) D
 		input = &DescribeEventDetailsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventDetailsOutput{})
-	return DescribeEventDetailsRequest{Request: req, Input: input}
+	output := &DescribeEventDetailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventDetailsRequest{Request: req, Input: input, Copy: c.DescribeEventDetailsRequest}
 }
 
 const opDescribeEventTypes = "DescribeEventTypes"
@@ -330,6 +338,7 @@ const opDescribeEventTypes = "DescribeEventTypes"
 type DescribeEventTypesRequest struct {
 	*aws.Request
 	Input *DescribeEventTypesInput
+	Copy  func(*DescribeEventTypesInput) DescribeEventTypesRequest
 }
 
 // Send marshals and sends the DescribeEventTypes API request.
@@ -373,58 +382,57 @@ func (c *Health) DescribeEventTypesRequest(input *DescribeEventTypesInput) Descr
 		input = &DescribeEventTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventTypesOutput{})
-	return DescribeEventTypesRequest{Request: req, Input: input}
+	output := &DescribeEventTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventTypesRequest{Request: req, Input: input, Copy: c.DescribeEventTypesRequest}
 }
 
-// DescribeEventTypesPages iterates over the pages of a DescribeEventTypes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEventTypes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEventTypesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEventTypes operation.
-//    pageNum := 0
-//    err := client.DescribeEventTypesPages(params,
-//        func(page *DescribeEventTypesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEventTypesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Health) DescribeEventTypesPages(input *DescribeEventTypesInput, fn func(*DescribeEventTypesOutput, bool) bool) error {
-	return c.DescribeEventTypesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEventTypesRequest) Paginate(opts ...aws.Option) DescribeEventTypesPager {
+	return DescribeEventTypesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEventTypesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEventTypesPagesWithContext same as DescribeEventTypesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Health) DescribeEventTypesPagesWithContext(ctx aws.Context, input *DescribeEventTypesInput, fn func(*DescribeEventTypesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEventTypesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEventTypesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventTypesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEventTypesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEventTypesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEventTypesPager) CurrentPage() *DescribeEventTypesOutput {
+	return p.Pager.CurrentPage().(*DescribeEventTypesOutput)
 }
 
 const opDescribeEvents = "DescribeEvents"
@@ -433,6 +441,7 @@ const opDescribeEvents = "DescribeEvents"
 type DescribeEventsRequest struct {
 	*aws.Request
 	Input *DescribeEventsInput
+	Copy  func(*DescribeEventsInput) DescribeEventsRequest
 }
 
 // Send marshals and sends the DescribeEvents API request.
@@ -482,58 +491,57 @@ func (c *Health) DescribeEventsRequest(input *DescribeEventsInput) DescribeEvent
 		input = &DescribeEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventsOutput{})
-	return DescribeEventsRequest{Request: req, Input: input}
+	output := &DescribeEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventsRequest{Request: req, Input: input, Copy: c.DescribeEventsRequest}
 }
 
-// DescribeEventsPages iterates over the pages of a DescribeEvents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEvents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEventsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEvents operation.
-//    pageNum := 0
-//    err := client.DescribeEventsPages(params,
-//        func(page *DescribeEventsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEventsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Health) DescribeEventsPages(input *DescribeEventsInput, fn func(*DescribeEventsOutput, bool) bool) error {
-	return c.DescribeEventsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEventsRequest) Paginate(opts ...aws.Option) DescribeEventsPager {
+	return DescribeEventsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEventsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEventsPagesWithContext same as DescribeEventsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Health) DescribeEventsPagesWithContext(ctx aws.Context, input *DescribeEventsInput, fn func(*DescribeEventsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEventsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEventsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEventsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEventsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEventsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEventsPager) CurrentPage() *DescribeEventsOutput {
+	return p.Pager.CurrentPage().(*DescribeEventsOutput)
 }
 
 // Information about an entity that is affected by a Health event.
@@ -560,10 +568,10 @@ type AffectedEntity struct {
 
 	// The most recent status of the entity affected by the event. The possible
 	// values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
-	StatusCode EntityStatusCode `locationName:"statusCode" type:"string"`
+	StatusCode EntityStatusCode `locationName:"statusCode" type:"string" enum:"true"`
 
 	// A map of entity tags attached to the affected entity.
-	Tags map[string]*string `locationName:"tags" type:"map"`
+	Tags map[string]string `locationName:"tags" type:"map"`
 }
 
 // String returns the string representation
@@ -574,48 +582,6 @@ func (s AffectedEntity) String() string {
 // GoString returns the string representation
 func (s AffectedEntity) GoString() string {
 	return s.String()
-}
-
-// SetAwsAccountId sets the AwsAccountId field's value.
-func (s *AffectedEntity) SetAwsAccountId(v string) *AffectedEntity {
-	s.AwsAccountId = &v
-	return s
-}
-
-// SetEntityArn sets the EntityArn field's value.
-func (s *AffectedEntity) SetEntityArn(v string) *AffectedEntity {
-	s.EntityArn = &v
-	return s
-}
-
-// SetEntityValue sets the EntityValue field's value.
-func (s *AffectedEntity) SetEntityValue(v string) *AffectedEntity {
-	s.EntityValue = &v
-	return s
-}
-
-// SetEventArn sets the EventArn field's value.
-func (s *AffectedEntity) SetEventArn(v string) *AffectedEntity {
-	s.EventArn = &v
-	return s
-}
-
-// SetLastUpdatedTime sets the LastUpdatedTime field's value.
-func (s *AffectedEntity) SetLastUpdatedTime(v time.Time) *AffectedEntity {
-	s.LastUpdatedTime = &v
-	return s
-}
-
-// SetStatusCode sets the StatusCode field's value.
-func (s *AffectedEntity) SetStatusCode(v EntityStatusCode) *AffectedEntity {
-	s.StatusCode = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AffectedEntity) SetTags(v map[string]*string) *AffectedEntity {
-	s.Tags = v
-	return s
 }
 
 // A range of dates and times that is used by the EventFilter and EntityFilter
@@ -643,18 +609,6 @@ func (s DateTimeRange) String() string {
 // GoString returns the string representation
 func (s DateTimeRange) GoString() string {
 	return s.String()
-}
-
-// SetFrom sets the From field's value.
-func (s *DateTimeRange) SetFrom(v time.Time) *DateTimeRange {
-	s.From = &v
-	return s
-}
-
-// SetTo sets the To field's value.
-func (s *DateTimeRange) SetTo(v time.Time) *DateTimeRange {
-	s.To = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntitiesRequest
@@ -716,36 +670,14 @@ func (s *DescribeAffectedEntitiesInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *DescribeAffectedEntitiesInput) SetFilter(v *EntityFilter) *DescribeAffectedEntitiesInput {
-	s.Filter = v
-	return s
-}
-
-// SetLocale sets the Locale field's value.
-func (s *DescribeAffectedEntitiesInput) SetLocale(v string) *DescribeAffectedEntitiesInput {
-	s.Locale = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeAffectedEntitiesInput) SetMaxResults(v int64) *DescribeAffectedEntitiesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAffectedEntitiesInput) SetNextToken(v string) *DescribeAffectedEntitiesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeAffectedEntitiesResponse
 type DescribeAffectedEntitiesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The entities that match the filter criteria.
-	Entities []*AffectedEntity `locationName:"entities" type:"list"`
+	Entities []AffectedEntity `locationName:"entities" type:"list"`
 
 	// If the results of a search are large, only a portion of the results are returned,
 	// and a nextToken pagination token is returned in the response. To retrieve
@@ -765,16 +697,9 @@ func (s DescribeAffectedEntitiesOutput) GoString() string {
 	return s.String()
 }
 
-// SetEntities sets the Entities field's value.
-func (s *DescribeAffectedEntitiesOutput) SetEntities(v []*AffectedEntity) *DescribeAffectedEntitiesOutput {
-	s.Entities = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAffectedEntitiesOutput) SetNextToken(v string) *DescribeAffectedEntitiesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAffectedEntitiesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEntityAggregatesRequest
@@ -783,7 +708,7 @@ type DescribeEntityAggregatesInput struct {
 
 	// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331",
 	// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"
-	EventArns []*string `locationName:"eventArns" min:"1" type:"list"`
+	EventArns []string `locationName:"eventArns" min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -809,18 +734,14 @@ func (s *DescribeEntityAggregatesInput) Validate() error {
 	return nil
 }
 
-// SetEventArns sets the EventArns field's value.
-func (s *DescribeEntityAggregatesInput) SetEventArns(v []*string) *DescribeEntityAggregatesInput {
-	s.EventArns = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEntityAggregatesResponse
 type DescribeEntityAggregatesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The number of entities that are affected by each of the specified events.
-	EntityAggregates []*EntityAggregate `locationName:"entityAggregates" type:"list"`
+	EntityAggregates []EntityAggregate `locationName:"entityAggregates" type:"list"`
 }
 
 // String returns the string representation
@@ -833,10 +754,9 @@ func (s DescribeEntityAggregatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetEntityAggregates sets the EntityAggregates field's value.
-func (s *DescribeEntityAggregatesOutput) SetEntityAggregates(v []*EntityAggregate) *DescribeEntityAggregatesOutput {
-	s.EntityAggregates = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEntityAggregatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventAggregatesRequest
@@ -846,7 +766,7 @@ type DescribeEventAggregatesInput struct {
 	// The only currently supported value is eventTypeCategory.
 	//
 	// AggregateField is a required field
-	AggregateField EventAggregateField `locationName:"aggregateField" type:"string" required:"true"`
+	AggregateField EventAggregateField `locationName:"aggregateField" type:"string" required:"true" enum:"true"`
 
 	// Values to narrow the results returned.
 	Filter *EventFilter `locationName:"filter" type:"structure"`
@@ -893,36 +813,14 @@ func (s *DescribeEventAggregatesInput) Validate() error {
 	return nil
 }
 
-// SetAggregateField sets the AggregateField field's value.
-func (s *DescribeEventAggregatesInput) SetAggregateField(v EventAggregateField) *DescribeEventAggregatesInput {
-	s.AggregateField = v
-	return s
-}
-
-// SetFilter sets the Filter field's value.
-func (s *DescribeEventAggregatesInput) SetFilter(v *EventFilter) *DescribeEventAggregatesInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeEventAggregatesInput) SetMaxResults(v int64) *DescribeEventAggregatesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventAggregatesInput) SetNextToken(v string) *DescribeEventAggregatesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventAggregatesResponse
 type DescribeEventAggregatesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The number of events in each category that meet the optional filter criteria.
-	EventAggregates []*EventAggregate `locationName:"eventAggregates" type:"list"`
+	EventAggregates []EventAggregate `locationName:"eventAggregates" type:"list"`
 
 	// If the results of a search are large, only a portion of the results are returned,
 	// and a nextToken pagination token is returned in the response. To retrieve
@@ -942,16 +840,9 @@ func (s DescribeEventAggregatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventAggregates sets the EventAggregates field's value.
-func (s *DescribeEventAggregatesOutput) SetEventAggregates(v []*EventAggregate) *DescribeEventAggregatesOutput {
-	s.EventAggregates = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventAggregatesOutput) SetNextToken(v string) *DescribeEventAggregatesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventAggregatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetailsRequest
@@ -962,7 +853,7 @@ type DescribeEventDetailsInput struct {
 	// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"
 	//
 	// EventArns is a required field
-	EventArns []*string `locationName:"eventArns" min:"1" type:"list" required:"true"`
+	EventArns []string `locationName:"eventArns" min:"1" type:"list" required:"true"`
 
 	// The locale (language) to return information in. English (en) is the default
 	// and the only supported value at this time.
@@ -999,27 +890,17 @@ func (s *DescribeEventDetailsInput) Validate() error {
 	return nil
 }
 
-// SetEventArns sets the EventArns field's value.
-func (s *DescribeEventDetailsInput) SetEventArns(v []*string) *DescribeEventDetailsInput {
-	s.EventArns = v
-	return s
-}
-
-// SetLocale sets the Locale field's value.
-func (s *DescribeEventDetailsInput) SetLocale(v string) *DescribeEventDetailsInput {
-	s.Locale = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventDetailsResponse
 type DescribeEventDetailsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Error messages for any events that could not be retrieved.
-	FailedSet []*EventDetailsErrorItem `locationName:"failedSet" type:"list"`
+	FailedSet []EventDetailsErrorItem `locationName:"failedSet" type:"list"`
 
 	// Information about the events that could be retrieved.
-	SuccessfulSet []*EventDetails `locationName:"successfulSet" type:"list"`
+	SuccessfulSet []EventDetails `locationName:"successfulSet" type:"list"`
 }
 
 // String returns the string representation
@@ -1032,16 +913,9 @@ func (s DescribeEventDetailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailedSet sets the FailedSet field's value.
-func (s *DescribeEventDetailsOutput) SetFailedSet(v []*EventDetailsErrorItem) *DescribeEventDetailsOutput {
-	s.FailedSet = v
-	return s
-}
-
-// SetSuccessfulSet sets the SuccessfulSet field's value.
-func (s *DescribeEventDetailsOutput) SetSuccessfulSet(v []*EventDetails) *DescribeEventDetailsOutput {
-	s.SuccessfulSet = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventDetailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventTypesRequest
@@ -1097,39 +971,17 @@ func (s *DescribeEventTypesInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *DescribeEventTypesInput) SetFilter(v *EventTypeFilter) *DescribeEventTypesInput {
-	s.Filter = v
-	return s
-}
-
-// SetLocale sets the Locale field's value.
-func (s *DescribeEventTypesInput) SetLocale(v string) *DescribeEventTypesInput {
-	s.Locale = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeEventTypesInput) SetMaxResults(v int64) *DescribeEventTypesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventTypesInput) SetNextToken(v string) *DescribeEventTypesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventTypesResponse
 type DescribeEventTypesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A list of event types that match the filter criteria. Event types have a
 	// category (issue, accountNotification, or scheduledChange), a service (for
 	// example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION;
 	// for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
-	EventTypes []*EventType `locationName:"eventTypes" type:"list"`
+	EventTypes []EventType `locationName:"eventTypes" type:"list"`
 
 	// If the results of a search are large, only a portion of the results are returned,
 	// and a nextToken pagination token is returned in the response. To retrieve
@@ -1149,16 +1001,9 @@ func (s DescribeEventTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventTypes sets the EventTypes field's value.
-func (s *DescribeEventTypesOutput) SetEventTypes(v []*EventType) *DescribeEventTypesOutput {
-	s.EventTypes = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventTypesOutput) SetNextToken(v string) *DescribeEventTypesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventsRequest
@@ -1214,36 +1059,14 @@ func (s *DescribeEventsInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *DescribeEventsInput) SetFilter(v *EventFilter) *DescribeEventsInput {
-	s.Filter = v
-	return s
-}
-
-// SetLocale sets the Locale field's value.
-func (s *DescribeEventsInput) SetLocale(v string) *DescribeEventsInput {
-	s.Locale = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeEventsInput) SetMaxResults(v int64) *DescribeEventsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventsInput) SetNextToken(v string) *DescribeEventsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/DescribeEventsResponse
 type DescribeEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The events that match the specified filter criteria.
-	Events []*Event `locationName:"events" type:"list"`
+	Events []Event `locationName:"events" type:"list"`
 
 	// If the results of a search are large, only a portion of the results are returned,
 	// and a nextToken pagination token is returned in the response. To retrieve
@@ -1263,16 +1086,9 @@ func (s DescribeEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *DescribeEventsOutput) SetEvents(v []*Event) *DescribeEventsOutput {
-	s.Events = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEventsOutput) SetNextToken(v string) *DescribeEventsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The number of entities that are affected by one or more events. Returned
@@ -1299,43 +1115,31 @@ func (s EntityAggregate) GoString() string {
 	return s.String()
 }
 
-// SetCount sets the Count field's value.
-func (s *EntityAggregate) SetCount(v int64) *EntityAggregate {
-	s.Count = &v
-	return s
-}
-
-// SetEventArn sets the EventArn field's value.
-func (s *EntityAggregate) SetEventArn(v string) *EntityAggregate {
-	s.EventArn = &v
-	return s
-}
-
 // The values to use to filter results from the DescribeAffectedEntities operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EntityFilter
 type EntityFilter struct {
 	_ struct{} `type:"structure"`
 
 	// A list of entity ARNs (unique identifiers).
-	EntityArns []*string `locationName:"entityArns" min:"1" type:"list"`
+	EntityArns []string `locationName:"entityArns" min:"1" type:"list"`
 
 	// A list of IDs for affected entities.
-	EntityValues []*string `locationName:"entityValues" min:"1" type:"list"`
+	EntityValues []string `locationName:"entityValues" min:"1" type:"list"`
 
 	// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331",
 	// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"
 	//
 	// EventArns is a required field
-	EventArns []*string `locationName:"eventArns" min:"1" type:"list" required:"true"`
+	EventArns []string `locationName:"eventArns" min:"1" type:"list" required:"true"`
 
 	// A list of the most recent dates and times that the entity was updated.
-	LastUpdatedTimes []*DateTimeRange `locationName:"lastUpdatedTimes" min:"1" type:"list"`
+	LastUpdatedTimes []DateTimeRange `locationName:"lastUpdatedTimes" min:"1" type:"list"`
 
 	// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
 	StatusCodes []EntityStatusCode `locationName:"statusCodes" min:"1" type:"list"`
 
 	// A map of entity tags attached to the affected entity.
-	Tags []map[string]*string `locationName:"tags" type:"list"`
+	Tags []map[string]string `locationName:"tags" type:"list"`
 }
 
 // String returns the string representation
@@ -1377,42 +1181,6 @@ func (s *EntityFilter) Validate() error {
 	return nil
 }
 
-// SetEntityArns sets the EntityArns field's value.
-func (s *EntityFilter) SetEntityArns(v []*string) *EntityFilter {
-	s.EntityArns = v
-	return s
-}
-
-// SetEntityValues sets the EntityValues field's value.
-func (s *EntityFilter) SetEntityValues(v []*string) *EntityFilter {
-	s.EntityValues = v
-	return s
-}
-
-// SetEventArns sets the EventArns field's value.
-func (s *EntityFilter) SetEventArns(v []*string) *EntityFilter {
-	s.EventArns = v
-	return s
-}
-
-// SetLastUpdatedTimes sets the LastUpdatedTimes field's value.
-func (s *EntityFilter) SetLastUpdatedTimes(v []*DateTimeRange) *EntityFilter {
-	s.LastUpdatedTimes = v
-	return s
-}
-
-// SetStatusCodes sets the StatusCodes field's value.
-func (s *EntityFilter) SetStatusCodes(v []EntityStatusCode) *EntityFilter {
-	s.StatusCodes = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *EntityFilter) SetTags(v []map[string]*string) *EntityFilter {
-	s.Tags = v
-	return s
-}
-
 // Summary information about an event, returned by the DescribeEvents operation.
 // The DescribeEventDetails operation also returns this information, as well
 // as the EventDescription and additional event metadata.
@@ -1431,7 +1199,7 @@ type Event struct {
 	EndTime *time.Time `locationName:"endTime" type:"timestamp" timestampFormat:"unix"`
 
 	// The
-	EventTypeCategory EventTypeCategory `locationName:"eventTypeCategory" min:"3" type:"string"`
+	EventTypeCategory EventTypeCategory `locationName:"eventTypeCategory" min:"3" type:"string" enum:"true"`
 
 	// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION;
 	// for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -1451,7 +1219,7 @@ type Event struct {
 
 	// The most recent status of the event. Possible values are open, closed, and
 	// upcoming.
-	StatusCode EventStatusCode `locationName:"statusCode" type:"string"`
+	StatusCode EventStatusCode `locationName:"statusCode" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1462,66 +1230,6 @@ func (s Event) String() string {
 // GoString returns the string representation
 func (s Event) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Event) SetArn(v string) *Event {
-	s.Arn = &v
-	return s
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *Event) SetAvailabilityZone(v string) *Event {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *Event) SetEndTime(v time.Time) *Event {
-	s.EndTime = &v
-	return s
-}
-
-// SetEventTypeCategory sets the EventTypeCategory field's value.
-func (s *Event) SetEventTypeCategory(v EventTypeCategory) *Event {
-	s.EventTypeCategory = v
-	return s
-}
-
-// SetEventTypeCode sets the EventTypeCode field's value.
-func (s *Event) SetEventTypeCode(v string) *Event {
-	s.EventTypeCode = &v
-	return s
-}
-
-// SetLastUpdatedTime sets the LastUpdatedTime field's value.
-func (s *Event) SetLastUpdatedTime(v time.Time) *Event {
-	s.LastUpdatedTime = &v
-	return s
-}
-
-// SetRegion sets the Region field's value.
-func (s *Event) SetRegion(v string) *Event {
-	s.Region = &v
-	return s
-}
-
-// SetService sets the Service field's value.
-func (s *Event) SetService(v string) *Event {
-	s.Service = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *Event) SetStartTime(v time.Time) *Event {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatusCode sets the StatusCode field's value.
-func (s *Event) SetStatusCode(v EventStatusCode) *Event {
-	s.StatusCode = v
-	return s
 }
 
 // The number of events of each issue type. Returned by the DescribeEventAggregates
@@ -1547,18 +1255,6 @@ func (s EventAggregate) GoString() string {
 	return s.String()
 }
 
-// SetAggregateValue sets the AggregateValue field's value.
-func (s *EventAggregate) SetAggregateValue(v string) *EventAggregate {
-	s.AggregateValue = &v
-	return s
-}
-
-// SetCount sets the Count field's value.
-func (s *EventAggregate) SetCount(v int64) *EventAggregate {
-	s.Count = &v
-	return s
-}
-
 // The detailed description of the event. Included in the information returned
 // by the DescribeEventDetails operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EventDescription
@@ -1579,12 +1275,6 @@ func (s EventDescription) GoString() string {
 	return s.String()
 }
 
-// SetLatestDescription sets the LatestDescription field's value.
-func (s *EventDescription) SetLatestDescription(v string) *EventDescription {
-	s.LatestDescription = &v
-	return s
-}
-
 // Detailed information about an event. A combination of an Event object, an
 // EventDescription object, and additional metadata about the event. Returned
 // by the DescribeEventDetails operation.
@@ -1599,7 +1289,7 @@ type EventDetails struct {
 	EventDescription *EventDescription `locationName:"eventDescription" type:"structure"`
 
 	// Additional metadata about the event.
-	EventMetadata map[string]*string `locationName:"eventMetadata" type:"map"`
+	EventMetadata map[string]string `locationName:"eventMetadata" type:"map"`
 }
 
 // String returns the string representation
@@ -1610,24 +1300,6 @@ func (s EventDetails) String() string {
 // GoString returns the string representation
 func (s EventDetails) GoString() string {
 	return s.String()
-}
-
-// SetEvent sets the Event field's value.
-func (s *EventDetails) SetEvent(v *Event) *EventDetails {
-	s.Event = v
-	return s
-}
-
-// SetEventDescription sets the EventDescription field's value.
-func (s *EventDetails) SetEventDescription(v *EventDescription) *EventDetails {
-	s.EventDescription = v
-	return s
-}
-
-// SetEventMetadata sets the EventMetadata field's value.
-func (s *EventDetails) SetEventMetadata(v map[string]*string) *EventDetails {
-	s.EventMetadata = v
-	return s
 }
 
 // Error information returned when a DescribeEventDetails operation cannot find
@@ -1657,24 +1329,6 @@ func (s EventDetailsErrorItem) GoString() string {
 	return s.String()
 }
 
-// SetErrorMessage sets the ErrorMessage field's value.
-func (s *EventDetailsErrorItem) SetErrorMessage(v string) *EventDetailsErrorItem {
-	s.ErrorMessage = &v
-	return s
-}
-
-// SetErrorName sets the ErrorName field's value.
-func (s *EventDetailsErrorItem) SetErrorName(v string) *EventDetailsErrorItem {
-	s.ErrorName = &v
-	return s
-}
-
-// SetEventArn sets the EventArn field's value.
-func (s *EventDetailsErrorItem) SetEventArn(v string) *EventDetailsErrorItem {
-	s.EventArn = &v
-	return s
-}
-
 // The values to use to filter results from the DescribeEvents and DescribeEventAggregates
 // operations.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EventFilter
@@ -1682,21 +1336,21 @@ type EventFilter struct {
 	_ struct{} `type:"structure"`
 
 	// A list of AWS availability zones.
-	AvailabilityZones []*string `locationName:"availabilityZones" type:"list"`
+	AvailabilityZones []string `locationName:"availabilityZones" type:"list"`
 
 	// A list of dates and times that the event ended.
-	EndTimes []*DateTimeRange `locationName:"endTimes" min:"1" type:"list"`
+	EndTimes []DateTimeRange `locationName:"endTimes" min:"1" type:"list"`
 
 	// A list of entity ARNs (unique identifiers).
-	EntityArns []*string `locationName:"entityArns" min:"1" type:"list"`
+	EntityArns []string `locationName:"entityArns" min:"1" type:"list"`
 
 	// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS
 	// volumes (vol-426ab23e).
-	EntityValues []*string `locationName:"entityValues" min:"1" type:"list"`
+	EntityValues []string `locationName:"entityValues" min:"1" type:"list"`
 
 	// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/AWS_EC2_MAINTENANCE_5331",
 	// "arn:aws:health:us-west-1::event/AWS_EBS_LOST_VOLUME_xyz"
-	EventArns []*string `locationName:"eventArns" min:"1" type:"list"`
+	EventArns []string `locationName:"eventArns" min:"1" type:"list"`
 
 	// A list of event status codes.
 	EventStatusCodes []EventStatusCode `locationName:"eventStatusCodes" min:"1" type:"list"`
@@ -1705,22 +1359,22 @@ type EventFilter struct {
 	EventTypeCategories []EventTypeCategory `locationName:"eventTypeCategories" min:"1" type:"list"`
 
 	// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED"
-	EventTypeCodes []*string `locationName:"eventTypeCodes" min:"1" type:"list"`
+	EventTypeCodes []string `locationName:"eventTypeCodes" min:"1" type:"list"`
 
 	// A list of dates and times that the event was last updated.
-	LastUpdatedTimes []*DateTimeRange `locationName:"lastUpdatedTimes" min:"1" type:"list"`
+	LastUpdatedTimes []DateTimeRange `locationName:"lastUpdatedTimes" min:"1" type:"list"`
 
 	// A list of AWS regions.
-	Regions []*string `locationName:"regions" min:"1" type:"list"`
+	Regions []string `locationName:"regions" min:"1" type:"list"`
 
 	// The AWS services associated with the event. For example, EC2, RDS.
-	Services []*string `locationName:"services" min:"1" type:"list"`
+	Services []string `locationName:"services" min:"1" type:"list"`
 
 	// A list of dates and times that the event began.
-	StartTimes []*DateTimeRange `locationName:"startTimes" min:"1" type:"list"`
+	StartTimes []DateTimeRange `locationName:"startTimes" min:"1" type:"list"`
 
 	// A map of entity tags attached to the affected entity.
-	Tags []map[string]*string `locationName:"tags" type:"list"`
+	Tags []map[string]string `locationName:"tags" type:"list"`
 }
 
 // String returns the string representation
@@ -1776,84 +1430,6 @@ func (s *EventFilter) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *EventFilter) SetAvailabilityZones(v []*string) *EventFilter {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetEndTimes sets the EndTimes field's value.
-func (s *EventFilter) SetEndTimes(v []*DateTimeRange) *EventFilter {
-	s.EndTimes = v
-	return s
-}
-
-// SetEntityArns sets the EntityArns field's value.
-func (s *EventFilter) SetEntityArns(v []*string) *EventFilter {
-	s.EntityArns = v
-	return s
-}
-
-// SetEntityValues sets the EntityValues field's value.
-func (s *EventFilter) SetEntityValues(v []*string) *EventFilter {
-	s.EntityValues = v
-	return s
-}
-
-// SetEventArns sets the EventArns field's value.
-func (s *EventFilter) SetEventArns(v []*string) *EventFilter {
-	s.EventArns = v
-	return s
-}
-
-// SetEventStatusCodes sets the EventStatusCodes field's value.
-func (s *EventFilter) SetEventStatusCodes(v []EventStatusCode) *EventFilter {
-	s.EventStatusCodes = v
-	return s
-}
-
-// SetEventTypeCategories sets the EventTypeCategories field's value.
-func (s *EventFilter) SetEventTypeCategories(v []EventTypeCategory) *EventFilter {
-	s.EventTypeCategories = v
-	return s
-}
-
-// SetEventTypeCodes sets the EventTypeCodes field's value.
-func (s *EventFilter) SetEventTypeCodes(v []*string) *EventFilter {
-	s.EventTypeCodes = v
-	return s
-}
-
-// SetLastUpdatedTimes sets the LastUpdatedTimes field's value.
-func (s *EventFilter) SetLastUpdatedTimes(v []*DateTimeRange) *EventFilter {
-	s.LastUpdatedTimes = v
-	return s
-}
-
-// SetRegions sets the Regions field's value.
-func (s *EventFilter) SetRegions(v []*string) *EventFilter {
-	s.Regions = v
-	return s
-}
-
-// SetServices sets the Services field's value.
-func (s *EventFilter) SetServices(v []*string) *EventFilter {
-	s.Services = v
-	return s
-}
-
-// SetStartTimes sets the StartTimes field's value.
-func (s *EventFilter) SetStartTimes(v []*DateTimeRange) *EventFilter {
-	s.StartTimes = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *EventFilter) SetTags(v []map[string]*string) *EventFilter {
-	s.Tags = v
-	return s
-}
-
 // Metadata about a type of event that is reported by AWS Health. Data consists
 // of the category (for example, issue), the service (for example, EC2), and
 // the event type code (for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
@@ -1862,7 +1438,7 @@ type EventType struct {
 	_ struct{} `type:"structure"`
 
 	// A list of event type category codes (issue, scheduledChange, or accountNotification).
-	Category EventTypeCategory `locationName:"category" min:"3" type:"string"`
+	Category EventTypeCategory `locationName:"category" min:"3" type:"string" enum:"true"`
 
 	// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION;
 	// for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -1882,24 +1458,6 @@ func (s EventType) GoString() string {
 	return s.String()
 }
 
-// SetCategory sets the Category field's value.
-func (s *EventType) SetCategory(v EventTypeCategory) *EventType {
-	s.Category = v
-	return s
-}
-
-// SetCode sets the Code field's value.
-func (s *EventType) SetCode(v string) *EventType {
-	s.Code = &v
-	return s
-}
-
-// SetService sets the Service field's value.
-func (s *EventType) SetService(v string) *EventType {
-	s.Service = &v
-	return s
-}
-
 // The values to use to filter results from the DescribeEventTypes operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/health-2016-08-04/EventTypeFilter
 type EventTypeFilter struct {
@@ -1909,10 +1467,10 @@ type EventTypeFilter struct {
 	EventTypeCategories []EventTypeCategory `locationName:"eventTypeCategories" min:"1" type:"list"`
 
 	// A list of event type codes.
-	EventTypeCodes []*string `locationName:"eventTypeCodes" min:"1" type:"list"`
+	EventTypeCodes []string `locationName:"eventTypeCodes" min:"1" type:"list"`
 
 	// The AWS services associated with the event. For example, EC2, RDS.
-	Services []*string `locationName:"services" min:"1" type:"list"`
+	Services []string `locationName:"services" min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -1944,24 +1502,6 @@ func (s *EventTypeFilter) Validate() error {
 	return nil
 }
 
-// SetEventTypeCategories sets the EventTypeCategories field's value.
-func (s *EventTypeFilter) SetEventTypeCategories(v []EventTypeCategory) *EventTypeFilter {
-	s.EventTypeCategories = v
-	return s
-}
-
-// SetEventTypeCodes sets the EventTypeCodes field's value.
-func (s *EventTypeFilter) SetEventTypeCodes(v []*string) *EventTypeFilter {
-	s.EventTypeCodes = v
-	return s
-}
-
-// SetServices sets the Services field's value.
-func (s *EventTypeFilter) SetServices(v []*string) *EventTypeFilter {
-	s.Services = v
-	return s
-}
-
 type EntityStatusCode string
 
 // Enum values for EntityStatusCode
@@ -1971,12 +1511,30 @@ const (
 	EntityStatusCodeUnknown    EntityStatusCode = "UNKNOWN"
 )
 
+func (enum EntityStatusCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EntityStatusCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EventAggregateField string
 
 // Enum values for EventAggregateField
 const (
 	EventAggregateFieldEventTypeCategory EventAggregateField = "eventTypeCategory"
 )
+
+func (enum EventAggregateField) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EventAggregateField) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type EventStatusCode string
 
@@ -1987,6 +1545,15 @@ const (
 	EventStatusCodeUpcoming EventStatusCode = "upcoming"
 )
 
+func (enum EventStatusCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EventStatusCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EventTypeCategory string
 
 // Enum values for EventTypeCategory
@@ -1995,3 +1562,12 @@ const (
 	EventTypeCategoryAccountNotification EventTypeCategory = "accountNotification"
 	EventTypeCategoryScheduledChange     EventTypeCategory = "scheduledChange"
 )
+
+func (enum EventTypeCategory) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EventTypeCategory) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

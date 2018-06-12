@@ -15,6 +15,7 @@ const opAddTagsToResource = "AddTagsToResource"
 type AddTagsToResourceRequest struct {
 	*aws.Request
 	Input *AddTagsToResourceInput
+	Copy  func(*AddTagsToResourceInput) AddTagsToResourceRequest
 }
 
 // Send marshals and sends the AddTagsToResource API request.
@@ -29,6 +30,15 @@ func (r AddTagsToResourceRequest) Send() (*AddTagsToResourceOutput, error) {
 
 // AddTagsToResourceRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Adds or overwrites one or more tags for the specified AWS CloudHSM resource.
 //
@@ -53,8 +63,11 @@ func (c *CloudHSM) AddTagsToResourceRequest(input *AddTagsToResourceInput) AddTa
 		input = &AddTagsToResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsToResourceOutput{})
-	return AddTagsToResourceRequest{Request: req, Input: input}
+	output := &AddTagsToResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsToResourceRequest{Request: req, Input: input, Copy: c.AddTagsToResourceRequest}
 }
 
 const opCreateHapg = "CreateHapg"
@@ -63,6 +76,7 @@ const opCreateHapg = "CreateHapg"
 type CreateHapgRequest struct {
 	*aws.Request
 	Input *CreateHapgInput
+	Copy  func(*CreateHapgInput) CreateHapgRequest
 }
 
 // Send marshals and sends the CreateHapg API request.
@@ -77,6 +91,15 @@ func (r CreateHapgRequest) Send() (*CreateHapgOutput, error) {
 
 // CreateHapgRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Creates a high-availability partition group. A high-availability partition
 // group is a group of partitions that spans multiple physical HSMs.
@@ -100,8 +123,11 @@ func (c *CloudHSM) CreateHapgRequest(input *CreateHapgInput) CreateHapgRequest {
 		input = &CreateHapgInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHapgOutput{})
-	return CreateHapgRequest{Request: req, Input: input}
+	output := &CreateHapgOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHapgRequest{Request: req, Input: input, Copy: c.CreateHapgRequest}
 }
 
 const opCreateHsm = "CreateHsm"
@@ -110,6 +136,7 @@ const opCreateHsm = "CreateHsm"
 type CreateHsmRequest struct {
 	*aws.Request
 	Input *CreateHsmInput
+	Copy  func(*CreateHsmInput) CreateHsmRequest
 }
 
 // Send marshals and sends the CreateHsm API request.
@@ -124,6 +151,15 @@ func (r CreateHsmRequest) Send() (*CreateHsmOutput, error) {
 
 // CreateHsmRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Creates an uninitialized HSM instance.
 //
@@ -156,8 +192,11 @@ func (c *CloudHSM) CreateHsmRequest(input *CreateHsmInput) CreateHsmRequest {
 		input = &CreateHsmInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHsmOutput{})
-	return CreateHsmRequest{Request: req, Input: input}
+	output := &CreateHsmOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHsmRequest{Request: req, Input: input, Copy: c.CreateHsmRequest}
 }
 
 const opCreateLunaClient = "CreateLunaClient"
@@ -166,6 +205,7 @@ const opCreateLunaClient = "CreateLunaClient"
 type CreateLunaClientRequest struct {
 	*aws.Request
 	Input *CreateLunaClientInput
+	Copy  func(*CreateLunaClientInput) CreateLunaClientRequest
 }
 
 // Send marshals and sends the CreateLunaClient API request.
@@ -180,6 +220,15 @@ func (r CreateLunaClientRequest) Send() (*CreateLunaClientOutput, error) {
 
 // CreateLunaClientRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Creates an HSM client.
 //
@@ -202,8 +251,11 @@ func (c *CloudHSM) CreateLunaClientRequest(input *CreateLunaClientInput) CreateL
 		input = &CreateLunaClientInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateLunaClientOutput{})
-	return CreateLunaClientRequest{Request: req, Input: input}
+	output := &CreateLunaClientOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateLunaClientRequest{Request: req, Input: input, Copy: c.CreateLunaClientRequest}
 }
 
 const opDeleteHapg = "DeleteHapg"
@@ -212,6 +264,7 @@ const opDeleteHapg = "DeleteHapg"
 type DeleteHapgRequest struct {
 	*aws.Request
 	Input *DeleteHapgInput
+	Copy  func(*DeleteHapgInput) DeleteHapgRequest
 }
 
 // Send marshals and sends the DeleteHapg API request.
@@ -226,6 +279,15 @@ func (r DeleteHapgRequest) Send() (*DeleteHapgOutput, error) {
 
 // DeleteHapgRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Deletes a high-availability partition group.
 //
@@ -248,8 +310,11 @@ func (c *CloudHSM) DeleteHapgRequest(input *DeleteHapgInput) DeleteHapgRequest {
 		input = &DeleteHapgInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteHapgOutput{})
-	return DeleteHapgRequest{Request: req, Input: input}
+	output := &DeleteHapgOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteHapgRequest{Request: req, Input: input, Copy: c.DeleteHapgRequest}
 }
 
 const opDeleteHsm = "DeleteHsm"
@@ -258,6 +323,7 @@ const opDeleteHsm = "DeleteHsm"
 type DeleteHsmRequest struct {
 	*aws.Request
 	Input *DeleteHsmInput
+	Copy  func(*DeleteHsmInput) DeleteHsmRequest
 }
 
 // Send marshals and sends the DeleteHsm API request.
@@ -272,6 +338,15 @@ func (r DeleteHsmRequest) Send() (*DeleteHsmOutput, error) {
 
 // DeleteHsmRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Deletes an HSM. After completion, this operation cannot be undone and your
 // key material cannot be recovered.
@@ -295,8 +370,11 @@ func (c *CloudHSM) DeleteHsmRequest(input *DeleteHsmInput) DeleteHsmRequest {
 		input = &DeleteHsmInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteHsmOutput{})
-	return DeleteHsmRequest{Request: req, Input: input}
+	output := &DeleteHsmOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteHsmRequest{Request: req, Input: input, Copy: c.DeleteHsmRequest}
 }
 
 const opDeleteLunaClient = "DeleteLunaClient"
@@ -305,6 +383,7 @@ const opDeleteLunaClient = "DeleteLunaClient"
 type DeleteLunaClientRequest struct {
 	*aws.Request
 	Input *DeleteLunaClientInput
+	Copy  func(*DeleteLunaClientInput) DeleteLunaClientRequest
 }
 
 // Send marshals and sends the DeleteLunaClient API request.
@@ -319,6 +398,15 @@ func (r DeleteLunaClientRequest) Send() (*DeleteLunaClientOutput, error) {
 
 // DeleteLunaClientRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Deletes a client.
 //
@@ -341,8 +429,11 @@ func (c *CloudHSM) DeleteLunaClientRequest(input *DeleteLunaClientInput) DeleteL
 		input = &DeleteLunaClientInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteLunaClientOutput{})
-	return DeleteLunaClientRequest{Request: req, Input: input}
+	output := &DeleteLunaClientOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteLunaClientRequest{Request: req, Input: input, Copy: c.DeleteLunaClientRequest}
 }
 
 const opDescribeHapg = "DescribeHapg"
@@ -351,6 +442,7 @@ const opDescribeHapg = "DescribeHapg"
 type DescribeHapgRequest struct {
 	*aws.Request
 	Input *DescribeHapgInput
+	Copy  func(*DescribeHapgInput) DescribeHapgRequest
 }
 
 // Send marshals and sends the DescribeHapg API request.
@@ -365,6 +457,15 @@ func (r DescribeHapgRequest) Send() (*DescribeHapgOutput, error) {
 
 // DescribeHapgRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Retrieves information about a high-availability partition group.
 //
@@ -387,8 +488,11 @@ func (c *CloudHSM) DescribeHapgRequest(input *DescribeHapgInput) DescribeHapgReq
 		input = &DescribeHapgInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeHapgOutput{})
-	return DescribeHapgRequest{Request: req, Input: input}
+	output := &DescribeHapgOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeHapgRequest{Request: req, Input: input, Copy: c.DescribeHapgRequest}
 }
 
 const opDescribeHsm = "DescribeHsm"
@@ -397,6 +501,7 @@ const opDescribeHsm = "DescribeHsm"
 type DescribeHsmRequest struct {
 	*aws.Request
 	Input *DescribeHsmInput
+	Copy  func(*DescribeHsmInput) DescribeHsmRequest
 }
 
 // Send marshals and sends the DescribeHsm API request.
@@ -411,6 +516,15 @@ func (r DescribeHsmRequest) Send() (*DescribeHsmOutput, error) {
 
 // DescribeHsmRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Retrieves information about an HSM. You can identify the HSM by its ARN or
 // its serial number.
@@ -434,8 +548,11 @@ func (c *CloudHSM) DescribeHsmRequest(input *DescribeHsmInput) DescribeHsmReques
 		input = &DescribeHsmInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeHsmOutput{})
-	return DescribeHsmRequest{Request: req, Input: input}
+	output := &DescribeHsmOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeHsmRequest{Request: req, Input: input, Copy: c.DescribeHsmRequest}
 }
 
 const opDescribeLunaClient = "DescribeLunaClient"
@@ -444,6 +561,7 @@ const opDescribeLunaClient = "DescribeLunaClient"
 type DescribeLunaClientRequest struct {
 	*aws.Request
 	Input *DescribeLunaClientInput
+	Copy  func(*DescribeLunaClientInput) DescribeLunaClientRequest
 }
 
 // Send marshals and sends the DescribeLunaClient API request.
@@ -458,6 +576,15 @@ func (r DescribeLunaClientRequest) Send() (*DescribeLunaClientOutput, error) {
 
 // DescribeLunaClientRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Retrieves information about an HSM client.
 //
@@ -480,8 +607,11 @@ func (c *CloudHSM) DescribeLunaClientRequest(input *DescribeLunaClientInput) Des
 		input = &DescribeLunaClientInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeLunaClientOutput{})
-	return DescribeLunaClientRequest{Request: req, Input: input}
+	output := &DescribeLunaClientOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeLunaClientRequest{Request: req, Input: input, Copy: c.DescribeLunaClientRequest}
 }
 
 const opGetConfig = "GetConfig"
@@ -490,6 +620,7 @@ const opGetConfig = "GetConfig"
 type GetConfigRequest struct {
 	*aws.Request
 	Input *GetConfigInput
+	Copy  func(*GetConfigInput) GetConfigRequest
 }
 
 // Send marshals and sends the GetConfig API request.
@@ -504,6 +635,15 @@ func (r GetConfigRequest) Send() (*GetConfigOutput, error) {
 
 // GetConfigRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Gets the configuration files necessary to connect to all high availability
 // partition groups the client is associated with.
@@ -527,8 +667,11 @@ func (c *CloudHSM) GetConfigRequest(input *GetConfigInput) GetConfigRequest {
 		input = &GetConfigInput{}
 	}
 
-	req := c.newRequest(op, input, &GetConfigOutput{})
-	return GetConfigRequest{Request: req, Input: input}
+	output := &GetConfigOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetConfigRequest{Request: req, Input: input, Copy: c.GetConfigRequest}
 }
 
 const opListAvailableZones = "ListAvailableZones"
@@ -537,6 +680,7 @@ const opListAvailableZones = "ListAvailableZones"
 type ListAvailableZonesRequest struct {
 	*aws.Request
 	Input *ListAvailableZonesInput
+	Copy  func(*ListAvailableZonesInput) ListAvailableZonesRequest
 }
 
 // Send marshals and sends the ListAvailableZones API request.
@@ -551,6 +695,15 @@ func (r ListAvailableZonesRequest) Send() (*ListAvailableZonesOutput, error) {
 
 // ListAvailableZonesRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Lists the Availability Zones that have available AWS CloudHSM capacity.
 //
@@ -573,8 +726,11 @@ func (c *CloudHSM) ListAvailableZonesRequest(input *ListAvailableZonesInput) Lis
 		input = &ListAvailableZonesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAvailableZonesOutput{})
-	return ListAvailableZonesRequest{Request: req, Input: input}
+	output := &ListAvailableZonesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAvailableZonesRequest{Request: req, Input: input, Copy: c.ListAvailableZonesRequest}
 }
 
 const opListHapgs = "ListHapgs"
@@ -583,6 +739,7 @@ const opListHapgs = "ListHapgs"
 type ListHapgsRequest struct {
 	*aws.Request
 	Input *ListHapgsInput
+	Copy  func(*ListHapgsInput) ListHapgsRequest
 }
 
 // Send marshals and sends the ListHapgs API request.
@@ -597,6 +754,15 @@ func (r ListHapgsRequest) Send() (*ListHapgsOutput, error) {
 
 // ListHapgsRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Lists the high-availability partition groups for the account.
 //
@@ -624,8 +790,11 @@ func (c *CloudHSM) ListHapgsRequest(input *ListHapgsInput) ListHapgsRequest {
 		input = &ListHapgsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListHapgsOutput{})
-	return ListHapgsRequest{Request: req, Input: input}
+	output := &ListHapgsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListHapgsRequest{Request: req, Input: input, Copy: c.ListHapgsRequest}
 }
 
 const opListHsms = "ListHsms"
@@ -634,6 +803,7 @@ const opListHsms = "ListHsms"
 type ListHsmsRequest struct {
 	*aws.Request
 	Input *ListHsmsInput
+	Copy  func(*ListHsmsInput) ListHsmsRequest
 }
 
 // Send marshals and sends the ListHsms API request.
@@ -648,6 +818,15 @@ func (r ListHsmsRequest) Send() (*ListHsmsOutput, error) {
 
 // ListHsmsRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Retrieves the identifiers of all of the HSMs provisioned for the current
 // customer.
@@ -676,8 +855,11 @@ func (c *CloudHSM) ListHsmsRequest(input *ListHsmsInput) ListHsmsRequest {
 		input = &ListHsmsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListHsmsOutput{})
-	return ListHsmsRequest{Request: req, Input: input}
+	output := &ListHsmsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListHsmsRequest{Request: req, Input: input, Copy: c.ListHsmsRequest}
 }
 
 const opListLunaClients = "ListLunaClients"
@@ -686,6 +868,7 @@ const opListLunaClients = "ListLunaClients"
 type ListLunaClientsRequest struct {
 	*aws.Request
 	Input *ListLunaClientsInput
+	Copy  func(*ListLunaClientsInput) ListLunaClientsRequest
 }
 
 // Send marshals and sends the ListLunaClients API request.
@@ -700,6 +883,15 @@ func (r ListLunaClientsRequest) Send() (*ListLunaClientsOutput, error) {
 
 // ListLunaClientsRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Lists all of the clients.
 //
@@ -727,8 +919,11 @@ func (c *CloudHSM) ListLunaClientsRequest(input *ListLunaClientsInput) ListLunaC
 		input = &ListLunaClientsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListLunaClientsOutput{})
-	return ListLunaClientsRequest{Request: req, Input: input}
+	output := &ListLunaClientsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListLunaClientsRequest{Request: req, Input: input, Copy: c.ListLunaClientsRequest}
 }
 
 const opListTagsForResource = "ListTagsForResource"
@@ -737,6 +932,7 @@ const opListTagsForResource = "ListTagsForResource"
 type ListTagsForResourceRequest struct {
 	*aws.Request
 	Input *ListTagsForResourceInput
+	Copy  func(*ListTagsForResourceInput) ListTagsForResourceRequest
 }
 
 // Send marshals and sends the ListTagsForResource API request.
@@ -751,6 +947,15 @@ func (r ListTagsForResourceRequest) Send() (*ListTagsForResourceOutput, error) {
 
 // ListTagsForResourceRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Returns a list of all tags for the specified AWS CloudHSM resource.
 //
@@ -773,8 +978,11 @@ func (c *CloudHSM) ListTagsForResourceRequest(input *ListTagsForResourceInput) L
 		input = &ListTagsForResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsForResourceOutput{})
-	return ListTagsForResourceRequest{Request: req, Input: input}
+	output := &ListTagsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsForResourceRequest{Request: req, Input: input, Copy: c.ListTagsForResourceRequest}
 }
 
 const opModifyHapg = "ModifyHapg"
@@ -783,6 +991,7 @@ const opModifyHapg = "ModifyHapg"
 type ModifyHapgRequest struct {
 	*aws.Request
 	Input *ModifyHapgInput
+	Copy  func(*ModifyHapgInput) ModifyHapgRequest
 }
 
 // Send marshals and sends the ModifyHapg API request.
@@ -797,6 +1006,15 @@ func (r ModifyHapgRequest) Send() (*ModifyHapgOutput, error) {
 
 // ModifyHapgRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Modifies an existing high-availability partition group.
 //
@@ -819,8 +1037,11 @@ func (c *CloudHSM) ModifyHapgRequest(input *ModifyHapgInput) ModifyHapgRequest {
 		input = &ModifyHapgInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyHapgOutput{})
-	return ModifyHapgRequest{Request: req, Input: input}
+	output := &ModifyHapgOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyHapgRequest{Request: req, Input: input, Copy: c.ModifyHapgRequest}
 }
 
 const opModifyHsm = "ModifyHsm"
@@ -829,6 +1050,7 @@ const opModifyHsm = "ModifyHsm"
 type ModifyHsmRequest struct {
 	*aws.Request
 	Input *ModifyHsmInput
+	Copy  func(*ModifyHsmInput) ModifyHsmRequest
 }
 
 // Send marshals and sends the ModifyHsm API request.
@@ -843,6 +1065,15 @@ func (r ModifyHsmRequest) Send() (*ModifyHsmOutput, error) {
 
 // ModifyHsmRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Modifies an HSM.
 //
@@ -871,8 +1102,11 @@ func (c *CloudHSM) ModifyHsmRequest(input *ModifyHsmInput) ModifyHsmRequest {
 		input = &ModifyHsmInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyHsmOutput{})
-	return ModifyHsmRequest{Request: req, Input: input}
+	output := &ModifyHsmOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyHsmRequest{Request: req, Input: input, Copy: c.ModifyHsmRequest}
 }
 
 const opModifyLunaClient = "ModifyLunaClient"
@@ -881,6 +1115,7 @@ const opModifyLunaClient = "ModifyLunaClient"
 type ModifyLunaClientRequest struct {
 	*aws.Request
 	Input *ModifyLunaClientInput
+	Copy  func(*ModifyLunaClientInput) ModifyLunaClientRequest
 }
 
 // Send marshals and sends the ModifyLunaClient API request.
@@ -895,6 +1130,15 @@ func (r ModifyLunaClientRequest) Send() (*ModifyLunaClientOutput, error) {
 
 // ModifyLunaClientRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Modifies the certificate used by the client.
 //
@@ -920,8 +1164,11 @@ func (c *CloudHSM) ModifyLunaClientRequest(input *ModifyLunaClientInput) ModifyL
 		input = &ModifyLunaClientInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyLunaClientOutput{})
-	return ModifyLunaClientRequest{Request: req, Input: input}
+	output := &ModifyLunaClientOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyLunaClientRequest{Request: req, Input: input, Copy: c.ModifyLunaClientRequest}
 }
 
 const opRemoveTagsFromResource = "RemoveTagsFromResource"
@@ -930,6 +1177,7 @@ const opRemoveTagsFromResource = "RemoveTagsFromResource"
 type RemoveTagsFromResourceRequest struct {
 	*aws.Request
 	Input *RemoveTagsFromResourceInput
+	Copy  func(*RemoveTagsFromResourceInput) RemoveTagsFromResourceRequest
 }
 
 // Send marshals and sends the RemoveTagsFromResource API request.
@@ -944,6 +1192,15 @@ func (r RemoveTagsFromResourceRequest) Send() (*RemoveTagsFromResourceOutput, er
 
 // RemoveTagsFromResourceRequest returns a request value for making API operation for
 // Amazon CloudHSM.
+//
+// This is documentation for AWS CloudHSM Classic. For more information, see
+// AWS CloudHSM Classic FAQs (http://aws.amazon.com/cloudhsm/faqs-classic/),
+// the AWS CloudHSM Classic User Guide (http://docs.aws.amazon.com/cloudhsm/classic/userguide/),
+// and the AWS CloudHSM Classic API Reference (http://docs.aws.amazon.com/cloudhsm/classic/APIReference/).
+//
+// For information about the current version of AWS CloudHSM, see AWS CloudHSM
+// (http://aws.amazon.com/cloudhsm/), the AWS CloudHSM User Guide (http://docs.aws.amazon.com/cloudhsm/latest/userguide/),
+// and the AWS CloudHSM API Reference (http://docs.aws.amazon.com/cloudhsm/latest/APIReference/).
 //
 // Removes one or more tags from the specified AWS CloudHSM resource.
 //
@@ -969,8 +1226,11 @@ func (c *CloudHSM) RemoveTagsFromResourceRequest(input *RemoveTagsFromResourceIn
 		input = &RemoveTagsFromResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsFromResourceOutput{})
-	return RemoveTagsFromResourceRequest{Request: req, Input: input}
+	output := &RemoveTagsFromResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsFromResourceRequest{Request: req, Input: input, Copy: c.RemoveTagsFromResourceRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/AddTagsToResourceRequest
@@ -985,7 +1245,7 @@ type AddTagsToResourceInput struct {
 	// One or more tags.
 	//
 	// TagList is a required field
-	TagList []*Tag `type:"list" required:"true"`
+	TagList []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1011,9 +1271,6 @@ func (s *AddTagsToResourceInput) Validate() error {
 	}
 	if s.TagList != nil {
 		for i, v := range s.TagList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagList", i), err.(aws.ErrInvalidParams))
 			}
@@ -1026,21 +1283,11 @@ func (s *AddTagsToResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceArn sets the ResourceArn field's value.
-func (s *AddTagsToResourceInput) SetResourceArn(v string) *AddTagsToResourceInput {
-	s.ResourceArn = &v
-	return s
-}
-
-// SetTagList sets the TagList field's value.
-func (s *AddTagsToResourceInput) SetTagList(v []*Tag) *AddTagsToResourceInput {
-	s.TagList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/AddTagsToResourceResponse
 type AddTagsToResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the operation.
 	//
@@ -1058,10 +1305,9 @@ func (s AddTagsToResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *AddTagsToResourceOutput) SetStatus(v string) *AddTagsToResourceOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsToResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateHapgRequest action.
@@ -1099,16 +1345,12 @@ func (s *CreateHapgInput) Validate() error {
 	return nil
 }
 
-// SetLabel sets the Label field's value.
-func (s *CreateHapgInput) SetLabel(v string) *CreateHapgInput {
-	s.Label = &v
-	return s
-}
-
 // Contains the output of the CreateHAPartitionGroup action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateHapgResponse
 type CreateHapgOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the high-availability partition group.
 	HapgArn *string `type:"string"`
@@ -1124,16 +1366,15 @@ func (s CreateHapgOutput) GoString() string {
 	return s.String()
 }
 
-// SetHapgArn sets the HapgArn field's value.
-func (s *CreateHapgOutput) SetHapgArn(v string) *CreateHapgOutput {
-	s.HapgArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHapgOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateHsmRequest
 type CreateHsmInput struct {
-	_ struct{} `locationName:"CreateHsmRequest" type:"structure"`
+	_ struct{} `type:"structure"`
 
 	// A user-defined token to ensure idempotence. Subsequent calls to this operation
 	// with the same token will be ignored.
@@ -1171,7 +1412,7 @@ type CreateHsmInput struct {
 	//    * TRIAL - The HSM is being used in a product trial.
 	//
 	// SubscriptionType is a required field
-	SubscriptionType SubscriptionType `locationName:"SubscriptionType" type:"string" required:"true"`
+	SubscriptionType SubscriptionType `locationName:"SubscriptionType" type:"string" required:"true" enum:"true"`
 
 	// The IP address for the syslog monitoring server. The AWS CloudHSM service
 	// only supports one syslog monitoring server.
@@ -1213,58 +1454,12 @@ func (s *CreateHsmInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *CreateHsmInput) SetClientToken(v string) *CreateHsmInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetEniIp sets the EniIp field's value.
-func (s *CreateHsmInput) SetEniIp(v string) *CreateHsmInput {
-	s.EniIp = &v
-	return s
-}
-
-// SetExternalId sets the ExternalId field's value.
-func (s *CreateHsmInput) SetExternalId(v string) *CreateHsmInput {
-	s.ExternalId = &v
-	return s
-}
-
-// SetIamRoleArn sets the IamRoleArn field's value.
-func (s *CreateHsmInput) SetIamRoleArn(v string) *CreateHsmInput {
-	s.IamRoleArn = &v
-	return s
-}
-
-// SetSshKey sets the SshKey field's value.
-func (s *CreateHsmInput) SetSshKey(v string) *CreateHsmInput {
-	s.SshKey = &v
-	return s
-}
-
-// SetSubnetId sets the SubnetId field's value.
-func (s *CreateHsmInput) SetSubnetId(v string) *CreateHsmInput {
-	s.SubnetId = &v
-	return s
-}
-
-// SetSubscriptionType sets the SubscriptionType field's value.
-func (s *CreateHsmInput) SetSubscriptionType(v SubscriptionType) *CreateHsmInput {
-	s.SubscriptionType = v
-	return s
-}
-
-// SetSyslogIp sets the SyslogIp field's value.
-func (s *CreateHsmInput) SetSyslogIp(v string) *CreateHsmInput {
-	s.SyslogIp = &v
-	return s
-}
-
 // Contains the output of the CreateHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateHsmResponse
 type CreateHsmOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the HSM.
 	HsmArn *string `type:"string"`
@@ -1280,10 +1475,9 @@ func (s CreateHsmOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmArn sets the HsmArn field's value.
-func (s *CreateHsmOutput) SetHsmArn(v string) *CreateHsmOutput {
-	s.HsmArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHsmOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateLunaClient action.
@@ -1328,22 +1522,12 @@ func (s *CreateLunaClientInput) Validate() error {
 	return nil
 }
 
-// SetCertificate sets the Certificate field's value.
-func (s *CreateLunaClientInput) SetCertificate(v string) *CreateLunaClientInput {
-	s.Certificate = &v
-	return s
-}
-
-// SetLabel sets the Label field's value.
-func (s *CreateLunaClientInput) SetLabel(v string) *CreateLunaClientInput {
-	s.Label = &v
-	return s
-}
-
 // Contains the output of the CreateLunaClient action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/CreateLunaClientResponse
 type CreateLunaClientOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the client.
 	ClientArn *string `type:"string"`
@@ -1359,10 +1543,9 @@ func (s CreateLunaClientOutput) GoString() string {
 	return s.String()
 }
 
-// SetClientArn sets the ClientArn field's value.
-func (s *CreateLunaClientOutput) SetClientArn(v string) *CreateLunaClientOutput {
-	s.ClientArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateLunaClientOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DeleteHapg action.
@@ -1400,16 +1583,12 @@ func (s *DeleteHapgInput) Validate() error {
 	return nil
 }
 
-// SetHapgArn sets the HapgArn field's value.
-func (s *DeleteHapgInput) SetHapgArn(v string) *DeleteHapgInput {
-	s.HapgArn = &v
-	return s
-}
-
 // Contains the output of the DeleteHapg action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteHapgResponse
 type DeleteHapgOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the action.
 	//
@@ -1427,16 +1606,15 @@ func (s DeleteHapgOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *DeleteHapgOutput) SetStatus(v string) *DeleteHapgOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteHapgOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DeleteHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteHsmRequest
 type DeleteHsmInput struct {
-	_ struct{} `locationName:"DeleteHsmRequest" type:"structure"`
+	_ struct{} `type:"structure"`
 
 	// The ARN of the HSM to delete.
 	//
@@ -1468,16 +1646,12 @@ func (s *DeleteHsmInput) Validate() error {
 	return nil
 }
 
-// SetHsmArn sets the HsmArn field's value.
-func (s *DeleteHsmInput) SetHsmArn(v string) *DeleteHsmInput {
-	s.HsmArn = &v
-	return s
-}
-
 // Contains the output of the DeleteHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteHsmResponse
 type DeleteHsmOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the operation.
 	//
@@ -1495,10 +1669,9 @@ func (s DeleteHsmOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *DeleteHsmOutput) SetStatus(v string) *DeleteHsmOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteHsmOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteLunaClientRequest
@@ -1535,15 +1708,11 @@ func (s *DeleteLunaClientInput) Validate() error {
 	return nil
 }
 
-// SetClientArn sets the ClientArn field's value.
-func (s *DeleteLunaClientInput) SetClientArn(v string) *DeleteLunaClientInput {
-	s.ClientArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DeleteLunaClientResponse
 type DeleteLunaClientOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the action.
 	//
@@ -1561,10 +1730,9 @@ func (s DeleteLunaClientOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *DeleteLunaClientOutput) SetStatus(v string) *DeleteLunaClientOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteLunaClientOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DescribeHapg action.
@@ -1602,16 +1770,12 @@ func (s *DescribeHapgInput) Validate() error {
 	return nil
 }
 
-// SetHapgArn sets the HapgArn field's value.
-func (s *DescribeHapgInput) SetHapgArn(v string) *DescribeHapgInput {
-	s.HapgArn = &v
-	return s
-}
-
 // Contains the output of the DescribeHapg action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeHapgResponse
 type DescribeHapgOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the high-availability partition group.
 	HapgArn *string `type:"string"`
@@ -1620,13 +1784,13 @@ type DescribeHapgOutput struct {
 	HapgSerial *string `type:"string"`
 
 	// Contains a list of ARNs that identify the HSMs.
-	HsmsLastActionFailed []*string `type:"list"`
+	HsmsLastActionFailed []string `type:"list"`
 
 	// Contains a list of ARNs that identify the HSMs.
-	HsmsPendingDeletion []*string `type:"list"`
+	HsmsPendingDeletion []string `type:"list"`
 
 	// Contains a list of ARNs that identify the HSMs.
-	HsmsPendingRegistration []*string `type:"list"`
+	HsmsPendingRegistration []string `type:"list"`
 
 	// The label for the high-availability partition group.
 	Label *string `type:"string"`
@@ -1636,10 +1800,10 @@ type DescribeHapgOutput struct {
 
 	// The list of partition serial numbers that belong to the high-availability
 	// partition group.
-	PartitionSerialList []*string `type:"list"`
+	PartitionSerialList []string `type:"list"`
 
 	// The state of the high-availability partition group.
-	State CloudHsmObjectState `type:"string"`
+	State CloudHsmObjectState `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1652,58 +1816,9 @@ func (s DescribeHapgOutput) GoString() string {
 	return s.String()
 }
 
-// SetHapgArn sets the HapgArn field's value.
-func (s *DescribeHapgOutput) SetHapgArn(v string) *DescribeHapgOutput {
-	s.HapgArn = &v
-	return s
-}
-
-// SetHapgSerial sets the HapgSerial field's value.
-func (s *DescribeHapgOutput) SetHapgSerial(v string) *DescribeHapgOutput {
-	s.HapgSerial = &v
-	return s
-}
-
-// SetHsmsLastActionFailed sets the HsmsLastActionFailed field's value.
-func (s *DescribeHapgOutput) SetHsmsLastActionFailed(v []*string) *DescribeHapgOutput {
-	s.HsmsLastActionFailed = v
-	return s
-}
-
-// SetHsmsPendingDeletion sets the HsmsPendingDeletion field's value.
-func (s *DescribeHapgOutput) SetHsmsPendingDeletion(v []*string) *DescribeHapgOutput {
-	s.HsmsPendingDeletion = v
-	return s
-}
-
-// SetHsmsPendingRegistration sets the HsmsPendingRegistration field's value.
-func (s *DescribeHapgOutput) SetHsmsPendingRegistration(v []*string) *DescribeHapgOutput {
-	s.HsmsPendingRegistration = v
-	return s
-}
-
-// SetLabel sets the Label field's value.
-func (s *DescribeHapgOutput) SetLabel(v string) *DescribeHapgOutput {
-	s.Label = &v
-	return s
-}
-
-// SetLastModifiedTimestamp sets the LastModifiedTimestamp field's value.
-func (s *DescribeHapgOutput) SetLastModifiedTimestamp(v string) *DescribeHapgOutput {
-	s.LastModifiedTimestamp = &v
-	return s
-}
-
-// SetPartitionSerialList sets the PartitionSerialList field's value.
-func (s *DescribeHapgOutput) SetPartitionSerialList(v []*string) *DescribeHapgOutput {
-	s.PartitionSerialList = v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *DescribeHapgOutput) SetState(v CloudHsmObjectState) *DescribeHapgOutput {
-	s.State = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeHapgOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DescribeHsm operation.
@@ -1730,22 +1845,12 @@ func (s DescribeHsmInput) GoString() string {
 	return s.String()
 }
 
-// SetHsmArn sets the HsmArn field's value.
-func (s *DescribeHsmInput) SetHsmArn(v string) *DescribeHsmInput {
-	s.HsmArn = &v
-	return s
-}
-
-// SetHsmSerialNumber sets the HsmSerialNumber field's value.
-func (s *DescribeHsmInput) SetHsmSerialNumber(v string) *DescribeHsmInput {
-	s.HsmSerialNumber = &v
-	return s
-}
-
 // Contains the output of the DescribeHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeHsmResponse
 type DescribeHsmOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Availability Zone that the HSM is in.
 	AvailabilityZone *string `type:"string"`
@@ -1766,7 +1871,7 @@ type DescribeHsmOutput struct {
 	IamRoleArn *string `type:"string"`
 
 	// The list of partitions on the HSM.
-	Partitions []*string `type:"list"`
+	Partitions []string `type:"list"`
 
 	// The serial number of the HSM.
 	SerialNumber *string `type:"string"`
@@ -1787,7 +1892,7 @@ type DescribeHsmOutput struct {
 	SshPublicKey *string `type:"string"`
 
 	// The status of the HSM.
-	Status HsmStatus `type:"string"`
+	Status HsmStatus `type:"string" enum:"true"`
 
 	// Contains additional information about the status of the HSM.
 	StatusDetails *string `type:"string"`
@@ -1806,7 +1911,7 @@ type DescribeHsmOutput struct {
 	//    * PRODUCTION - The HSM is being used in a production environment.
 	//
 	//    * TRIAL - The HSM is being used in a product trial.
-	SubscriptionType SubscriptionType `type:"string"`
+	SubscriptionType SubscriptionType `type:"string" enum:"true"`
 
 	// The name of the HSM vendor.
 	VendorName *string `type:"string"`
@@ -1825,130 +1930,9 @@ func (s DescribeHsmOutput) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *DescribeHsmOutput) SetAvailabilityZone(v string) *DescribeHsmOutput {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetEniId sets the EniId field's value.
-func (s *DescribeHsmOutput) SetEniId(v string) *DescribeHsmOutput {
-	s.EniId = &v
-	return s
-}
-
-// SetEniIp sets the EniIp field's value.
-func (s *DescribeHsmOutput) SetEniIp(v string) *DescribeHsmOutput {
-	s.EniIp = &v
-	return s
-}
-
-// SetHsmArn sets the HsmArn field's value.
-func (s *DescribeHsmOutput) SetHsmArn(v string) *DescribeHsmOutput {
-	s.HsmArn = &v
-	return s
-}
-
-// SetHsmType sets the HsmType field's value.
-func (s *DescribeHsmOutput) SetHsmType(v string) *DescribeHsmOutput {
-	s.HsmType = &v
-	return s
-}
-
-// SetIamRoleArn sets the IamRoleArn field's value.
-func (s *DescribeHsmOutput) SetIamRoleArn(v string) *DescribeHsmOutput {
-	s.IamRoleArn = &v
-	return s
-}
-
-// SetPartitions sets the Partitions field's value.
-func (s *DescribeHsmOutput) SetPartitions(v []*string) *DescribeHsmOutput {
-	s.Partitions = v
-	return s
-}
-
-// SetSerialNumber sets the SerialNumber field's value.
-func (s *DescribeHsmOutput) SetSerialNumber(v string) *DescribeHsmOutput {
-	s.SerialNumber = &v
-	return s
-}
-
-// SetServerCertLastUpdated sets the ServerCertLastUpdated field's value.
-func (s *DescribeHsmOutput) SetServerCertLastUpdated(v string) *DescribeHsmOutput {
-	s.ServerCertLastUpdated = &v
-	return s
-}
-
-// SetServerCertUri sets the ServerCertUri field's value.
-func (s *DescribeHsmOutput) SetServerCertUri(v string) *DescribeHsmOutput {
-	s.ServerCertUri = &v
-	return s
-}
-
-// SetSoftwareVersion sets the SoftwareVersion field's value.
-func (s *DescribeHsmOutput) SetSoftwareVersion(v string) *DescribeHsmOutput {
-	s.SoftwareVersion = &v
-	return s
-}
-
-// SetSshKeyLastUpdated sets the SshKeyLastUpdated field's value.
-func (s *DescribeHsmOutput) SetSshKeyLastUpdated(v string) *DescribeHsmOutput {
-	s.SshKeyLastUpdated = &v
-	return s
-}
-
-// SetSshPublicKey sets the SshPublicKey field's value.
-func (s *DescribeHsmOutput) SetSshPublicKey(v string) *DescribeHsmOutput {
-	s.SshPublicKey = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DescribeHsmOutput) SetStatus(v HsmStatus) *DescribeHsmOutput {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *DescribeHsmOutput) SetStatusDetails(v string) *DescribeHsmOutput {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetSubnetId sets the SubnetId field's value.
-func (s *DescribeHsmOutput) SetSubnetId(v string) *DescribeHsmOutput {
-	s.SubnetId = &v
-	return s
-}
-
-// SetSubscriptionEndDate sets the SubscriptionEndDate field's value.
-func (s *DescribeHsmOutput) SetSubscriptionEndDate(v string) *DescribeHsmOutput {
-	s.SubscriptionEndDate = &v
-	return s
-}
-
-// SetSubscriptionStartDate sets the SubscriptionStartDate field's value.
-func (s *DescribeHsmOutput) SetSubscriptionStartDate(v string) *DescribeHsmOutput {
-	s.SubscriptionStartDate = &v
-	return s
-}
-
-// SetSubscriptionType sets the SubscriptionType field's value.
-func (s *DescribeHsmOutput) SetSubscriptionType(v SubscriptionType) *DescribeHsmOutput {
-	s.SubscriptionType = v
-	return s
-}
-
-// SetVendorName sets the VendorName field's value.
-func (s *DescribeHsmOutput) SetVendorName(v string) *DescribeHsmOutput {
-	s.VendorName = &v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *DescribeHsmOutput) SetVpcId(v string) *DescribeHsmOutput {
-	s.VpcId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeHsmOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeLunaClientRequest
@@ -1972,21 +1956,11 @@ func (s DescribeLunaClientInput) GoString() string {
 	return s.String()
 }
 
-// SetCertificateFingerprint sets the CertificateFingerprint field's value.
-func (s *DescribeLunaClientInput) SetCertificateFingerprint(v string) *DescribeLunaClientInput {
-	s.CertificateFingerprint = &v
-	return s
-}
-
-// SetClientArn sets the ClientArn field's value.
-func (s *DescribeLunaClientInput) SetClientArn(v string) *DescribeLunaClientInput {
-	s.ClientArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/DescribeLunaClientResponse
 type DescribeLunaClientOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The certificate installed on the HSMs used by this client.
 	Certificate *string `min:"600" type:"string"`
@@ -2014,34 +1988,9 @@ func (s DescribeLunaClientOutput) GoString() string {
 	return s.String()
 }
 
-// SetCertificate sets the Certificate field's value.
-func (s *DescribeLunaClientOutput) SetCertificate(v string) *DescribeLunaClientOutput {
-	s.Certificate = &v
-	return s
-}
-
-// SetCertificateFingerprint sets the CertificateFingerprint field's value.
-func (s *DescribeLunaClientOutput) SetCertificateFingerprint(v string) *DescribeLunaClientOutput {
-	s.CertificateFingerprint = &v
-	return s
-}
-
-// SetClientArn sets the ClientArn field's value.
-func (s *DescribeLunaClientOutput) SetClientArn(v string) *DescribeLunaClientOutput {
-	s.ClientArn = &v
-	return s
-}
-
-// SetLabel sets the Label field's value.
-func (s *DescribeLunaClientOutput) SetLabel(v string) *DescribeLunaClientOutput {
-	s.Label = &v
-	return s
-}
-
-// SetLastModifiedTimestamp sets the LastModifiedTimestamp field's value.
-func (s *DescribeLunaClientOutput) SetLastModifiedTimestamp(v string) *DescribeLunaClientOutput {
-	s.LastModifiedTimestamp = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeLunaClientOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/GetConfigRequest
@@ -2056,13 +2005,13 @@ type GetConfigInput struct {
 	// The client version.
 	//
 	// ClientVersion is a required field
-	ClientVersion ClientVersion `type:"string" required:"true"`
+	ClientVersion ClientVersion `type:"string" required:"true" enum:"true"`
 
 	// A list of ARNs that identify the high-availability partition groups that
 	// are associated with the client.
 	//
 	// HapgList is a required field
-	HapgList []*string `type:"list" required:"true"`
+	HapgList []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2096,27 +2045,11 @@ func (s *GetConfigInput) Validate() error {
 	return nil
 }
 
-// SetClientArn sets the ClientArn field's value.
-func (s *GetConfigInput) SetClientArn(v string) *GetConfigInput {
-	s.ClientArn = &v
-	return s
-}
-
-// SetClientVersion sets the ClientVersion field's value.
-func (s *GetConfigInput) SetClientVersion(v ClientVersion) *GetConfigInput {
-	s.ClientVersion = v
-	return s
-}
-
-// SetHapgList sets the HapgList field's value.
-func (s *GetConfigInput) SetHapgList(v []*string) *GetConfigInput {
-	s.HapgList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/GetConfigResponse
 type GetConfigOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The certificate file containing the server.pem files of the HSMs.
 	ConfigCred *string `type:"string"`
@@ -2138,22 +2071,9 @@ func (s GetConfigOutput) GoString() string {
 	return s.String()
 }
 
-// SetConfigCred sets the ConfigCred field's value.
-func (s *GetConfigOutput) SetConfigCred(v string) *GetConfigOutput {
-	s.ConfigCred = &v
-	return s
-}
-
-// SetConfigFile sets the ConfigFile field's value.
-func (s *GetConfigOutput) SetConfigFile(v string) *GetConfigOutput {
-	s.ConfigFile = &v
-	return s
-}
-
-// SetConfigType sets the ConfigType field's value.
-func (s *GetConfigOutput) SetConfigType(v string) *GetConfigOutput {
-	s.ConfigType = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetConfigOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the ListAvailableZones action.
@@ -2176,8 +2096,10 @@ func (s ListAvailableZonesInput) GoString() string {
 type ListAvailableZonesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of Availability Zones that have available AWS CloudHSM capacity.
-	AZList []*string `type:"list"`
+	AZList []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2190,10 +2112,9 @@ func (s ListAvailableZonesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAZList sets the AZList field's value.
-func (s *ListAvailableZonesOutput) SetAZList(v []*string) *ListAvailableZonesOutput {
-	s.AZList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAvailableZonesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListHapgsRequest
@@ -2215,20 +2136,16 @@ func (s ListHapgsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListHapgsInput) SetNextToken(v string) *ListHapgsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListHapgsResponse
 type ListHapgsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of high-availability partition groups.
 	//
 	// HapgList is a required field
-	HapgList []*string `type:"list" required:"true"`
+	HapgList []string `type:"list" required:"true"`
 
 	// If not null, more results are available. Pass this value to ListHapgs to
 	// retrieve the next set of items.
@@ -2245,16 +2162,9 @@ func (s ListHapgsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHapgList sets the HapgList field's value.
-func (s *ListHapgsOutput) SetHapgList(v []*string) *ListHapgsOutput {
-	s.HapgList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHapgsOutput) SetNextToken(v string) *ListHapgsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListHapgsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListHsmsRequest
@@ -2276,19 +2186,15 @@ func (s ListHsmsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListHsmsInput) SetNextToken(v string) *ListHsmsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Contains the output of the ListHsms operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListHsmsResponse
 type ListHsmsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of ARNs that identify the HSMs.
-	HsmList []*string `type:"list"`
+	HsmList []string `type:"list"`
 
 	// If not null, more results are available. Pass this value to ListHsms to retrieve
 	// the next set of items.
@@ -2305,16 +2211,9 @@ func (s ListHsmsOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmList sets the HsmList field's value.
-func (s *ListHsmsOutput) SetHsmList(v []*string) *ListHsmsOutput {
-	s.HsmList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListHsmsOutput) SetNextToken(v string) *ListHsmsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListHsmsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListLunaClientsRequest
@@ -2336,20 +2235,16 @@ func (s ListLunaClientsInput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListLunaClientsInput) SetNextToken(v string) *ListLunaClientsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListLunaClientsResponse
 type ListLunaClientsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of clients.
 	//
 	// ClientList is a required field
-	ClientList []*string `type:"list" required:"true"`
+	ClientList []string `type:"list" required:"true"`
 
 	// If not null, more results are available. Pass this to ListLunaClients to
 	// retrieve the next set of items.
@@ -2366,16 +2261,9 @@ func (s ListLunaClientsOutput) GoString() string {
 	return s.String()
 }
 
-// SetClientList sets the ClientList field's value.
-func (s *ListLunaClientsOutput) SetClientList(v []*string) *ListLunaClientsOutput {
-	s.ClientList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListLunaClientsOutput) SetNextToken(v string) *ListLunaClientsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListLunaClientsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListTagsForResourceRequest
@@ -2412,20 +2300,16 @@ func (s *ListTagsForResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceArn sets the ResourceArn field's value.
-func (s *ListTagsForResourceInput) SetResourceArn(v string) *ListTagsForResourceInput {
-	s.ResourceArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ListTagsForResourceResponse
 type ListTagsForResourceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// One or more tags.
 	//
 	// TagList is a required field
-	TagList []*Tag `type:"list" required:"true"`
+	TagList []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2438,10 +2322,9 @@ func (s ListTagsForResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetTagList sets the TagList field's value.
-func (s *ListTagsForResourceOutput) SetTagList(v []*Tag) *ListTagsForResourceOutput {
-	s.TagList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyHapgRequest
@@ -2458,7 +2341,7 @@ type ModifyHapgInput struct {
 
 	// The list of partition serial numbers to make members of the high-availability
 	// partition group.
-	PartitionSerialList []*string `type:"list"`
+	PartitionSerialList []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2485,27 +2368,11 @@ func (s *ModifyHapgInput) Validate() error {
 	return nil
 }
 
-// SetHapgArn sets the HapgArn field's value.
-func (s *ModifyHapgInput) SetHapgArn(v string) *ModifyHapgInput {
-	s.HapgArn = &v
-	return s
-}
-
-// SetLabel sets the Label field's value.
-func (s *ModifyHapgInput) SetLabel(v string) *ModifyHapgInput {
-	s.Label = &v
-	return s
-}
-
-// SetPartitionSerialList sets the PartitionSerialList field's value.
-func (s *ModifyHapgInput) SetPartitionSerialList(v []*string) *ModifyHapgInput {
-	s.PartitionSerialList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyHapgResponse
 type ModifyHapgOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the high-availability partition group.
 	HapgArn *string `type:"string"`
@@ -2521,16 +2388,15 @@ func (s ModifyHapgOutput) GoString() string {
 	return s.String()
 }
 
-// SetHapgArn sets the HapgArn field's value.
-func (s *ModifyHapgOutput) SetHapgArn(v string) *ModifyHapgOutput {
-	s.HapgArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyHapgOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the ModifyHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyHsmRequest
 type ModifyHsmInput struct {
-	_ struct{} `locationName:"ModifyHsmRequest" type:"structure"`
+	_ struct{} `type:"structure"`
 
 	// The new IP address for the elastic network interface (ENI) attached to the
 	// HSM.
@@ -2583,46 +2449,12 @@ func (s *ModifyHsmInput) Validate() error {
 	return nil
 }
 
-// SetEniIp sets the EniIp field's value.
-func (s *ModifyHsmInput) SetEniIp(v string) *ModifyHsmInput {
-	s.EniIp = &v
-	return s
-}
-
-// SetExternalId sets the ExternalId field's value.
-func (s *ModifyHsmInput) SetExternalId(v string) *ModifyHsmInput {
-	s.ExternalId = &v
-	return s
-}
-
-// SetHsmArn sets the HsmArn field's value.
-func (s *ModifyHsmInput) SetHsmArn(v string) *ModifyHsmInput {
-	s.HsmArn = &v
-	return s
-}
-
-// SetIamRoleArn sets the IamRoleArn field's value.
-func (s *ModifyHsmInput) SetIamRoleArn(v string) *ModifyHsmInput {
-	s.IamRoleArn = &v
-	return s
-}
-
-// SetSubnetId sets the SubnetId field's value.
-func (s *ModifyHsmInput) SetSubnetId(v string) *ModifyHsmInput {
-	s.SubnetId = &v
-	return s
-}
-
-// SetSyslogIp sets the SyslogIp field's value.
-func (s *ModifyHsmInput) SetSyslogIp(v string) *ModifyHsmInput {
-	s.SyslogIp = &v
-	return s
-}
-
 // Contains the output of the ModifyHsm operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyHsmResponse
 type ModifyHsmOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the HSM.
 	HsmArn *string `type:"string"`
@@ -2638,10 +2470,9 @@ func (s ModifyHsmOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmArn sets the HsmArn field's value.
-func (s *ModifyHsmOutput) SetHsmArn(v string) *ModifyHsmOutput {
-	s.HsmArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyHsmOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyLunaClientRequest
@@ -2690,21 +2521,11 @@ func (s *ModifyLunaClientInput) Validate() error {
 	return nil
 }
 
-// SetCertificate sets the Certificate field's value.
-func (s *ModifyLunaClientInput) SetCertificate(v string) *ModifyLunaClientInput {
-	s.Certificate = &v
-	return s
-}
-
-// SetClientArn sets the ClientArn field's value.
-func (s *ModifyLunaClientInput) SetClientArn(v string) *ModifyLunaClientInput {
-	s.ClientArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/ModifyLunaClientResponse
 type ModifyLunaClientOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ARN of the client.
 	ClientArn *string `type:"string"`
@@ -2720,10 +2541,9 @@ func (s ModifyLunaClientOutput) GoString() string {
 	return s.String()
 }
 
-// SetClientArn sets the ClientArn field's value.
-func (s *ModifyLunaClientOutput) SetClientArn(v string) *ModifyLunaClientOutput {
-	s.ClientArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyLunaClientOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/RemoveTagsFromResourceRequest
@@ -2741,7 +2561,7 @@ type RemoveTagsFromResourceInput struct {
 	// for an existing tag, use AddTagsToResource.
 	//
 	// TagKeyList is a required field
-	TagKeyList []*string `type:"list" required:"true"`
+	TagKeyList []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2772,21 +2592,11 @@ func (s *RemoveTagsFromResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceArn sets the ResourceArn field's value.
-func (s *RemoveTagsFromResourceInput) SetResourceArn(v string) *RemoveTagsFromResourceInput {
-	s.ResourceArn = &v
-	return s
-}
-
-// SetTagKeyList sets the TagKeyList field's value.
-func (s *RemoveTagsFromResourceInput) SetTagKeyList(v []*string) *RemoveTagsFromResourceInput {
-	s.TagKeyList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsm-2014-05-30/RemoveTagsFromResourceResponse
 type RemoveTagsFromResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the operation.
 	//
@@ -2804,10 +2614,9 @@ func (s RemoveTagsFromResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *RemoveTagsFromResourceOutput) SetStatus(v string) *RemoveTagsFromResourceOutput {
-	s.Status = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsFromResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A key-value pair that identifies or specifies metadata about an AWS CloudHSM
@@ -2858,18 +2667,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 type ClientVersion string
 
 // Enum values for ClientVersion
@@ -2877,6 +2674,15 @@ const (
 	ClientVersion51 ClientVersion = "5.1"
 	ClientVersion53 ClientVersion = "5.3"
 )
+
+func (enum ClientVersion) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ClientVersion) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CloudHsmObjectState string
 
@@ -2886,6 +2692,15 @@ const (
 	CloudHsmObjectStateUpdating CloudHsmObjectState = "UPDATING"
 	CloudHsmObjectStateDegraded CloudHsmObjectState = "DEGRADED"
 )
+
+func (enum CloudHsmObjectState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CloudHsmObjectState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type HsmStatus string
 
@@ -2900,6 +2715,15 @@ const (
 	HsmStatusDegraded    HsmStatus = "DEGRADED"
 )
 
+func (enum HsmStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HsmStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Specifies the type of subscription for the HSM.
 //
 //    * PRODUCTION - The HSM is being used in a production environment.
@@ -2911,3 +2735,12 @@ type SubscriptionType string
 const (
 	SubscriptionTypeProduction SubscriptionType = "PRODUCTION"
 )
+
+func (enum SubscriptionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SubscriptionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

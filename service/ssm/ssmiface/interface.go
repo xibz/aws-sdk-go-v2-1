@@ -9,7 +9,6 @@
 package ssmiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/ssm"
 )
 
@@ -87,6 +86,8 @@ type SSMAPI interface {
 
 	DeleteDocumentRequest(*ssm.DeleteDocumentInput) ssm.DeleteDocumentRequest
 
+	DeleteInventoryRequest(*ssm.DeleteInventoryInput) ssm.DeleteInventoryRequest
+
 	DeleteMaintenanceWindowRequest(*ssm.DeleteMaintenanceWindowInput) ssm.DeleteMaintenanceWindowRequest
 
 	DeleteParameterRequest(*ssm.DeleteParameterInput) ssm.DeleteParameterRequest
@@ -107,12 +108,11 @@ type SSMAPI interface {
 
 	DescribeActivationsRequest(*ssm.DescribeActivationsInput) ssm.DescribeActivationsRequest
 
-	DescribeActivationsPages(*ssm.DescribeActivationsInput, func(*ssm.DescribeActivationsOutput, bool) bool) error
-	DescribeActivationsPagesWithContext(aws.Context, *ssm.DescribeActivationsInput, func(*ssm.DescribeActivationsOutput, bool) bool, ...aws.Option) error
-
 	DescribeAssociationRequest(*ssm.DescribeAssociationInput) ssm.DescribeAssociationRequest
 
 	DescribeAutomationExecutionsRequest(*ssm.DescribeAutomationExecutionsInput) ssm.DescribeAutomationExecutionsRequest
+
+	DescribeAutomationStepExecutionsRequest(*ssm.DescribeAutomationStepExecutionsInput) ssm.DescribeAutomationStepExecutionsRequest
 
 	DescribeAvailablePatchesRequest(*ssm.DescribeAvailablePatchesInput) ssm.DescribeAvailablePatchesRequest
 
@@ -128,14 +128,13 @@ type SSMAPI interface {
 
 	DescribeInstanceInformationRequest(*ssm.DescribeInstanceInformationInput) ssm.DescribeInstanceInformationRequest
 
-	DescribeInstanceInformationPages(*ssm.DescribeInstanceInformationInput, func(*ssm.DescribeInstanceInformationOutput, bool) bool) error
-	DescribeInstanceInformationPagesWithContext(aws.Context, *ssm.DescribeInstanceInformationInput, func(*ssm.DescribeInstanceInformationOutput, bool) bool, ...aws.Option) error
-
 	DescribeInstancePatchStatesRequest(*ssm.DescribeInstancePatchStatesInput) ssm.DescribeInstancePatchStatesRequest
 
 	DescribeInstancePatchStatesForPatchGroupRequest(*ssm.DescribeInstancePatchStatesForPatchGroupInput) ssm.DescribeInstancePatchStatesForPatchGroupRequest
 
 	DescribeInstancePatchesRequest(*ssm.DescribeInstancePatchesInput) ssm.DescribeInstancePatchesRequest
+
+	DescribeInventoryDeletionsRequest(*ssm.DescribeInventoryDeletionsInput) ssm.DescribeInventoryDeletionsRequest
 
 	DescribeMaintenanceWindowExecutionTaskInvocationsRequest(*ssm.DescribeMaintenanceWindowExecutionTaskInvocationsInput) ssm.DescribeMaintenanceWindowExecutionTaskInvocationsRequest
 
@@ -150,9 +149,6 @@ type SSMAPI interface {
 	DescribeMaintenanceWindowsRequest(*ssm.DescribeMaintenanceWindowsInput) ssm.DescribeMaintenanceWindowsRequest
 
 	DescribeParametersRequest(*ssm.DescribeParametersInput) ssm.DescribeParametersRequest
-
-	DescribeParametersPages(*ssm.DescribeParametersInput, func(*ssm.DescribeParametersOutput, bool) bool) error
-	DescribeParametersPagesWithContext(aws.Context, *ssm.DescribeParametersInput, func(*ssm.DescribeParametersOutput, bool) bool, ...aws.Option) error
 
 	DescribePatchBaselinesRequest(*ssm.DescribePatchBaselinesInput) ssm.DescribePatchBaselinesRequest
 
@@ -188,15 +184,9 @@ type SSMAPI interface {
 
 	GetParameterHistoryRequest(*ssm.GetParameterHistoryInput) ssm.GetParameterHistoryRequest
 
-	GetParameterHistoryPages(*ssm.GetParameterHistoryInput, func(*ssm.GetParameterHistoryOutput, bool) bool) error
-	GetParameterHistoryPagesWithContext(aws.Context, *ssm.GetParameterHistoryInput, func(*ssm.GetParameterHistoryOutput, bool) bool, ...aws.Option) error
-
 	GetParametersRequest(*ssm.GetParametersInput) ssm.GetParametersRequest
 
 	GetParametersByPathRequest(*ssm.GetParametersByPathInput) ssm.GetParametersByPathRequest
-
-	GetParametersByPathPages(*ssm.GetParametersByPathInput, func(*ssm.GetParametersByPathOutput, bool) bool) error
-	GetParametersByPathPagesWithContext(aws.Context, *ssm.GetParametersByPathInput, func(*ssm.GetParametersByPathOutput, bool) bool, ...aws.Option) error
 
 	GetPatchBaselineRequest(*ssm.GetPatchBaselineInput) ssm.GetPatchBaselineRequest
 
@@ -206,18 +196,9 @@ type SSMAPI interface {
 
 	ListAssociationsRequest(*ssm.ListAssociationsInput) ssm.ListAssociationsRequest
 
-	ListAssociationsPages(*ssm.ListAssociationsInput, func(*ssm.ListAssociationsOutput, bool) bool) error
-	ListAssociationsPagesWithContext(aws.Context, *ssm.ListAssociationsInput, func(*ssm.ListAssociationsOutput, bool) bool, ...aws.Option) error
-
 	ListCommandInvocationsRequest(*ssm.ListCommandInvocationsInput) ssm.ListCommandInvocationsRequest
 
-	ListCommandInvocationsPages(*ssm.ListCommandInvocationsInput, func(*ssm.ListCommandInvocationsOutput, bool) bool) error
-	ListCommandInvocationsPagesWithContext(aws.Context, *ssm.ListCommandInvocationsInput, func(*ssm.ListCommandInvocationsOutput, bool) bool, ...aws.Option) error
-
 	ListCommandsRequest(*ssm.ListCommandsInput) ssm.ListCommandsRequest
-
-	ListCommandsPages(*ssm.ListCommandsInput, func(*ssm.ListCommandsOutput, bool) bool) error
-	ListCommandsPagesWithContext(aws.Context, *ssm.ListCommandsInput, func(*ssm.ListCommandsOutput, bool) bool, ...aws.Option) error
 
 	ListComplianceItemsRequest(*ssm.ListComplianceItemsInput) ssm.ListComplianceItemsRequest
 
@@ -226,9 +207,6 @@ type SSMAPI interface {
 	ListDocumentVersionsRequest(*ssm.ListDocumentVersionsInput) ssm.ListDocumentVersionsRequest
 
 	ListDocumentsRequest(*ssm.ListDocumentsInput) ssm.ListDocumentsRequest
-
-	ListDocumentsPages(*ssm.ListDocumentsInput, func(*ssm.ListDocumentsOutput, bool) bool) error
-	ListDocumentsPagesWithContext(aws.Context, *ssm.ListDocumentsInput, func(*ssm.ListDocumentsOutput, bool) bool, ...aws.Option) error
 
 	ListInventoryEntriesRequest(*ssm.ListInventoryEntriesInput) ssm.ListInventoryEntriesRequest
 

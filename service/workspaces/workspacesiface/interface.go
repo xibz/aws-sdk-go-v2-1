@@ -9,7 +9,6 @@
 package workspacesiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/workspaces"
 )
 
@@ -25,7 +24,7 @@ import (
 //    // myFunc uses an SDK service client to make a request to
 //    // Amazon WorkSpaces.
 //    func myFunc(svc workspacesiface.WorkSpacesAPI) bool {
-//        // Make svc.CreateTags request
+//        // Make svc.AssociateIpGroups request
 //    }
 //
 //    func main() {
@@ -45,7 +44,7 @@ import (
 //    type mockWorkSpacesClient struct {
 //        workspacesiface.WorkSpacesAPI
 //    }
-//    func (m *mockWorkSpacesClient) CreateTags(input *workspaces.CreateTagsInput) (*workspaces.CreateTagsOutput, error) {
+//    func (m *mockWorkSpacesClient) AssociateIpGroups(input *workspaces.AssociateIpGroupsInput) (*workspaces.AssociateIpGroupsOutput, error) {
 //        // mock response/functionality
 //    }
 //
@@ -63,42 +62,51 @@ import (
 // and waiters. Its suggested to use the pattern above for testing, or using
 // tooling to generate mocks to satisfy the interfaces.
 type WorkSpacesAPI interface {
+	AssociateIpGroupsRequest(*workspaces.AssociateIpGroupsInput) workspaces.AssociateIpGroupsRequest
+
+	AuthorizeIpRulesRequest(*workspaces.AuthorizeIpRulesInput) workspaces.AuthorizeIpRulesRequest
+
+	CreateIpGroupRequest(*workspaces.CreateIpGroupInput) workspaces.CreateIpGroupRequest
+
 	CreateTagsRequest(*workspaces.CreateTagsInput) workspaces.CreateTagsRequest
 
 	CreateWorkspacesRequest(*workspaces.CreateWorkspacesInput) workspaces.CreateWorkspacesRequest
 
+	DeleteIpGroupRequest(*workspaces.DeleteIpGroupInput) workspaces.DeleteIpGroupRequest
+
 	DeleteTagsRequest(*workspaces.DeleteTagsInput) workspaces.DeleteTagsRequest
+
+	DescribeIpGroupsRequest(*workspaces.DescribeIpGroupsInput) workspaces.DescribeIpGroupsRequest
 
 	DescribeTagsRequest(*workspaces.DescribeTagsInput) workspaces.DescribeTagsRequest
 
 	DescribeWorkspaceBundlesRequest(*workspaces.DescribeWorkspaceBundlesInput) workspaces.DescribeWorkspaceBundlesRequest
 
-	DescribeWorkspaceBundlesPages(*workspaces.DescribeWorkspaceBundlesInput, func(*workspaces.DescribeWorkspaceBundlesOutput, bool) bool) error
-	DescribeWorkspaceBundlesPagesWithContext(aws.Context, *workspaces.DescribeWorkspaceBundlesInput, func(*workspaces.DescribeWorkspaceBundlesOutput, bool) bool, ...aws.Option) error
-
 	DescribeWorkspaceDirectoriesRequest(*workspaces.DescribeWorkspaceDirectoriesInput) workspaces.DescribeWorkspaceDirectoriesRequest
-
-	DescribeWorkspaceDirectoriesPages(*workspaces.DescribeWorkspaceDirectoriesInput, func(*workspaces.DescribeWorkspaceDirectoriesOutput, bool) bool) error
-	DescribeWorkspaceDirectoriesPagesWithContext(aws.Context, *workspaces.DescribeWorkspaceDirectoriesInput, func(*workspaces.DescribeWorkspaceDirectoriesOutput, bool) bool, ...aws.Option) error
 
 	DescribeWorkspacesRequest(*workspaces.DescribeWorkspacesInput) workspaces.DescribeWorkspacesRequest
 
-	DescribeWorkspacesPages(*workspaces.DescribeWorkspacesInput, func(*workspaces.DescribeWorkspacesOutput, bool) bool) error
-	DescribeWorkspacesPagesWithContext(aws.Context, *workspaces.DescribeWorkspacesInput, func(*workspaces.DescribeWorkspacesOutput, bool) bool, ...aws.Option) error
-
 	DescribeWorkspacesConnectionStatusRequest(*workspaces.DescribeWorkspacesConnectionStatusInput) workspaces.DescribeWorkspacesConnectionStatusRequest
 
+	DisassociateIpGroupsRequest(*workspaces.DisassociateIpGroupsInput) workspaces.DisassociateIpGroupsRequest
+
 	ModifyWorkspacePropertiesRequest(*workspaces.ModifyWorkspacePropertiesInput) workspaces.ModifyWorkspacePropertiesRequest
+
+	ModifyWorkspaceStateRequest(*workspaces.ModifyWorkspaceStateInput) workspaces.ModifyWorkspaceStateRequest
 
 	RebootWorkspacesRequest(*workspaces.RebootWorkspacesInput) workspaces.RebootWorkspacesRequest
 
 	RebuildWorkspacesRequest(*workspaces.RebuildWorkspacesInput) workspaces.RebuildWorkspacesRequest
+
+	RevokeIpRulesRequest(*workspaces.RevokeIpRulesInput) workspaces.RevokeIpRulesRequest
 
 	StartWorkspacesRequest(*workspaces.StartWorkspacesInput) workspaces.StartWorkspacesRequest
 
 	StopWorkspacesRequest(*workspaces.StopWorkspacesInput) workspaces.StopWorkspacesRequest
 
 	TerminateWorkspacesRequest(*workspaces.TerminateWorkspacesInput) workspaces.TerminateWorkspacesRequest
+
+	UpdateRulesOfIpGroupRequest(*workspaces.UpdateRulesOfIpGroupInput) workspaces.UpdateRulesOfIpGroupRequest
 }
 
 var _ WorkSpacesAPI = (*workspaces.WorkSpaces)(nil)

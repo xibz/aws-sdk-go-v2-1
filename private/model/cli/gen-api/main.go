@@ -112,9 +112,8 @@ func newGenerateInfo(modelFile, svcPath, svcImportPath string) *generateInfo {
 // Env:
 //  SERVICES comma separated list of services to generate.
 func main() {
-	var svcPath, sessionPath, svcImportPath string
+	var svcPath, svcImportPath string
 	flag.StringVar(&svcPath, "path", "service", "directory to generate service clients in")
-	flag.StringVar(&sessionPath, "sessionPath", filepath.Join("aws", "session"), "generate session service client factories")
 	flag.StringVar(&svcImportPath, "svc-import-path", "github.com/aws/aws-sdk-go-v2/service", "namespace to generate service client Go code import path under")
 	flag.Parse()
 	api.Bootstrap()
@@ -132,7 +131,7 @@ func main() {
 
 	for svcName := range excludeServices {
 		if strings.Contains(os.Getenv("SERVICES"), svcName) {
-			fmt.Printf("Service %s is not supported\n", svcName)
+			fmt.Fprintf(os.Stderr, "Service %s is not supported\n", svcName)
 			os.Exit(1)
 		}
 	}
@@ -141,6 +140,10 @@ func main() {
 
 	// Remove old API versions from list
 	m := map[string]bool{}
+	// caches paths to ensure we are not overriding previously generated
+	// code.
+	servicePaths := map[string]struct{}{}
+
 	for i := range files {
 		idx := len(files) - 1 - i
 		parts := strings.Split(files[idx], string(filepath.Separator))
@@ -167,6 +170,13 @@ func main() {
 			// Skip services not yet supported.
 			continue
 		}
+
+		if _, ok := servicePaths[genInfo.PackageDir]; ok {
+			fmt.Fprintf(os.Stderr, "Path %q has already been generated", genInfo.PackageDir)
+			os.Exit(1)
+		}
+
+		servicePaths[genInfo.PackageDir] = struct{}{}
 
 		wg.Add(1)
 		go func(g *generateInfo, filename string) {

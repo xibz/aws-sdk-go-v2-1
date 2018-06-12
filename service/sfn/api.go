@@ -15,6 +15,7 @@ const opCreateActivity = "CreateActivity"
 type CreateActivityRequest struct {
 	*aws.Request
 	Input *CreateActivityInput
+	Copy  func(*CreateActivityInput) CreateActivityRequest
 }
 
 // Send marshals and sends the CreateActivity API request.
@@ -30,7 +31,12 @@ func (r CreateActivityRequest) Send() (*CreateActivityOutput, error) {
 // CreateActivityRequest returns a request value for making API operation for
 // AWS Step Functions.
 //
-// Creates an activity.
+// Creates an activity. An activity is a task which you write in any programming
+// language and host on any machine which has access to AWS Step Functions.
+// Activities must poll Step Functions using the GetActivityTask API action
+// and respond using SendTask* API actions. This function lets Step Functions
+// know the existence of your activity and returns an identifier for use in
+// a state machine and when polling from the activity.
 //
 //    // Example sending a request using the CreateActivityRequest method.
 //    req := client.CreateActivityRequest(params)
@@ -51,8 +57,11 @@ func (c *SFN) CreateActivityRequest(input *CreateActivityInput) CreateActivityRe
 		input = &CreateActivityInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateActivityOutput{})
-	return CreateActivityRequest{Request: req, Input: input}
+	output := &CreateActivityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateActivityRequest{Request: req, Input: input, Copy: c.CreateActivityRequest}
 }
 
 const opCreateStateMachine = "CreateStateMachine"
@@ -61,6 +70,7 @@ const opCreateStateMachine = "CreateStateMachine"
 type CreateStateMachineRequest struct {
 	*aws.Request
 	Input *CreateStateMachineInput
+	Copy  func(*CreateStateMachineInput) CreateStateMachineRequest
 }
 
 // Send marshals and sends the CreateStateMachine API request.
@@ -76,7 +86,10 @@ func (r CreateStateMachineRequest) Send() (*CreateStateMachineOutput, error) {
 // CreateStateMachineRequest returns a request value for making API operation for
 // AWS Step Functions.
 //
-// Creates a state machine.
+// Creates a state machine. A state machine consists of a collection of states
+// that can do work (Task states), determine to which states to transition next
+// (Choice states), stop an execution with an error (Fail states), and so on.
+// State machines are specified using a JSON-based, structured language.
 //
 //    // Example sending a request using the CreateStateMachineRequest method.
 //    req := client.CreateStateMachineRequest(params)
@@ -97,8 +110,11 @@ func (c *SFN) CreateStateMachineRequest(input *CreateStateMachineInput) CreateSt
 		input = &CreateStateMachineInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateStateMachineOutput{})
-	return CreateStateMachineRequest{Request: req, Input: input}
+	output := &CreateStateMachineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateStateMachineRequest{Request: req, Input: input, Copy: c.CreateStateMachineRequest}
 }
 
 const opDeleteActivity = "DeleteActivity"
@@ -107,6 +123,7 @@ const opDeleteActivity = "DeleteActivity"
 type DeleteActivityRequest struct {
 	*aws.Request
 	Input *DeleteActivityInput
+	Copy  func(*DeleteActivityInput) DeleteActivityRequest
 }
 
 // Send marshals and sends the DeleteActivity API request.
@@ -143,8 +160,11 @@ func (c *SFN) DeleteActivityRequest(input *DeleteActivityInput) DeleteActivityRe
 		input = &DeleteActivityInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteActivityOutput{})
-	return DeleteActivityRequest{Request: req, Input: input}
+	output := &DeleteActivityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteActivityRequest{Request: req, Input: input, Copy: c.DeleteActivityRequest}
 }
 
 const opDeleteStateMachine = "DeleteStateMachine"
@@ -153,6 +173,7 @@ const opDeleteStateMachine = "DeleteStateMachine"
 type DeleteStateMachineRequest struct {
 	*aws.Request
 	Input *DeleteStateMachineInput
+	Copy  func(*DeleteStateMachineInput) DeleteStateMachineRequest
 }
 
 // Send marshals and sends the DeleteStateMachine API request.
@@ -168,8 +189,12 @@ func (r DeleteStateMachineRequest) Send() (*DeleteStateMachineOutput, error) {
 // DeleteStateMachineRequest returns a request value for making API operation for
 // AWS Step Functions.
 //
-// Deletes a state machine. This is an asynchronous operation-- it sets the
-// state machine's status to "DELETING" and begins the delete process.
+// Deletes a state machine. This is an asynchronous operation: It sets the state
+// machine's status to DELETING and begins the deletion process. Each state
+// machine execution is deleted the next time it makes a state transition.
+//
+// The state machine itself is deleted after all executions are completed or
+// deleted.
 //
 //    // Example sending a request using the DeleteStateMachineRequest method.
 //    req := client.DeleteStateMachineRequest(params)
@@ -190,8 +215,11 @@ func (c *SFN) DeleteStateMachineRequest(input *DeleteStateMachineInput) DeleteSt
 		input = &DeleteStateMachineInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteStateMachineOutput{})
-	return DeleteStateMachineRequest{Request: req, Input: input}
+	output := &DeleteStateMachineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteStateMachineRequest{Request: req, Input: input, Copy: c.DeleteStateMachineRequest}
 }
 
 const opDescribeActivity = "DescribeActivity"
@@ -200,6 +228,7 @@ const opDescribeActivity = "DescribeActivity"
 type DescribeActivityRequest struct {
 	*aws.Request
 	Input *DescribeActivityInput
+	Copy  func(*DescribeActivityInput) DescribeActivityRequest
 }
 
 // Send marshals and sends the DescribeActivity API request.
@@ -236,8 +265,11 @@ func (c *SFN) DescribeActivityRequest(input *DescribeActivityInput) DescribeActi
 		input = &DescribeActivityInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeActivityOutput{})
-	return DescribeActivityRequest{Request: req, Input: input}
+	output := &DescribeActivityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeActivityRequest{Request: req, Input: input, Copy: c.DescribeActivityRequest}
 }
 
 const opDescribeExecution = "DescribeExecution"
@@ -246,6 +278,7 @@ const opDescribeExecution = "DescribeExecution"
 type DescribeExecutionRequest struct {
 	*aws.Request
 	Input *DescribeExecutionInput
+	Copy  func(*DescribeExecutionInput) DescribeExecutionRequest
 }
 
 // Send marshals and sends the DescribeExecution API request.
@@ -282,8 +315,11 @@ func (c *SFN) DescribeExecutionRequest(input *DescribeExecutionInput) DescribeEx
 		input = &DescribeExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeExecutionOutput{})
-	return DescribeExecutionRequest{Request: req, Input: input}
+	output := &DescribeExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeExecutionRequest{Request: req, Input: input, Copy: c.DescribeExecutionRequest}
 }
 
 const opDescribeStateMachine = "DescribeStateMachine"
@@ -292,6 +328,7 @@ const opDescribeStateMachine = "DescribeStateMachine"
 type DescribeStateMachineRequest struct {
 	*aws.Request
 	Input *DescribeStateMachineInput
+	Copy  func(*DescribeStateMachineInput) DescribeStateMachineRequest
 }
 
 // Send marshals and sends the DescribeStateMachine API request.
@@ -328,8 +365,61 @@ func (c *SFN) DescribeStateMachineRequest(input *DescribeStateMachineInput) Desc
 		input = &DescribeStateMachineInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeStateMachineOutput{})
-	return DescribeStateMachineRequest{Request: req, Input: input}
+	output := &DescribeStateMachineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeStateMachineRequest{Request: req, Input: input, Copy: c.DescribeStateMachineRequest}
+}
+
+const opDescribeStateMachineForExecution = "DescribeStateMachineForExecution"
+
+// DescribeStateMachineForExecutionRequest is a API request type for the DescribeStateMachineForExecution API operation.
+type DescribeStateMachineForExecutionRequest struct {
+	*aws.Request
+	Input *DescribeStateMachineForExecutionInput
+	Copy  func(*DescribeStateMachineForExecutionInput) DescribeStateMachineForExecutionRequest
+}
+
+// Send marshals and sends the DescribeStateMachineForExecution API request.
+func (r DescribeStateMachineForExecutionRequest) Send() (*DescribeStateMachineForExecutionOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeStateMachineForExecutionOutput), nil
+}
+
+// DescribeStateMachineForExecutionRequest returns a request value for making API operation for
+// AWS Step Functions.
+//
+// Describes the state machine associated with a specific execution.
+//
+//    // Example sending a request using the DescribeStateMachineForExecutionRequest method.
+//    req := client.DescribeStateMachineForExecutionRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecution
+func (c *SFN) DescribeStateMachineForExecutionRequest(input *DescribeStateMachineForExecutionInput) DescribeStateMachineForExecutionRequest {
+	op := &aws.Operation{
+		Name:       opDescribeStateMachineForExecution,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeStateMachineForExecutionInput{}
+	}
+
+	output := &DescribeStateMachineForExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeStateMachineForExecutionRequest{Request: req, Input: input, Copy: c.DescribeStateMachineForExecutionRequest}
 }
 
 const opGetActivityTask = "GetActivityTask"
@@ -338,6 +428,7 @@ const opGetActivityTask = "GetActivityTask"
 type GetActivityTaskRequest struct {
 	*aws.Request
 	Input *GetActivityTaskInput
+	Copy  func(*GetActivityTaskInput) GetActivityTaskRequest
 }
 
 // Send marshals and sends the GetActivityTask API request.
@@ -353,13 +444,13 @@ func (r GetActivityTaskRequest) Send() (*GetActivityTaskOutput, error) {
 // GetActivityTaskRequest returns a request value for making API operation for
 // AWS Step Functions.
 //
-// Used by workers to retrieve a task (with the specified activity ARN) scheduled
-// for execution by a running state machine. This initiates a long poll, where
-// the service holds the HTTP connection open and responds as soon as a task
-// becomes available (i.e. an execution of a task of this type is needed.) The
-// maximum time the service holds on to the request before responding is 60
-// seconds. If no task is available within 60 seconds, the poll will return
-// an empty result, that is, the taskToken returned is an empty string.
+// Used by workers to retrieve a task (with the specified activity ARN) which
+// has been scheduled for execution by a running state machine. This initiates
+// a long poll, where the service holds the HTTP connection open and responds
+// as soon as a task becomes available (i.e. an execution of a task of this
+// type is needed.) The maximum time the service holds on to the request before
+// responding is 60 seconds. If no task is available within 60 seconds, the
+// poll returns a taskToken with a null string.
 //
 // Workers should set their client side socket timeout to at least 65 seconds
 // (5 seconds higher than the maximum time the service may hold the poll request).
@@ -383,8 +474,11 @@ func (c *SFN) GetActivityTaskRequest(input *GetActivityTaskInput) GetActivityTas
 		input = &GetActivityTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &GetActivityTaskOutput{})
-	return GetActivityTaskRequest{Request: req, Input: input}
+	output := &GetActivityTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetActivityTaskRequest{Request: req, Input: input, Copy: c.GetActivityTaskRequest}
 }
 
 const opGetExecutionHistory = "GetExecutionHistory"
@@ -393,6 +487,7 @@ const opGetExecutionHistory = "GetExecutionHistory"
 type GetExecutionHistoryRequest struct {
 	*aws.Request
 	Input *GetExecutionHistoryInput
+	Copy  func(*GetExecutionHistoryInput) GetExecutionHistoryRequest
 }
 
 // Send marshals and sends the GetExecutionHistory API request.
@@ -410,9 +505,11 @@ func (r GetExecutionHistoryRequest) Send() (*GetExecutionHistoryOutput, error) {
 //
 // Returns the history of the specified execution as a list of events. By default,
 // the results are returned in ascending order of the timeStamp of the events.
-// Use the reverseOrder parameter to get the latest events first. The results
-// may be split into multiple pages. To retrieve subsequent pages, make the
-// call again using the nextToken returned by the previous call.
+// Use the reverseOrder parameter to get the latest events first.
+//
+// If a nextToken is returned by a previous call, there are more results available.
+// To retrieve the next page of results, make the call again using the returned
+// token in nextToken. Keep all other arguments unchanged.
 //
 //    // Example sending a request using the GetExecutionHistoryRequest method.
 //    req := client.GetExecutionHistoryRequest(params)
@@ -439,58 +536,57 @@ func (c *SFN) GetExecutionHistoryRequest(input *GetExecutionHistoryInput) GetExe
 		input = &GetExecutionHistoryInput{}
 	}
 
-	req := c.newRequest(op, input, &GetExecutionHistoryOutput{})
-	return GetExecutionHistoryRequest{Request: req, Input: input}
+	output := &GetExecutionHistoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetExecutionHistoryRequest{Request: req, Input: input, Copy: c.GetExecutionHistoryRequest}
 }
 
-// GetExecutionHistoryPages iterates over the pages of a GetExecutionHistory operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetExecutionHistory method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetExecutionHistoryRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetExecutionHistory operation.
-//    pageNum := 0
-//    err := client.GetExecutionHistoryPages(params,
-//        func(page *GetExecutionHistoryOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetExecutionHistoryRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SFN) GetExecutionHistoryPages(input *GetExecutionHistoryInput, fn func(*GetExecutionHistoryOutput, bool) bool) error {
-	return c.GetExecutionHistoryPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetExecutionHistoryRequest) Paginate(opts ...aws.Option) GetExecutionHistoryPager {
+	return GetExecutionHistoryPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetExecutionHistoryInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetExecutionHistoryPagesWithContext same as GetExecutionHistoryPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SFN) GetExecutionHistoryPagesWithContext(ctx aws.Context, input *GetExecutionHistoryInput, fn func(*GetExecutionHistoryOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetExecutionHistoryInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetExecutionHistoryRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetExecutionHistoryOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetExecutionHistoryPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetExecutionHistoryPager struct {
+	aws.Pager
+}
+
+func (p *GetExecutionHistoryPager) CurrentPage() *GetExecutionHistoryOutput {
+	return p.Pager.CurrentPage().(*GetExecutionHistoryOutput)
 }
 
 const opListActivities = "ListActivities"
@@ -499,6 +595,7 @@ const opListActivities = "ListActivities"
 type ListActivitiesRequest struct {
 	*aws.Request
 	Input *ListActivitiesInput
+	Copy  func(*ListActivitiesInput) ListActivitiesRequest
 }
 
 // Send marshals and sends the ListActivities API request.
@@ -514,9 +611,11 @@ func (r ListActivitiesRequest) Send() (*ListActivitiesOutput, error) {
 // ListActivitiesRequest returns a request value for making API operation for
 // AWS Step Functions.
 //
-// Lists the existing activities. The results may be split into multiple pages.
-// To retrieve subsequent pages, make the call again using the nextToken returned
-// by the previous call.
+// Lists the existing activities.
+//
+// If a nextToken is returned by a previous call, there are more results available.
+// To retrieve the next page of results, make the call again using the returned
+// token in nextToken. Keep all other arguments unchanged.
 //
 //    // Example sending a request using the ListActivitiesRequest method.
 //    req := client.ListActivitiesRequest(params)
@@ -543,58 +642,57 @@ func (c *SFN) ListActivitiesRequest(input *ListActivitiesInput) ListActivitiesRe
 		input = &ListActivitiesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListActivitiesOutput{})
-	return ListActivitiesRequest{Request: req, Input: input}
+	output := &ListActivitiesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListActivitiesRequest{Request: req, Input: input, Copy: c.ListActivitiesRequest}
 }
 
-// ListActivitiesPages iterates over the pages of a ListActivities operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListActivities method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListActivitiesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListActivities operation.
-//    pageNum := 0
-//    err := client.ListActivitiesPages(params,
-//        func(page *ListActivitiesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListActivitiesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SFN) ListActivitiesPages(input *ListActivitiesInput, fn func(*ListActivitiesOutput, bool) bool) error {
-	return c.ListActivitiesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListActivitiesRequest) Paginate(opts ...aws.Option) ListActivitiesPager {
+	return ListActivitiesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListActivitiesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListActivitiesPagesWithContext same as ListActivitiesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SFN) ListActivitiesPagesWithContext(ctx aws.Context, input *ListActivitiesInput, fn func(*ListActivitiesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListActivitiesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListActivitiesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListActivitiesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListActivitiesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListActivitiesPager struct {
+	aws.Pager
+}
+
+func (p *ListActivitiesPager) CurrentPage() *ListActivitiesOutput {
+	return p.Pager.CurrentPage().(*ListActivitiesOutput)
 }
 
 const opListExecutions = "ListExecutions"
@@ -603,6 +701,7 @@ const opListExecutions = "ListExecutions"
 type ListExecutionsRequest struct {
 	*aws.Request
 	Input *ListExecutionsInput
+	Copy  func(*ListExecutionsInput) ListExecutionsRequest
 }
 
 // Send marshals and sends the ListExecutions API request.
@@ -619,8 +718,10 @@ func (r ListExecutionsRequest) Send() (*ListExecutionsOutput, error) {
 // AWS Step Functions.
 //
 // Lists the executions of a state machine that meet the filtering criteria.
-// The results may be split into multiple pages. To retrieve subsequent pages,
-// make the call again using the nextToken returned by the previous call.
+//
+// If a nextToken is returned by a previous call, there are more results available.
+// To retrieve the next page of results, make the call again using the returned
+// token in nextToken. Keep all other arguments unchanged.
 //
 //    // Example sending a request using the ListExecutionsRequest method.
 //    req := client.ListExecutionsRequest(params)
@@ -647,58 +748,57 @@ func (c *SFN) ListExecutionsRequest(input *ListExecutionsInput) ListExecutionsRe
 		input = &ListExecutionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListExecutionsOutput{})
-	return ListExecutionsRequest{Request: req, Input: input}
+	output := &ListExecutionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListExecutionsRequest{Request: req, Input: input, Copy: c.ListExecutionsRequest}
 }
 
-// ListExecutionsPages iterates over the pages of a ListExecutions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListExecutions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListExecutionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListExecutions operation.
-//    pageNum := 0
-//    err := client.ListExecutionsPages(params,
-//        func(page *ListExecutionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListExecutionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SFN) ListExecutionsPages(input *ListExecutionsInput, fn func(*ListExecutionsOutput, bool) bool) error {
-	return c.ListExecutionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListExecutionsRequest) Paginate(opts ...aws.Option) ListExecutionsPager {
+	return ListExecutionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListExecutionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListExecutionsPagesWithContext same as ListExecutionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SFN) ListExecutionsPagesWithContext(ctx aws.Context, input *ListExecutionsInput, fn func(*ListExecutionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListExecutionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListExecutionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListExecutionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListExecutionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListExecutionsPager struct {
+	aws.Pager
+}
+
+func (p *ListExecutionsPager) CurrentPage() *ListExecutionsOutput {
+	return p.Pager.CurrentPage().(*ListExecutionsOutput)
 }
 
 const opListStateMachines = "ListStateMachines"
@@ -707,6 +807,7 @@ const opListStateMachines = "ListStateMachines"
 type ListStateMachinesRequest struct {
 	*aws.Request
 	Input *ListStateMachinesInput
+	Copy  func(*ListStateMachinesInput) ListStateMachinesRequest
 }
 
 // Send marshals and sends the ListStateMachines API request.
@@ -722,9 +823,11 @@ func (r ListStateMachinesRequest) Send() (*ListStateMachinesOutput, error) {
 // ListStateMachinesRequest returns a request value for making API operation for
 // AWS Step Functions.
 //
-// Lists the existing state machines. The results may be split into multiple
-// pages. To retrieve subsequent pages, make the call again using the nextToken
-// returned by the previous call.
+// Lists the existing state machines.
+//
+// If a nextToken is returned by a previous call, there are more results available.
+// To retrieve the next page of results, make the call again using the returned
+// token in nextToken. Keep all other arguments unchanged.
 //
 //    // Example sending a request using the ListStateMachinesRequest method.
 //    req := client.ListStateMachinesRequest(params)
@@ -751,58 +854,57 @@ func (c *SFN) ListStateMachinesRequest(input *ListStateMachinesInput) ListStateM
 		input = &ListStateMachinesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListStateMachinesOutput{})
-	return ListStateMachinesRequest{Request: req, Input: input}
+	output := &ListStateMachinesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListStateMachinesRequest{Request: req, Input: input, Copy: c.ListStateMachinesRequest}
 }
 
-// ListStateMachinesPages iterates over the pages of a ListStateMachines operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListStateMachines method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListStateMachinesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListStateMachines operation.
-//    pageNum := 0
-//    err := client.ListStateMachinesPages(params,
-//        func(page *ListStateMachinesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListStateMachinesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SFN) ListStateMachinesPages(input *ListStateMachinesInput, fn func(*ListStateMachinesOutput, bool) bool) error {
-	return c.ListStateMachinesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListStateMachinesRequest) Paginate(opts ...aws.Option) ListStateMachinesPager {
+	return ListStateMachinesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListStateMachinesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListStateMachinesPagesWithContext same as ListStateMachinesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SFN) ListStateMachinesPagesWithContext(ctx aws.Context, input *ListStateMachinesInput, fn func(*ListStateMachinesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListStateMachinesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListStateMachinesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListStateMachinesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListStateMachinesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListStateMachinesPager struct {
+	aws.Pager
+}
+
+func (p *ListStateMachinesPager) CurrentPage() *ListStateMachinesOutput {
+	return p.Pager.CurrentPage().(*ListStateMachinesOutput)
 }
 
 const opSendTaskFailure = "SendTaskFailure"
@@ -811,6 +913,7 @@ const opSendTaskFailure = "SendTaskFailure"
 type SendTaskFailureRequest struct {
 	*aws.Request
 	Input *SendTaskFailureInput
+	Copy  func(*SendTaskFailureInput) SendTaskFailureRequest
 }
 
 // Send marshals and sends the SendTaskFailure API request.
@@ -847,8 +950,11 @@ func (c *SFN) SendTaskFailureRequest(input *SendTaskFailureInput) SendTaskFailur
 		input = &SendTaskFailureInput{}
 	}
 
-	req := c.newRequest(op, input, &SendTaskFailureOutput{})
-	return SendTaskFailureRequest{Request: req, Input: input}
+	output := &SendTaskFailureOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendTaskFailureRequest{Request: req, Input: input, Copy: c.SendTaskFailureRequest}
 }
 
 const opSendTaskHeartbeat = "SendTaskHeartbeat"
@@ -857,6 +963,7 @@ const opSendTaskHeartbeat = "SendTaskHeartbeat"
 type SendTaskHeartbeatRequest struct {
 	*aws.Request
 	Input *SendTaskHeartbeatInput
+	Copy  func(*SendTaskHeartbeatInput) SendTaskHeartbeatRequest
 }
 
 // Send marshals and sends the SendTaskHeartbeat API request.
@@ -877,7 +984,7 @@ func (r SendTaskHeartbeatRequest) Send() (*SendTaskHeartbeatOutput, error) {
 // clock. The Heartbeat threshold is specified in the state machine's Amazon
 // States Language definition. This action does not in itself create an event
 // in the execution history. However, if the task times out, the execution history
-// will contain an ActivityTimedOut event.
+// contains an ActivityTimedOut event.
 //
 // The Timeout of a task, defined in the state machine's Amazon States Language
 // definition, is its maximum allowed duration, regardless of the number of
@@ -905,8 +1012,11 @@ func (c *SFN) SendTaskHeartbeatRequest(input *SendTaskHeartbeatInput) SendTaskHe
 		input = &SendTaskHeartbeatInput{}
 	}
 
-	req := c.newRequest(op, input, &SendTaskHeartbeatOutput{})
-	return SendTaskHeartbeatRequest{Request: req, Input: input}
+	output := &SendTaskHeartbeatOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendTaskHeartbeatRequest{Request: req, Input: input, Copy: c.SendTaskHeartbeatRequest}
 }
 
 const opSendTaskSuccess = "SendTaskSuccess"
@@ -915,6 +1025,7 @@ const opSendTaskSuccess = "SendTaskSuccess"
 type SendTaskSuccessRequest struct {
 	*aws.Request
 	Input *SendTaskSuccessInput
+	Copy  func(*SendTaskSuccessInput) SendTaskSuccessRequest
 }
 
 // Send marshals and sends the SendTaskSuccess API request.
@@ -952,8 +1063,11 @@ func (c *SFN) SendTaskSuccessRequest(input *SendTaskSuccessInput) SendTaskSucces
 		input = &SendTaskSuccessInput{}
 	}
 
-	req := c.newRequest(op, input, &SendTaskSuccessOutput{})
-	return SendTaskSuccessRequest{Request: req, Input: input}
+	output := &SendTaskSuccessOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendTaskSuccessRequest{Request: req, Input: input, Copy: c.SendTaskSuccessRequest}
 }
 
 const opStartExecution = "StartExecution"
@@ -962,6 +1076,7 @@ const opStartExecution = "StartExecution"
 type StartExecutionRequest struct {
 	*aws.Request
 	Input *StartExecutionInput
+	Copy  func(*StartExecutionInput) StartExecutionRequest
 }
 
 // Send marshals and sends the StartExecution API request.
@@ -998,8 +1113,11 @@ func (c *SFN) StartExecutionRequest(input *StartExecutionInput) StartExecutionRe
 		input = &StartExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StartExecutionOutput{})
-	return StartExecutionRequest{Request: req, Input: input}
+	output := &StartExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartExecutionRequest{Request: req, Input: input, Copy: c.StartExecutionRequest}
 }
 
 const opStopExecution = "StopExecution"
@@ -1008,6 +1126,7 @@ const opStopExecution = "StopExecution"
 type StopExecutionRequest struct {
 	*aws.Request
 	Input *StopExecutionInput
+	Copy  func(*StopExecutionInput) StopExecutionRequest
 }
 
 // Send marshals and sends the StopExecution API request.
@@ -1044,10 +1163,71 @@ func (c *SFN) StopExecutionRequest(input *StopExecutionInput) StopExecutionReque
 		input = &StopExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StopExecutionOutput{})
-	return StopExecutionRequest{Request: req, Input: input}
+	output := &StopExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopExecutionRequest{Request: req, Input: input, Copy: c.StopExecutionRequest}
 }
 
+const opUpdateStateMachine = "UpdateStateMachine"
+
+// UpdateStateMachineRequest is a API request type for the UpdateStateMachine API operation.
+type UpdateStateMachineRequest struct {
+	*aws.Request
+	Input *UpdateStateMachineInput
+	Copy  func(*UpdateStateMachineInput) UpdateStateMachineRequest
+}
+
+// Send marshals and sends the UpdateStateMachine API request.
+func (r UpdateStateMachineRequest) Send() (*UpdateStateMachineOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateStateMachineOutput), nil
+}
+
+// UpdateStateMachineRequest returns a request value for making API operation for
+// AWS Step Functions.
+//
+// Updates an existing state machine by modifying its definition and/or roleArn.
+// Running executions will continue to use the previous definition and roleArn.
+//
+// All StartExecution calls within a few seconds will use the updated definition
+// and roleArn. Executions started immediately after calling UpdateStateMachine
+// may use the previous state machine definition and roleArn. You must include
+// at least one of definition or roleArn or you will receive a MissingRequiredParameter
+// error.
+//
+//    // Example sending a request using the UpdateStateMachineRequest method.
+//    req := client.UpdateStateMachineRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachine
+func (c *SFN) UpdateStateMachineRequest(input *UpdateStateMachineInput) UpdateStateMachineRequest {
+	op := &aws.Operation{
+		Name:       opUpdateStateMachine,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateStateMachineInput{}
+	}
+
+	output := &UpdateStateMachineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateStateMachineRequest{Request: req, Input: input, Copy: c.UpdateStateMachineRequest}
+}
+
+// Contains details about an activity which failed during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityFailedEventDetails
 type ActivityFailedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -1069,18 +1249,7 @@ func (s ActivityFailedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *ActivityFailedEventDetails) SetCause(v string) *ActivityFailedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *ActivityFailedEventDetails) SetError(v string) *ActivityFailedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about an activity.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityListItem
 type ActivityListItem struct {
 	_ struct{} `type:"structure"`
@@ -1090,12 +1259,24 @@ type ActivityListItem struct {
 	// ActivityArn is a required field
 	ActivityArn *string `locationName:"activityArn" min:"1" type:"string" required:"true"`
 
-	// The date the activity was created.
+	// The date the activity is created.
 	//
 	// CreationDate is a required field
 	CreationDate *time.Time `locationName:"creationDate" type:"timestamp" timestampFormat:"unix" required:"true"`
 
 	// The name of the activity.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -1111,24 +1292,8 @@ func (s ActivityListItem) GoString() string {
 	return s.String()
 }
 
-// SetActivityArn sets the ActivityArn field's value.
-func (s *ActivityListItem) SetActivityArn(v string) *ActivityListItem {
-	s.ActivityArn = &v
-	return s
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *ActivityListItem) SetCreationDate(v time.Time) *ActivityListItem {
-	s.CreationDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ActivityListItem) SetName(v string) *ActivityListItem {
-	s.Name = &v
-	return s
-}
-
+// Contains details about an activity schedule failure which occurred during
+// an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityScheduleFailedEventDetails
 type ActivityScheduleFailedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -1150,18 +1315,7 @@ func (s ActivityScheduleFailedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *ActivityScheduleFailedEventDetails) SetCause(v string) *ActivityScheduleFailedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *ActivityScheduleFailedEventDetails) SetError(v string) *ActivityScheduleFailedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about an activity scheduled during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityScheduledEventDetails
 type ActivityScheduledEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -1191,35 +1345,12 @@ func (s ActivityScheduledEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetHeartbeatInSeconds sets the HeartbeatInSeconds field's value.
-func (s *ActivityScheduledEventDetails) SetHeartbeatInSeconds(v int64) *ActivityScheduledEventDetails {
-	s.HeartbeatInSeconds = &v
-	return s
-}
-
-// SetInput sets the Input field's value.
-func (s *ActivityScheduledEventDetails) SetInput(v string) *ActivityScheduledEventDetails {
-	s.Input = &v
-	return s
-}
-
-// SetResource sets the Resource field's value.
-func (s *ActivityScheduledEventDetails) SetResource(v string) *ActivityScheduledEventDetails {
-	s.Resource = &v
-	return s
-}
-
-// SetTimeoutInSeconds sets the TimeoutInSeconds field's value.
-func (s *ActivityScheduledEventDetails) SetTimeoutInSeconds(v int64) *ActivityScheduledEventDetails {
-	s.TimeoutInSeconds = &v
-	return s
-}
-
+// Contains details about the start of an activity during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityStartedEventDetails
 type ActivityStartedEventDetails struct {
 	_ struct{} `type:"structure"`
 
-	// The name of the worker that the task was assigned to. These names are provided
+	// The name of the worker that the task is assigned to. These names are provided
 	// by the workers when calling GetActivityTask.
 	WorkerName *string `locationName:"workerName" type:"string"`
 }
@@ -1234,12 +1365,8 @@ func (s ActivityStartedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetWorkerName sets the WorkerName field's value.
-func (s *ActivityStartedEventDetails) SetWorkerName(v string) *ActivityStartedEventDetails {
-	s.WorkerName = &v
-	return s
-}
-
+// Contains details about an activity which successfully terminated during an
+// execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivitySucceededEventDetails
 type ActivitySucceededEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -1258,12 +1385,7 @@ func (s ActivitySucceededEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetOutput sets the Output field's value.
-func (s *ActivitySucceededEventDetails) SetOutput(v string) *ActivitySucceededEventDetails {
-	s.Output = &v
-	return s
-}
-
+// Contains details about an activity timeout which occurred during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityTimedOutEventDetails
 type ActivityTimedOutEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -1285,24 +1407,26 @@ func (s ActivityTimedOutEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *ActivityTimedOutEventDetails) SetCause(v string) *ActivityTimedOutEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *ActivityTimedOutEventDetails) SetError(v string) *ActivityTimedOutEventDetails {
-	s.Error = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateActivityInput
 type CreateActivityInput struct {
 	_ struct{} `type:"structure"`
 
 	// The name of the activity to create. This name must be unique for your AWS
-	// account and region.
+	// account and region for 90 days. For more information, see  Limits Related
+	// to State Machine Executions (http://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions)
+	// in the AWS Step Functions Developer Guide.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -1335,22 +1459,18 @@ func (s *CreateActivityInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *CreateActivityInput) SetName(v string) *CreateActivityInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateActivityOutput
 type CreateActivityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) that identifies the created activity.
 	//
 	// ActivityArn is a required field
 	ActivityArn *string `locationName:"activityArn" min:"1" type:"string" required:"true"`
 
-	// The date the activity was created.
+	// The date the activity is created.
 	//
 	// CreationDate is a required field
 	CreationDate *time.Time `locationName:"creationDate" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -1366,16 +1486,9 @@ func (s CreateActivityOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivityArn sets the ActivityArn field's value.
-func (s *CreateActivityOutput) SetActivityArn(v string) *CreateActivityOutput {
-	s.ActivityArn = &v
-	return s
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *CreateActivityOutput) SetCreationDate(v time.Time) *CreateActivityOutput {
-	s.CreationDate = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateActivityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachineInput
@@ -1388,7 +1501,21 @@ type CreateStateMachineInput struct {
 	Definition *string `locationName:"definition" min:"1" type:"string" required:"true"`
 
 	// The name of the state machine. This name must be unique for your AWS account
-	// and region.
+	// and region for 90 days. For more information, see  Limits Related to State
+	// Machine Executions (http://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions)
+	// in the AWS Step Functions Developer Guide.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -1440,29 +1567,13 @@ func (s *CreateStateMachineInput) Validate() error {
 	return nil
 }
 
-// SetDefinition sets the Definition field's value.
-func (s *CreateStateMachineInput) SetDefinition(v string) *CreateStateMachineInput {
-	s.Definition = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateStateMachineInput) SetName(v string) *CreateStateMachineInput {
-	s.Name = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *CreateStateMachineInput) SetRoleArn(v string) *CreateStateMachineInput {
-	s.RoleArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachineOutput
 type CreateStateMachineOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The date the state machine was created.
+	responseMetadata aws.Response
+
+	// The date the state machine is created.
 	//
 	// CreationDate is a required field
 	CreationDate *time.Time `locationName:"creationDate" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -1483,16 +1594,9 @@ func (s CreateStateMachineOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *CreateStateMachineOutput) SetCreationDate(v time.Time) *CreateStateMachineOutput {
-	s.CreationDate = &v
-	return s
-}
-
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *CreateStateMachineOutput) SetStateMachineArn(v string) *CreateStateMachineOutput {
-	s.StateMachineArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateStateMachineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteActivityInput
@@ -1532,15 +1636,11 @@ func (s *DeleteActivityInput) Validate() error {
 	return nil
 }
 
-// SetActivityArn sets the ActivityArn field's value.
-func (s *DeleteActivityInput) SetActivityArn(v string) *DeleteActivityInput {
-	s.ActivityArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteActivityOutput
 type DeleteActivityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1551,6 +1651,11 @@ func (s DeleteActivityOutput) String() string {
 // GoString returns the string representation
 func (s DeleteActivityOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteActivityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineInput
@@ -1590,15 +1695,11 @@ func (s *DeleteStateMachineInput) Validate() error {
 	return nil
 }
 
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *DeleteStateMachineInput) SetStateMachineArn(v string) *DeleteStateMachineInput {
-	s.StateMachineArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineOutput
 type DeleteStateMachineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1609,6 +1710,11 @@ func (s DeleteStateMachineOutput) String() string {
 // GoString returns the string representation
 func (s DeleteStateMachineOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteStateMachineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeActivityInput
@@ -1648,27 +1754,35 @@ func (s *DescribeActivityInput) Validate() error {
 	return nil
 }
 
-// SetActivityArn sets the ActivityArn field's value.
-func (s *DescribeActivityInput) SetActivityArn(v string) *DescribeActivityInput {
-	s.ActivityArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeActivityOutput
 type DescribeActivityOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) that identifies the activity.
 	//
 	// ActivityArn is a required field
 	ActivityArn *string `locationName:"activityArn" min:"1" type:"string" required:"true"`
 
-	// The date the activity was created.
+	// The date the activity is created.
 	//
 	// CreationDate is a required field
 	CreationDate *time.Time `locationName:"creationDate" type:"timestamp" timestampFormat:"unix" required:"true"`
 
 	// The name of the activity.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -1684,22 +1798,9 @@ func (s DescribeActivityOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivityArn sets the ActivityArn field's value.
-func (s *DescribeActivityOutput) SetActivityArn(v string) *DescribeActivityOutput {
-	s.ActivityArn = &v
-	return s
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *DescribeActivityOutput) SetCreationDate(v time.Time) *DescribeActivityOutput {
-	s.CreationDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DescribeActivityOutput) SetName(v string) *DescribeActivityOutput {
-	s.Name = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeActivityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeExecutionInput
@@ -1739,33 +1840,44 @@ func (s *DescribeExecutionInput) Validate() error {
 	return nil
 }
 
-// SetExecutionArn sets the ExecutionArn field's value.
-func (s *DescribeExecutionInput) SetExecutionArn(v string) *DescribeExecutionInput {
-	s.ExecutionArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeExecutionOutput
 type DescribeExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) that identifies the execution.
 	//
 	// ExecutionArn is a required field
 	ExecutionArn *string `locationName:"executionArn" min:"1" type:"string" required:"true"`
 
-	// The JSON input data of the execution.
+	// The string that contains the JSON input data of the execution.
 	//
 	// Input is a required field
 	Input *string `locationName:"input" type:"string" required:"true"`
 
 	// The name of the execution.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	Name *string `locationName:"name" min:"1" type:"string"`
 
 	// The JSON output data of the execution.
+	//
+	// This field is set only if the execution succeeds. If the execution fails,
+	// this field is null.
 	Output *string `locationName:"output" type:"string"`
 
-	// The date the execution was started.
+	// The date the execution is started.
 	//
 	// StartDate is a required field
 	StartDate *time.Time `locationName:"startDate" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -1778,7 +1890,7 @@ type DescribeExecutionOutput struct {
 	// The current status of the execution.
 	//
 	// Status is a required field
-	Status ExecutionStatus `locationName:"status" type:"string" required:"true"`
+	Status ExecutionStatus `locationName:"status" type:"string" required:"true" enum:"true"`
 
 	// If the execution has already ended, the date the execution stopped.
 	StopDate *time.Time `locationName:"stopDate" type:"timestamp" timestampFormat:"unix"`
@@ -1794,52 +1906,96 @@ func (s DescribeExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetExecutionArn sets the ExecutionArn field's value.
-func (s *DescribeExecutionOutput) SetExecutionArn(v string) *DescribeExecutionOutput {
-	s.ExecutionArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetInput sets the Input field's value.
-func (s *DescribeExecutionOutput) SetInput(v string) *DescribeExecutionOutput {
-	s.Input = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecutionInput
+type DescribeStateMachineForExecutionInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the execution you want state machine information
+	// for.
+	//
+	// ExecutionArn is a required field
+	ExecutionArn *string `locationName:"executionArn" min:"1" type:"string" required:"true"`
 }
 
-// SetName sets the Name field's value.
-func (s *DescribeExecutionOutput) SetName(v string) *DescribeExecutionOutput {
-	s.Name = &v
-	return s
+// String returns the string representation
+func (s DescribeStateMachineForExecutionInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetOutput sets the Output field's value.
-func (s *DescribeExecutionOutput) SetOutput(v string) *DescribeExecutionOutput {
-	s.Output = &v
-	return s
+// GoString returns the string representation
+func (s DescribeStateMachineForExecutionInput) GoString() string {
+	return s.String()
 }
 
-// SetStartDate sets the StartDate field's value.
-func (s *DescribeExecutionOutput) SetStartDate(v time.Time) *DescribeExecutionOutput {
-	s.StartDate = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeStateMachineForExecutionInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DescribeStateMachineForExecutionInput"}
+
+	if s.ExecutionArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ExecutionArn"))
+	}
+	if s.ExecutionArn != nil && len(*s.ExecutionArn) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ExecutionArn", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *DescribeExecutionOutput) SetStateMachineArn(v string) *DescribeExecutionOutput {
-	s.StateMachineArn = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecutionOutput
+type DescribeStateMachineForExecutionOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The Amazon States Language definition of the state machine.
+	//
+	// Definition is a required field
+	Definition *string `locationName:"definition" min:"1" type:"string" required:"true"`
+
+	// The name of the state machine associated with the execution.
+	//
+	// Name is a required field
+	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
+
+	// The Amazon Resource Name (ARN) of the IAM role of the State Machine for the
+	// execution.
+	//
+	// RoleArn is a required field
+	RoleArn *string `locationName:"roleArn" min:"1" type:"string" required:"true"`
+
+	// The Amazon Resource Name (ARN) of the state machine associated with the execution.
+	//
+	// StateMachineArn is a required field
+	StateMachineArn *string `locationName:"stateMachineArn" min:"1" type:"string" required:"true"`
+
+	// The date and time the state machine associated with an execution was updated.
+	// For a newly created state machine, this is the creation date.
+	//
+	// UpdateDate is a required field
+	UpdateDate *time.Time `locationName:"updateDate" type:"timestamp" timestampFormat:"unix" required:"true"`
 }
 
-// SetStatus sets the Status field's value.
-func (s *DescribeExecutionOutput) SetStatus(v ExecutionStatus) *DescribeExecutionOutput {
-	s.Status = v
-	return s
+// String returns the string representation
+func (s DescribeStateMachineForExecutionOutput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetStopDate sets the StopDate field's value.
-func (s *DescribeExecutionOutput) SetStopDate(v time.Time) *DescribeExecutionOutput {
-	s.StopDate = &v
-	return s
+// GoString returns the string representation
+func (s DescribeStateMachineForExecutionOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeStateMachineForExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineInput
@@ -1879,17 +2035,13 @@ func (s *DescribeStateMachineInput) Validate() error {
 	return nil
 }
 
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *DescribeStateMachineInput) SetStateMachineArn(v string) *DescribeStateMachineInput {
-	s.StateMachineArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineOutput
 type DescribeStateMachineOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The date the state machine was created.
+	responseMetadata aws.Response
+
+	// The date the state machine is created.
 	//
 	// CreationDate is a required field
 	CreationDate *time.Time `locationName:"creationDate" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -1901,11 +2053,24 @@ type DescribeStateMachineOutput struct {
 
 	// The name of the state machine.
 	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
+	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
 
-	// The Amazon Resource Name (ARN) of the IAM role used for executing this state
-	// machine.
+	// The Amazon Resource Name (ARN) of the IAM role used when creating this state
+	// machine. (The IAM role maintains security by granting Step Functions access
+	// to AWS resources.)
 	//
 	// RoleArn is a required field
 	RoleArn *string `locationName:"roleArn" min:"1" type:"string" required:"true"`
@@ -1916,7 +2081,7 @@ type DescribeStateMachineOutput struct {
 	StateMachineArn *string `locationName:"stateMachineArn" min:"1" type:"string" required:"true"`
 
 	// The current status of the state machine.
-	Status StateMachineStatus `locationName:"status" type:"string"`
+	Status StateMachineStatus `locationName:"status" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1929,42 +2094,12 @@ func (s DescribeStateMachineOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *DescribeStateMachineOutput) SetCreationDate(v time.Time) *DescribeStateMachineOutput {
-	s.CreationDate = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeStateMachineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetDefinition sets the Definition field's value.
-func (s *DescribeStateMachineOutput) SetDefinition(v string) *DescribeStateMachineOutput {
-	s.Definition = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DescribeStateMachineOutput) SetName(v string) *DescribeStateMachineOutput {
-	s.Name = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *DescribeStateMachineOutput) SetRoleArn(v string) *DescribeStateMachineOutput {
-	s.RoleArn = &v
-	return s
-}
-
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *DescribeStateMachineOutput) SetStateMachineArn(v string) *DescribeStateMachineOutput {
-	s.StateMachineArn = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DescribeStateMachineOutput) SetStatus(v StateMachineStatus) *DescribeStateMachineOutput {
-	s.Status = v
-	return s
-}
-
+// Contains details about an abort of an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionAbortedEventDetails
 type ExecutionAbortedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -1986,18 +2121,7 @@ func (s ExecutionAbortedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *ExecutionAbortedEventDetails) SetCause(v string) *ExecutionAbortedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *ExecutionAbortedEventDetails) SetError(v string) *ExecutionAbortedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about an execution failure event.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionFailedEventDetails
 type ExecutionFailedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2019,18 +2143,7 @@ func (s ExecutionFailedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *ExecutionFailedEventDetails) SetCause(v string) *ExecutionFailedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *ExecutionFailedEventDetails) SetError(v string) *ExecutionFailedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionListItem
 type ExecutionListItem struct {
 	_ struct{} `type:"structure"`
@@ -2041,6 +2154,18 @@ type ExecutionListItem struct {
 	ExecutionArn *string `locationName:"executionArn" min:"1" type:"string" required:"true"`
 
 	// The name of the execution.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -2058,7 +2183,7 @@ type ExecutionListItem struct {
 	// The current status of the execution.
 	//
 	// Status is a required field
-	Status ExecutionStatus `locationName:"status" type:"string" required:"true"`
+	Status ExecutionStatus `locationName:"status" type:"string" required:"true" enum:"true"`
 
 	// If the execution already ended, the date the execution stopped.
 	StopDate *time.Time `locationName:"stopDate" type:"timestamp" timestampFormat:"unix"`
@@ -2074,42 +2199,7 @@ func (s ExecutionListItem) GoString() string {
 	return s.String()
 }
 
-// SetExecutionArn sets the ExecutionArn field's value.
-func (s *ExecutionListItem) SetExecutionArn(v string) *ExecutionListItem {
-	s.ExecutionArn = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ExecutionListItem) SetName(v string) *ExecutionListItem {
-	s.Name = &v
-	return s
-}
-
-// SetStartDate sets the StartDate field's value.
-func (s *ExecutionListItem) SetStartDate(v time.Time) *ExecutionListItem {
-	s.StartDate = &v
-	return s
-}
-
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *ExecutionListItem) SetStateMachineArn(v string) *ExecutionListItem {
-	s.StateMachineArn = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ExecutionListItem) SetStatus(v ExecutionStatus) *ExecutionListItem {
-	s.Status = v
-	return s
-}
-
-// SetStopDate sets the StopDate field's value.
-func (s *ExecutionListItem) SetStopDate(v time.Time) *ExecutionListItem {
-	s.StopDate = &v
-	return s
-}
-
+// Contains details about the start of the execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionStartedEventDetails
 type ExecutionStartedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2132,18 +2222,7 @@ func (s ExecutionStartedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetInput sets the Input field's value.
-func (s *ExecutionStartedEventDetails) SetInput(v string) *ExecutionStartedEventDetails {
-	s.Input = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *ExecutionStartedEventDetails) SetRoleArn(v string) *ExecutionStartedEventDetails {
-	s.RoleArn = &v
-	return s
-}
-
+// Contains details about the successful termination of the execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionSucceededEventDetails
 type ExecutionSucceededEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2162,12 +2241,7 @@ func (s ExecutionSucceededEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetOutput sets the Output field's value.
-func (s *ExecutionSucceededEventDetails) SetOutput(v string) *ExecutionSucceededEventDetails {
-	s.Output = &v
-	return s
-}
-
+// Contains details about the execution timeout which occurred during the execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionTimedOutEventDetails
 type ExecutionTimedOutEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2189,29 +2263,18 @@ func (s ExecutionTimedOutEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *ExecutionTimedOutEventDetails) SetCause(v string) *ExecutionTimedOutEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *ExecutionTimedOutEventDetails) SetError(v string) *ExecutionTimedOutEventDetails {
-	s.Error = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetActivityTaskInput
 type GetActivityTaskInput struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the activity to retrieve tasks from.
+	// The Amazon Resource Name (ARN) of the activity to retrieve tasks from (assigned
+	// when you create the task using CreateActivity.)
 	//
 	// ActivityArn is a required field
 	ActivityArn *string `locationName:"activityArn" min:"1" type:"string" required:"true"`
 
-	// An arbitrary name may be provided in order to identify the worker that the
-	// task is assigned to. This name will be used when it is logged in the execution
+	// You can provide an arbitrary name in order to identify the worker that the
+	// task is assigned to. This name is used when it is logged in the execution
 	// history.
 	WorkerName *string `locationName:"workerName" min:"1" type:"string"`
 }
@@ -2246,23 +2309,13 @@ func (s *GetActivityTaskInput) Validate() error {
 	return nil
 }
 
-// SetActivityArn sets the ActivityArn field's value.
-func (s *GetActivityTaskInput) SetActivityArn(v string) *GetActivityTaskInput {
-	s.ActivityArn = &v
-	return s
-}
-
-// SetWorkerName sets the WorkerName field's value.
-func (s *GetActivityTaskInput) SetWorkerName(v string) *GetActivityTaskInput {
-	s.WorkerName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetActivityTaskOutput
 type GetActivityTaskOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The JSON input data for the task.
+	responseMetadata aws.Response
+
+	// The string that contains the JSON input data for the task.
 	Input *string `locationName:"input" type:"string"`
 
 	// A token that identifies the scheduled task. This token must be copied and
@@ -2281,16 +2334,9 @@ func (s GetActivityTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetInput sets the Input field's value.
-func (s *GetActivityTaskOutput) SetInput(v string) *GetActivityTaskOutput {
-	s.Input = &v
-	return s
-}
-
-// SetTaskToken sets the TaskToken field's value.
-func (s *GetActivityTaskOutput) SetTaskToken(v string) *GetActivityTaskOutput {
-	s.TaskToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetActivityTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetExecutionHistoryInput
@@ -2302,15 +2348,15 @@ type GetExecutionHistoryInput struct {
 	// ExecutionArn is a required field
 	ExecutionArn *string `locationName:"executionArn" min:"1" type:"string" required:"true"`
 
-	// The maximum number of results that will be returned per call. nextToken can
-	// be used to obtain further pages of results. The default is 100 and the maximum
-	// allowed page size is 1000.
+	// The maximum number of results that are returned per call. You can use nextToken
+	// to obtain further pages of results. The default is 100 and the maximum allowed
+	// page size is 100. A value of 0 uses the default.
 	//
-	// This is an upper limit only; the actual number of results returned per call
-	// may be fewer than the specified maximum.
+	// This is only an upper limit. The actual number of results returned per call
+	// might be fewer than the specified maximum.
 	MaxResults *int64 `locationName:"maxResults" type:"integer"`
 
-	// If a nextToken was returned by a previous call, there are more results available.
+	// If a nextToken is returned by a previous call, there are more results available.
 	// To retrieve the next page of results, make the call again using the returned
 	// token in nextToken. Keep all other arguments unchanged.
 	//
@@ -2352,42 +2398,20 @@ func (s *GetExecutionHistoryInput) Validate() error {
 	return nil
 }
 
-// SetExecutionArn sets the ExecutionArn field's value.
-func (s *GetExecutionHistoryInput) SetExecutionArn(v string) *GetExecutionHistoryInput {
-	s.ExecutionArn = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetExecutionHistoryInput) SetMaxResults(v int64) *GetExecutionHistoryInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetExecutionHistoryInput) SetNextToken(v string) *GetExecutionHistoryInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetReverseOrder sets the ReverseOrder field's value.
-func (s *GetExecutionHistoryInput) SetReverseOrder(v bool) *GetExecutionHistoryInput {
-	s.ReverseOrder = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/GetExecutionHistoryOutput
 type GetExecutionHistoryOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of events that occurred in the execution.
 	//
 	// Events is a required field
-	Events []*HistoryEvent `locationName:"events" type:"list" required:"true"`
+	Events []HistoryEvent `locationName:"events" type:"list" required:"true"`
 
-	// If a nextToken is returned, there are more results available. To retrieve
-	// the next page of results, make the call again using the returned token in
-	// nextToken. Keep all other arguments unchanged.
+	// If a nextToken is returned by a previous call, there are more results available.
+	// To retrieve the next page of results, make the call again using the returned
+	// token in nextToken. Keep all other arguments unchanged.
 	//
 	// The configured maxResults determines how many results can be returned in
 	// a single call.
@@ -2404,42 +2428,49 @@ func (s GetExecutionHistoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *GetExecutionHistoryOutput) SetEvents(v []*HistoryEvent) *GetExecutionHistoryOutput {
-	s.Events = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetExecutionHistoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetExecutionHistoryOutput) SetNextToken(v string) *GetExecutionHistoryOutput {
-	s.NextToken = &v
-	return s
-}
-
+// Contains details about the events of an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/HistoryEvent
 type HistoryEvent struct {
 	_ struct{} `type:"structure"`
 
+	// Contains details about an activity which failed during an execution.
 	ActivityFailedEventDetails *ActivityFailedEventDetails `locationName:"activityFailedEventDetails" type:"structure"`
 
+	// Contains details about an activity schedule event which failed during an
+	// execution.
 	ActivityScheduleFailedEventDetails *ActivityScheduleFailedEventDetails `locationName:"activityScheduleFailedEventDetails" type:"structure"`
 
+	// Contains details about an activity scheduled during an execution.
 	ActivityScheduledEventDetails *ActivityScheduledEventDetails `locationName:"activityScheduledEventDetails" type:"structure"`
 
+	// Contains details about the start of an activity during an execution.
 	ActivityStartedEventDetails *ActivityStartedEventDetails `locationName:"activityStartedEventDetails" type:"structure"`
 
+	// Contains details about an activity which successfully terminated during an
+	// execution.
 	ActivitySucceededEventDetails *ActivitySucceededEventDetails `locationName:"activitySucceededEventDetails" type:"structure"`
 
+	// Contains details about an activity timeout which occurred during an execution.
 	ActivityTimedOutEventDetails *ActivityTimedOutEventDetails `locationName:"activityTimedOutEventDetails" type:"structure"`
 
+	// Contains details about an abort of an execution.
 	ExecutionAbortedEventDetails *ExecutionAbortedEventDetails `locationName:"executionAbortedEventDetails" type:"structure"`
 
+	// Contains details about an execution failure event.
 	ExecutionFailedEventDetails *ExecutionFailedEventDetails `locationName:"executionFailedEventDetails" type:"structure"`
 
+	// Contains details about the start of the execution.
 	ExecutionStartedEventDetails *ExecutionStartedEventDetails `locationName:"executionStartedEventDetails" type:"structure"`
 
+	// Contains details about the successful termination of the execution.
 	ExecutionSucceededEventDetails *ExecutionSucceededEventDetails `locationName:"executionSucceededEventDetails" type:"structure"`
 
+	// Contains details about the execution timeout which occurred during the execution.
 	ExecutionTimedOutEventDetails *ExecutionTimedOutEventDetails `locationName:"executionTimedOutEventDetails" type:"structure"`
 
 	// The id of the event. Events are numbered sequentially, starting at one.
@@ -2447,26 +2478,38 @@ type HistoryEvent struct {
 	// Id is a required field
 	Id *int64 `locationName:"id" type:"long" required:"true"`
 
+	// Contains details about a lambda function which failed during an execution.
 	LambdaFunctionFailedEventDetails *LambdaFunctionFailedEventDetails `locationName:"lambdaFunctionFailedEventDetails" type:"structure"`
 
+	// Contains details about a failed lambda function schedule event which occurred
+	// during an execution.
 	LambdaFunctionScheduleFailedEventDetails *LambdaFunctionScheduleFailedEventDetails `locationName:"lambdaFunctionScheduleFailedEventDetails" type:"structure"`
 
+	// Contains details about a lambda function scheduled during an execution.
 	LambdaFunctionScheduledEventDetails *LambdaFunctionScheduledEventDetails `locationName:"lambdaFunctionScheduledEventDetails" type:"structure"`
 
+	// Contains details about a lambda function which failed to start during an
+	// execution.
 	LambdaFunctionStartFailedEventDetails *LambdaFunctionStartFailedEventDetails `locationName:"lambdaFunctionStartFailedEventDetails" type:"structure"`
 
+	// Contains details about a lambda function which terminated successfully during
+	// an execution.
 	LambdaFunctionSucceededEventDetails *LambdaFunctionSucceededEventDetails `locationName:"lambdaFunctionSucceededEventDetails" type:"structure"`
 
+	// Contains details about a lambda function timeout which occurred during an
+	// execution.
 	LambdaFunctionTimedOutEventDetails *LambdaFunctionTimedOutEventDetails `locationName:"lambdaFunctionTimedOutEventDetails" type:"structure"`
 
 	// The id of the previous event.
 	PreviousEventId *int64 `locationName:"previousEventId" type:"long"`
 
+	// Contains details about a state entered during an execution.
 	StateEnteredEventDetails *StateEnteredEventDetails `locationName:"stateEnteredEventDetails" type:"structure"`
 
+	// Contains details about an exit from a state during an execution.
 	StateExitedEventDetails *StateExitedEventDetails `locationName:"stateExitedEventDetails" type:"structure"`
 
-	// The date the event occured.
+	// The date the event occurred.
 	//
 	// Timestamp is a required field
 	Timestamp *time.Time `locationName:"timestamp" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -2474,7 +2517,7 @@ type HistoryEvent struct {
 	// The type of the event.
 	//
 	// Type is a required field
-	Type HistoryEventType `locationName:"type" type:"string" required:"true"`
+	Type HistoryEventType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -2487,144 +2530,7 @@ func (s HistoryEvent) GoString() string {
 	return s.String()
 }
 
-// SetActivityFailedEventDetails sets the ActivityFailedEventDetails field's value.
-func (s *HistoryEvent) SetActivityFailedEventDetails(v *ActivityFailedEventDetails) *HistoryEvent {
-	s.ActivityFailedEventDetails = v
-	return s
-}
-
-// SetActivityScheduleFailedEventDetails sets the ActivityScheduleFailedEventDetails field's value.
-func (s *HistoryEvent) SetActivityScheduleFailedEventDetails(v *ActivityScheduleFailedEventDetails) *HistoryEvent {
-	s.ActivityScheduleFailedEventDetails = v
-	return s
-}
-
-// SetActivityScheduledEventDetails sets the ActivityScheduledEventDetails field's value.
-func (s *HistoryEvent) SetActivityScheduledEventDetails(v *ActivityScheduledEventDetails) *HistoryEvent {
-	s.ActivityScheduledEventDetails = v
-	return s
-}
-
-// SetActivityStartedEventDetails sets the ActivityStartedEventDetails field's value.
-func (s *HistoryEvent) SetActivityStartedEventDetails(v *ActivityStartedEventDetails) *HistoryEvent {
-	s.ActivityStartedEventDetails = v
-	return s
-}
-
-// SetActivitySucceededEventDetails sets the ActivitySucceededEventDetails field's value.
-func (s *HistoryEvent) SetActivitySucceededEventDetails(v *ActivitySucceededEventDetails) *HistoryEvent {
-	s.ActivitySucceededEventDetails = v
-	return s
-}
-
-// SetActivityTimedOutEventDetails sets the ActivityTimedOutEventDetails field's value.
-func (s *HistoryEvent) SetActivityTimedOutEventDetails(v *ActivityTimedOutEventDetails) *HistoryEvent {
-	s.ActivityTimedOutEventDetails = v
-	return s
-}
-
-// SetExecutionAbortedEventDetails sets the ExecutionAbortedEventDetails field's value.
-func (s *HistoryEvent) SetExecutionAbortedEventDetails(v *ExecutionAbortedEventDetails) *HistoryEvent {
-	s.ExecutionAbortedEventDetails = v
-	return s
-}
-
-// SetExecutionFailedEventDetails sets the ExecutionFailedEventDetails field's value.
-func (s *HistoryEvent) SetExecutionFailedEventDetails(v *ExecutionFailedEventDetails) *HistoryEvent {
-	s.ExecutionFailedEventDetails = v
-	return s
-}
-
-// SetExecutionStartedEventDetails sets the ExecutionStartedEventDetails field's value.
-func (s *HistoryEvent) SetExecutionStartedEventDetails(v *ExecutionStartedEventDetails) *HistoryEvent {
-	s.ExecutionStartedEventDetails = v
-	return s
-}
-
-// SetExecutionSucceededEventDetails sets the ExecutionSucceededEventDetails field's value.
-func (s *HistoryEvent) SetExecutionSucceededEventDetails(v *ExecutionSucceededEventDetails) *HistoryEvent {
-	s.ExecutionSucceededEventDetails = v
-	return s
-}
-
-// SetExecutionTimedOutEventDetails sets the ExecutionTimedOutEventDetails field's value.
-func (s *HistoryEvent) SetExecutionTimedOutEventDetails(v *ExecutionTimedOutEventDetails) *HistoryEvent {
-	s.ExecutionTimedOutEventDetails = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *HistoryEvent) SetId(v int64) *HistoryEvent {
-	s.Id = &v
-	return s
-}
-
-// SetLambdaFunctionFailedEventDetails sets the LambdaFunctionFailedEventDetails field's value.
-func (s *HistoryEvent) SetLambdaFunctionFailedEventDetails(v *LambdaFunctionFailedEventDetails) *HistoryEvent {
-	s.LambdaFunctionFailedEventDetails = v
-	return s
-}
-
-// SetLambdaFunctionScheduleFailedEventDetails sets the LambdaFunctionScheduleFailedEventDetails field's value.
-func (s *HistoryEvent) SetLambdaFunctionScheduleFailedEventDetails(v *LambdaFunctionScheduleFailedEventDetails) *HistoryEvent {
-	s.LambdaFunctionScheduleFailedEventDetails = v
-	return s
-}
-
-// SetLambdaFunctionScheduledEventDetails sets the LambdaFunctionScheduledEventDetails field's value.
-func (s *HistoryEvent) SetLambdaFunctionScheduledEventDetails(v *LambdaFunctionScheduledEventDetails) *HistoryEvent {
-	s.LambdaFunctionScheduledEventDetails = v
-	return s
-}
-
-// SetLambdaFunctionStartFailedEventDetails sets the LambdaFunctionStartFailedEventDetails field's value.
-func (s *HistoryEvent) SetLambdaFunctionStartFailedEventDetails(v *LambdaFunctionStartFailedEventDetails) *HistoryEvent {
-	s.LambdaFunctionStartFailedEventDetails = v
-	return s
-}
-
-// SetLambdaFunctionSucceededEventDetails sets the LambdaFunctionSucceededEventDetails field's value.
-func (s *HistoryEvent) SetLambdaFunctionSucceededEventDetails(v *LambdaFunctionSucceededEventDetails) *HistoryEvent {
-	s.LambdaFunctionSucceededEventDetails = v
-	return s
-}
-
-// SetLambdaFunctionTimedOutEventDetails sets the LambdaFunctionTimedOutEventDetails field's value.
-func (s *HistoryEvent) SetLambdaFunctionTimedOutEventDetails(v *LambdaFunctionTimedOutEventDetails) *HistoryEvent {
-	s.LambdaFunctionTimedOutEventDetails = v
-	return s
-}
-
-// SetPreviousEventId sets the PreviousEventId field's value.
-func (s *HistoryEvent) SetPreviousEventId(v int64) *HistoryEvent {
-	s.PreviousEventId = &v
-	return s
-}
-
-// SetStateEnteredEventDetails sets the StateEnteredEventDetails field's value.
-func (s *HistoryEvent) SetStateEnteredEventDetails(v *StateEnteredEventDetails) *HistoryEvent {
-	s.StateEnteredEventDetails = v
-	return s
-}
-
-// SetStateExitedEventDetails sets the StateExitedEventDetails field's value.
-func (s *HistoryEvent) SetStateExitedEventDetails(v *StateExitedEventDetails) *HistoryEvent {
-	s.StateExitedEventDetails = v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *HistoryEvent) SetTimestamp(v time.Time) *HistoryEvent {
-	s.Timestamp = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *HistoryEvent) SetType(v HistoryEventType) *HistoryEvent {
-	s.Type = v
-	return s
-}
-
+// Contains details about a lambda function which failed during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/LambdaFunctionFailedEventDetails
 type LambdaFunctionFailedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2646,18 +2552,8 @@ func (s LambdaFunctionFailedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *LambdaFunctionFailedEventDetails) SetCause(v string) *LambdaFunctionFailedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *LambdaFunctionFailedEventDetails) SetError(v string) *LambdaFunctionFailedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about a failed lambda function schedule event which occurred
+// during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/LambdaFunctionScheduleFailedEventDetails
 type LambdaFunctionScheduleFailedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2679,18 +2575,7 @@ func (s LambdaFunctionScheduleFailedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *LambdaFunctionScheduleFailedEventDetails) SetCause(v string) *LambdaFunctionScheduleFailedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *LambdaFunctionScheduleFailedEventDetails) SetError(v string) *LambdaFunctionScheduleFailedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about a lambda function scheduled during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/LambdaFunctionScheduledEventDetails
 type LambdaFunctionScheduledEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2717,24 +2602,8 @@ func (s LambdaFunctionScheduledEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetInput sets the Input field's value.
-func (s *LambdaFunctionScheduledEventDetails) SetInput(v string) *LambdaFunctionScheduledEventDetails {
-	s.Input = &v
-	return s
-}
-
-// SetResource sets the Resource field's value.
-func (s *LambdaFunctionScheduledEventDetails) SetResource(v string) *LambdaFunctionScheduledEventDetails {
-	s.Resource = &v
-	return s
-}
-
-// SetTimeoutInSeconds sets the TimeoutInSeconds field's value.
-func (s *LambdaFunctionScheduledEventDetails) SetTimeoutInSeconds(v int64) *LambdaFunctionScheduledEventDetails {
-	s.TimeoutInSeconds = &v
-	return s
-}
-
+// Contains details about a lambda function which failed to start during an
+// execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/LambdaFunctionStartFailedEventDetails
 type LambdaFunctionStartFailedEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2756,18 +2625,8 @@ func (s LambdaFunctionStartFailedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *LambdaFunctionStartFailedEventDetails) SetCause(v string) *LambdaFunctionStartFailedEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *LambdaFunctionStartFailedEventDetails) SetError(v string) *LambdaFunctionStartFailedEventDetails {
-	s.Error = &v
-	return s
-}
-
+// Contains details about a lambda function which successfully terminated during
+// an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/LambdaFunctionSucceededEventDetails
 type LambdaFunctionSucceededEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2786,12 +2645,8 @@ func (s LambdaFunctionSucceededEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetOutput sets the Output field's value.
-func (s *LambdaFunctionSucceededEventDetails) SetOutput(v string) *LambdaFunctionSucceededEventDetails {
-	s.Output = &v
-	return s
-}
-
+// Contains details about a lambda function timeout which occurred during an
+// execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/LambdaFunctionTimedOutEventDetails
 type LambdaFunctionTimedOutEventDetails struct {
 	_ struct{} `type:"structure"`
@@ -2813,31 +2668,19 @@ func (s LambdaFunctionTimedOutEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetCause sets the Cause field's value.
-func (s *LambdaFunctionTimedOutEventDetails) SetCause(v string) *LambdaFunctionTimedOutEventDetails {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *LambdaFunctionTimedOutEventDetails) SetError(v string) *LambdaFunctionTimedOutEventDetails {
-	s.Error = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListActivitiesInput
 type ListActivitiesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The maximum number of results that will be returned per call. nextToken can
-	// be used to obtain further pages of results. The default is 100 and the maximum
-	// allowed page size is 1000.
+	// The maximum number of results that are returned per call. You can use nextToken
+	// to obtain further pages of results. The default is 100 and the maximum allowed
+	// page size is 100. A value of 0 uses the default.
 	//
-	// This is an upper limit only; the actual number of results returned per call
-	// may be fewer than the specified maximum.
+	// This is only an upper limit. The actual number of results returned per call
+	// might be fewer than the specified maximum.
 	MaxResults *int64 `locationName:"maxResults" type:"integer"`
 
-	// If a nextToken was returned by a previous call, there are more results available.
+	// If a nextToken is returned by a previous call, there are more results available.
 	// To retrieve the next page of results, make the call again using the returned
 	// token in nextToken. Keep all other arguments unchanged.
 	//
@@ -2869,30 +2712,20 @@ func (s *ListActivitiesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListActivitiesInput) SetMaxResults(v int64) *ListActivitiesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListActivitiesInput) SetNextToken(v string) *ListActivitiesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListActivitiesOutput
 type ListActivitiesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of activities.
 	//
 	// Activities is a required field
-	Activities []*ActivityListItem `locationName:"activities" type:"list" required:"true"`
+	Activities []ActivityListItem `locationName:"activities" type:"list" required:"true"`
 
-	// If a nextToken is returned, there are more results available. To retrieve
-	// the next page of results, make the call again using the returned token in
-	// nextToken. Keep all other arguments unchanged.
+	// If a nextToken is returned by a previous call, there are more results available.
+	// To retrieve the next page of results, make the call again using the returned
+	// token in nextToken. Keep all other arguments unchanged.
 	//
 	// The configured maxResults determines how many results can be returned in
 	// a single call.
@@ -2909,31 +2742,24 @@ func (s ListActivitiesOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivities sets the Activities field's value.
-func (s *ListActivitiesOutput) SetActivities(v []*ActivityListItem) *ListActivitiesOutput {
-	s.Activities = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListActivitiesOutput) SetNextToken(v string) *ListActivitiesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListActivitiesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListExecutionsInput
 type ListExecutionsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The maximum number of results that will be returned per call. nextToken can
-	// be used to obtain further pages of results. The default is 100 and the maximum
-	// allowed page size is 1000.
+	// The maximum number of results that are returned per call. You can use nextToken
+	// to obtain further pages of results. The default is 100 and the maximum allowed
+	// page size is 100. A value of 0 uses the default.
 	//
-	// This is an upper limit only; the actual number of results returned per call
-	// may be fewer than the specified maximum.
+	// This is only an upper limit. The actual number of results returned per call
+	// might be fewer than the specified maximum.
 	MaxResults *int64 `locationName:"maxResults" type:"integer"`
 
-	// If a nextToken was returned by a previous call, there are more results available.
+	// If a nextToken is returned by a previous call, there are more results available.
 	// To retrieve the next page of results, make the call again using the returned
 	// token in nextToken. Keep all other arguments unchanged.
 	//
@@ -2941,15 +2767,14 @@ type ListExecutionsInput struct {
 	// a single call.
 	NextToken *string `locationName:"nextToken" min:"1" type:"string"`
 
-	// The Amazon Resource Name (ARN) of the state machine whose executions will
-	// be listed.
+	// The Amazon Resource Name (ARN) of the state machine whose executions is listed.
 	//
 	// StateMachineArn is a required field
 	StateMachineArn *string `locationName:"stateMachineArn" min:"1" type:"string" required:"true"`
 
 	// If specified, only list the executions whose current execution status matches
 	// the given filter.
-	StatusFilter ExecutionStatus `locationName:"statusFilter" type:"string"`
+	StatusFilter ExecutionStatus `locationName:"statusFilter" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2982,42 +2807,20 @@ func (s *ListExecutionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListExecutionsInput) SetMaxResults(v int64) *ListExecutionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListExecutionsInput) SetNextToken(v string) *ListExecutionsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *ListExecutionsInput) SetStateMachineArn(v string) *ListExecutionsInput {
-	s.StateMachineArn = &v
-	return s
-}
-
-// SetStatusFilter sets the StatusFilter field's value.
-func (s *ListExecutionsInput) SetStatusFilter(v ExecutionStatus) *ListExecutionsInput {
-	s.StatusFilter = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListExecutionsOutput
 type ListExecutionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of matching executions.
 	//
 	// Executions is a required field
-	Executions []*ExecutionListItem `locationName:"executions" type:"list" required:"true"`
+	Executions []ExecutionListItem `locationName:"executions" type:"list" required:"true"`
 
-	// If a nextToken is returned, there are more results available. To retrieve
-	// the next page of results, make the call again using the returned token in
-	// nextToken. Keep all other arguments unchanged.
+	// If a nextToken is returned by a previous call, there are more results available.
+	// To retrieve the next page of results, make the call again using the returned
+	// token in nextToken. Keep all other arguments unchanged.
 	//
 	// The configured maxResults determines how many results can be returned in
 	// a single call.
@@ -3034,31 +2837,24 @@ func (s ListExecutionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetExecutions sets the Executions field's value.
-func (s *ListExecutionsOutput) SetExecutions(v []*ExecutionListItem) *ListExecutionsOutput {
-	s.Executions = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListExecutionsOutput) SetNextToken(v string) *ListExecutionsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListExecutionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachinesInput
 type ListStateMachinesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The maximum number of results that will be returned per call. nextToken can
-	// be used to obtain further pages of results. The default is 100 and the maximum
-	// allowed page size is 1000.
+	// The maximum number of results that are returned per call. You can use nextToken
+	// to obtain further pages of results. The default is 100 and the maximum allowed
+	// page size is 100. A value of 0 uses the default.
 	//
-	// This is an upper limit only; the actual number of results returned per call
-	// may be fewer than the specified maximum.
+	// This is only an upper limit. The actual number of results returned per call
+	// might be fewer than the specified maximum.
 	MaxResults *int64 `locationName:"maxResults" type:"integer"`
 
-	// If a nextToken was returned by a previous call, there are more results available.
+	// If a nextToken is returned by a previous call, there are more results available.
 	// To retrieve the next page of results, make the call again using the returned
 	// token in nextToken. Keep all other arguments unchanged.
 	//
@@ -3090,32 +2886,22 @@ func (s *ListStateMachinesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListStateMachinesInput) SetMaxResults(v int64) *ListStateMachinesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListStateMachinesInput) SetNextToken(v string) *ListStateMachinesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachinesOutput
 type ListStateMachinesOutput struct {
 	_ struct{} `type:"structure"`
 
-	// If a nextToken is returned, there are more results available. To retrieve
-	// the next page of results, make the call again using the returned token in
-	// nextToken. Keep all other arguments unchanged.
+	responseMetadata aws.Response
+
+	// If a nextToken is returned by a previous call, there are more results available.
+	// To retrieve the next page of results, make the call again using the returned
+	// token in nextToken. Keep all other arguments unchanged.
 	//
 	// The configured maxResults determines how many results can be returned in
 	// a single call.
 	NextToken *string `locationName:"nextToken" min:"1" type:"string"`
 
 	// StateMachines is a required field
-	StateMachines []*StateMachineListItem `locationName:"stateMachines" type:"list" required:"true"`
+	StateMachines []StateMachineListItem `locationName:"stateMachines" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3128,16 +2914,9 @@ func (s ListStateMachinesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListStateMachinesOutput) SetNextToken(v string) *ListStateMachinesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStateMachines sets the StateMachines field's value.
-func (s *ListStateMachinesOutput) SetStateMachines(v []*StateMachineListItem) *ListStateMachinesOutput {
-	s.StateMachines = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListStateMachinesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskFailureInput
@@ -3184,27 +2963,11 @@ func (s *SendTaskFailureInput) Validate() error {
 	return nil
 }
 
-// SetCause sets the Cause field's value.
-func (s *SendTaskFailureInput) SetCause(v string) *SendTaskFailureInput {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *SendTaskFailureInput) SetError(v string) *SendTaskFailureInput {
-	s.Error = &v
-	return s
-}
-
-// SetTaskToken sets the TaskToken field's value.
-func (s *SendTaskFailureInput) SetTaskToken(v string) *SendTaskFailureInput {
-	s.TaskToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskFailureOutput
 type SendTaskFailureOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3217,12 +2980,17 @@ func (s SendTaskFailureOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendTaskFailureOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskHeartbeatInput
 type SendTaskHeartbeatInput struct {
 	_ struct{} `type:"structure"`
 
 	// The token that represents this task. Task tokens are generated by the service
-	// when the tasks are assigned to a worker (see GetActivityTask::taskToken).
+	// when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
 	//
 	// TaskToken is a required field
 	TaskToken *string `locationName:"taskToken" min:"1" type:"string" required:"true"`
@@ -3255,15 +3023,11 @@ func (s *SendTaskHeartbeatInput) Validate() error {
 	return nil
 }
 
-// SetTaskToken sets the TaskToken field's value.
-func (s *SendTaskHeartbeatInput) SetTaskToken(v string) *SendTaskHeartbeatInput {
-	s.TaskToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskHeartbeatOutput
 type SendTaskHeartbeatOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3276,6 +3040,11 @@ func (s SendTaskHeartbeatOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendTaskHeartbeatOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskSuccessInput
 type SendTaskSuccessInput struct {
 	_ struct{} `type:"structure"`
@@ -3286,7 +3055,7 @@ type SendTaskSuccessInput struct {
 	Output *string `locationName:"output" type:"string" required:"true"`
 
 	// The token that represents this task. Task tokens are generated by the service
-	// when the tasks are assigned to a worker (see GetActivityTask::taskToken).
+	// when the tasks are assigned to a worker (see GetActivityTaskOutput$taskToken).
 	//
 	// TaskToken is a required field
 	TaskToken *string `locationName:"taskToken" min:"1" type:"string" required:"true"`
@@ -3323,21 +3092,11 @@ func (s *SendTaskSuccessInput) Validate() error {
 	return nil
 }
 
-// SetOutput sets the Output field's value.
-func (s *SendTaskSuccessInput) SetOutput(v string) *SendTaskSuccessInput {
-	s.Output = &v
-	return s
-}
-
-// SetTaskToken sets the TaskToken field's value.
-func (s *SendTaskSuccessInput) SetTaskToken(v string) *SendTaskSuccessInput {
-	s.TaskToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/SendTaskSuccessOutput
 type SendTaskSuccessOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3350,15 +3109,53 @@ func (s SendTaskSuccessOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendTaskSuccessOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StartExecutionInput
 type StartExecutionInput struct {
 	_ struct{} `type:"structure"`
 
-	// The JSON input data for the execution.
+	// The string that contains the JSON input data for the execution, for example:
+	//
+	// "input": "{\"first_name\" : \"test\"}"
+	//
+	// If you don't include any JSON input data, you still must include the two
+	// braces, for example: "input": "{}"
 	Input *string `locationName:"input" type:"string"`
 
 	// The name of the execution. This name must be unique for your AWS account
-	// and region.
+	// and region for 90 days. For more information, see  Limits Related to State
+	// Machine Executions (http://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions)
+	// in the AWS Step Functions Developer Guide.
+	//
+	// An execution can't use the name of another execution for 90 days.
+	//
+	// When you make multiple StartExecution calls with the same name, the new execution
+	// doesn't run and the following rules apply:
+	//
+	// When the original execution is open and the execution input from the new
+	// call is different, the ExecutionAlreadyExists message is returned.
+	//
+	// When the original execution is open and the execution input from the new
+	// call is identical, the Success message is returned.
+	//
+	// When the original execution is closed, the ExecutionAlreadyExists message
+	// is returned regardless of input.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	Name *string `locationName:"name" min:"1" type:"string"`
 
 	// The Amazon Resource Name (ARN) of the state machine to execute.
@@ -3397,34 +3194,18 @@ func (s *StartExecutionInput) Validate() error {
 	return nil
 }
 
-// SetInput sets the Input field's value.
-func (s *StartExecutionInput) SetInput(v string) *StartExecutionInput {
-	s.Input = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StartExecutionInput) SetName(v string) *StartExecutionInput {
-	s.Name = &v
-	return s
-}
-
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *StartExecutionInput) SetStateMachineArn(v string) *StartExecutionInput {
-	s.StateMachineArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StartExecutionOutput
 type StartExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Amazon Resource Name (ARN) that identifies the execution.
 	//
 	// ExecutionArn is a required field
 	ExecutionArn *string `locationName:"executionArn" min:"1" type:"string" required:"true"`
 
-	// The date the execution was started.
+	// The date the execution is started.
 	//
 	// StartDate is a required field
 	StartDate *time.Time `locationName:"startDate" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -3440,23 +3221,17 @@ func (s StartExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetExecutionArn sets the ExecutionArn field's value.
-func (s *StartExecutionOutput) SetExecutionArn(v string) *StartExecutionOutput {
-	s.ExecutionArn = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetStartDate sets the StartDate field's value.
-func (s *StartExecutionOutput) SetStartDate(v time.Time) *StartExecutionOutput {
-	s.StartDate = &v
-	return s
-}
-
+// Contains details about a state entered during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StateEnteredEventDetails
 type StateEnteredEventDetails struct {
 	_ struct{} `type:"structure"`
 
-	// The JSON input data to the state.
+	// The string that contains the JSON input data for the state.
 	Input *string `locationName:"input" type:"string"`
 
 	// The name of the state.
@@ -3475,23 +3250,24 @@ func (s StateEnteredEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetInput sets the Input field's value.
-func (s *StateEnteredEventDetails) SetInput(v string) *StateEnteredEventDetails {
-	s.Input = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StateEnteredEventDetails) SetName(v string) *StateEnteredEventDetails {
-	s.Name = &v
-	return s
-}
-
+// Contains details about an exit from a state during an execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StateExitedEventDetails
 type StateExitedEventDetails struct {
 	_ struct{} `type:"structure"`
 
 	// The name of the state.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -3510,28 +3286,29 @@ func (s StateExitedEventDetails) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *StateExitedEventDetails) SetName(v string) *StateExitedEventDetails {
-	s.Name = &v
-	return s
-}
-
-// SetOutput sets the Output field's value.
-func (s *StateExitedEventDetails) SetOutput(v string) *StateExitedEventDetails {
-	s.Output = &v
-	return s
-}
-
+// Contains details about the state machine.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StateMachineListItem
 type StateMachineListItem struct {
 	_ struct{} `type:"structure"`
 
-	// The date the state machine was created.
+	// The date the state machine is created.
 	//
 	// CreationDate is a required field
 	CreationDate *time.Time `locationName:"creationDate" type:"timestamp" timestampFormat:"unix" required:"true"`
 
 	// The name of the state machine.
+	//
+	// A name must not contain:
+	//
+	//    * whitespace
+	//
+	//    * brackets < > { } [ ]
+	//
+	//    * wildcard characters ? *
+	//
+	//    * special characters " # % \ ^ | ~ ` $ & , ; : /
+	//
+	//    * control characters (U+0000-001F, U+007F-009F)
 	//
 	// Name is a required field
 	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
@@ -3550,24 +3327,6 @@ func (s StateMachineListItem) String() string {
 // GoString returns the string representation
 func (s StateMachineListItem) GoString() string {
 	return s.String()
-}
-
-// SetCreationDate sets the CreationDate field's value.
-func (s *StateMachineListItem) SetCreationDate(v time.Time) *StateMachineListItem {
-	s.CreationDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StateMachineListItem) SetName(v string) *StateMachineListItem {
-	s.Name = &v
-	return s
-}
-
-// SetStateMachineArn sets the StateMachineArn field's value.
-func (s *StateMachineListItem) SetStateMachineArn(v string) *StateMachineListItem {
-	s.StateMachineArn = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StopExecutionInput
@@ -3613,29 +3372,13 @@ func (s *StopExecutionInput) Validate() error {
 	return nil
 }
 
-// SetCause sets the Cause field's value.
-func (s *StopExecutionInput) SetCause(v string) *StopExecutionInput {
-	s.Cause = &v
-	return s
-}
-
-// SetError sets the Error field's value.
-func (s *StopExecutionInput) SetError(v string) *StopExecutionInput {
-	s.Error = &v
-	return s
-}
-
-// SetExecutionArn sets the ExecutionArn field's value.
-func (s *StopExecutionInput) SetExecutionArn(v string) *StopExecutionInput {
-	s.ExecutionArn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StopExecutionOutput
 type StopExecutionOutput struct {
 	_ struct{} `type:"structure"`
 
-	// The date the execution was stopped.
+	responseMetadata aws.Response
+
+	// The date the execution is stopped.
 	//
 	// StopDate is a required field
 	StopDate *time.Time `locationName:"stopDate" type:"timestamp" timestampFormat:"unix" required:"true"`
@@ -3651,10 +3394,85 @@ func (s StopExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetStopDate sets the StopDate field's value.
-func (s *StopExecutionOutput) SetStopDate(v time.Time) *StopExecutionOutput {
-	s.StopDate = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachineInput
+type UpdateStateMachineInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon States Language definition of the state machine.
+	Definition *string `locationName:"definition" min:"1" type:"string"`
+
+	// The Amazon Resource Name (ARN) of the IAM role of the state machine.
+	RoleArn *string `locationName:"roleArn" min:"1" type:"string"`
+
+	// The Amazon Resource Name (ARN) of the state machine.
+	//
+	// StateMachineArn is a required field
+	StateMachineArn *string `locationName:"stateMachineArn" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateStateMachineInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateStateMachineInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateStateMachineInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateStateMachineInput"}
+	if s.Definition != nil && len(*s.Definition) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Definition", 1))
+	}
+	if s.RoleArn != nil && len(*s.RoleArn) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("RoleArn", 1))
+	}
+
+	if s.StateMachineArn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("StateMachineArn"))
+	}
+	if s.StateMachineArn != nil && len(*s.StateMachineArn) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("StateMachineArn", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachineOutput
+type UpdateStateMachineOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The date and time the state machine was updated.
+	//
+	// UpdateDate is a required field
+	UpdateDate *time.Time `locationName:"updateDate" type:"timestamp" timestampFormat:"unix" required:"true"`
+}
+
+// String returns the string representation
+func (s UpdateStateMachineOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateStateMachineOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateStateMachineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type ExecutionStatus string
@@ -3667,6 +3485,15 @@ const (
 	ExecutionStatusTimedOut  ExecutionStatus = "TIMED_OUT"
 	ExecutionStatusAborted   ExecutionStatus = "ABORTED"
 )
+
+func (enum ExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type HistoryEventType string
 
@@ -3695,15 +3522,30 @@ const (
 	HistoryEventTypeLambdaFunctionTimedOut       HistoryEventType = "LambdaFunctionTimedOut"
 	HistoryEventTypeSucceedStateEntered          HistoryEventType = "SucceedStateEntered"
 	HistoryEventTypeSucceedStateExited           HistoryEventType = "SucceedStateExited"
+	HistoryEventTypeTaskStateAborted             HistoryEventType = "TaskStateAborted"
 	HistoryEventTypeTaskStateEntered             HistoryEventType = "TaskStateEntered"
 	HistoryEventTypeTaskStateExited              HistoryEventType = "TaskStateExited"
 	HistoryEventTypePassStateEntered             HistoryEventType = "PassStateEntered"
 	HistoryEventTypePassStateExited              HistoryEventType = "PassStateExited"
+	HistoryEventTypeParallelStateAborted         HistoryEventType = "ParallelStateAborted"
 	HistoryEventTypeParallelStateEntered         HistoryEventType = "ParallelStateEntered"
 	HistoryEventTypeParallelStateExited          HistoryEventType = "ParallelStateExited"
+	HistoryEventTypeParallelStateFailed          HistoryEventType = "ParallelStateFailed"
+	HistoryEventTypeParallelStateStarted         HistoryEventType = "ParallelStateStarted"
+	HistoryEventTypeParallelStateSucceeded       HistoryEventType = "ParallelStateSucceeded"
+	HistoryEventTypeWaitStateAborted             HistoryEventType = "WaitStateAborted"
 	HistoryEventTypeWaitStateEntered             HistoryEventType = "WaitStateEntered"
 	HistoryEventTypeWaitStateExited              HistoryEventType = "WaitStateExited"
 )
+
+func (enum HistoryEventType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HistoryEventType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type StateMachineStatus string
 
@@ -3712,3 +3554,12 @@ const (
 	StateMachineStatusActive   StateMachineStatus = "ACTIVE"
 	StateMachineStatusDeleting StateMachineStatus = "DELETING"
 )
+
+func (enum StateMachineStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StateMachineStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

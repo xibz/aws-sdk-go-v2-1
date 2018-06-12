@@ -76,6 +76,8 @@ type CodeBuildAPI interface {
 
 	DeleteWebhookRequest(*codebuild.DeleteWebhookInput) codebuild.DeleteWebhookRequest
 
+	InvalidateProjectCacheRequest(*codebuild.InvalidateProjectCacheInput) codebuild.InvalidateProjectCacheRequest
+
 	ListBuildsRequest(*codebuild.ListBuildsInput) codebuild.ListBuildsRequest
 
 	ListBuildsForProjectRequest(*codebuild.ListBuildsForProjectInput) codebuild.ListBuildsForProjectRequest
@@ -89,6 +91,8 @@ type CodeBuildAPI interface {
 	StopBuildRequest(*codebuild.StopBuildInput) codebuild.StopBuildRequest
 
 	UpdateProjectRequest(*codebuild.UpdateProjectInput) codebuild.UpdateProjectRequest
+
+	UpdateWebhookRequest(*codebuild.UpdateWebhookInput) codebuild.UpdateWebhookRequest
 }
 
 var _ CodeBuildAPI = (*codebuild.CodeBuild)(nil)

@@ -68,13 +68,17 @@ type FirehoseAPI interface {
 
 	DescribeDeliveryStreamRequest(*firehose.DescribeDeliveryStreamInput) firehose.DescribeDeliveryStreamRequest
 
-	GetKinesisStreamRequest(*firehose.GetKinesisStreamInput) firehose.GetKinesisStreamRequest
-
 	ListDeliveryStreamsRequest(*firehose.ListDeliveryStreamsInput) firehose.ListDeliveryStreamsRequest
+
+	ListTagsForDeliveryStreamRequest(*firehose.ListTagsForDeliveryStreamInput) firehose.ListTagsForDeliveryStreamRequest
 
 	PutRecordRequest(*firehose.PutRecordInput) firehose.PutRecordRequest
 
 	PutRecordBatchRequest(*firehose.PutRecordBatchInput) firehose.PutRecordBatchRequest
+
+	TagDeliveryStreamRequest(*firehose.TagDeliveryStreamInput) firehose.TagDeliveryStreamRequest
+
+	UntagDeliveryStreamRequest(*firehose.UntagDeliveryStreamInput) firehose.UntagDeliveryStreamRequest
 
 	UpdateDestinationRequest(*firehose.UpdateDestinationInput) firehose.UpdateDestinationRequest
 }

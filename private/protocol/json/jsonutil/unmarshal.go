@@ -8,6 +8,9 @@ import (
 	"io/ioutil"
 	"reflect"
 	"time"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/private/protocol"
 )
 
 // UnmarshalJSON reads a stream and unmarshals the results in object v.
@@ -41,7 +44,8 @@ func unmarshalAny(value reflect.Value, data interface{}, tag reflect.StructTag) 
 		switch vtype.Kind() {
 		case reflect.Struct:
 			// also it can't be a time object
-			if _, ok := value.Interface().(*time.Time); !ok {
+			_, tok := value.Interface().(*time.Time)
+			if _, ok := value.Interface().(time.Time); !(ok || tok) {
 				t = "structure"
 			}
 		case reflect.Slice:
@@ -50,7 +54,10 @@ func unmarshalAny(value reflect.Value, data interface{}, tag reflect.StructTag) 
 				t = "list"
 			}
 		case reflect.Map:
-			t = "map"
+			// cannot be a JSONValue map
+			if _, ok := value.Interface().(aws.JSONValue); !ok {
+				t = "map"
+			}
 		}
 	}
 
@@ -73,6 +80,7 @@ func unmarshalStruct(value reflect.Value, data interface{}, tag reflect.StructTa
 	if data == nil {
 		return nil
 	}
+
 	mapData, ok := data.(map[string]interface{})
 	if !ok {
 		return fmt.Errorf("JSON value is not a structure (%#v)", data)
@@ -157,7 +165,6 @@ func unmarshalMap(value reflect.Value, data interface{}, tag reflect.StructTag) 
 	for k, v := range mapData {
 		kvalue := reflect.ValueOf(k)
 		vvalue := reflect.New(value.Type().Elem()).Elem()
-
 		unmarshalAny(vvalue, v, "")
 		value.SetMapIndex(kvalue, vvalue)
 	}
@@ -182,12 +189,21 @@ func unmarshalScalar(value reflect.Value, data interface{}, tag reflect.StructTa
 		switch value.Interface().(type) {
 		case *string:
 			value.Set(reflect.ValueOf(&d))
+		case string:
+			value.Set(reflect.ValueOf(d))
 		case []byte:
 			b, err := base64.StdEncoding.DecodeString(d)
 			if err != nil {
 				return err
 			}
 			value.Set(reflect.ValueOf(b))
+		case aws.JSONValue:
+			// No need to use escaping as the value is a non-quoted string.
+			v, err := protocol.DecodeJSONValue(d, protocol.NoEscape)
+			if err != nil {
+				return err
+			}
+			value.Set(reflect.ValueOf(v))
 		default:
 			return errf()
 		}
@@ -196,11 +212,19 @@ func unmarshalScalar(value reflect.Value, data interface{}, tag reflect.StructTa
 		case *int64:
 			di := int64(d)
 			value.Set(reflect.ValueOf(&di))
+		case int64:
+			di := int64(d)
+			value.Set(reflect.ValueOf(di))
 		case *float64:
 			value.Set(reflect.ValueOf(&d))
+		case float64:
+			value.Set(reflect.ValueOf(d))
 		case *time.Time:
 			t := time.Unix(int64(d), 0).UTC()
 			value.Set(reflect.ValueOf(&t))
+		case time.Time:
+			t := time.Unix(int64(d), 0).UTC()
+			value.Set(reflect.ValueOf(t))
 		default:
 			return errf()
 		}

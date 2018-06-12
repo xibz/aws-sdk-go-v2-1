@@ -9,7 +9,6 @@
 package devicefarmiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/devicefarm"
 )
 
@@ -65,6 +64,8 @@ import (
 type DeviceFarmAPI interface {
 	CreateDevicePoolRequest(*devicefarm.CreateDevicePoolInput) devicefarm.CreateDevicePoolRequest
 
+	CreateInstanceProfileRequest(*devicefarm.CreateInstanceProfileInput) devicefarm.CreateInstanceProfileRequest
+
 	CreateNetworkProfileRequest(*devicefarm.CreateNetworkProfileInput) devicefarm.CreateNetworkProfileRequest
 
 	CreateProjectRequest(*devicefarm.CreateProjectInput) devicefarm.CreateProjectRequest
@@ -73,7 +74,11 @@ type DeviceFarmAPI interface {
 
 	CreateUploadRequest(*devicefarm.CreateUploadInput) devicefarm.CreateUploadRequest
 
+	CreateVPCEConfigurationRequest(*devicefarm.CreateVPCEConfigurationInput) devicefarm.CreateVPCEConfigurationRequest
+
 	DeleteDevicePoolRequest(*devicefarm.DeleteDevicePoolInput) devicefarm.DeleteDevicePoolRequest
+
+	DeleteInstanceProfileRequest(*devicefarm.DeleteInstanceProfileInput) devicefarm.DeleteInstanceProfileRequest
 
 	DeleteNetworkProfileRequest(*devicefarm.DeleteNetworkProfileInput) devicefarm.DeleteNetworkProfileRequest
 
@@ -85,22 +90,25 @@ type DeviceFarmAPI interface {
 
 	DeleteUploadRequest(*devicefarm.DeleteUploadInput) devicefarm.DeleteUploadRequest
 
+	DeleteVPCEConfigurationRequest(*devicefarm.DeleteVPCEConfigurationInput) devicefarm.DeleteVPCEConfigurationRequest
+
 	GetAccountSettingsRequest(*devicefarm.GetAccountSettingsInput) devicefarm.GetAccountSettingsRequest
 
 	GetDeviceRequest(*devicefarm.GetDeviceInput) devicefarm.GetDeviceRequest
 
+	GetDeviceInstanceRequest(*devicefarm.GetDeviceInstanceInput) devicefarm.GetDeviceInstanceRequest
+
 	GetDevicePoolRequest(*devicefarm.GetDevicePoolInput) devicefarm.GetDevicePoolRequest
 
 	GetDevicePoolCompatibilityRequest(*devicefarm.GetDevicePoolCompatibilityInput) devicefarm.GetDevicePoolCompatibilityRequest
+
+	GetInstanceProfileRequest(*devicefarm.GetInstanceProfileInput) devicefarm.GetInstanceProfileRequest
 
 	GetJobRequest(*devicefarm.GetJobInput) devicefarm.GetJobRequest
 
 	GetNetworkProfileRequest(*devicefarm.GetNetworkProfileInput) devicefarm.GetNetworkProfileRequest
 
 	GetOfferingStatusRequest(*devicefarm.GetOfferingStatusInput) devicefarm.GetOfferingStatusRequest
-
-	GetOfferingStatusPages(*devicefarm.GetOfferingStatusInput, func(*devicefarm.GetOfferingStatusOutput, bool) bool) error
-	GetOfferingStatusPagesWithContext(aws.Context, *devicefarm.GetOfferingStatusInput, func(*devicefarm.GetOfferingStatusOutput, bool) bool, ...aws.Option) error
 
 	GetProjectRequest(*devicefarm.GetProjectInput) devicefarm.GetProjectRequest
 
@@ -114,27 +122,21 @@ type DeviceFarmAPI interface {
 
 	GetUploadRequest(*devicefarm.GetUploadInput) devicefarm.GetUploadRequest
 
+	GetVPCEConfigurationRequest(*devicefarm.GetVPCEConfigurationInput) devicefarm.GetVPCEConfigurationRequest
+
 	InstallToRemoteAccessSessionRequest(*devicefarm.InstallToRemoteAccessSessionInput) devicefarm.InstallToRemoteAccessSessionRequest
 
 	ListArtifactsRequest(*devicefarm.ListArtifactsInput) devicefarm.ListArtifactsRequest
 
-	ListArtifactsPages(*devicefarm.ListArtifactsInput, func(*devicefarm.ListArtifactsOutput, bool) bool) error
-	ListArtifactsPagesWithContext(aws.Context, *devicefarm.ListArtifactsInput, func(*devicefarm.ListArtifactsOutput, bool) bool, ...aws.Option) error
+	ListDeviceInstancesRequest(*devicefarm.ListDeviceInstancesInput) devicefarm.ListDeviceInstancesRequest
 
 	ListDevicePoolsRequest(*devicefarm.ListDevicePoolsInput) devicefarm.ListDevicePoolsRequest
 
-	ListDevicePoolsPages(*devicefarm.ListDevicePoolsInput, func(*devicefarm.ListDevicePoolsOutput, bool) bool) error
-	ListDevicePoolsPagesWithContext(aws.Context, *devicefarm.ListDevicePoolsInput, func(*devicefarm.ListDevicePoolsOutput, bool) bool, ...aws.Option) error
-
 	ListDevicesRequest(*devicefarm.ListDevicesInput) devicefarm.ListDevicesRequest
 
-	ListDevicesPages(*devicefarm.ListDevicesInput, func(*devicefarm.ListDevicesOutput, bool) bool) error
-	ListDevicesPagesWithContext(aws.Context, *devicefarm.ListDevicesInput, func(*devicefarm.ListDevicesOutput, bool) bool, ...aws.Option) error
+	ListInstanceProfilesRequest(*devicefarm.ListInstanceProfilesInput) devicefarm.ListInstanceProfilesRequest
 
 	ListJobsRequest(*devicefarm.ListJobsInput) devicefarm.ListJobsRequest
-
-	ListJobsPages(*devicefarm.ListJobsInput, func(*devicefarm.ListJobsOutput, bool) bool) error
-	ListJobsPagesWithContext(aws.Context, *devicefarm.ListJobsInput, func(*devicefarm.ListJobsOutput, bool) bool, ...aws.Option) error
 
 	ListNetworkProfilesRequest(*devicefarm.ListNetworkProfilesInput) devicefarm.ListNetworkProfilesRequest
 
@@ -142,50 +144,25 @@ type DeviceFarmAPI interface {
 
 	ListOfferingTransactionsRequest(*devicefarm.ListOfferingTransactionsInput) devicefarm.ListOfferingTransactionsRequest
 
-	ListOfferingTransactionsPages(*devicefarm.ListOfferingTransactionsInput, func(*devicefarm.ListOfferingTransactionsOutput, bool) bool) error
-	ListOfferingTransactionsPagesWithContext(aws.Context, *devicefarm.ListOfferingTransactionsInput, func(*devicefarm.ListOfferingTransactionsOutput, bool) bool, ...aws.Option) error
-
 	ListOfferingsRequest(*devicefarm.ListOfferingsInput) devicefarm.ListOfferingsRequest
 
-	ListOfferingsPages(*devicefarm.ListOfferingsInput, func(*devicefarm.ListOfferingsOutput, bool) bool) error
-	ListOfferingsPagesWithContext(aws.Context, *devicefarm.ListOfferingsInput, func(*devicefarm.ListOfferingsOutput, bool) bool, ...aws.Option) error
-
 	ListProjectsRequest(*devicefarm.ListProjectsInput) devicefarm.ListProjectsRequest
-
-	ListProjectsPages(*devicefarm.ListProjectsInput, func(*devicefarm.ListProjectsOutput, bool) bool) error
-	ListProjectsPagesWithContext(aws.Context, *devicefarm.ListProjectsInput, func(*devicefarm.ListProjectsOutput, bool) bool, ...aws.Option) error
 
 	ListRemoteAccessSessionsRequest(*devicefarm.ListRemoteAccessSessionsInput) devicefarm.ListRemoteAccessSessionsRequest
 
 	ListRunsRequest(*devicefarm.ListRunsInput) devicefarm.ListRunsRequest
 
-	ListRunsPages(*devicefarm.ListRunsInput, func(*devicefarm.ListRunsOutput, bool) bool) error
-	ListRunsPagesWithContext(aws.Context, *devicefarm.ListRunsInput, func(*devicefarm.ListRunsOutput, bool) bool, ...aws.Option) error
-
 	ListSamplesRequest(*devicefarm.ListSamplesInput) devicefarm.ListSamplesRequest
-
-	ListSamplesPages(*devicefarm.ListSamplesInput, func(*devicefarm.ListSamplesOutput, bool) bool) error
-	ListSamplesPagesWithContext(aws.Context, *devicefarm.ListSamplesInput, func(*devicefarm.ListSamplesOutput, bool) bool, ...aws.Option) error
 
 	ListSuitesRequest(*devicefarm.ListSuitesInput) devicefarm.ListSuitesRequest
 
-	ListSuitesPages(*devicefarm.ListSuitesInput, func(*devicefarm.ListSuitesOutput, bool) bool) error
-	ListSuitesPagesWithContext(aws.Context, *devicefarm.ListSuitesInput, func(*devicefarm.ListSuitesOutput, bool) bool, ...aws.Option) error
-
 	ListTestsRequest(*devicefarm.ListTestsInput) devicefarm.ListTestsRequest
-
-	ListTestsPages(*devicefarm.ListTestsInput, func(*devicefarm.ListTestsOutput, bool) bool) error
-	ListTestsPagesWithContext(aws.Context, *devicefarm.ListTestsInput, func(*devicefarm.ListTestsOutput, bool) bool, ...aws.Option) error
 
 	ListUniqueProblemsRequest(*devicefarm.ListUniqueProblemsInput) devicefarm.ListUniqueProblemsRequest
 
-	ListUniqueProblemsPages(*devicefarm.ListUniqueProblemsInput, func(*devicefarm.ListUniqueProblemsOutput, bool) bool) error
-	ListUniqueProblemsPagesWithContext(aws.Context, *devicefarm.ListUniqueProblemsInput, func(*devicefarm.ListUniqueProblemsOutput, bool) bool, ...aws.Option) error
-
 	ListUploadsRequest(*devicefarm.ListUploadsInput) devicefarm.ListUploadsRequest
 
-	ListUploadsPages(*devicefarm.ListUploadsInput, func(*devicefarm.ListUploadsOutput, bool) bool) error
-	ListUploadsPagesWithContext(aws.Context, *devicefarm.ListUploadsInput, func(*devicefarm.ListUploadsOutput, bool) bool, ...aws.Option) error
+	ListVPCEConfigurationsRequest(*devicefarm.ListVPCEConfigurationsInput) devicefarm.ListVPCEConfigurationsRequest
 
 	PurchaseOfferingRequest(*devicefarm.PurchaseOfferingInput) devicefarm.PurchaseOfferingRequest
 
@@ -197,11 +174,17 @@ type DeviceFarmAPI interface {
 
 	StopRunRequest(*devicefarm.StopRunInput) devicefarm.StopRunRequest
 
+	UpdateDeviceInstanceRequest(*devicefarm.UpdateDeviceInstanceInput) devicefarm.UpdateDeviceInstanceRequest
+
 	UpdateDevicePoolRequest(*devicefarm.UpdateDevicePoolInput) devicefarm.UpdateDevicePoolRequest
+
+	UpdateInstanceProfileRequest(*devicefarm.UpdateInstanceProfileInput) devicefarm.UpdateInstanceProfileRequest
 
 	UpdateNetworkProfileRequest(*devicefarm.UpdateNetworkProfileInput) devicefarm.UpdateNetworkProfileRequest
 
 	UpdateProjectRequest(*devicefarm.UpdateProjectInput) devicefarm.UpdateProjectRequest
+
+	UpdateVPCEConfigurationRequest(*devicefarm.UpdateVPCEConfigurationInput) devicefarm.UpdateVPCEConfigurationRequest
 }
 
 var _ DeviceFarmAPI = (*devicefarm.DeviceFarm)(nil)

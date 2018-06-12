@@ -182,7 +182,7 @@ func ExampleKMS_CreateKeyRequest_shared00() {
 
 	svc := kms.New(cfg)
 	input := &kms.CreateKeyInput{
-		Tags: []*kms.Tag{
+		Tags: []kms.Tag{
 			{
 				TagKey:   aws.String("CreatedBy"),
 				TagValue: aws.String("ExampleUser"),
@@ -1341,6 +1341,8 @@ func ExampleKMS_RetireGrantRequest_shared00() {
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
+			case kms.ErrCodeInvalidArnException:
+				fmt.Println(kms.ErrCodeInvalidArnException, aerr.Error())
 			case kms.ErrCodeInvalidGrantTokenException:
 				fmt.Println(kms.ErrCodeInvalidGrantTokenException, aerr.Error())
 			case kms.ErrCodeInvalidGrantIdException:
@@ -1469,7 +1471,7 @@ func ExampleKMS_TagResourceRequest_shared00() {
 	svc := kms.New(cfg)
 	input := &kms.TagResourceInput{
 		KeyId: aws.String("1234abcd-12ab-34cd-56ef-1234567890ab"),
-		Tags: []*kms.Tag{
+		Tags: []kms.Tag{
 			{
 				TagKey:   aws.String("Purpose"),
 				TagValue: aws.String("Test"),
@@ -1520,9 +1522,9 @@ func ExampleKMS_UntagResourceRequest_shared00() {
 	svc := kms.New(cfg)
 	input := &kms.UntagResourceInput{
 		KeyId: aws.String("1234abcd-12ab-34cd-56ef-1234567890ab"),
-		TagKeys: []*string{
-			aws.String("Purpose"),
-			aws.String("CostCenter"),
+		TagKeys: []string{
+			"Purpose",
+			"CostCenter",
 		},
 	}
 

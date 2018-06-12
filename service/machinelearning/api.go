@@ -16,6 +16,7 @@ const opAddTags = "AddTags"
 type AddTagsRequest struct {
 	*aws.Request
 	Input *AddTagsInput
+	Copy  func(*AddTagsInput) AddTagsRequest
 }
 
 // Send marshals and sends the AddTags API request.
@@ -52,8 +53,11 @@ func (c *MachineLearning) AddTagsRequest(input *AddTagsInput) AddTagsRequest {
 		input = &AddTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsOutput{})
-	return AddTagsRequest{Request: req, Input: input}
+	output := &AddTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsRequest{Request: req, Input: input, Copy: c.AddTagsRequest}
 }
 
 const opCreateBatchPrediction = "CreateBatchPrediction"
@@ -62,6 +66,7 @@ const opCreateBatchPrediction = "CreateBatchPrediction"
 type CreateBatchPredictionRequest struct {
 	*aws.Request
 	Input *CreateBatchPredictionInput
+	Copy  func(*CreateBatchPredictionInput) CreateBatchPredictionRequest
 }
 
 // Send marshals and sends the CreateBatchPrediction API request.
@@ -109,8 +114,11 @@ func (c *MachineLearning) CreateBatchPredictionRequest(input *CreateBatchPredict
 		input = &CreateBatchPredictionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateBatchPredictionOutput{})
-	return CreateBatchPredictionRequest{Request: req, Input: input}
+	output := &CreateBatchPredictionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateBatchPredictionRequest{Request: req, Input: input, Copy: c.CreateBatchPredictionRequest}
 }
 
 const opCreateDataSourceFromRDS = "CreateDataSourceFromRDS"
@@ -119,6 +127,7 @@ const opCreateDataSourceFromRDS = "CreateDataSourceFromRDS"
 type CreateDataSourceFromRDSRequest struct {
 	*aws.Request
 	Input *CreateDataSourceFromRDSInput
+	Copy  func(*CreateDataSourceFromRDSInput) CreateDataSourceFromRDSRequest
 }
 
 // Send marshals and sends the CreateDataSourceFromRDS API request.
@@ -166,8 +175,11 @@ func (c *MachineLearning) CreateDataSourceFromRDSRequest(input *CreateDataSource
 		input = &CreateDataSourceFromRDSInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDataSourceFromRDSOutput{})
-	return CreateDataSourceFromRDSRequest{Request: req, Input: input}
+	output := &CreateDataSourceFromRDSOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDataSourceFromRDSRequest{Request: req, Input: input, Copy: c.CreateDataSourceFromRDSRequest}
 }
 
 const opCreateDataSourceFromRedshift = "CreateDataSourceFromRedshift"
@@ -176,6 +188,7 @@ const opCreateDataSourceFromRedshift = "CreateDataSourceFromRedshift"
 type CreateDataSourceFromRedshiftRequest struct {
 	*aws.Request
 	Input *CreateDataSourceFromRedshiftInput
+	Copy  func(*CreateDataSourceFromRedshiftInput) CreateDataSourceFromRedshiftRequest
 }
 
 // Send marshals and sends the CreateDataSourceFromRedshift API request.
@@ -242,8 +255,11 @@ func (c *MachineLearning) CreateDataSourceFromRedshiftRequest(input *CreateDataS
 		input = &CreateDataSourceFromRedshiftInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDataSourceFromRedshiftOutput{})
-	return CreateDataSourceFromRedshiftRequest{Request: req, Input: input}
+	output := &CreateDataSourceFromRedshiftOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDataSourceFromRedshiftRequest{Request: req, Input: input, Copy: c.CreateDataSourceFromRedshiftRequest}
 }
 
 const opCreateDataSourceFromS3 = "CreateDataSourceFromS3"
@@ -252,6 +268,7 @@ const opCreateDataSourceFromS3 = "CreateDataSourceFromS3"
 type CreateDataSourceFromS3Request struct {
 	*aws.Request
 	Input *CreateDataSourceFromS3Input
+	Copy  func(*CreateDataSourceFromS3Input) CreateDataSourceFromS3Request
 }
 
 // Send marshals and sends the CreateDataSourceFromS3 API request.
@@ -313,8 +330,11 @@ func (c *MachineLearning) CreateDataSourceFromS3Request(input *CreateDataSourceF
 		input = &CreateDataSourceFromS3Input{}
 	}
 
-	req := c.newRequest(op, input, &CreateDataSourceFromS3Output{})
-	return CreateDataSourceFromS3Request{Request: req, Input: input}
+	output := &CreateDataSourceFromS3Output{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDataSourceFromS3Request{Request: req, Input: input, Copy: c.CreateDataSourceFromS3Request}
 }
 
 const opCreateEvaluation = "CreateEvaluation"
@@ -323,6 +343,7 @@ const opCreateEvaluation = "CreateEvaluation"
 type CreateEvaluationRequest struct {
 	*aws.Request
 	Input *CreateEvaluationInput
+	Copy  func(*CreateEvaluationInput) CreateEvaluationRequest
 }
 
 // Send marshals and sends the CreateEvaluation API request.
@@ -372,8 +393,11 @@ func (c *MachineLearning) CreateEvaluationRequest(input *CreateEvaluationInput) 
 		input = &CreateEvaluationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateEvaluationOutput{})
-	return CreateEvaluationRequest{Request: req, Input: input}
+	output := &CreateEvaluationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateEvaluationRequest{Request: req, Input: input, Copy: c.CreateEvaluationRequest}
 }
 
 const opCreateMLModel = "CreateMLModel"
@@ -382,6 +406,7 @@ const opCreateMLModel = "CreateMLModel"
 type CreateMLModelRequest struct {
 	*aws.Request
 	Input *CreateMLModelInput
+	Copy  func(*CreateMLModelInput) CreateMLModelRequest
 }
 
 // Send marshals and sends the CreateMLModel API request.
@@ -432,8 +457,11 @@ func (c *MachineLearning) CreateMLModelRequest(input *CreateMLModelInput) Create
 		input = &CreateMLModelInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateMLModelOutput{})
-	return CreateMLModelRequest{Request: req, Input: input}
+	output := &CreateMLModelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateMLModelRequest{Request: req, Input: input, Copy: c.CreateMLModelRequest}
 }
 
 const opCreateRealtimeEndpoint = "CreateRealtimeEndpoint"
@@ -442,6 +470,7 @@ const opCreateRealtimeEndpoint = "CreateRealtimeEndpoint"
 type CreateRealtimeEndpointRequest struct {
 	*aws.Request
 	Input *CreateRealtimeEndpointInput
+	Copy  func(*CreateRealtimeEndpointInput) CreateRealtimeEndpointRequest
 }
 
 // Send marshals and sends the CreateRealtimeEndpoint API request.
@@ -478,8 +507,11 @@ func (c *MachineLearning) CreateRealtimeEndpointRequest(input *CreateRealtimeEnd
 		input = &CreateRealtimeEndpointInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateRealtimeEndpointOutput{})
-	return CreateRealtimeEndpointRequest{Request: req, Input: input}
+	output := &CreateRealtimeEndpointOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateRealtimeEndpointRequest{Request: req, Input: input, Copy: c.CreateRealtimeEndpointRequest}
 }
 
 const opDeleteBatchPrediction = "DeleteBatchPrediction"
@@ -488,6 +520,7 @@ const opDeleteBatchPrediction = "DeleteBatchPrediction"
 type DeleteBatchPredictionRequest struct {
 	*aws.Request
 	Input *DeleteBatchPredictionInput
+	Copy  func(*DeleteBatchPredictionInput) DeleteBatchPredictionRequest
 }
 
 // Send marshals and sends the DeleteBatchPrediction API request.
@@ -527,8 +560,11 @@ func (c *MachineLearning) DeleteBatchPredictionRequest(input *DeleteBatchPredict
 		input = &DeleteBatchPredictionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBatchPredictionOutput{})
-	return DeleteBatchPredictionRequest{Request: req, Input: input}
+	output := &DeleteBatchPredictionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBatchPredictionRequest{Request: req, Input: input, Copy: c.DeleteBatchPredictionRequest}
 }
 
 const opDeleteDataSource = "DeleteDataSource"
@@ -537,6 +573,7 @@ const opDeleteDataSource = "DeleteDataSource"
 type DeleteDataSourceRequest struct {
 	*aws.Request
 	Input *DeleteDataSourceInput
+	Copy  func(*DeleteDataSourceInput) DeleteDataSourceRequest
 }
 
 // Send marshals and sends the DeleteDataSource API request.
@@ -576,8 +613,11 @@ func (c *MachineLearning) DeleteDataSourceRequest(input *DeleteDataSourceInput) 
 		input = &DeleteDataSourceInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDataSourceOutput{})
-	return DeleteDataSourceRequest{Request: req, Input: input}
+	output := &DeleteDataSourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDataSourceRequest{Request: req, Input: input, Copy: c.DeleteDataSourceRequest}
 }
 
 const opDeleteEvaluation = "DeleteEvaluation"
@@ -586,6 +626,7 @@ const opDeleteEvaluation = "DeleteEvaluation"
 type DeleteEvaluationRequest struct {
 	*aws.Request
 	Input *DeleteEvaluationInput
+	Copy  func(*DeleteEvaluationInput) DeleteEvaluationRequest
 }
 
 // Send marshals and sends the DeleteEvaluation API request.
@@ -625,8 +666,11 @@ func (c *MachineLearning) DeleteEvaluationRequest(input *DeleteEvaluationInput) 
 		input = &DeleteEvaluationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteEvaluationOutput{})
-	return DeleteEvaluationRequest{Request: req, Input: input}
+	output := &DeleteEvaluationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteEvaluationRequest{Request: req, Input: input, Copy: c.DeleteEvaluationRequest}
 }
 
 const opDeleteMLModel = "DeleteMLModel"
@@ -635,6 +679,7 @@ const opDeleteMLModel = "DeleteMLModel"
 type DeleteMLModelRequest struct {
 	*aws.Request
 	Input *DeleteMLModelInput
+	Copy  func(*DeleteMLModelInput) DeleteMLModelRequest
 }
 
 // Send marshals and sends the DeleteMLModel API request.
@@ -674,8 +719,11 @@ func (c *MachineLearning) DeleteMLModelRequest(input *DeleteMLModelInput) Delete
 		input = &DeleteMLModelInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteMLModelOutput{})
-	return DeleteMLModelRequest{Request: req, Input: input}
+	output := &DeleteMLModelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteMLModelRequest{Request: req, Input: input, Copy: c.DeleteMLModelRequest}
 }
 
 const opDeleteRealtimeEndpoint = "DeleteRealtimeEndpoint"
@@ -684,6 +732,7 @@ const opDeleteRealtimeEndpoint = "DeleteRealtimeEndpoint"
 type DeleteRealtimeEndpointRequest struct {
 	*aws.Request
 	Input *DeleteRealtimeEndpointInput
+	Copy  func(*DeleteRealtimeEndpointInput) DeleteRealtimeEndpointRequest
 }
 
 // Send marshals and sends the DeleteRealtimeEndpoint API request.
@@ -718,8 +767,11 @@ func (c *MachineLearning) DeleteRealtimeEndpointRequest(input *DeleteRealtimeEnd
 		input = &DeleteRealtimeEndpointInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRealtimeEndpointOutput{})
-	return DeleteRealtimeEndpointRequest{Request: req, Input: input}
+	output := &DeleteRealtimeEndpointOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRealtimeEndpointRequest{Request: req, Input: input, Copy: c.DeleteRealtimeEndpointRequest}
 }
 
 const opDeleteTags = "DeleteTags"
@@ -728,6 +780,7 @@ const opDeleteTags = "DeleteTags"
 type DeleteTagsRequest struct {
 	*aws.Request
 	Input *DeleteTagsInput
+	Copy  func(*DeleteTagsInput) DeleteTagsRequest
 }
 
 // Send marshals and sends the DeleteTags API request.
@@ -765,8 +818,11 @@ func (c *MachineLearning) DeleteTagsRequest(input *DeleteTagsInput) DeleteTagsRe
 		input = &DeleteTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTagsOutput{})
-	return DeleteTagsRequest{Request: req, Input: input}
+	output := &DeleteTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTagsRequest{Request: req, Input: input, Copy: c.DeleteTagsRequest}
 }
 
 const opDescribeBatchPredictions = "DescribeBatchPredictions"
@@ -775,6 +831,7 @@ const opDescribeBatchPredictions = "DescribeBatchPredictions"
 type DescribeBatchPredictionsRequest struct {
 	*aws.Request
 	Input *DescribeBatchPredictionsInput
+	Copy  func(*DescribeBatchPredictionsInput) DescribeBatchPredictionsRequest
 }
 
 // Send marshals and sends the DescribeBatchPredictions API request.
@@ -816,58 +873,57 @@ func (c *MachineLearning) DescribeBatchPredictionsRequest(input *DescribeBatchPr
 		input = &DescribeBatchPredictionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeBatchPredictionsOutput{})
-	return DescribeBatchPredictionsRequest{Request: req, Input: input}
+	output := &DescribeBatchPredictionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeBatchPredictionsRequest{Request: req, Input: input, Copy: c.DescribeBatchPredictionsRequest}
 }
 
-// DescribeBatchPredictionsPages iterates over the pages of a DescribeBatchPredictions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeBatchPredictions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeBatchPredictionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeBatchPredictions operation.
-//    pageNum := 0
-//    err := client.DescribeBatchPredictionsPages(params,
-//        func(page *DescribeBatchPredictionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeBatchPredictionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MachineLearning) DescribeBatchPredictionsPages(input *DescribeBatchPredictionsInput, fn func(*DescribeBatchPredictionsOutput, bool) bool) error {
-	return c.DescribeBatchPredictionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeBatchPredictionsRequest) Paginate(opts ...aws.Option) DescribeBatchPredictionsPager {
+	return DescribeBatchPredictionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeBatchPredictionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeBatchPredictionsPagesWithContext same as DescribeBatchPredictionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MachineLearning) DescribeBatchPredictionsPagesWithContext(ctx aws.Context, input *DescribeBatchPredictionsInput, fn func(*DescribeBatchPredictionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeBatchPredictionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeBatchPredictionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeBatchPredictionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeBatchPredictionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeBatchPredictionsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeBatchPredictionsPager) CurrentPage() *DescribeBatchPredictionsOutput {
+	return p.Pager.CurrentPage().(*DescribeBatchPredictionsOutput)
 }
 
 const opDescribeDataSources = "DescribeDataSources"
@@ -876,6 +932,7 @@ const opDescribeDataSources = "DescribeDataSources"
 type DescribeDataSourcesRequest struct {
 	*aws.Request
 	Input *DescribeDataSourcesInput
+	Copy  func(*DescribeDataSourcesInput) DescribeDataSourcesRequest
 }
 
 // Send marshals and sends the DescribeDataSources API request.
@@ -916,58 +973,57 @@ func (c *MachineLearning) DescribeDataSourcesRequest(input *DescribeDataSourcesI
 		input = &DescribeDataSourcesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDataSourcesOutput{})
-	return DescribeDataSourcesRequest{Request: req, Input: input}
+	output := &DescribeDataSourcesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDataSourcesRequest{Request: req, Input: input, Copy: c.DescribeDataSourcesRequest}
 }
 
-// DescribeDataSourcesPages iterates over the pages of a DescribeDataSources operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeDataSources method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeDataSourcesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeDataSources operation.
-//    pageNum := 0
-//    err := client.DescribeDataSourcesPages(params,
-//        func(page *DescribeDataSourcesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeDataSourcesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MachineLearning) DescribeDataSourcesPages(input *DescribeDataSourcesInput, fn func(*DescribeDataSourcesOutput, bool) bool) error {
-	return c.DescribeDataSourcesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeDataSourcesRequest) Paginate(opts ...aws.Option) DescribeDataSourcesPager {
+	return DescribeDataSourcesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeDataSourcesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeDataSourcesPagesWithContext same as DescribeDataSourcesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MachineLearning) DescribeDataSourcesPagesWithContext(ctx aws.Context, input *DescribeDataSourcesInput, fn func(*DescribeDataSourcesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeDataSourcesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeDataSourcesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeDataSourcesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeDataSourcesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeDataSourcesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeDataSourcesPager) CurrentPage() *DescribeDataSourcesOutput {
+	return p.Pager.CurrentPage().(*DescribeDataSourcesOutput)
 }
 
 const opDescribeEvaluations = "DescribeEvaluations"
@@ -976,6 +1032,7 @@ const opDescribeEvaluations = "DescribeEvaluations"
 type DescribeEvaluationsRequest struct {
 	*aws.Request
 	Input *DescribeEvaluationsInput
+	Copy  func(*DescribeEvaluationsInput) DescribeEvaluationsRequest
 }
 
 // Send marshals and sends the DescribeEvaluations API request.
@@ -1017,58 +1074,57 @@ func (c *MachineLearning) DescribeEvaluationsRequest(input *DescribeEvaluationsI
 		input = &DescribeEvaluationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEvaluationsOutput{})
-	return DescribeEvaluationsRequest{Request: req, Input: input}
+	output := &DescribeEvaluationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEvaluationsRequest{Request: req, Input: input, Copy: c.DescribeEvaluationsRequest}
 }
 
-// DescribeEvaluationsPages iterates over the pages of a DescribeEvaluations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeEvaluations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeEvaluationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeEvaluations operation.
-//    pageNum := 0
-//    err := client.DescribeEvaluationsPages(params,
-//        func(page *DescribeEvaluationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeEvaluationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MachineLearning) DescribeEvaluationsPages(input *DescribeEvaluationsInput, fn func(*DescribeEvaluationsOutput, bool) bool) error {
-	return c.DescribeEvaluationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeEvaluationsRequest) Paginate(opts ...aws.Option) DescribeEvaluationsPager {
+	return DescribeEvaluationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeEvaluationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeEvaluationsPagesWithContext same as DescribeEvaluationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MachineLearning) DescribeEvaluationsPagesWithContext(ctx aws.Context, input *DescribeEvaluationsInput, fn func(*DescribeEvaluationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeEvaluationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeEvaluationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeEvaluationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeEvaluationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeEvaluationsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeEvaluationsPager) CurrentPage() *DescribeEvaluationsOutput {
+	return p.Pager.CurrentPage().(*DescribeEvaluationsOutput)
 }
 
 const opDescribeMLModels = "DescribeMLModels"
@@ -1077,6 +1133,7 @@ const opDescribeMLModels = "DescribeMLModels"
 type DescribeMLModelsRequest struct {
 	*aws.Request
 	Input *DescribeMLModelsInput
+	Copy  func(*DescribeMLModelsInput) DescribeMLModelsRequest
 }
 
 // Send marshals and sends the DescribeMLModels API request.
@@ -1117,58 +1174,57 @@ func (c *MachineLearning) DescribeMLModelsRequest(input *DescribeMLModelsInput) 
 		input = &DescribeMLModelsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMLModelsOutput{})
-	return DescribeMLModelsRequest{Request: req, Input: input}
+	output := &DescribeMLModelsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMLModelsRequest{Request: req, Input: input, Copy: c.DescribeMLModelsRequest}
 }
 
-// DescribeMLModelsPages iterates over the pages of a DescribeMLModels operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeMLModels method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeMLModelsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeMLModels operation.
-//    pageNum := 0
-//    err := client.DescribeMLModelsPages(params,
-//        func(page *DescribeMLModelsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeMLModelsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *MachineLearning) DescribeMLModelsPages(input *DescribeMLModelsInput, fn func(*DescribeMLModelsOutput, bool) bool) error {
-	return c.DescribeMLModelsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeMLModelsRequest) Paginate(opts ...aws.Option) DescribeMLModelsPager {
+	return DescribeMLModelsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeMLModelsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeMLModelsPagesWithContext same as DescribeMLModelsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *MachineLearning) DescribeMLModelsPagesWithContext(ctx aws.Context, input *DescribeMLModelsInput, fn func(*DescribeMLModelsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeMLModelsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeMLModelsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeMLModelsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeMLModelsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeMLModelsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeMLModelsPager) CurrentPage() *DescribeMLModelsOutput {
+	return p.Pager.CurrentPage().(*DescribeMLModelsOutput)
 }
 
 const opDescribeTags = "DescribeTags"
@@ -1177,6 +1233,7 @@ const opDescribeTags = "DescribeTags"
 type DescribeTagsRequest struct {
 	*aws.Request
 	Input *DescribeTagsInput
+	Copy  func(*DescribeTagsInput) DescribeTagsRequest
 }
 
 // Send marshals and sends the DescribeTags API request.
@@ -1211,8 +1268,11 @@ func (c *MachineLearning) DescribeTagsRequest(input *DescribeTagsInput) Describe
 		input = &DescribeTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTagsOutput{})
-	return DescribeTagsRequest{Request: req, Input: input}
+	output := &DescribeTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTagsRequest{Request: req, Input: input, Copy: c.DescribeTagsRequest}
 }
 
 const opGetBatchPrediction = "GetBatchPrediction"
@@ -1221,6 +1281,7 @@ const opGetBatchPrediction = "GetBatchPrediction"
 type GetBatchPredictionRequest struct {
 	*aws.Request
 	Input *GetBatchPredictionInput
+	Copy  func(*GetBatchPredictionInput) GetBatchPredictionRequest
 }
 
 // Send marshals and sends the GetBatchPrediction API request.
@@ -1256,8 +1317,11 @@ func (c *MachineLearning) GetBatchPredictionRequest(input *GetBatchPredictionInp
 		input = &GetBatchPredictionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetBatchPredictionOutput{})
-	return GetBatchPredictionRequest{Request: req, Input: input}
+	output := &GetBatchPredictionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetBatchPredictionRequest{Request: req, Input: input, Copy: c.GetBatchPredictionRequest}
 }
 
 const opGetDataSource = "GetDataSource"
@@ -1266,6 +1330,7 @@ const opGetDataSource = "GetDataSource"
 type GetDataSourceRequest struct {
 	*aws.Request
 	Input *GetDataSourceInput
+	Copy  func(*GetDataSourceInput) GetDataSourceRequest
 }
 
 // Send marshals and sends the GetDataSource API request.
@@ -1305,8 +1370,11 @@ func (c *MachineLearning) GetDataSourceRequest(input *GetDataSourceInput) GetDat
 		input = &GetDataSourceInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDataSourceOutput{})
-	return GetDataSourceRequest{Request: req, Input: input}
+	output := &GetDataSourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDataSourceRequest{Request: req, Input: input, Copy: c.GetDataSourceRequest}
 }
 
 const opGetEvaluation = "GetEvaluation"
@@ -1315,6 +1383,7 @@ const opGetEvaluation = "GetEvaluation"
 type GetEvaluationRequest struct {
 	*aws.Request
 	Input *GetEvaluationInput
+	Copy  func(*GetEvaluationInput) GetEvaluationRequest
 }
 
 // Send marshals and sends the GetEvaluation API request.
@@ -1350,8 +1419,11 @@ func (c *MachineLearning) GetEvaluationRequest(input *GetEvaluationInput) GetEva
 		input = &GetEvaluationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEvaluationOutput{})
-	return GetEvaluationRequest{Request: req, Input: input}
+	output := &GetEvaluationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEvaluationRequest{Request: req, Input: input, Copy: c.GetEvaluationRequest}
 }
 
 const opGetMLModel = "GetMLModel"
@@ -1360,6 +1432,7 @@ const opGetMLModel = "GetMLModel"
 type GetMLModelRequest struct {
 	*aws.Request
 	Input *GetMLModelInput
+	Copy  func(*GetMLModelInput) GetMLModelRequest
 }
 
 // Send marshals and sends the GetMLModel API request.
@@ -1397,8 +1470,11 @@ func (c *MachineLearning) GetMLModelRequest(input *GetMLModelInput) GetMLModelRe
 		input = &GetMLModelInput{}
 	}
 
-	req := c.newRequest(op, input, &GetMLModelOutput{})
-	return GetMLModelRequest{Request: req, Input: input}
+	output := &GetMLModelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetMLModelRequest{Request: req, Input: input, Copy: c.GetMLModelRequest}
 }
 
 const opPredict = "Predict"
@@ -1407,6 +1483,7 @@ const opPredict = "Predict"
 type PredictRequest struct {
 	*aws.Request
 	Input *PredictInput
+	Copy  func(*PredictInput) PredictRequest
 }
 
 // Send marshals and sends the Predict API request.
@@ -1444,8 +1521,11 @@ func (c *MachineLearning) PredictRequest(input *PredictInput) PredictRequest {
 		input = &PredictInput{}
 	}
 
-	req := c.newRequest(op, input, &PredictOutput{})
-	return PredictRequest{Request: req, Input: input}
+	output := &PredictOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PredictRequest{Request: req, Input: input, Copy: c.PredictRequest}
 }
 
 const opUpdateBatchPrediction = "UpdateBatchPrediction"
@@ -1454,6 +1534,7 @@ const opUpdateBatchPrediction = "UpdateBatchPrediction"
 type UpdateBatchPredictionRequest struct {
 	*aws.Request
 	Input *UpdateBatchPredictionInput
+	Copy  func(*UpdateBatchPredictionInput) UpdateBatchPredictionRequest
 }
 
 // Send marshals and sends the UpdateBatchPrediction API request.
@@ -1491,8 +1572,11 @@ func (c *MachineLearning) UpdateBatchPredictionRequest(input *UpdateBatchPredict
 		input = &UpdateBatchPredictionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateBatchPredictionOutput{})
-	return UpdateBatchPredictionRequest{Request: req, Input: input}
+	output := &UpdateBatchPredictionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateBatchPredictionRequest{Request: req, Input: input, Copy: c.UpdateBatchPredictionRequest}
 }
 
 const opUpdateDataSource = "UpdateDataSource"
@@ -1501,6 +1585,7 @@ const opUpdateDataSource = "UpdateDataSource"
 type UpdateDataSourceRequest struct {
 	*aws.Request
 	Input *UpdateDataSourceInput
+	Copy  func(*UpdateDataSourceInput) UpdateDataSourceRequest
 }
 
 // Send marshals and sends the UpdateDataSource API request.
@@ -1538,8 +1623,11 @@ func (c *MachineLearning) UpdateDataSourceRequest(input *UpdateDataSourceInput) 
 		input = &UpdateDataSourceInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDataSourceOutput{})
-	return UpdateDataSourceRequest{Request: req, Input: input}
+	output := &UpdateDataSourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDataSourceRequest{Request: req, Input: input, Copy: c.UpdateDataSourceRequest}
 }
 
 const opUpdateEvaluation = "UpdateEvaluation"
@@ -1548,6 +1636,7 @@ const opUpdateEvaluation = "UpdateEvaluation"
 type UpdateEvaluationRequest struct {
 	*aws.Request
 	Input *UpdateEvaluationInput
+	Copy  func(*UpdateEvaluationInput) UpdateEvaluationRequest
 }
 
 // Send marshals and sends the UpdateEvaluation API request.
@@ -1585,8 +1674,11 @@ func (c *MachineLearning) UpdateEvaluationRequest(input *UpdateEvaluationInput) 
 		input = &UpdateEvaluationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateEvaluationOutput{})
-	return UpdateEvaluationRequest{Request: req, Input: input}
+	output := &UpdateEvaluationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateEvaluationRequest{Request: req, Input: input, Copy: c.UpdateEvaluationRequest}
 }
 
 const opUpdateMLModel = "UpdateMLModel"
@@ -1595,6 +1687,7 @@ const opUpdateMLModel = "UpdateMLModel"
 type UpdateMLModelRequest struct {
 	*aws.Request
 	Input *UpdateMLModelInput
+	Copy  func(*UpdateMLModelInput) UpdateMLModelRequest
 }
 
 // Send marshals and sends the UpdateMLModel API request.
@@ -1632,8 +1725,11 @@ func (c *MachineLearning) UpdateMLModelRequest(input *UpdateMLModelInput) Update
 		input = &UpdateMLModelInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateMLModelOutput{})
-	return UpdateMLModelRequest{Request: req, Input: input}
+	output := &UpdateMLModelOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateMLModelRequest{Request: req, Input: input, Copy: c.UpdateMLModelRequest}
 }
 
 type AddTagsInput struct {
@@ -1647,13 +1743,13 @@ type AddTagsInput struct {
 	// The type of the ML object to tag.
 	//
 	// ResourceType is a required field
-	ResourceType TaggableResourceType `type:"string" required:"true"`
+	ResourceType TaggableResourceType `type:"string" required:"true" enum:"true"`
 
 	// The key-value pairs to use to create tags. If you specify a key without specifying
 	// a value, Amazon ML creates a tag with the specified key and a value of null.
 	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1685,9 +1781,6 @@ func (s *AddTagsInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -1700,33 +1793,17 @@ func (s *AddTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddTagsInput) SetResourceId(v string) *AddTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *AddTagsInput) SetResourceType(v TaggableResourceType) *AddTagsInput {
-	s.ResourceType = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AddTagsInput) SetTags(v []*Tag) *AddTagsInput {
-	s.Tags = v
-	return s
-}
-
 // Amazon ML returns the following elements.
 type AddTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the ML object that was tagged.
 	ResourceId *string `min:"1" type:"string"`
 
 	// The type of the ML object that was tagged.
-	ResourceType TaggableResourceType `type:"string"`
+	ResourceType TaggableResourceType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1739,16 +1816,9 @@ func (s AddTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddTagsOutput) SetResourceId(v string) *AddTagsOutput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *AddTagsOutput) SetResourceType(v TaggableResourceType) *AddTagsOutput {
-	s.ResourceType = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the output of a GetBatchPrediction operation.
@@ -1820,7 +1890,7 @@ type BatchPrediction struct {
 	//    It is not usable.
 	//    * COMPLETED - The batch prediction process completed successfully.
 	//    * DELETED - The BatchPrediction is marked as deleted. It is not usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 
 	// Long integer type that is a 64-bit signed number.
 	TotalRecordCount *int64 `type:"long"`
@@ -1834,102 +1904,6 @@ func (s BatchPrediction) String() string {
 // GoString returns the string representation
 func (s BatchPrediction) GoString() string {
 	return s.String()
-}
-
-// SetBatchPredictionDataSourceId sets the BatchPredictionDataSourceId field's value.
-func (s *BatchPrediction) SetBatchPredictionDataSourceId(v string) *BatchPrediction {
-	s.BatchPredictionDataSourceId = &v
-	return s
-}
-
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *BatchPrediction) SetBatchPredictionId(v string) *BatchPrediction {
-	s.BatchPredictionId = &v
-	return s
-}
-
-// SetComputeTime sets the ComputeTime field's value.
-func (s *BatchPrediction) SetComputeTime(v int64) *BatchPrediction {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *BatchPrediction) SetCreatedAt(v time.Time) *BatchPrediction {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *BatchPrediction) SetCreatedByIamUser(v string) *BatchPrediction {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *BatchPrediction) SetFinishedAt(v time.Time) *BatchPrediction {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetInputDataLocationS3 sets the InputDataLocationS3 field's value.
-func (s *BatchPrediction) SetInputDataLocationS3(v string) *BatchPrediction {
-	s.InputDataLocationS3 = &v
-	return s
-}
-
-// SetInvalidRecordCount sets the InvalidRecordCount field's value.
-func (s *BatchPrediction) SetInvalidRecordCount(v int64) *BatchPrediction {
-	s.InvalidRecordCount = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *BatchPrediction) SetLastUpdatedAt(v time.Time) *BatchPrediction {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *BatchPrediction) SetMLModelId(v string) *BatchPrediction {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *BatchPrediction) SetMessage(v string) *BatchPrediction {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *BatchPrediction) SetName(v string) *BatchPrediction {
-	s.Name = &v
-	return s
-}
-
-// SetOutputUri sets the OutputUri field's value.
-func (s *BatchPrediction) SetOutputUri(v string) *BatchPrediction {
-	s.OutputUri = &v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *BatchPrediction) SetStartedAt(v time.Time) *BatchPrediction {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *BatchPrediction) SetStatus(v EntityStatus) *BatchPrediction {
-	s.Status = v
-	return s
-}
-
-// SetTotalRecordCount sets the TotalRecordCount field's value.
-func (s *BatchPrediction) SetTotalRecordCount(v int64) *BatchPrediction {
-	s.TotalRecordCount = &v
-	return s
 }
 
 type CreateBatchPredictionInput struct {
@@ -2011,36 +1985,6 @@ func (s *CreateBatchPredictionInput) Validate() error {
 	return nil
 }
 
-// SetBatchPredictionDataSourceId sets the BatchPredictionDataSourceId field's value.
-func (s *CreateBatchPredictionInput) SetBatchPredictionDataSourceId(v string) *CreateBatchPredictionInput {
-	s.BatchPredictionDataSourceId = &v
-	return s
-}
-
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *CreateBatchPredictionInput) SetBatchPredictionId(v string) *CreateBatchPredictionInput {
-	s.BatchPredictionId = &v
-	return s
-}
-
-// SetBatchPredictionName sets the BatchPredictionName field's value.
-func (s *CreateBatchPredictionInput) SetBatchPredictionName(v string) *CreateBatchPredictionInput {
-	s.BatchPredictionName = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *CreateBatchPredictionInput) SetMLModelId(v string) *CreateBatchPredictionInput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetOutputUri sets the OutputUri field's value.
-func (s *CreateBatchPredictionInput) SetOutputUri(v string) *CreateBatchPredictionInput {
-	s.OutputUri = &v
-	return s
-}
-
 // Represents the output of a CreateBatchPrediction operation, and is an acknowledgement
 // that Amazon ML received the request.
 //
@@ -2049,6 +1993,8 @@ func (s *CreateBatchPredictionInput) SetOutputUri(v string) *CreateBatchPredicti
 // parameter of the result.
 type CreateBatchPredictionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the BatchPrediction. This value
 	// is identical to the value of the BatchPredictionId in the request.
@@ -2065,10 +2011,9 @@ func (s CreateBatchPredictionOutput) GoString() string {
 	return s.String()
 }
 
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *CreateBatchPredictionOutput) SetBatchPredictionId(v string) *CreateBatchPredictionOutput {
-	s.BatchPredictionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateBatchPredictionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateDataSourceFromRDSInput struct {
@@ -2145,36 +2090,6 @@ func (s *CreateDataSourceFromRDSInput) Validate() error {
 	return nil
 }
 
-// SetComputeStatistics sets the ComputeStatistics field's value.
-func (s *CreateDataSourceFromRDSInput) SetComputeStatistics(v bool) *CreateDataSourceFromRDSInput {
-	s.ComputeStatistics = &v
-	return s
-}
-
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *CreateDataSourceFromRDSInput) SetDataSourceId(v string) *CreateDataSourceFromRDSInput {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetDataSourceName sets the DataSourceName field's value.
-func (s *CreateDataSourceFromRDSInput) SetDataSourceName(v string) *CreateDataSourceFromRDSInput {
-	s.DataSourceName = &v
-	return s
-}
-
-// SetRDSData sets the RDSData field's value.
-func (s *CreateDataSourceFromRDSInput) SetRDSData(v *RDSDataSpec) *CreateDataSourceFromRDSInput {
-	s.RDSData = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *CreateDataSourceFromRDSInput) SetRoleARN(v string) *CreateDataSourceFromRDSInput {
-	s.RoleARN = &v
-	return s
-}
-
 // Represents the output of a CreateDataSourceFromRDS operation, and is an acknowledgement
 // that Amazon ML received the request.
 //
@@ -2186,6 +2101,8 @@ func (s *CreateDataSourceFromRDSInput) SetRoleARN(v string) *CreateDataSourceFro
 // call.
 type CreateDataSourceFromRDSOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the datasource. This value should
 	// be identical to the value of the DataSourceID in the request.
@@ -2202,10 +2119,9 @@ func (s CreateDataSourceFromRDSOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *CreateDataSourceFromRDSOutput) SetDataSourceId(v string) *CreateDataSourceFromRDSOutput {
-	s.DataSourceId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDataSourceFromRDSOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateDataSourceFromRedshiftInput struct {
@@ -2310,36 +2226,6 @@ func (s *CreateDataSourceFromRedshiftInput) Validate() error {
 	return nil
 }
 
-// SetComputeStatistics sets the ComputeStatistics field's value.
-func (s *CreateDataSourceFromRedshiftInput) SetComputeStatistics(v bool) *CreateDataSourceFromRedshiftInput {
-	s.ComputeStatistics = &v
-	return s
-}
-
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *CreateDataSourceFromRedshiftInput) SetDataSourceId(v string) *CreateDataSourceFromRedshiftInput {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetDataSourceName sets the DataSourceName field's value.
-func (s *CreateDataSourceFromRedshiftInput) SetDataSourceName(v string) *CreateDataSourceFromRedshiftInput {
-	s.DataSourceName = &v
-	return s
-}
-
-// SetDataSpec sets the DataSpec field's value.
-func (s *CreateDataSourceFromRedshiftInput) SetDataSpec(v *RedshiftDataSpec) *CreateDataSourceFromRedshiftInput {
-	s.DataSpec = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *CreateDataSourceFromRedshiftInput) SetRoleARN(v string) *CreateDataSourceFromRedshiftInput {
-	s.RoleARN = &v
-	return s
-}
-
 // Represents the output of a CreateDataSourceFromRedshift operation, and is
 // an acknowledgement that Amazon ML received the request.
 //
@@ -2348,6 +2234,8 @@ func (s *CreateDataSourceFromRedshiftInput) SetRoleARN(v string) *CreateDataSour
 // parameter.
 type CreateDataSourceFromRedshiftOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the datasource. This value should
 	// be identical to the value of the DataSourceID in the request.
@@ -2364,10 +2252,9 @@ func (s CreateDataSourceFromRedshiftOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *CreateDataSourceFromRedshiftOutput) SetDataSourceId(v string) *CreateDataSourceFromRedshiftOutput {
-	s.DataSourceId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDataSourceFromRedshiftOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateDataSourceFromS3Input struct {
@@ -2441,30 +2328,6 @@ func (s *CreateDataSourceFromS3Input) Validate() error {
 	return nil
 }
 
-// SetComputeStatistics sets the ComputeStatistics field's value.
-func (s *CreateDataSourceFromS3Input) SetComputeStatistics(v bool) *CreateDataSourceFromS3Input {
-	s.ComputeStatistics = &v
-	return s
-}
-
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *CreateDataSourceFromS3Input) SetDataSourceId(v string) *CreateDataSourceFromS3Input {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetDataSourceName sets the DataSourceName field's value.
-func (s *CreateDataSourceFromS3Input) SetDataSourceName(v string) *CreateDataSourceFromS3Input {
-	s.DataSourceName = &v
-	return s
-}
-
-// SetDataSpec sets the DataSpec field's value.
-func (s *CreateDataSourceFromS3Input) SetDataSpec(v *S3DataSpec) *CreateDataSourceFromS3Input {
-	s.DataSpec = v
-	return s
-}
-
 // Represents the output of a CreateDataSourceFromS3 operation, and is an acknowledgement
 // that Amazon ML received the request.
 //
@@ -2472,6 +2335,8 @@ func (s *CreateDataSourceFromS3Input) SetDataSpec(v *S3DataSpec) *CreateDataSour
 // by using the GetBatchPrediction operation and checking the Status parameter.
 type CreateDataSourceFromS3Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the DataSource. This value should
 	// be identical to the value of the DataSourceID in the request.
@@ -2488,10 +2353,9 @@ func (s CreateDataSourceFromS3Output) GoString() string {
 	return s.String()
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *CreateDataSourceFromS3Output) SetDataSourceId(v string) *CreateDataSourceFromS3Output {
-	s.DataSourceId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDataSourceFromS3Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateEvaluationInput struct {
@@ -2561,30 +2425,6 @@ func (s *CreateEvaluationInput) Validate() error {
 	return nil
 }
 
-// SetEvaluationDataSourceId sets the EvaluationDataSourceId field's value.
-func (s *CreateEvaluationInput) SetEvaluationDataSourceId(v string) *CreateEvaluationInput {
-	s.EvaluationDataSourceId = &v
-	return s
-}
-
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *CreateEvaluationInput) SetEvaluationId(v string) *CreateEvaluationInput {
-	s.EvaluationId = &v
-	return s
-}
-
-// SetEvaluationName sets the EvaluationName field's value.
-func (s *CreateEvaluationInput) SetEvaluationName(v string) *CreateEvaluationInput {
-	s.EvaluationName = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *CreateEvaluationInput) SetMLModelId(v string) *CreateEvaluationInput {
-	s.MLModelId = &v
-	return s
-}
-
 // Represents the output of a CreateEvaluation operation, and is an acknowledgement
 // that Amazon ML received the request.
 //
@@ -2592,6 +2432,8 @@ func (s *CreateEvaluationInput) SetMLModelId(v string) *CreateEvaluationInput {
 // by using the GetEvcaluation operation and checking the Status parameter.
 type CreateEvaluationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The user-supplied ID that uniquely identifies the Evaluation. This value
 	// should be identical to the value of the EvaluationId in the request.
@@ -2608,10 +2450,9 @@ func (s CreateEvaluationOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *CreateEvaluationOutput) SetEvaluationId(v string) *CreateEvaluationOutput {
-	s.EvaluationId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateEvaluationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateMLModelInput struct {
@@ -2636,7 +2477,7 @@ type CreateMLModelInput struct {
 	// For more information, see the Amazon Machine Learning Developer Guide (http://docs.aws.amazon.com/machine-learning/latest/dg).
 	//
 	// MLModelType is a required field
-	MLModelType MLModelType `type:"string" required:"true"`
+	MLModelType MLModelType `type:"string" required:"true" enum:"true"`
 
 	// A list of the training parameters in the MLModel. The list is implemented
 	// as a map of key-value pairs.
@@ -2676,7 +2517,7 @@ type CreateMLModelInput struct {
 	// The value is a double that ranges from 0 to MAX_DOUBLE. The default is to
 	//    not use L2 normalization. This parameter can't be used when L1 is specified.
 	//    Use this parameter sparingly.
-	Parameters map[string]*string `type:"map"`
+	Parameters map[string]string `type:"map"`
 
 	// The data recipe for creating the MLModel. You must specify either the recipe
 	// or its URI. If you don't specify a recipe or its URI, Amazon ML creates a
@@ -2731,48 +2572,6 @@ func (s *CreateMLModelInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *CreateMLModelInput) SetMLModelId(v string) *CreateMLModelInput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMLModelName sets the MLModelName field's value.
-func (s *CreateMLModelInput) SetMLModelName(v string) *CreateMLModelInput {
-	s.MLModelName = &v
-	return s
-}
-
-// SetMLModelType sets the MLModelType field's value.
-func (s *CreateMLModelInput) SetMLModelType(v MLModelType) *CreateMLModelInput {
-	s.MLModelType = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *CreateMLModelInput) SetParameters(v map[string]*string) *CreateMLModelInput {
-	s.Parameters = v
-	return s
-}
-
-// SetRecipe sets the Recipe field's value.
-func (s *CreateMLModelInput) SetRecipe(v string) *CreateMLModelInput {
-	s.Recipe = &v
-	return s
-}
-
-// SetRecipeUri sets the RecipeUri field's value.
-func (s *CreateMLModelInput) SetRecipeUri(v string) *CreateMLModelInput {
-	s.RecipeUri = &v
-	return s
-}
-
-// SetTrainingDataSourceId sets the TrainingDataSourceId field's value.
-func (s *CreateMLModelInput) SetTrainingDataSourceId(v string) *CreateMLModelInput {
-	s.TrainingDataSourceId = &v
-	return s
-}
-
 // Represents the output of a CreateMLModel operation, and is an acknowledgement
 // that Amazon ML received the request.
 //
@@ -2780,6 +2579,8 @@ func (s *CreateMLModelInput) SetTrainingDataSourceId(v string) *CreateMLModelInp
 // by using the GetMLModel operation and checking the Status parameter.
 type CreateMLModelOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the MLModel. This value should
 	// be identical to the value of the MLModelId in the request.
@@ -2796,10 +2597,9 @@ func (s CreateMLModelOutput) GoString() string {
 	return s.String()
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *CreateMLModelOutput) SetMLModelId(v string) *CreateMLModelOutput {
-	s.MLModelId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateMLModelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateRealtimeEndpointInput struct {
@@ -2838,12 +2638,6 @@ func (s *CreateRealtimeEndpointInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *CreateRealtimeEndpointInput) SetMLModelId(v string) *CreateRealtimeEndpointInput {
-	s.MLModelId = &v
-	return s
-}
-
 // Represents the output of an CreateRealtimeEndpoint operation.
 //
 // The result contains the MLModelId and the endpoint information for the MLModel.
@@ -2852,6 +2646,8 @@ func (s *CreateRealtimeEndpointInput) SetMLModelId(v string) *CreateRealtimeEndp
 // to send online prediction requests for the specified MLModel.
 type CreateRealtimeEndpointOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the MLModel. This value should
 	// be identical to the value of the MLModelId in the request.
@@ -2871,16 +2667,9 @@ func (s CreateRealtimeEndpointOutput) GoString() string {
 	return s.String()
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *CreateRealtimeEndpointOutput) SetMLModelId(v string) *CreateRealtimeEndpointOutput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetRealtimeEndpointInfo sets the RealtimeEndpointInfo field's value.
-func (s *CreateRealtimeEndpointOutput) SetRealtimeEndpointInfo(v *RealtimeEndpointInfo) *CreateRealtimeEndpointOutput {
-	s.RealtimeEndpointInfo = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateRealtimeEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the output of the GetDataSource operation.
@@ -2960,7 +2749,7 @@ type DataSource struct {
 	//    It is not usable.
 	//    * COMPLETED - The creation process completed successfully.
 	//    * DELETED - The DataSource is marked as deleted. It is not usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2971,114 +2760,6 @@ func (s DataSource) String() string {
 // GoString returns the string representation
 func (s DataSource) GoString() string {
 	return s.String()
-}
-
-// SetComputeStatistics sets the ComputeStatistics field's value.
-func (s *DataSource) SetComputeStatistics(v bool) *DataSource {
-	s.ComputeStatistics = &v
-	return s
-}
-
-// SetComputeTime sets the ComputeTime field's value.
-func (s *DataSource) SetComputeTime(v int64) *DataSource {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *DataSource) SetCreatedAt(v time.Time) *DataSource {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *DataSource) SetCreatedByIamUser(v string) *DataSource {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetDataLocationS3 sets the DataLocationS3 field's value.
-func (s *DataSource) SetDataLocationS3(v string) *DataSource {
-	s.DataLocationS3 = &v
-	return s
-}
-
-// SetDataRearrangement sets the DataRearrangement field's value.
-func (s *DataSource) SetDataRearrangement(v string) *DataSource {
-	s.DataRearrangement = &v
-	return s
-}
-
-// SetDataSizeInBytes sets the DataSizeInBytes field's value.
-func (s *DataSource) SetDataSizeInBytes(v int64) *DataSource {
-	s.DataSizeInBytes = &v
-	return s
-}
-
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *DataSource) SetDataSourceId(v string) *DataSource {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *DataSource) SetFinishedAt(v time.Time) *DataSource {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *DataSource) SetLastUpdatedAt(v time.Time) *DataSource {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *DataSource) SetMessage(v string) *DataSource {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DataSource) SetName(v string) *DataSource {
-	s.Name = &v
-	return s
-}
-
-// SetNumberOfFiles sets the NumberOfFiles field's value.
-func (s *DataSource) SetNumberOfFiles(v int64) *DataSource {
-	s.NumberOfFiles = &v
-	return s
-}
-
-// SetRDSMetadata sets the RDSMetadata field's value.
-func (s *DataSource) SetRDSMetadata(v *RDSMetadata) *DataSource {
-	s.RDSMetadata = v
-	return s
-}
-
-// SetRedshiftMetadata sets the RedshiftMetadata field's value.
-func (s *DataSource) SetRedshiftMetadata(v *RedshiftMetadata) *DataSource {
-	s.RedshiftMetadata = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *DataSource) SetRoleARN(v string) *DataSource {
-	s.RoleARN = &v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *DataSource) SetStartedAt(v time.Time) *DataSource {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DataSource) SetStatus(v EntityStatus) *DataSource {
-	s.Status = v
-	return s
 }
 
 type DeleteBatchPredictionInput struct {
@@ -3117,18 +2798,14 @@ func (s *DeleteBatchPredictionInput) Validate() error {
 	return nil
 }
 
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *DeleteBatchPredictionInput) SetBatchPredictionId(v string) *DeleteBatchPredictionInput {
-	s.BatchPredictionId = &v
-	return s
-}
-
 // Represents the output of a DeleteBatchPrediction operation.
 //
 // You can use the GetBatchPrediction operation and check the value of the Status
 // parameter to see whether a BatchPrediction is marked as DELETED.
 type DeleteBatchPredictionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the BatchPrediction. This value
 	// should be identical to the value of the BatchPredictionID in the request.
@@ -3145,10 +2822,9 @@ func (s DeleteBatchPredictionOutput) GoString() string {
 	return s.String()
 }
 
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *DeleteBatchPredictionOutput) SetBatchPredictionId(v string) *DeleteBatchPredictionOutput {
-	s.BatchPredictionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBatchPredictionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeleteDataSourceInput struct {
@@ -3187,15 +2863,11 @@ func (s *DeleteDataSourceInput) Validate() error {
 	return nil
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *DeleteDataSourceInput) SetDataSourceId(v string) *DeleteDataSourceInput {
-	s.DataSourceId = &v
-	return s
-}
-
 // Represents the output of a DeleteDataSource operation.
 type DeleteDataSourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the DataSource. This value should
 	// be identical to the value of the DataSourceID in the request.
@@ -3212,10 +2884,9 @@ func (s DeleteDataSourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *DeleteDataSourceOutput) SetDataSourceId(v string) *DeleteDataSourceOutput {
-	s.DataSourceId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDataSourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeleteEvaluationInput struct {
@@ -3254,12 +2925,6 @@ func (s *DeleteEvaluationInput) Validate() error {
 	return nil
 }
 
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *DeleteEvaluationInput) SetEvaluationId(v string) *DeleteEvaluationInput {
-	s.EvaluationId = &v
-	return s
-}
-
 // Represents the output of a DeleteEvaluation operation. The output indicates
 // that Amazon Machine Learning (Amazon ML) received the request.
 //
@@ -3267,6 +2932,8 @@ func (s *DeleteEvaluationInput) SetEvaluationId(v string) *DeleteEvaluationInput
 // parameter to see whether an Evaluation is marked as DELETED.
 type DeleteEvaluationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the Evaluation. This value should
 	// be identical to the value of the EvaluationId in the request.
@@ -3283,10 +2950,9 @@ func (s DeleteEvaluationOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *DeleteEvaluationOutput) SetEvaluationId(v string) *DeleteEvaluationOutput {
-	s.EvaluationId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteEvaluationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeleteMLModelInput struct {
@@ -3325,18 +2991,14 @@ func (s *DeleteMLModelInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *DeleteMLModelInput) SetMLModelId(v string) *DeleteMLModelInput {
-	s.MLModelId = &v
-	return s
-}
-
 // Represents the output of a DeleteMLModel operation.
 //
 // You can use the GetMLModel operation and check the value of the Status parameter
 // to see whether an MLModel is marked as DELETED.
 type DeleteMLModelOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the MLModel. This value should
 	// be identical to the value of the MLModelID in the request.
@@ -3353,10 +3015,9 @@ func (s DeleteMLModelOutput) GoString() string {
 	return s.String()
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *DeleteMLModelOutput) SetMLModelId(v string) *DeleteMLModelOutput {
-	s.MLModelId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteMLModelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeleteRealtimeEndpointInput struct {
@@ -3395,17 +3056,13 @@ func (s *DeleteRealtimeEndpointInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *DeleteRealtimeEndpointInput) SetMLModelId(v string) *DeleteRealtimeEndpointInput {
-	s.MLModelId = &v
-	return s
-}
-
 // Represents the output of an DeleteRealtimeEndpoint operation.
 //
 // The result contains the MLModelId and the endpoint information for the MLModel.
 type DeleteRealtimeEndpointOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A user-supplied ID that uniquely identifies the MLModel. This value should
 	// be identical to the value of the MLModelId in the request.
@@ -3425,16 +3082,9 @@ func (s DeleteRealtimeEndpointOutput) GoString() string {
 	return s.String()
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *DeleteRealtimeEndpointOutput) SetMLModelId(v string) *DeleteRealtimeEndpointOutput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetRealtimeEndpointInfo sets the RealtimeEndpointInfo field's value.
-func (s *DeleteRealtimeEndpointOutput) SetRealtimeEndpointInfo(v *RealtimeEndpointInfo) *DeleteRealtimeEndpointOutput {
-	s.RealtimeEndpointInfo = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRealtimeEndpointOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeleteTagsInput struct {
@@ -3448,12 +3098,12 @@ type DeleteTagsInput struct {
 	// The type of the tagged ML object.
 	//
 	// ResourceType is a required field
-	ResourceType TaggableResourceType `type:"string" required:"true"`
+	ResourceType TaggableResourceType `type:"string" required:"true" enum:"true"`
 
 	// One or more tags to delete.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `type:"list" required:"true"`
+	TagKeys []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3490,33 +3140,17 @@ func (s *DeleteTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DeleteTagsInput) SetResourceId(v string) *DeleteTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *DeleteTagsInput) SetResourceType(v TaggableResourceType) *DeleteTagsInput {
-	s.ResourceType = v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *DeleteTagsInput) SetTagKeys(v []*string) *DeleteTagsInput {
-	s.TagKeys = v
-	return s
-}
-
 // Amazon ML returns the following elements.
 type DeleteTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the ML object from which tags were deleted.
 	ResourceId *string `min:"1" type:"string"`
 
 	// The type of the ML object from which tags were deleted.
-	ResourceType TaggableResourceType `type:"string"`
+	ResourceType TaggableResourceType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3529,16 +3163,9 @@ func (s DeleteTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DeleteTagsOutput) SetResourceId(v string) *DeleteTagsOutput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *DeleteTagsOutput) SetResourceType(v TaggableResourceType) *DeleteTagsOutput {
-	s.ResourceType = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DescribeBatchPredictionsInput struct {
@@ -3564,7 +3191,7 @@ type DescribeBatchPredictionsInput struct {
 	//    * DataURI - Sets the search criteria to the data file(s) used in the BatchPrediction.
 	//    The URL can identify either a file or an Amazon Simple Storage Solution
 	//    (Amazon S3) bucket or directory.
-	FilterVariable BatchPredictionFilterVariable `type:"string"`
+	FilterVariable BatchPredictionFilterVariable `type:"string" enum:"true"`
 
 	// The greater than or equal to operator. The BatchPrediction results will have
 	// FilterVariable values that are greater than or equal to the value specified
@@ -3614,7 +3241,7 @@ type DescribeBatchPredictionsInput struct {
 	//    * asc - Arranges the list in ascending order (A-Z, 0-9).
 	//    * dsc - Arranges the list in descending order (Z-A, 9-0).
 	// Results are sorted by FilterVariable.
-	SortOrder SortOrder `type:"string"`
+	SortOrder SortOrder `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3640,83 +3267,19 @@ func (s *DescribeBatchPredictionsInput) Validate() error {
 	return nil
 }
 
-// SetEQ sets the EQ field's value.
-func (s *DescribeBatchPredictionsInput) SetEQ(v string) *DescribeBatchPredictionsInput {
-	s.EQ = &v
-	return s
-}
-
-// SetFilterVariable sets the FilterVariable field's value.
-func (s *DescribeBatchPredictionsInput) SetFilterVariable(v BatchPredictionFilterVariable) *DescribeBatchPredictionsInput {
-	s.FilterVariable = v
-	return s
-}
-
-// SetGE sets the GE field's value.
-func (s *DescribeBatchPredictionsInput) SetGE(v string) *DescribeBatchPredictionsInput {
-	s.GE = &v
-	return s
-}
-
-// SetGT sets the GT field's value.
-func (s *DescribeBatchPredictionsInput) SetGT(v string) *DescribeBatchPredictionsInput {
-	s.GT = &v
-	return s
-}
-
-// SetLE sets the LE field's value.
-func (s *DescribeBatchPredictionsInput) SetLE(v string) *DescribeBatchPredictionsInput {
-	s.LE = &v
-	return s
-}
-
-// SetLT sets the LT field's value.
-func (s *DescribeBatchPredictionsInput) SetLT(v string) *DescribeBatchPredictionsInput {
-	s.LT = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeBatchPredictionsInput) SetLimit(v int64) *DescribeBatchPredictionsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNE sets the NE field's value.
-func (s *DescribeBatchPredictionsInput) SetNE(v string) *DescribeBatchPredictionsInput {
-	s.NE = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBatchPredictionsInput) SetNextToken(v string) *DescribeBatchPredictionsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPrefix sets the Prefix field's value.
-func (s *DescribeBatchPredictionsInput) SetPrefix(v string) *DescribeBatchPredictionsInput {
-	s.Prefix = &v
-	return s
-}
-
-// SetSortOrder sets the SortOrder field's value.
-func (s *DescribeBatchPredictionsInput) SetSortOrder(v SortOrder) *DescribeBatchPredictionsInput {
-	s.SortOrder = v
-	return s
-}
-
 // Represents the output of a DescribeBatchPredictions operation. The content
 // is essentially a list of BatchPredictions.
 type DescribeBatchPredictionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the next page in the paginated results that indicates at least
 	// one more page follows.
 	NextToken *string `type:"string"`
 
 	// A list of BatchPrediction objects that meet the search criteria.
-	Results []*BatchPrediction `type:"list"`
+	Results []BatchPrediction `type:"list"`
 }
 
 // String returns the string representation
@@ -3729,16 +3292,9 @@ func (s DescribeBatchPredictionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBatchPredictionsOutput) SetNextToken(v string) *DescribeBatchPredictionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResults sets the Results field's value.
-func (s *DescribeBatchPredictionsOutput) SetResults(v []*BatchPrediction) *DescribeBatchPredictionsOutput {
-	s.Results = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeBatchPredictionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DescribeDataSourcesInput struct {
@@ -3758,7 +3314,7 @@ type DescribeDataSourcesInput struct {
 	//    Simple Storage Service (Amazon S3) bucket or directory.
 	//    * IAMUser - Sets the search criteria to the user account that invoked
 	//    the DataSource creation.
-	FilterVariable DataSourceFilterVariable `type:"string"`
+	FilterVariable DataSourceFilterVariable `type:"string" enum:"true"`
 
 	// The greater than or equal to operator. The DataSource results will have FilterVariable
 	// values that are greater than or equal to the value specified with GE.
@@ -3805,7 +3361,7 @@ type DescribeDataSourcesInput struct {
 	//    * asc - Arranges the list in ascending order (A-Z, 0-9).
 	//    * dsc - Arranges the list in descending order (Z-A, 9-0).
 	// Results are sorted by FilterVariable.
-	SortOrder SortOrder `type:"string"`
+	SortOrder SortOrder `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3831,83 +3387,19 @@ func (s *DescribeDataSourcesInput) Validate() error {
 	return nil
 }
 
-// SetEQ sets the EQ field's value.
-func (s *DescribeDataSourcesInput) SetEQ(v string) *DescribeDataSourcesInput {
-	s.EQ = &v
-	return s
-}
-
-// SetFilterVariable sets the FilterVariable field's value.
-func (s *DescribeDataSourcesInput) SetFilterVariable(v DataSourceFilterVariable) *DescribeDataSourcesInput {
-	s.FilterVariable = v
-	return s
-}
-
-// SetGE sets the GE field's value.
-func (s *DescribeDataSourcesInput) SetGE(v string) *DescribeDataSourcesInput {
-	s.GE = &v
-	return s
-}
-
-// SetGT sets the GT field's value.
-func (s *DescribeDataSourcesInput) SetGT(v string) *DescribeDataSourcesInput {
-	s.GT = &v
-	return s
-}
-
-// SetLE sets the LE field's value.
-func (s *DescribeDataSourcesInput) SetLE(v string) *DescribeDataSourcesInput {
-	s.LE = &v
-	return s
-}
-
-// SetLT sets the LT field's value.
-func (s *DescribeDataSourcesInput) SetLT(v string) *DescribeDataSourcesInput {
-	s.LT = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeDataSourcesInput) SetLimit(v int64) *DescribeDataSourcesInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNE sets the NE field's value.
-func (s *DescribeDataSourcesInput) SetNE(v string) *DescribeDataSourcesInput {
-	s.NE = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDataSourcesInput) SetNextToken(v string) *DescribeDataSourcesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPrefix sets the Prefix field's value.
-func (s *DescribeDataSourcesInput) SetPrefix(v string) *DescribeDataSourcesInput {
-	s.Prefix = &v
-	return s
-}
-
-// SetSortOrder sets the SortOrder field's value.
-func (s *DescribeDataSourcesInput) SetSortOrder(v SortOrder) *DescribeDataSourcesInput {
-	s.SortOrder = v
-	return s
-}
-
 // Represents the query results from a DescribeDataSources operation. The content
 // is essentially a list of DataSource.
 type DescribeDataSourcesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An ID of the next page in the paginated results that indicates at least one
 	// more page follows.
 	NextToken *string `type:"string"`
 
 	// A list of DataSource that meet the search criteria.
-	Results []*DataSource `type:"list"`
+	Results []DataSource `type:"list"`
 }
 
 // String returns the string representation
@@ -3920,16 +3412,9 @@ func (s DescribeDataSourcesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDataSourcesOutput) SetNextToken(v string) *DescribeDataSourcesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResults sets the Results field's value.
-func (s *DescribeDataSourcesOutput) SetResults(v []*DataSource) *DescribeDataSourcesOutput {
-	s.Results = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDataSourcesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DescribeEvaluationsInput struct {
@@ -3954,7 +3439,7 @@ type DescribeEvaluationsInput struct {
 	//    * DataUri - Sets the search criteria to the data file(s) used in Evaluation.
 	//    The URL can identify either a file or an Amazon Simple Storage Solution
 	//    (Amazon S3) bucket or directory.
-	FilterVariable EvaluationFilterVariable `type:"string"`
+	FilterVariable EvaluationFilterVariable `type:"string" enum:"true"`
 
 	// The greater than or equal to operator. The Evaluation results will have FilterVariable
 	// values that are greater than or equal to the value specified with GE.
@@ -4001,7 +3486,7 @@ type DescribeEvaluationsInput struct {
 	//    * asc - Arranges the list in ascending order (A-Z, 0-9).
 	//    * dsc - Arranges the list in descending order (Z-A, 9-0).
 	// Results are sorted by FilterVariable.
-	SortOrder SortOrder `type:"string"`
+	SortOrder SortOrder `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4027,83 +3512,19 @@ func (s *DescribeEvaluationsInput) Validate() error {
 	return nil
 }
 
-// SetEQ sets the EQ field's value.
-func (s *DescribeEvaluationsInput) SetEQ(v string) *DescribeEvaluationsInput {
-	s.EQ = &v
-	return s
-}
-
-// SetFilterVariable sets the FilterVariable field's value.
-func (s *DescribeEvaluationsInput) SetFilterVariable(v EvaluationFilterVariable) *DescribeEvaluationsInput {
-	s.FilterVariable = v
-	return s
-}
-
-// SetGE sets the GE field's value.
-func (s *DescribeEvaluationsInput) SetGE(v string) *DescribeEvaluationsInput {
-	s.GE = &v
-	return s
-}
-
-// SetGT sets the GT field's value.
-func (s *DescribeEvaluationsInput) SetGT(v string) *DescribeEvaluationsInput {
-	s.GT = &v
-	return s
-}
-
-// SetLE sets the LE field's value.
-func (s *DescribeEvaluationsInput) SetLE(v string) *DescribeEvaluationsInput {
-	s.LE = &v
-	return s
-}
-
-// SetLT sets the LT field's value.
-func (s *DescribeEvaluationsInput) SetLT(v string) *DescribeEvaluationsInput {
-	s.LT = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeEvaluationsInput) SetLimit(v int64) *DescribeEvaluationsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNE sets the NE field's value.
-func (s *DescribeEvaluationsInput) SetNE(v string) *DescribeEvaluationsInput {
-	s.NE = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEvaluationsInput) SetNextToken(v string) *DescribeEvaluationsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPrefix sets the Prefix field's value.
-func (s *DescribeEvaluationsInput) SetPrefix(v string) *DescribeEvaluationsInput {
-	s.Prefix = &v
-	return s
-}
-
-// SetSortOrder sets the SortOrder field's value.
-func (s *DescribeEvaluationsInput) SetSortOrder(v SortOrder) *DescribeEvaluationsInput {
-	s.SortOrder = v
-	return s
-}
-
 // Represents the query results from a DescribeEvaluations operation. The content
 // is essentially a list of Evaluation.
 type DescribeEvaluationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the next page in the paginated results that indicates at least
 	// one more page follows.
 	NextToken *string `type:"string"`
 
 	// A list of Evaluation that meet the search criteria.
-	Results []*Evaluation `type:"list"`
+	Results []Evaluation `type:"list"`
 }
 
 // String returns the string representation
@@ -4116,16 +3537,9 @@ func (s DescribeEvaluationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEvaluationsOutput) SetNextToken(v string) *DescribeEvaluationsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResults sets the Results field's value.
-func (s *DescribeEvaluationsOutput) SetResults(v []*Evaluation) *DescribeEvaluationsOutput {
-	s.Results = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEvaluationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DescribeMLModelsInput struct {
@@ -4153,7 +3567,7 @@ type DescribeMLModelsInput struct {
 	//    * TrainingDataURI - Sets the search criteria to the data file(s) used
 	//    in training a MLModel. The URL can identify either a file or an Amazon
 	//    Simple Storage Service (Amazon S3) bucket or directory.
-	FilterVariable MLModelFilterVariable `type:"string"`
+	FilterVariable MLModelFilterVariable `type:"string" enum:"true"`
 
 	// The greater than or equal to operator. The MLModel results will have FilterVariable
 	// values that are greater than or equal to the value specified with GE.
@@ -4201,7 +3615,7 @@ type DescribeMLModelsInput struct {
 	//    * asc - Arranges the list in ascending order (A-Z, 0-9).
 	//    * dsc - Arranges the list in descending order (Z-A, 9-0).
 	// Results are sorted by FilterVariable.
-	SortOrder SortOrder `type:"string"`
+	SortOrder SortOrder `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4227,83 +3641,19 @@ func (s *DescribeMLModelsInput) Validate() error {
 	return nil
 }
 
-// SetEQ sets the EQ field's value.
-func (s *DescribeMLModelsInput) SetEQ(v string) *DescribeMLModelsInput {
-	s.EQ = &v
-	return s
-}
-
-// SetFilterVariable sets the FilterVariable field's value.
-func (s *DescribeMLModelsInput) SetFilterVariable(v MLModelFilterVariable) *DescribeMLModelsInput {
-	s.FilterVariable = v
-	return s
-}
-
-// SetGE sets the GE field's value.
-func (s *DescribeMLModelsInput) SetGE(v string) *DescribeMLModelsInput {
-	s.GE = &v
-	return s
-}
-
-// SetGT sets the GT field's value.
-func (s *DescribeMLModelsInput) SetGT(v string) *DescribeMLModelsInput {
-	s.GT = &v
-	return s
-}
-
-// SetLE sets the LE field's value.
-func (s *DescribeMLModelsInput) SetLE(v string) *DescribeMLModelsInput {
-	s.LE = &v
-	return s
-}
-
-// SetLT sets the LT field's value.
-func (s *DescribeMLModelsInput) SetLT(v string) *DescribeMLModelsInput {
-	s.LT = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeMLModelsInput) SetLimit(v int64) *DescribeMLModelsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNE sets the NE field's value.
-func (s *DescribeMLModelsInput) SetNE(v string) *DescribeMLModelsInput {
-	s.NE = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMLModelsInput) SetNextToken(v string) *DescribeMLModelsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPrefix sets the Prefix field's value.
-func (s *DescribeMLModelsInput) SetPrefix(v string) *DescribeMLModelsInput {
-	s.Prefix = &v
-	return s
-}
-
-// SetSortOrder sets the SortOrder field's value.
-func (s *DescribeMLModelsInput) SetSortOrder(v SortOrder) *DescribeMLModelsInput {
-	s.SortOrder = v
-	return s
-}
-
 // Represents the output of a DescribeMLModels operation. The content is essentially
 // a list of MLModel.
 type DescribeMLModelsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the next page in the paginated results that indicates at least
 	// one more page follows.
 	NextToken *string `type:"string"`
 
 	// A list of MLModel that meet the search criteria.
-	Results []*MLModel `type:"list"`
+	Results []MLModel `type:"list"`
 }
 
 // String returns the string representation
@@ -4316,16 +3666,9 @@ func (s DescribeMLModelsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMLModelsOutput) SetNextToken(v string) *DescribeMLModelsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResults sets the Results field's value.
-func (s *DescribeMLModelsOutput) SetResults(v []*MLModel) *DescribeMLModelsOutput {
-	s.Results = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMLModelsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DescribeTagsInput struct {
@@ -4339,7 +3682,7 @@ type DescribeTagsInput struct {
 	// The type of the ML object.
 	//
 	// ResourceType is a required field
-	ResourceType TaggableResourceType `type:"string" required:"true"`
+	ResourceType TaggableResourceType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -4372,30 +3715,20 @@ func (s *DescribeTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DescribeTagsInput) SetResourceId(v string) *DescribeTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *DescribeTagsInput) SetResourceType(v TaggableResourceType) *DescribeTagsInput {
-	s.ResourceType = v
-	return s
-}
-
 // Amazon ML returns the following elements.
 type DescribeTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the tagged ML object.
 	ResourceId *string `min:"1" type:"string"`
 
 	// The type of the tagged ML object.
-	ResourceType TaggableResourceType `type:"string"`
+	ResourceType TaggableResourceType `type:"string" enum:"true"`
 
 	// A list of tags associated with the ML object.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -4408,22 +3741,9 @@ func (s DescribeTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *DescribeTagsOutput) SetResourceId(v string) *DescribeTagsOutput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *DescribeTagsOutput) SetResourceType(v TaggableResourceType) *DescribeTagsOutput {
-	s.ResourceType = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *DescribeTagsOutput) SetTags(v []*Tag) *DescribeTagsOutput {
-	s.Tags = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the output of GetEvaluation operation.
@@ -4502,7 +3822,7 @@ type Evaluation struct {
 	//    It is not usable.
 	//    * COMPLETED - The evaluation process completed successfully.
 	//    * DELETED - The Evaluation is marked as deleted. It is not usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4513,90 +3833,6 @@ func (s Evaluation) String() string {
 // GoString returns the string representation
 func (s Evaluation) GoString() string {
 	return s.String()
-}
-
-// SetComputeTime sets the ComputeTime field's value.
-func (s *Evaluation) SetComputeTime(v int64) *Evaluation {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *Evaluation) SetCreatedAt(v time.Time) *Evaluation {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *Evaluation) SetCreatedByIamUser(v string) *Evaluation {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetEvaluationDataSourceId sets the EvaluationDataSourceId field's value.
-func (s *Evaluation) SetEvaluationDataSourceId(v string) *Evaluation {
-	s.EvaluationDataSourceId = &v
-	return s
-}
-
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *Evaluation) SetEvaluationId(v string) *Evaluation {
-	s.EvaluationId = &v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *Evaluation) SetFinishedAt(v time.Time) *Evaluation {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetInputDataLocationS3 sets the InputDataLocationS3 field's value.
-func (s *Evaluation) SetInputDataLocationS3(v string) *Evaluation {
-	s.InputDataLocationS3 = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *Evaluation) SetLastUpdatedAt(v time.Time) *Evaluation {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *Evaluation) SetMLModelId(v string) *Evaluation {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Evaluation) SetMessage(v string) *Evaluation {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Evaluation) SetName(v string) *Evaluation {
-	s.Name = &v
-	return s
-}
-
-// SetPerformanceMetrics sets the PerformanceMetrics field's value.
-func (s *Evaluation) SetPerformanceMetrics(v *PerformanceMetrics) *Evaluation {
-	s.PerformanceMetrics = v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *Evaluation) SetStartedAt(v time.Time) *Evaluation {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Evaluation) SetStatus(v EntityStatus) *Evaluation {
-	s.Status = v
-	return s
 }
 
 type GetBatchPredictionInput struct {
@@ -4635,15 +3871,11 @@ func (s *GetBatchPredictionInput) Validate() error {
 	return nil
 }
 
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *GetBatchPredictionInput) SetBatchPredictionId(v string) *GetBatchPredictionInput {
-	s.BatchPredictionId = &v
-	return s
-}
-
 // Represents the output of a GetBatchPrediction operation and describes a BatchPrediction.
 type GetBatchPredictionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the DataSource that was used to create the BatchPrediction.
 	BatchPredictionDataSourceId *string `min:"1" type:"string"`
@@ -4716,7 +3948,7 @@ type GetBatchPredictionOutput struct {
 	//    It is not usable.
 	//    * COMPLETED - The batch prediction process completed successfully.
 	//    * DELETED - The BatchPrediction is marked as deleted. It is not usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 
 	// The number of total records that Amazon Machine Learning saw while processing
 	// the BatchPrediction.
@@ -4733,106 +3965,9 @@ func (s GetBatchPredictionOutput) GoString() string {
 	return s.String()
 }
 
-// SetBatchPredictionDataSourceId sets the BatchPredictionDataSourceId field's value.
-func (s *GetBatchPredictionOutput) SetBatchPredictionDataSourceId(v string) *GetBatchPredictionOutput {
-	s.BatchPredictionDataSourceId = &v
-	return s
-}
-
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *GetBatchPredictionOutput) SetBatchPredictionId(v string) *GetBatchPredictionOutput {
-	s.BatchPredictionId = &v
-	return s
-}
-
-// SetComputeTime sets the ComputeTime field's value.
-func (s *GetBatchPredictionOutput) SetComputeTime(v int64) *GetBatchPredictionOutput {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *GetBatchPredictionOutput) SetCreatedAt(v time.Time) *GetBatchPredictionOutput {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *GetBatchPredictionOutput) SetCreatedByIamUser(v string) *GetBatchPredictionOutput {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *GetBatchPredictionOutput) SetFinishedAt(v time.Time) *GetBatchPredictionOutput {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetInputDataLocationS3 sets the InputDataLocationS3 field's value.
-func (s *GetBatchPredictionOutput) SetInputDataLocationS3(v string) *GetBatchPredictionOutput {
-	s.InputDataLocationS3 = &v
-	return s
-}
-
-// SetInvalidRecordCount sets the InvalidRecordCount field's value.
-func (s *GetBatchPredictionOutput) SetInvalidRecordCount(v int64) *GetBatchPredictionOutput {
-	s.InvalidRecordCount = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *GetBatchPredictionOutput) SetLastUpdatedAt(v time.Time) *GetBatchPredictionOutput {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *GetBatchPredictionOutput) SetLogUri(v string) *GetBatchPredictionOutput {
-	s.LogUri = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *GetBatchPredictionOutput) SetMLModelId(v string) *GetBatchPredictionOutput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *GetBatchPredictionOutput) SetMessage(v string) *GetBatchPredictionOutput {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetBatchPredictionOutput) SetName(v string) *GetBatchPredictionOutput {
-	s.Name = &v
-	return s
-}
-
-// SetOutputUri sets the OutputUri field's value.
-func (s *GetBatchPredictionOutput) SetOutputUri(v string) *GetBatchPredictionOutput {
-	s.OutputUri = &v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *GetBatchPredictionOutput) SetStartedAt(v time.Time) *GetBatchPredictionOutput {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetBatchPredictionOutput) SetStatus(v EntityStatus) *GetBatchPredictionOutput {
-	s.Status = v
-	return s
-}
-
-// SetTotalRecordCount sets the TotalRecordCount field's value.
-func (s *GetBatchPredictionOutput) SetTotalRecordCount(v int64) *GetBatchPredictionOutput {
-	s.TotalRecordCount = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetBatchPredictionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type GetDataSourceInput struct {
@@ -4878,21 +4013,11 @@ func (s *GetDataSourceInput) Validate() error {
 	return nil
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *GetDataSourceInput) SetDataSourceId(v string) *GetDataSourceInput {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetVerbose sets the Verbose field's value.
-func (s *GetDataSourceInput) SetVerbose(v bool) *GetDataSourceInput {
-	s.Verbose = &v
-	return s
-}
-
 // Represents the output of a GetDataSource operation and describes a DataSource.
 type GetDataSourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The parameter is true if statistics need to be generated from the observation
 	// data.
@@ -4978,7 +4103,7 @@ type GetDataSourceOutput struct {
 	//    It is not usable.
 	//    * COMPLETED - The creation process completed successfully.
 	//    * DELETED - The DataSource is marked as deleted. It is not usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4991,124 +4116,9 @@ func (s GetDataSourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetComputeStatistics sets the ComputeStatistics field's value.
-func (s *GetDataSourceOutput) SetComputeStatistics(v bool) *GetDataSourceOutput {
-	s.ComputeStatistics = &v
-	return s
-}
-
-// SetComputeTime sets the ComputeTime field's value.
-func (s *GetDataSourceOutput) SetComputeTime(v int64) *GetDataSourceOutput {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *GetDataSourceOutput) SetCreatedAt(v time.Time) *GetDataSourceOutput {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *GetDataSourceOutput) SetCreatedByIamUser(v string) *GetDataSourceOutput {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetDataLocationS3 sets the DataLocationS3 field's value.
-func (s *GetDataSourceOutput) SetDataLocationS3(v string) *GetDataSourceOutput {
-	s.DataLocationS3 = &v
-	return s
-}
-
-// SetDataRearrangement sets the DataRearrangement field's value.
-func (s *GetDataSourceOutput) SetDataRearrangement(v string) *GetDataSourceOutput {
-	s.DataRearrangement = &v
-	return s
-}
-
-// SetDataSizeInBytes sets the DataSizeInBytes field's value.
-func (s *GetDataSourceOutput) SetDataSizeInBytes(v int64) *GetDataSourceOutput {
-	s.DataSizeInBytes = &v
-	return s
-}
-
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *GetDataSourceOutput) SetDataSourceId(v string) *GetDataSourceOutput {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetDataSourceSchema sets the DataSourceSchema field's value.
-func (s *GetDataSourceOutput) SetDataSourceSchema(v string) *GetDataSourceOutput {
-	s.DataSourceSchema = &v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *GetDataSourceOutput) SetFinishedAt(v time.Time) *GetDataSourceOutput {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *GetDataSourceOutput) SetLastUpdatedAt(v time.Time) *GetDataSourceOutput {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *GetDataSourceOutput) SetLogUri(v string) *GetDataSourceOutput {
-	s.LogUri = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *GetDataSourceOutput) SetMessage(v string) *GetDataSourceOutput {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetDataSourceOutput) SetName(v string) *GetDataSourceOutput {
-	s.Name = &v
-	return s
-}
-
-// SetNumberOfFiles sets the NumberOfFiles field's value.
-func (s *GetDataSourceOutput) SetNumberOfFiles(v int64) *GetDataSourceOutput {
-	s.NumberOfFiles = &v
-	return s
-}
-
-// SetRDSMetadata sets the RDSMetadata field's value.
-func (s *GetDataSourceOutput) SetRDSMetadata(v *RDSMetadata) *GetDataSourceOutput {
-	s.RDSMetadata = v
-	return s
-}
-
-// SetRedshiftMetadata sets the RedshiftMetadata field's value.
-func (s *GetDataSourceOutput) SetRedshiftMetadata(v *RedshiftMetadata) *GetDataSourceOutput {
-	s.RedshiftMetadata = v
-	return s
-}
-
-// SetRoleARN sets the RoleARN field's value.
-func (s *GetDataSourceOutput) SetRoleARN(v string) *GetDataSourceOutput {
-	s.RoleARN = &v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *GetDataSourceOutput) SetStartedAt(v time.Time) *GetDataSourceOutput {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetDataSourceOutput) SetStatus(v EntityStatus) *GetDataSourceOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDataSourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type GetEvaluationInput struct {
@@ -5148,15 +4158,11 @@ func (s *GetEvaluationInput) Validate() error {
 	return nil
 }
 
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *GetEvaluationInput) SetEvaluationId(v string) *GetEvaluationInput {
-	s.EvaluationId = &v
-	return s
-}
-
 // Represents the output of a GetEvaluation operation and describes an Evaluation.
 type GetEvaluationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The approximate CPU time in milliseconds that Amazon Machine Learning spent
 	// processing the Evaluation, normalized and scaled on computation resources.
@@ -5235,7 +4241,7 @@ type GetEvaluationOutput struct {
 	//    It is not usable.
 	//    * COMPLETED - The evaluation process completed successfully.
 	//    * DELETED - The Evaluation is marked as deleted. It is not usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -5248,94 +4254,9 @@ func (s GetEvaluationOutput) GoString() string {
 	return s.String()
 }
 
-// SetComputeTime sets the ComputeTime field's value.
-func (s *GetEvaluationOutput) SetComputeTime(v int64) *GetEvaluationOutput {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *GetEvaluationOutput) SetCreatedAt(v time.Time) *GetEvaluationOutput {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *GetEvaluationOutput) SetCreatedByIamUser(v string) *GetEvaluationOutput {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetEvaluationDataSourceId sets the EvaluationDataSourceId field's value.
-func (s *GetEvaluationOutput) SetEvaluationDataSourceId(v string) *GetEvaluationOutput {
-	s.EvaluationDataSourceId = &v
-	return s
-}
-
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *GetEvaluationOutput) SetEvaluationId(v string) *GetEvaluationOutput {
-	s.EvaluationId = &v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *GetEvaluationOutput) SetFinishedAt(v time.Time) *GetEvaluationOutput {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetInputDataLocationS3 sets the InputDataLocationS3 field's value.
-func (s *GetEvaluationOutput) SetInputDataLocationS3(v string) *GetEvaluationOutput {
-	s.InputDataLocationS3 = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *GetEvaluationOutput) SetLastUpdatedAt(v time.Time) *GetEvaluationOutput {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *GetEvaluationOutput) SetLogUri(v string) *GetEvaluationOutput {
-	s.LogUri = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *GetEvaluationOutput) SetMLModelId(v string) *GetEvaluationOutput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *GetEvaluationOutput) SetMessage(v string) *GetEvaluationOutput {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetEvaluationOutput) SetName(v string) *GetEvaluationOutput {
-	s.Name = &v
-	return s
-}
-
-// SetPerformanceMetrics sets the PerformanceMetrics field's value.
-func (s *GetEvaluationOutput) SetPerformanceMetrics(v *PerformanceMetrics) *GetEvaluationOutput {
-	s.PerformanceMetrics = v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *GetEvaluationOutput) SetStartedAt(v time.Time) *GetEvaluationOutput {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetEvaluationOutput) SetStatus(v EntityStatus) *GetEvaluationOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEvaluationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type GetMLModelInput struct {
@@ -5381,22 +4302,12 @@ func (s *GetMLModelInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *GetMLModelInput) SetMLModelId(v string) *GetMLModelInput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetVerbose sets the Verbose field's value.
-func (s *GetMLModelInput) SetVerbose(v bool) *GetMLModelInput {
-	s.Verbose = &v
-	return s
-}
-
 // Represents the output of a GetMLModel operation, and provides detailed information
 // about a MLModel.
 type GetMLModelOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The approximate CPU time in milliseconds that Amazon Machine Learning spent
 	// processing the MLModel, normalized and scaled on computation resources. ComputeTime
@@ -5441,7 +4352,7 @@ type GetMLModelOutput struct {
 	//    an e-commerce website?"
 	//    * MULTICLASS -- Produces one of several possible results. For example,
 	//    "Is this a HIGH, LOW or MEDIUM risk trade?"
-	MLModelType MLModelType `type:"string"`
+	MLModelType MLModelType `type:"string" enum:"true"`
 
 	// A description of the most recent details about accessing the MLModel.
 	Message *string `type:"string"`
@@ -5490,7 +4401,7 @@ type GetMLModelOutput struct {
 	//
 	//    * COMPLETED - The request completed successfully.
 	//    * DELETED - The MLModel is marked as deleted. It isn't usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 
 	// The ID of the training DataSource.
 	TrainingDataSourceId *string `min:"1" type:"string"`
@@ -5533,7 +4444,7 @@ type GetMLModelOutput struct {
 	// The value is a double that ranges from 0 to MAX_DOUBLE. The default is to
 	//    not use L2 normalization. This parameter can't be used when L1 is specified.
 	//    Use this parameter sparingly.
-	TrainingParameters map[string]*string `type:"map"`
+	TrainingParameters map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -5546,130 +4457,9 @@ func (s GetMLModelOutput) GoString() string {
 	return s.String()
 }
 
-// SetComputeTime sets the ComputeTime field's value.
-func (s *GetMLModelOutput) SetComputeTime(v int64) *GetMLModelOutput {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *GetMLModelOutput) SetCreatedAt(v time.Time) *GetMLModelOutput {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *GetMLModelOutput) SetCreatedByIamUser(v string) *GetMLModelOutput {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetEndpointInfo sets the EndpointInfo field's value.
-func (s *GetMLModelOutput) SetEndpointInfo(v *RealtimeEndpointInfo) *GetMLModelOutput {
-	s.EndpointInfo = v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *GetMLModelOutput) SetFinishedAt(v time.Time) *GetMLModelOutput {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetInputDataLocationS3 sets the InputDataLocationS3 field's value.
-func (s *GetMLModelOutput) SetInputDataLocationS3(v string) *GetMLModelOutput {
-	s.InputDataLocationS3 = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *GetMLModelOutput) SetLastUpdatedAt(v time.Time) *GetMLModelOutput {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetLogUri sets the LogUri field's value.
-func (s *GetMLModelOutput) SetLogUri(v string) *GetMLModelOutput {
-	s.LogUri = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *GetMLModelOutput) SetMLModelId(v string) *GetMLModelOutput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMLModelType sets the MLModelType field's value.
-func (s *GetMLModelOutput) SetMLModelType(v MLModelType) *GetMLModelOutput {
-	s.MLModelType = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *GetMLModelOutput) SetMessage(v string) *GetMLModelOutput {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetMLModelOutput) SetName(v string) *GetMLModelOutput {
-	s.Name = &v
-	return s
-}
-
-// SetRecipe sets the Recipe field's value.
-func (s *GetMLModelOutput) SetRecipe(v string) *GetMLModelOutput {
-	s.Recipe = &v
-	return s
-}
-
-// SetSchema sets the Schema field's value.
-func (s *GetMLModelOutput) SetSchema(v string) *GetMLModelOutput {
-	s.Schema = &v
-	return s
-}
-
-// SetScoreThreshold sets the ScoreThreshold field's value.
-func (s *GetMLModelOutput) SetScoreThreshold(v float64) *GetMLModelOutput {
-	s.ScoreThreshold = &v
-	return s
-}
-
-// SetScoreThresholdLastUpdatedAt sets the ScoreThresholdLastUpdatedAt field's value.
-func (s *GetMLModelOutput) SetScoreThresholdLastUpdatedAt(v time.Time) *GetMLModelOutput {
-	s.ScoreThresholdLastUpdatedAt = &v
-	return s
-}
-
-// SetSizeInBytes sets the SizeInBytes field's value.
-func (s *GetMLModelOutput) SetSizeInBytes(v int64) *GetMLModelOutput {
-	s.SizeInBytes = &v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *GetMLModelOutput) SetStartedAt(v time.Time) *GetMLModelOutput {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetMLModelOutput) SetStatus(v EntityStatus) *GetMLModelOutput {
-	s.Status = v
-	return s
-}
-
-// SetTrainingDataSourceId sets the TrainingDataSourceId field's value.
-func (s *GetMLModelOutput) SetTrainingDataSourceId(v string) *GetMLModelOutput {
-	s.TrainingDataSourceId = &v
-	return s
-}
-
-// SetTrainingParameters sets the TrainingParameters field's value.
-func (s *GetMLModelOutput) SetTrainingParameters(v map[string]*string) *GetMLModelOutput {
-	s.TrainingParameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetMLModelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the output of a GetMLModel operation.
@@ -5683,7 +4473,7 @@ type MLModel struct {
 	//
 	//    * SGD -- Stochastic gradient descent. The goal of SGD is to minimize the
 	//    gradient of the loss function.
-	Algorithm Algorithm `type:"string"`
+	Algorithm Algorithm `type:"string" enum:"true"`
 
 	// Long integer type that is a 64-bit signed number.
 	ComputeTime *int64 `type:"long"`
@@ -5721,7 +4511,7 @@ type MLModel struct {
 	//    a child-friendly web site?".
 	//    * MULTICLASS - Produces one of several possible results. For example,
 	//    "Is this a HIGH-, LOW-, or MEDIUM-risk trade?".
-	MLModelType MLModelType `type:"string"`
+	MLModelType MLModelType `type:"string" enum:"true"`
 
 	// A description of the most recent details about accessing the MLModel.
 	Message *string `type:"string"`
@@ -5751,7 +4541,7 @@ type MLModel struct {
 	//    The model isn't usable.
 	//    * COMPLETED - The creation process completed successfully.
 	//    * DELETED - The MLModel is marked as deleted. It isn't usable.
-	Status EntityStatus `type:"string"`
+	Status EntityStatus `type:"string" enum:"true"`
 
 	// The ID of the training DataSource. The CreateMLModel operation uses the TrainingDataSourceId.
 	TrainingDataSourceId *string `min:"1" type:"string"`
@@ -5794,7 +4584,7 @@ type MLModel struct {
 	// The value is a double that ranges from 0 to MAX_DOUBLE. The default is to
 	//    not use L2 normalization. This parameter can't be used when L1 is specified.
 	//    Use this parameter sparingly.
-	TrainingParameters map[string]*string `type:"map"`
+	TrainingParameters map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -5805,120 +4595,6 @@ func (s MLModel) String() string {
 // GoString returns the string representation
 func (s MLModel) GoString() string {
 	return s.String()
-}
-
-// SetAlgorithm sets the Algorithm field's value.
-func (s *MLModel) SetAlgorithm(v Algorithm) *MLModel {
-	s.Algorithm = v
-	return s
-}
-
-// SetComputeTime sets the ComputeTime field's value.
-func (s *MLModel) SetComputeTime(v int64) *MLModel {
-	s.ComputeTime = &v
-	return s
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *MLModel) SetCreatedAt(v time.Time) *MLModel {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetCreatedByIamUser sets the CreatedByIamUser field's value.
-func (s *MLModel) SetCreatedByIamUser(v string) *MLModel {
-	s.CreatedByIamUser = &v
-	return s
-}
-
-// SetEndpointInfo sets the EndpointInfo field's value.
-func (s *MLModel) SetEndpointInfo(v *RealtimeEndpointInfo) *MLModel {
-	s.EndpointInfo = v
-	return s
-}
-
-// SetFinishedAt sets the FinishedAt field's value.
-func (s *MLModel) SetFinishedAt(v time.Time) *MLModel {
-	s.FinishedAt = &v
-	return s
-}
-
-// SetInputDataLocationS3 sets the InputDataLocationS3 field's value.
-func (s *MLModel) SetInputDataLocationS3(v string) *MLModel {
-	s.InputDataLocationS3 = &v
-	return s
-}
-
-// SetLastUpdatedAt sets the LastUpdatedAt field's value.
-func (s *MLModel) SetLastUpdatedAt(v time.Time) *MLModel {
-	s.LastUpdatedAt = &v
-	return s
-}
-
-// SetMLModelId sets the MLModelId field's value.
-func (s *MLModel) SetMLModelId(v string) *MLModel {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMLModelType sets the MLModelType field's value.
-func (s *MLModel) SetMLModelType(v MLModelType) *MLModel {
-	s.MLModelType = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *MLModel) SetMessage(v string) *MLModel {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *MLModel) SetName(v string) *MLModel {
-	s.Name = &v
-	return s
-}
-
-// SetScoreThreshold sets the ScoreThreshold field's value.
-func (s *MLModel) SetScoreThreshold(v float64) *MLModel {
-	s.ScoreThreshold = &v
-	return s
-}
-
-// SetScoreThresholdLastUpdatedAt sets the ScoreThresholdLastUpdatedAt field's value.
-func (s *MLModel) SetScoreThresholdLastUpdatedAt(v time.Time) *MLModel {
-	s.ScoreThresholdLastUpdatedAt = &v
-	return s
-}
-
-// SetSizeInBytes sets the SizeInBytes field's value.
-func (s *MLModel) SetSizeInBytes(v int64) *MLModel {
-	s.SizeInBytes = &v
-	return s
-}
-
-// SetStartedAt sets the StartedAt field's value.
-func (s *MLModel) SetStartedAt(v time.Time) *MLModel {
-	s.StartedAt = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *MLModel) SetStatus(v EntityStatus) *MLModel {
-	s.Status = v
-	return s
-}
-
-// SetTrainingDataSourceId sets the TrainingDataSourceId field's value.
-func (s *MLModel) SetTrainingDataSourceId(v string) *MLModel {
-	s.TrainingDataSourceId = &v
-	return s
-}
-
-// SetTrainingParameters sets the TrainingParameters field's value.
-func (s *MLModel) SetTrainingParameters(v map[string]*string) *MLModel {
-	s.TrainingParameters = v
-	return s
 }
 
 // Measurements of how well the MLModel performed on known observations. One
@@ -5939,7 +4615,7 @@ func (s *MLModel) SetTrainingParameters(v map[string]*string) *MLModel {
 type PerformanceMetrics struct {
 	_ struct{} `type:"structure"`
 
-	Properties map[string]*string `type:"map"`
+	Properties map[string]string `type:"map"`
 }
 
 // String returns the string representation
@@ -5950,12 +4626,6 @@ func (s PerformanceMetrics) String() string {
 // GoString returns the string representation
 func (s PerformanceMetrics) GoString() string {
 	return s.String()
-}
-
-// SetProperties sets the Properties field's value.
-func (s *PerformanceMetrics) SetProperties(v map[string]*string) *PerformanceMetrics {
-	s.Properties = v
-	return s
 }
 
 type PredictInput struct {
@@ -5972,7 +4642,7 @@ type PredictInput struct {
 	// A map of variable name-value pairs that represent an observation.
 	//
 	// Record is a required field
-	Record map[string]*string `type:"map" required:"true"`
+	Record map[string]string `type:"map" required:"true"`
 }
 
 // String returns the string representation
@@ -6010,26 +4680,10 @@ func (s *PredictInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *PredictInput) SetMLModelId(v string) *PredictInput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetPredictEndpoint sets the PredictEndpoint field's value.
-func (s *PredictInput) SetPredictEndpoint(v string) *PredictInput {
-	s.PredictEndpoint = &v
-	return s
-}
-
-// SetRecord sets the Record field's value.
-func (s *PredictInput) SetRecord(v map[string]*string) *PredictInput {
-	s.Record = v
-	return s
-}
-
 type PredictOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The output from a Predict operation:
 	//
@@ -6056,10 +4710,9 @@ func (s PredictOutput) GoString() string {
 	return s.String()
 }
 
-// SetPrediction sets the Prediction field's value.
-func (s *PredictOutput) SetPrediction(v *Prediction) *PredictOutput {
-	s.Prediction = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PredictOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The output from a Predict operation:
@@ -6078,13 +4731,13 @@ type Prediction struct {
 	_ struct{} `type:"structure"`
 
 	// Provides any additional details regarding the prediction.
-	Details map[string]*string `locationName:"details" type:"map"`
+	Details map[string]string `locationName:"details" type:"map"`
 
 	// The prediction label for either a BINARY or MULTICLASSMLModel.
 	PredictedLabel *string `locationName:"predictedLabel" min:"1" type:"string"`
 
 	// Provides the raw classification score corresponding to each label.
-	PredictedScores map[string]*float64 `locationName:"predictedScores" type:"map"`
+	PredictedScores map[string]float64 `locationName:"predictedScores" type:"map"`
 
 	// The prediction value for REGRESSIONMLModel
 	PredictedValue *float64 `locationName:"predictedValue" type:"float"`
@@ -6098,30 +4751,6 @@ func (s Prediction) String() string {
 // GoString returns the string representation
 func (s Prediction) GoString() string {
 	return s.String()
-}
-
-// SetDetails sets the Details field's value.
-func (s *Prediction) SetDetails(v map[string]*string) *Prediction {
-	s.Details = v
-	return s
-}
-
-// SetPredictedLabel sets the PredictedLabel field's value.
-func (s *Prediction) SetPredictedLabel(v string) *Prediction {
-	s.PredictedLabel = &v
-	return s
-}
-
-// SetPredictedScores sets the PredictedScores field's value.
-func (s *Prediction) SetPredictedScores(v map[string]*float64) *Prediction {
-	s.PredictedScores = v
-	return s
-}
-
-// SetPredictedValue sets the PredictedValue field's value.
-func (s *Prediction) SetPredictedValue(v float64) *Prediction {
-	s.PredictedValue = &v
-	return s
 }
 
 // The data specification of an Amazon Relational Database Service (Amazon RDS)
@@ -6278,7 +4907,7 @@ type RDSDataSpec struct {
 	// the copy operation from Amazon RDS to an Amazon S3 task.
 	//
 	// SecurityGroupIds is a required field
-	SecurityGroupIds []*string `type:"list" required:"true"`
+	SecurityGroupIds []string `type:"list" required:"true"`
 
 	// The query that is used to retrieve the observation data for the DataSource.
 	//
@@ -6375,72 +5004,6 @@ func (s *RDSDataSpec) Validate() error {
 	return nil
 }
 
-// SetDataRearrangement sets the DataRearrangement field's value.
-func (s *RDSDataSpec) SetDataRearrangement(v string) *RDSDataSpec {
-	s.DataRearrangement = &v
-	return s
-}
-
-// SetDataSchema sets the DataSchema field's value.
-func (s *RDSDataSpec) SetDataSchema(v string) *RDSDataSpec {
-	s.DataSchema = &v
-	return s
-}
-
-// SetDataSchemaUri sets the DataSchemaUri field's value.
-func (s *RDSDataSpec) SetDataSchemaUri(v string) *RDSDataSpec {
-	s.DataSchemaUri = &v
-	return s
-}
-
-// SetDatabaseCredentials sets the DatabaseCredentials field's value.
-func (s *RDSDataSpec) SetDatabaseCredentials(v *RDSDatabaseCredentials) *RDSDataSpec {
-	s.DatabaseCredentials = v
-	return s
-}
-
-// SetDatabaseInformation sets the DatabaseInformation field's value.
-func (s *RDSDataSpec) SetDatabaseInformation(v *RDSDatabase) *RDSDataSpec {
-	s.DatabaseInformation = v
-	return s
-}
-
-// SetResourceRole sets the ResourceRole field's value.
-func (s *RDSDataSpec) SetResourceRole(v string) *RDSDataSpec {
-	s.ResourceRole = &v
-	return s
-}
-
-// SetS3StagingLocation sets the S3StagingLocation field's value.
-func (s *RDSDataSpec) SetS3StagingLocation(v string) *RDSDataSpec {
-	s.S3StagingLocation = &v
-	return s
-}
-
-// SetSecurityGroupIds sets the SecurityGroupIds field's value.
-func (s *RDSDataSpec) SetSecurityGroupIds(v []*string) *RDSDataSpec {
-	s.SecurityGroupIds = v
-	return s
-}
-
-// SetSelectSqlQuery sets the SelectSqlQuery field's value.
-func (s *RDSDataSpec) SetSelectSqlQuery(v string) *RDSDataSpec {
-	s.SelectSqlQuery = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *RDSDataSpec) SetServiceRole(v string) *RDSDataSpec {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetSubnetId sets the SubnetId field's value.
-func (s *RDSDataSpec) SetSubnetId(v string) *RDSDataSpec {
-	s.SubnetId = &v
-	return s
-}
-
 // The database details of an Amazon RDS database.
 type RDSDatabase struct {
 	_ struct{} `type:"structure"`
@@ -6488,18 +5051,6 @@ func (s *RDSDatabase) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetDatabaseName sets the DatabaseName field's value.
-func (s *RDSDatabase) SetDatabaseName(v string) *RDSDatabase {
-	s.DatabaseName = &v
-	return s
-}
-
-// SetInstanceIdentifier sets the InstanceIdentifier field's value.
-func (s *RDSDatabase) SetInstanceIdentifier(v string) *RDSDatabase {
-	s.InstanceIdentifier = &v
-	return s
 }
 
 // The database credentials to connect to a database on an RDS DB instance.
@@ -6555,18 +5106,6 @@ func (s *RDSDatabaseCredentials) Validate() error {
 	return nil
 }
 
-// SetPassword sets the Password field's value.
-func (s *RDSDatabaseCredentials) SetPassword(v string) *RDSDatabaseCredentials {
-	s.Password = &v
-	return s
-}
-
-// SetUsername sets the Username field's value.
-func (s *RDSDatabaseCredentials) SetUsername(v string) *RDSDatabaseCredentials {
-	s.Username = &v
-	return s
-}
-
 // The datasource details that are specific to Amazon RDS.
 type RDSMetadata struct {
 	_ struct{} `type:"structure"`
@@ -6611,42 +5150,6 @@ func (s RDSMetadata) GoString() string {
 	return s.String()
 }
 
-// SetDataPipelineId sets the DataPipelineId field's value.
-func (s *RDSMetadata) SetDataPipelineId(v string) *RDSMetadata {
-	s.DataPipelineId = &v
-	return s
-}
-
-// SetDatabase sets the Database field's value.
-func (s *RDSMetadata) SetDatabase(v *RDSDatabase) *RDSMetadata {
-	s.Database = v
-	return s
-}
-
-// SetDatabaseUserName sets the DatabaseUserName field's value.
-func (s *RDSMetadata) SetDatabaseUserName(v string) *RDSMetadata {
-	s.DatabaseUserName = &v
-	return s
-}
-
-// SetResourceRole sets the ResourceRole field's value.
-func (s *RDSMetadata) SetResourceRole(v string) *RDSMetadata {
-	s.ResourceRole = &v
-	return s
-}
-
-// SetSelectSqlQuery sets the SelectSqlQuery field's value.
-func (s *RDSMetadata) SetSelectSqlQuery(v string) *RDSMetadata {
-	s.SelectSqlQuery = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *RDSMetadata) SetServiceRole(v string) *RDSMetadata {
-	s.ServiceRole = &v
-	return s
-}
-
 // Describes the real-time endpoint information for an MLModel.
 type RealtimeEndpointInfo struct {
 	_ struct{} `type:"structure"`
@@ -6661,7 +5164,7 @@ type RealtimeEndpointInfo struct {
 	//    * NONE - Endpoint does not exist or was previously deleted.
 	//    * READY - Endpoint is ready to be used for real-time predictions.
 	//    * UPDATING - Updating/creating the endpoint.
-	EndpointStatus RealtimeEndpointStatus `type:"string"`
+	EndpointStatus RealtimeEndpointStatus `type:"string" enum:"true"`
 
 	// The URI that specifies where to send real-time prediction requests for the
 	// MLModel.
@@ -6683,30 +5186,6 @@ func (s RealtimeEndpointInfo) String() string {
 // GoString returns the string representation
 func (s RealtimeEndpointInfo) GoString() string {
 	return s.String()
-}
-
-// SetCreatedAt sets the CreatedAt field's value.
-func (s *RealtimeEndpointInfo) SetCreatedAt(v time.Time) *RealtimeEndpointInfo {
-	s.CreatedAt = &v
-	return s
-}
-
-// SetEndpointStatus sets the EndpointStatus field's value.
-func (s *RealtimeEndpointInfo) SetEndpointStatus(v RealtimeEndpointStatus) *RealtimeEndpointInfo {
-	s.EndpointStatus = v
-	return s
-}
-
-// SetEndpointUrl sets the EndpointUrl field's value.
-func (s *RealtimeEndpointInfo) SetEndpointUrl(v string) *RealtimeEndpointInfo {
-	s.EndpointUrl = &v
-	return s
-}
-
-// SetPeakRequestsPerSecond sets the PeakRequestsPerSecond field's value.
-func (s *RealtimeEndpointInfo) SetPeakRequestsPerSecond(v int64) *RealtimeEndpointInfo {
-	s.PeakRequestsPerSecond = &v
-	return s
 }
 
 // Describes the data specification of an Amazon Redshift DataSource.
@@ -6904,48 +5383,6 @@ func (s *RedshiftDataSpec) Validate() error {
 	return nil
 }
 
-// SetDataRearrangement sets the DataRearrangement field's value.
-func (s *RedshiftDataSpec) SetDataRearrangement(v string) *RedshiftDataSpec {
-	s.DataRearrangement = &v
-	return s
-}
-
-// SetDataSchema sets the DataSchema field's value.
-func (s *RedshiftDataSpec) SetDataSchema(v string) *RedshiftDataSpec {
-	s.DataSchema = &v
-	return s
-}
-
-// SetDataSchemaUri sets the DataSchemaUri field's value.
-func (s *RedshiftDataSpec) SetDataSchemaUri(v string) *RedshiftDataSpec {
-	s.DataSchemaUri = &v
-	return s
-}
-
-// SetDatabaseCredentials sets the DatabaseCredentials field's value.
-func (s *RedshiftDataSpec) SetDatabaseCredentials(v *RedshiftDatabaseCredentials) *RedshiftDataSpec {
-	s.DatabaseCredentials = v
-	return s
-}
-
-// SetDatabaseInformation sets the DatabaseInformation field's value.
-func (s *RedshiftDataSpec) SetDatabaseInformation(v *RedshiftDatabase) *RedshiftDataSpec {
-	s.DatabaseInformation = v
-	return s
-}
-
-// SetS3StagingLocation sets the S3StagingLocation field's value.
-func (s *RedshiftDataSpec) SetS3StagingLocation(v string) *RedshiftDataSpec {
-	s.S3StagingLocation = &v
-	return s
-}
-
-// SetSelectSqlQuery sets the SelectSqlQuery field's value.
-func (s *RedshiftDataSpec) SetSelectSqlQuery(v string) *RedshiftDataSpec {
-	s.SelectSqlQuery = &v
-	return s
-}
-
 // Describes the database details required to connect to an Amazon Redshift
 // database.
 type RedshiftDatabase struct {
@@ -6994,18 +5431,6 @@ func (s *RedshiftDatabase) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetClusterIdentifier sets the ClusterIdentifier field's value.
-func (s *RedshiftDatabase) SetClusterIdentifier(v string) *RedshiftDatabase {
-	s.ClusterIdentifier = &v
-	return s
-}
-
-// SetDatabaseName sets the DatabaseName field's value.
-func (s *RedshiftDatabase) SetDatabaseName(v string) *RedshiftDatabase {
-	s.DatabaseName = &v
-	return s
 }
 
 // Describes the database credentials for connecting to a database on an Amazon
@@ -7064,18 +5489,6 @@ func (s *RedshiftDatabaseCredentials) Validate() error {
 	return nil
 }
 
-// SetPassword sets the Password field's value.
-func (s *RedshiftDatabaseCredentials) SetPassword(v string) *RedshiftDatabaseCredentials {
-	s.Password = &v
-	return s
-}
-
-// SetUsername sets the Username field's value.
-func (s *RedshiftDatabaseCredentials) SetUsername(v string) *RedshiftDatabaseCredentials {
-	s.Username = &v
-	return s
-}
-
 // Describes the DataSource details specific to Amazon Redshift.
 type RedshiftMetadata struct {
 	_ struct{} `type:"structure"`
@@ -7103,24 +5516,6 @@ func (s RedshiftMetadata) String() string {
 // GoString returns the string representation
 func (s RedshiftMetadata) GoString() string {
 	return s.String()
-}
-
-// SetDatabaseUserName sets the DatabaseUserName field's value.
-func (s *RedshiftMetadata) SetDatabaseUserName(v string) *RedshiftMetadata {
-	s.DatabaseUserName = &v
-	return s
-}
-
-// SetRedshiftDatabase sets the RedshiftDatabase field's value.
-func (s *RedshiftMetadata) SetRedshiftDatabase(v *RedshiftDatabase) *RedshiftMetadata {
-	s.RedshiftDatabase = v
-	return s
-}
-
-// SetSelectSqlQuery sets the SelectSqlQuery field's value.
-func (s *RedshiftMetadata) SetSelectSqlQuery(v string) *RedshiftMetadata {
-	s.SelectSqlQuery = &v
-	return s
 }
 
 // Describes the data specification of a DataSource.
@@ -7278,30 +5673,6 @@ func (s *S3DataSpec) Validate() error {
 	return nil
 }
 
-// SetDataLocationS3 sets the DataLocationS3 field's value.
-func (s *S3DataSpec) SetDataLocationS3(v string) *S3DataSpec {
-	s.DataLocationS3 = &v
-	return s
-}
-
-// SetDataRearrangement sets the DataRearrangement field's value.
-func (s *S3DataSpec) SetDataRearrangement(v string) *S3DataSpec {
-	s.DataRearrangement = &v
-	return s
-}
-
-// SetDataSchema sets the DataSchema field's value.
-func (s *S3DataSpec) SetDataSchema(v string) *S3DataSpec {
-	s.DataSchema = &v
-	return s
-}
-
-// SetDataSchemaLocationS3 sets the DataSchemaLocationS3 field's value.
-func (s *S3DataSpec) SetDataSchemaLocationS3(v string) *S3DataSpec {
-	s.DataSchemaLocationS3 = &v
-	return s
-}
-
 // A custom key-value pair associated with an ML object, such as an ML model.
 type Tag struct {
 	_ struct{} `type:"structure"`
@@ -7336,18 +5707,6 @@ func (s *Tag) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
 }
 
 type UpdateBatchPredictionInput struct {
@@ -7395,23 +5754,13 @@ func (s *UpdateBatchPredictionInput) Validate() error {
 	return nil
 }
 
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *UpdateBatchPredictionInput) SetBatchPredictionId(v string) *UpdateBatchPredictionInput {
-	s.BatchPredictionId = &v
-	return s
-}
-
-// SetBatchPredictionName sets the BatchPredictionName field's value.
-func (s *UpdateBatchPredictionInput) SetBatchPredictionName(v string) *UpdateBatchPredictionInput {
-	s.BatchPredictionName = &v
-	return s
-}
-
 // Represents the output of an UpdateBatchPrediction operation.
 //
 // You can see the updated content by using the GetBatchPrediction operation.
 type UpdateBatchPredictionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID assigned to the BatchPrediction during creation. This value should
 	// be identical to the value of the BatchPredictionId in the request.
@@ -7428,10 +5777,9 @@ func (s UpdateBatchPredictionOutput) GoString() string {
 	return s.String()
 }
 
-// SetBatchPredictionId sets the BatchPredictionId field's value.
-func (s *UpdateBatchPredictionOutput) SetBatchPredictionId(v string) *UpdateBatchPredictionOutput {
-	s.BatchPredictionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateBatchPredictionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type UpdateDataSourceInput struct {
@@ -7480,23 +5828,13 @@ func (s *UpdateDataSourceInput) Validate() error {
 	return nil
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *UpdateDataSourceInput) SetDataSourceId(v string) *UpdateDataSourceInput {
-	s.DataSourceId = &v
-	return s
-}
-
-// SetDataSourceName sets the DataSourceName field's value.
-func (s *UpdateDataSourceInput) SetDataSourceName(v string) *UpdateDataSourceInput {
-	s.DataSourceName = &v
-	return s
-}
-
 // Represents the output of an UpdateDataSource operation.
 //
 // You can see the updated content by using the GetBatchPrediction operation.
 type UpdateDataSourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID assigned to the DataSource during creation. This value should be identical
 	// to the value of the DataSourceID in the request.
@@ -7513,10 +5851,9 @@ func (s UpdateDataSourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetDataSourceId sets the DataSourceId field's value.
-func (s *UpdateDataSourceOutput) SetDataSourceId(v string) *UpdateDataSourceOutput {
-	s.DataSourceId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDataSourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type UpdateEvaluationInput struct {
@@ -7565,23 +5902,13 @@ func (s *UpdateEvaluationInput) Validate() error {
 	return nil
 }
 
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *UpdateEvaluationInput) SetEvaluationId(v string) *UpdateEvaluationInput {
-	s.EvaluationId = &v
-	return s
-}
-
-// SetEvaluationName sets the EvaluationName field's value.
-func (s *UpdateEvaluationInput) SetEvaluationName(v string) *UpdateEvaluationInput {
-	s.EvaluationName = &v
-	return s
-}
-
 // Represents the output of an UpdateEvaluation operation.
 //
 // You can see the updated content by using the GetEvaluation operation.
 type UpdateEvaluationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID assigned to the Evaluation during creation. This value should be identical
 	// to the value of the Evaluation in the request.
@@ -7598,10 +5925,9 @@ func (s UpdateEvaluationOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvaluationId sets the EvaluationId field's value.
-func (s *UpdateEvaluationOutput) SetEvaluationId(v string) *UpdateEvaluationOutput {
-	s.EvaluationId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateEvaluationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type UpdateMLModelInput struct {
@@ -7651,29 +5977,13 @@ func (s *UpdateMLModelInput) Validate() error {
 	return nil
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *UpdateMLModelInput) SetMLModelId(v string) *UpdateMLModelInput {
-	s.MLModelId = &v
-	return s
-}
-
-// SetMLModelName sets the MLModelName field's value.
-func (s *UpdateMLModelInput) SetMLModelName(v string) *UpdateMLModelInput {
-	s.MLModelName = &v
-	return s
-}
-
-// SetScoreThreshold sets the ScoreThreshold field's value.
-func (s *UpdateMLModelInput) SetScoreThreshold(v float64) *UpdateMLModelInput {
-	s.ScoreThreshold = &v
-	return s
-}
-
 // Represents the output of an UpdateMLModel operation.
 //
 // You can see the updated content by using the GetMLModel operation.
 type UpdateMLModelOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID assigned to the MLModel during creation. This value should be identical
 	// to the value of the MLModelID in the request.
@@ -7690,10 +6000,9 @@ func (s UpdateMLModelOutput) GoString() string {
 	return s.String()
 }
 
-// SetMLModelId sets the MLModelId field's value.
-func (s *UpdateMLModelOutput) SetMLModelId(v string) *UpdateMLModelOutput {
-	s.MLModelId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateMLModelOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The function used to train an MLModel. Training choices supported by Amazon
@@ -7707,6 +6016,15 @@ type Algorithm string
 const (
 	AlgorithmSgd Algorithm = "sgd"
 )
+
+func (enum Algorithm) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Algorithm) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // A list of the variables to use in searching or filtering BatchPrediction.
 //
@@ -7738,6 +6056,15 @@ const (
 	BatchPredictionFilterVariableDataUri       BatchPredictionFilterVariable = "DataURI"
 )
 
+func (enum BatchPredictionFilterVariable) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BatchPredictionFilterVariable) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // A list of the variables to use in searching or filtering DataSource.
 //
 //    * CreatedAt - Sets the search criteria to DataSource creation date.
@@ -7761,6 +6088,15 @@ const (
 	DataSourceFilterVariableIamuser        DataSourceFilterVariable = "IAMUser"
 )
 
+func (enum DataSourceFilterVariable) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DataSourceFilterVariable) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Contains the key values of DetailsMap: PredictiveModelType- Indicates the type of the MLModel. Algorithm- Indicates the algorithm that was used for the MLModel
 type DetailsAttributes string
 
@@ -7769,6 +6105,15 @@ const (
 	DetailsAttributesPredictiveModelType DetailsAttributes = "PredictiveModelType"
 	DetailsAttributesAlgorithm           DetailsAttributes = "Algorithm"
 )
+
+func (enum DetailsAttributes) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DetailsAttributes) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // Object status with the following possible values:
 //
@@ -7787,6 +6132,15 @@ const (
 	EntityStatusCompleted  EntityStatus = "COMPLETED"
 	EntityStatusDeleted    EntityStatus = "DELETED"
 )
+
+func (enum EntityStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EntityStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // A list of the variables to use in searching or filtering Evaluation.
 //
@@ -7816,6 +6170,15 @@ const (
 	EvaluationFilterVariableDataUri       EvaluationFilterVariable = "DataURI"
 )
 
+func (enum EvaluationFilterVariable) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EvaluationFilterVariable) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MLModelFilterVariable string
 
 // Enum values for MLModelFilterVariable
@@ -7832,6 +6195,15 @@ const (
 	MLModelFilterVariableTrainingDataUri        MLModelFilterVariable = "TrainingDataURI"
 )
 
+func (enum MLModelFilterVariable) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MLModelFilterVariable) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MLModelType string
 
 // Enum values for MLModelType
@@ -7840,6 +6212,15 @@ const (
 	MLModelTypeBinary     MLModelType = "BINARY"
 	MLModelTypeMulticlass MLModelType = "MULTICLASS"
 )
+
+func (enum MLModelType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MLModelType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RealtimeEndpointStatus string
 
@@ -7850,6 +6231,15 @@ const (
 	RealtimeEndpointStatusUpdating RealtimeEndpointStatus = "UPDATING"
 	RealtimeEndpointStatusFailed   RealtimeEndpointStatus = "FAILED"
 )
+
+func (enum RealtimeEndpointStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RealtimeEndpointStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The sort order specified in a listing condition. Possible values include
 // the following:
@@ -7864,6 +6254,15 @@ const (
 	SortOrderDsc SortOrder = "dsc"
 )
 
+func (enum SortOrder) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SortOrder) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TaggableResourceType string
 
 // Enum values for TaggableResourceType
@@ -7873,3 +6272,12 @@ const (
 	TaggableResourceTypeEvaluation      TaggableResourceType = "Evaluation"
 	TaggableResourceTypeMlmodel         TaggableResourceType = "MLModel"
 )
+
+func (enum TaggableResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TaggableResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

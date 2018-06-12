@@ -37,8 +37,8 @@ func ExampleAutoScaling_AttachInstancesRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.AttachInstancesInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		InstanceIds: []*string{
-			aws.String("i-93633f9b"),
+		InstanceIds: []string{
+			"i-93633f9b",
 		},
 	}
 
@@ -49,6 +49,8 @@ func ExampleAutoScaling_AttachInstancesRequest_shared00() {
 			switch aerr.Code() {
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -75,8 +77,8 @@ func ExampleAutoScaling_AttachLoadBalancerTargetGroupsRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.AttachLoadBalancerTargetGroupsInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		TargetGroupARNs: []*string{
-			aws.String("arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"),
+		TargetGroupARNs: []string{
+			"arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067",
 		},
 	}
 
@@ -87,6 +89,8 @@ func ExampleAutoScaling_AttachLoadBalancerTargetGroupsRequest_shared00() {
 			switch aerr.Code() {
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -113,8 +117,8 @@ func ExampleAutoScaling_AttachLoadBalancersRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.AttachLoadBalancersInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
 	}
 
@@ -125,6 +129,8 @@ func ExampleAutoScaling_AttachLoadBalancersRequest_shared00() {
 			switch aerr.Code() {
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -207,6 +213,8 @@ func ExampleAutoScaling_CreateAutoScalingGroupRequest_shared00() {
 				fmt.Println(autoscaling.ErrCodeLimitExceededFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -234,14 +242,14 @@ func ExampleAutoScaling_CreateAutoScalingGroupRequest_shared01() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.CreateAutoScalingGroupInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		AvailabilityZones: []*string{
-			aws.String("us-west-2c"),
+		AvailabilityZones: []string{
+			"us-west-2c",
 		},
 		HealthCheckGracePeriod:  aws.Int64(120),
 		HealthCheckType:         aws.String("ELB"),
 		LaunchConfigurationName: aws.String("my-launch-config"),
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
 		MaxSize: aws.Int64(3),
 		MinSize: aws.Int64(1),
@@ -258,6 +266,8 @@ func ExampleAutoScaling_CreateAutoScalingGroupRequest_shared01() {
 				fmt.Println(autoscaling.ErrCodeLimitExceededFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -289,8 +299,8 @@ func ExampleAutoScaling_CreateAutoScalingGroupRequest_shared02() {
 		LaunchConfigurationName: aws.String("my-launch-config"),
 		MaxSize:                 aws.Int64(3),
 		MinSize:                 aws.Int64(1),
-		TargetGroupARNs: []*string{
-			aws.String("arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"),
+		TargetGroupARNs: []string{
+			"arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067",
 		},
 		VPCZoneIdentifier: aws.String("subnet-4176792c, subnet-65ea5f08"),
 	}
@@ -306,6 +316,8 @@ func ExampleAutoScaling_CreateAutoScalingGroupRequest_shared02() {
 				fmt.Println(autoscaling.ErrCodeLimitExceededFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -335,8 +347,8 @@ func ExampleAutoScaling_CreateLaunchConfigurationRequest_shared00() {
 		ImageId:                 aws.String("ami-12345678"),
 		InstanceType:            aws.String("m3.medium"),
 		LaunchConfigurationName: aws.String("my-launch-config"),
-		SecurityGroups: []*string{
-			aws.String("sg-eb2af88e"),
+		SecurityGroups: []string{
+			"sg-eb2af88e",
 		},
 	}
 
@@ -376,7 +388,7 @@ func ExampleAutoScaling_CreateOrUpdateTagsRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.CreateOrUpdateTagsInput{
-		Tags: []*autoscaling.Tag{
+		Tags: []autoscaling.Tag{
 			{
 				Key:               aws.String("Role"),
 				PropagateAtLaunch: aws.Bool(true),
@@ -631,6 +643,8 @@ func ExampleAutoScaling_DeletePolicyRequest_shared00() {
 			switch aerr.Code() {
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -693,7 +707,7 @@ func ExampleAutoScaling_DeleteTagsRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DeleteTagsInput{
-		Tags: []*autoscaling.Tag{
+		Tags: []autoscaling.Tag{
 			{
 				Key:          aws.String("Dept"),
 				ResourceId:   aws.String("my-auto-scaling-group"),
@@ -803,8 +817,8 @@ func ExampleAutoScaling_DescribeAutoScalingGroupsRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DescribeAutoScalingGroupsInput{
-		AutoScalingGroupNames: []*string{
-			aws.String("my-auto-scaling-group"),
+		AutoScalingGroupNames: []string{
+			"my-auto-scaling-group",
 		},
 	}
 
@@ -842,8 +856,8 @@ func ExampleAutoScaling_DescribeAutoScalingInstancesRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DescribeAutoScalingInstancesInput{
-		InstanceIds: []*string{
-			aws.String("i-4ba0837f"),
+		InstanceIds: []string{
+			"i-4ba0837f",
 		},
 	}
 
@@ -914,8 +928,8 @@ func ExampleAutoScaling_DescribeLaunchConfigurationsRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DescribeLaunchConfigurationsInput{
-		LaunchConfigurationNames: []*string{
-			aws.String("my-launch-config"),
+		LaunchConfigurationNames: []string{
+			"my-launch-config",
 		},
 	}
 
@@ -1126,8 +1140,8 @@ func ExampleAutoScaling_DescribeNotificationConfigurationsRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DescribeNotificationConfigurationsInput{
-		AutoScalingGroupNames: []*string{
-			aws.String("my-auto-scaling-group"),
+		AutoScalingGroupNames: []string{
+			"my-auto-scaling-group",
 		},
 	}
 
@@ -1177,6 +1191,8 @@ func ExampleAutoScaling_DescribePoliciesRequest_shared00() {
 				fmt.Println(autoscaling.ErrCodeInvalidNextToken, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -1309,11 +1325,11 @@ func ExampleAutoScaling_DescribeTagsRequest_shared00() {
 
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DescribeTagsInput{
-		Filters: []*autoscaling.Filter{
+		Filters: []autoscaling.Filter{
 			{
 				Name: aws.String("auto-scaling-group"),
-				Values: []*string{
-					aws.String("my-auto-scaling-group"),
+				Values: []string{
+					"my-auto-scaling-group",
 				},
 			},
 		},
@@ -1387,8 +1403,8 @@ func ExampleAutoScaling_DetachInstancesRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DetachInstancesInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		InstanceIds: []*string{
-			aws.String("i-93633f9b"),
+		InstanceIds: []string{
+			"i-93633f9b",
 		},
 		ShouldDecrementDesiredCapacity: aws.Bool(true),
 	}
@@ -1427,8 +1443,8 @@ func ExampleAutoScaling_DetachLoadBalancerTargetGroupsRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DetachLoadBalancerTargetGroupsInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		TargetGroupARNs: []*string{
-			aws.String("arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067"),
+		TargetGroupARNs: []string{
+			"arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067",
 		},
 	}
 
@@ -1466,8 +1482,8 @@ func ExampleAutoScaling_DetachLoadBalancersRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DetachLoadBalancersInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		LoadBalancerNames: []*string{
-			aws.String("my-load-balancer"),
+		LoadBalancerNames: []string{
+			"my-load-balancer",
 		},
 	}
 
@@ -1505,8 +1521,8 @@ func ExampleAutoScaling_DisableMetricsCollectionRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.DisableMetricsCollectionInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		Metrics: []*string{
-			aws.String("GroupDesiredCapacity"),
+		Metrics: []string{
+			"GroupDesiredCapacity",
 		},
 	}
 
@@ -1579,8 +1595,8 @@ func ExampleAutoScaling_EnterStandbyRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.EnterStandbyInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		InstanceIds: []*string{
-			aws.String("i-93633f9b"),
+		InstanceIds: []string{
+			"i-93633f9b",
 		},
 		ShouldDecrementDesiredCapacity: aws.Bool(true),
 	}
@@ -1658,8 +1674,8 @@ func ExampleAutoScaling_ExitStandbyRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.ExitStandbyInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		InstanceIds: []*string{
-			aws.String("i-93633f9b"),
+		InstanceIds: []string{
+			"i-93633f9b",
 		},
 	}
 
@@ -1737,8 +1753,8 @@ func ExampleAutoScaling_PutNotificationConfigurationRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.PutNotificationConfigurationInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		NotificationTypes: []*string{
-			aws.String("autoscaling:TEST_NOTIFICATION"),
+		NotificationTypes: []string{
+			"autoscaling:TEST_NOTIFICATION",
 		},
 		TopicARN: aws.String("arn:aws:sns:us-west-2:123456789012:my-sns-topic"),
 	}
@@ -1752,6 +1768,8 @@ func ExampleAutoScaling_PutNotificationConfigurationRequest_shared00() {
 				fmt.Println(autoscaling.ErrCodeLimitExceededFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -1792,6 +1810,8 @@ func ExampleAutoScaling_PutScalingPolicyRequest_shared00() {
 				fmt.Println(autoscaling.ErrCodeLimitExceededFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -1902,8 +1922,8 @@ func ExampleAutoScaling_ResumeProcessesRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.SuspendProcessesInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		ScalingProcesses: []*string{
-			aws.String("AlarmNotification"),
+		ScalingProcesses: []string{
+			"AlarmNotification",
 		},
 	}
 
@@ -2017,8 +2037,8 @@ func ExampleAutoScaling_SetInstanceProtectionRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.SetInstanceProtectionInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		InstanceIds: []*string{
-			aws.String("i-93633f9b"),
+		InstanceIds: []string{
+			"i-93633f9b",
 		},
 		ProtectedFromScaleIn: aws.Bool(true),
 	}
@@ -2058,8 +2078,8 @@ func ExampleAutoScaling_SetInstanceProtectionRequest_shared01() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.SetInstanceProtectionInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		InstanceIds: []*string{
-			aws.String("i-93633f9b"),
+		InstanceIds: []string{
+			"i-93633f9b",
 		},
 		ProtectedFromScaleIn: aws.Bool(false),
 	}
@@ -2100,8 +2120,8 @@ func ExampleAutoScaling_SuspendProcessesRequest_shared00() {
 	svc := autoscaling.New(cfg)
 	input := &autoscaling.SuspendProcessesInput{
 		AutoScalingGroupName: aws.String("my-auto-scaling-group"),
-		ScalingProcesses: []*string{
-			aws.String("AlarmNotification"),
+		ScalingProcesses: []string{
+			"AlarmNotification",
 		},
 	}
 
@@ -2192,6 +2212,8 @@ func ExampleAutoScaling_UpdateAutoScalingGroupRequest_shared00() {
 				fmt.Println(autoscaling.ErrCodeScalingActivityInProgressFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -2232,6 +2254,8 @@ func ExampleAutoScaling_UpdateAutoScalingGroupRequest_shared01() {
 				fmt.Println(autoscaling.ErrCodeScalingActivityInProgressFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -2270,6 +2294,8 @@ func ExampleAutoScaling_UpdateAutoScalingGroupRequest_shared02() {
 				fmt.Println(autoscaling.ErrCodeScalingActivityInProgressFault, aerr.Error())
 			case autoscaling.ErrCodeResourceContentionFault:
 				fmt.Println(autoscaling.ErrCodeResourceContentionFault, aerr.Error())
+			case autoscaling.ErrCodeServiceLinkedRoleFailure:
+				fmt.Println(autoscaling.ErrCodeServiceLinkedRoleFailure, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}

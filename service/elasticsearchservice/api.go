@@ -18,6 +18,7 @@ const opAddTags = "AddTags"
 type AddTagsRequest struct {
 	*aws.Request
 	Input *AddTagsInput
+	Copy  func(*AddTagsInput) AddTagsRequest
 }
 
 // Send marshals and sends the AddTags API request.
@@ -54,10 +55,13 @@ func (c *ElasticsearchService) AddTagsRequest(input *AddTagsInput) AddTagsReques
 		input = &AddTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsOutput{})
+	output := &AddTagsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return AddTagsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsRequest{Request: req, Input: input, Copy: c.AddTagsRequest}
 }
 
 const opCreateElasticsearchDomain = "CreateElasticsearchDomain"
@@ -66,6 +70,7 @@ const opCreateElasticsearchDomain = "CreateElasticsearchDomain"
 type CreateElasticsearchDomainRequest struct {
 	*aws.Request
 	Input *CreateElasticsearchDomainInput
+	Copy  func(*CreateElasticsearchDomainInput) CreateElasticsearchDomainRequest
 }
 
 // Send marshals and sends the CreateElasticsearchDomain API request.
@@ -102,8 +107,11 @@ func (c *ElasticsearchService) CreateElasticsearchDomainRequest(input *CreateEla
 		input = &CreateElasticsearchDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateElasticsearchDomainOutput{})
-	return CreateElasticsearchDomainRequest{Request: req, Input: input}
+	output := &CreateElasticsearchDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateElasticsearchDomainRequest{Request: req, Input: input, Copy: c.CreateElasticsearchDomainRequest}
 }
 
 const opDeleteElasticsearchDomain = "DeleteElasticsearchDomain"
@@ -112,6 +120,7 @@ const opDeleteElasticsearchDomain = "DeleteElasticsearchDomain"
 type DeleteElasticsearchDomainRequest struct {
 	*aws.Request
 	Input *DeleteElasticsearchDomainInput
+	Copy  func(*DeleteElasticsearchDomainInput) DeleteElasticsearchDomainRequest
 }
 
 // Send marshals and sends the DeleteElasticsearchDomain API request.
@@ -147,8 +156,65 @@ func (c *ElasticsearchService) DeleteElasticsearchDomainRequest(input *DeleteEla
 		input = &DeleteElasticsearchDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteElasticsearchDomainOutput{})
-	return DeleteElasticsearchDomainRequest{Request: req, Input: input}
+	output := &DeleteElasticsearchDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteElasticsearchDomainRequest{Request: req, Input: input, Copy: c.DeleteElasticsearchDomainRequest}
+}
+
+const opDeleteElasticsearchServiceRole = "DeleteElasticsearchServiceRole"
+
+// DeleteElasticsearchServiceRoleRequest is a API request type for the DeleteElasticsearchServiceRole API operation.
+type DeleteElasticsearchServiceRoleRequest struct {
+	*aws.Request
+	Input *DeleteElasticsearchServiceRoleInput
+	Copy  func(*DeleteElasticsearchServiceRoleInput) DeleteElasticsearchServiceRoleRequest
+}
+
+// Send marshals and sends the DeleteElasticsearchServiceRole API request.
+func (r DeleteElasticsearchServiceRoleRequest) Send() (*DeleteElasticsearchServiceRoleOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteElasticsearchServiceRoleOutput), nil
+}
+
+// DeleteElasticsearchServiceRoleRequest returns a request value for making API operation for
+// Amazon Elasticsearch Service.
+//
+// Deletes the service-linked role that Elasticsearch Service uses to manage
+// and maintain VPC domains. Role deletion will fail if any existing VPC domains
+// use the role. You must delete any such Elasticsearch domains before deleting
+// the role. See Deleting Elasticsearch Service Role (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-enabling-slr)
+// in VPC Endpoints for Amazon Elasticsearch Service Domains.
+//
+//    // Example sending a request using the DeleteElasticsearchServiceRoleRequest method.
+//    req := client.DeleteElasticsearchServiceRoleRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+func (c *ElasticsearchService) DeleteElasticsearchServiceRoleRequest(input *DeleteElasticsearchServiceRoleInput) DeleteElasticsearchServiceRoleRequest {
+	op := &aws.Operation{
+		Name:       opDeleteElasticsearchServiceRole,
+		HTTPMethod: "DELETE",
+		HTTPPath:   "/2015-01-01/es/role",
+	}
+
+	if input == nil {
+		input = &DeleteElasticsearchServiceRoleInput{}
+	}
+
+	output := &DeleteElasticsearchServiceRoleOutput{}
+	req := c.newRequest(op, input, output)
+	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
+	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteElasticsearchServiceRoleRequest{Request: req, Input: input, Copy: c.DeleteElasticsearchServiceRoleRequest}
 }
 
 const opDescribeElasticsearchDomain = "DescribeElasticsearchDomain"
@@ -157,6 +223,7 @@ const opDescribeElasticsearchDomain = "DescribeElasticsearchDomain"
 type DescribeElasticsearchDomainRequest struct {
 	*aws.Request
 	Input *DescribeElasticsearchDomainInput
+	Copy  func(*DescribeElasticsearchDomainInput) DescribeElasticsearchDomainRequest
 }
 
 // Send marshals and sends the DescribeElasticsearchDomain API request.
@@ -192,8 +259,11 @@ func (c *ElasticsearchService) DescribeElasticsearchDomainRequest(input *Describ
 		input = &DescribeElasticsearchDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeElasticsearchDomainOutput{})
-	return DescribeElasticsearchDomainRequest{Request: req, Input: input}
+	output := &DescribeElasticsearchDomainOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeElasticsearchDomainRequest{Request: req, Input: input, Copy: c.DescribeElasticsearchDomainRequest}
 }
 
 const opDescribeElasticsearchDomainConfig = "DescribeElasticsearchDomainConfig"
@@ -202,6 +272,7 @@ const opDescribeElasticsearchDomainConfig = "DescribeElasticsearchDomainConfig"
 type DescribeElasticsearchDomainConfigRequest struct {
 	*aws.Request
 	Input *DescribeElasticsearchDomainConfigInput
+	Copy  func(*DescribeElasticsearchDomainConfigInput) DescribeElasticsearchDomainConfigRequest
 }
 
 // Send marshals and sends the DescribeElasticsearchDomainConfig API request.
@@ -238,8 +309,11 @@ func (c *ElasticsearchService) DescribeElasticsearchDomainConfigRequest(input *D
 		input = &DescribeElasticsearchDomainConfigInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeElasticsearchDomainConfigOutput{})
-	return DescribeElasticsearchDomainConfigRequest{Request: req, Input: input}
+	output := &DescribeElasticsearchDomainConfigOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeElasticsearchDomainConfigRequest{Request: req, Input: input, Copy: c.DescribeElasticsearchDomainConfigRequest}
 }
 
 const opDescribeElasticsearchDomains = "DescribeElasticsearchDomains"
@@ -248,6 +322,7 @@ const opDescribeElasticsearchDomains = "DescribeElasticsearchDomains"
 type DescribeElasticsearchDomainsRequest struct {
 	*aws.Request
 	Input *DescribeElasticsearchDomainsInput
+	Copy  func(*DescribeElasticsearchDomainsInput) DescribeElasticsearchDomainsRequest
 }
 
 // Send marshals and sends the DescribeElasticsearchDomains API request.
@@ -283,8 +358,11 @@ func (c *ElasticsearchService) DescribeElasticsearchDomainsRequest(input *Descri
 		input = &DescribeElasticsearchDomainsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeElasticsearchDomainsOutput{})
-	return DescribeElasticsearchDomainsRequest{Request: req, Input: input}
+	output := &DescribeElasticsearchDomainsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeElasticsearchDomainsRequest{Request: req, Input: input, Copy: c.DescribeElasticsearchDomainsRequest}
 }
 
 const opDescribeElasticsearchInstanceTypeLimits = "DescribeElasticsearchInstanceTypeLimits"
@@ -293,6 +371,7 @@ const opDescribeElasticsearchInstanceTypeLimits = "DescribeElasticsearchInstance
 type DescribeElasticsearchInstanceTypeLimitsRequest struct {
 	*aws.Request
 	Input *DescribeElasticsearchInstanceTypeLimitsInput
+	Copy  func(*DescribeElasticsearchInstanceTypeLimitsInput) DescribeElasticsearchInstanceTypeLimitsRequest
 }
 
 // Send marshals and sends the DescribeElasticsearchInstanceTypeLimits API request.
@@ -329,8 +408,211 @@ func (c *ElasticsearchService) DescribeElasticsearchInstanceTypeLimitsRequest(in
 		input = &DescribeElasticsearchInstanceTypeLimitsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeElasticsearchInstanceTypeLimitsOutput{})
-	return DescribeElasticsearchInstanceTypeLimitsRequest{Request: req, Input: input}
+	output := &DescribeElasticsearchInstanceTypeLimitsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeElasticsearchInstanceTypeLimitsRequest{Request: req, Input: input, Copy: c.DescribeElasticsearchInstanceTypeLimitsRequest}
+}
+
+const opDescribeReservedElasticsearchInstanceOfferings = "DescribeReservedElasticsearchInstanceOfferings"
+
+// DescribeReservedElasticsearchInstanceOfferingsRequest is a API request type for the DescribeReservedElasticsearchInstanceOfferings API operation.
+type DescribeReservedElasticsearchInstanceOfferingsRequest struct {
+	*aws.Request
+	Input *DescribeReservedElasticsearchInstanceOfferingsInput
+	Copy  func(*DescribeReservedElasticsearchInstanceOfferingsInput) DescribeReservedElasticsearchInstanceOfferingsRequest
+}
+
+// Send marshals and sends the DescribeReservedElasticsearchInstanceOfferings API request.
+func (r DescribeReservedElasticsearchInstanceOfferingsRequest) Send() (*DescribeReservedElasticsearchInstanceOfferingsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeReservedElasticsearchInstanceOfferingsOutput), nil
+}
+
+// DescribeReservedElasticsearchInstanceOfferingsRequest returns a request value for making API operation for
+// Amazon Elasticsearch Service.
+//
+// Lists available reserved Elasticsearch instance offerings.
+//
+//    // Example sending a request using the DescribeReservedElasticsearchInstanceOfferingsRequest method.
+//    req := client.DescribeReservedElasticsearchInstanceOfferingsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+func (c *ElasticsearchService) DescribeReservedElasticsearchInstanceOfferingsRequest(input *DescribeReservedElasticsearchInstanceOfferingsInput) DescribeReservedElasticsearchInstanceOfferingsRequest {
+	op := &aws.Operation{
+		Name:       opDescribeReservedElasticsearchInstanceOfferings,
+		HTTPMethod: "GET",
+		HTTPPath:   "/2015-01-01/es/reservedInstanceOfferings",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeReservedElasticsearchInstanceOfferingsInput{}
+	}
+
+	output := &DescribeReservedElasticsearchInstanceOfferingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeReservedElasticsearchInstanceOfferingsRequest{Request: req, Input: input, Copy: c.DescribeReservedElasticsearchInstanceOfferingsRequest}
+}
+
+// Paginate pages iterates over the pages of a DescribeReservedElasticsearchInstanceOfferingsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeReservedElasticsearchInstanceOfferings operation.
+//		req := client.DescribeReservedElasticsearchInstanceOfferingsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeReservedElasticsearchInstanceOfferingsRequest) Paginate(opts ...aws.Option) DescribeReservedElasticsearchInstanceOfferingsPager {
+	return DescribeReservedElasticsearchInstanceOfferingsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeReservedElasticsearchInstanceOfferingsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// DescribeReservedElasticsearchInstanceOfferingsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeReservedElasticsearchInstanceOfferingsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeReservedElasticsearchInstanceOfferingsPager) CurrentPage() *DescribeReservedElasticsearchInstanceOfferingsOutput {
+	return p.Pager.CurrentPage().(*DescribeReservedElasticsearchInstanceOfferingsOutput)
+}
+
+const opDescribeReservedElasticsearchInstances = "DescribeReservedElasticsearchInstances"
+
+// DescribeReservedElasticsearchInstancesRequest is a API request type for the DescribeReservedElasticsearchInstances API operation.
+type DescribeReservedElasticsearchInstancesRequest struct {
+	*aws.Request
+	Input *DescribeReservedElasticsearchInstancesInput
+	Copy  func(*DescribeReservedElasticsearchInstancesInput) DescribeReservedElasticsearchInstancesRequest
+}
+
+// Send marshals and sends the DescribeReservedElasticsearchInstances API request.
+func (r DescribeReservedElasticsearchInstancesRequest) Send() (*DescribeReservedElasticsearchInstancesOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeReservedElasticsearchInstancesOutput), nil
+}
+
+// DescribeReservedElasticsearchInstancesRequest returns a request value for making API operation for
+// Amazon Elasticsearch Service.
+//
+// Returns information about reserved Elasticsearch instances for this account.
+//
+//    // Example sending a request using the DescribeReservedElasticsearchInstancesRequest method.
+//    req := client.DescribeReservedElasticsearchInstancesRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+func (c *ElasticsearchService) DescribeReservedElasticsearchInstancesRequest(input *DescribeReservedElasticsearchInstancesInput) DescribeReservedElasticsearchInstancesRequest {
+	op := &aws.Operation{
+		Name:       opDescribeReservedElasticsearchInstances,
+		HTTPMethod: "GET",
+		HTTPPath:   "/2015-01-01/es/reservedInstances",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "MaxResults",
+			TruncationToken: "",
+		},
+	}
+
+	if input == nil {
+		input = &DescribeReservedElasticsearchInstancesInput{}
+	}
+
+	output := &DescribeReservedElasticsearchInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeReservedElasticsearchInstancesRequest{Request: req, Input: input, Copy: c.DescribeReservedElasticsearchInstancesRequest}
+}
+
+// Paginate pages iterates over the pages of a DescribeReservedElasticsearchInstancesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a DescribeReservedElasticsearchInstances operation.
+//		req := client.DescribeReservedElasticsearchInstancesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeReservedElasticsearchInstancesRequest) Paginate(opts ...aws.Option) DescribeReservedElasticsearchInstancesPager {
+	return DescribeReservedElasticsearchInstancesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeReservedElasticsearchInstancesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// DescribeReservedElasticsearchInstancesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeReservedElasticsearchInstancesPager struct {
+	aws.Pager
+}
+
+func (p *DescribeReservedElasticsearchInstancesPager) CurrentPage() *DescribeReservedElasticsearchInstancesOutput {
+	return p.Pager.CurrentPage().(*DescribeReservedElasticsearchInstancesOutput)
 }
 
 const opListDomainNames = "ListDomainNames"
@@ -339,6 +621,7 @@ const opListDomainNames = "ListDomainNames"
 type ListDomainNamesRequest struct {
 	*aws.Request
 	Input *ListDomainNamesInput
+	Copy  func(*ListDomainNamesInput) ListDomainNamesRequest
 }
 
 // Send marshals and sends the ListDomainNames API request.
@@ -374,8 +657,11 @@ func (c *ElasticsearchService) ListDomainNamesRequest(input *ListDomainNamesInpu
 		input = &ListDomainNamesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDomainNamesOutput{})
-	return ListDomainNamesRequest{Request: req, Input: input}
+	output := &ListDomainNamesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDomainNamesRequest{Request: req, Input: input, Copy: c.ListDomainNamesRequest}
 }
 
 const opListElasticsearchInstanceTypes = "ListElasticsearchInstanceTypes"
@@ -384,6 +670,7 @@ const opListElasticsearchInstanceTypes = "ListElasticsearchInstanceTypes"
 type ListElasticsearchInstanceTypesRequest struct {
 	*aws.Request
 	Input *ListElasticsearchInstanceTypesInput
+	Copy  func(*ListElasticsearchInstanceTypesInput) ListElasticsearchInstanceTypesRequest
 }
 
 // Send marshals and sends the ListElasticsearchInstanceTypes API request.
@@ -424,58 +711,57 @@ func (c *ElasticsearchService) ListElasticsearchInstanceTypesRequest(input *List
 		input = &ListElasticsearchInstanceTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListElasticsearchInstanceTypesOutput{})
-	return ListElasticsearchInstanceTypesRequest{Request: req, Input: input}
+	output := &ListElasticsearchInstanceTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListElasticsearchInstanceTypesRequest{Request: req, Input: input, Copy: c.ListElasticsearchInstanceTypesRequest}
 }
 
-// ListElasticsearchInstanceTypesPages iterates over the pages of a ListElasticsearchInstanceTypes operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListElasticsearchInstanceTypes method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListElasticsearchInstanceTypesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListElasticsearchInstanceTypes operation.
-//    pageNum := 0
-//    err := client.ListElasticsearchInstanceTypesPages(params,
-//        func(page *ListElasticsearchInstanceTypesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListElasticsearchInstanceTypesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ElasticsearchService) ListElasticsearchInstanceTypesPages(input *ListElasticsearchInstanceTypesInput, fn func(*ListElasticsearchInstanceTypesOutput, bool) bool) error {
-	return c.ListElasticsearchInstanceTypesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListElasticsearchInstanceTypesRequest) Paginate(opts ...aws.Option) ListElasticsearchInstanceTypesPager {
+	return ListElasticsearchInstanceTypesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListElasticsearchInstanceTypesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListElasticsearchInstanceTypesPagesWithContext same as ListElasticsearchInstanceTypesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ElasticsearchService) ListElasticsearchInstanceTypesPagesWithContext(ctx aws.Context, input *ListElasticsearchInstanceTypesInput, fn func(*ListElasticsearchInstanceTypesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListElasticsearchInstanceTypesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListElasticsearchInstanceTypesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListElasticsearchInstanceTypesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListElasticsearchInstanceTypesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListElasticsearchInstanceTypesPager struct {
+	aws.Pager
+}
+
+func (p *ListElasticsearchInstanceTypesPager) CurrentPage() *ListElasticsearchInstanceTypesOutput {
+	return p.Pager.CurrentPage().(*ListElasticsearchInstanceTypesOutput)
 }
 
 const opListElasticsearchVersions = "ListElasticsearchVersions"
@@ -484,6 +770,7 @@ const opListElasticsearchVersions = "ListElasticsearchVersions"
 type ListElasticsearchVersionsRequest struct {
 	*aws.Request
 	Input *ListElasticsearchVersionsInput
+	Copy  func(*ListElasticsearchVersionsInput) ListElasticsearchVersionsRequest
 }
 
 // Send marshals and sends the ListElasticsearchVersions API request.
@@ -524,58 +811,57 @@ func (c *ElasticsearchService) ListElasticsearchVersionsRequest(input *ListElast
 		input = &ListElasticsearchVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListElasticsearchVersionsOutput{})
-	return ListElasticsearchVersionsRequest{Request: req, Input: input}
+	output := &ListElasticsearchVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListElasticsearchVersionsRequest{Request: req, Input: input, Copy: c.ListElasticsearchVersionsRequest}
 }
 
-// ListElasticsearchVersionsPages iterates over the pages of a ListElasticsearchVersions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListElasticsearchVersions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListElasticsearchVersionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListElasticsearchVersions operation.
-//    pageNum := 0
-//    err := client.ListElasticsearchVersionsPages(params,
-//        func(page *ListElasticsearchVersionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListElasticsearchVersionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *ElasticsearchService) ListElasticsearchVersionsPages(input *ListElasticsearchVersionsInput, fn func(*ListElasticsearchVersionsOutput, bool) bool) error {
-	return c.ListElasticsearchVersionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListElasticsearchVersionsRequest) Paginate(opts ...aws.Option) ListElasticsearchVersionsPager {
+	return ListElasticsearchVersionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListElasticsearchVersionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListElasticsearchVersionsPagesWithContext same as ListElasticsearchVersionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *ElasticsearchService) ListElasticsearchVersionsPagesWithContext(ctx aws.Context, input *ListElasticsearchVersionsInput, fn func(*ListElasticsearchVersionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListElasticsearchVersionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListElasticsearchVersionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListElasticsearchVersionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListElasticsearchVersionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListElasticsearchVersionsPager struct {
+	aws.Pager
+}
+
+func (p *ListElasticsearchVersionsPager) CurrentPage() *ListElasticsearchVersionsOutput {
+	return p.Pager.CurrentPage().(*ListElasticsearchVersionsOutput)
 }
 
 const opListTags = "ListTags"
@@ -584,6 +870,7 @@ const opListTags = "ListTags"
 type ListTagsRequest struct {
 	*aws.Request
 	Input *ListTagsInput
+	Copy  func(*ListTagsInput) ListTagsRequest
 }
 
 // Send marshals and sends the ListTags API request.
@@ -618,8 +905,59 @@ func (c *ElasticsearchService) ListTagsRequest(input *ListTagsInput) ListTagsReq
 		input = &ListTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsOutput{})
-	return ListTagsRequest{Request: req, Input: input}
+	output := &ListTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsRequest{Request: req, Input: input, Copy: c.ListTagsRequest}
+}
+
+const opPurchaseReservedElasticsearchInstanceOffering = "PurchaseReservedElasticsearchInstanceOffering"
+
+// PurchaseReservedElasticsearchInstanceOfferingRequest is a API request type for the PurchaseReservedElasticsearchInstanceOffering API operation.
+type PurchaseReservedElasticsearchInstanceOfferingRequest struct {
+	*aws.Request
+	Input *PurchaseReservedElasticsearchInstanceOfferingInput
+	Copy  func(*PurchaseReservedElasticsearchInstanceOfferingInput) PurchaseReservedElasticsearchInstanceOfferingRequest
+}
+
+// Send marshals and sends the PurchaseReservedElasticsearchInstanceOffering API request.
+func (r PurchaseReservedElasticsearchInstanceOfferingRequest) Send() (*PurchaseReservedElasticsearchInstanceOfferingOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*PurchaseReservedElasticsearchInstanceOfferingOutput), nil
+}
+
+// PurchaseReservedElasticsearchInstanceOfferingRequest returns a request value for making API operation for
+// Amazon Elasticsearch Service.
+//
+// Allows you to purchase reserved Elasticsearch instances.
+//
+//    // Example sending a request using the PurchaseReservedElasticsearchInstanceOfferingRequest method.
+//    req := client.PurchaseReservedElasticsearchInstanceOfferingRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+func (c *ElasticsearchService) PurchaseReservedElasticsearchInstanceOfferingRequest(input *PurchaseReservedElasticsearchInstanceOfferingInput) PurchaseReservedElasticsearchInstanceOfferingRequest {
+	op := &aws.Operation{
+		Name:       opPurchaseReservedElasticsearchInstanceOffering,
+		HTTPMethod: "POST",
+		HTTPPath:   "/2015-01-01/es/purchaseReservedInstanceOffering",
+	}
+
+	if input == nil {
+		input = &PurchaseReservedElasticsearchInstanceOfferingInput{}
+	}
+
+	output := &PurchaseReservedElasticsearchInstanceOfferingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PurchaseReservedElasticsearchInstanceOfferingRequest{Request: req, Input: input, Copy: c.PurchaseReservedElasticsearchInstanceOfferingRequest}
 }
 
 const opRemoveTags = "RemoveTags"
@@ -628,6 +966,7 @@ const opRemoveTags = "RemoveTags"
 type RemoveTagsRequest struct {
 	*aws.Request
 	Input *RemoveTagsInput
+	Copy  func(*RemoveTagsInput) RemoveTagsRequest
 }
 
 // Send marshals and sends the RemoveTags API request.
@@ -662,10 +1001,13 @@ func (c *ElasticsearchService) RemoveTagsRequest(input *RemoveTagsInput) RemoveT
 		input = &RemoveTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsOutput{})
+	output := &RemoveTagsOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(restjson.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return RemoveTagsRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsRequest{Request: req, Input: input, Copy: c.RemoveTagsRequest}
 }
 
 const opUpdateElasticsearchDomainConfig = "UpdateElasticsearchDomainConfig"
@@ -674,6 +1016,7 @@ const opUpdateElasticsearchDomainConfig = "UpdateElasticsearchDomainConfig"
 type UpdateElasticsearchDomainConfigRequest struct {
 	*aws.Request
 	Input *UpdateElasticsearchDomainConfigInput
+	Copy  func(*UpdateElasticsearchDomainConfigInput) UpdateElasticsearchDomainConfigRequest
 }
 
 // Send marshals and sends the UpdateElasticsearchDomainConfig API request.
@@ -709,8 +1052,11 @@ func (c *ElasticsearchService) UpdateElasticsearchDomainConfigRequest(input *Upd
 		input = &UpdateElasticsearchDomainConfigInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateElasticsearchDomainConfigOutput{})
-	return UpdateElasticsearchDomainConfigRequest{Request: req, Input: input}
+	output := &UpdateElasticsearchDomainConfigOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateElasticsearchDomainConfigRequest{Request: req, Input: input, Copy: c.UpdateElasticsearchDomainConfigRequest}
 }
 
 // The configured access rules for the domain's document and search endpoints,
@@ -743,16 +1089,21 @@ func (s AccessPoliciesStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *AccessPoliciesStatus) SetOptions(v string) *AccessPoliciesStatus {
-	s.Options = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AccessPoliciesStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := *s.Options
 
-// SetStatus sets the Status field's value.
-func (s *AccessPoliciesStatus) SetStatus(v *OptionStatus) *AccessPoliciesStatus {
-	s.Status = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Options", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the AddTags operation. Specify the tags that
@@ -768,7 +1119,7 @@ type AddTagsInput struct {
 	// List of Tag that need to be added for the Elasticsearch domain.
 	//
 	// TagList is a required field
-	TagList []*Tag `type:"list" required:"true"`
+	TagList []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -794,9 +1145,6 @@ func (s *AddTagsInput) Validate() error {
 	}
 	if s.TagList != nil {
 		for i, v := range s.TagList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagList", i), err.(aws.ErrInvalidParams))
 			}
@@ -809,20 +1157,34 @@ func (s *AddTagsInput) Validate() error {
 	return nil
 }
 
-// SetARN sets the ARN field's value.
-func (s *AddTagsInput) SetARN(v string) *AddTagsInput {
-	s.ARN = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddTagsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTagList sets the TagList field's value.
-func (s *AddTagsInput) SetTagList(v []*Tag) *AddTagsInput {
-	s.TagList = v
-	return s
+	if s.ARN != nil {
+		v := *s.ARN
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TagList) > 0 {
+		v := s.TagList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TagList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type AddTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -833,6 +1195,16 @@ func (s AddTagsOutput) String() string {
 // GoString returns the string representation
 func (s AddTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AddTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // List of limits that are specific to a given InstanceType and for each of
@@ -849,7 +1221,7 @@ type AdditionalLimit struct {
 	LimitName *string `type:"string"`
 
 	// Value for given AdditionalLimit$LimitName .
-	LimitValues []*string `type:"list"`
+	LimitValues []string `type:"list"`
 }
 
 // String returns the string representation
@@ -862,16 +1234,27 @@ func (s AdditionalLimit) GoString() string {
 	return s.String()
 }
 
-// SetLimitName sets the LimitName field's value.
-func (s *AdditionalLimit) SetLimitName(v string) *AdditionalLimit {
-	s.LimitName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AdditionalLimit) MarshalFields(e protocol.FieldEncoder) error {
+	if s.LimitName != nil {
+		v := *s.LimitName
 
-// SetLimitValues sets the LimitValues field's value.
-func (s *AdditionalLimit) SetLimitValues(v []*string) *AdditionalLimit {
-	s.LimitValues = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LimitName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.LimitValues) > 0 {
+		v := s.LimitValues
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "LimitValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Status of the advanced options for the specified Elasticsearch domain. Currently,
@@ -891,7 +1274,7 @@ type AdvancedOptionsStatus struct {
 	// domain.
 	//
 	// Options is a required field
-	Options map[string]*string `type:"map" required:"true"`
+	Options map[string]string `type:"map" required:"true"`
 
 	// Specifies the status of OptionStatus for advanced options for the specified
 	// Elasticsearch domain.
@@ -910,16 +1293,147 @@ func (s AdvancedOptionsStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *AdvancedOptionsStatus) SetOptions(v map[string]*string) *AdvancedOptionsStatus {
-	s.Options = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AdvancedOptionsStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Options) > 0 {
+		v := s.Options
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Options", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
-// SetStatus sets the Status field's value.
-func (s *AdvancedOptionsStatus) SetStatus(v *OptionStatus) *AdvancedOptionsStatus {
-	s.Status = v
-	return s
+// Options to specify the Cognito user and identity pools for Kibana authentication.
+// For more information, see Amazon Cognito Authentication for Kibana (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
+type CognitoOptions struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the option to enable Cognito for Kibana authentication.
+	Enabled *bool `type:"boolean"`
+
+	// Specifies the Cognito identity pool ID for Kibana authentication.
+	IdentityPoolId *string `min:"1" type:"string"`
+
+	// Specifies the role ARN that provides Elasticsearch permissions for accessing
+	// Cognito resources.
+	RoleArn *string `min:"20" type:"string"`
+
+	// Specifies the Cognito user pool ID for Kibana authentication.
+	UserPoolId *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s CognitoOptions) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CognitoOptions) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CognitoOptions) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CognitoOptions"}
+	if s.IdentityPoolId != nil && len(*s.IdentityPoolId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("IdentityPoolId", 1))
+	}
+	if s.RoleArn != nil && len(*s.RoleArn) < 20 {
+		invalidParams.Add(aws.NewErrParamMinLen("RoleArn", 20))
+	}
+	if s.UserPoolId != nil && len(*s.UserPoolId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("UserPoolId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CognitoOptions) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.IdentityPoolId != nil {
+		v := *s.IdentityPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IdentityPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.RoleArn != nil {
+		v := *s.RoleArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RoleArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserPoolId != nil {
+		v := *s.UserPoolId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UserPoolId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Status of the Cognito options for the specified Elasticsearch domain.
+type CognitoOptionsStatus struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the Cognito options for the specified Elasticsearch domain.
+	//
+	// Options is a required field
+	Options *CognitoOptions `type:"structure" required:"true"`
+
+	// Specifies the status of the Cognito options for the specified Elasticsearch
+	// domain.
+	//
+	// Status is a required field
+	Status *OptionStatus `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s CognitoOptionsStatus) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CognitoOptionsStatus) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CognitoOptionsStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := s.Options
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Options", v, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 type CreateElasticsearchDomainInput struct {
@@ -932,7 +1446,11 @@ type CreateElasticsearchDomainInput struct {
 	// when configuring access to individual sub-resources. By default, the value
 	// is true. See Configuration Advanced Options (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options)
 	// for more information.
-	AdvancedOptions map[string]*string `type:"map"`
+	AdvancedOptions map[string]string `type:"map"`
+
+	// Options to specify the Cognito user and identity pools for Kibana authentication.
+	// For more information, see Amazon Cognito Authentication for Kibana (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
+	CognitoOptions *CognitoOptions `type:"structure"`
 
 	// The name of the Elasticsearch domain that you are creating. Domain names
 	// are unique across the domains owned by an account within an AWS region. Domain
@@ -955,9 +1473,21 @@ type CreateElasticsearchDomainInput struct {
 	// in the Amazon Elasticsearch Service Developer Guide.
 	ElasticsearchVersion *string `type:"string"`
 
+	// Specifies the Encryption At Rest Options.
+	EncryptionAtRestOptions *EncryptionAtRestOptions `type:"structure"`
+
+	// Map of LogType and LogPublishingOption, each containing options to publish
+	// a given type of Elasticsearch log.
+	LogPublishingOptions map[string]LogPublishingOption `type:"map"`
+
 	// Option to set time, in UTC format, of the daily automated snapshot. Default
 	// value is 0 hours.
 	SnapshotOptions *SnapshotOptions `type:"structure"`
+
+	// Options to specify the subnets and security groups for VPC endpoint. For
+	// more information, see Creating a VPC (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-creating-vpc)
+	// in VPC Endpoints for Amazon Elasticsearch Service Domains
+	VPCOptions *VPCOptions `type:"structure"`
 }
 
 // String returns the string representation
@@ -980,6 +1510,16 @@ func (s *CreateElasticsearchDomainInput) Validate() error {
 	if s.DomainName != nil && len(*s.DomainName) < 3 {
 		invalidParams.Add(aws.NewErrParamMinLen("DomainName", 3))
 	}
+	if s.CognitoOptions != nil {
+		if err := s.CognitoOptions.Validate(); err != nil {
+			invalidParams.AddNested("CognitoOptions", err.(aws.ErrInvalidParams))
+		}
+	}
+	if s.EncryptionAtRestOptions != nil {
+		if err := s.EncryptionAtRestOptions.Validate(); err != nil {
+			invalidParams.AddNested("EncryptionAtRestOptions", err.(aws.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -987,52 +1527,96 @@ func (s *CreateElasticsearchDomainInput) Validate() error {
 	return nil
 }
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *CreateElasticsearchDomainInput) SetAccessPolicies(v string) *CreateElasticsearchDomainInput {
-	s.AccessPolicies = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateElasticsearchDomainInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetAdvancedOptions sets the AdvancedOptions field's value.
-func (s *CreateElasticsearchDomainInput) SetAdvancedOptions(v map[string]*string) *CreateElasticsearchDomainInput {
-	s.AdvancedOptions = v
-	return s
-}
+	if s.AccessPolicies != nil {
+		v := *s.AccessPolicies
 
-// SetDomainName sets the DomainName field's value.
-func (s *CreateElasticsearchDomainInput) SetDomainName(v string) *CreateElasticsearchDomainInput {
-	s.DomainName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AccessPolicies", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.AdvancedOptions) > 0 {
+		v := s.AdvancedOptions
 
-// SetEBSOptions sets the EBSOptions field's value.
-func (s *CreateElasticsearchDomainInput) SetEBSOptions(v *EBSOptions) *CreateElasticsearchDomainInput {
-	s.EBSOptions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "AdvancedOptions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetElasticsearchClusterConfig sets the ElasticsearchClusterConfig field's value.
-func (s *CreateElasticsearchDomainInput) SetElasticsearchClusterConfig(v *ElasticsearchClusterConfig) *CreateElasticsearchDomainInput {
-	s.ElasticsearchClusterConfig = v
-	return s
-}
+	}
+	if s.CognitoOptions != nil {
+		v := s.CognitoOptions
 
-// SetElasticsearchVersion sets the ElasticsearchVersion field's value.
-func (s *CreateElasticsearchDomainInput) SetElasticsearchVersion(v string) *CreateElasticsearchDomainInput {
-	s.ElasticsearchVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoOptions", v, metadata)
+	}
+	if s.DomainName != nil {
+		v := *s.DomainName
 
-// SetSnapshotOptions sets the SnapshotOptions field's value.
-func (s *CreateElasticsearchDomainInput) SetSnapshotOptions(v *SnapshotOptions) *CreateElasticsearchDomainInput {
-	s.SnapshotOptions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EBSOptions != nil {
+		v := s.EBSOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EBSOptions", v, metadata)
+	}
+	if s.ElasticsearchClusterConfig != nil {
+		v := s.ElasticsearchClusterConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ElasticsearchClusterConfig", v, metadata)
+	}
+	if s.ElasticsearchVersion != nil {
+		v := *s.ElasticsearchVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ElasticsearchVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EncryptionAtRestOptions != nil {
+		v := s.EncryptionAtRestOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EncryptionAtRestOptions", v, metadata)
+	}
+	if len(s.LogPublishingOptions) > 0 {
+		v := s.LogPublishingOptions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "LogPublishingOptions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if s.SnapshotOptions != nil {
+		v := s.SnapshotOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SnapshotOptions", v, metadata)
+	}
+	if s.VPCOptions != nil {
+		v := s.VPCOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VPCOptions", v, metadata)
+	}
+	return nil
 }
 
 // The result of a CreateElasticsearchDomain operation. Contains the status
 // of the newly created Elasticsearch domain.
 type CreateElasticsearchDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the newly created Elasticsearch domain.
 	DomainStatus *ElasticsearchDomainStatus `type:"structure"`
@@ -1048,10 +1632,20 @@ func (s CreateElasticsearchDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatus sets the DomainStatus field's value.
-func (s *CreateElasticsearchDomainOutput) SetDomainStatus(v *ElasticsearchDomainStatus) *CreateElasticsearchDomainOutput {
-	s.DomainStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateElasticsearchDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateElasticsearchDomainOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DomainStatus != nil {
+		v := s.DomainStatus
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DomainStatus", v, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the DeleteElasticsearchDomain operation.
@@ -1092,10 +1686,16 @@ func (s *DeleteElasticsearchDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteElasticsearchDomainInput) SetDomainName(v string) *DeleteElasticsearchDomainInput {
-	s.DomainName = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteElasticsearchDomainInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DomainName != nil {
+		v := *s.DomainName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The result of a DeleteElasticsearchDomain request. Contains the status of
@@ -1103,6 +1703,8 @@ func (s *DeleteElasticsearchDomainInput) SetDomainName(v string) *DeleteElastics
 // have been deleted.
 type DeleteElasticsearchDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the Elasticsearch domain being deleted.
 	DomainStatus *ElasticsearchDomainStatus `type:"structure"`
@@ -1118,10 +1720,66 @@ func (s DeleteElasticsearchDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatus sets the DomainStatus field's value.
-func (s *DeleteElasticsearchDomainOutput) SetDomainStatus(v *ElasticsearchDomainStatus) *DeleteElasticsearchDomainOutput {
-	s.DomainStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteElasticsearchDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteElasticsearchDomainOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DomainStatus != nil {
+		v := s.DomainStatus
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DomainStatus", v, metadata)
+	}
+	return nil
+}
+
+type DeleteElasticsearchServiceRoleInput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s DeleteElasticsearchServiceRoleInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteElasticsearchServiceRoleInput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteElasticsearchServiceRoleInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
+type DeleteElasticsearchServiceRoleOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeleteElasticsearchServiceRoleOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteElasticsearchServiceRoleOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteElasticsearchServiceRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteElasticsearchServiceRoleOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
 }
 
 // Container for the parameters to the DescribeElasticsearchDomainConfig operation.
@@ -1162,16 +1820,24 @@ func (s *DescribeElasticsearchDomainConfigInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeElasticsearchDomainConfigInput) SetDomainName(v string) *DescribeElasticsearchDomainConfigInput {
-	s.DomainName = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchDomainConfigInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DomainName != nil {
+		v := *s.DomainName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The result of a DescribeElasticsearchDomainConfig request. Contains the configuration
 // information of the requested domain.
 type DescribeElasticsearchDomainConfigOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig
 	// request.
@@ -1190,10 +1856,20 @@ func (s DescribeElasticsearchDomainConfigOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainConfig sets the DomainConfig field's value.
-func (s *DescribeElasticsearchDomainConfigOutput) SetDomainConfig(v *ElasticsearchDomainConfig) *DescribeElasticsearchDomainConfigOutput {
-	s.DomainConfig = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeElasticsearchDomainConfigOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchDomainConfigOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DomainConfig != nil {
+		v := s.DomainConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DomainConfig", v, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the DescribeElasticsearchDomain operation.
@@ -1233,16 +1909,24 @@ func (s *DescribeElasticsearchDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeElasticsearchDomainInput) SetDomainName(v string) *DescribeElasticsearchDomainInput {
-	s.DomainName = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchDomainInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.DomainName != nil {
+		v := *s.DomainName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The result of a DescribeElasticsearchDomain request. Contains the status
 // of the domain specified in the request.
 type DescribeElasticsearchDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The current status of the Elasticsearch domain.
 	//
@@ -1260,10 +1944,20 @@ func (s DescribeElasticsearchDomainOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatus sets the DomainStatus field's value.
-func (s *DescribeElasticsearchDomainOutput) SetDomainStatus(v *ElasticsearchDomainStatus) *DescribeElasticsearchDomainOutput {
-	s.DomainStatus = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeElasticsearchDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchDomainOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DomainStatus != nil {
+		v := s.DomainStatus
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DomainStatus", v, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the DescribeElasticsearchDomains operation.
@@ -1274,7 +1968,7 @@ type DescribeElasticsearchDomainsInput struct {
 	// The Elasticsearch domains for which you want information.
 	//
 	// DomainNames is a required field
-	DomainNames []*string `type:"list" required:"true"`
+	DomainNames []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1301,10 +1995,22 @@ func (s *DescribeElasticsearchDomainsInput) Validate() error {
 	return nil
 }
 
-// SetDomainNames sets the DomainNames field's value.
-func (s *DescribeElasticsearchDomainsInput) SetDomainNames(v []*string) *DescribeElasticsearchDomainsInput {
-	s.DomainNames = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchDomainsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if len(s.DomainNames) > 0 {
+		v := s.DomainNames
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "DomainNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // The result of a DescribeElasticsearchDomains request. Contains the status
@@ -1312,10 +2018,12 @@ func (s *DescribeElasticsearchDomainsInput) SetDomainNames(v []*string) *Describ
 type DescribeElasticsearchDomainsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The status of the domains requested in the DescribeElasticsearchDomains request.
 	//
 	// DomainStatusList is a required field
-	DomainStatusList []*ElasticsearchDomainStatus `type:"list" required:"true"`
+	DomainStatusList []ElasticsearchDomainStatus `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1328,10 +2036,26 @@ func (s DescribeElasticsearchDomainsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainStatusList sets the DomainStatusList field's value.
-func (s *DescribeElasticsearchDomainsOutput) SetDomainStatusList(v []*ElasticsearchDomainStatus) *DescribeElasticsearchDomainsOutput {
-	s.DomainStatusList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeElasticsearchDomainsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchDomainsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DomainStatusList) > 0 {
+		v := s.DomainStatusList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "DomainStatusList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Container for the parameters to DescribeElasticsearchInstanceTypeLimits operation.
@@ -1352,7 +2076,7 @@ type DescribeElasticsearchInstanceTypeLimitsInput struct {
 	// are needed.
 	//
 	// InstanceType is a required field
-	InstanceType ESPartitionInstanceType `location:"uri" locationName:"InstanceType" type:"string" required:"true"`
+	InstanceType ESPartitionInstanceType `location:"uri" locationName:"InstanceType" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -1385,22 +2109,28 @@ func (s *DescribeElasticsearchInstanceTypeLimitsInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DescribeElasticsearchInstanceTypeLimitsInput) SetDomainName(v string) *DescribeElasticsearchInstanceTypeLimitsInput {
-	s.DomainName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchInstanceTypeLimitsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetElasticsearchVersion sets the ElasticsearchVersion field's value.
-func (s *DescribeElasticsearchInstanceTypeLimitsInput) SetElasticsearchVersion(v string) *DescribeElasticsearchInstanceTypeLimitsInput {
-	s.ElasticsearchVersion = &v
-	return s
-}
+	if s.ElasticsearchVersion != nil {
+		v := *s.ElasticsearchVersion
 
-// SetInstanceType sets the InstanceType field's value.
-func (s *DescribeElasticsearchInstanceTypeLimitsInput) SetInstanceType(v ESPartitionInstanceType) *DescribeElasticsearchInstanceTypeLimitsInput {
-	s.InstanceType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ElasticsearchVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.InstanceType) > 0 {
+		v := s.InstanceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "InstanceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.DomainName != nil {
+		v := *s.DomainName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "domainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters received from DescribeElasticsearchInstanceTypeLimits
@@ -1408,11 +2138,13 @@ func (s *DescribeElasticsearchInstanceTypeLimitsInput) SetInstanceType(v ESParti
 type DescribeElasticsearchInstanceTypeLimitsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Map of Role of the Instance and Limits that are applicable. Role performed
 	// by given Instance in Elasticsearch can be one of the following: Data: If
 	// the given InstanceType is used as Data node
 	// Master: If the given InstanceType is used as Master node
-	LimitsByRole map[string]*Limits `type:"map"`
+	LimitsByRole map[string]Limits `type:"map"`
 }
 
 // String returns the string representation
@@ -1425,10 +2157,231 @@ func (s DescribeElasticsearchInstanceTypeLimitsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLimitsByRole sets the LimitsByRole field's value.
-func (s *DescribeElasticsearchInstanceTypeLimitsOutput) SetLimitsByRole(v map[string]*Limits) *DescribeElasticsearchInstanceTypeLimitsOutput {
-	s.LimitsByRole = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeElasticsearchInstanceTypeLimitsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeElasticsearchInstanceTypeLimitsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.LimitsByRole) > 0 {
+		v := s.LimitsByRole
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "LimitsByRole", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	return nil
+}
+
+// Container for parameters to DescribeReservedElasticsearchInstanceOfferings
+type DescribeReservedElasticsearchInstanceOfferingsInput struct {
+	_ struct{} `type:"structure"`
+
+	// Set this value to limit the number of results returned. If not specified,
+	// defaults to 100.
+	MaxResults *int64 `location:"querystring" locationName:"maxResults" type:"integer"`
+
+	// NextToken should be sent in case if earlier API call produced result containing
+	// NextToken. It is used for pagination.
+	NextToken *string `location:"querystring" locationName:"nextToken" type:"string"`
+
+	// The offering identifier filter value. Use this parameter to show only the
+	// available offering that matches the specified reservation identifier.
+	ReservedElasticsearchInstanceOfferingId *string `location:"querystring" locationName:"offeringId" type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeReservedElasticsearchInstanceOfferingsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeReservedElasticsearchInstanceOfferingsInput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeReservedElasticsearchInstanceOfferingsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ReservedElasticsearchInstanceOfferingId != nil {
+		v := *s.ReservedElasticsearchInstanceOfferingId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "offeringId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Container for results from DescribeReservedElasticsearchInstanceOfferings
+type DescribeReservedElasticsearchInstanceOfferingsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// Provides an identifier to allow retrieval of paginated results.
+	NextToken *string `type:"string"`
+
+	// List of reserved Elasticsearch instance offerings
+	ReservedElasticsearchInstanceOfferings []ReservedElasticsearchInstanceOffering `type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeReservedElasticsearchInstanceOfferingsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeReservedElasticsearchInstanceOfferingsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeReservedElasticsearchInstanceOfferingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeReservedElasticsearchInstanceOfferingsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ReservedElasticsearchInstanceOfferings) > 0 {
+		v := s.ReservedElasticsearchInstanceOfferings
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ReservedElasticsearchInstanceOfferings", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
+}
+
+// Container for parameters to DescribeReservedElasticsearchInstances
+type DescribeReservedElasticsearchInstancesInput struct {
+	_ struct{} `type:"structure"`
+
+	// Set this value to limit the number of results returned. If not specified,
+	// defaults to 100.
+	MaxResults *int64 `location:"querystring" locationName:"maxResults" type:"integer"`
+
+	// NextToken should be sent in case if earlier API call produced result containing
+	// NextToken. It is used for pagination.
+	NextToken *string `location:"querystring" locationName:"nextToken" type:"string"`
+
+	// The reserved instance identifier filter value. Use this parameter to show
+	// only the reservation that matches the specified reserved Elasticsearch instance
+	// ID.
+	ReservedElasticsearchInstanceId *string `location:"querystring" locationName:"reservationId" type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeReservedElasticsearchInstancesInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeReservedElasticsearchInstancesInput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeReservedElasticsearchInstancesInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ReservedElasticsearchInstanceId != nil {
+		v := *s.ReservedElasticsearchInstanceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "reservationId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Container for results from DescribeReservedElasticsearchInstances
+type DescribeReservedElasticsearchInstancesOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// Provides an identifier to allow retrieval of paginated results.
+	NextToken *string `type:"string"`
+
+	// List of reserved Elasticsearch instances.
+	ReservedElasticsearchInstances []ReservedElasticsearchInstance `type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeReservedElasticsearchInstancesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeReservedElasticsearchInstancesOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeReservedElasticsearchInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeReservedElasticsearchInstancesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.ReservedElasticsearchInstances) > 0 {
+		v := s.ReservedElasticsearchInstances
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ReservedElasticsearchInstances", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type DomainInfo struct {
@@ -1448,10 +2401,15 @@ func (s DomainInfo) GoString() string {
 	return s.String()
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DomainInfo) SetDomainName(v string) *DomainInfo {
-	s.DomainName = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DomainInfo) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DomainName != nil {
+		v := *s.DomainName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Options to enable, disable, and specify the properties of EBS storage volumes.
@@ -1469,7 +2427,7 @@ type EBSOptions struct {
 	VolumeSize *int64 `type:"integer"`
 
 	// Specifies the volume type for EBS-based storage.
-	VolumeType VolumeType `type:"string"`
+	VolumeType VolumeType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1482,28 +2440,33 @@ func (s EBSOptions) GoString() string {
 	return s.String()
 }
 
-// SetEBSEnabled sets the EBSEnabled field's value.
-func (s *EBSOptions) SetEBSEnabled(v bool) *EBSOptions {
-	s.EBSEnabled = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EBSOptions) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EBSEnabled != nil {
+		v := *s.EBSEnabled
 
-// SetIops sets the Iops field's value.
-func (s *EBSOptions) SetIops(v int64) *EBSOptions {
-	s.Iops = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EBSEnabled", protocol.BoolValue(v), metadata)
+	}
+	if s.Iops != nil {
+		v := *s.Iops
 
-// SetVolumeSize sets the VolumeSize field's value.
-func (s *EBSOptions) SetVolumeSize(v int64) *EBSOptions {
-	s.VolumeSize = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Iops", protocol.Int64Value(v), metadata)
+	}
+	if s.VolumeSize != nil {
+		v := *s.VolumeSize
 
-// SetVolumeType sets the VolumeType field's value.
-func (s *EBSOptions) SetVolumeType(v VolumeType) *EBSOptions {
-	s.VolumeType = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VolumeSize", protocol.Int64Value(v), metadata)
+	}
+	if len(s.VolumeType) > 0 {
+		v := s.VolumeType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VolumeType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Status of the EBS options for the specified Elasticsearch domain.
@@ -1531,16 +2494,21 @@ func (s EBSOptionsStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *EBSOptionsStatus) SetOptions(v *EBSOptions) *EBSOptionsStatus {
-	s.Options = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EBSOptionsStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := s.Options
 
-// SetStatus sets the Status field's value.
-func (s *EBSOptionsStatus) SetStatus(v *OptionStatus) *EBSOptionsStatus {
-	s.Status = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Options", v, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Specifies the configuration for the domain cluster, such as the type and
@@ -1557,13 +2525,13 @@ type ElasticsearchClusterConfig struct {
 	DedicatedMasterEnabled *bool `type:"boolean"`
 
 	// The instance type for a dedicated master node.
-	DedicatedMasterType ESPartitionInstanceType `type:"string"`
+	DedicatedMasterType ESPartitionInstanceType `type:"string" enum:"true"`
 
 	// The number of instances in the specified domain cluster.
 	InstanceCount *int64 `type:"integer"`
 
 	// The instance type for an Elasticsearch cluster.
-	InstanceType ESPartitionInstanceType `type:"string"`
+	InstanceType ESPartitionInstanceType `type:"string" enum:"true"`
 
 	// A boolean value to indicate whether zone awareness is enabled. See About
 	// Zone Awareness (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-managedomains.html#es-managedomains-zoneawareness)
@@ -1581,40 +2549,45 @@ func (s ElasticsearchClusterConfig) GoString() string {
 	return s.String()
 }
 
-// SetDedicatedMasterCount sets the DedicatedMasterCount field's value.
-func (s *ElasticsearchClusterConfig) SetDedicatedMasterCount(v int64) *ElasticsearchClusterConfig {
-	s.DedicatedMasterCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ElasticsearchClusterConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DedicatedMasterCount != nil {
+		v := *s.DedicatedMasterCount
 
-// SetDedicatedMasterEnabled sets the DedicatedMasterEnabled field's value.
-func (s *ElasticsearchClusterConfig) SetDedicatedMasterEnabled(v bool) *ElasticsearchClusterConfig {
-	s.DedicatedMasterEnabled = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DedicatedMasterCount", protocol.Int64Value(v), metadata)
+	}
+	if s.DedicatedMasterEnabled != nil {
+		v := *s.DedicatedMasterEnabled
 
-// SetDedicatedMasterType sets the DedicatedMasterType field's value.
-func (s *ElasticsearchClusterConfig) SetDedicatedMasterType(v ESPartitionInstanceType) *ElasticsearchClusterConfig {
-	s.DedicatedMasterType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DedicatedMasterEnabled", protocol.BoolValue(v), metadata)
+	}
+	if len(s.DedicatedMasterType) > 0 {
+		v := s.DedicatedMasterType
 
-// SetInstanceCount sets the InstanceCount field's value.
-func (s *ElasticsearchClusterConfig) SetInstanceCount(v int64) *ElasticsearchClusterConfig {
-	s.InstanceCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DedicatedMasterType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.InstanceCount != nil {
+		v := *s.InstanceCount
 
-// SetInstanceType sets the InstanceType field's value.
-func (s *ElasticsearchClusterConfig) SetInstanceType(v ESPartitionInstanceType) *ElasticsearchClusterConfig {
-	s.InstanceType = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "InstanceCount", protocol.Int64Value(v), metadata)
+	}
+	if len(s.InstanceType) > 0 {
+		v := s.InstanceType
 
-// SetZoneAwarenessEnabled sets the ZoneAwarenessEnabled field's value.
-func (s *ElasticsearchClusterConfig) SetZoneAwarenessEnabled(v bool) *ElasticsearchClusterConfig {
-	s.ZoneAwarenessEnabled = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "InstanceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.ZoneAwarenessEnabled != nil {
+		v := *s.ZoneAwarenessEnabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ZoneAwarenessEnabled", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Specifies the configuration status for the specified Elasticsearch domain.
@@ -1643,16 +2616,21 @@ func (s ElasticsearchClusterConfigStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *ElasticsearchClusterConfigStatus) SetOptions(v *ElasticsearchClusterConfig) *ElasticsearchClusterConfigStatus {
-	s.Options = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ElasticsearchClusterConfigStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := s.Options
 
-// SetStatus sets the Status field's value.
-func (s *ElasticsearchClusterConfigStatus) SetStatus(v *OptionStatus) *ElasticsearchClusterConfigStatus {
-	s.Status = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Options", v, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // The configuration of an Elasticsearch domain.
@@ -1667,6 +2645,10 @@ type ElasticsearchDomainConfig struct {
 	// for more information.
 	AdvancedOptions *AdvancedOptionsStatus `type:"structure"`
 
+	// The CognitoOptions for the specified domain. For more information, see Amazon
+	// Cognito Authentication for Kibana (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
+	CognitoOptions *CognitoOptionsStatus `type:"structure"`
+
 	// Specifies the EBSOptions for the Elasticsearch domain.
 	EBSOptions *EBSOptionsStatus `type:"structure"`
 
@@ -1676,8 +2658,18 @@ type ElasticsearchDomainConfig struct {
 	// String of format X.Y to specify version for the Elasticsearch domain.
 	ElasticsearchVersion *ElasticsearchVersionStatus `type:"structure"`
 
+	// Specifies the EncryptionAtRestOptions for the Elasticsearch domain.
+	EncryptionAtRestOptions *EncryptionAtRestOptionsStatus `type:"structure"`
+
+	// Log publishing options for the given domain.
+	LogPublishingOptions *LogPublishingOptionsStatus `type:"structure"`
+
 	// Specifies the SnapshotOptions for the Elasticsearch domain.
 	SnapshotOptions *SnapshotOptionsStatus `type:"structure"`
+
+	// The VPCOptions for the specified domain. For more information, see VPC Endpoints
+	// for Amazon Elasticsearch Service Domains (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
+	VPCOptions *VPCDerivedInfoStatus `type:"structure"`
 }
 
 // String returns the string representation
@@ -1690,40 +2682,69 @@ func (s ElasticsearchDomainConfig) GoString() string {
 	return s.String()
 }
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *ElasticsearchDomainConfig) SetAccessPolicies(v *AccessPoliciesStatus) *ElasticsearchDomainConfig {
-	s.AccessPolicies = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ElasticsearchDomainConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccessPolicies != nil {
+		v := s.AccessPolicies
 
-// SetAdvancedOptions sets the AdvancedOptions field's value.
-func (s *ElasticsearchDomainConfig) SetAdvancedOptions(v *AdvancedOptionsStatus) *ElasticsearchDomainConfig {
-	s.AdvancedOptions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AccessPolicies", v, metadata)
+	}
+	if s.AdvancedOptions != nil {
+		v := s.AdvancedOptions
 
-// SetEBSOptions sets the EBSOptions field's value.
-func (s *ElasticsearchDomainConfig) SetEBSOptions(v *EBSOptionsStatus) *ElasticsearchDomainConfig {
-	s.EBSOptions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AdvancedOptions", v, metadata)
+	}
+	if s.CognitoOptions != nil {
+		v := s.CognitoOptions
 
-// SetElasticsearchClusterConfig sets the ElasticsearchClusterConfig field's value.
-func (s *ElasticsearchDomainConfig) SetElasticsearchClusterConfig(v *ElasticsearchClusterConfigStatus) *ElasticsearchDomainConfig {
-	s.ElasticsearchClusterConfig = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoOptions", v, metadata)
+	}
+	if s.EBSOptions != nil {
+		v := s.EBSOptions
 
-// SetElasticsearchVersion sets the ElasticsearchVersion field's value.
-func (s *ElasticsearchDomainConfig) SetElasticsearchVersion(v *ElasticsearchVersionStatus) *ElasticsearchDomainConfig {
-	s.ElasticsearchVersion = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EBSOptions", v, metadata)
+	}
+	if s.ElasticsearchClusterConfig != nil {
+		v := s.ElasticsearchClusterConfig
 
-// SetSnapshotOptions sets the SnapshotOptions field's value.
-func (s *ElasticsearchDomainConfig) SetSnapshotOptions(v *SnapshotOptionsStatus) *ElasticsearchDomainConfig {
-	s.SnapshotOptions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ElasticsearchClusterConfig", v, metadata)
+	}
+	if s.ElasticsearchVersion != nil {
+		v := s.ElasticsearchVersion
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ElasticsearchVersion", v, metadata)
+	}
+	if s.EncryptionAtRestOptions != nil {
+		v := s.EncryptionAtRestOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EncryptionAtRestOptions", v, metadata)
+	}
+	if s.LogPublishingOptions != nil {
+		v := s.LogPublishingOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "LogPublishingOptions", v, metadata)
+	}
+	if s.SnapshotOptions != nil {
+		v := s.SnapshotOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SnapshotOptions", v, metadata)
+	}
+	if s.VPCOptions != nil {
+		v := s.VPCOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VPCOptions", v, metadata)
+	}
+	return nil
 }
 
 // The current status of an Elasticsearch domain.
@@ -1741,7 +2762,11 @@ type ElasticsearchDomainStatus struct {
 	AccessPolicies *string `type:"string"`
 
 	// Specifies the status of the AdvancedOptions
-	AdvancedOptions map[string]*string `type:"map"`
+	AdvancedOptions map[string]string `type:"map"`
+
+	// The CognitoOptions for the specified domain. For more information, see Amazon
+	// Cognito Authentication for Kibana (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
+	CognitoOptions *CognitoOptions `type:"structure"`
 
 	// The domain creation status. True if the creation of an Elasticsearch domain
 	// is complete. False if domain creation is still in progress.
@@ -1778,9 +2803,19 @@ type ElasticsearchDomainStatus struct {
 
 	ElasticsearchVersion *string `type:"string"`
 
+	// Specifies the status of the EncryptionAtRestOptions.
+	EncryptionAtRestOptions *EncryptionAtRestOptions `type:"structure"`
+
 	// The Elasticsearch domain endpoint that you use to submit index and search
 	// requests.
 	Endpoint *string `type:"string"`
+
+	// Map containing the Elasticsearch domain endpoints used to submit index and
+	// search requests. Example key, value: 'vpc','vpc-endpoint-h2dsd34efgyghrtguk5gt6j2foh4.us-east-1.es.amazonaws.com'.
+	Endpoints map[string]string `type:"map"`
+
+	// Log publishing options for the given domain.
+	LogPublishingOptions map[string]LogPublishingOption `type:"map"`
 
 	// The status of the Elasticsearch domain configuration. True if Amazon Elasticsearch
 	// Service is processing configuration changes. False if the configuration is
@@ -1789,6 +2824,10 @@ type ElasticsearchDomainStatus struct {
 
 	// Specifies the status of the SnapshotOptions
 	SnapshotOptions *SnapshotOptions `type:"structure"`
+
+	// The VPCOptions for the specified domain. For more information, see VPC Endpoints
+	// for Amazon Elasticsearch Service Domains (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
+	VPCOptions *VPCDerivedInfo `type:"structure"`
 }
 
 // String returns the string representation
@@ -1801,82 +2840,135 @@ func (s ElasticsearchDomainStatus) GoString() string {
 	return s.String()
 }
 
-// SetARN sets the ARN field's value.
-func (s *ElasticsearchDomainStatus) SetARN(v string) *ElasticsearchDomainStatus {
-	s.ARN = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ElasticsearchDomainStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ARN != nil {
+		v := *s.ARN
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *ElasticsearchDomainStatus) SetAccessPolicies(v string) *ElasticsearchDomainStatus {
-	s.AccessPolicies = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.AccessPolicies != nil {
+		v := *s.AccessPolicies
 
-// SetAdvancedOptions sets the AdvancedOptions field's value.
-func (s *ElasticsearchDomainStatus) SetAdvancedOptions(v map[string]*string) *ElasticsearchDomainStatus {
-	s.AdvancedOptions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AccessPolicies", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.AdvancedOptions) > 0 {
+		v := s.AdvancedOptions
 
-// SetCreated sets the Created field's value.
-func (s *ElasticsearchDomainStatus) SetCreated(v bool) *ElasticsearchDomainStatus {
-	s.Created = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "AdvancedOptions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetDeleted sets the Deleted field's value.
-func (s *ElasticsearchDomainStatus) SetDeleted(v bool) *ElasticsearchDomainStatus {
-	s.Deleted = &v
-	return s
-}
+	}
+	if s.CognitoOptions != nil {
+		v := s.CognitoOptions
 
-// SetDomainId sets the DomainId field's value.
-func (s *ElasticsearchDomainStatus) SetDomainId(v string) *ElasticsearchDomainStatus {
-	s.DomainId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoOptions", v, metadata)
+	}
+	if s.Created != nil {
+		v := *s.Created
 
-// SetDomainName sets the DomainName field's value.
-func (s *ElasticsearchDomainStatus) SetDomainName(v string) *ElasticsearchDomainStatus {
-	s.DomainName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Created", protocol.BoolValue(v), metadata)
+	}
+	if s.Deleted != nil {
+		v := *s.Deleted
 
-// SetEBSOptions sets the EBSOptions field's value.
-func (s *ElasticsearchDomainStatus) SetEBSOptions(v *EBSOptions) *ElasticsearchDomainStatus {
-	s.EBSOptions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Deleted", protocol.BoolValue(v), metadata)
+	}
+	if s.DomainId != nil {
+		v := *s.DomainId
 
-// SetElasticsearchClusterConfig sets the ElasticsearchClusterConfig field's value.
-func (s *ElasticsearchDomainStatus) SetElasticsearchClusterConfig(v *ElasticsearchClusterConfig) *ElasticsearchDomainStatus {
-	s.ElasticsearchClusterConfig = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DomainId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DomainName != nil {
+		v := *s.DomainName
 
-// SetElasticsearchVersion sets the ElasticsearchVersion field's value.
-func (s *ElasticsearchDomainStatus) SetElasticsearchVersion(v string) *ElasticsearchDomainStatus {
-	s.ElasticsearchVersion = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EBSOptions != nil {
+		v := s.EBSOptions
 
-// SetEndpoint sets the Endpoint field's value.
-func (s *ElasticsearchDomainStatus) SetEndpoint(v string) *ElasticsearchDomainStatus {
-	s.Endpoint = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EBSOptions", v, metadata)
+	}
+	if s.ElasticsearchClusterConfig != nil {
+		v := s.ElasticsearchClusterConfig
 
-// SetProcessing sets the Processing field's value.
-func (s *ElasticsearchDomainStatus) SetProcessing(v bool) *ElasticsearchDomainStatus {
-	s.Processing = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ElasticsearchClusterConfig", v, metadata)
+	}
+	if s.ElasticsearchVersion != nil {
+		v := *s.ElasticsearchVersion
 
-// SetSnapshotOptions sets the SnapshotOptions field's value.
-func (s *ElasticsearchDomainStatus) SetSnapshotOptions(v *SnapshotOptions) *ElasticsearchDomainStatus {
-	s.SnapshotOptions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ElasticsearchVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.EncryptionAtRestOptions != nil {
+		v := s.EncryptionAtRestOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EncryptionAtRestOptions", v, metadata)
+	}
+	if s.Endpoint != nil {
+		v := *s.Endpoint
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Endpoint", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Endpoints) > 0 {
+		v := s.Endpoints
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Endpoints", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
+
+	}
+	if len(s.LogPublishingOptions) > 0 {
+		v := s.LogPublishingOptions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "LogPublishingOptions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if s.Processing != nil {
+		v := *s.Processing
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Processing", protocol.BoolValue(v), metadata)
+	}
+	if s.SnapshotOptions != nil {
+		v := s.SnapshotOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SnapshotOptions", v, metadata)
+	}
+	if s.VPCOptions != nil {
+		v := s.VPCOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VPCOptions", v, metadata)
+	}
+	return nil
 }
 
 // Status of the Elasticsearch version options for the specified Elasticsearch
@@ -1906,16 +2998,117 @@ func (s ElasticsearchVersionStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *ElasticsearchVersionStatus) SetOptions(v string) *ElasticsearchVersionStatus {
-	s.Options = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ElasticsearchVersionStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := *s.Options
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Options", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
-// SetStatus sets the Status field's value.
-func (s *ElasticsearchVersionStatus) SetStatus(v *OptionStatus) *ElasticsearchVersionStatus {
-	s.Status = v
-	return s
+// Specifies the Encryption At Rest Options.
+type EncryptionAtRestOptions struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the option to enable Encryption At Rest.
+	Enabled *bool `type:"boolean"`
+
+	// Specifies the KMS Key ID for Encryption At Rest options.
+	KmsKeyId *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s EncryptionAtRestOptions) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EncryptionAtRestOptions) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *EncryptionAtRestOptions) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "EncryptionAtRestOptions"}
+	if s.KmsKeyId != nil && len(*s.KmsKeyId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("KmsKeyId", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EncryptionAtRestOptions) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	if s.KmsKeyId != nil {
+		v := *s.KmsKeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KmsKeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Status of the Encryption At Rest options for the specified Elasticsearch
+// domain.
+type EncryptionAtRestOptionsStatus struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the Encryption At Rest options for the specified Elasticsearch
+	// domain.
+	//
+	// Options is a required field
+	Options *EncryptionAtRestOptions `type:"structure" required:"true"`
+
+	// Specifies the status of the Encryption At Rest options for the specified
+	// Elasticsearch domain.
+	//
+	// Status is a required field
+	Status *OptionStatus `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s EncryptionAtRestOptionsStatus) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s EncryptionAtRestOptionsStatus) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EncryptionAtRestOptionsStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := s.Options
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Options", v, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // InstanceCountLimits represents the limits on number of instances that be
@@ -1940,16 +3133,21 @@ func (s InstanceCountLimits) GoString() string {
 	return s.String()
 }
 
-// SetMaximumInstanceCount sets the MaximumInstanceCount field's value.
-func (s *InstanceCountLimits) SetMaximumInstanceCount(v int64) *InstanceCountLimits {
-	s.MaximumInstanceCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InstanceCountLimits) MarshalFields(e protocol.FieldEncoder) error {
+	if s.MaximumInstanceCount != nil {
+		v := *s.MaximumInstanceCount
 
-// SetMinimumInstanceCount sets the MinimumInstanceCount field's value.
-func (s *InstanceCountLimits) SetMinimumInstanceCount(v int64) *InstanceCountLimits {
-	s.MinimumInstanceCount = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MaximumInstanceCount", protocol.Int64Value(v), metadata)
+	}
+	if s.MinimumInstanceCount != nil {
+		v := *s.MinimumInstanceCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "MinimumInstanceCount", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // InstanceLimits represents the list of instance related attributes that are
@@ -1972,10 +3170,15 @@ func (s InstanceLimits) GoString() string {
 	return s.String()
 }
 
-// SetInstanceCountLimits sets the InstanceCountLimits field's value.
-func (s *InstanceLimits) SetInstanceCountLimits(v *InstanceCountLimits) *InstanceLimits {
-	s.InstanceCountLimits = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s InstanceLimits) MarshalFields(e protocol.FieldEncoder) error {
+	if s.InstanceCountLimits != nil {
+		v := s.InstanceCountLimits
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "InstanceCountLimits", v, metadata)
+	}
+	return nil
 }
 
 // Limits for given InstanceType and for each of it's role. Limits contains following StorageTypes,   InstanceLimitsand AdditionalLimits
@@ -1984,7 +3187,7 @@ type Limits struct {
 
 	// List of additional limits that are specific to a given InstanceType and for
 	// each of it's InstanceRole .
-	AdditionalLimits []*AdditionalLimit `type:"list"`
+	AdditionalLimits []AdditionalLimit `type:"list"`
 
 	// InstanceLimits represents the list of instance related attributes that are
 	// available for given InstanceType.
@@ -1992,7 +3195,7 @@ type Limits struct {
 
 	// StorageType represents the list of storage related types and attributes that
 	// are available for given InstanceType.
-	StorageTypes []*StorageType `type:"list"`
+	StorageTypes []StorageType `type:"list"`
 }
 
 // String returns the string representation
@@ -2005,22 +3208,39 @@ func (s Limits) GoString() string {
 	return s.String()
 }
 
-// SetAdditionalLimits sets the AdditionalLimits field's value.
-func (s *Limits) SetAdditionalLimits(v []*AdditionalLimit) *Limits {
-	s.AdditionalLimits = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Limits) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AdditionalLimits) > 0 {
+		v := s.AdditionalLimits
 
-// SetInstanceLimits sets the InstanceLimits field's value.
-func (s *Limits) SetInstanceLimits(v *InstanceLimits) *Limits {
-	s.InstanceLimits = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AdditionalLimits", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetStorageTypes sets the StorageTypes field's value.
-func (s *Limits) SetStorageTypes(v []*StorageType) *Limits {
-	s.StorageTypes = v
-	return s
+	}
+	if s.InstanceLimits != nil {
+		v := s.InstanceLimits
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "InstanceLimits", v, metadata)
+	}
+	if len(s.StorageTypes) > 0 {
+		v := s.StorageTypes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "StorageTypes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type ListDomainNamesInput struct {
@@ -2037,13 +3257,21 @@ func (s ListDomainNamesInput) GoString() string {
 	return s.String()
 }
 
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDomainNamesInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
 // The result of a ListDomainNames operation. Contains the names of all Elasticsearch
 // domains owned by this account.
 type ListDomainNamesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of Elasticsearch domain names.
-	DomainNames []*DomainInfo `type:"list"`
+	DomainNames []DomainInfo `type:"list"`
 }
 
 // String returns the string representation
@@ -2056,10 +3284,26 @@ func (s ListDomainNamesOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainNames sets the DomainNames field's value.
-func (s *ListDomainNamesOutput) SetDomainNames(v []*DomainInfo) *ListDomainNamesOutput {
-	s.DomainNames = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDomainNamesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListDomainNamesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DomainNames) > 0 {
+		v := s.DomainNames
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "DomainNames", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Container for the parameters to the ListElasticsearchInstanceTypes operation.
@@ -2113,33 +3357,41 @@ func (s *ListElasticsearchInstanceTypesInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *ListElasticsearchInstanceTypesInput) SetDomainName(v string) *ListElasticsearchInstanceTypesInput {
-	s.DomainName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListElasticsearchInstanceTypesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetElasticsearchVersion sets the ElasticsearchVersion field's value.
-func (s *ListElasticsearchInstanceTypesInput) SetElasticsearchVersion(v string) *ListElasticsearchInstanceTypesInput {
-	s.ElasticsearchVersion = &v
-	return s
-}
+	if s.ElasticsearchVersion != nil {
+		v := *s.ElasticsearchVersion
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListElasticsearchInstanceTypesInput) SetMaxResults(v int64) *ListElasticsearchInstanceTypesInput {
-	s.MaxResults = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "ElasticsearchVersion", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.DomainName != nil {
+		v := *s.DomainName
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListElasticsearchInstanceTypesInput) SetNextToken(v string) *ListElasticsearchInstanceTypesInput {
-	s.NextToken = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "domainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters returned by ListElasticsearchInstanceTypes operation.
 type ListElasticsearchInstanceTypesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// List of instance types supported by Amazon Elasticsearch service for given
 	// ElasticsearchVersion
@@ -2161,16 +3413,32 @@ func (s ListElasticsearchInstanceTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetElasticsearchInstanceTypes sets the ElasticsearchInstanceTypes field's value.
-func (s *ListElasticsearchInstanceTypesOutput) SetElasticsearchInstanceTypes(v []ESPartitionInstanceType) *ListElasticsearchInstanceTypesOutput {
-	s.ElasticsearchInstanceTypes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListElasticsearchInstanceTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListElasticsearchInstanceTypesOutput) SetNextToken(v string) *ListElasticsearchInstanceTypesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListElasticsearchInstanceTypesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ElasticsearchInstanceTypes) > 0 {
+		v := s.ElasticsearchInstanceTypes
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ElasticsearchInstanceTypes", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the ListElasticsearchVersions operation.
@@ -2202,16 +3470,22 @@ func (s ListElasticsearchVersionsInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListElasticsearchVersionsInput) SetMaxResults(v int64) *ListElasticsearchVersionsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListElasticsearchVersionsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListElasticsearchVersionsInput) SetNextToken(v string) *ListElasticsearchVersionsInput {
-	s.NextToken = &v
-	return s
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters for response received from ListElasticsearchVersions
@@ -2219,8 +3493,10 @@ func (s *ListElasticsearchVersionsInput) SetNextToken(v string) *ListElasticsear
 type ListElasticsearchVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of supported elastic search versions.
-	ElasticsearchVersions []*string `type:"list"`
+	ElasticsearchVersions []string `type:"list"`
 
 	// Paginated APIs accepts NextToken input to returns next page results and provides
 	// a NextToken output in the response which can be used by the client to retrieve
@@ -2238,16 +3514,32 @@ func (s ListElasticsearchVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetElasticsearchVersions sets the ElasticsearchVersions field's value.
-func (s *ListElasticsearchVersionsOutput) SetElasticsearchVersions(v []*string) *ListElasticsearchVersionsOutput {
-	s.ElasticsearchVersions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListElasticsearchVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListElasticsearchVersionsOutput) SetNextToken(v string) *ListElasticsearchVersionsOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListElasticsearchVersionsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ElasticsearchVersions) > 0 {
+		v := s.ElasticsearchVersions
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ElasticsearchVersions", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the ListTags operation. Specify the ARN for
@@ -2287,10 +3579,16 @@ func (s *ListTagsInput) Validate() error {
 	return nil
 }
 
-// SetARN sets the ARN field's value.
-func (s *ListTagsInput) SetARN(v string) *ListTagsInput {
-	s.ARN = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTagsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.ARN != nil {
+		v := *s.ARN
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "arn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The result of a ListTags operation. Contains tags for all requested Elasticsearch
@@ -2298,8 +3596,10 @@ func (s *ListTagsInput) SetARN(v string) *ListTagsInput {
 type ListTagsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of Tag for the requested Elasticsearch domain.
-	TagList []*Tag `type:"list"`
+	TagList []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -2312,10 +3612,111 @@ func (s ListTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetTagList sets the TagList field's value.
-func (s *ListTagsOutput) SetTagList(v []*Tag) *ListTagsOutput {
-	s.TagList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.TagList) > 0 {
+		v := s.TagList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TagList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
+}
+
+// Log Publishing option that is set for given domain. Attributes and their details: CloudWatchLogsLogGroupArn: ARN of the Cloudwatch
+// log group to which log needs to be published.
+// Enabled: Whether the log publishing for given log type is enabled or not
+type LogPublishingOption struct {
+	_ struct{} `type:"structure"`
+
+	// ARN of the Cloudwatch log group to which log needs to be published.
+	CloudWatchLogsLogGroupArn *string `type:"string"`
+
+	// Specifies whether given log publishing option is enabled or not.
+	Enabled *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s LogPublishingOption) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LogPublishingOption) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LogPublishingOption) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CloudWatchLogsLogGroupArn != nil {
+		v := *s.CloudWatchLogsLogGroupArn
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CloudWatchLogsLogGroupArn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Enabled != nil {
+		v := *s.Enabled
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Enabled", protocol.BoolValue(v), metadata)
+	}
+	return nil
+}
+
+// The configured log publishing options for the domain and their current status.
+type LogPublishingOptionsStatus struct {
+	_ struct{} `type:"structure"`
+
+	// The log publishing options configured for the Elasticsearch domain.
+	Options map[string]LogPublishingOption `type:"map"`
+
+	// The status of the log publishing options for the Elasticsearch domain. See
+	// OptionStatus for the status information that's included.
+	Status *OptionStatus `type:"structure"`
+}
+
+// String returns the string representation
+func (s LogPublishingOptionsStatus) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s LogPublishingOptionsStatus) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s LogPublishingOptionsStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Options) > 0 {
+		v := s.Options
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Options", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // Provides the current status of the entity.
@@ -2333,7 +3734,7 @@ type OptionStatus struct {
 	// Provides the OptionState for the Elasticsearch domain.
 	//
 	// State is a required field
-	State OptionState `type:"string" required:"true"`
+	State OptionState `type:"string" required:"true" enum:"true"`
 
 	// Timestamp which tells the last updated time for the entity.
 	//
@@ -2354,34 +3755,200 @@ func (s OptionStatus) GoString() string {
 	return s.String()
 }
 
-// SetCreationDate sets the CreationDate field's value.
-func (s *OptionStatus) SetCreationDate(v time.Time) *OptionStatus {
-	s.CreationDate = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s OptionStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CreationDate != nil {
+		v := *s.CreationDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CreationDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.PendingDeletion != nil {
+		v := *s.PendingDeletion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PendingDeletion", protocol.BoolValue(v), metadata)
+	}
+	if len(s.State) > 0 {
+		v := s.State
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "State", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.UpdateDate != nil {
+		v := *s.UpdateDate
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UpdateDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.UpdateVersion != nil {
+		v := *s.UpdateVersion
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UpdateVersion", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
-// SetPendingDeletion sets the PendingDeletion field's value.
-func (s *OptionStatus) SetPendingDeletion(v bool) *OptionStatus {
-	s.PendingDeletion = &v
-	return s
+// Container for parameters to PurchaseReservedElasticsearchInstanceOffering
+type PurchaseReservedElasticsearchInstanceOfferingInput struct {
+	_ struct{} `type:"structure"`
+
+	// The number of Elasticsearch instances to reserve.
+	InstanceCount *int64 `min:"1" type:"integer"`
+
+	// A customer-specified identifier to track this reservation.
+	//
+	// ReservationName is a required field
+	ReservationName *string `min:"5" type:"string" required:"true"`
+
+	// The ID of the reserved Elasticsearch instance offering to purchase.
+	//
+	// ReservedElasticsearchInstanceOfferingId is a required field
+	ReservedElasticsearchInstanceOfferingId *string `type:"string" required:"true"`
 }
 
-// SetState sets the State field's value.
-func (s *OptionStatus) SetState(v OptionState) *OptionStatus {
-	s.State = v
-	return s
+// String returns the string representation
+func (s PurchaseReservedElasticsearchInstanceOfferingInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetUpdateDate sets the UpdateDate field's value.
-func (s *OptionStatus) SetUpdateDate(v time.Time) *OptionStatus {
-	s.UpdateDate = &v
-	return s
+// GoString returns the string representation
+func (s PurchaseReservedElasticsearchInstanceOfferingInput) GoString() string {
+	return s.String()
 }
 
-// SetUpdateVersion sets the UpdateVersion field's value.
-func (s *OptionStatus) SetUpdateVersion(v int64) *OptionStatus {
-	s.UpdateVersion = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PurchaseReservedElasticsearchInstanceOfferingInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PurchaseReservedElasticsearchInstanceOfferingInput"}
+	if s.InstanceCount != nil && *s.InstanceCount < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("InstanceCount", 1))
+	}
+
+	if s.ReservationName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ReservationName"))
+	}
+	if s.ReservationName != nil && len(*s.ReservationName) < 5 {
+		invalidParams.Add(aws.NewErrParamMinLen("ReservationName", 5))
+	}
+
+	if s.ReservedElasticsearchInstanceOfferingId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ReservedElasticsearchInstanceOfferingId"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PurchaseReservedElasticsearchInstanceOfferingInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.InstanceCount != nil {
+		v := *s.InstanceCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "InstanceCount", protocol.Int64Value(v), metadata)
+	}
+	if s.ReservationName != nil {
+		v := *s.ReservationName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservationName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ReservedElasticsearchInstanceOfferingId != nil {
+		v := *s.ReservedElasticsearchInstanceOfferingId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedElasticsearchInstanceOfferingId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Represents the output of a PurchaseReservedElasticsearchInstanceOffering
+// operation.
+type PurchaseReservedElasticsearchInstanceOfferingOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The customer-specified identifier used to track this reservation.
+	ReservationName *string `min:"5" type:"string"`
+
+	// Details of the reserved Elasticsearch instance which was purchased.
+	ReservedElasticsearchInstanceId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s PurchaseReservedElasticsearchInstanceOfferingOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PurchaseReservedElasticsearchInstanceOfferingOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PurchaseReservedElasticsearchInstanceOfferingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PurchaseReservedElasticsearchInstanceOfferingOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ReservationName != nil {
+		v := *s.ReservationName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservationName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ReservedElasticsearchInstanceId != nil {
+		v := *s.ReservedElasticsearchInstanceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedElasticsearchInstanceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Contains the specific price and frequency of a recurring charges for a reserved
+// Elasticsearch instance, or for a reserved Elasticsearch instance offering.
+type RecurringCharge struct {
+	_ struct{} `type:"structure"`
+
+	// The monetary amount of the recurring charge.
+	RecurringChargeAmount *float64 `type:"double"`
+
+	// The frequency of the recurring charge.
+	RecurringChargeFrequency *string `type:"string"`
+}
+
+// String returns the string representation
+func (s RecurringCharge) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RecurringCharge) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RecurringCharge) MarshalFields(e protocol.FieldEncoder) error {
+	if s.RecurringChargeAmount != nil {
+		v := *s.RecurringChargeAmount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecurringChargeAmount", protocol.Float64Value(v), metadata)
+	}
+	if s.RecurringChargeFrequency != nil {
+		v := *s.RecurringChargeFrequency
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "RecurringChargeFrequency", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the RemoveTags operation. Specify the ARN
@@ -2400,7 +3967,7 @@ type RemoveTagsInput struct {
 	// domain.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `type:"list" required:"true"`
+	TagKeys []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2431,20 +3998,34 @@ func (s *RemoveTagsInput) Validate() error {
 	return nil
 }
 
-// SetARN sets the ARN field's value.
-func (s *RemoveTagsInput) SetARN(v string) *RemoveTagsInput {
-	s.ARN = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveTagsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTagKeys sets the TagKeys field's value.
-func (s *RemoveTagsInput) SetTagKeys(v []*string) *RemoveTagsInput {
-	s.TagKeys = v
-	return s
+	if s.ARN != nil {
+		v := *s.ARN
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TagKeys) > 0 {
+		v := s.TagKeys
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TagKeys", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type RemoveTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2455,6 +4036,264 @@ func (s RemoveTagsOutput) String() string {
 // GoString returns the string representation
 func (s RemoveTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s RemoveTagsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
+// Details of a reserved Elasticsearch instance.
+type ReservedElasticsearchInstance struct {
+	_ struct{} `type:"structure"`
+
+	// The currency code for the reserved Elasticsearch instance offering.
+	CurrencyCode *string `type:"string"`
+
+	// The duration, in seconds, for which the Elasticsearch instance is reserved.
+	Duration *int64 `type:"integer"`
+
+	// The number of Elasticsearch instances that have been reserved.
+	ElasticsearchInstanceCount *int64 `type:"integer"`
+
+	// The Elasticsearch instance type offered by the reserved instance offering.
+	ElasticsearchInstanceType ESPartitionInstanceType `type:"string" enum:"true"`
+
+	// The upfront fixed charge you will paid to purchase the specific reserved
+	// Elasticsearch instance offering.
+	FixedPrice *float64 `type:"double"`
+
+	// The payment option as defined in the reserved Elasticsearch instance offering.
+	PaymentOption ReservedElasticsearchInstancePaymentOption `type:"string" enum:"true"`
+
+	// The charge to your account regardless of whether you are creating any domains
+	// using the instance offering.
+	RecurringCharges []RecurringCharge `type:"list"`
+
+	// The customer-specified identifier to track this reservation.
+	ReservationName *string `min:"5" type:"string"`
+
+	// The unique identifier for the reservation.
+	ReservedElasticsearchInstanceId *string `type:"string"`
+
+	// The offering identifier.
+	ReservedElasticsearchInstanceOfferingId *string `type:"string"`
+
+	// The time the reservation started.
+	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// The state of the reserved Elasticsearch instance.
+	State *string `type:"string"`
+
+	// The rate you are charged for each hour for the domain that is using this
+	// reserved instance.
+	UsagePrice *float64 `type:"double"`
+}
+
+// String returns the string representation
+func (s ReservedElasticsearchInstance) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ReservedElasticsearchInstance) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ReservedElasticsearchInstance) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CurrencyCode != nil {
+		v := *s.CurrencyCode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CurrencyCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Duration != nil {
+		v := *s.Duration
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Duration", protocol.Int64Value(v), metadata)
+	}
+	if s.ElasticsearchInstanceCount != nil {
+		v := *s.ElasticsearchInstanceCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ElasticsearchInstanceCount", protocol.Int64Value(v), metadata)
+	}
+	if len(s.ElasticsearchInstanceType) > 0 {
+		v := s.ElasticsearchInstanceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ElasticsearchInstanceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.FixedPrice != nil {
+		v := *s.FixedPrice
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FixedPrice", protocol.Float64Value(v), metadata)
+	}
+	if len(s.PaymentOption) > 0 {
+		v := s.PaymentOption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PaymentOption", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.RecurringCharges) > 0 {
+		v := s.RecurringCharges
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "RecurringCharges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ReservationName != nil {
+		v := *s.ReservationName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservationName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ReservedElasticsearchInstanceId != nil {
+		v := *s.ReservedElasticsearchInstanceId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedElasticsearchInstanceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ReservedElasticsearchInstanceOfferingId != nil {
+		v := *s.ReservedElasticsearchInstanceOfferingId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedElasticsearchInstanceOfferingId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.State != nil {
+		v := *s.State
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "State", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UsagePrice != nil {
+		v := *s.UsagePrice
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UsagePrice", protocol.Float64Value(v), metadata)
+	}
+	return nil
+}
+
+// Details of a reserved Elasticsearch instance offering.
+type ReservedElasticsearchInstanceOffering struct {
+	_ struct{} `type:"structure"`
+
+	// The currency code for the reserved Elasticsearch instance offering.
+	CurrencyCode *string `type:"string"`
+
+	// The duration, in seconds, for which the offering will reserve the Elasticsearch
+	// instance.
+	Duration *int64 `type:"integer"`
+
+	// The Elasticsearch instance type offered by the reserved instance offering.
+	ElasticsearchInstanceType ESPartitionInstanceType `type:"string" enum:"true"`
+
+	// The upfront fixed charge you will pay to purchase the specific reserved Elasticsearch
+	// instance offering.
+	FixedPrice *float64 `type:"double"`
+
+	// Payment option for the reserved Elasticsearch instance offering
+	PaymentOption ReservedElasticsearchInstancePaymentOption `type:"string" enum:"true"`
+
+	// The charge to your account regardless of whether you are creating any domains
+	// using the instance offering.
+	RecurringCharges []RecurringCharge `type:"list"`
+
+	// The Elasticsearch reserved instance offering identifier.
+	ReservedElasticsearchInstanceOfferingId *string `type:"string"`
+
+	// The rate you are charged for each hour the domain that is using the offering
+	// is running.
+	UsagePrice *float64 `type:"double"`
+}
+
+// String returns the string representation
+func (s ReservedElasticsearchInstanceOffering) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ReservedElasticsearchInstanceOffering) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ReservedElasticsearchInstanceOffering) MarshalFields(e protocol.FieldEncoder) error {
+	if s.CurrencyCode != nil {
+		v := *s.CurrencyCode
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "CurrencyCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Duration != nil {
+		v := *s.Duration
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Duration", protocol.Int64Value(v), metadata)
+	}
+	if len(s.ElasticsearchInstanceType) > 0 {
+		v := s.ElasticsearchInstanceType
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ElasticsearchInstanceType", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.FixedPrice != nil {
+		v := *s.FixedPrice
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FixedPrice", protocol.Float64Value(v), metadata)
+	}
+	if len(s.PaymentOption) > 0 {
+		v := s.PaymentOption
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "PaymentOption", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.RecurringCharges) > 0 {
+		v := s.RecurringCharges
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "RecurringCharges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.ReservedElasticsearchInstanceOfferingId != nil {
+		v := *s.ReservedElasticsearchInstanceOfferingId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReservedElasticsearchInstanceOfferingId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UsagePrice != nil {
+		v := *s.UsagePrice
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UsagePrice", protocol.Float64Value(v), metadata)
+	}
+	return nil
 }
 
 // Specifies the time, in UTC format, when the service takes a daily automated
@@ -2477,10 +4316,15 @@ func (s SnapshotOptions) GoString() string {
 	return s.String()
 }
 
-// SetAutomatedSnapshotStartHour sets the AutomatedSnapshotStartHour field's value.
-func (s *SnapshotOptions) SetAutomatedSnapshotStartHour(v int64) *SnapshotOptions {
-	s.AutomatedSnapshotStartHour = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SnapshotOptions) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AutomatedSnapshotStartHour != nil {
+		v := *s.AutomatedSnapshotStartHour
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AutomatedSnapshotStartHour", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Status of a daily automated snapshot.
@@ -2508,16 +4352,21 @@ func (s SnapshotOptionsStatus) GoString() string {
 	return s.String()
 }
 
-// SetOptions sets the Options field's value.
-func (s *SnapshotOptionsStatus) SetOptions(v *SnapshotOptions) *SnapshotOptionsStatus {
-	s.Options = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s SnapshotOptionsStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := s.Options
 
-// SetStatus sets the Status field's value.
-func (s *SnapshotOptionsStatus) SetStatus(v *OptionStatus) *SnapshotOptionsStatus {
-	s.Status = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Options", v, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
 }
 
 // StorageTypes represents the list of storage related types and their attributes
@@ -2534,7 +4383,7 @@ type StorageType struct {
 	StorageSubTypeName *string `type:"string"`
 
 	// List of limits that are applicable for given storage type.
-	StorageTypeLimits []*StorageTypeLimit `type:"list"`
+	StorageTypeLimits []StorageTypeLimit `type:"list"`
 
 	// Type of the storage. List of available storage options: instance
 	//  Inbuilt storage available for the given Instance ebs
@@ -2552,22 +4401,33 @@ func (s StorageType) GoString() string {
 	return s.String()
 }
 
-// SetStorageSubTypeName sets the StorageSubTypeName field's value.
-func (s *StorageType) SetStorageSubTypeName(v string) *StorageType {
-	s.StorageSubTypeName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StorageType) MarshalFields(e protocol.FieldEncoder) error {
+	if s.StorageSubTypeName != nil {
+		v := *s.StorageSubTypeName
 
-// SetStorageTypeLimits sets the StorageTypeLimits field's value.
-func (s *StorageType) SetStorageTypeLimits(v []*StorageTypeLimit) *StorageType {
-	s.StorageTypeLimits = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageSubTypeName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.StorageTypeLimits) > 0 {
+		v := s.StorageTypeLimits
 
-// SetStorageTypeName sets the StorageTypeName field's value.
-func (s *StorageType) SetStorageTypeName(v string) *StorageType {
-	s.StorageTypeName = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "StorageTypeLimits", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.StorageTypeName != nil {
+		v := *s.StorageTypeName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StorageTypeName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Limits that are applicable for given storage type.
@@ -2587,7 +4447,7 @@ type StorageTypeLimit struct {
 	LimitName *string `type:"string"`
 
 	// Values for the StorageTypeLimit$LimitName .
-	LimitValues []*string `type:"list"`
+	LimitValues []string `type:"list"`
 }
 
 // String returns the string representation
@@ -2600,16 +4460,27 @@ func (s StorageTypeLimit) GoString() string {
 	return s.String()
 }
 
-// SetLimitName sets the LimitName field's value.
-func (s *StorageTypeLimit) SetLimitName(v string) *StorageTypeLimit {
-	s.LimitName = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s StorageTypeLimit) MarshalFields(e protocol.FieldEncoder) error {
+	if s.LimitName != nil {
+		v := *s.LimitName
 
-// SetLimitValues sets the LimitValues field's value.
-func (s *StorageTypeLimit) SetLimitValues(v []*string) *StorageTypeLimit {
-	s.LimitValues = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "LimitName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.LimitValues) > 0 {
+		v := s.LimitValues
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "LimitValues", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Specifies a key value pair for a resource tag.
@@ -2662,16 +4533,21 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Tag) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Key != nil {
+		v := *s.Key
 
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Key", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Container for the parameters to the UpdateElasticsearchDomain operation.
@@ -2686,7 +4562,11 @@ type UpdateElasticsearchDomainConfigInput struct {
 	// body. Must be false when configuring access to individual sub-resources.
 	// By default, the value is true. See Configuration Advanced Options (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-advanced-options)
 	// for more information.
-	AdvancedOptions map[string]*string `type:"map"`
+	AdvancedOptions map[string]string `type:"map"`
+
+	// Options to specify the Cognito user and identity pools for Kibana authentication.
+	// For more information, see Amazon Cognito Authentication for Kibana (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-cognito-auth.html).
+	CognitoOptions *CognitoOptions `type:"structure"`
 
 	// The name of the Elasticsearch domain that you are updating.
 	//
@@ -2699,9 +4579,18 @@ type UpdateElasticsearchDomainConfigInput struct {
 	// The type and number of instances to instantiate for the domain cluster.
 	ElasticsearchClusterConfig *ElasticsearchClusterConfig `type:"structure"`
 
+	// Map of LogType and LogPublishingOption, each containing options to publish
+	// a given type of Elasticsearch log.
+	LogPublishingOptions map[string]LogPublishingOption `type:"map"`
+
 	// Option to set the time, in UTC format, for the daily automated snapshot.
 	// Default value is 0 hours.
 	SnapshotOptions *SnapshotOptions `type:"structure"`
+
+	// Options to specify the subnets and security groups for VPC endpoint. For
+	// more information, see Creating a VPC (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html#es-creating-vpc)
+	// in VPC Endpoints for Amazon Elasticsearch Service Domains
+	VPCOptions *VPCOptions `type:"structure"`
 }
 
 // String returns the string representation
@@ -2724,6 +4613,11 @@ func (s *UpdateElasticsearchDomainConfigInput) Validate() error {
 	if s.DomainName != nil && len(*s.DomainName) < 3 {
 		invalidParams.Add(aws.NewErrParamMinLen("DomainName", 3))
 	}
+	if s.CognitoOptions != nil {
+		if err := s.CognitoOptions.Validate(); err != nil {
+			invalidParams.AddNested("CognitoOptions", err.(aws.ErrInvalidParams))
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -2731,46 +4625,84 @@ func (s *UpdateElasticsearchDomainConfigInput) Validate() error {
 	return nil
 }
 
-// SetAccessPolicies sets the AccessPolicies field's value.
-func (s *UpdateElasticsearchDomainConfigInput) SetAccessPolicies(v string) *UpdateElasticsearchDomainConfigInput {
-	s.AccessPolicies = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateElasticsearchDomainConfigInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetAdvancedOptions sets the AdvancedOptions field's value.
-func (s *UpdateElasticsearchDomainConfigInput) SetAdvancedOptions(v map[string]*string) *UpdateElasticsearchDomainConfigInput {
-	s.AdvancedOptions = v
-	return s
-}
+	if s.AccessPolicies != nil {
+		v := *s.AccessPolicies
 
-// SetDomainName sets the DomainName field's value.
-func (s *UpdateElasticsearchDomainConfigInput) SetDomainName(v string) *UpdateElasticsearchDomainConfigInput {
-	s.DomainName = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AccessPolicies", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.AdvancedOptions) > 0 {
+		v := s.AdvancedOptions
 
-// SetEBSOptions sets the EBSOptions field's value.
-func (s *UpdateElasticsearchDomainConfigInput) SetEBSOptions(v *EBSOptions) *UpdateElasticsearchDomainConfigInput {
-	s.EBSOptions = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "AdvancedOptions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetElasticsearchClusterConfig sets the ElasticsearchClusterConfig field's value.
-func (s *UpdateElasticsearchDomainConfigInput) SetElasticsearchClusterConfig(v *ElasticsearchClusterConfig) *UpdateElasticsearchDomainConfigInput {
-	s.ElasticsearchClusterConfig = v
-	return s
-}
+	}
+	if s.CognitoOptions != nil {
+		v := s.CognitoOptions
 
-// SetSnapshotOptions sets the SnapshotOptions field's value.
-func (s *UpdateElasticsearchDomainConfigInput) SetSnapshotOptions(v *SnapshotOptions) *UpdateElasticsearchDomainConfigInput {
-	s.SnapshotOptions = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "CognitoOptions", v, metadata)
+	}
+	if s.EBSOptions != nil {
+		v := s.EBSOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EBSOptions", v, metadata)
+	}
+	if s.ElasticsearchClusterConfig != nil {
+		v := s.ElasticsearchClusterConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ElasticsearchClusterConfig", v, metadata)
+	}
+	if len(s.LogPublishingOptions) > 0 {
+		v := s.LogPublishingOptions
+
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "LogPublishingOptions", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetFields(k1, v1)
+		}
+		ms0.End()
+
+	}
+	if s.SnapshotOptions != nil {
+		v := s.SnapshotOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SnapshotOptions", v, metadata)
+	}
+	if s.VPCOptions != nil {
+		v := s.VPCOptions
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "VPCOptions", v, metadata)
+	}
+	if s.DomainName != nil {
+		v := *s.DomainName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "DomainName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // The result of an UpdateElasticsearchDomain request. Contains the status of
 // the Elasticsearch domain being updated.
 type UpdateElasticsearchDomainConfigOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The status of the updated Elasticsearch domain.
 	//
@@ -2788,10 +4720,192 @@ func (s UpdateElasticsearchDomainConfigOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainConfig sets the DomainConfig field's value.
-func (s *UpdateElasticsearchDomainConfigOutput) SetDomainConfig(v *ElasticsearchDomainConfig) *UpdateElasticsearchDomainConfigOutput {
-	s.DomainConfig = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateElasticsearchDomainConfigOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateElasticsearchDomainConfigOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DomainConfig != nil {
+		v := s.DomainConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "DomainConfig", v, metadata)
+	}
+	return nil
+}
+
+// Options to specify the subnets and security groups for VPC endpoint. For
+// more information, see  VPC Endpoints for Amazon Elasticsearch Service Domains
+// (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
+type VPCDerivedInfo struct {
+	_ struct{} `type:"structure"`
+
+	// The availability zones for the Elasticsearch domain. Exists only if the domain
+	// was created with VPCOptions.
+	AvailabilityZones []string `type:"list"`
+
+	// Specifies the security groups for VPC endpoint.
+	SecurityGroupIds []string `type:"list"`
+
+	// Specifies the subnets for VPC endpoint.
+	SubnetIds []string `type:"list"`
+
+	// The VPC Id for the Elasticsearch domain. Exists only if the domain was created
+	// with VPCOptions.
+	VPCId *string `type:"string"`
+}
+
+// String returns the string representation
+func (s VPCDerivedInfo) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s VPCDerivedInfo) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s VPCDerivedInfo) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AvailabilityZones) > 0 {
+		v := s.AvailabilityZones
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "AvailabilityZones", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SecurityGroupIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.SubnetIds) > 0 {
+		v := s.SubnetIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SubnetIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.VPCId != nil {
+		v := *s.VPCId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "VPCId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
+}
+
+// Status of the VPC options for the specified Elasticsearch domain.
+type VPCDerivedInfoStatus struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the VPC options for the specified Elasticsearch domain.
+	//
+	// Options is a required field
+	Options *VPCDerivedInfo `type:"structure" required:"true"`
+
+	// Specifies the status of the VPC options for the specified Elasticsearch domain.
+	//
+	// Status is a required field
+	Status *OptionStatus `type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s VPCDerivedInfoStatus) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s VPCDerivedInfoStatus) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s VPCDerivedInfoStatus) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Options != nil {
+		v := s.Options
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Options", v, metadata)
+	}
+	if s.Status != nil {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Status", v, metadata)
+	}
+	return nil
+}
+
+// Options to specify the subnets and security groups for VPC endpoint. For
+// more information, see  VPC Endpoints for Amazon Elasticsearch Service Domains
+// (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html).
+type VPCOptions struct {
+	_ struct{} `type:"structure"`
+
+	// Specifies the security groups for VPC endpoint.
+	SecurityGroupIds []string `type:"list"`
+
+	// Specifies the subnets for VPC endpoint.
+	SubnetIds []string `type:"list"`
+}
+
+// String returns the string representation
+func (s VPCOptions) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s VPCOptions) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s VPCOptions) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.SecurityGroupIds) > 0 {
+		v := s.SecurityGroupIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SecurityGroupIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if len(s.SubnetIds) > 0 {
+		v := s.SubnetIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "SubnetIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 type ESPartitionInstanceType string
@@ -2832,7 +4946,44 @@ const (
 	ESPartitionInstanceTypeR44xlargeElasticsearch  ESPartitionInstanceType = "r4.4xlarge.elasticsearch"
 	ESPartitionInstanceTypeR48xlargeElasticsearch  ESPartitionInstanceType = "r4.8xlarge.elasticsearch"
 	ESPartitionInstanceTypeR416xlargeElasticsearch ESPartitionInstanceType = "r4.16xlarge.elasticsearch"
+	ESPartitionInstanceTypeI3LargeElasticsearch    ESPartitionInstanceType = "i3.large.elasticsearch"
+	ESPartitionInstanceTypeI3XlargeElasticsearch   ESPartitionInstanceType = "i3.xlarge.elasticsearch"
+	ESPartitionInstanceTypeI32xlargeElasticsearch  ESPartitionInstanceType = "i3.2xlarge.elasticsearch"
+	ESPartitionInstanceTypeI34xlargeElasticsearch  ESPartitionInstanceType = "i3.4xlarge.elasticsearch"
+	ESPartitionInstanceTypeI38xlargeElasticsearch  ESPartitionInstanceType = "i3.8xlarge.elasticsearch"
+	ESPartitionInstanceTypeI316xlargeElasticsearch ESPartitionInstanceType = "i3.16xlarge.elasticsearch"
 )
+
+func (enum ESPartitionInstanceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ESPartitionInstanceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+// Type of Log File, it can be one of the following: INDEX_SLOW_LOGS: Index
+// slow logs contains insert requests that took more time than configured index
+// query log threshold to execute.
+// SEARCH_SLOW_LOGS: Search slow logs contains search queries that took more
+// time than configured search query log threshold to execute.
+type LogType string
+
+// Enum values for LogType
+const (
+	LogTypeIndexSlowLogs  LogType = "INDEX_SLOW_LOGS"
+	LogTypeSearchSlowLogs LogType = "SEARCH_SLOW_LOGS"
+)
+
+func (enum LogType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LogType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The state of a requested change. One of the following:
 //
@@ -2848,6 +4999,33 @@ const (
 	OptionStateActive                 OptionState = "Active"
 )
 
+func (enum OptionState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OptionState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type ReservedElasticsearchInstancePaymentOption string
+
+// Enum values for ReservedElasticsearchInstancePaymentOption
+const (
+	ReservedElasticsearchInstancePaymentOptionAllUpfront     ReservedElasticsearchInstancePaymentOption = "ALL_UPFRONT"
+	ReservedElasticsearchInstancePaymentOptionPartialUpfront ReservedElasticsearchInstancePaymentOption = "PARTIAL_UPFRONT"
+	ReservedElasticsearchInstancePaymentOptionNoUpfront      ReservedElasticsearchInstancePaymentOption = "NO_UPFRONT"
+)
+
+func (enum ReservedElasticsearchInstancePaymentOption) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReservedElasticsearchInstancePaymentOption) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The type of EBS volume, standard, gp2, or io1. See Configuring EBS-based
 // Storage (http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-createupdatedomains.html#es-createdomain-configure-ebs)for
 // more information.
@@ -2859,3 +5037,12 @@ const (
 	VolumeTypeGp2      VolumeType = "gp2"
 	VolumeTypeIo1      VolumeType = "io1"
 )
+
+func (enum VolumeType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum VolumeType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

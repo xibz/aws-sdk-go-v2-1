@@ -16,6 +16,7 @@ const opAddTags = "AddTags"
 type AddTagsRequest struct {
 	*aws.Request
 	Input *AddTagsInput
+	Copy  func(*AddTagsInput) AddTagsRequest
 }
 
 // Send marshals and sends the AddTags API request.
@@ -57,8 +58,11 @@ func (c *CloudTrail) AddTagsRequest(input *AddTagsInput) AddTagsRequest {
 		input = &AddTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsOutput{})
-	return AddTagsRequest{Request: req, Input: input}
+	output := &AddTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsRequest{Request: req, Input: input, Copy: c.AddTagsRequest}
 }
 
 const opCreateTrail = "CreateTrail"
@@ -67,6 +71,7 @@ const opCreateTrail = "CreateTrail"
 type CreateTrailRequest struct {
 	*aws.Request
 	Input *CreateTrailInput
+	Copy  func(*CreateTrailInput) CreateTrailRequest
 }
 
 // Send marshals and sends the CreateTrail API request.
@@ -105,8 +110,11 @@ func (c *CloudTrail) CreateTrailRequest(input *CreateTrailInput) CreateTrailRequ
 		input = &CreateTrailInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateTrailOutput{})
-	return CreateTrailRequest{Request: req, Input: input}
+	output := &CreateTrailOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateTrailRequest{Request: req, Input: input, Copy: c.CreateTrailRequest}
 }
 
 const opDeleteTrail = "DeleteTrail"
@@ -115,6 +123,7 @@ const opDeleteTrail = "DeleteTrail"
 type DeleteTrailRequest struct {
 	*aws.Request
 	Input *DeleteTrailInput
+	Copy  func(*DeleteTrailInput) DeleteTrailRequest
 }
 
 // Send marshals and sends the DeleteTrail API request.
@@ -153,8 +162,11 @@ func (c *CloudTrail) DeleteTrailRequest(input *DeleteTrailInput) DeleteTrailRequ
 		input = &DeleteTrailInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTrailOutput{})
-	return DeleteTrailRequest{Request: req, Input: input}
+	output := &DeleteTrailOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTrailRequest{Request: req, Input: input, Copy: c.DeleteTrailRequest}
 }
 
 const opDescribeTrails = "DescribeTrails"
@@ -163,6 +175,7 @@ const opDescribeTrails = "DescribeTrails"
 type DescribeTrailsRequest struct {
 	*aws.Request
 	Input *DescribeTrailsInput
+	Copy  func(*DescribeTrailsInput) DescribeTrailsRequest
 }
 
 // Send marshals and sends the DescribeTrails API request.
@@ -200,8 +213,11 @@ func (c *CloudTrail) DescribeTrailsRequest(input *DescribeTrailsInput) DescribeT
 		input = &DescribeTrailsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTrailsOutput{})
-	return DescribeTrailsRequest{Request: req, Input: input}
+	output := &DescribeTrailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTrailsRequest{Request: req, Input: input, Copy: c.DescribeTrailsRequest}
 }
 
 const opGetEventSelectors = "GetEventSelectors"
@@ -210,6 +226,7 @@ const opGetEventSelectors = "GetEventSelectors"
 type GetEventSelectorsRequest struct {
 	*aws.Request
 	Input *GetEventSelectorsInput
+	Copy  func(*GetEventSelectorsInput) GetEventSelectorsRequest
 }
 
 // Send marshals and sends the GetEventSelectors API request.
@@ -258,8 +275,11 @@ func (c *CloudTrail) GetEventSelectorsRequest(input *GetEventSelectorsInput) Get
 		input = &GetEventSelectorsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEventSelectorsOutput{})
-	return GetEventSelectorsRequest{Request: req, Input: input}
+	output := &GetEventSelectorsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEventSelectorsRequest{Request: req, Input: input, Copy: c.GetEventSelectorsRequest}
 }
 
 const opGetTrailStatus = "GetTrailStatus"
@@ -268,6 +288,7 @@ const opGetTrailStatus = "GetTrailStatus"
 type GetTrailStatusRequest struct {
 	*aws.Request
 	Input *GetTrailStatusInput
+	Copy  func(*GetTrailStatusInput) GetTrailStatusRequest
 }
 
 // Send marshals and sends the GetTrailStatus API request.
@@ -308,8 +329,11 @@ func (c *CloudTrail) GetTrailStatusRequest(input *GetTrailStatusInput) GetTrailS
 		input = &GetTrailStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTrailStatusOutput{})
-	return GetTrailStatusRequest{Request: req, Input: input}
+	output := &GetTrailStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTrailStatusRequest{Request: req, Input: input, Copy: c.GetTrailStatusRequest}
 }
 
 const opListPublicKeys = "ListPublicKeys"
@@ -318,6 +342,7 @@ const opListPublicKeys = "ListPublicKeys"
 type ListPublicKeysRequest struct {
 	*aws.Request
 	Input *ListPublicKeysInput
+	Copy  func(*ListPublicKeysInput) ListPublicKeysRequest
 }
 
 // Send marshals and sends the ListPublicKeys API request.
@@ -361,8 +386,11 @@ func (c *CloudTrail) ListPublicKeysRequest(input *ListPublicKeysInput) ListPubli
 		input = &ListPublicKeysInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPublicKeysOutput{})
-	return ListPublicKeysRequest{Request: req, Input: input}
+	output := &ListPublicKeysOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPublicKeysRequest{Request: req, Input: input, Copy: c.ListPublicKeysRequest}
 }
 
 const opListTags = "ListTags"
@@ -371,6 +399,7 @@ const opListTags = "ListTags"
 type ListTagsRequest struct {
 	*aws.Request
 	Input *ListTagsInput
+	Copy  func(*ListTagsInput) ListTagsRequest
 }
 
 // Send marshals and sends the ListTags API request.
@@ -407,8 +436,11 @@ func (c *CloudTrail) ListTagsRequest(input *ListTagsInput) ListTagsRequest {
 		input = &ListTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsOutput{})
-	return ListTagsRequest{Request: req, Input: input}
+	output := &ListTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsRequest{Request: req, Input: input, Copy: c.ListTagsRequest}
 }
 
 const opLookupEvents = "LookupEvents"
@@ -417,6 +449,7 @@ const opLookupEvents = "LookupEvents"
 type LookupEventsRequest struct {
 	*aws.Request
 	Input *LookupEventsInput
+	Copy  func(*LookupEventsInput) LookupEventsRequest
 }
 
 // Send marshals and sends the LookupEvents API request.
@@ -484,58 +517,57 @@ func (c *CloudTrail) LookupEventsRequest(input *LookupEventsInput) LookupEventsR
 		input = &LookupEventsInput{}
 	}
 
-	req := c.newRequest(op, input, &LookupEventsOutput{})
-	return LookupEventsRequest{Request: req, Input: input}
+	output := &LookupEventsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return LookupEventsRequest{Request: req, Input: input, Copy: c.LookupEventsRequest}
 }
 
-// LookupEventsPages iterates over the pages of a LookupEvents operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See LookupEvents method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a LookupEventsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a LookupEvents operation.
-//    pageNum := 0
-//    err := client.LookupEventsPages(params,
-//        func(page *LookupEventsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.LookupEventsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudTrail) LookupEventsPages(input *LookupEventsInput, fn func(*LookupEventsOutput, bool) bool) error {
-	return c.LookupEventsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *LookupEventsRequest) Paginate(opts ...aws.Option) LookupEventsPager {
+	return LookupEventsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *LookupEventsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// LookupEventsPagesWithContext same as LookupEventsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudTrail) LookupEventsPagesWithContext(ctx aws.Context, input *LookupEventsInput, fn func(*LookupEventsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *LookupEventsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.LookupEventsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*LookupEventsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// LookupEventsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type LookupEventsPager struct {
+	aws.Pager
+}
+
+func (p *LookupEventsPager) CurrentPage() *LookupEventsOutput {
+	return p.Pager.CurrentPage().(*LookupEventsOutput)
 }
 
 const opPutEventSelectors = "PutEventSelectors"
@@ -544,6 +576,7 @@ const opPutEventSelectors = "PutEventSelectors"
 type PutEventSelectorsRequest struct {
 	*aws.Request
 	Input *PutEventSelectorsInput
+	Copy  func(*PutEventSelectorsInput) PutEventSelectorsRequest
 }
 
 // Send marshals and sends the PutEventSelectors API request.
@@ -607,8 +640,11 @@ func (c *CloudTrail) PutEventSelectorsRequest(input *PutEventSelectorsInput) Put
 		input = &PutEventSelectorsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutEventSelectorsOutput{})
-	return PutEventSelectorsRequest{Request: req, Input: input}
+	output := &PutEventSelectorsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutEventSelectorsRequest{Request: req, Input: input, Copy: c.PutEventSelectorsRequest}
 }
 
 const opRemoveTags = "RemoveTags"
@@ -617,6 +653,7 @@ const opRemoveTags = "RemoveTags"
 type RemoveTagsRequest struct {
 	*aws.Request
 	Input *RemoveTagsInput
+	Copy  func(*RemoveTagsInput) RemoveTagsRequest
 }
 
 // Send marshals and sends the RemoveTags API request.
@@ -653,8 +690,11 @@ func (c *CloudTrail) RemoveTagsRequest(input *RemoveTagsInput) RemoveTagsRequest
 		input = &RemoveTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsOutput{})
-	return RemoveTagsRequest{Request: req, Input: input}
+	output := &RemoveTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsRequest{Request: req, Input: input, Copy: c.RemoveTagsRequest}
 }
 
 const opStartLogging = "StartLogging"
@@ -663,6 +703,7 @@ const opStartLogging = "StartLogging"
 type StartLoggingRequest struct {
 	*aws.Request
 	Input *StartLoggingInput
+	Copy  func(*StartLoggingInput) StartLoggingRequest
 }
 
 // Send marshals and sends the StartLogging API request.
@@ -703,8 +744,11 @@ func (c *CloudTrail) StartLoggingRequest(input *StartLoggingInput) StartLoggingR
 		input = &StartLoggingInput{}
 	}
 
-	req := c.newRequest(op, input, &StartLoggingOutput{})
-	return StartLoggingRequest{Request: req, Input: input}
+	output := &StartLoggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartLoggingRequest{Request: req, Input: input, Copy: c.StartLoggingRequest}
 }
 
 const opStopLogging = "StopLogging"
@@ -713,6 +757,7 @@ const opStopLogging = "StopLogging"
 type StopLoggingRequest struct {
 	*aws.Request
 	Input *StopLoggingInput
+	Copy  func(*StopLoggingInput) StopLoggingRequest
 }
 
 // Send marshals and sends the StopLogging API request.
@@ -755,8 +800,11 @@ func (c *CloudTrail) StopLoggingRequest(input *StopLoggingInput) StopLoggingRequ
 		input = &StopLoggingInput{}
 	}
 
-	req := c.newRequest(op, input, &StopLoggingOutput{})
-	return StopLoggingRequest{Request: req, Input: input}
+	output := &StopLoggingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopLoggingRequest{Request: req, Input: input, Copy: c.StopLoggingRequest}
 }
 
 const opUpdateTrail = "UpdateTrail"
@@ -765,6 +813,7 @@ const opUpdateTrail = "UpdateTrail"
 type UpdateTrailRequest struct {
 	*aws.Request
 	Input *UpdateTrailInput
+	Copy  func(*UpdateTrailInput) UpdateTrailRequest
 }
 
 // Send marshals and sends the UpdateTrail API request.
@@ -806,8 +855,11 @@ func (c *CloudTrail) UpdateTrailRequest(input *UpdateTrailInput) UpdateTrailRequ
 		input = &UpdateTrailInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateTrailOutput{})
-	return UpdateTrailRequest{Request: req, Input: input}
+	output := &UpdateTrailOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateTrailRequest{Request: req, Input: input, Copy: c.UpdateTrailRequest}
 }
 
 // Specifies the tags to add to a trail.
@@ -824,7 +876,7 @@ type AddTagsInput struct {
 	ResourceId *string `type:"string" required:"true"`
 
 	// Contains a list of CloudTrail tags, up to a limit of 50
-	TagsList []*Tag `type:"list"`
+	TagsList []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -846,9 +898,6 @@ func (s *AddTagsInput) Validate() error {
 	}
 	if s.TagsList != nil {
 		for i, v := range s.TagsList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagsList", i), err.(aws.ErrInvalidParams))
 			}
@@ -861,23 +910,13 @@ func (s *AddTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddTagsInput) SetResourceId(v string) *AddTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagsList sets the TagsList field's value.
-func (s *AddTagsInput) SetTagsList(v []*Tag) *AddTagsInput {
-	s.TagsList = v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/AddTagsResponse
 type AddTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -888,6 +927,11 @@ func (s AddTagsOutput) String() string {
 // GoString returns the string representation
 func (s AddTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Specifies the settings for each trail.
@@ -1002,71 +1046,13 @@ func (s *CreateTrailInput) Validate() error {
 	return nil
 }
 
-// SetCloudWatchLogsLogGroupArn sets the CloudWatchLogsLogGroupArn field's value.
-func (s *CreateTrailInput) SetCloudWatchLogsLogGroupArn(v string) *CreateTrailInput {
-	s.CloudWatchLogsLogGroupArn = &v
-	return s
-}
-
-// SetCloudWatchLogsRoleArn sets the CloudWatchLogsRoleArn field's value.
-func (s *CreateTrailInput) SetCloudWatchLogsRoleArn(v string) *CreateTrailInput {
-	s.CloudWatchLogsRoleArn = &v
-	return s
-}
-
-// SetEnableLogFileValidation sets the EnableLogFileValidation field's value.
-func (s *CreateTrailInput) SetEnableLogFileValidation(v bool) *CreateTrailInput {
-	s.EnableLogFileValidation = &v
-	return s
-}
-
-// SetIncludeGlobalServiceEvents sets the IncludeGlobalServiceEvents field's value.
-func (s *CreateTrailInput) SetIncludeGlobalServiceEvents(v bool) *CreateTrailInput {
-	s.IncludeGlobalServiceEvents = &v
-	return s
-}
-
-// SetIsMultiRegionTrail sets the IsMultiRegionTrail field's value.
-func (s *CreateTrailInput) SetIsMultiRegionTrail(v bool) *CreateTrailInput {
-	s.IsMultiRegionTrail = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *CreateTrailInput) SetKmsKeyId(v string) *CreateTrailInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateTrailInput) SetName(v string) *CreateTrailInput {
-	s.Name = &v
-	return s
-}
-
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *CreateTrailInput) SetS3BucketName(v string) *CreateTrailInput {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *CreateTrailInput) SetS3KeyPrefix(v string) *CreateTrailInput {
-	s.S3KeyPrefix = &v
-	return s
-}
-
-// SetSnsTopicName sets the SnsTopicName field's value.
-func (s *CreateTrailInput) SetSnsTopicName(v string) *CreateTrailInput {
-	s.SnsTopicName = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/CreateTrailResponse
 type CreateTrailOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail
 	// logs will be delivered.
@@ -1130,76 +1116,9 @@ func (s CreateTrailOutput) GoString() string {
 	return s.String()
 }
 
-// SetCloudWatchLogsLogGroupArn sets the CloudWatchLogsLogGroupArn field's value.
-func (s *CreateTrailOutput) SetCloudWatchLogsLogGroupArn(v string) *CreateTrailOutput {
-	s.CloudWatchLogsLogGroupArn = &v
-	return s
-}
-
-// SetCloudWatchLogsRoleArn sets the CloudWatchLogsRoleArn field's value.
-func (s *CreateTrailOutput) SetCloudWatchLogsRoleArn(v string) *CreateTrailOutput {
-	s.CloudWatchLogsRoleArn = &v
-	return s
-}
-
-// SetIncludeGlobalServiceEvents sets the IncludeGlobalServiceEvents field's value.
-func (s *CreateTrailOutput) SetIncludeGlobalServiceEvents(v bool) *CreateTrailOutput {
-	s.IncludeGlobalServiceEvents = &v
-	return s
-}
-
-// SetIsMultiRegionTrail sets the IsMultiRegionTrail field's value.
-func (s *CreateTrailOutput) SetIsMultiRegionTrail(v bool) *CreateTrailOutput {
-	s.IsMultiRegionTrail = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *CreateTrailOutput) SetKmsKeyId(v string) *CreateTrailOutput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetLogFileValidationEnabled sets the LogFileValidationEnabled field's value.
-func (s *CreateTrailOutput) SetLogFileValidationEnabled(v bool) *CreateTrailOutput {
-	s.LogFileValidationEnabled = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateTrailOutput) SetName(v string) *CreateTrailOutput {
-	s.Name = &v
-	return s
-}
-
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *CreateTrailOutput) SetS3BucketName(v string) *CreateTrailOutput {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *CreateTrailOutput) SetS3KeyPrefix(v string) *CreateTrailOutput {
-	s.S3KeyPrefix = &v
-	return s
-}
-
-// SetSnsTopicARN sets the SnsTopicARN field's value.
-func (s *CreateTrailOutput) SetSnsTopicARN(v string) *CreateTrailOutput {
-	s.SnsTopicARN = &v
-	return s
-}
-
-// SetSnsTopicName sets the SnsTopicName field's value.
-func (s *CreateTrailOutput) SetSnsTopicName(v string) *CreateTrailOutput {
-	s.SnsTopicName = &v
-	return s
-}
-
-// SetTrailARN sets the TrailARN field's value.
-func (s *CreateTrailOutput) SetTrailARN(v string) *CreateTrailOutput {
-	s.TrailARN = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateTrailOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The Amazon S3 objects that you specify in your event selectors for your trail
@@ -1238,7 +1157,7 @@ type DataResource struct {
 	// To log data events for specific objects, specify the S3 bucket and object
 	// prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data
 	// events for objects in this S3 bucket that match the prefix.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -1249,18 +1168,6 @@ func (s DataResource) String() string {
 // GoString returns the string representation
 func (s DataResource) GoString() string {
 	return s.String()
-}
-
-// SetType sets the Type field's value.
-func (s *DataResource) SetType(v string) *DataResource {
-	s.Type = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *DataResource) SetValues(v []*string) *DataResource {
-	s.Values = v
-	return s
 }
 
 // The request that specifies the name of a trail to delete.
@@ -1299,17 +1206,13 @@ func (s *DeleteTrailInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteTrailInput) SetName(v string) *DeleteTrailInput {
-	s.Name = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/DeleteTrailResponse
 type DeleteTrailOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1320,6 +1223,11 @@ func (s DeleteTrailOutput) String() string {
 // GoString returns the string representation
 func (s DeleteTrailOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTrailOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Returns information about the trail.
@@ -1351,7 +1259,7 @@ type DescribeTrailsInput struct {
 	// the names match the names of trails belonging only to the current region.
 	// To return information about a trail in another region, you must specify its
 	// trail ARN.
-	TrailNameList []*string `locationName:"trailNameList" type:"list"`
+	TrailNameList []string `locationName:"trailNameList" type:"list"`
 }
 
 // String returns the string representation
@@ -1364,26 +1272,16 @@ func (s DescribeTrailsInput) GoString() string {
 	return s.String()
 }
 
-// SetIncludeShadowTrails sets the IncludeShadowTrails field's value.
-func (s *DescribeTrailsInput) SetIncludeShadowTrails(v bool) *DescribeTrailsInput {
-	s.IncludeShadowTrails = &v
-	return s
-}
-
-// SetTrailNameList sets the TrailNameList field's value.
-func (s *DescribeTrailsInput) SetTrailNameList(v []*string) *DescribeTrailsInput {
-	s.TrailNameList = v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/DescribeTrailsResponse
 type DescribeTrailsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of trail objects.
-	TrailList []*Trail `locationName:"trailList" type:"list"`
+	TrailList []Trail `locationName:"trailList" type:"list"`
 }
 
 // String returns the string representation
@@ -1396,10 +1294,9 @@ func (s DescribeTrailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetTrailList sets the TrailList field's value.
-func (s *DescribeTrailsOutput) SetTrailList(v []*Trail) *DescribeTrailsOutput {
-	s.TrailList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTrailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about an event that was returned by a lookup request.
@@ -1424,7 +1321,7 @@ type Event struct {
 	EventTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// A list of resources referenced by the event returned.
-	Resources []*Resource `type:"list"`
+	Resources []Resource `type:"list"`
 
 	// A user name or role name of the requester that called the API in the event
 	// returned.
@@ -1439,48 +1336,6 @@ func (s Event) String() string {
 // GoString returns the string representation
 func (s Event) GoString() string {
 	return s.String()
-}
-
-// SetCloudTrailEvent sets the CloudTrailEvent field's value.
-func (s *Event) SetCloudTrailEvent(v string) *Event {
-	s.CloudTrailEvent = &v
-	return s
-}
-
-// SetEventId sets the EventId field's value.
-func (s *Event) SetEventId(v string) *Event {
-	s.EventId = &v
-	return s
-}
-
-// SetEventName sets the EventName field's value.
-func (s *Event) SetEventName(v string) *Event {
-	s.EventName = &v
-	return s
-}
-
-// SetEventSource sets the EventSource field's value.
-func (s *Event) SetEventSource(v string) *Event {
-	s.EventSource = &v
-	return s
-}
-
-// SetEventTime sets the EventTime field's value.
-func (s *Event) SetEventTime(v time.Time) *Event {
-	s.EventTime = &v
-	return s
-}
-
-// SetResources sets the Resources field's value.
-func (s *Event) SetResources(v []*Resource) *Event {
-	s.Resources = v
-	return s
-}
-
-// SetUsername sets the Username field's value.
-func (s *Event) SetUsername(v string) *Event {
-	s.Username = &v
-	return s
 }
 
 // Use event selectors to specify whether you want your trail to log management
@@ -1499,7 +1354,7 @@ type EventSelector struct {
 	//
 	// For more information, see Data Events (http://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-and-data-events-with-cloudtrail.html#logging-data-events)
 	// in the AWS CloudTrail User Guide.
-	DataResources []*DataResource `type:"list"`
+	DataResources []DataResource `type:"list"`
 
 	// Specify if you want your event selector to include management events for
 	// your trail.
@@ -1515,7 +1370,7 @@ type EventSelector struct {
 	// and RunInstances is a write-only API operation.
 	//
 	// By default, the value is All.
-	ReadWriteType ReadWriteType `type:"string"`
+	ReadWriteType ReadWriteType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1526,24 +1381,6 @@ func (s EventSelector) String() string {
 // GoString returns the string representation
 func (s EventSelector) GoString() string {
 	return s.String()
-}
-
-// SetDataResources sets the DataResources field's value.
-func (s *EventSelector) SetDataResources(v []*DataResource) *EventSelector {
-	s.DataResources = v
-	return s
-}
-
-// SetIncludeManagementEvents sets the IncludeManagementEvents field's value.
-func (s *EventSelector) SetIncludeManagementEvents(v bool) *EventSelector {
-	s.IncludeManagementEvents = &v
-	return s
-}
-
-// SetReadWriteType sets the ReadWriteType field's value.
-func (s *EventSelector) SetReadWriteType(v ReadWriteType) *EventSelector {
-	s.ReadWriteType = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/GetEventSelectorsRequest
@@ -1597,18 +1434,14 @@ func (s *GetEventSelectorsInput) Validate() error {
 	return nil
 }
 
-// SetTrailName sets the TrailName field's value.
-func (s *GetEventSelectorsInput) SetTrailName(v string) *GetEventSelectorsInput {
-	s.TrailName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/GetEventSelectorsResponse
 type GetEventSelectorsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The event selectors that are configured for the trail.
-	EventSelectors []*EventSelector `type:"list"`
+	EventSelectors []EventSelector `type:"list"`
 
 	// The specified trail ARN that has the event selectors.
 	TrailARN *string `type:"string"`
@@ -1624,16 +1457,9 @@ func (s GetEventSelectorsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventSelectors sets the EventSelectors field's value.
-func (s *GetEventSelectorsOutput) SetEventSelectors(v []*EventSelector) *GetEventSelectorsOutput {
-	s.EventSelectors = v
-	return s
-}
-
-// SetTrailARN sets the TrailARN field's value.
-func (s *GetEventSelectorsOutput) SetTrailARN(v string) *GetEventSelectorsOutput {
-	s.TrailARN = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEventSelectorsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The name of a trail about which you want the current status.
@@ -1675,17 +1501,13 @@ func (s *GetTrailStatusInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetTrailStatusInput) SetName(v string) *GetTrailStatusInput {
-	s.Name = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/GetTrailStatusResponse
 type GetTrailStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Whether the CloudTrail is currently logging AWS API calls.
 	IsLogging *bool `type:"boolean"`
@@ -1774,106 +1596,9 @@ func (s GetTrailStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetIsLogging sets the IsLogging field's value.
-func (s *GetTrailStatusOutput) SetIsLogging(v bool) *GetTrailStatusOutput {
-	s.IsLogging = &v
-	return s
-}
-
-// SetLatestCloudWatchLogsDeliveryError sets the LatestCloudWatchLogsDeliveryError field's value.
-func (s *GetTrailStatusOutput) SetLatestCloudWatchLogsDeliveryError(v string) *GetTrailStatusOutput {
-	s.LatestCloudWatchLogsDeliveryError = &v
-	return s
-}
-
-// SetLatestCloudWatchLogsDeliveryTime sets the LatestCloudWatchLogsDeliveryTime field's value.
-func (s *GetTrailStatusOutput) SetLatestCloudWatchLogsDeliveryTime(v time.Time) *GetTrailStatusOutput {
-	s.LatestCloudWatchLogsDeliveryTime = &v
-	return s
-}
-
-// SetLatestDeliveryAttemptSucceeded sets the LatestDeliveryAttemptSucceeded field's value.
-func (s *GetTrailStatusOutput) SetLatestDeliveryAttemptSucceeded(v string) *GetTrailStatusOutput {
-	s.LatestDeliveryAttemptSucceeded = &v
-	return s
-}
-
-// SetLatestDeliveryAttemptTime sets the LatestDeliveryAttemptTime field's value.
-func (s *GetTrailStatusOutput) SetLatestDeliveryAttemptTime(v string) *GetTrailStatusOutput {
-	s.LatestDeliveryAttemptTime = &v
-	return s
-}
-
-// SetLatestDeliveryError sets the LatestDeliveryError field's value.
-func (s *GetTrailStatusOutput) SetLatestDeliveryError(v string) *GetTrailStatusOutput {
-	s.LatestDeliveryError = &v
-	return s
-}
-
-// SetLatestDeliveryTime sets the LatestDeliveryTime field's value.
-func (s *GetTrailStatusOutput) SetLatestDeliveryTime(v time.Time) *GetTrailStatusOutput {
-	s.LatestDeliveryTime = &v
-	return s
-}
-
-// SetLatestDigestDeliveryError sets the LatestDigestDeliveryError field's value.
-func (s *GetTrailStatusOutput) SetLatestDigestDeliveryError(v string) *GetTrailStatusOutput {
-	s.LatestDigestDeliveryError = &v
-	return s
-}
-
-// SetLatestDigestDeliveryTime sets the LatestDigestDeliveryTime field's value.
-func (s *GetTrailStatusOutput) SetLatestDigestDeliveryTime(v time.Time) *GetTrailStatusOutput {
-	s.LatestDigestDeliveryTime = &v
-	return s
-}
-
-// SetLatestNotificationAttemptSucceeded sets the LatestNotificationAttemptSucceeded field's value.
-func (s *GetTrailStatusOutput) SetLatestNotificationAttemptSucceeded(v string) *GetTrailStatusOutput {
-	s.LatestNotificationAttemptSucceeded = &v
-	return s
-}
-
-// SetLatestNotificationAttemptTime sets the LatestNotificationAttemptTime field's value.
-func (s *GetTrailStatusOutput) SetLatestNotificationAttemptTime(v string) *GetTrailStatusOutput {
-	s.LatestNotificationAttemptTime = &v
-	return s
-}
-
-// SetLatestNotificationError sets the LatestNotificationError field's value.
-func (s *GetTrailStatusOutput) SetLatestNotificationError(v string) *GetTrailStatusOutput {
-	s.LatestNotificationError = &v
-	return s
-}
-
-// SetLatestNotificationTime sets the LatestNotificationTime field's value.
-func (s *GetTrailStatusOutput) SetLatestNotificationTime(v time.Time) *GetTrailStatusOutput {
-	s.LatestNotificationTime = &v
-	return s
-}
-
-// SetStartLoggingTime sets the StartLoggingTime field's value.
-func (s *GetTrailStatusOutput) SetStartLoggingTime(v time.Time) *GetTrailStatusOutput {
-	s.StartLoggingTime = &v
-	return s
-}
-
-// SetStopLoggingTime sets the StopLoggingTime field's value.
-func (s *GetTrailStatusOutput) SetStopLoggingTime(v time.Time) *GetTrailStatusOutput {
-	s.StopLoggingTime = &v
-	return s
-}
-
-// SetTimeLoggingStarted sets the TimeLoggingStarted field's value.
-func (s *GetTrailStatusOutput) SetTimeLoggingStarted(v string) *GetTrailStatusOutput {
-	s.TimeLoggingStarted = &v
-	return s
-}
-
-// SetTimeLoggingStopped sets the TimeLoggingStopped field's value.
-func (s *GetTrailStatusOutput) SetTimeLoggingStopped(v string) *GetTrailStatusOutput {
-	s.TimeLoggingStopped = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTrailStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Requests the public keys for a specified time range.
@@ -1904,29 +1629,13 @@ func (s ListPublicKeysInput) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *ListPublicKeysInput) SetEndTime(v time.Time) *ListPublicKeysInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListPublicKeysInput) SetNextToken(v string) *ListPublicKeysInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *ListPublicKeysInput) SetStartTime(v time.Time) *ListPublicKeysInput {
-	s.StartTime = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/ListPublicKeysResponse
 type ListPublicKeysOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Reserved for future use.
 	NextToken *string `type:"string"`
@@ -1934,7 +1643,7 @@ type ListPublicKeysOutput struct {
 	// Contains an array of PublicKey objects.
 	//
 	// The returned public keys may have validity time ranges that overlap.
-	PublicKeyList []*PublicKey `type:"list"`
+	PublicKeyList []PublicKey `type:"list"`
 }
 
 // String returns the string representation
@@ -1947,16 +1656,9 @@ func (s ListPublicKeysOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPublicKeysOutput) SetNextToken(v string) *ListPublicKeysOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPublicKeyList sets the PublicKeyList field's value.
-func (s *ListPublicKeysOutput) SetPublicKeyList(v []*PublicKey) *ListPublicKeysOutput {
-	s.PublicKeyList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPublicKeysOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Specifies a list of trail tags to return.
@@ -1973,7 +1675,7 @@ type ListTagsInput struct {
 	// arn:aws:cloudtrail:us-east-1:123456789012:trail/MyTrail
 	//
 	// ResourceIdList is a required field
-	ResourceIdList []*string `type:"list" required:"true"`
+	ResourceIdList []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2000,29 +1702,19 @@ func (s *ListTagsInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsInput) SetNextToken(v string) *ListTagsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceIdList sets the ResourceIdList field's value.
-func (s *ListTagsInput) SetResourceIdList(v []*string) *ListTagsInput {
-	s.ResourceIdList = v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/ListTagsResponse
 type ListTagsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Reserved for future use.
 	NextToken *string `type:"string"`
 
 	// A list of resource tags.
-	ResourceTagList []*ResourceTag `type:"list"`
+	ResourceTagList []ResourceTag `type:"list"`
 }
 
 // String returns the string representation
@@ -2035,16 +1727,9 @@ func (s ListTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsOutput) SetNextToken(v string) *ListTagsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceTagList sets the ResourceTagList field's value.
-func (s *ListTagsOutput) SetResourceTagList(v []*ResourceTag) *ListTagsOutput {
-	s.ResourceTagList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Specifies an attribute and value that filter the events returned.
@@ -2055,7 +1740,7 @@ type LookupAttribute struct {
 	// Specifies an attribute on which to filter the events returned.
 	//
 	// AttributeKey is a required field
-	AttributeKey LookupAttributeKey `type:"string" required:"true"`
+	AttributeKey LookupAttributeKey `type:"string" required:"true" enum:"true"`
 
 	// Specifies a value for the specified AttributeKey.
 	//
@@ -2090,18 +1775,6 @@ func (s *LookupAttribute) Validate() error {
 	return nil
 }
 
-// SetAttributeKey sets the AttributeKey field's value.
-func (s *LookupAttribute) SetAttributeKey(v LookupAttributeKey) *LookupAttribute {
-	s.AttributeKey = v
-	return s
-}
-
-// SetAttributeValue sets the AttributeValue field's value.
-func (s *LookupAttribute) SetAttributeValue(v string) *LookupAttribute {
-	s.AttributeValue = &v
-	return s
-}
-
 // Contains a request for LookupEvents.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/LookupEventsRequest
 type LookupEventsInput struct {
@@ -2114,7 +1787,7 @@ type LookupEventsInput struct {
 
 	// Contains a list of lookup attributes. Currently the list can contain only
 	// one item.
-	LookupAttributes []*LookupAttribute `type:"list"`
+	LookupAttributes []LookupAttribute `type:"list"`
 
 	// The number of events to return. Possible values are 1 through 50. The default
 	// is 10.
@@ -2151,9 +1824,6 @@ func (s *LookupEventsInput) Validate() error {
 	}
 	if s.LookupAttributes != nil {
 		for i, v := range s.LookupAttributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "LookupAttributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -2166,45 +1836,17 @@ func (s *LookupEventsInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *LookupEventsInput) SetEndTime(v time.Time) *LookupEventsInput {
-	s.EndTime = &v
-	return s
-}
-
-// SetLookupAttributes sets the LookupAttributes field's value.
-func (s *LookupEventsInput) SetLookupAttributes(v []*LookupAttribute) *LookupEventsInput {
-	s.LookupAttributes = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *LookupEventsInput) SetMaxResults(v int64) *LookupEventsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *LookupEventsInput) SetNextToken(v string) *LookupEventsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *LookupEventsInput) SetStartTime(v time.Time) *LookupEventsInput {
-	s.StartTime = &v
-	return s
-}
-
 // Contains a response to a LookupEvents action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/LookupEventsResponse
 type LookupEventsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of events returned based on the lookup attributes specified and the
 	// CloudTrail event. The events list is sorted by time. The most recent event
 	// is listed first.
-	Events []*Event `type:"list"`
+	Events []Event `type:"list"`
 
 	// The token to use to get the next page of results after a previous API call.
 	// If the token does not appear, there are no more results to return. The token
@@ -2224,16 +1866,9 @@ func (s LookupEventsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEvents sets the Events field's value.
-func (s *LookupEventsOutput) SetEvents(v []*Event) *LookupEventsOutput {
-	s.Events = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *LookupEventsOutput) SetNextToken(v string) *LookupEventsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s LookupEventsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about a returned public key.
@@ -2266,30 +1901,6 @@ func (s PublicKey) GoString() string {
 	return s.String()
 }
 
-// SetFingerprint sets the Fingerprint field's value.
-func (s *PublicKey) SetFingerprint(v string) *PublicKey {
-	s.Fingerprint = &v
-	return s
-}
-
-// SetValidityEndTime sets the ValidityEndTime field's value.
-func (s *PublicKey) SetValidityEndTime(v time.Time) *PublicKey {
-	s.ValidityEndTime = &v
-	return s
-}
-
-// SetValidityStartTime sets the ValidityStartTime field's value.
-func (s *PublicKey) SetValidityStartTime(v time.Time) *PublicKey {
-	s.ValidityStartTime = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *PublicKey) SetValue(v []byte) *PublicKey {
-	s.Value = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/PutEventSelectorsRequest
 type PutEventSelectorsInput struct {
 	_ struct{} `type:"structure"`
@@ -2298,7 +1909,7 @@ type PutEventSelectorsInput struct {
 	// five event selectors for a trail.
 	//
 	// EventSelectors is a required field
-	EventSelectors []*EventSelector `type:"list" required:"true"`
+	EventSelectors []EventSelector `type:"list" required:"true"`
 
 	// Specifies the name of the trail or trail ARN. If you specify a trail name,
 	// the string must meet the following requirements:
@@ -2351,24 +1962,14 @@ func (s *PutEventSelectorsInput) Validate() error {
 	return nil
 }
 
-// SetEventSelectors sets the EventSelectors field's value.
-func (s *PutEventSelectorsInput) SetEventSelectors(v []*EventSelector) *PutEventSelectorsInput {
-	s.EventSelectors = v
-	return s
-}
-
-// SetTrailName sets the TrailName field's value.
-func (s *PutEventSelectorsInput) SetTrailName(v string) *PutEventSelectorsInput {
-	s.TrailName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/PutEventSelectorsResponse
 type PutEventSelectorsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Specifies the event selectors configured for your trail.
-	EventSelectors []*EventSelector `type:"list"`
+	EventSelectors []EventSelector `type:"list"`
 
 	// Specifies the ARN of the trail that was updated with event selectors. The
 	// format of a trail ARN is:
@@ -2387,16 +1988,9 @@ func (s PutEventSelectorsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventSelectors sets the EventSelectors field's value.
-func (s *PutEventSelectorsOutput) SetEventSelectors(v []*EventSelector) *PutEventSelectorsOutput {
-	s.EventSelectors = v
-	return s
-}
-
-// SetTrailARN sets the TrailARN field's value.
-func (s *PutEventSelectorsOutput) SetTrailARN(v string) *PutEventSelectorsOutput {
-	s.TrailARN = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutEventSelectorsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Specifies the tags to remove from a trail.
@@ -2413,7 +2007,7 @@ type RemoveTagsInput struct {
 	ResourceId *string `type:"string" required:"true"`
 
 	// Specifies a list of tags to be removed.
-	TagsList []*Tag `type:"list"`
+	TagsList []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -2435,9 +2029,6 @@ func (s *RemoveTagsInput) Validate() error {
 	}
 	if s.TagsList != nil {
 		for i, v := range s.TagsList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagsList", i), err.(aws.ErrInvalidParams))
 			}
@@ -2450,23 +2041,13 @@ func (s *RemoveTagsInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *RemoveTagsInput) SetResourceId(v string) *RemoveTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagsList sets the TagsList field's value.
-func (s *RemoveTagsInput) SetTagsList(v []*Tag) *RemoveTagsInput {
-	s.TagsList = v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/RemoveTagsResponse
 type RemoveTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2477,6 +2058,11 @@ func (s RemoveTagsOutput) String() string {
 // GoString returns the string representation
 func (s RemoveTagsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Specifies the type and name of a resource referenced by an event.
@@ -2508,18 +2094,6 @@ func (s Resource) GoString() string {
 	return s.String()
 }
 
-// SetResourceName sets the ResourceName field's value.
-func (s *Resource) SetResourceName(v string) *Resource {
-	s.ResourceName = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *Resource) SetResourceType(v string) *Resource {
-	s.ResourceType = &v
-	return s
-}
-
 // A resource tag.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/ResourceTag
 type ResourceTag struct {
@@ -2529,7 +2103,7 @@ type ResourceTag struct {
 	ResourceId *string `type:"string"`
 
 	// A list of tags.
-	TagsList []*Tag `type:"list"`
+	TagsList []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -2540,18 +2114,6 @@ func (s ResourceTag) String() string {
 // GoString returns the string representation
 func (s ResourceTag) GoString() string {
 	return s.String()
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *ResourceTag) SetResourceId(v string) *ResourceTag {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagsList sets the TagsList field's value.
-func (s *ResourceTag) SetTagsList(v []*Tag) *ResourceTag {
-	s.TagsList = v
-	return s
 }
 
 // The request to CloudTrail to start logging AWS API calls for an account.
@@ -2592,17 +2154,13 @@ func (s *StartLoggingInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *StartLoggingInput) SetName(v string) *StartLoggingInput {
-	s.Name = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/StartLoggingResponse
 type StartLoggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2613,6 +2171,11 @@ func (s StartLoggingOutput) String() string {
 // GoString returns the string representation
 func (s StartLoggingOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartLoggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Passes the request to CloudTrail to stop logging AWS API calls for the specified
@@ -2654,17 +2217,13 @@ func (s *StopLoggingInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *StopLoggingInput) SetName(v string) *StopLoggingInput {
-	s.Name = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/StopLoggingResponse
 type StopLoggingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2675,6 +2234,11 @@ func (s StopLoggingOutput) String() string {
 // GoString returns the string representation
 func (s StopLoggingOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopLoggingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A custom key-value pair associated with a resource such as a CloudTrail trail.
@@ -2715,18 +2279,6 @@ func (s *Tag) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
 }
 
 // The settings for a trail.
@@ -2800,90 +2352,6 @@ func (s Trail) String() string {
 // GoString returns the string representation
 func (s Trail) GoString() string {
 	return s.String()
-}
-
-// SetCloudWatchLogsLogGroupArn sets the CloudWatchLogsLogGroupArn field's value.
-func (s *Trail) SetCloudWatchLogsLogGroupArn(v string) *Trail {
-	s.CloudWatchLogsLogGroupArn = &v
-	return s
-}
-
-// SetCloudWatchLogsRoleArn sets the CloudWatchLogsRoleArn field's value.
-func (s *Trail) SetCloudWatchLogsRoleArn(v string) *Trail {
-	s.CloudWatchLogsRoleArn = &v
-	return s
-}
-
-// SetHasCustomEventSelectors sets the HasCustomEventSelectors field's value.
-func (s *Trail) SetHasCustomEventSelectors(v bool) *Trail {
-	s.HasCustomEventSelectors = &v
-	return s
-}
-
-// SetHomeRegion sets the HomeRegion field's value.
-func (s *Trail) SetHomeRegion(v string) *Trail {
-	s.HomeRegion = &v
-	return s
-}
-
-// SetIncludeGlobalServiceEvents sets the IncludeGlobalServiceEvents field's value.
-func (s *Trail) SetIncludeGlobalServiceEvents(v bool) *Trail {
-	s.IncludeGlobalServiceEvents = &v
-	return s
-}
-
-// SetIsMultiRegionTrail sets the IsMultiRegionTrail field's value.
-func (s *Trail) SetIsMultiRegionTrail(v bool) *Trail {
-	s.IsMultiRegionTrail = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *Trail) SetKmsKeyId(v string) *Trail {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetLogFileValidationEnabled sets the LogFileValidationEnabled field's value.
-func (s *Trail) SetLogFileValidationEnabled(v bool) *Trail {
-	s.LogFileValidationEnabled = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Trail) SetName(v string) *Trail {
-	s.Name = &v
-	return s
-}
-
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *Trail) SetS3BucketName(v string) *Trail {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *Trail) SetS3KeyPrefix(v string) *Trail {
-	s.S3KeyPrefix = &v
-	return s
-}
-
-// SetSnsTopicARN sets the SnsTopicARN field's value.
-func (s *Trail) SetSnsTopicARN(v string) *Trail {
-	s.SnsTopicARN = &v
-	return s
-}
-
-// SetSnsTopicName sets the SnsTopicName field's value.
-func (s *Trail) SetSnsTopicName(v string) *Trail {
-	s.SnsTopicName = &v
-	return s
-}
-
-// SetTrailARN sets the TrailARN field's value.
-func (s *Trail) SetTrailARN(v string) *Trail {
-	s.TrailARN = &v
-	return s
 }
 
 // Specifies settings to update for the trail.
@@ -3000,71 +2468,13 @@ func (s *UpdateTrailInput) Validate() error {
 	return nil
 }
 
-// SetCloudWatchLogsLogGroupArn sets the CloudWatchLogsLogGroupArn field's value.
-func (s *UpdateTrailInput) SetCloudWatchLogsLogGroupArn(v string) *UpdateTrailInput {
-	s.CloudWatchLogsLogGroupArn = &v
-	return s
-}
-
-// SetCloudWatchLogsRoleArn sets the CloudWatchLogsRoleArn field's value.
-func (s *UpdateTrailInput) SetCloudWatchLogsRoleArn(v string) *UpdateTrailInput {
-	s.CloudWatchLogsRoleArn = &v
-	return s
-}
-
-// SetEnableLogFileValidation sets the EnableLogFileValidation field's value.
-func (s *UpdateTrailInput) SetEnableLogFileValidation(v bool) *UpdateTrailInput {
-	s.EnableLogFileValidation = &v
-	return s
-}
-
-// SetIncludeGlobalServiceEvents sets the IncludeGlobalServiceEvents field's value.
-func (s *UpdateTrailInput) SetIncludeGlobalServiceEvents(v bool) *UpdateTrailInput {
-	s.IncludeGlobalServiceEvents = &v
-	return s
-}
-
-// SetIsMultiRegionTrail sets the IsMultiRegionTrail field's value.
-func (s *UpdateTrailInput) SetIsMultiRegionTrail(v bool) *UpdateTrailInput {
-	s.IsMultiRegionTrail = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *UpdateTrailInput) SetKmsKeyId(v string) *UpdateTrailInput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateTrailInput) SetName(v string) *UpdateTrailInput {
-	s.Name = &v
-	return s
-}
-
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *UpdateTrailInput) SetS3BucketName(v string) *UpdateTrailInput {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *UpdateTrailInput) SetS3KeyPrefix(v string) *UpdateTrailInput {
-	s.S3KeyPrefix = &v
-	return s
-}
-
-// SetSnsTopicName sets the SnsTopicName field's value.
-func (s *UpdateTrailInput) SetSnsTopicName(v string) *UpdateTrailInput {
-	s.SnsTopicName = &v
-	return s
-}
-
 // Returns the objects or data listed below if successful. Otherwise, returns
 // an error.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudtrail-2013-11-01/UpdateTrailResponse
 type UpdateTrailOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Specifies the Amazon Resource Name (ARN) of the log group to which CloudTrail
 	// logs will be delivered.
@@ -3128,76 +2538,9 @@ func (s UpdateTrailOutput) GoString() string {
 	return s.String()
 }
 
-// SetCloudWatchLogsLogGroupArn sets the CloudWatchLogsLogGroupArn field's value.
-func (s *UpdateTrailOutput) SetCloudWatchLogsLogGroupArn(v string) *UpdateTrailOutput {
-	s.CloudWatchLogsLogGroupArn = &v
-	return s
-}
-
-// SetCloudWatchLogsRoleArn sets the CloudWatchLogsRoleArn field's value.
-func (s *UpdateTrailOutput) SetCloudWatchLogsRoleArn(v string) *UpdateTrailOutput {
-	s.CloudWatchLogsRoleArn = &v
-	return s
-}
-
-// SetIncludeGlobalServiceEvents sets the IncludeGlobalServiceEvents field's value.
-func (s *UpdateTrailOutput) SetIncludeGlobalServiceEvents(v bool) *UpdateTrailOutput {
-	s.IncludeGlobalServiceEvents = &v
-	return s
-}
-
-// SetIsMultiRegionTrail sets the IsMultiRegionTrail field's value.
-func (s *UpdateTrailOutput) SetIsMultiRegionTrail(v bool) *UpdateTrailOutput {
-	s.IsMultiRegionTrail = &v
-	return s
-}
-
-// SetKmsKeyId sets the KmsKeyId field's value.
-func (s *UpdateTrailOutput) SetKmsKeyId(v string) *UpdateTrailOutput {
-	s.KmsKeyId = &v
-	return s
-}
-
-// SetLogFileValidationEnabled sets the LogFileValidationEnabled field's value.
-func (s *UpdateTrailOutput) SetLogFileValidationEnabled(v bool) *UpdateTrailOutput {
-	s.LogFileValidationEnabled = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateTrailOutput) SetName(v string) *UpdateTrailOutput {
-	s.Name = &v
-	return s
-}
-
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *UpdateTrailOutput) SetS3BucketName(v string) *UpdateTrailOutput {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *UpdateTrailOutput) SetS3KeyPrefix(v string) *UpdateTrailOutput {
-	s.S3KeyPrefix = &v
-	return s
-}
-
-// SetSnsTopicARN sets the SnsTopicARN field's value.
-func (s *UpdateTrailOutput) SetSnsTopicARN(v string) *UpdateTrailOutput {
-	s.SnsTopicARN = &v
-	return s
-}
-
-// SetSnsTopicName sets the SnsTopicName field's value.
-func (s *UpdateTrailOutput) SetSnsTopicName(v string) *UpdateTrailOutput {
-	s.SnsTopicName = &v
-	return s
-}
-
-// SetTrailARN sets the TrailARN field's value.
-func (s *UpdateTrailOutput) SetTrailARN(v string) *UpdateTrailOutput {
-	s.TrailARN = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateTrailOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type LookupAttributeKey string
@@ -3212,6 +2555,15 @@ const (
 	LookupAttributeKeyEventSource  LookupAttributeKey = "EventSource"
 )
 
+func (enum LookupAttributeKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LookupAttributeKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ReadWriteType string
 
 // Enum values for ReadWriteType
@@ -3220,3 +2572,12 @@ const (
 	ReadWriteTypeWriteOnly ReadWriteType = "WriteOnly"
 	ReadWriteTypeAll       ReadWriteType = "All"
 )
+
+func (enum ReadWriteType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReadWriteType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

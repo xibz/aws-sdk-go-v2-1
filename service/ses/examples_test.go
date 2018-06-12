@@ -121,7 +121,7 @@ func ExampleSES_CreateReceiptRuleRequest_shared00() {
 	input := &ses.CreateReceiptRuleInput{
 		After: aws.String(""),
 		Rule: &ses.ReceiptRule{
-			Actions: []*ses.ReceiptAction{
+			Actions: []ses.ReceiptAction{
 				{},
 			},
 			Enabled:     aws.Bool(true),
@@ -513,6 +513,38 @@ func ExampleSES_DescribeReceiptRuleSetRequest_shared00() {
 	fmt.Println(result)
 }
 
+// GetAccountSendingEnabled
+//
+// The following example returns if sending status for an account is enabled. (true
+// / false):
+func ExampleSES_GetAccountSendingEnabledRequest_shared00() {
+	cfg, err := external.LoadDefaultAWSConfig()
+	if err != nil {
+		panic("failed to load config, " + err.Error())
+	}
+
+	svc := ses.New(cfg)
+	input := &ses.GetAccountSendingEnabledInput{}
+
+	req := svc.GetAccountSendingEnabledRequest(input)
+	result, err := req.Send()
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			fmt.Println(err.Error())
+		}
+		return
+	}
+
+	fmt.Println(result)
+}
+
 // GetIdentityDkimAttributes
 //
 // The following example retrieves the Amazon SES Easy DKIM attributes for a list of
@@ -525,9 +557,9 @@ func ExampleSES_GetIdentityDkimAttributesRequest_shared00() {
 
 	svc := ses.New(cfg)
 	input := &ses.GetIdentityDkimAttributesInput{
-		Identities: []*string{
-			aws.String("example.com"),
-			aws.String("user@example.com"),
+		Identities: []string{
+			"example.com",
+			"user@example.com",
 		},
 	}
 
@@ -561,8 +593,8 @@ func ExampleSES_GetIdentityMailFromDomainAttributesRequest_shared00() {
 
 	svc := ses.New(cfg)
 	input := &ses.GetIdentityMailFromDomainAttributesInput{
-		Identities: []*string{
-			aws.String("example.com"),
+		Identities: []string{
+			"example.com",
 		},
 	}
 
@@ -596,8 +628,8 @@ func ExampleSES_GetIdentityNotificationAttributesRequest_shared00() {
 
 	svc := ses.New(cfg)
 	input := &ses.GetIdentityNotificationAttributesInput{
-		Identities: []*string{
-			aws.String("example.com"),
+		Identities: []string{
+			"example.com",
 		},
 	}
 
@@ -632,8 +664,8 @@ func ExampleSES_GetIdentityPoliciesRequest_shared00() {
 	svc := ses.New(cfg)
 	input := &ses.GetIdentityPoliciesInput{
 		Identity: aws.String("example.com"),
-		PolicyNames: []*string{
-			aws.String("MyPolicy"),
+		PolicyNames: []string{
+			"MyPolicy",
 		},
 	}
 
@@ -668,8 +700,8 @@ func ExampleSES_GetIdentityVerificationAttributesRequest_shared00() {
 
 	svc := ses.New(cfg)
 	input := &ses.GetIdentityVerificationAttributesInput{
-		Identities: []*string{
-			aws.String("example.com"),
+		Identities: []string{
+			"example.com",
 		},
 	}
 
@@ -969,9 +1001,9 @@ func ExampleSES_ReorderReceiptRuleSetRequest_shared00() {
 
 	svc := ses.New(cfg)
 	input := &ses.ReorderReceiptRuleSetInput{
-		RuleNames: []*string{
-			aws.String("MyRule"),
-			aws.String("MyOtherRule"),
+		RuleNames: []string{
+			"MyRule",
+			"MyOtherRule",
 		},
 		RuleSetName: aws.String("MyRuleSet"),
 	}
@@ -1011,12 +1043,12 @@ func ExampleSES_SendEmailRequest_shared00() {
 	svc := ses.New(cfg)
 	input := &ses.SendEmailInput{
 		Destination: &ses.Destination{
-			CcAddresses: []*string{
-				aws.String("recipient3@example.com"),
+			CcAddresses: []string{
+				"recipient3@example.com",
 			},
-			ToAddresses: []*string{
-				aws.String("recipient1@example.com"),
-				aws.String("recipient2@example.com"),
+			ToAddresses: []string{
+				"recipient1@example.com",
+				"recipient2@example.com",
 			},
 		},
 		Message: &ses.Message{
@@ -1052,6 +1084,10 @@ func ExampleSES_SendEmailRequest_shared00() {
 				fmt.Println(ses.ErrCodeMailFromDomainNotVerifiedException, aerr.Error())
 			case ses.ErrCodeConfigurationSetDoesNotExistException:
 				fmt.Println(ses.ErrCodeConfigurationSetDoesNotExistException, aerr.Error())
+			case ses.ErrCodeConfigurationSetSendingPausedException:
+				fmt.Println(ses.ErrCodeConfigurationSetSendingPausedException, aerr.Error())
+			case ses.ErrCodeAccountSendingPausedException:
+				fmt.Println(ses.ErrCodeAccountSendingPausedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -1097,6 +1133,10 @@ func ExampleSES_SendRawEmailRequest_shared00() {
 				fmt.Println(ses.ErrCodeMailFromDomainNotVerifiedException, aerr.Error())
 			case ses.ErrCodeConfigurationSetDoesNotExistException:
 				fmt.Println(ses.ErrCodeConfigurationSetDoesNotExistException, aerr.Error())
+			case ses.ErrCodeConfigurationSetSendingPausedException:
+				fmt.Println(ses.ErrCodeConfigurationSetSendingPausedException, aerr.Error())
+			case ses.ErrCodeAccountSendingPausedException:
+				fmt.Println(ses.ErrCodeAccountSendingPausedException, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -1364,6 +1404,111 @@ func ExampleSES_SetReceiptRulePositionRequest_shared00() {
 	fmt.Println(result)
 }
 
+// UpdateAccountSendingEnabled
+//
+// The following example updated the sending status for this account.
+func ExampleSES_UpdateAccountSendingEnabledRequest_shared00() {
+	cfg, err := external.LoadDefaultAWSConfig()
+	if err != nil {
+		panic("failed to load config, " + err.Error())
+	}
+
+	svc := ses.New(cfg)
+	input := &ses.UpdateAccountSendingEnabledInput{
+		Enabled: aws.Bool(true),
+	}
+
+	req := svc.UpdateAccountSendingEnabledRequest(input)
+	result, err := req.Send()
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			fmt.Println(err.Error())
+		}
+		return
+	}
+
+	fmt.Println(result)
+}
+
+// UpdateConfigurationSetReputationMetricsEnabled
+//
+// Set the reputationMetricsEnabled flag for a specific configuration set.
+func ExampleSES_UpdateConfigurationSetReputationMetricsEnabledRequest_shared00() {
+	cfg, err := external.LoadDefaultAWSConfig()
+	if err != nil {
+		panic("failed to load config, " + err.Error())
+	}
+
+	svc := ses.New(cfg)
+	input := &ses.UpdateConfigurationSetReputationMetricsEnabledInput{
+		ConfigurationSetName: aws.String("foo"),
+		Enabled:              aws.Bool(true),
+	}
+
+	req := svc.UpdateConfigurationSetReputationMetricsEnabledRequest(input)
+	result, err := req.Send()
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			case ses.ErrCodeConfigurationSetDoesNotExistException:
+				fmt.Println(ses.ErrCodeConfigurationSetDoesNotExistException, aerr.Error())
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			fmt.Println(err.Error())
+		}
+		return
+	}
+
+	fmt.Println(result)
+}
+
+// UpdateConfigurationSetReputationMetricsEnabled
+//
+// Set the sending enabled flag for a specific configuration set.
+func ExampleSES_UpdateConfigurationSetSendingEnabledRequest_shared00() {
+	cfg, err := external.LoadDefaultAWSConfig()
+	if err != nil {
+		panic("failed to load config, " + err.Error())
+	}
+
+	svc := ses.New(cfg)
+	input := &ses.UpdateConfigurationSetSendingEnabledInput{
+		ConfigurationSetName: aws.String("foo"),
+		Enabled:              aws.Bool(true),
+	}
+
+	req := svc.UpdateConfigurationSetSendingEnabledRequest(input)
+	result, err := req.Send()
+	if err != nil {
+		if aerr, ok := err.(awserr.Error); ok {
+			switch aerr.Code() {
+			case ses.ErrCodeConfigurationSetDoesNotExistException:
+				fmt.Println(ses.ErrCodeConfigurationSetDoesNotExistException, aerr.Error())
+			default:
+				fmt.Println(aerr.Error())
+			}
+		} else {
+			// Print the error, cast err to awserr.Error to get the Code and
+			// Message from an error.
+			fmt.Println(err.Error())
+		}
+		return
+	}
+
+	fmt.Println(result)
+}
+
 // UpdateReceiptRule
 //
 // The following example updates a receipt rule to use an Amazon S3 action:
@@ -1376,7 +1521,7 @@ func ExampleSES_UpdateReceiptRuleRequest_shared00() {
 	svc := ses.New(cfg)
 	input := &ses.UpdateReceiptRuleInput{
 		Rule: &ses.ReceiptRule{
-			Actions: []*ses.ReceiptAction{
+			Actions: []ses.ReceiptAction{
 				{},
 			},
 			Enabled:     aws.Bool(true),

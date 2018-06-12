@@ -1,5 +1,10 @@
 // Package ec2metadata provides the client for making API calls to the
 // EC2 Metadata service.
+//
+// This package's client can be disabled completely by setting the environment
+// variable "AWS_EC2_METADATA_DISABLED=true". This environment variable set to
+// true instructs the SDK to disable the EC2 Metadata client. The client cannot
+// be used while the environemnt variable is set to true, (case insensitive).
 package ec2metadata
 
 import (
@@ -7,24 +12,28 @@ import (
 	"errors"
 	"io"
 	"net/http"
+	"os"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/aws/awserr"
+	"github.com/aws/aws-sdk-go-v2/aws/defaults"
 )
 
 // ServiceName is the name of the service.
 const ServiceName = "ec2metadata"
+const disableServiceEnvVar = "AWS_EC2_METADATA_DISABLED"
 
 // A EC2Metadata is an EC2 Metadata service Client.
 type EC2Metadata struct {
 	*aws.Client
 }
 
-// New creates a new instance of the EC2Metadata client with a session.
+// New creates a new instance of the EC2Metadata client with a Config.
 // This client is safe to use across multiple goroutines.
 //
 // Example:
-//     // Create a EC2Metadata client from just a session.
+//     // Create a EC2Metadata client from just a config.
 //     svc := ec2metadata.New(cfg)
 func New(config aws.Config) *EC2Metadata {
 	svc := &EC2Metadata{
@@ -41,6 +50,21 @@ func New(config aws.Config) *EC2Metadata {
 	svc.Handlers.UnmarshalError.PushBack(unmarshalError)
 	svc.Handlers.Validate.Clear()
 	svc.Handlers.Validate.PushBack(validateEndpointHandler)
+
+	// Disable the EC2 Metadata service if the environment variable is set.
+	// This shortcirctes the service's functionality to always fail to send
+	// requests.
+	if strings.ToLower(os.Getenv(disableServiceEnvVar)) == "true" {
+		svc.Handlers.Send.SwapNamed(aws.NamedHandler{
+			Name: defaults.SendHandler.Name,
+			Fn: func(r *aws.Request) {
+				r.Error = awserr.New(
+					aws.ErrCodeRequestCanceled,
+					"EC2 IMDS access disabled via "+disableServiceEnvVar+" env var",
+					nil)
+			},
+		})
+	}
 
 	return svc
 }

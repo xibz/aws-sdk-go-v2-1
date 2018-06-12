@@ -69,13 +69,7 @@ type CloudWatchAPI interface {
 
 	DescribeAlarmHistoryRequest(*cloudwatch.DescribeAlarmHistoryInput) cloudwatch.DescribeAlarmHistoryRequest
 
-	DescribeAlarmHistoryPages(*cloudwatch.DescribeAlarmHistoryInput, func(*cloudwatch.DescribeAlarmHistoryOutput, bool) bool) error
-	DescribeAlarmHistoryPagesWithContext(aws.Context, *cloudwatch.DescribeAlarmHistoryInput, func(*cloudwatch.DescribeAlarmHistoryOutput, bool) bool, ...aws.Option) error
-
 	DescribeAlarmsRequest(*cloudwatch.DescribeAlarmsInput) cloudwatch.DescribeAlarmsRequest
-
-	DescribeAlarmsPages(*cloudwatch.DescribeAlarmsInput, func(*cloudwatch.DescribeAlarmsOutput, bool) bool) error
-	DescribeAlarmsPagesWithContext(aws.Context, *cloudwatch.DescribeAlarmsInput, func(*cloudwatch.DescribeAlarmsOutput, bool) bool, ...aws.Option) error
 
 	DescribeAlarmsForMetricRequest(*cloudwatch.DescribeAlarmsForMetricInput) cloudwatch.DescribeAlarmsForMetricRequest
 
@@ -85,14 +79,13 @@ type CloudWatchAPI interface {
 
 	GetDashboardRequest(*cloudwatch.GetDashboardInput) cloudwatch.GetDashboardRequest
 
+	GetMetricDataRequest(*cloudwatch.GetMetricDataInput) cloudwatch.GetMetricDataRequest
+
 	GetMetricStatisticsRequest(*cloudwatch.GetMetricStatisticsInput) cloudwatch.GetMetricStatisticsRequest
 
 	ListDashboardsRequest(*cloudwatch.ListDashboardsInput) cloudwatch.ListDashboardsRequest
 
 	ListMetricsRequest(*cloudwatch.ListMetricsInput) cloudwatch.ListMetricsRequest
-
-	ListMetricsPages(*cloudwatch.ListMetricsInput, func(*cloudwatch.ListMetricsOutput, bool) bool) error
-	ListMetricsPagesWithContext(aws.Context, *cloudwatch.ListMetricsInput, func(*cloudwatch.ListMetricsOutput, bool) bool, ...aws.Option) error
 
 	PutDashboardRequest(*cloudwatch.PutDashboardInput) cloudwatch.PutDashboardRequest
 

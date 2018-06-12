@@ -7,6 +7,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/internal/awsutil"
+	"github.com/aws/aws-sdk-go-v2/private/protocol"
 )
 
 const opCreateProject = "CreateProject"
@@ -15,6 +16,7 @@ const opCreateProject = "CreateProject"
 type CreateProjectRequest struct {
 	*aws.Request
 	Input *CreateProjectInput
+	Copy  func(*CreateProjectInput) CreateProjectRequest
 }
 
 // Send marshals and sends the CreateProject API request.
@@ -51,8 +53,11 @@ func (c *Mobile) CreateProjectRequest(input *CreateProjectInput) CreateProjectRe
 		input = &CreateProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateProjectOutput{})
-	return CreateProjectRequest{Request: req, Input: input}
+	output := &CreateProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateProjectRequest{Request: req, Input: input, Copy: c.CreateProjectRequest}
 }
 
 const opDeleteProject = "DeleteProject"
@@ -61,6 +66,7 @@ const opDeleteProject = "DeleteProject"
 type DeleteProjectRequest struct {
 	*aws.Request
 	Input *DeleteProjectInput
+	Copy  func(*DeleteProjectInput) DeleteProjectRequest
 }
 
 // Send marshals and sends the DeleteProject API request.
@@ -97,8 +103,11 @@ func (c *Mobile) DeleteProjectRequest(input *DeleteProjectInput) DeleteProjectRe
 		input = &DeleteProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteProjectOutput{})
-	return DeleteProjectRequest{Request: req, Input: input}
+	output := &DeleteProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteProjectRequest{Request: req, Input: input, Copy: c.DeleteProjectRequest}
 }
 
 const opDescribeBundle = "DescribeBundle"
@@ -107,6 +116,7 @@ const opDescribeBundle = "DescribeBundle"
 type DescribeBundleRequest struct {
 	*aws.Request
 	Input *DescribeBundleInput
+	Copy  func(*DescribeBundleInput) DescribeBundleRequest
 }
 
 // Send marshals and sends the DescribeBundle API request.
@@ -143,8 +153,11 @@ func (c *Mobile) DescribeBundleRequest(input *DescribeBundleInput) DescribeBundl
 		input = &DescribeBundleInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeBundleOutput{})
-	return DescribeBundleRequest{Request: req, Input: input}
+	output := &DescribeBundleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeBundleRequest{Request: req, Input: input, Copy: c.DescribeBundleRequest}
 }
 
 const opDescribeProject = "DescribeProject"
@@ -153,6 +166,7 @@ const opDescribeProject = "DescribeProject"
 type DescribeProjectRequest struct {
 	*aws.Request
 	Input *DescribeProjectInput
+	Copy  func(*DescribeProjectInput) DescribeProjectRequest
 }
 
 // Send marshals and sends the DescribeProject API request.
@@ -189,8 +203,11 @@ func (c *Mobile) DescribeProjectRequest(input *DescribeProjectInput) DescribePro
 		input = &DescribeProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeProjectOutput{})
-	return DescribeProjectRequest{Request: req, Input: input}
+	output := &DescribeProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeProjectRequest{Request: req, Input: input, Copy: c.DescribeProjectRequest}
 }
 
 const opExportBundle = "ExportBundle"
@@ -199,6 +216,7 @@ const opExportBundle = "ExportBundle"
 type ExportBundleRequest struct {
 	*aws.Request
 	Input *ExportBundleInput
+	Copy  func(*ExportBundleInput) ExportBundleRequest
 }
 
 // Send marshals and sends the ExportBundle API request.
@@ -236,8 +254,11 @@ func (c *Mobile) ExportBundleRequest(input *ExportBundleInput) ExportBundleReque
 		input = &ExportBundleInput{}
 	}
 
-	req := c.newRequest(op, input, &ExportBundleOutput{})
-	return ExportBundleRequest{Request: req, Input: input}
+	output := &ExportBundleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ExportBundleRequest{Request: req, Input: input, Copy: c.ExportBundleRequest}
 }
 
 const opExportProject = "ExportProject"
@@ -246,6 +267,7 @@ const opExportProject = "ExportProject"
 type ExportProjectRequest struct {
 	*aws.Request
 	Input *ExportProjectInput
+	Copy  func(*ExportProjectInput) ExportProjectRequest
 }
 
 // Send marshals and sends the ExportProject API request.
@@ -284,8 +306,11 @@ func (c *Mobile) ExportProjectRequest(input *ExportProjectInput) ExportProjectRe
 		input = &ExportProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &ExportProjectOutput{})
-	return ExportProjectRequest{Request: req, Input: input}
+	output := &ExportProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ExportProjectRequest{Request: req, Input: input, Copy: c.ExportProjectRequest}
 }
 
 const opListBundles = "ListBundles"
@@ -294,6 +319,7 @@ const opListBundles = "ListBundles"
 type ListBundlesRequest struct {
 	*aws.Request
 	Input *ListBundlesInput
+	Copy  func(*ListBundlesInput) ListBundlesRequest
 }
 
 // Send marshals and sends the ListBundles API request.
@@ -336,58 +362,57 @@ func (c *Mobile) ListBundlesRequest(input *ListBundlesInput) ListBundlesRequest 
 		input = &ListBundlesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListBundlesOutput{})
-	return ListBundlesRequest{Request: req, Input: input}
+	output := &ListBundlesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListBundlesRequest{Request: req, Input: input, Copy: c.ListBundlesRequest}
 }
 
-// ListBundlesPages iterates over the pages of a ListBundles operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListBundles method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListBundlesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListBundles operation.
-//    pageNum := 0
-//    err := client.ListBundlesPages(params,
-//        func(page *ListBundlesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListBundlesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Mobile) ListBundlesPages(input *ListBundlesInput, fn func(*ListBundlesOutput, bool) bool) error {
-	return c.ListBundlesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListBundlesRequest) Paginate(opts ...aws.Option) ListBundlesPager {
+	return ListBundlesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListBundlesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListBundlesPagesWithContext same as ListBundlesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Mobile) ListBundlesPagesWithContext(ctx aws.Context, input *ListBundlesInput, fn func(*ListBundlesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListBundlesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListBundlesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListBundlesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListBundlesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListBundlesPager struct {
+	aws.Pager
+}
+
+func (p *ListBundlesPager) CurrentPage() *ListBundlesOutput {
+	return p.Pager.CurrentPage().(*ListBundlesOutput)
 }
 
 const opListProjects = "ListProjects"
@@ -396,6 +421,7 @@ const opListProjects = "ListProjects"
 type ListProjectsRequest struct {
 	*aws.Request
 	Input *ListProjectsInput
+	Copy  func(*ListProjectsInput) ListProjectsRequest
 }
 
 // Send marshals and sends the ListProjects API request.
@@ -438,58 +464,57 @@ func (c *Mobile) ListProjectsRequest(input *ListProjectsInput) ListProjectsReque
 		input = &ListProjectsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListProjectsOutput{})
-	return ListProjectsRequest{Request: req, Input: input}
+	output := &ListProjectsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListProjectsRequest{Request: req, Input: input, Copy: c.ListProjectsRequest}
 }
 
-// ListProjectsPages iterates over the pages of a ListProjects operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListProjects method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListProjectsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListProjects operation.
-//    pageNum := 0
-//    err := client.ListProjectsPages(params,
-//        func(page *ListProjectsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListProjectsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *Mobile) ListProjectsPages(input *ListProjectsInput, fn func(*ListProjectsOutput, bool) bool) error {
-	return c.ListProjectsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListProjectsRequest) Paginate(opts ...aws.Option) ListProjectsPager {
+	return ListProjectsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListProjectsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListProjectsPagesWithContext same as ListProjectsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *Mobile) ListProjectsPagesWithContext(ctx aws.Context, input *ListProjectsInput, fn func(*ListProjectsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListProjectsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListProjectsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListProjectsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListProjectsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListProjectsPager struct {
+	aws.Pager
+}
+
+func (p *ListProjectsPager) CurrentPage() *ListProjectsOutput {
+	return p.Pager.CurrentPage().(*ListProjectsOutput)
 }
 
 const opUpdateProject = "UpdateProject"
@@ -498,6 +523,7 @@ const opUpdateProject = "UpdateProject"
 type UpdateProjectRequest struct {
 	*aws.Request
 	Input *UpdateProjectInput
+	Copy  func(*UpdateProjectInput) UpdateProjectRequest
 }
 
 // Send marshals and sends the UpdateProject API request.
@@ -534,8 +560,11 @@ func (c *Mobile) UpdateProjectRequest(input *UpdateProjectInput) UpdateProjectRe
 		input = &UpdateProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateProjectOutput{})
-	return UpdateProjectRequest{Request: req, Input: input}
+	output := &UpdateProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateProjectRequest{Request: req, Input: input, Copy: c.UpdateProjectRequest}
 }
 
 // The details of the bundle.
@@ -572,40 +601,51 @@ func (s BundleDetails) GoString() string {
 	return s.String()
 }
 
-// SetAvailablePlatforms sets the AvailablePlatforms field's value.
-func (s *BundleDetails) SetAvailablePlatforms(v []Platform) *BundleDetails {
-	s.AvailablePlatforms = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BundleDetails) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.AvailablePlatforms) > 0 {
+		v := s.AvailablePlatforms
 
-// SetBundleId sets the BundleId field's value.
-func (s *BundleDetails) SetBundleId(v string) *BundleDetails {
-	s.BundleId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "availablePlatforms", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetDescription sets the Description field's value.
-func (s *BundleDetails) SetDescription(v string) *BundleDetails {
-	s.Description = &v
-	return s
-}
+	}
+	if s.BundleId != nil {
+		v := *s.BundleId
 
-// SetIconUrl sets the IconUrl field's value.
-func (s *BundleDetails) SetIconUrl(v string) *BundleDetails {
-	s.IconUrl = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "bundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Description != nil {
+		v := *s.Description
 
-// SetTitle sets the Title field's value.
-func (s *BundleDetails) SetTitle(v string) *BundleDetails {
-	s.Title = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "description", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IconUrl != nil {
+		v := *s.IconUrl
 
-// SetVersion sets the Version field's value.
-func (s *BundleDetails) SetVersion(v string) *BundleDetails {
-	s.Version = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "iconUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Title != nil {
+		v := *s.Title
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "title", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Version != nil {
+		v := *s.Version
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "version", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Request structure used to request a project be created.
@@ -639,34 +679,42 @@ func (s CreateProjectInput) GoString() string {
 	return s.String()
 }
 
-// SetContents sets the Contents field's value.
-func (s *CreateProjectInput) SetContents(v []byte) *CreateProjectInput {
-	s.Contents = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateProjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetName sets the Name field's value.
-func (s *CreateProjectInput) SetName(v string) *CreateProjectInput {
-	s.Name = &v
-	return s
-}
+	if s.Contents != nil {
+		v := s.Contents
 
-// SetRegion sets the Region field's value.
-func (s *CreateProjectInput) SetRegion(v string) *CreateProjectInput {
-	s.Region = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "contents", protocol.BytesStream(v), metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *CreateProjectInput) SetSnapshotId(v string) *CreateProjectInput {
-	s.SnapshotId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Region != nil {
+		v := *s.Region
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "region", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SnapshotId != nil {
+		v := *s.SnapshotId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "snapshotId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure used in response to a request to create a project.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mobile-2017-07-01/CreateProjectResult
 type CreateProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Detailed information about the created AWS Mobile Hub project.
 	Details *ProjectDetails `locationName:"details" type:"structure"`
@@ -682,10 +730,20 @@ func (s CreateProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDetails sets the Details field's value.
-func (s *CreateProjectOutput) SetDetails(v *ProjectDetails) *CreateProjectOutput {
-	s.Details = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s CreateProjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Details != nil {
+		v := s.Details
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "details", v, metadata)
+	}
+	return nil
 }
 
 // Request structure used to request a project be deleted.
@@ -723,10 +781,17 @@ func (s *DeleteProjectInput) Validate() error {
 	return nil
 }
 
-// SetProjectId sets the ProjectId field's value.
-func (s *DeleteProjectInput) SetProjectId(v string) *DeleteProjectInput {
-	s.ProjectId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteProjectInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ProjectId != nil {
+		v := *s.ProjectId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure used in response to request to delete a project.
@@ -734,12 +799,14 @@ func (s *DeleteProjectInput) SetProjectId(v string) *DeleteProjectInput {
 type DeleteProjectOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Resources which were deleted.
-	DeletedResources []*Resource `locationName:"deletedResources" type:"list"`
+	DeletedResources []Resource `locationName:"deletedResources" type:"list"`
 
 	// Resources which were not deleted, due to a risk of losing potentially important
 	// data or files.
-	OrphanedResources []*Resource `locationName:"orphanedResources" type:"list"`
+	OrphanedResources []Resource `locationName:"orphanedResources" type:"list"`
 }
 
 // String returns the string representation
@@ -752,16 +819,38 @@ func (s DeleteProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDeletedResources sets the DeletedResources field's value.
-func (s *DeleteProjectOutput) SetDeletedResources(v []*Resource) *DeleteProjectOutput {
-	s.DeletedResources = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetOrphanedResources sets the OrphanedResources field's value.
-func (s *DeleteProjectOutput) SetOrphanedResources(v []*Resource) *DeleteProjectOutput {
-	s.OrphanedResources = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DeleteProjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.DeletedResources) > 0 {
+		v := s.DeletedResources
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "deletedResources", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.OrphanedResources) > 0 {
+		v := s.OrphanedResources
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "orphanedResources", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Request structure to request the details of a specific bundle.
@@ -799,16 +888,25 @@ func (s *DescribeBundleInput) Validate() error {
 	return nil
 }
 
-// SetBundleId sets the BundleId field's value.
-func (s *DescribeBundleInput) SetBundleId(v string) *DescribeBundleInput {
-	s.BundleId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeBundleInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.BundleId != nil {
+		v := *s.BundleId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "bundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure contains the details of the bundle.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mobile-2017-07-01/DescribeBundleResult
 type DescribeBundleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The details of the bundle.
 	Details *BundleDetails `locationName:"details" type:"structure"`
@@ -824,10 +922,20 @@ func (s DescribeBundleOutput) GoString() string {
 	return s.String()
 }
 
-// SetDetails sets the Details field's value.
-func (s *DescribeBundleOutput) SetDetails(v *BundleDetails) *DescribeBundleOutput {
-	s.Details = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeBundleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeBundleOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Details != nil {
+		v := s.Details
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "details", v, metadata)
+	}
+	return nil
 }
 
 // Request structure used to request details about a project.
@@ -870,22 +978,31 @@ func (s *DescribeProjectInput) Validate() error {
 	return nil
 }
 
-// SetProjectId sets the ProjectId field's value.
-func (s *DescribeProjectInput) SetProjectId(v string) *DescribeProjectInput {
-	s.ProjectId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeProjectInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetSyncFromResources sets the SyncFromResources field's value.
-func (s *DescribeProjectInput) SetSyncFromResources(v bool) *DescribeProjectInput {
-	s.SyncFromResources = &v
-	return s
+	if s.ProjectId != nil {
+		v := *s.ProjectId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SyncFromResources != nil {
+		v := *s.SyncFromResources
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "syncFromResources", protocol.BoolValue(v), metadata)
+	}
+	return nil
 }
 
 // Result structure used for requests of project details.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mobile-2017-07-01/DescribeProjectResult
 type DescribeProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Detailed information about an AWS Mobile Hub project.
 	Details *ProjectDetails `locationName:"details" type:"structure"`
@@ -901,10 +1018,20 @@ func (s DescribeProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDetails sets the Details field's value.
-func (s *DescribeProjectOutput) SetDetails(v *ProjectDetails) *DescribeProjectOutput {
-	s.Details = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s DescribeProjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Details != nil {
+		v := s.Details
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "details", v, metadata)
+	}
+	return nil
 }
 
 // Request structure used to request generation of custom SDK and tool packages
@@ -919,7 +1046,7 @@ type ExportBundleInput struct {
 	BundleId *string `location:"uri" locationName:"bundleId" type:"string" required:"true"`
 
 	// Developer desktop or target application platform.
-	Platform Platform `location:"querystring" locationName:"platform" type:"string"`
+	Platform Platform `location:"querystring" locationName:"platform" type:"string" enum:"true"`
 
 	// Unique project identifier.
 	ProjectId *string `location:"querystring" locationName:"projectId" type:"string"`
@@ -949,22 +1076,29 @@ func (s *ExportBundleInput) Validate() error {
 	return nil
 }
 
-// SetBundleId sets the BundleId field's value.
-func (s *ExportBundleInput) SetBundleId(v string) *ExportBundleInput {
-	s.BundleId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportBundleInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetPlatform sets the Platform field's value.
-func (s *ExportBundleInput) SetPlatform(v Platform) *ExportBundleInput {
-	s.Platform = v
-	return s
-}
+	if s.BundleId != nil {
+		v := *s.BundleId
 
-// SetProjectId sets the ProjectId field's value.
-func (s *ExportBundleInput) SetProjectId(v string) *ExportBundleInput {
-	s.ProjectId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "bundleId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Platform) > 0 {
+		v := s.Platform
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "platform", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if s.ProjectId != nil {
+		v := *s.ProjectId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure which contains link to download custom-generated SDK and
@@ -973,6 +1107,8 @@ func (s *ExportBundleInput) SetProjectId(v string) *ExportBundleInput {
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mobile-2017-07-01/ExportBundleResult
 type ExportBundleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// URL which contains the custom-generated SDK and tool packages used to integrate
 	// the client mobile app or web app with the AWS resources created by the AWS
@@ -990,10 +1126,20 @@ func (s ExportBundleOutput) GoString() string {
 	return s.String()
 }
 
-// SetDownloadUrl sets the DownloadUrl field's value.
-func (s *ExportBundleOutput) SetDownloadUrl(v string) *ExportBundleOutput {
-	s.DownloadUrl = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ExportBundleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportBundleOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DownloadUrl != nil {
+		v := *s.DownloadUrl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "downloadUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Request structure used in requests to export project configuration details.
@@ -1031,16 +1177,25 @@ func (s *ExportProjectInput) Validate() error {
 	return nil
 }
 
-// SetProjectId sets the ProjectId field's value.
-func (s *ExportProjectInput) SetProjectId(v string) *ExportProjectInput {
-	s.ProjectId = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportProjectInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
+
+	if s.ProjectId != nil {
+		v := *s.ProjectId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.PathTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure used for requests to export project configuration details.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mobile-2017-07-01/ExportProjectResult
 type ExportProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// URL which can be used to download the exported project configuation file(s).
 	DownloadUrl *string `locationName:"downloadUrl" type:"string"`
@@ -1068,22 +1223,32 @@ func (s ExportProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDownloadUrl sets the DownloadUrl field's value.
-func (s *ExportProjectOutput) SetDownloadUrl(v string) *ExportProjectOutput {
-	s.DownloadUrl = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ExportProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetShareUrl sets the ShareUrl field's value.
-func (s *ExportProjectOutput) SetShareUrl(v string) *ExportProjectOutput {
-	s.ShareUrl = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ExportProjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.DownloadUrl != nil {
+		v := *s.DownloadUrl
 
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *ExportProjectOutput) SetSnapshotId(v string) *ExportProjectOutput {
-	s.SnapshotId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "downloadUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ShareUrl != nil {
+		v := *s.ShareUrl
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "shareUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SnapshotId != nil {
+		v := *s.SnapshotId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "snapshotId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Request structure to request all available bundles.
@@ -1110,16 +1275,23 @@ func (s ListBundlesInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListBundlesInput) SetMaxResults(v int64) *ListBundlesInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBundlesInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListBundlesInput) SetNextToken(v string) *ListBundlesInput {
-	s.NextToken = &v
-	return s
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure contains a list of all available bundles with details.
@@ -1127,8 +1299,10 @@ func (s *ListBundlesInput) SetNextToken(v string) *ListBundlesInput {
 type ListBundlesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of bundles.
-	BundleList []*BundleDetails `locationName:"bundleList" type:"list"`
+	BundleList []BundleDetails `locationName:"bundleList" type:"list"`
 
 	// Pagination token. If non-null pagination token is returned in a result, then
 	// pass its value in another request to fetch more entries.
@@ -1145,16 +1319,32 @@ func (s ListBundlesOutput) GoString() string {
 	return s.String()
 }
 
-// SetBundleList sets the BundleList field's value.
-func (s *ListBundlesOutput) SetBundleList(v []*BundleDetails) *ListBundlesOutput {
-	s.BundleList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListBundlesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListBundlesOutput) SetNextToken(v string) *ListBundlesOutput {
-	s.NextToken = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListBundlesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.BundleList) > 0 {
+		v := s.BundleList
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "bundleList", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Request structure used to request projects list in AWS Mobile Hub.
@@ -1181,16 +1371,23 @@ func (s ListProjectsInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListProjectsInput) SetMaxResults(v int64) *ListProjectsInput {
-	s.MaxResults = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListProjectsInput) MarshalFields(e protocol.FieldEncoder) error {
+	e.SetValue(protocol.HeaderTarget, "Content-Type", protocol.StringValue("application/x-amz-json-1.1"), protocol.Metadata{})
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListProjectsInput) SetNextToken(v string) *ListProjectsInput {
-	s.NextToken = &v
-	return s
+	if s.MaxResults != nil {
+		v := *s.MaxResults
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "maxResults", protocol.Int64Value(v), metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure used for requests to list projects in AWS Mobile Hub.
@@ -1198,13 +1395,15 @@ func (s *ListProjectsInput) SetNextToken(v string) *ListProjectsInput {
 type ListProjectsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Pagination token. Set to null to start listing records from start. If non-null
 	// pagination token is returned in a result, then pass its value in here in
 	// another request to list more entries.
 	NextToken *string `locationName:"nextToken" type:"string"`
 
 	// List of projects.
-	Projects []*ProjectSummary `locationName:"projects" type:"list"`
+	Projects []ProjectSummary `locationName:"projects" type:"list"`
 }
 
 // String returns the string representation
@@ -1217,16 +1416,32 @@ func (s ListProjectsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListProjectsOutput) SetNextToken(v string) *ListProjectsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListProjectsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetProjects sets the Projects field's value.
-func (s *ListProjectsOutput) SetProjects(v []*ProjectSummary) *ListProjectsOutput {
-	s.Projects = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ListProjectsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "nextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Projects) > 0 {
+		v := s.Projects
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "projects", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Detailed information about an AWS Mobile Hub project.
@@ -1253,10 +1468,10 @@ type ProjectDetails struct {
 	Region *string `locationName:"region" type:"string"`
 
 	// List of AWS resources associated with a project.
-	Resources []*Resource `locationName:"resources" type:"list"`
+	Resources []Resource `locationName:"resources" type:"list"`
 
 	// Synchronization state for a project.
-	State ProjectState `locationName:"state" type:"string"`
+	State ProjectState `locationName:"state" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1269,52 +1484,63 @@ func (s ProjectDetails) GoString() string {
 	return s.String()
 }
 
-// SetConsoleUrl sets the ConsoleUrl field's value.
-func (s *ProjectDetails) SetConsoleUrl(v string) *ProjectDetails {
-	s.ConsoleUrl = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ProjectDetails) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ConsoleUrl != nil {
+		v := *s.ConsoleUrl
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *ProjectDetails) SetCreatedDate(v time.Time) *ProjectDetails {
-	s.CreatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "consoleUrl", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.CreatedDate != nil {
+		v := *s.CreatedDate
 
-// SetLastUpdatedDate sets the LastUpdatedDate field's value.
-func (s *ProjectDetails) SetLastUpdatedDate(v time.Time) *ProjectDetails {
-	s.LastUpdatedDate = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "createdDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.LastUpdatedDate != nil {
+		v := *s.LastUpdatedDate
 
-// SetName sets the Name field's value.
-func (s *ProjectDetails) SetName(v string) *ProjectDetails {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "lastUpdatedDate", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetProjectId sets the ProjectId field's value.
-func (s *ProjectDetails) SetProjectId(v string) *ProjectDetails {
-	s.ProjectId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ProjectId != nil {
+		v := *s.ProjectId
 
-// SetRegion sets the Region field's value.
-func (s *ProjectDetails) SetRegion(v string) *ProjectDetails {
-	s.Region = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Region != nil {
+		v := *s.Region
 
-// SetResources sets the Resources field's value.
-func (s *ProjectDetails) SetResources(v []*Resource) *ProjectDetails {
-	s.Resources = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "region", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Resources) > 0 {
+		v := s.Resources
 
-// SetState sets the State field's value.
-func (s *ProjectDetails) SetState(v ProjectState) *ProjectDetails {
-	s.State = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "resources", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.State) > 0 {
+		v := s.State
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "state", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Summary information about an AWS Mobile Hub project.
@@ -1339,16 +1565,21 @@ func (s ProjectSummary) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *ProjectSummary) SetName(v string) *ProjectSummary {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ProjectSummary) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
 
-// SetProjectId sets the ProjectId field's value.
-func (s *ProjectSummary) SetProjectId(v string) *ProjectSummary {
-	s.ProjectId = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ProjectId != nil {
+		v := *s.ProjectId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Information about an instance of an AWS resource associated with a project.
@@ -1360,7 +1591,7 @@ type Resource struct {
 	Arn *string `locationName:"arn" type:"string"`
 
 	// Key-value attribute pairs.
-	Attributes map[string]*string `locationName:"attributes" type:"map"`
+	Attributes map[string]string `locationName:"attributes" type:"map"`
 
 	// Identifies which feature in AWS Mobile Hub is associated with this AWS resource.
 	Feature *string `locationName:"feature" type:"string"`
@@ -1383,34 +1614,45 @@ func (s Resource) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Resource) SetArn(v string) *Resource {
-	s.Arn = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Resource) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Arn != nil {
+		v := *s.Arn
 
-// SetAttributes sets the Attributes field's value.
-func (s *Resource) SetAttributes(v map[string]*string) *Resource {
-	s.Attributes = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "arn", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Attributes) > 0 {
+		v := s.Attributes
 
-// SetFeature sets the Feature field's value.
-func (s *Resource) SetFeature(v string) *Resource {
-	s.Feature = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "attributes", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ms0.MapSetValue(k1, protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ms0.End()
 
-// SetName sets the Name field's value.
-func (s *Resource) SetName(v string) *Resource {
-	s.Name = &v
-	return s
-}
+	}
+	if s.Feature != nil {
+		v := *s.Feature
 
-// SetType sets the Type field's value.
-func (s *Resource) SetType(v string) *Resource {
-	s.Type = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "feature", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Request structure used for requests to update project configuration.
@@ -1453,22 +1695,30 @@ func (s *UpdateProjectInput) Validate() error {
 	return nil
 }
 
-// SetContents sets the Contents field's value.
-func (s *UpdateProjectInput) SetContents(v []byte) *UpdateProjectInput {
-	s.Contents = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateProjectInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetProjectId sets the ProjectId field's value.
-func (s *UpdateProjectInput) SetProjectId(v string) *UpdateProjectInput {
-	s.ProjectId = &v
-	return s
+	if s.Contents != nil {
+		v := s.Contents
+
+		metadata := protocol.Metadata{}
+		e.SetStream(protocol.PayloadTarget, "contents", protocol.BytesStream(v), metadata)
+	}
+	if s.ProjectId != nil {
+		v := *s.ProjectId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.QueryTarget, "projectId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Result structure used for requests to updated project configuration.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/mobile-2017-07-01/UpdateProjectResult
 type UpdateProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Detailed information about the updated AWS Mobile Hub project.
 	Details *ProjectDetails `locationName:"details" type:"structure"`
@@ -1484,10 +1734,20 @@ func (s UpdateProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetDetails sets the Details field's value.
-func (s *UpdateProjectOutput) SetDetails(v *ProjectDetails) *UpdateProjectOutput {
-	s.Details = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UpdateProjectOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Details != nil {
+		v := s.Details
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "details", v, metadata)
+	}
+	return nil
 }
 
 // Developer desktop or target mobile app or website platform.
@@ -1504,6 +1764,15 @@ const (
 	PlatformJavascript Platform = "JAVASCRIPT"
 )
 
+func (enum Platform) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Platform) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // Synchronization state for a project.
 type ProjectState string
 
@@ -1513,3 +1782,12 @@ const (
 	ProjectStateSyncing   ProjectState = "SYNCING"
 	ProjectStateImporting ProjectState = "IMPORTING"
 )
+
+func (enum ProjectState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ProjectState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

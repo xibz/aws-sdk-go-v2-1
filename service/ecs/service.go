@@ -19,10 +19,10 @@ type ECS struct {
 }
 
 // Used for custom client initialization logic
-var initClient func(*aws.Client)
+var initClient func(*ECS)
 
 // Used for custom request initialization logic
-var initRequest func(*aws.Request)
+var initRequest func(*ECS, *aws.Request)
 
 // Service information constants
 const (
@@ -31,15 +31,10 @@ const (
 )
 
 // New creates a new instance of the ECS client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a ECS client from just a config.
 //     svc := ecs.New(myConfig)
-//
-//     // Create a ECS client with additional configuration
-//     svc := ecs.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func New(config aws.Config) *ECS {
 	var signingName string
 	signingRegion := config.Region
@@ -67,7 +62,7 @@ func New(config aws.Config) *ECS {
 
 	// Run custom client initialization if present
 	if initClient != nil {
-		initClient(svc.Client)
+		initClient(svc)
 	}
 
 	return svc
@@ -80,7 +75,7 @@ func (c *ECS) newRequest(op *aws.Operation, params, data interface{}) *aws.Reque
 
 	// Run custom request initialization if present
 	if initRequest != nil {
-		initRequest(req)
+		initRequest(c, req)
 	}
 
 	return req

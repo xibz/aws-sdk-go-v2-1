@@ -3,10 +3,12 @@
 package xray
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/internal/awsutil"
+	"github.com/aws/aws-sdk-go-v2/private/protocol"
 )
 
 const opBatchGetTraces = "BatchGetTraces"
@@ -15,6 +17,7 @@ const opBatchGetTraces = "BatchGetTraces"
 type BatchGetTracesRequest struct {
 	*aws.Request
 	Input *BatchGetTracesInput
+	Copy  func(*BatchGetTracesInput) BatchGetTracesRequest
 }
 
 // Send marshals and sends the BatchGetTraces API request.
@@ -47,14 +50,119 @@ func (c *XRay) BatchGetTracesRequest(input *BatchGetTracesInput) BatchGetTracesR
 		Name:       opBatchGetTraces,
 		HTTPMethod: "POST",
 		HTTPPath:   "/Traces",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
 		input = &BatchGetTracesInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchGetTracesOutput{})
-	return BatchGetTracesRequest{Request: req, Input: input}
+	output := &BatchGetTracesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchGetTracesRequest{Request: req, Input: input, Copy: c.BatchGetTracesRequest}
+}
+
+// Paginate pages iterates over the pages of a BatchGetTracesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a BatchGetTraces operation.
+//		req := client.BatchGetTracesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *BatchGetTracesRequest) Paginate(opts ...aws.Option) BatchGetTracesPager {
+	return BatchGetTracesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *BatchGetTracesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// BatchGetTracesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type BatchGetTracesPager struct {
+	aws.Pager
+}
+
+func (p *BatchGetTracesPager) CurrentPage() *BatchGetTracesOutput {
+	return p.Pager.CurrentPage().(*BatchGetTracesOutput)
+}
+
+const opGetEncryptionConfig = "GetEncryptionConfig"
+
+// GetEncryptionConfigRequest is a API request type for the GetEncryptionConfig API operation.
+type GetEncryptionConfigRequest struct {
+	*aws.Request
+	Input *GetEncryptionConfigInput
+	Copy  func(*GetEncryptionConfigInput) GetEncryptionConfigRequest
+}
+
+// Send marshals and sends the GetEncryptionConfig API request.
+func (r GetEncryptionConfigRequest) Send() (*GetEncryptionConfigOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetEncryptionConfigOutput), nil
+}
+
+// GetEncryptionConfigRequest returns a request value for making API operation for
+// AWS X-Ray.
+//
+// Retrieves the current encryption configuration for X-Ray data.
+//
+//    // Example sending a request using the GetEncryptionConfigRequest method.
+//    req := client.GetEncryptionConfigRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetEncryptionConfig
+func (c *XRay) GetEncryptionConfigRequest(input *GetEncryptionConfigInput) GetEncryptionConfigRequest {
+	op := &aws.Operation{
+		Name:       opGetEncryptionConfig,
+		HTTPMethod: "POST",
+		HTTPPath:   "/EncryptionConfig",
+	}
+
+	if input == nil {
+		input = &GetEncryptionConfigInput{}
+	}
+
+	output := &GetEncryptionConfigOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEncryptionConfigRequest{Request: req, Input: input, Copy: c.GetEncryptionConfigRequest}
 }
 
 const opGetServiceGraph = "GetServiceGraph"
@@ -63,6 +171,7 @@ const opGetServiceGraph = "GetServiceGraph"
 type GetServiceGraphRequest struct {
 	*aws.Request
 	Input *GetServiceGraphInput
+	Copy  func(*GetServiceGraphInput) GetServiceGraphRequest
 }
 
 // Send marshals and sends the GetServiceGraph API request.
@@ -97,14 +206,69 @@ func (c *XRay) GetServiceGraphRequest(input *GetServiceGraphInput) GetServiceGra
 		Name:       opGetServiceGraph,
 		HTTPMethod: "POST",
 		HTTPPath:   "/ServiceGraph",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
 		input = &GetServiceGraphInput{}
 	}
 
-	req := c.newRequest(op, input, &GetServiceGraphOutput{})
-	return GetServiceGraphRequest{Request: req, Input: input}
+	output := &GetServiceGraphOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetServiceGraphRequest{Request: req, Input: input, Copy: c.GetServiceGraphRequest}
+}
+
+// Paginate pages iterates over the pages of a GetServiceGraphRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a GetServiceGraph operation.
+//		req := client.GetServiceGraphRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetServiceGraphRequest) Paginate(opts ...aws.Option) GetServiceGraphPager {
+	return GetServiceGraphPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetServiceGraphInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// GetServiceGraphPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetServiceGraphPager struct {
+	aws.Pager
+}
+
+func (p *GetServiceGraphPager) CurrentPage() *GetServiceGraphOutput {
+	return p.Pager.CurrentPage().(*GetServiceGraphOutput)
 }
 
 const opGetTraceGraph = "GetTraceGraph"
@@ -113,6 +277,7 @@ const opGetTraceGraph = "GetTraceGraph"
 type GetTraceGraphRequest struct {
 	*aws.Request
 	Input *GetTraceGraphInput
+	Copy  func(*GetTraceGraphInput) GetTraceGraphRequest
 }
 
 // Send marshals and sends the GetTraceGraph API request.
@@ -143,14 +308,69 @@ func (c *XRay) GetTraceGraphRequest(input *GetTraceGraphInput) GetTraceGraphRequ
 		Name:       opGetTraceGraph,
 		HTTPMethod: "POST",
 		HTTPPath:   "/TraceGraph",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
 		input = &GetTraceGraphInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTraceGraphOutput{})
-	return GetTraceGraphRequest{Request: req, Input: input}
+	output := &GetTraceGraphOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTraceGraphRequest{Request: req, Input: input, Copy: c.GetTraceGraphRequest}
+}
+
+// Paginate pages iterates over the pages of a GetTraceGraphRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a GetTraceGraph operation.
+//		req := client.GetTraceGraphRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetTraceGraphRequest) Paginate(opts ...aws.Option) GetTraceGraphPager {
+	return GetTraceGraphPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetTraceGraphInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// GetTraceGraphPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetTraceGraphPager struct {
+	aws.Pager
+}
+
+func (p *GetTraceGraphPager) CurrentPage() *GetTraceGraphOutput {
+	return p.Pager.CurrentPage().(*GetTraceGraphOutput)
 }
 
 const opGetTraceSummaries = "GetTraceSummaries"
@@ -159,6 +379,7 @@ const opGetTraceSummaries = "GetTraceSummaries"
 type GetTraceSummariesRequest struct {
 	*aws.Request
 	Input *GetTraceSummariesInput
+	Copy  func(*GetTraceSummariesInput) GetTraceSummariesRequest
 }
 
 // Send marshals and sends the GetTraceSummaries API request.
@@ -205,14 +426,119 @@ func (c *XRay) GetTraceSummariesRequest(input *GetTraceSummariesInput) GetTraceS
 		Name:       opGetTraceSummaries,
 		HTTPMethod: "POST",
 		HTTPPath:   "/TraceSummaries",
+		Paginator: &aws.Paginator{
+			InputTokens:     []string{"NextToken"},
+			OutputTokens:    []string{"NextToken"},
+			LimitToken:      "",
+			TruncationToken: "",
+		},
 	}
 
 	if input == nil {
 		input = &GetTraceSummariesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTraceSummariesOutput{})
-	return GetTraceSummariesRequest{Request: req, Input: input}
+	output := &GetTraceSummariesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTraceSummariesRequest{Request: req, Input: input, Copy: c.GetTraceSummariesRequest}
+}
+
+// Paginate pages iterates over the pages of a GetTraceSummariesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
+//
+// Note: This operation can generate multiple requests to a service.
+//
+//    // Example iterating over at most 3 pages of a GetTraceSummaries operation.
+//		req := client.GetTraceSummariesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
+//
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetTraceSummariesRequest) Paginate(opts ...aws.Option) GetTraceSummariesPager {
+	return GetTraceSummariesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetTraceSummariesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
+
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
+		},
+	}
+}
+
+// GetTraceSummariesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetTraceSummariesPager struct {
+	aws.Pager
+}
+
+func (p *GetTraceSummariesPager) CurrentPage() *GetTraceSummariesOutput {
+	return p.Pager.CurrentPage().(*GetTraceSummariesOutput)
+}
+
+const opPutEncryptionConfig = "PutEncryptionConfig"
+
+// PutEncryptionConfigRequest is a API request type for the PutEncryptionConfig API operation.
+type PutEncryptionConfigRequest struct {
+	*aws.Request
+	Input *PutEncryptionConfigInput
+	Copy  func(*PutEncryptionConfigInput) PutEncryptionConfigRequest
+}
+
+// Send marshals and sends the PutEncryptionConfig API request.
+func (r PutEncryptionConfigRequest) Send() (*PutEncryptionConfigOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*PutEncryptionConfigOutput), nil
+}
+
+// PutEncryptionConfigRequest returns a request value for making API operation for
+// AWS X-Ray.
+//
+// Updates the encryption configuration for X-Ray data.
+//
+//    // Example sending a request using the PutEncryptionConfigRequest method.
+//    req := client.PutEncryptionConfigRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutEncryptionConfig
+func (c *XRay) PutEncryptionConfigRequest(input *PutEncryptionConfigInput) PutEncryptionConfigRequest {
+	op := &aws.Operation{
+		Name:       opPutEncryptionConfig,
+		HTTPMethod: "POST",
+		HTTPPath:   "/PutEncryptionConfig",
+	}
+
+	if input == nil {
+		input = &PutEncryptionConfigInput{}
+	}
+
+	output := &PutEncryptionConfigOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutEncryptionConfigRequest{Request: req, Input: input, Copy: c.PutEncryptionConfigRequest}
 }
 
 const opPutTelemetryRecords = "PutTelemetryRecords"
@@ -221,6 +547,7 @@ const opPutTelemetryRecords = "PutTelemetryRecords"
 type PutTelemetryRecordsRequest struct {
 	*aws.Request
 	Input *PutTelemetryRecordsInput
+	Copy  func(*PutTelemetryRecordsInput) PutTelemetryRecordsRequest
 }
 
 // Send marshals and sends the PutTelemetryRecords API request.
@@ -257,8 +584,11 @@ func (c *XRay) PutTelemetryRecordsRequest(input *PutTelemetryRecordsInput) PutTe
 		input = &PutTelemetryRecordsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutTelemetryRecordsOutput{})
-	return PutTelemetryRecordsRequest{Request: req, Input: input}
+	output := &PutTelemetryRecordsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutTelemetryRecordsRequest{Request: req, Input: input, Copy: c.PutTelemetryRecordsRequest}
 }
 
 const opPutTraceSegments = "PutTraceSegments"
@@ -267,6 +597,7 @@ const opPutTraceSegments = "PutTraceSegments"
 type PutTraceSegmentsRequest struct {
 	*aws.Request
 	Input *PutTraceSegmentsInput
+	Copy  func(*PutTraceSegmentsInput) PutTraceSegmentsRequest
 }
 
 // Send marshals and sends the PutTraceSegments API request.
@@ -288,7 +619,7 @@ func (r PutTraceSegmentsRequest) Send() (*PutTraceSegmentsOutput, error) {
 // of subsegments.
 //
 // Segments must include the following fields. For the full segment document
-// schema, see AWS X-Ray Segment Documents (http://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html)
+// schema, see AWS X-Ray Segment Documents (https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html)
 // in the AWS X-Ray Developer Guide.
 //
 // Required Segment Document Fields
@@ -348,8 +679,11 @@ func (c *XRay) PutTraceSegmentsRequest(input *PutTraceSegmentsInput) PutTraceSeg
 		input = &PutTraceSegmentsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutTraceSegmentsOutput{})
-	return PutTraceSegmentsRequest{Request: req, Input: input}
+	output := &PutTraceSegmentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutTraceSegmentsRequest{Request: req, Input: input, Copy: c.PutTraceSegmentsRequest}
 }
 
 // An alias for an edge.
@@ -361,7 +695,7 @@ type Alias struct {
 	Name *string `type:"string"`
 
 	// A list of names for the alias, including the canonical name.
-	Names []*string `type:"list"`
+	Names []string `type:"list"`
 
 	// The type of the alias.
 	Type *string `type:"string"`
@@ -377,22 +711,33 @@ func (s Alias) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *Alias) SetName(v string) *Alias {
-	s.Name = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Alias) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Name != nil {
+		v := *s.Name
 
-// SetNames sets the Names field's value.
-func (s *Alias) SetNames(v []*string) *Alias {
-	s.Names = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Names) > 0 {
+		v := s.Names
 
-// SetType sets the Type field's value.
-func (s *Alias) SetType(v string) *Alias {
-	s.Type = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Names", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Value of a segment annotation. Has one of three value types: Number, Boolean
@@ -421,22 +766,27 @@ func (s AnnotationValue) GoString() string {
 	return s.String()
 }
 
-// SetBooleanValue sets the BooleanValue field's value.
-func (s *AnnotationValue) SetBooleanValue(v bool) *AnnotationValue {
-	s.BooleanValue = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s AnnotationValue) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BooleanValue != nil {
+		v := *s.BooleanValue
 
-// SetNumberValue sets the NumberValue field's value.
-func (s *AnnotationValue) SetNumberValue(v float64) *AnnotationValue {
-	s.NumberValue = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "BooleanValue", protocol.BoolValue(v), metadata)
+	}
+	if s.NumberValue != nil {
+		v := *s.NumberValue
 
-// SetStringValue sets the StringValue field's value.
-func (s *AnnotationValue) SetStringValue(v string) *AnnotationValue {
-	s.StringValue = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NumberValue", protocol.Float64Value(v), metadata)
+	}
+	if s.StringValue != nil {
+		v := *s.StringValue
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StringValue", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/BackendConnectionErrors
@@ -466,40 +816,45 @@ func (s BackendConnectionErrors) GoString() string {
 	return s.String()
 }
 
-// SetConnectionRefusedCount sets the ConnectionRefusedCount field's value.
-func (s *BackendConnectionErrors) SetConnectionRefusedCount(v int64) *BackendConnectionErrors {
-	s.ConnectionRefusedCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BackendConnectionErrors) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ConnectionRefusedCount != nil {
+		v := *s.ConnectionRefusedCount
 
-// SetHTTPCode4XXCount sets the HTTPCode4XXCount field's value.
-func (s *BackendConnectionErrors) SetHTTPCode4XXCount(v int64) *BackendConnectionErrors {
-	s.HTTPCode4XXCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ConnectionRefusedCount", protocol.Int64Value(v), metadata)
+	}
+	if s.HTTPCode4XXCount != nil {
+		v := *s.HTTPCode4XXCount
 
-// SetHTTPCode5XXCount sets the HTTPCode5XXCount field's value.
-func (s *BackendConnectionErrors) SetHTTPCode5XXCount(v int64) *BackendConnectionErrors {
-	s.HTTPCode5XXCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HTTPCode4XXCount", protocol.Int64Value(v), metadata)
+	}
+	if s.HTTPCode5XXCount != nil {
+		v := *s.HTTPCode5XXCount
 
-// SetOtherCount sets the OtherCount field's value.
-func (s *BackendConnectionErrors) SetOtherCount(v int64) *BackendConnectionErrors {
-	s.OtherCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HTTPCode5XXCount", protocol.Int64Value(v), metadata)
+	}
+	if s.OtherCount != nil {
+		v := *s.OtherCount
 
-// SetTimeoutCount sets the TimeoutCount field's value.
-func (s *BackendConnectionErrors) SetTimeoutCount(v int64) *BackendConnectionErrors {
-	s.TimeoutCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OtherCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TimeoutCount != nil {
+		v := *s.TimeoutCount
 
-// SetUnknownHostCount sets the UnknownHostCount field's value.
-func (s *BackendConnectionErrors) SetUnknownHostCount(v int64) *BackendConnectionErrors {
-	s.UnknownHostCount = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TimeoutCount", protocol.Int64Value(v), metadata)
+	}
+	if s.UnknownHostCount != nil {
+		v := *s.UnknownHostCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UnknownHostCount", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/BatchGetTracesRequest
@@ -512,7 +867,7 @@ type BatchGetTracesInput struct {
 	// Specify the trace IDs of requests for which to retrieve segments.
 	//
 	// TraceIds is a required field
-	TraceIds []*string `type:"list" required:"true"`
+	TraceIds []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -539,30 +894,44 @@ func (s *BatchGetTracesInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchGetTracesInput) SetNextToken(v string) *BatchGetTracesInput {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchGetTracesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTraceIds sets the TraceIds field's value.
-func (s *BatchGetTracesInput) SetTraceIds(v []*string) *BatchGetTracesInput {
-	s.TraceIds = v
-	return s
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TraceIds) > 0 {
+		v := s.TraceIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TraceIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/BatchGetTracesResult
 type BatchGetTracesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Pagination token. Not used.
 	NextToken *string `type:"string"`
 
 	// Full traces for the specified requests.
-	Traces []*Trace `type:"list"`
+	Traces []Trace `type:"list"`
 
 	// Trace IDs of requests that haven't been processed.
-	UnprocessedTraceIds []*string `type:"list"`
+	UnprocessedTraceIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -575,22 +944,44 @@ func (s BatchGetTracesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *BatchGetTracesOutput) SetNextToken(v string) *BatchGetTracesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchGetTracesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetTraces sets the Traces field's value.
-func (s *BatchGetTracesOutput) SetTraces(v []*Trace) *BatchGetTracesOutput {
-	s.Traces = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s BatchGetTracesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetUnprocessedTraceIds sets the UnprocessedTraceIds field's value.
-func (s *BatchGetTracesOutput) SetUnprocessedTraceIds(v []*string) *BatchGetTracesOutput {
-	s.UnprocessedTraceIds = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Traces) > 0 {
+		v := s.Traces
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Traces", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.UnprocessedTraceIds) > 0 {
+		v := s.UnprocessedTraceIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "UnprocessedTraceIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Information about a connection between two services.
@@ -599,7 +990,7 @@ type Edge struct {
 	_ struct{} `type:"structure"`
 
 	// Aliases for the edge.
-	Aliases []*Alias `type:"list"`
+	Aliases []Alias `type:"list"`
 
 	// The end time of the last segment on the edge.
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -608,7 +999,7 @@ type Edge struct {
 	ReferenceId *int64 `type:"integer"`
 
 	// A histogram that maps the spread of client response times on an edge.
-	ResponseTimeHistogram []*HistogramEntry `type:"list"`
+	ResponseTimeHistogram []HistogramEntry `type:"list"`
 
 	// The start time of the first segment on the edge.
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -627,40 +1018,57 @@ func (s Edge) GoString() string {
 	return s.String()
 }
 
-// SetAliases sets the Aliases field's value.
-func (s *Edge) SetAliases(v []*Alias) *Edge {
-	s.Aliases = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Edge) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Aliases) > 0 {
+		v := s.Aliases
 
-// SetEndTime sets the EndTime field's value.
-func (s *Edge) SetEndTime(v time.Time) *Edge {
-	s.EndTime = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Aliases", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetReferenceId sets the ReferenceId field's value.
-func (s *Edge) SetReferenceId(v int64) *Edge {
-	s.ReferenceId = &v
-	return s
-}
+	}
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetResponseTimeHistogram sets the ResponseTimeHistogram field's value.
-func (s *Edge) SetResponseTimeHistogram(v []*HistogramEntry) *Edge {
-	s.ResponseTimeHistogram = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.ReferenceId != nil {
+		v := *s.ReferenceId
 
-// SetStartTime sets the StartTime field's value.
-func (s *Edge) SetStartTime(v time.Time) *Edge {
-	s.StartTime = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReferenceId", protocol.Int64Value(v), metadata)
+	}
+	if len(s.ResponseTimeHistogram) > 0 {
+		v := s.ResponseTimeHistogram
 
-// SetSummaryStatistics sets the SummaryStatistics field's value.
-func (s *Edge) SetSummaryStatistics(v *EdgeStatistics) *Edge {
-	s.SummaryStatistics = v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ResponseTimeHistogram", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.SummaryStatistics != nil {
+		v := s.SummaryStatistics
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SummaryStatistics", v, metadata)
+	}
+	return nil
 }
 
 // Response statistics for an edge.
@@ -694,34 +1102,90 @@ func (s EdgeStatistics) GoString() string {
 	return s.String()
 }
 
-// SetErrorStatistics sets the ErrorStatistics field's value.
-func (s *EdgeStatistics) SetErrorStatistics(v *ErrorStatistics) *EdgeStatistics {
-	s.ErrorStatistics = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EdgeStatistics) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorStatistics != nil {
+		v := s.ErrorStatistics
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ErrorStatistics", v, metadata)
+	}
+	if s.FaultStatistics != nil {
+		v := s.FaultStatistics
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FaultStatistics", v, metadata)
+	}
+	if s.OkCount != nil {
+		v := *s.OkCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OkCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalCount != nil {
+		v := *s.TotalCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalResponseTime != nil {
+		v := *s.TotalResponseTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalResponseTime", protocol.Float64Value(v), metadata)
+	}
+	return nil
 }
 
-// SetFaultStatistics sets the FaultStatistics field's value.
-func (s *EdgeStatistics) SetFaultStatistics(v *FaultStatistics) *EdgeStatistics {
-	s.FaultStatistics = v
-	return s
+// A configuration document that specifies encryption configuration settings.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/EncryptionConfig
+type EncryptionConfig struct {
+	_ struct{} `type:"structure"`
+
+	// The ID of the customer master key (CMK) used for encryption, if applicable.
+	KeyId *string `type:"string"`
+
+	// The encryption status. After modifying encryption configuration with PutEncryptionConfig,
+	// the status can be UPDATING for up to one hour before X-Ray starts encrypting
+	// data with the new key.
+	Status EncryptionStatus `type:"string" enum:"true"`
+
+	// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE
+	// for default encryption.
+	Type EncryptionType `type:"string" enum:"true"`
 }
 
-// SetOkCount sets the OkCount field's value.
-func (s *EdgeStatistics) SetOkCount(v int64) *EdgeStatistics {
-	s.OkCount = &v
-	return s
+// String returns the string representation
+func (s EncryptionConfig) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetTotalCount sets the TotalCount field's value.
-func (s *EdgeStatistics) SetTotalCount(v int64) *EdgeStatistics {
-	s.TotalCount = &v
-	return s
+// GoString returns the string representation
+func (s EncryptionConfig) GoString() string {
+	return s.String()
 }
 
-// SetTotalResponseTime sets the TotalResponseTime field's value.
-func (s *EdgeStatistics) SetTotalResponseTime(v float64) *EdgeStatistics {
-	s.TotalResponseTime = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s EncryptionConfig) MarshalFields(e protocol.FieldEncoder) error {
+	if s.KeyId != nil {
+		v := *s.KeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Status) > 0 {
+		v := s.Status
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Status", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
 }
 
 // Information about requests that failed with a 4xx Client Error status code.
@@ -750,22 +1214,27 @@ func (s ErrorStatistics) GoString() string {
 	return s.String()
 }
 
-// SetOtherCount sets the OtherCount field's value.
-func (s *ErrorStatistics) SetOtherCount(v int64) *ErrorStatistics {
-	s.OtherCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ErrorStatistics) MarshalFields(e protocol.FieldEncoder) error {
+	if s.OtherCount != nil {
+		v := *s.OtherCount
 
-// SetThrottleCount sets the ThrottleCount field's value.
-func (s *ErrorStatistics) SetThrottleCount(v int64) *ErrorStatistics {
-	s.ThrottleCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OtherCount", protocol.Int64Value(v), metadata)
+	}
+	if s.ThrottleCount != nil {
+		v := *s.ThrottleCount
 
-// SetTotalCount sets the TotalCount field's value.
-func (s *ErrorStatistics) SetTotalCount(v int64) *ErrorStatistics {
-	s.TotalCount = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ThrottleCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalCount != nil {
+		v := *s.TotalCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalCount", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // Information about requests that failed with a 5xx Server Error status code.
@@ -791,16 +1260,78 @@ func (s FaultStatistics) GoString() string {
 	return s.String()
 }
 
-// SetOtherCount sets the OtherCount field's value.
-func (s *FaultStatistics) SetOtherCount(v int64) *FaultStatistics {
-	s.OtherCount = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s FaultStatistics) MarshalFields(e protocol.FieldEncoder) error {
+	if s.OtherCount != nil {
+		v := *s.OtherCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OtherCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalCount != nil {
+		v := *s.TotalCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalCount", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
-// SetTotalCount sets the TotalCount field's value.
-func (s *FaultStatistics) SetTotalCount(v int64) *FaultStatistics {
-	s.TotalCount = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetEncryptionConfigRequest
+type GetEncryptionConfigInput struct {
+	_ struct{} `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetEncryptionConfigInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetEncryptionConfigInput) GoString() string {
+	return s.String()
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEncryptionConfigInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetEncryptionConfigResult
+type GetEncryptionConfigOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The encryption configuration document.
+	EncryptionConfig *EncryptionConfig `type:"structure"`
+}
+
+// String returns the string representation
+func (s GetEncryptionConfigOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetEncryptionConfigOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEncryptionConfigOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetEncryptionConfigOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EncryptionConfig != nil {
+		v := s.EncryptionConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EncryptionConfig", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetServiceGraphRequest
@@ -849,27 +1380,35 @@ func (s *GetServiceGraphInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetServiceGraphInput) SetEndTime(v time.Time) *GetServiceGraphInput {
-	s.EndTime = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetServiceGraphInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetServiceGraphInput) SetNextToken(v string) *GetServiceGraphInput {
-	s.NextToken = &v
-	return s
-}
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetStartTime sets the StartTime field's value.
-func (s *GetServiceGraphInput) SetStartTime(v time.Time) *GetServiceGraphInput {
-	s.StartTime = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetServiceGraphResult
 type GetServiceGraphOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The end of the time frame for which the graph was generated.
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -879,7 +1418,7 @@ type GetServiceGraphOutput struct {
 
 	// The services that have processed a traced request during the specified time
 	// frame.
-	Services []*Service `type:"list"`
+	Services []Service `type:"list"`
 
 	// The start of the time frame for which the graph was generated.
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -895,28 +1434,44 @@ func (s GetServiceGraphOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetServiceGraphOutput) SetEndTime(v time.Time) *GetServiceGraphOutput {
-	s.EndTime = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetServiceGraphOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetServiceGraphOutput) SetNextToken(v string) *GetServiceGraphOutput {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetServiceGraphOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetServices sets the Services field's value.
-func (s *GetServiceGraphOutput) SetServices(v []*Service) *GetServiceGraphOutput {
-	s.Services = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetStartTime sets the StartTime field's value.
-func (s *GetServiceGraphOutput) SetStartTime(v time.Time) *GetServiceGraphOutput {
-	s.StartTime = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Services) > 0 {
+		v := s.Services
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Services", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetTraceGraphRequest
@@ -929,7 +1484,7 @@ type GetTraceGraphInput struct {
 	// Trace IDs of requests for which to generate a service graph.
 	//
 	// TraceIds is a required field
-	TraceIds []*string `type:"list" required:"true"`
+	TraceIds []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -956,27 +1511,41 @@ func (s *GetTraceGraphInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetTraceGraphInput) SetNextToken(v string) *GetTraceGraphInput {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetTraceGraphInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetTraceIds sets the TraceIds field's value.
-func (s *GetTraceGraphInput) SetTraceIds(v []*string) *GetTraceGraphInput {
-	s.TraceIds = v
-	return s
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TraceIds) > 0 {
+		v := s.TraceIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TraceIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetTraceGraphResult
 type GetTraceGraphOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Pagination token. Not used.
 	NextToken *string `type:"string"`
 
 	// The services that have processed one of the specified requests.
-	Services []*Service `type:"list"`
+	Services []Service `type:"list"`
 }
 
 // String returns the string representation
@@ -989,16 +1558,32 @@ func (s GetTraceGraphOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetTraceGraphOutput) SetNextToken(v string) *GetTraceGraphOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTraceGraphOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetServices sets the Services field's value.
-func (s *GetTraceGraphOutput) SetServices(v []*Service) *GetTraceGraphOutput {
-	s.Services = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetTraceGraphOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.NextToken != nil {
+		v := *s.NextToken
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Services) > 0 {
+		v := s.Services
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Services", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetTraceSummariesRequest
@@ -1012,7 +1597,7 @@ type GetTraceSummariesInput struct {
 
 	// Specify a filter expression to retrieve trace summaries for services or requests
 	// that meet certain requirements.
-	FilterExpression *string `type:"string"`
+	FilterExpression *string `min:"1" type:"string"`
 
 	// Specify the pagination token returned by a previous request to retrieve the
 	// next page of results.
@@ -1044,6 +1629,9 @@ func (s *GetTraceSummariesInput) Validate() error {
 	if s.EndTime == nil {
 		invalidParams.Add(aws.NewErrParamRequired("EndTime"))
 	}
+	if s.FilterExpression != nil && len(*s.FilterExpression) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("FilterExpression", 1))
+	}
 
 	if s.StartTime == nil {
 		invalidParams.Add(aws.NewErrParamRequired("StartTime"))
@@ -1055,39 +1643,47 @@ func (s *GetTraceSummariesInput) Validate() error {
 	return nil
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetTraceSummariesInput) SetEndTime(v time.Time) *GetTraceSummariesInput {
-	s.EndTime = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetTraceSummariesInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetFilterExpression sets the FilterExpression field's value.
-func (s *GetTraceSummariesInput) SetFilterExpression(v string) *GetTraceSummariesInput {
-	s.FilterExpression = &v
-	return s
-}
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetTraceSummariesInput) SetNextToken(v string) *GetTraceSummariesInput {
-	s.NextToken = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.FilterExpression != nil {
+		v := *s.FilterExpression
 
-// SetSampling sets the Sampling field's value.
-func (s *GetTraceSummariesInput) SetSampling(v bool) *GetTraceSummariesInput {
-	s.Sampling = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "FilterExpression", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetStartTime sets the StartTime field's value.
-func (s *GetTraceSummariesInput) SetStartTime(v time.Time) *GetTraceSummariesInput {
-	s.StartTime = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Sampling != nil {
+		v := *s.Sampling
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Sampling", protocol.BoolValue(v), metadata)
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/GetTraceSummariesResult
 type GetTraceSummariesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The start time of this page of results.
 	ApproximateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -1098,9 +1694,10 @@ type GetTraceSummariesOutput struct {
 	NextToken *string `type:"string"`
 
 	// Trace IDs and metadata for traces that were found in the specified time frame.
-	TraceSummaries []*TraceSummary `type:"list"`
+	TraceSummaries []TraceSummary `type:"list"`
 
-	// The number of traces that were processed to get this set of summaries.
+	// The total number of traces processed, including traces that did not match
+	// the specified filter expression.
 	TracesProcessedCount *int64 `type:"long"`
 }
 
@@ -1114,28 +1711,44 @@ func (s GetTraceSummariesOutput) GoString() string {
 	return s.String()
 }
 
-// SetApproximateTime sets the ApproximateTime field's value.
-func (s *GetTraceSummariesOutput) SetApproximateTime(v time.Time) *GetTraceSummariesOutput {
-	s.ApproximateTime = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTraceSummariesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetTraceSummariesOutput) SetNextToken(v string) *GetTraceSummariesOutput {
-	s.NextToken = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s GetTraceSummariesOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ApproximateTime != nil {
+		v := *s.ApproximateTime
 
-// SetTraceSummaries sets the TraceSummaries field's value.
-func (s *GetTraceSummariesOutput) SetTraceSummaries(v []*TraceSummary) *GetTraceSummariesOutput {
-	s.TraceSummaries = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ApproximateTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.NextToken != nil {
+		v := *s.NextToken
 
-// SetTracesProcessedCount sets the TracesProcessedCount field's value.
-func (s *GetTraceSummariesOutput) SetTracesProcessedCount(v int64) *GetTraceSummariesOutput {
-	s.TracesProcessedCount = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "NextToken", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TraceSummaries) > 0 {
+		v := s.TraceSummaries
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TraceSummaries", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.TracesProcessedCount != nil {
+		v := *s.TracesProcessedCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TracesProcessedCount", protocol.Int64Value(v), metadata)
+	}
+	return nil
 }
 
 // An entry in a histogram for a statistic. A histogram maps the range of observed
@@ -1161,16 +1774,21 @@ func (s HistogramEntry) GoString() string {
 	return s.String()
 }
 
-// SetCount sets the Count field's value.
-func (s *HistogramEntry) SetCount(v int64) *HistogramEntry {
-	s.Count = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s HistogramEntry) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Count != nil {
+		v := *s.Count
 
-// SetValue sets the Value field's value.
-func (s *HistogramEntry) SetValue(v float64) *HistogramEntry {
-	s.Value = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Count", protocol.Int64Value(v), metadata)
+	}
+	if s.Value != nil {
+		v := *s.Value
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Value", protocol.Float64Value(v), metadata)
+	}
+	return nil
 }
 
 // Information about an HTTP request.
@@ -1204,34 +1822,143 @@ func (s Http) GoString() string {
 	return s.String()
 }
 
-// SetClientIp sets the ClientIp field's value.
-func (s *Http) SetClientIp(v string) *Http {
-	s.ClientIp = &v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Http) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ClientIp != nil {
+		v := *s.ClientIp
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ClientIp", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.HttpMethod != nil {
+		v := *s.HttpMethod
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HttpMethod", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.HttpStatus != nil {
+		v := *s.HttpStatus
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HttpStatus", protocol.Int64Value(v), metadata)
+	}
+	if s.HttpURL != nil {
+		v := *s.HttpURL
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HttpURL", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.UserAgent != nil {
+		v := *s.UserAgent
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UserAgent", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
-// SetHttpMethod sets the HttpMethod field's value.
-func (s *Http) SetHttpMethod(v string) *Http {
-	s.HttpMethod = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutEncryptionConfigRequest
+type PutEncryptionConfigInput struct {
+	_ struct{} `type:"structure"`
+
+	// An AWS KMS customer master key (CMK) in one of the following formats:
+	//
+	//    * Alias - The name of the key. For example, alias/MyKey.
+	//
+	//    * Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.
+	//
+	//    * ARN - The full Amazon Resource Name of the key ID or alias. For example,
+	//    arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456.
+	//    Use this format to specify a key in a different account.
+	//
+	// Omit this key if you set Type to NONE.
+	KeyId *string `min:"1" type:"string"`
+
+	// The type of encryption. Set to KMS to use your own key for encryption. Set
+	// to NONE for default encryption.
+	//
+	// Type is a required field
+	Type EncryptionType `type:"string" required:"true" enum:"true"`
 }
 
-// SetHttpStatus sets the HttpStatus field's value.
-func (s *Http) SetHttpStatus(v int64) *Http {
-	s.HttpStatus = &v
-	return s
+// String returns the string representation
+func (s PutEncryptionConfigInput) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetHttpURL sets the HttpURL field's value.
-func (s *Http) SetHttpURL(v string) *Http {
-	s.HttpURL = &v
-	return s
+// GoString returns the string representation
+func (s PutEncryptionConfigInput) GoString() string {
+	return s.String()
 }
 
-// SetUserAgent sets the UserAgent field's value.
-func (s *Http) SetUserAgent(v string) *Http {
-	s.UserAgent = &v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutEncryptionConfigInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PutEncryptionConfigInput"}
+	if s.KeyId != nil && len(*s.KeyId) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("KeyId", 1))
+	}
+	if len(s.Type) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("Type"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutEncryptionConfigInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if s.KeyId != nil {
+		v := *s.KeyId
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "KeyId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Type) > 0 {
+		v := s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: v}, metadata)
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutEncryptionConfigResult
+type PutEncryptionConfigOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The new encryption configuration.
+	EncryptionConfig *EncryptionConfig `type:"structure"`
+}
+
+// String returns the string representation
+func (s PutEncryptionConfigOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutEncryptionConfigOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutEncryptionConfigOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutEncryptionConfigOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if s.EncryptionConfig != nil {
+		v := s.EncryptionConfig
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "EncryptionConfig", v, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutTelemetryRecordsRequest
@@ -1245,7 +1972,7 @@ type PutTelemetryRecordsInput struct {
 	ResourceARN *string `type:"string"`
 
 	// TelemetryRecords is a required field
-	TelemetryRecords []*TelemetryRecord `type:"list" required:"true"`
+	TelemetryRecords []TelemetryRecord `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1265,6 +1992,13 @@ func (s *PutTelemetryRecordsInput) Validate() error {
 	if s.TelemetryRecords == nil {
 		invalidParams.Add(aws.NewErrParamRequired("TelemetryRecords"))
 	}
+	if s.TelemetryRecords != nil {
+		for i, v := range s.TelemetryRecords {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TelemetryRecords", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -1272,33 +2006,47 @@ func (s *PutTelemetryRecordsInput) Validate() error {
 	return nil
 }
 
-// SetEC2InstanceId sets the EC2InstanceId field's value.
-func (s *PutTelemetryRecordsInput) SetEC2InstanceId(v string) *PutTelemetryRecordsInput {
-	s.EC2InstanceId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutTelemetryRecordsInput) MarshalFields(e protocol.FieldEncoder) error {
 
-// SetHostname sets the Hostname field's value.
-func (s *PutTelemetryRecordsInput) SetHostname(v string) *PutTelemetryRecordsInput {
-	s.Hostname = &v
-	return s
-}
+	if s.EC2InstanceId != nil {
+		v := *s.EC2InstanceId
 
-// SetResourceARN sets the ResourceARN field's value.
-func (s *PutTelemetryRecordsInput) SetResourceARN(v string) *PutTelemetryRecordsInput {
-	s.ResourceARN = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EC2InstanceId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Hostname != nil {
+		v := *s.Hostname
 
-// SetTelemetryRecords sets the TelemetryRecords field's value.
-func (s *PutTelemetryRecordsInput) SetTelemetryRecords(v []*TelemetryRecord) *PutTelemetryRecordsInput {
-	s.TelemetryRecords = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Hostname", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.ResourceARN != nil {
+		v := *s.ResourceARN
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResourceARN", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.TelemetryRecords) > 0 {
+		v := s.TelemetryRecords
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TelemetryRecords", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutTelemetryRecordsResult
 type PutTelemetryRecordsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1311,6 +2059,16 @@ func (s PutTelemetryRecordsOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutTelemetryRecordsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutTelemetryRecordsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	return nil
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutTraceSegmentsRequest
 type PutTraceSegmentsInput struct {
 	_ struct{} `type:"structure"`
@@ -1318,7 +2076,7 @@ type PutTraceSegmentsInput struct {
 	// A string containing a JSON document defining one or more segments or subsegments.
 	//
 	// TraceSegmentDocuments is a required field
-	TraceSegmentDocuments []*string `type:"list" required:"true"`
+	TraceSegmentDocuments []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1345,18 +2103,32 @@ func (s *PutTraceSegmentsInput) Validate() error {
 	return nil
 }
 
-// SetTraceSegmentDocuments sets the TraceSegmentDocuments field's value.
-func (s *PutTraceSegmentsInput) SetTraceSegmentDocuments(v []*string) *PutTraceSegmentsInput {
-	s.TraceSegmentDocuments = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutTraceSegmentsInput) MarshalFields(e protocol.FieldEncoder) error {
+
+	if len(s.TraceSegmentDocuments) > 0 {
+		v := s.TraceSegmentDocuments
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "TraceSegmentDocuments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/PutTraceSegmentsResult
 type PutTraceSegmentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Segments that failed processing.
-	UnprocessedTraceSegments []*UnprocessedTraceSegment `type:"list"`
+	UnprocessedTraceSegments []UnprocessedTraceSegment `type:"list"`
 }
 
 // String returns the string representation
@@ -1369,25 +2141,44 @@ func (s PutTraceSegmentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetUnprocessedTraceSegments sets the UnprocessedTraceSegments field's value.
-func (s *PutTraceSegmentsOutput) SetUnprocessedTraceSegments(v []*UnprocessedTraceSegment) *PutTraceSegmentsOutput {
-	s.UnprocessedTraceSegments = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutTraceSegmentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s PutTraceSegmentsOutput) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.UnprocessedTraceSegments) > 0 {
+		v := s.UnprocessedTraceSegments
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "UnprocessedTraceSegments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // A segment from a trace that has been ingested by the X-Ray service. The segment
 // can be compiled from documents uploaded with PutTraceSegments, or an inferred
 // segment for a downstream service, generated from a subsegment sent by the
 // service that called it.
+//
+// For the full segment document schema, see AWS X-Ray Segment Documents (https://docs.aws.amazon.com/xray/latest/devguide/xray-api-segmentdocuments.html)
+// in the AWS X-Ray Developer Guide.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/Segment
 type Segment struct {
 	_ struct{} `type:"structure"`
 
-	// The segment document
+	// The segment document.
 	Document *string `min:"1" type:"string"`
 
 	// The segment's ID.
-	Id *string `min:"16" type:"string"`
+	Id *string `type:"string"`
 }
 
 // String returns the string representation
@@ -1400,16 +2191,21 @@ func (s Segment) GoString() string {
 	return s.String()
 }
 
-// SetDocument sets the Document field's value.
-func (s *Segment) SetDocument(v string) *Segment {
-	s.Document = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Segment) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Document != nil {
+		v := *s.Document
 
-// SetId sets the Id field's value.
-func (s *Segment) SetId(v string) *Segment {
-	s.Id = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Document", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Information about an application that processed requests, users that made
@@ -1423,10 +2219,10 @@ type Service struct {
 	AccountId *string `type:"string"`
 
 	// A histogram that maps the spread of service durations.
-	DurationHistogram []*HistogramEntry `type:"list"`
+	DurationHistogram []HistogramEntry `type:"list"`
 
 	// Connections to downstream services.
-	Edges []*Edge `type:"list"`
+	Edges []Edge `type:"list"`
 
 	// The end time of the last segment that the service generated.
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -1435,13 +2231,13 @@ type Service struct {
 	Name *string `type:"string"`
 
 	// A list of names for the service, including the canonical name.
-	Names []*string `type:"list"`
+	Names []string `type:"list"`
 
 	// Identifier for the service. Unique within the service map.
 	ReferenceId *int64 `type:"integer"`
 
 	// A histogram that maps the spread of service response times.
-	ResponseTimeHistogram []*HistogramEntry `type:"list"`
+	ResponseTimeHistogram []HistogramEntry `type:"list"`
 
 	// Indicates that the service was the first service to process a request.
 	Root *bool `type:"boolean"`
@@ -1481,82 +2277,111 @@ func (s Service) GoString() string {
 	return s.String()
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *Service) SetAccountId(v string) *Service {
-	s.AccountId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Service) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccountId != nil {
+		v := *s.AccountId
 
-// SetDurationHistogram sets the DurationHistogram field's value.
-func (s *Service) SetDurationHistogram(v []*HistogramEntry) *Service {
-	s.DurationHistogram = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AccountId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.DurationHistogram) > 0 {
+		v := s.DurationHistogram
 
-// SetEdges sets the Edges field's value.
-func (s *Service) SetEdges(v []*Edge) *Service {
-	s.Edges = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "DurationHistogram", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetEndTime sets the EndTime field's value.
-func (s *Service) SetEndTime(v time.Time) *Service {
-	s.EndTime = &v
-	return s
-}
+	}
+	if len(s.Edges) > 0 {
+		v := s.Edges
 
-// SetName sets the Name field's value.
-func (s *Service) SetName(v string) *Service {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Edges", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetNames sets the Names field's value.
-func (s *Service) SetNames(v []*string) *Service {
-	s.Names = v
-	return s
-}
+	}
+	if s.EndTime != nil {
+		v := *s.EndTime
 
-// SetReferenceId sets the ReferenceId field's value.
-func (s *Service) SetReferenceId(v int64) *Service {
-	s.ReferenceId = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "EndTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetResponseTimeHistogram sets the ResponseTimeHistogram field's value.
-func (s *Service) SetResponseTimeHistogram(v []*HistogramEntry) *Service {
-	s.ResponseTimeHistogram = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Names) > 0 {
+		v := s.Names
 
-// SetRoot sets the Root field's value.
-func (s *Service) SetRoot(v bool) *Service {
-	s.Root = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Names", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
 
-// SetStartTime sets the StartTime field's value.
-func (s *Service) SetStartTime(v time.Time) *Service {
-	s.StartTime = &v
-	return s
-}
+	}
+	if s.ReferenceId != nil {
+		v := *s.ReferenceId
 
-// SetState sets the State field's value.
-func (s *Service) SetState(v string) *Service {
-	s.State = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ReferenceId", protocol.Int64Value(v), metadata)
+	}
+	if len(s.ResponseTimeHistogram) > 0 {
+		v := s.ResponseTimeHistogram
 
-// SetSummaryStatistics sets the SummaryStatistics field's value.
-func (s *Service) SetSummaryStatistics(v *ServiceStatistics) *Service {
-	s.SummaryStatistics = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ResponseTimeHistogram", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
 
-// SetType sets the Type field's value.
-func (s *Service) SetType(v string) *Service {
-	s.Type = &v
-	return s
+	}
+	if s.Root != nil {
+		v := *s.Root
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Root", protocol.BoolValue(v), metadata)
+	}
+	if s.StartTime != nil {
+		v := *s.StartTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "StartTime", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	if s.State != nil {
+		v := *s.State
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "State", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.SummaryStatistics != nil {
+		v := s.SummaryStatistics
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "SummaryStatistics", v, metadata)
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/ServiceId
@@ -1567,7 +2392,7 @@ type ServiceId struct {
 
 	Name *string `type:"string"`
 
-	Names []*string `type:"list"`
+	Names []string `type:"list"`
 
 	Type *string `type:"string"`
 }
@@ -1582,28 +2407,39 @@ func (s ServiceId) GoString() string {
 	return s.String()
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *ServiceId) SetAccountId(v string) *ServiceId {
-	s.AccountId = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ServiceId) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AccountId != nil {
+		v := *s.AccountId
 
-// SetName sets the Name field's value.
-func (s *ServiceId) SetName(v string) *ServiceId {
-	s.Name = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "AccountId", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Name != nil {
+		v := *s.Name
 
-// SetNames sets the Names field's value.
-func (s *ServiceId) SetNames(v []*string) *ServiceId {
-	s.Names = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Name", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Names) > 0 {
+		v := s.Names
 
-// SetType sets the Type field's value.
-func (s *ServiceId) SetType(v string) *ServiceId {
-	s.Type = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Names", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddValue(protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v1)})
+		}
+		ls0.End()
+
+	}
+	if s.Type != nil {
+		v := *s.Type
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Type", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Response statistics for a service.
@@ -1637,34 +2473,39 @@ func (s ServiceStatistics) GoString() string {
 	return s.String()
 }
 
-// SetErrorStatistics sets the ErrorStatistics field's value.
-func (s *ServiceStatistics) SetErrorStatistics(v *ErrorStatistics) *ServiceStatistics {
-	s.ErrorStatistics = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ServiceStatistics) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorStatistics != nil {
+		v := s.ErrorStatistics
 
-// SetFaultStatistics sets the FaultStatistics field's value.
-func (s *ServiceStatistics) SetFaultStatistics(v *FaultStatistics) *ServiceStatistics {
-	s.FaultStatistics = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "ErrorStatistics", v, metadata)
+	}
+	if s.FaultStatistics != nil {
+		v := s.FaultStatistics
 
-// SetOkCount sets the OkCount field's value.
-func (s *ServiceStatistics) SetOkCount(v int64) *ServiceStatistics {
-	s.OkCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "FaultStatistics", v, metadata)
+	}
+	if s.OkCount != nil {
+		v := *s.OkCount
 
-// SetTotalCount sets the TotalCount field's value.
-func (s *ServiceStatistics) SetTotalCount(v int64) *ServiceStatistics {
-	s.TotalCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "OkCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalCount != nil {
+		v := *s.TotalCount
 
-// SetTotalResponseTime sets the TotalResponseTime field's value.
-func (s *ServiceStatistics) SetTotalResponseTime(v float64) *ServiceStatistics {
-	s.TotalResponseTime = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalCount", protocol.Int64Value(v), metadata)
+	}
+	if s.TotalResponseTime != nil {
+		v := *s.TotalResponseTime
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "TotalResponseTime", protocol.Float64Value(v), metadata)
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/xray-2016-04-12/TelemetryRecord
@@ -1681,7 +2522,8 @@ type TelemetryRecord struct {
 
 	SegmentsSpilloverCount *int64 `type:"integer"`
 
-	Timestamp *time.Time `type:"timestamp" timestampFormat:"unix"`
+	// Timestamp is a required field
+	Timestamp *time.Time `type:"timestamp" timestampFormat:"unix" required:"true"`
 }
 
 // String returns the string representation
@@ -1694,40 +2536,59 @@ func (s TelemetryRecord) GoString() string {
 	return s.String()
 }
 
-// SetBackendConnectionErrors sets the BackendConnectionErrors field's value.
-func (s *TelemetryRecord) SetBackendConnectionErrors(v *BackendConnectionErrors) *TelemetryRecord {
-	s.BackendConnectionErrors = v
-	return s
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *TelemetryRecord) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "TelemetryRecord"}
+
+	if s.Timestamp == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Timestamp"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
-// SetSegmentsReceivedCount sets the SegmentsReceivedCount field's value.
-func (s *TelemetryRecord) SetSegmentsReceivedCount(v int64) *TelemetryRecord {
-	s.SegmentsReceivedCount = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TelemetryRecord) MarshalFields(e protocol.FieldEncoder) error {
+	if s.BackendConnectionErrors != nil {
+		v := s.BackendConnectionErrors
 
-// SetSegmentsRejectedCount sets the SegmentsRejectedCount field's value.
-func (s *TelemetryRecord) SetSegmentsRejectedCount(v int64) *TelemetryRecord {
-	s.SegmentsRejectedCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "BackendConnectionErrors", v, metadata)
+	}
+	if s.SegmentsReceivedCount != nil {
+		v := *s.SegmentsReceivedCount
 
-// SetSegmentsSentCount sets the SegmentsSentCount field's value.
-func (s *TelemetryRecord) SetSegmentsSentCount(v int64) *TelemetryRecord {
-	s.SegmentsSentCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentsReceivedCount", protocol.Int64Value(v), metadata)
+	}
+	if s.SegmentsRejectedCount != nil {
+		v := *s.SegmentsRejectedCount
 
-// SetSegmentsSpilloverCount sets the SegmentsSpilloverCount field's value.
-func (s *TelemetryRecord) SetSegmentsSpilloverCount(v int64) *TelemetryRecord {
-	s.SegmentsSpilloverCount = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentsRejectedCount", protocol.Int64Value(v), metadata)
+	}
+	if s.SegmentsSentCount != nil {
+		v := *s.SegmentsSentCount
 
-// SetTimestamp sets the Timestamp field's value.
-func (s *TelemetryRecord) SetTimestamp(v time.Time) *TelemetryRecord {
-	s.Timestamp = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentsSentCount", protocol.Int64Value(v), metadata)
+	}
+	if s.SegmentsSpilloverCount != nil {
+		v := *s.SegmentsSpilloverCount
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "SegmentsSpilloverCount", protocol.Int64Value(v), metadata)
+	}
+	if s.Timestamp != nil {
+		v := *s.Timestamp
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Timestamp", protocol.TimeValue{V: v, Format: protocol.UnixTimeFormat}, metadata)
+	}
+	return nil
 }
 
 // A collection of segment documents with matching trace IDs.
@@ -1741,10 +2602,10 @@ type Trace struct {
 
 	// The unique identifier for the request that generated the trace's segments
 	// and subsegments.
-	Id *string `min:"35" type:"string"`
+	Id *string `min:"1" type:"string"`
 
 	// Segment documents for the segments and subsegments that comprise the trace.
-	Segments []*Segment `type:"list"`
+	Segments []Segment `type:"list"`
 }
 
 // String returns the string representation
@@ -1757,22 +2618,33 @@ func (s Trace) GoString() string {
 	return s.String()
 }
 
-// SetDuration sets the Duration field's value.
-func (s *Trace) SetDuration(v float64) *Trace {
-	s.Duration = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s Trace) MarshalFields(e protocol.FieldEncoder) error {
+	if s.Duration != nil {
+		v := *s.Duration
 
-// SetId sets the Id field's value.
-func (s *Trace) SetId(v string) *Trace {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Duration", protocol.Float64Value(v), metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetSegments sets the Segments field's value.
-func (s *Trace) SetSegments(v []*Segment) *Trace {
-	s.Segments = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if len(s.Segments) > 0 {
+		v := s.Segments
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Segments", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Metadata generated from the segment documents in a trace.
@@ -1781,7 +2653,7 @@ type TraceSummary struct {
 	_ struct{} `type:"structure"`
 
 	// Annotations from the trace's segment documents.
-	Annotations map[string][]*ValueWithServiceIds `type:"map"`
+	Annotations map[string][]ValueWithServiceIds `type:"map"`
 
 	// The length of time in seconds between the start time of the root segment
 	// and the end time of the last segment that completed.
@@ -1801,7 +2673,7 @@ type TraceSummary struct {
 
 	// The unique identifier for the request that generated the trace's segments
 	// and subsegments.
-	Id *string `min:"35" type:"string"`
+	Id *string `min:"1" type:"string"`
 
 	// One or more of the segment documents is in progress.
 	IsPartial *bool `type:"boolean"`
@@ -1813,10 +2685,10 @@ type TraceSummary struct {
 	ResponseTime *float64 `type:"double"`
 
 	// Service IDs from the trace's segment documents.
-	ServiceIds []*ServiceId `type:"list"`
+	ServiceIds []ServiceId `type:"list"`
 
 	// Users from the trace's segment documents.
-	Users []*TraceUser `type:"list"`
+	Users []TraceUser `type:"list"`
 }
 
 // String returns the string representation
@@ -1829,70 +2701,98 @@ func (s TraceSummary) GoString() string {
 	return s.String()
 }
 
-// SetAnnotations sets the Annotations field's value.
-func (s *TraceSummary) SetAnnotations(v map[string][]*ValueWithServiceIds) *TraceSummary {
-	s.Annotations = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TraceSummary) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.Annotations) > 0 {
+		v := s.Annotations
 
-// SetDuration sets the Duration field's value.
-func (s *TraceSummary) SetDuration(v float64) *TraceSummary {
-	s.Duration = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		ms0 := e.Map(protocol.BodyTarget, "Annotations", metadata)
+		ms0.Start()
+		for k1, v1 := range v {
+			ls1 := ms0.List(k1)
+			ls1.Start()
+			for _, v2 := range v1 {
+				ls1.ListAddFields(v2)
+			}
+			ls1.End()
+		}
+		ms0.End()
 
-// SetHasError sets the HasError field's value.
-func (s *TraceSummary) SetHasError(v bool) *TraceSummary {
-	s.HasError = &v
-	return s
-}
+	}
+	if s.Duration != nil {
+		v := *s.Duration
 
-// SetHasFault sets the HasFault field's value.
-func (s *TraceSummary) SetHasFault(v bool) *TraceSummary {
-	s.HasFault = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Duration", protocol.Float64Value(v), metadata)
+	}
+	if s.HasError != nil {
+		v := *s.HasError
 
-// SetHasThrottle sets the HasThrottle field's value.
-func (s *TraceSummary) SetHasThrottle(v bool) *TraceSummary {
-	s.HasThrottle = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasError", protocol.BoolValue(v), metadata)
+	}
+	if s.HasFault != nil {
+		v := *s.HasFault
 
-// SetHttp sets the Http field's value.
-func (s *TraceSummary) SetHttp(v *Http) *TraceSummary {
-	s.Http = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasFault", protocol.BoolValue(v), metadata)
+	}
+	if s.HasThrottle != nil {
+		v := *s.HasThrottle
 
-// SetId sets the Id field's value.
-func (s *TraceSummary) SetId(v string) *TraceSummary {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "HasThrottle", protocol.BoolValue(v), metadata)
+	}
+	if s.Http != nil {
+		v := s.Http
 
-// SetIsPartial sets the IsPartial field's value.
-func (s *TraceSummary) SetIsPartial(v bool) *TraceSummary {
-	s.IsPartial = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "Http", v, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetResponseTime sets the ResponseTime field's value.
-func (s *TraceSummary) SetResponseTime(v float64) *TraceSummary {
-	s.ResponseTime = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.IsPartial != nil {
+		v := *s.IsPartial
 
-// SetServiceIds sets the ServiceIds field's value.
-func (s *TraceSummary) SetServiceIds(v []*ServiceId) *TraceSummary {
-	s.ServiceIds = v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "IsPartial", protocol.BoolValue(v), metadata)
+	}
+	if s.ResponseTime != nil {
+		v := *s.ResponseTime
 
-// SetUsers sets the Users field's value.
-func (s *TraceSummary) SetUsers(v []*TraceUser) *TraceSummary {
-	s.Users = v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ResponseTime", protocol.Float64Value(v), metadata)
+	}
+	if len(s.ServiceIds) > 0 {
+		v := s.ServiceIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ServiceIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if len(s.Users) > 0 {
+		v := s.Users
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "Users", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
 // Information about a user recorded in segment documents.
@@ -1901,7 +2801,7 @@ type TraceUser struct {
 	_ struct{} `type:"structure"`
 
 	// Services that the user's request hit.
-	ServiceIds []*ServiceId `type:"list"`
+	ServiceIds []ServiceId `type:"list"`
 
 	// The user's name.
 	UserName *string `type:"string"`
@@ -1917,16 +2817,27 @@ func (s TraceUser) GoString() string {
 	return s.String()
 }
 
-// SetServiceIds sets the ServiceIds field's value.
-func (s *TraceUser) SetServiceIds(v []*ServiceId) *TraceUser {
-	s.ServiceIds = v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s TraceUser) MarshalFields(e protocol.FieldEncoder) error {
+	if len(s.ServiceIds) > 0 {
+		v := s.ServiceIds
 
-// SetUserName sets the UserName field's value.
-func (s *TraceUser) SetUserName(v string) *TraceUser {
-	s.UserName = &v
-	return s
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ServiceIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	if s.UserName != nil {
+		v := *s.UserName
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "UserName", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Information about a segment that failed processing.
@@ -1954,22 +2865,27 @@ func (s UnprocessedTraceSegment) GoString() string {
 	return s.String()
 }
 
-// SetErrorCode sets the ErrorCode field's value.
-func (s *UnprocessedTraceSegment) SetErrorCode(v string) *UnprocessedTraceSegment {
-	s.ErrorCode = &v
-	return s
-}
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s UnprocessedTraceSegment) MarshalFields(e protocol.FieldEncoder) error {
+	if s.ErrorCode != nil {
+		v := *s.ErrorCode
 
-// SetId sets the Id field's value.
-func (s *UnprocessedTraceSegment) SetId(v string) *UnprocessedTraceSegment {
-	s.Id = &v
-	return s
-}
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "ErrorCode", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Id != nil {
+		v := *s.Id
 
-// SetMessage sets the Message field's value.
-func (s *UnprocessedTraceSegment) SetMessage(v string) *UnprocessedTraceSegment {
-	s.Message = &v
-	return s
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Id", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	if s.Message != nil {
+		v := *s.Message
+
+		metadata := protocol.Metadata{}
+		e.SetValue(protocol.BodyTarget, "Message", protocol.QuotedValue{ValueMarshaler: protocol.StringValue(v)}, metadata)
+	}
+	return nil
 }
 
 // Information about a segment annotation.
@@ -1981,7 +2897,7 @@ type ValueWithServiceIds struct {
 	AnnotationValue *AnnotationValue `type:"structure"`
 
 	// Services to which the annotation applies.
-	ServiceIds []*ServiceId `type:"list"`
+	ServiceIds []ServiceId `type:"list"`
 }
 
 // String returns the string representation
@@ -1994,14 +2910,59 @@ func (s ValueWithServiceIds) GoString() string {
 	return s.String()
 }
 
-// SetAnnotationValue sets the AnnotationValue field's value.
-func (s *ValueWithServiceIds) SetAnnotationValue(v *AnnotationValue) *ValueWithServiceIds {
-	s.AnnotationValue = v
-	return s
+// MarshalFields encodes the AWS API shape using the passed in protocol encoder.
+func (s ValueWithServiceIds) MarshalFields(e protocol.FieldEncoder) error {
+	if s.AnnotationValue != nil {
+		v := s.AnnotationValue
+
+		metadata := protocol.Metadata{}
+		e.SetFields(protocol.BodyTarget, "AnnotationValue", v, metadata)
+	}
+	if len(s.ServiceIds) > 0 {
+		v := s.ServiceIds
+
+		metadata := protocol.Metadata{}
+		ls0 := e.List(protocol.BodyTarget, "ServiceIds", metadata)
+		ls0.Start()
+		for _, v1 := range v {
+			ls0.ListAddFields(v1)
+		}
+		ls0.End()
+
+	}
+	return nil
 }
 
-// SetServiceIds sets the ServiceIds field's value.
-func (s *ValueWithServiceIds) SetServiceIds(v []*ServiceId) *ValueWithServiceIds {
-	s.ServiceIds = v
-	return s
+type EncryptionStatus string
+
+// Enum values for EncryptionStatus
+const (
+	EncryptionStatusUpdating EncryptionStatus = "UPDATING"
+	EncryptionStatusActive   EncryptionStatus = "ACTIVE"
+)
+
+func (enum EncryptionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EncryptionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type EncryptionType string
+
+// Enum values for EncryptionType
+const (
+	EncryptionTypeNone EncryptionType = "NONE"
+	EncryptionTypeKms  EncryptionType = "KMS"
+)
+
+func (enum EncryptionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EncryptionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
 }

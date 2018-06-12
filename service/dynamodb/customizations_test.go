@@ -116,7 +116,7 @@ func TestValidateCRC32IsValid(t *testing.T) {
 
 	// CRC check does not affect output parsing
 	out := req.Data.(*dynamodb.ListTablesOutput)
-	if e, a := "A", *out.TableNames[0]; e != a {
+	if e, a := "A", out.TableNames[0]; e != a {
 		t.Errorf("expect %q table name, got %q", e, a)
 	}
 }
@@ -139,9 +139,9 @@ func TestValidateCRC32DoesNotMatch(t *testing.T) {
 func TestValidateCRC32DoesNotMatchNoComputeChecksum(t *testing.T) {
 	cfg := unit.Config()
 	cfg.Retryer = aws.DefaultRetryer{NumMaxRetries: 2}
-	cfg.DisableComputeChecksums = true
 
 	svc := dynamodb.New(cfg)
+	svc.DisableComputeChecksums = true
 	svc.Handlers.Send.Clear() // mock sending
 
 	req := mockCRCResponse(svc, 200, `{"TableNames":["A"]}`, "1234")
@@ -155,7 +155,7 @@ func TestValidateCRC32DoesNotMatchNoComputeChecksum(t *testing.T) {
 
 	// CRC check disabled. Does not affect output parsing
 	out := req.Data.(*dynamodb.ListTablesOutput)
-	if e, a := "A", *out.TableNames[0]; e != a {
+	if e, a := "A", out.TableNames[0]; e != a {
 		t.Errorf("expect %q table name, got %q", e, a)
 	}
 }

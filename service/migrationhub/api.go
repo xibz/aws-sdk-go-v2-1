@@ -16,6 +16,7 @@ const opAssociateCreatedArtifact = "AssociateCreatedArtifact"
 type AssociateCreatedArtifactRequest struct {
 	*aws.Request
 	Input *AssociateCreatedArtifactInput
+	Copy  func(*AssociateCreatedArtifactInput) AssociateCreatedArtifactRequest
 }
 
 // Send marshals and sends the AssociateCreatedArtifact API request.
@@ -64,8 +65,11 @@ func (c *MigrationHub) AssociateCreatedArtifactRequest(input *AssociateCreatedAr
 		input = &AssociateCreatedArtifactInput{}
 	}
 
-	req := c.newRequest(op, input, &AssociateCreatedArtifactOutput{})
-	return AssociateCreatedArtifactRequest{Request: req, Input: input}
+	output := &AssociateCreatedArtifactOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateCreatedArtifactRequest{Request: req, Input: input, Copy: c.AssociateCreatedArtifactRequest}
 }
 
 const opAssociateDiscoveredResource = "AssociateDiscoveredResource"
@@ -74,6 +78,7 @@ const opAssociateDiscoveredResource = "AssociateDiscoveredResource"
 type AssociateDiscoveredResourceRequest struct {
 	*aws.Request
 	Input *AssociateDiscoveredResourceInput
+	Copy  func(*AssociateDiscoveredResourceInput) AssociateDiscoveredResourceRequest
 }
 
 // Send marshals and sends the AssociateDiscoveredResource API request.
@@ -111,8 +116,11 @@ func (c *MigrationHub) AssociateDiscoveredResourceRequest(input *AssociateDiscov
 		input = &AssociateDiscoveredResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &AssociateDiscoveredResourceOutput{})
-	return AssociateDiscoveredResourceRequest{Request: req, Input: input}
+	output := &AssociateDiscoveredResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AssociateDiscoveredResourceRequest{Request: req, Input: input, Copy: c.AssociateDiscoveredResourceRequest}
 }
 
 const opCreateProgressUpdateStream = "CreateProgressUpdateStream"
@@ -121,6 +129,7 @@ const opCreateProgressUpdateStream = "CreateProgressUpdateStream"
 type CreateProgressUpdateStreamRequest struct {
 	*aws.Request
 	Input *CreateProgressUpdateStreamInput
+	Copy  func(*CreateProgressUpdateStreamInput) CreateProgressUpdateStreamRequest
 }
 
 // Send marshals and sends the CreateProgressUpdateStream API request.
@@ -161,8 +170,11 @@ func (c *MigrationHub) CreateProgressUpdateStreamRequest(input *CreateProgressUp
 		input = &CreateProgressUpdateStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateProgressUpdateStreamOutput{})
-	return CreateProgressUpdateStreamRequest{Request: req, Input: input}
+	output := &CreateProgressUpdateStreamOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateProgressUpdateStreamRequest{Request: req, Input: input, Copy: c.CreateProgressUpdateStreamRequest}
 }
 
 const opDeleteProgressUpdateStream = "DeleteProgressUpdateStream"
@@ -171,6 +183,7 @@ const opDeleteProgressUpdateStream = "DeleteProgressUpdateStream"
 type DeleteProgressUpdateStreamRequest struct {
 	*aws.Request
 	Input *DeleteProgressUpdateStreamInput
+	Copy  func(*DeleteProgressUpdateStreamInput) DeleteProgressUpdateStreamRequest
 }
 
 // Send marshals and sends the DeleteProgressUpdateStream API request.
@@ -193,9 +206,9 @@ func (r DeleteProgressUpdateStreamRequest) Send() (*DeleteProgressUpdateStreamOu
 //    * The only parameter needed for DeleteProgressUpdateStream is the stream
 //    name (same as a CreateProgressUpdateStream call).
 //
-//    * The call will return, and a background process will asynchronously be
-//    doing the actual delete of the stream and all of its resources (tasks,
-//    associated resources, resource attributes, created artifacts).
+//    * The call will return, and a background process will asynchronously delete
+//    the stream and all of its resources (tasks, associated resources, resource
+//    attributes, created artifacts).
 //
 //    * If the stream takes time to be deleted, it might still show up on a
 //    ListProgressUpdateStreams call.
@@ -229,8 +242,11 @@ func (c *MigrationHub) DeleteProgressUpdateStreamRequest(input *DeleteProgressUp
 		input = &DeleteProgressUpdateStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteProgressUpdateStreamOutput{})
-	return DeleteProgressUpdateStreamRequest{Request: req, Input: input}
+	output := &DeleteProgressUpdateStreamOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteProgressUpdateStreamRequest{Request: req, Input: input, Copy: c.DeleteProgressUpdateStreamRequest}
 }
 
 const opDescribeApplicationState = "DescribeApplicationState"
@@ -239,6 +255,7 @@ const opDescribeApplicationState = "DescribeApplicationState"
 type DescribeApplicationStateRequest struct {
 	*aws.Request
 	Input *DescribeApplicationStateInput
+	Copy  func(*DescribeApplicationStateInput) DescribeApplicationStateRequest
 }
 
 // Send marshals and sends the DescribeApplicationState API request.
@@ -275,8 +292,11 @@ func (c *MigrationHub) DescribeApplicationStateRequest(input *DescribeApplicatio
 		input = &DescribeApplicationStateInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeApplicationStateOutput{})
-	return DescribeApplicationStateRequest{Request: req, Input: input}
+	output := &DescribeApplicationStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeApplicationStateRequest{Request: req, Input: input, Copy: c.DescribeApplicationStateRequest}
 }
 
 const opDescribeMigrationTask = "DescribeMigrationTask"
@@ -285,6 +305,7 @@ const opDescribeMigrationTask = "DescribeMigrationTask"
 type DescribeMigrationTaskRequest struct {
 	*aws.Request
 	Input *DescribeMigrationTaskInput
+	Copy  func(*DescribeMigrationTaskInput) DescribeMigrationTaskRequest
 }
 
 // Send marshals and sends the DescribeMigrationTask API request.
@@ -321,8 +342,11 @@ func (c *MigrationHub) DescribeMigrationTaskRequest(input *DescribeMigrationTask
 		input = &DescribeMigrationTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMigrationTaskOutput{})
-	return DescribeMigrationTaskRequest{Request: req, Input: input}
+	output := &DescribeMigrationTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMigrationTaskRequest{Request: req, Input: input, Copy: c.DescribeMigrationTaskRequest}
 }
 
 const opDisassociateCreatedArtifact = "DisassociateCreatedArtifact"
@@ -331,6 +355,7 @@ const opDisassociateCreatedArtifact = "DisassociateCreatedArtifact"
 type DisassociateCreatedArtifactRequest struct {
 	*aws.Request
 	Input *DisassociateCreatedArtifactInput
+	Copy  func(*DisassociateCreatedArtifactInput) DisassociateCreatedArtifactRequest
 }
 
 // Send marshals and sends the DisassociateCreatedArtifact API request.
@@ -379,8 +404,11 @@ func (c *MigrationHub) DisassociateCreatedArtifactRequest(input *DisassociateCre
 		input = &DisassociateCreatedArtifactInput{}
 	}
 
-	req := c.newRequest(op, input, &DisassociateCreatedArtifactOutput{})
-	return DisassociateCreatedArtifactRequest{Request: req, Input: input}
+	output := &DisassociateCreatedArtifactOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateCreatedArtifactRequest{Request: req, Input: input, Copy: c.DisassociateCreatedArtifactRequest}
 }
 
 const opDisassociateDiscoveredResource = "DisassociateDiscoveredResource"
@@ -389,6 +417,7 @@ const opDisassociateDiscoveredResource = "DisassociateDiscoveredResource"
 type DisassociateDiscoveredResourceRequest struct {
 	*aws.Request
 	Input *DisassociateDiscoveredResourceInput
+	Copy  func(*DisassociateDiscoveredResourceInput) DisassociateDiscoveredResourceRequest
 }
 
 // Send marshals and sends the DisassociateDiscoveredResource API request.
@@ -426,8 +455,11 @@ func (c *MigrationHub) DisassociateDiscoveredResourceRequest(input *Disassociate
 		input = &DisassociateDiscoveredResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &DisassociateDiscoveredResourceOutput{})
-	return DisassociateDiscoveredResourceRequest{Request: req, Input: input}
+	output := &DisassociateDiscoveredResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisassociateDiscoveredResourceRequest{Request: req, Input: input, Copy: c.DisassociateDiscoveredResourceRequest}
 }
 
 const opImportMigrationTask = "ImportMigrationTask"
@@ -436,6 +468,7 @@ const opImportMigrationTask = "ImportMigrationTask"
 type ImportMigrationTaskRequest struct {
 	*aws.Request
 	Input *ImportMigrationTaskInput
+	Copy  func(*ImportMigrationTaskInput) ImportMigrationTaskRequest
 }
 
 // Send marshals and sends the ImportMigrationTask API request.
@@ -477,8 +510,11 @@ func (c *MigrationHub) ImportMigrationTaskRequest(input *ImportMigrationTaskInpu
 		input = &ImportMigrationTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &ImportMigrationTaskOutput{})
-	return ImportMigrationTaskRequest{Request: req, Input: input}
+	output := &ImportMigrationTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ImportMigrationTaskRequest{Request: req, Input: input, Copy: c.ImportMigrationTaskRequest}
 }
 
 const opListCreatedArtifacts = "ListCreatedArtifacts"
@@ -487,6 +523,7 @@ const opListCreatedArtifacts = "ListCreatedArtifacts"
 type ListCreatedArtifactsRequest struct {
 	*aws.Request
 	Input *ListCreatedArtifactsInput
+	Copy  func(*ListCreatedArtifactsInput) ListCreatedArtifactsRequest
 }
 
 // Send marshals and sends the ListCreatedArtifacts API request.
@@ -531,8 +568,11 @@ func (c *MigrationHub) ListCreatedArtifactsRequest(input *ListCreatedArtifactsIn
 		input = &ListCreatedArtifactsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListCreatedArtifactsOutput{})
-	return ListCreatedArtifactsRequest{Request: req, Input: input}
+	output := &ListCreatedArtifactsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListCreatedArtifactsRequest{Request: req, Input: input, Copy: c.ListCreatedArtifactsRequest}
 }
 
 const opListDiscoveredResources = "ListDiscoveredResources"
@@ -541,6 +581,7 @@ const opListDiscoveredResources = "ListDiscoveredResources"
 type ListDiscoveredResourcesRequest struct {
 	*aws.Request
 	Input *ListDiscoveredResourcesInput
+	Copy  func(*ListDiscoveredResourcesInput) ListDiscoveredResourcesRequest
 }
 
 // Send marshals and sends the ListDiscoveredResources API request.
@@ -577,8 +618,11 @@ func (c *MigrationHub) ListDiscoveredResourcesRequest(input *ListDiscoveredResou
 		input = &ListDiscoveredResourcesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDiscoveredResourcesOutput{})
-	return ListDiscoveredResourcesRequest{Request: req, Input: input}
+	output := &ListDiscoveredResourcesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDiscoveredResourcesRequest{Request: req, Input: input, Copy: c.ListDiscoveredResourcesRequest}
 }
 
 const opListMigrationTasks = "ListMigrationTasks"
@@ -587,6 +631,7 @@ const opListMigrationTasks = "ListMigrationTasks"
 type ListMigrationTasksRequest struct {
 	*aws.Request
 	Input *ListMigrationTasksInput
+	Copy  func(*ListMigrationTasksInput) ListMigrationTasksRequest
 }
 
 // Send marshals and sends the ListMigrationTasks API request.
@@ -631,8 +676,11 @@ func (c *MigrationHub) ListMigrationTasksRequest(input *ListMigrationTasksInput)
 		input = &ListMigrationTasksInput{}
 	}
 
-	req := c.newRequest(op, input, &ListMigrationTasksOutput{})
-	return ListMigrationTasksRequest{Request: req, Input: input}
+	output := &ListMigrationTasksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListMigrationTasksRequest{Request: req, Input: input, Copy: c.ListMigrationTasksRequest}
 }
 
 const opListProgressUpdateStreams = "ListProgressUpdateStreams"
@@ -641,6 +689,7 @@ const opListProgressUpdateStreams = "ListProgressUpdateStreams"
 type ListProgressUpdateStreamsRequest struct {
 	*aws.Request
 	Input *ListProgressUpdateStreamsInput
+	Copy  func(*ListProgressUpdateStreamsInput) ListProgressUpdateStreamsRequest
 }
 
 // Send marshals and sends the ListProgressUpdateStreams API request.
@@ -678,8 +727,11 @@ func (c *MigrationHub) ListProgressUpdateStreamsRequest(input *ListProgressUpdat
 		input = &ListProgressUpdateStreamsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListProgressUpdateStreamsOutput{})
-	return ListProgressUpdateStreamsRequest{Request: req, Input: input}
+	output := &ListProgressUpdateStreamsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListProgressUpdateStreamsRequest{Request: req, Input: input, Copy: c.ListProgressUpdateStreamsRequest}
 }
 
 const opNotifyApplicationState = "NotifyApplicationState"
@@ -688,6 +740,7 @@ const opNotifyApplicationState = "NotifyApplicationState"
 type NotifyApplicationStateRequest struct {
 	*aws.Request
 	Input *NotifyApplicationStateInput
+	Copy  func(*NotifyApplicationStateInput) NotifyApplicationStateRequest
 }
 
 // Send marshals and sends the NotifyApplicationState API request.
@@ -726,8 +779,11 @@ func (c *MigrationHub) NotifyApplicationStateRequest(input *NotifyApplicationSta
 		input = &NotifyApplicationStateInput{}
 	}
 
-	req := c.newRequest(op, input, &NotifyApplicationStateOutput{})
-	return NotifyApplicationStateRequest{Request: req, Input: input}
+	output := &NotifyApplicationStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return NotifyApplicationStateRequest{Request: req, Input: input, Copy: c.NotifyApplicationStateRequest}
 }
 
 const opNotifyMigrationTaskState = "NotifyMigrationTaskState"
@@ -736,6 +792,7 @@ const opNotifyMigrationTaskState = "NotifyMigrationTaskState"
 type NotifyMigrationTaskStateRequest struct {
 	*aws.Request
 	Input *NotifyMigrationTaskStateInput
+	Copy  func(*NotifyMigrationTaskStateInput) NotifyMigrationTaskStateRequest
 }
 
 // Send marshals and sends the NotifyMigrationTaskState API request.
@@ -781,8 +838,11 @@ func (c *MigrationHub) NotifyMigrationTaskStateRequest(input *NotifyMigrationTas
 		input = &NotifyMigrationTaskStateInput{}
 	}
 
-	req := c.newRequest(op, input, &NotifyMigrationTaskStateOutput{})
-	return NotifyMigrationTaskStateRequest{Request: req, Input: input}
+	output := &NotifyMigrationTaskStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return NotifyMigrationTaskStateRequest{Request: req, Input: input, Copy: c.NotifyMigrationTaskStateRequest}
 }
 
 const opPutResourceAttributes = "PutResourceAttributes"
@@ -791,6 +851,7 @@ const opPutResourceAttributes = "PutResourceAttributes"
 type PutResourceAttributesRequest struct {
 	*aws.Request
 	Input *PutResourceAttributesInput
+	Copy  func(*PutResourceAttributesInput) PutResourceAttributesRequest
 }
 
 // Send marshals and sends the PutResourceAttributes API request.
@@ -816,9 +877,13 @@ func (r PutResourceAttributesRequest) Send() (*PutResourceAttributesOutput, erro
 // to call it with both the IP and MAC addresses to prevent overiding the MAC
 // address.
 //
+// Note the instructions regarding the special use case of the ResourceAttributeList
+// (https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#migrationhub-PutResourceAttributes-request-ResourceAttributeList)
+// parameter when specifying any "VM" related value.
+//
 // Because this is an asynchronous call, it will always return 200, whether
 // an association occurs or not. To confirm if an association was found based
-// on the provided details, call ListAssociatedResource.
+// on the provided details, call ListDiscoveredResources.
 //
 //    // Example sending a request using the PutResourceAttributesRequest method.
 //    req := client.PutResourceAttributesRequest(params)
@@ -839,8 +904,11 @@ func (c *MigrationHub) PutResourceAttributesRequest(input *PutResourceAttributes
 		input = &PutResourceAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &PutResourceAttributesOutput{})
-	return PutResourceAttributesRequest{Request: req, Input: input}
+	output := &PutResourceAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutResourceAttributesRequest{Request: req, Input: input, Copy: c.PutResourceAttributesRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateCreatedArtifactRequest
@@ -911,33 +979,11 @@ func (s *AssociateCreatedArtifactInput) Validate() error {
 	return nil
 }
 
-// SetCreatedArtifact sets the CreatedArtifact field's value.
-func (s *AssociateCreatedArtifactInput) SetCreatedArtifact(v *CreatedArtifact) *AssociateCreatedArtifactInput {
-	s.CreatedArtifact = v
-	return s
-}
-
-// SetDryRun sets the DryRun field's value.
-func (s *AssociateCreatedArtifactInput) SetDryRun(v bool) *AssociateCreatedArtifactInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *AssociateCreatedArtifactInput) SetMigrationTaskName(v string) *AssociateCreatedArtifactInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *AssociateCreatedArtifactInput) SetProgressUpdateStream(v string) *AssociateCreatedArtifactInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateCreatedArtifactResult
 type AssociateCreatedArtifactOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -948,6 +994,11 @@ func (s AssociateCreatedArtifactOutput) String() string {
 // GoString returns the string representation
 func (s AssociateCreatedArtifactOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateCreatedArtifactOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateDiscoveredResourceRequest
@@ -1017,33 +1068,11 @@ func (s *AssociateDiscoveredResourceInput) Validate() error {
 	return nil
 }
 
-// SetDiscoveredResource sets the DiscoveredResource field's value.
-func (s *AssociateDiscoveredResourceInput) SetDiscoveredResource(v *DiscoveredResource) *AssociateDiscoveredResourceInput {
-	s.DiscoveredResource = v
-	return s
-}
-
-// SetDryRun sets the DryRun field's value.
-func (s *AssociateDiscoveredResourceInput) SetDryRun(v bool) *AssociateDiscoveredResourceInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *AssociateDiscoveredResourceInput) SetMigrationTaskName(v string) *AssociateDiscoveredResourceInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *AssociateDiscoveredResourceInput) SetProgressUpdateStream(v string) *AssociateDiscoveredResourceInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/AssociateDiscoveredResourceResult
 type AssociateDiscoveredResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1054,6 +1083,11 @@ func (s AssociateDiscoveredResourceOutput) String() string {
 // GoString returns the string representation
 func (s AssociateDiscoveredResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AssociateDiscoveredResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/CreateProgressUpdateStreamRequest
@@ -1097,21 +1131,11 @@ func (s *CreateProgressUpdateStreamInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *CreateProgressUpdateStreamInput) SetDryRun(v bool) *CreateProgressUpdateStreamInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetProgressUpdateStreamName sets the ProgressUpdateStreamName field's value.
-func (s *CreateProgressUpdateStreamInput) SetProgressUpdateStreamName(v string) *CreateProgressUpdateStreamInput {
-	s.ProgressUpdateStreamName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/CreateProgressUpdateStreamResult
 type CreateProgressUpdateStreamOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1122,6 +1146,11 @@ func (s CreateProgressUpdateStreamOutput) String() string {
 // GoString returns the string representation
 func (s CreateProgressUpdateStreamOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateProgressUpdateStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An ARN of the AWS cloud resource target receiving the migration (e.g., AMI,
@@ -1167,18 +1196,6 @@ func (s *CreatedArtifact) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreatedArtifact) SetDescription(v string) *CreatedArtifact {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreatedArtifact) SetName(v string) *CreatedArtifact {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DeleteProgressUpdateStreamRequest
 type DeleteProgressUpdateStreamInput struct {
 	_ struct{} `type:"structure"`
@@ -1220,21 +1237,11 @@ func (s *DeleteProgressUpdateStreamInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *DeleteProgressUpdateStreamInput) SetDryRun(v bool) *DeleteProgressUpdateStreamInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetProgressUpdateStreamName sets the ProgressUpdateStreamName field's value.
-func (s *DeleteProgressUpdateStreamInput) SetProgressUpdateStreamName(v string) *DeleteProgressUpdateStreamInput {
-	s.ProgressUpdateStreamName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DeleteProgressUpdateStreamResult
 type DeleteProgressUpdateStreamOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1245,6 +1252,11 @@ func (s DeleteProgressUpdateStreamOutput) String() string {
 // GoString returns the string representation
 func (s DeleteProgressUpdateStreamOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteProgressUpdateStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeApplicationStateRequest
@@ -1284,18 +1296,14 @@ func (s *DescribeApplicationStateInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *DescribeApplicationStateInput) SetApplicationId(v string) *DescribeApplicationStateInput {
-	s.ApplicationId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeApplicationStateResult
 type DescribeApplicationStateOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Status of the application - Not Started, In-Progress, Complete.
-	ApplicationStatus ApplicationStatus `type:"string"`
+	ApplicationStatus ApplicationStatus `type:"string" enum:"true"`
 
 	// The timestamp when the application status was last updated.
 	LastUpdatedTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -1311,16 +1319,9 @@ func (s DescribeApplicationStateOutput) GoString() string {
 	return s.String()
 }
 
-// SetApplicationStatus sets the ApplicationStatus field's value.
-func (s *DescribeApplicationStateOutput) SetApplicationStatus(v ApplicationStatus) *DescribeApplicationStateOutput {
-	s.ApplicationStatus = v
-	return s
-}
-
-// SetLastUpdatedTime sets the LastUpdatedTime field's value.
-func (s *DescribeApplicationStateOutput) SetLastUpdatedTime(v time.Time) *DescribeApplicationStateOutput {
-	s.LastUpdatedTime = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeApplicationStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeMigrationTaskRequest
@@ -1372,21 +1373,11 @@ func (s *DescribeMigrationTaskInput) Validate() error {
 	return nil
 }
 
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *DescribeMigrationTaskInput) SetMigrationTaskName(v string) *DescribeMigrationTaskInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *DescribeMigrationTaskInput) SetProgressUpdateStream(v string) *DescribeMigrationTaskInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DescribeMigrationTaskResult
 type DescribeMigrationTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Object encapsulating information about the migration task.
 	MigrationTask *MigrationTask `type:"structure"`
@@ -1402,10 +1393,9 @@ func (s DescribeMigrationTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetMigrationTask sets the MigrationTask field's value.
-func (s *DescribeMigrationTaskOutput) SetMigrationTask(v *MigrationTask) *DescribeMigrationTaskOutput {
-	s.MigrationTask = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMigrationTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateCreatedArtifactRequest
@@ -1475,33 +1465,11 @@ func (s *DisassociateCreatedArtifactInput) Validate() error {
 	return nil
 }
 
-// SetCreatedArtifactName sets the CreatedArtifactName field's value.
-func (s *DisassociateCreatedArtifactInput) SetCreatedArtifactName(v string) *DisassociateCreatedArtifactInput {
-	s.CreatedArtifactName = &v
-	return s
-}
-
-// SetDryRun sets the DryRun field's value.
-func (s *DisassociateCreatedArtifactInput) SetDryRun(v bool) *DisassociateCreatedArtifactInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *DisassociateCreatedArtifactInput) SetMigrationTaskName(v string) *DisassociateCreatedArtifactInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *DisassociateCreatedArtifactInput) SetProgressUpdateStream(v string) *DisassociateCreatedArtifactInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateCreatedArtifactResult
 type DisassociateCreatedArtifactOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1512,6 +1480,11 @@ func (s DisassociateCreatedArtifactOutput) String() string {
 // GoString returns the string representation
 func (s DisassociateCreatedArtifactOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateCreatedArtifactOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateDiscoveredResourceRequest
@@ -1579,33 +1552,11 @@ func (s *DisassociateDiscoveredResourceInput) Validate() error {
 	return nil
 }
 
-// SetConfigurationId sets the ConfigurationId field's value.
-func (s *DisassociateDiscoveredResourceInput) SetConfigurationId(v string) *DisassociateDiscoveredResourceInput {
-	s.ConfigurationId = &v
-	return s
-}
-
-// SetDryRun sets the DryRun field's value.
-func (s *DisassociateDiscoveredResourceInput) SetDryRun(v bool) *DisassociateDiscoveredResourceInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *DisassociateDiscoveredResourceInput) SetMigrationTaskName(v string) *DisassociateDiscoveredResourceInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *DisassociateDiscoveredResourceInput) SetProgressUpdateStream(v string) *DisassociateDiscoveredResourceInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/DisassociateDiscoveredResourceResult
 type DisassociateDiscoveredResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1616,6 +1567,11 @@ func (s DisassociateDiscoveredResourceOutput) String() string {
 // GoString returns the string representation
 func (s DisassociateDiscoveredResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisassociateDiscoveredResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Object representing the on-premises resource being migrated.
@@ -1658,18 +1614,6 @@ func (s *DiscoveredResource) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetConfigurationId sets the ConfigurationId field's value.
-func (s *DiscoveredResource) SetConfigurationId(v string) *DiscoveredResource {
-	s.ConfigurationId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *DiscoveredResource) SetDescription(v string) *DiscoveredResource {
-	s.Description = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ImportMigrationTaskRequest
@@ -1725,27 +1669,11 @@ func (s *ImportMigrationTaskInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *ImportMigrationTaskInput) SetDryRun(v bool) *ImportMigrationTaskInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *ImportMigrationTaskInput) SetMigrationTaskName(v string) *ImportMigrationTaskInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *ImportMigrationTaskInput) SetProgressUpdateStream(v string) *ImportMigrationTaskInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ImportMigrationTaskResult
 type ImportMigrationTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1756,6 +1684,11 @@ func (s ImportMigrationTaskOutput) String() string {
 // GoString returns the string representation
 func (s ImportMigrationTaskOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ImportMigrationTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListCreatedArtifactsRequest
@@ -1818,37 +1751,15 @@ func (s *ListCreatedArtifactsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListCreatedArtifactsInput) SetMaxResults(v int64) *ListCreatedArtifactsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *ListCreatedArtifactsInput) SetMigrationTaskName(v string) *ListCreatedArtifactsInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCreatedArtifactsInput) SetNextToken(v string) *ListCreatedArtifactsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *ListCreatedArtifactsInput) SetProgressUpdateStream(v string) *ListCreatedArtifactsInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListCreatedArtifactsResult
 type ListCreatedArtifactsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of created artifacts up to the maximum number of results specified in
 	// the request.
-	CreatedArtifactList []*CreatedArtifact `type:"list"`
+	CreatedArtifactList []CreatedArtifact `type:"list"`
 
 	// If there are more created artifacts than the max result, return the next
 	// token to be passed to the next call as a bookmark of where to start from.
@@ -1865,16 +1776,9 @@ func (s ListCreatedArtifactsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreatedArtifactList sets the CreatedArtifactList field's value.
-func (s *ListCreatedArtifactsOutput) SetCreatedArtifactList(v []*CreatedArtifact) *ListCreatedArtifactsOutput {
-	s.CreatedArtifactList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCreatedArtifactsOutput) SetNextToken(v string) *ListCreatedArtifactsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListCreatedArtifactsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListDiscoveredResourcesRequest
@@ -1937,36 +1841,14 @@ func (s *ListDiscoveredResourcesInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListDiscoveredResourcesInput) SetMaxResults(v int64) *ListDiscoveredResourcesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *ListDiscoveredResourcesInput) SetMigrationTaskName(v string) *ListDiscoveredResourcesInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDiscoveredResourcesInput) SetNextToken(v string) *ListDiscoveredResourcesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *ListDiscoveredResourcesInput) SetProgressUpdateStream(v string) *ListDiscoveredResourcesInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListDiscoveredResourcesResult
 type ListDiscoveredResourcesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Returned list of discovered resources associated with the given MigrationTask.
-	DiscoveredResourceList []*DiscoveredResource `type:"list"`
+	DiscoveredResourceList []DiscoveredResource `type:"list"`
 
 	// If there are more discovered resources than the max result, return the next
 	// token to be passed to the next call as a bookmark of where to start from.
@@ -1983,16 +1865,9 @@ func (s ListDiscoveredResourcesOutput) GoString() string {
 	return s.String()
 }
 
-// SetDiscoveredResourceList sets the DiscoveredResourceList field's value.
-func (s *ListDiscoveredResourcesOutput) SetDiscoveredResourceList(v []*DiscoveredResource) *ListDiscoveredResourcesOutput {
-	s.DiscoveredResourceList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDiscoveredResourcesOutput) SetNextToken(v string) *ListDiscoveredResourcesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDiscoveredResourcesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListMigrationTasksRequest
@@ -2037,31 +1912,15 @@ func (s *ListMigrationTasksInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListMigrationTasksInput) SetMaxResults(v int64) *ListMigrationTasksInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListMigrationTasksInput) SetNextToken(v string) *ListMigrationTasksInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceName sets the ResourceName field's value.
-func (s *ListMigrationTasksInput) SetResourceName(v string) *ListMigrationTasksInput {
-	s.ResourceName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListMigrationTasksResult
 type ListMigrationTasksOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Lists the migration task's summary which includes: MigrationTaskName, ProgressPercent,
 	// ProgressUpdateStream, Status, and the UpdateDateTime for each task.
-	MigrationTaskSummaryList []*MigrationTaskSummary `type:"list"`
+	MigrationTaskSummaryList []MigrationTaskSummary `type:"list"`
 
 	// If there are more migration tasks than the max result, return the next token
 	// to be passed to the next call as a bookmark of where to start from.
@@ -2078,16 +1937,9 @@ func (s ListMigrationTasksOutput) GoString() string {
 	return s.String()
 }
 
-// SetMigrationTaskSummaryList sets the MigrationTaskSummaryList field's value.
-func (s *ListMigrationTasksOutput) SetMigrationTaskSummaryList(v []*MigrationTaskSummary) *ListMigrationTasksOutput {
-	s.MigrationTaskSummaryList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListMigrationTasksOutput) SetNextToken(v string) *ListMigrationTasksOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListMigrationTasksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListProgressUpdateStreamsRequest
@@ -2126,21 +1978,11 @@ func (s *ListProgressUpdateStreamsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListProgressUpdateStreamsInput) SetMaxResults(v int64) *ListProgressUpdateStreamsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListProgressUpdateStreamsInput) SetNextToken(v string) *ListProgressUpdateStreamsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ListProgressUpdateStreamsResult
 type ListProgressUpdateStreamsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If there are more streams created than the max result, return the next token
 	// to be passed to the next call as a bookmark of where to start from.
@@ -2148,7 +1990,7 @@ type ListProgressUpdateStreamsOutput struct {
 
 	// List of progress update streams up to the max number of results passed in
 	// the input.
-	ProgressUpdateStreamSummaryList []*ProgressUpdateStreamSummary `type:"list"`
+	ProgressUpdateStreamSummaryList []ProgressUpdateStreamSummary `type:"list"`
 }
 
 // String returns the string representation
@@ -2161,16 +2003,9 @@ func (s ListProgressUpdateStreamsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListProgressUpdateStreamsOutput) SetNextToken(v string) *ListProgressUpdateStreamsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetProgressUpdateStreamSummaryList sets the ProgressUpdateStreamSummaryList field's value.
-func (s *ListProgressUpdateStreamsOutput) SetProgressUpdateStreamSummaryList(v []*ProgressUpdateStreamSummary) *ListProgressUpdateStreamsOutput {
-	s.ProgressUpdateStreamSummaryList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListProgressUpdateStreamsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a migration task in a migration tool.
@@ -2184,7 +2019,7 @@ type MigrationTask struct {
 	// A name that identifies the vendor of the migration tool being used.
 	ProgressUpdateStream *string `min:"1" type:"string"`
 
-	ResourceAttributeList []*ResourceAttribute `type:"list"`
+	ResourceAttributeList []ResourceAttribute `type:"list"`
 
 	// Task object encapsulating task information.
 	Task *Task `type:"structure"`
@@ -2203,36 +2038,6 @@ func (s MigrationTask) GoString() string {
 	return s.String()
 }
 
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *MigrationTask) SetMigrationTaskName(v string) *MigrationTask {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *MigrationTask) SetProgressUpdateStream(v string) *MigrationTask {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
-// SetResourceAttributeList sets the ResourceAttributeList field's value.
-func (s *MigrationTask) SetResourceAttributeList(v []*ResourceAttribute) *MigrationTask {
-	s.ResourceAttributeList = v
-	return s
-}
-
-// SetTask sets the Task field's value.
-func (s *MigrationTask) SetTask(v *Task) *MigrationTask {
-	s.Task = v
-	return s
-}
-
-// SetUpdateDateTime sets the UpdateDateTime field's value.
-func (s *MigrationTask) SetUpdateDateTime(v time.Time) *MigrationTask {
-	s.UpdateDateTime = &v
-	return s
-}
-
 // MigrationTaskSummary includes MigrationTaskName, ProgressPercent, ProgressUpdateStream,
 // Status, and UpdateDateTime for each task.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/MigrationTaskSummary
@@ -2249,7 +2054,7 @@ type MigrationTaskSummary struct {
 	ProgressUpdateStream *string `min:"1" type:"string"`
 
 	// Status of the task.
-	Status Status `type:"string"`
+	Status Status `type:"string" enum:"true"`
 
 	// Detail information of what is being done within the overall status state.
 	StatusDetail *string `type:"string"`
@@ -2268,42 +2073,6 @@ func (s MigrationTaskSummary) GoString() string {
 	return s.String()
 }
 
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *MigrationTaskSummary) SetMigrationTaskName(v string) *MigrationTaskSummary {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressPercent sets the ProgressPercent field's value.
-func (s *MigrationTaskSummary) SetProgressPercent(v int64) *MigrationTaskSummary {
-	s.ProgressPercent = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *MigrationTaskSummary) SetProgressUpdateStream(v string) *MigrationTaskSummary {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *MigrationTaskSummary) SetStatus(v Status) *MigrationTaskSummary {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetail sets the StatusDetail field's value.
-func (s *MigrationTaskSummary) SetStatusDetail(v string) *MigrationTaskSummary {
-	s.StatusDetail = &v
-	return s
-}
-
-// SetUpdateDateTime sets the UpdateDateTime field's value.
-func (s *MigrationTaskSummary) SetUpdateDateTime(v time.Time) *MigrationTaskSummary {
-	s.UpdateDateTime = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyApplicationStateRequest
 type NotifyApplicationStateInput struct {
 	_ struct{} `type:"structure"`
@@ -2320,7 +2089,7 @@ type NotifyApplicationStateInput struct {
 	// Status of the application - Not Started, In-Progress, Complete.
 	//
 	// Status is a required field
-	Status ApplicationStatus `type:"string" required:"true"`
+	Status ApplicationStatus `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -2353,27 +2122,11 @@ func (s *NotifyApplicationStateInput) Validate() error {
 	return nil
 }
 
-// SetApplicationId sets the ApplicationId field's value.
-func (s *NotifyApplicationStateInput) SetApplicationId(v string) *NotifyApplicationStateInput {
-	s.ApplicationId = &v
-	return s
-}
-
-// SetDryRun sets the DryRun field's value.
-func (s *NotifyApplicationStateInput) SetDryRun(v bool) *NotifyApplicationStateInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *NotifyApplicationStateInput) SetStatus(v ApplicationStatus) *NotifyApplicationStateInput {
-	s.Status = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyApplicationStateResult
 type NotifyApplicationStateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2384,6 +2137,11 @@ func (s NotifyApplicationStateOutput) String() string {
 // GoString returns the string representation
 func (s NotifyApplicationStateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s NotifyApplicationStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyMigrationTaskStateRequest
@@ -2473,45 +2231,11 @@ func (s *NotifyMigrationTaskStateInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *NotifyMigrationTaskStateInput) SetDryRun(v bool) *NotifyMigrationTaskStateInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *NotifyMigrationTaskStateInput) SetMigrationTaskName(v string) *NotifyMigrationTaskStateInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetNextUpdateSeconds sets the NextUpdateSeconds field's value.
-func (s *NotifyMigrationTaskStateInput) SetNextUpdateSeconds(v int64) *NotifyMigrationTaskStateInput {
-	s.NextUpdateSeconds = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *NotifyMigrationTaskStateInput) SetProgressUpdateStream(v string) *NotifyMigrationTaskStateInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
-// SetTask sets the Task field's value.
-func (s *NotifyMigrationTaskStateInput) SetTask(v *Task) *NotifyMigrationTaskStateInput {
-	s.Task = v
-	return s
-}
-
-// SetUpdateDateTime sets the UpdateDateTime field's value.
-func (s *NotifyMigrationTaskStateInput) SetUpdateDateTime(v time.Time) *NotifyMigrationTaskStateInput {
-	s.UpdateDateTime = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/NotifyMigrationTaskStateResult
 type NotifyMigrationTaskStateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2522,6 +2246,11 @@ func (s NotifyMigrationTaskStateOutput) String() string {
 // GoString returns the string representation
 func (s NotifyMigrationTaskStateOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s NotifyMigrationTaskStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Summary of the AWS resource used for access control that is implicitly linked
@@ -2542,12 +2271,6 @@ func (s ProgressUpdateStreamSummary) String() string {
 // GoString returns the string representation
 func (s ProgressUpdateStreamSummary) GoString() string {
 	return s.String()
-}
-
-// SetProgressUpdateStreamName sets the ProgressUpdateStreamName field's value.
-func (s *ProgressUpdateStreamSummary) SetProgressUpdateStreamName(v string) *ProgressUpdateStreamSummary {
-	s.ProgressUpdateStreamName = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/PutResourceAttributesRequest
@@ -2572,8 +2295,25 @@ type PutResourceAttributesInput struct {
 	// used to map the task to a resource in the Application Discovery Service (ADS)'s
 	// repository.
 	//
+	// Takes the object array of ResourceAttribute where the Type field is reserved
+	// for the following values: IPV4_ADDRESS | IPV6_ADDRESS | MAC_ADDRESS | FQDN
+	// | VM_MANAGER_ID | VM_MANAGED_OBJECT_REFERENCE | VM_NAME | VM_PATH | BIOS_ID
+	// | MOTHERBOARD_SERIAL_NUMBER where the identifying value can be a string up
+	// to 256 characters.
+	//
+	// If any "VM" related value is set for a ResourceAttribute object, it is required
+	// that VM_MANAGER_ID, as a minimum, is always set. If VM_MANAGER_ID is not
+	// set, then all "VM" fields will be discarded and "VM" fields will not be used
+	// for matching the migration task to a server in Application Discovery Service
+	// (ADS)'s repository. See the Example (https://docs.aws.amazon.com/migrationhub/latest/ug/API_PutResourceAttributes.html#API_PutResourceAttributes_Examples)
+	// section below for a use case of specifying "VM" related values.
+	//
+	//  If a server you are trying to match has multiple IP or MAC addresses, you
+	// should provide as many as you know in separate type/value pairs passed to
+	// the ResourceAttributeList parameter to maximize the chances of matching.
+	//
 	// ResourceAttributeList is a required field
-	ResourceAttributeList []*ResourceAttribute `min:"1" type:"list" required:"true"`
+	ResourceAttributeList []ResourceAttribute `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2612,9 +2352,6 @@ func (s *PutResourceAttributesInput) Validate() error {
 	}
 	if s.ResourceAttributeList != nil {
 		for i, v := range s.ResourceAttributeList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ResourceAttributeList", i), err.(aws.ErrInvalidParams))
 			}
@@ -2627,33 +2364,11 @@ func (s *PutResourceAttributesInput) Validate() error {
 	return nil
 }
 
-// SetDryRun sets the DryRun field's value.
-func (s *PutResourceAttributesInput) SetDryRun(v bool) *PutResourceAttributesInput {
-	s.DryRun = &v
-	return s
-}
-
-// SetMigrationTaskName sets the MigrationTaskName field's value.
-func (s *PutResourceAttributesInput) SetMigrationTaskName(v string) *PutResourceAttributesInput {
-	s.MigrationTaskName = &v
-	return s
-}
-
-// SetProgressUpdateStream sets the ProgressUpdateStream field's value.
-func (s *PutResourceAttributesInput) SetProgressUpdateStream(v string) *PutResourceAttributesInput {
-	s.ProgressUpdateStream = &v
-	return s
-}
-
-// SetResourceAttributeList sets the ResourceAttributeList field's value.
-func (s *PutResourceAttributesInput) SetResourceAttributeList(v []*ResourceAttribute) *PutResourceAttributesInput {
-	s.ResourceAttributeList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/PutResourceAttributesResult
 type PutResourceAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2666,7 +2381,26 @@ func (s PutResourceAttributesOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutResourceAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Attribute associated with a resource.
+//
+// Note the corresponding format required per type listed below:
+//
+// IPV4x.x.x.x
+//
+// where x is an integer in the range [0,255]
+//
+// IPV6y : y : y : y : y : y : y : y
+//
+// where y is a hexadecimal between 0 and FFFF. [0, FFFF]
+//
+// MAC_ADDRESS^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$
+//
+// FQDN^[^<>{}\\\\/?,=\\p{Cntrl}]{1,256}$
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/ResourceAttribute
 type ResourceAttribute struct {
 	_ struct{} `type:"structure"`
@@ -2674,7 +2408,7 @@ type ResourceAttribute struct {
 	// Type of resource.
 	//
 	// Type is a required field
-	Type ResourceAttributeType `type:"string" required:"true"`
+	Type ResourceAttributeType `type:"string" required:"true" enum:"true"`
 
 	// Value of the resource type.
 	//
@@ -2712,18 +2446,6 @@ func (s *ResourceAttribute) Validate() error {
 	return nil
 }
 
-// SetType sets the Type field's value.
-func (s *ResourceAttribute) SetType(v ResourceAttributeType) *ResourceAttribute {
-	s.Type = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *ResourceAttribute) SetValue(v string) *ResourceAttribute {
-	s.Value = &v
-	return s
-}
-
 // Task object encapsulating task information.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/AWSMigrationHub-2017-05-31/Task
 type Task struct {
@@ -2735,7 +2457,7 @@ type Task struct {
 	// Status of the task - Not Started, In-Progress, Complete.
 	//
 	// Status is a required field
-	Status Status `type:"string" required:"true"`
+	Status Status `type:"string" required:"true" enum:"true"`
 
 	// Details of task status as notified by a migration tool. A tool might use
 	// this field to provide clarifying information about the status that is unique
@@ -2766,24 +2488,6 @@ func (s *Task) Validate() error {
 	return nil
 }
 
-// SetProgressPercent sets the ProgressPercent field's value.
-func (s *Task) SetProgressPercent(v int64) *Task {
-	s.ProgressPercent = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Task) SetStatus(v Status) *Task {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetail sets the StatusDetail field's value.
-func (s *Task) SetStatusDetail(v string) *Task {
-	s.StatusDetail = &v
-	return s
-}
-
 type ApplicationStatus string
 
 // Enum values for ApplicationStatus
@@ -2792,6 +2496,15 @@ const (
 	ApplicationStatusInProgress ApplicationStatus = "IN_PROGRESS"
 	ApplicationStatusCompleted  ApplicationStatus = "COMPLETED"
 )
+
+func (enum ApplicationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ApplicationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ResourceAttributeType string
 
@@ -2807,8 +2520,16 @@ const (
 	ResourceAttributeTypeVmPath                   ResourceAttributeType = "VM_PATH"
 	ResourceAttributeTypeBiosId                   ResourceAttributeType = "BIOS_ID"
 	ResourceAttributeTypeMotherboardSerialNumber  ResourceAttributeType = "MOTHERBOARD_SERIAL_NUMBER"
-	ResourceAttributeTypeLabel                    ResourceAttributeType = "LABEL"
 )
+
+func (enum ResourceAttributeType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceAttributeType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type Status string
 
@@ -2819,3 +2540,12 @@ const (
 	StatusFailed     Status = "FAILED"
 	StatusCompleted  Status = "COMPLETED"
 )
+
+func (enum Status) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Status) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

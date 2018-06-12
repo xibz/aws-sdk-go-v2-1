@@ -9,7 +9,6 @@
 package acmiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/acm"
 )
 
@@ -69,14 +68,13 @@ type ACMAPI interface {
 
 	DescribeCertificateRequest(*acm.DescribeCertificateInput) acm.DescribeCertificateRequest
 
+	ExportCertificateRequest(*acm.ExportCertificateInput) acm.ExportCertificateRequest
+
 	GetCertificateRequest(*acm.GetCertificateInput) acm.GetCertificateRequest
 
 	ImportCertificateRequest(*acm.ImportCertificateInput) acm.ImportCertificateRequest
 
 	ListCertificatesRequest(*acm.ListCertificatesInput) acm.ListCertificatesRequest
-
-	ListCertificatesPages(*acm.ListCertificatesInput, func(*acm.ListCertificatesOutput, bool) bool) error
-	ListCertificatesPagesWithContext(aws.Context, *acm.ListCertificatesInput, func(*acm.ListCertificatesOutput, bool) bool, ...aws.Option) error
 
 	ListTagsForCertificateRequest(*acm.ListTagsForCertificateInput) acm.ListTagsForCertificateRequest
 
@@ -85,6 +83,8 @@ type ACMAPI interface {
 	RequestCertificateRequest(*acm.RequestCertificateInput) acm.RequestCertificateRequest
 
 	ResendValidationEmailRequest(*acm.ResendValidationEmailInput) acm.ResendValidationEmailRequest
+
+	UpdateCertificateOptionsRequest(*acm.UpdateCertificateOptionsInput) acm.UpdateCertificateOptionsRequest
 }
 
 var _ ACMAPI = (*acm.ACM)(nil)

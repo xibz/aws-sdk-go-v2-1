@@ -16,6 +16,7 @@ const opAddIpRoutes = "AddIpRoutes"
 type AddIpRoutesRequest struct {
 	*aws.Request
 	Input *AddIpRoutesInput
+	Copy  func(*AddIpRoutesInput) AddIpRoutesRequest
 }
 
 // Send marshals and sends the AddIpRoutes API request.
@@ -61,8 +62,11 @@ func (c *DirectoryService) AddIpRoutesRequest(input *AddIpRoutesInput) AddIpRout
 		input = &AddIpRoutesInput{}
 	}
 
-	req := c.newRequest(op, input, &AddIpRoutesOutput{})
-	return AddIpRoutesRequest{Request: req, Input: input}
+	output := &AddIpRoutesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddIpRoutesRequest{Request: req, Input: input, Copy: c.AddIpRoutesRequest}
 }
 
 const opAddTagsToResource = "AddTagsToResource"
@@ -71,6 +75,7 @@ const opAddTagsToResource = "AddTagsToResource"
 type AddTagsToResourceRequest struct {
 	*aws.Request
 	Input *AddTagsToResourceInput
+	Copy  func(*AddTagsToResourceInput) AddTagsToResourceRequest
 }
 
 // Send marshals and sends the AddTagsToResource API request.
@@ -109,8 +114,11 @@ func (c *DirectoryService) AddTagsToResourceRequest(input *AddTagsToResourceInpu
 		input = &AddTagsToResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsToResourceOutput{})
-	return AddTagsToResourceRequest{Request: req, Input: input}
+	output := &AddTagsToResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsToResourceRequest{Request: req, Input: input, Copy: c.AddTagsToResourceRequest}
 }
 
 const opCancelSchemaExtension = "CancelSchemaExtension"
@@ -119,6 +127,7 @@ const opCancelSchemaExtension = "CancelSchemaExtension"
 type CancelSchemaExtensionRequest struct {
 	*aws.Request
 	Input *CancelSchemaExtensionInput
+	Copy  func(*CancelSchemaExtensionInput) CancelSchemaExtensionRequest
 }
 
 // Send marshals and sends the CancelSchemaExtension API request.
@@ -158,8 +167,11 @@ func (c *DirectoryService) CancelSchemaExtensionRequest(input *CancelSchemaExten
 		input = &CancelSchemaExtensionInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelSchemaExtensionOutput{})
-	return CancelSchemaExtensionRequest{Request: req, Input: input}
+	output := &CancelSchemaExtensionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelSchemaExtensionRequest{Request: req, Input: input, Copy: c.CancelSchemaExtensionRequest}
 }
 
 const opConnectDirectory = "ConnectDirectory"
@@ -168,6 +180,7 @@ const opConnectDirectory = "ConnectDirectory"
 type ConnectDirectoryRequest struct {
 	*aws.Request
 	Input *ConnectDirectoryInput
+	Copy  func(*ConnectDirectoryInput) ConnectDirectoryRequest
 }
 
 // Send marshals and sends the ConnectDirectory API request.
@@ -209,8 +222,11 @@ func (c *DirectoryService) ConnectDirectoryRequest(input *ConnectDirectoryInput)
 		input = &ConnectDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &ConnectDirectoryOutput{})
-	return ConnectDirectoryRequest{Request: req, Input: input}
+	output := &ConnectDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ConnectDirectoryRequest{Request: req, Input: input, Copy: c.ConnectDirectoryRequest}
 }
 
 const opCreateAlias = "CreateAlias"
@@ -219,6 +235,7 @@ const opCreateAlias = "CreateAlias"
 type CreateAliasRequest struct {
 	*aws.Request
 	Input *CreateAliasInput
+	Copy  func(*CreateAliasInput) CreateAliasRequest
 }
 
 // Send marshals and sends the CreateAlias API request.
@@ -260,8 +277,11 @@ func (c *DirectoryService) CreateAliasRequest(input *CreateAliasInput) CreateAli
 		input = &CreateAliasInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAliasOutput{})
-	return CreateAliasRequest{Request: req, Input: input}
+	output := &CreateAliasOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAliasRequest{Request: req, Input: input, Copy: c.CreateAliasRequest}
 }
 
 const opCreateComputer = "CreateComputer"
@@ -270,6 +290,7 @@ const opCreateComputer = "CreateComputer"
 type CreateComputerRequest struct {
 	*aws.Request
 	Input *CreateComputerInput
+	Copy  func(*CreateComputerInput) CreateComputerRequest
 }
 
 // Send marshals and sends the CreateComputer API request.
@@ -307,8 +328,11 @@ func (c *DirectoryService) CreateComputerRequest(input *CreateComputerInput) Cre
 		input = &CreateComputerInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateComputerOutput{})
-	return CreateComputerRequest{Request: req, Input: input}
+	output := &CreateComputerOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateComputerRequest{Request: req, Input: input, Copy: c.CreateComputerRequest}
 }
 
 const opCreateConditionalForwarder = "CreateConditionalForwarder"
@@ -317,6 +341,7 @@ const opCreateConditionalForwarder = "CreateConditionalForwarder"
 type CreateConditionalForwarderRequest struct {
 	*aws.Request
 	Input *CreateConditionalForwarderInput
+	Copy  func(*CreateConditionalForwarderInput) CreateConditionalForwarderRequest
 }
 
 // Send marshals and sends the CreateConditionalForwarder API request.
@@ -355,8 +380,11 @@ func (c *DirectoryService) CreateConditionalForwarderRequest(input *CreateCondit
 		input = &CreateConditionalForwarderInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateConditionalForwarderOutput{})
-	return CreateConditionalForwarderRequest{Request: req, Input: input}
+	output := &CreateConditionalForwarderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateConditionalForwarderRequest{Request: req, Input: input, Copy: c.CreateConditionalForwarderRequest}
 }
 
 const opCreateDirectory = "CreateDirectory"
@@ -365,6 +393,7 @@ const opCreateDirectory = "CreateDirectory"
 type CreateDirectoryRequest struct {
 	*aws.Request
 	Input *CreateDirectoryInput
+	Copy  func(*CreateDirectoryInput) CreateDirectoryRequest
 }
 
 // Send marshals and sends the CreateDirectory API request.
@@ -406,8 +435,11 @@ func (c *DirectoryService) CreateDirectoryRequest(input *CreateDirectoryInput) C
 		input = &CreateDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDirectoryOutput{})
-	return CreateDirectoryRequest{Request: req, Input: input}
+	output := &CreateDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDirectoryRequest{Request: req, Input: input, Copy: c.CreateDirectoryRequest}
 }
 
 const opCreateMicrosoftAD = "CreateMicrosoftAD"
@@ -416,6 +448,7 @@ const opCreateMicrosoftAD = "CreateMicrosoftAD"
 type CreateMicrosoftADRequest struct {
 	*aws.Request
 	Input *CreateMicrosoftADInput
+	Copy  func(*CreateMicrosoftADInput) CreateMicrosoftADRequest
 }
 
 // Send marshals and sends the CreateMicrosoftAD API request.
@@ -457,8 +490,11 @@ func (c *DirectoryService) CreateMicrosoftADRequest(input *CreateMicrosoftADInpu
 		input = &CreateMicrosoftADInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateMicrosoftADOutput{})
-	return CreateMicrosoftADRequest{Request: req, Input: input}
+	output := &CreateMicrosoftADOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateMicrosoftADRequest{Request: req, Input: input, Copy: c.CreateMicrosoftADRequest}
 }
 
 const opCreateSnapshot = "CreateSnapshot"
@@ -467,6 +503,7 @@ const opCreateSnapshot = "CreateSnapshot"
 type CreateSnapshotRequest struct {
 	*aws.Request
 	Input *CreateSnapshotInput
+	Copy  func(*CreateSnapshotInput) CreateSnapshotRequest
 }
 
 // Send marshals and sends the CreateSnapshot API request.
@@ -505,8 +542,11 @@ func (c *DirectoryService) CreateSnapshotRequest(input *CreateSnapshotInput) Cre
 		input = &CreateSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSnapshotOutput{})
-	return CreateSnapshotRequest{Request: req, Input: input}
+	output := &CreateSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSnapshotRequest{Request: req, Input: input, Copy: c.CreateSnapshotRequest}
 }
 
 const opCreateTrust = "CreateTrust"
@@ -515,6 +555,7 @@ const opCreateTrust = "CreateTrust"
 type CreateTrustRequest struct {
 	*aws.Request
 	Input *CreateTrustInput
+	Copy  func(*CreateTrustInput) CreateTrustRequest
 }
 
 // Send marshals and sends the CreateTrust API request.
@@ -558,8 +599,11 @@ func (c *DirectoryService) CreateTrustRequest(input *CreateTrustInput) CreateTru
 		input = &CreateTrustInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateTrustOutput{})
-	return CreateTrustRequest{Request: req, Input: input}
+	output := &CreateTrustOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateTrustRequest{Request: req, Input: input, Copy: c.CreateTrustRequest}
 }
 
 const opDeleteConditionalForwarder = "DeleteConditionalForwarder"
@@ -568,6 +612,7 @@ const opDeleteConditionalForwarder = "DeleteConditionalForwarder"
 type DeleteConditionalForwarderRequest struct {
 	*aws.Request
 	Input *DeleteConditionalForwarderInput
+	Copy  func(*DeleteConditionalForwarderInput) DeleteConditionalForwarderRequest
 }
 
 // Send marshals and sends the DeleteConditionalForwarder API request.
@@ -604,8 +649,11 @@ func (c *DirectoryService) DeleteConditionalForwarderRequest(input *DeleteCondit
 		input = &DeleteConditionalForwarderInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteConditionalForwarderOutput{})
-	return DeleteConditionalForwarderRequest{Request: req, Input: input}
+	output := &DeleteConditionalForwarderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteConditionalForwarderRequest{Request: req, Input: input, Copy: c.DeleteConditionalForwarderRequest}
 }
 
 const opDeleteDirectory = "DeleteDirectory"
@@ -614,6 +662,7 @@ const opDeleteDirectory = "DeleteDirectory"
 type DeleteDirectoryRequest struct {
 	*aws.Request
 	Input *DeleteDirectoryInput
+	Copy  func(*DeleteDirectoryInput) DeleteDirectoryRequest
 }
 
 // Send marshals and sends the DeleteDirectory API request.
@@ -655,8 +704,11 @@ func (c *DirectoryService) DeleteDirectoryRequest(input *DeleteDirectoryInput) D
 		input = &DeleteDirectoryInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDirectoryOutput{})
-	return DeleteDirectoryRequest{Request: req, Input: input}
+	output := &DeleteDirectoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDirectoryRequest{Request: req, Input: input, Copy: c.DeleteDirectoryRequest}
 }
 
 const opDeleteSnapshot = "DeleteSnapshot"
@@ -665,6 +717,7 @@ const opDeleteSnapshot = "DeleteSnapshot"
 type DeleteSnapshotRequest struct {
 	*aws.Request
 	Input *DeleteSnapshotInput
+	Copy  func(*DeleteSnapshotInput) DeleteSnapshotRequest
 }
 
 // Send marshals and sends the DeleteSnapshot API request.
@@ -701,8 +754,11 @@ func (c *DirectoryService) DeleteSnapshotRequest(input *DeleteSnapshotInput) Del
 		input = &DeleteSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSnapshotOutput{})
-	return DeleteSnapshotRequest{Request: req, Input: input}
+	output := &DeleteSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSnapshotRequest{Request: req, Input: input, Copy: c.DeleteSnapshotRequest}
 }
 
 const opDeleteTrust = "DeleteTrust"
@@ -711,6 +767,7 @@ const opDeleteTrust = "DeleteTrust"
 type DeleteTrustRequest struct {
 	*aws.Request
 	Input *DeleteTrustInput
+	Copy  func(*DeleteTrustInput) DeleteTrustRequest
 }
 
 // Send marshals and sends the DeleteTrust API request.
@@ -748,8 +805,11 @@ func (c *DirectoryService) DeleteTrustRequest(input *DeleteTrustInput) DeleteTru
 		input = &DeleteTrustInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteTrustOutput{})
-	return DeleteTrustRequest{Request: req, Input: input}
+	output := &DeleteTrustOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteTrustRequest{Request: req, Input: input, Copy: c.DeleteTrustRequest}
 }
 
 const opDeregisterEventTopic = "DeregisterEventTopic"
@@ -758,6 +818,7 @@ const opDeregisterEventTopic = "DeregisterEventTopic"
 type DeregisterEventTopicRequest struct {
 	*aws.Request
 	Input *DeregisterEventTopicInput
+	Copy  func(*DeregisterEventTopicInput) DeregisterEventTopicRequest
 }
 
 // Send marshals and sends the DeregisterEventTopic API request.
@@ -794,8 +855,11 @@ func (c *DirectoryService) DeregisterEventTopicRequest(input *DeregisterEventTop
 		input = &DeregisterEventTopicInput{}
 	}
 
-	req := c.newRequest(op, input, &DeregisterEventTopicOutput{})
-	return DeregisterEventTopicRequest{Request: req, Input: input}
+	output := &DeregisterEventTopicOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterEventTopicRequest{Request: req, Input: input, Copy: c.DeregisterEventTopicRequest}
 }
 
 const opDescribeConditionalForwarders = "DescribeConditionalForwarders"
@@ -804,6 +868,7 @@ const opDescribeConditionalForwarders = "DescribeConditionalForwarders"
 type DescribeConditionalForwardersRequest struct {
 	*aws.Request
 	Input *DescribeConditionalForwardersInput
+	Copy  func(*DescribeConditionalForwardersInput) DescribeConditionalForwardersRequest
 }
 
 // Send marshals and sends the DescribeConditionalForwarders API request.
@@ -843,8 +908,11 @@ func (c *DirectoryService) DescribeConditionalForwardersRequest(input *DescribeC
 		input = &DescribeConditionalForwardersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeConditionalForwardersOutput{})
-	return DescribeConditionalForwardersRequest{Request: req, Input: input}
+	output := &DescribeConditionalForwardersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeConditionalForwardersRequest{Request: req, Input: input, Copy: c.DescribeConditionalForwardersRequest}
 }
 
 const opDescribeDirectories = "DescribeDirectories"
@@ -853,6 +921,7 @@ const opDescribeDirectories = "DescribeDirectories"
 type DescribeDirectoriesRequest struct {
 	*aws.Request
 	Input *DescribeDirectoriesInput
+	Copy  func(*DescribeDirectoriesInput) DescribeDirectoriesRequest
 }
 
 // Send marshals and sends the DescribeDirectories API request.
@@ -900,8 +969,11 @@ func (c *DirectoryService) DescribeDirectoriesRequest(input *DescribeDirectories
 		input = &DescribeDirectoriesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDirectoriesOutput{})
-	return DescribeDirectoriesRequest{Request: req, Input: input}
+	output := &DescribeDirectoriesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDirectoriesRequest{Request: req, Input: input, Copy: c.DescribeDirectoriesRequest}
 }
 
 const opDescribeDomainControllers = "DescribeDomainControllers"
@@ -910,6 +982,7 @@ const opDescribeDomainControllers = "DescribeDomainControllers"
 type DescribeDomainControllersRequest struct {
 	*aws.Request
 	Input *DescribeDomainControllersInput
+	Copy  func(*DescribeDomainControllersInput) DescribeDomainControllersRequest
 }
 
 // Send marshals and sends the DescribeDomainControllers API request.
@@ -952,58 +1025,57 @@ func (c *DirectoryService) DescribeDomainControllersRequest(input *DescribeDomai
 		input = &DescribeDomainControllersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDomainControllersOutput{})
-	return DescribeDomainControllersRequest{Request: req, Input: input}
+	output := &DescribeDomainControllersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDomainControllersRequest{Request: req, Input: input, Copy: c.DescribeDomainControllersRequest}
 }
 
-// DescribeDomainControllersPages iterates over the pages of a DescribeDomainControllers operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeDomainControllers method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeDomainControllersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeDomainControllers operation.
-//    pageNum := 0
-//    err := client.DescribeDomainControllersPages(params,
-//        func(page *DescribeDomainControllersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeDomainControllersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DirectoryService) DescribeDomainControllersPages(input *DescribeDomainControllersInput, fn func(*DescribeDomainControllersOutput, bool) bool) error {
-	return c.DescribeDomainControllersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeDomainControllersRequest) Paginate(opts ...aws.Option) DescribeDomainControllersPager {
+	return DescribeDomainControllersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeDomainControllersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeDomainControllersPagesWithContext same as DescribeDomainControllersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DirectoryService) DescribeDomainControllersPagesWithContext(ctx aws.Context, input *DescribeDomainControllersInput, fn func(*DescribeDomainControllersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeDomainControllersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeDomainControllersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeDomainControllersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeDomainControllersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeDomainControllersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeDomainControllersPager) CurrentPage() *DescribeDomainControllersOutput {
+	return p.Pager.CurrentPage().(*DescribeDomainControllersOutput)
 }
 
 const opDescribeEventTopics = "DescribeEventTopics"
@@ -1012,6 +1084,7 @@ const opDescribeEventTopics = "DescribeEventTopics"
 type DescribeEventTopicsRequest struct {
 	*aws.Request
 	Input *DescribeEventTopicsInput
+	Copy  func(*DescribeEventTopicsInput) DescribeEventTopicsRequest
 }
 
 // Send marshals and sends the DescribeEventTopics API request.
@@ -1052,8 +1125,11 @@ func (c *DirectoryService) DescribeEventTopicsRequest(input *DescribeEventTopics
 		input = &DescribeEventTopicsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEventTopicsOutput{})
-	return DescribeEventTopicsRequest{Request: req, Input: input}
+	output := &DescribeEventTopicsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEventTopicsRequest{Request: req, Input: input, Copy: c.DescribeEventTopicsRequest}
 }
 
 const opDescribeSnapshots = "DescribeSnapshots"
@@ -1062,6 +1138,7 @@ const opDescribeSnapshots = "DescribeSnapshots"
 type DescribeSnapshotsRequest struct {
 	*aws.Request
 	Input *DescribeSnapshotsInput
+	Copy  func(*DescribeSnapshotsInput) DescribeSnapshotsRequest
 }
 
 // Send marshals and sends the DescribeSnapshots API request.
@@ -1105,8 +1182,11 @@ func (c *DirectoryService) DescribeSnapshotsRequest(input *DescribeSnapshotsInpu
 		input = &DescribeSnapshotsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSnapshotsOutput{})
-	return DescribeSnapshotsRequest{Request: req, Input: input}
+	output := &DescribeSnapshotsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSnapshotsRequest{Request: req, Input: input, Copy: c.DescribeSnapshotsRequest}
 }
 
 const opDescribeTrusts = "DescribeTrusts"
@@ -1115,6 +1195,7 @@ const opDescribeTrusts = "DescribeTrusts"
 type DescribeTrustsRequest struct {
 	*aws.Request
 	Input *DescribeTrustsInput
+	Copy  func(*DescribeTrustsInput) DescribeTrustsRequest
 }
 
 // Send marshals and sends the DescribeTrusts API request.
@@ -1154,8 +1235,11 @@ func (c *DirectoryService) DescribeTrustsRequest(input *DescribeTrustsInput) Des
 		input = &DescribeTrustsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeTrustsOutput{})
-	return DescribeTrustsRequest{Request: req, Input: input}
+	output := &DescribeTrustsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeTrustsRequest{Request: req, Input: input, Copy: c.DescribeTrustsRequest}
 }
 
 const opDisableRadius = "DisableRadius"
@@ -1164,6 +1248,7 @@ const opDisableRadius = "DisableRadius"
 type DisableRadiusRequest struct {
 	*aws.Request
 	Input *DisableRadiusInput
+	Copy  func(*DisableRadiusInput) DisableRadiusRequest
 }
 
 // Send marshals and sends the DisableRadius API request.
@@ -1201,8 +1286,11 @@ func (c *DirectoryService) DisableRadiusRequest(input *DisableRadiusInput) Disab
 		input = &DisableRadiusInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableRadiusOutput{})
-	return DisableRadiusRequest{Request: req, Input: input}
+	output := &DisableRadiusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableRadiusRequest{Request: req, Input: input, Copy: c.DisableRadiusRequest}
 }
 
 const opDisableSso = "DisableSso"
@@ -1211,6 +1299,7 @@ const opDisableSso = "DisableSso"
 type DisableSsoRequest struct {
 	*aws.Request
 	Input *DisableSsoInput
+	Copy  func(*DisableSsoInput) DisableSsoRequest
 }
 
 // Send marshals and sends the DisableSso API request.
@@ -1247,8 +1336,11 @@ func (c *DirectoryService) DisableSsoRequest(input *DisableSsoInput) DisableSsoR
 		input = &DisableSsoInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableSsoOutput{})
-	return DisableSsoRequest{Request: req, Input: input}
+	output := &DisableSsoOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableSsoRequest{Request: req, Input: input, Copy: c.DisableSsoRequest}
 }
 
 const opEnableRadius = "EnableRadius"
@@ -1257,6 +1349,7 @@ const opEnableRadius = "EnableRadius"
 type EnableRadiusRequest struct {
 	*aws.Request
 	Input *EnableRadiusInput
+	Copy  func(*EnableRadiusInput) EnableRadiusRequest
 }
 
 // Send marshals and sends the EnableRadius API request.
@@ -1294,8 +1387,11 @@ func (c *DirectoryService) EnableRadiusRequest(input *EnableRadiusInput) EnableR
 		input = &EnableRadiusInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableRadiusOutput{})
-	return EnableRadiusRequest{Request: req, Input: input}
+	output := &EnableRadiusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableRadiusRequest{Request: req, Input: input, Copy: c.EnableRadiusRequest}
 }
 
 const opEnableSso = "EnableSso"
@@ -1304,6 +1400,7 @@ const opEnableSso = "EnableSso"
 type EnableSsoRequest struct {
 	*aws.Request
 	Input *EnableSsoInput
+	Copy  func(*EnableSsoInput) EnableSsoRequest
 }
 
 // Send marshals and sends the EnableSso API request.
@@ -1340,8 +1437,11 @@ func (c *DirectoryService) EnableSsoRequest(input *EnableSsoInput) EnableSsoRequ
 		input = &EnableSsoInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableSsoOutput{})
-	return EnableSsoRequest{Request: req, Input: input}
+	output := &EnableSsoOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableSsoRequest{Request: req, Input: input, Copy: c.EnableSsoRequest}
 }
 
 const opGetDirectoryLimits = "GetDirectoryLimits"
@@ -1350,6 +1450,7 @@ const opGetDirectoryLimits = "GetDirectoryLimits"
 type GetDirectoryLimitsRequest struct {
 	*aws.Request
 	Input *GetDirectoryLimitsInput
+	Copy  func(*GetDirectoryLimitsInput) GetDirectoryLimitsRequest
 }
 
 // Send marshals and sends the GetDirectoryLimits API request.
@@ -1386,8 +1487,11 @@ func (c *DirectoryService) GetDirectoryLimitsRequest(input *GetDirectoryLimitsIn
 		input = &GetDirectoryLimitsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDirectoryLimitsOutput{})
-	return GetDirectoryLimitsRequest{Request: req, Input: input}
+	output := &GetDirectoryLimitsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDirectoryLimitsRequest{Request: req, Input: input, Copy: c.GetDirectoryLimitsRequest}
 }
 
 const opGetSnapshotLimits = "GetSnapshotLimits"
@@ -1396,6 +1500,7 @@ const opGetSnapshotLimits = "GetSnapshotLimits"
 type GetSnapshotLimitsRequest struct {
 	*aws.Request
 	Input *GetSnapshotLimitsInput
+	Copy  func(*GetSnapshotLimitsInput) GetSnapshotLimitsRequest
 }
 
 // Send marshals and sends the GetSnapshotLimits API request.
@@ -1432,8 +1537,11 @@ func (c *DirectoryService) GetSnapshotLimitsRequest(input *GetSnapshotLimitsInpu
 		input = &GetSnapshotLimitsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSnapshotLimitsOutput{})
-	return GetSnapshotLimitsRequest{Request: req, Input: input}
+	output := &GetSnapshotLimitsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSnapshotLimitsRequest{Request: req, Input: input, Copy: c.GetSnapshotLimitsRequest}
 }
 
 const opListIpRoutes = "ListIpRoutes"
@@ -1442,6 +1550,7 @@ const opListIpRoutes = "ListIpRoutes"
 type ListIpRoutesRequest struct {
 	*aws.Request
 	Input *ListIpRoutesInput
+	Copy  func(*ListIpRoutesInput) ListIpRoutesRequest
 }
 
 // Send marshals and sends the ListIpRoutes API request.
@@ -1478,8 +1587,11 @@ func (c *DirectoryService) ListIpRoutesRequest(input *ListIpRoutesInput) ListIpR
 		input = &ListIpRoutesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListIpRoutesOutput{})
-	return ListIpRoutesRequest{Request: req, Input: input}
+	output := &ListIpRoutesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListIpRoutesRequest{Request: req, Input: input, Copy: c.ListIpRoutesRequest}
 }
 
 const opListSchemaExtensions = "ListSchemaExtensions"
@@ -1488,6 +1600,7 @@ const opListSchemaExtensions = "ListSchemaExtensions"
 type ListSchemaExtensionsRequest struct {
 	*aws.Request
 	Input *ListSchemaExtensionsInput
+	Copy  func(*ListSchemaExtensionsInput) ListSchemaExtensionsRequest
 }
 
 // Send marshals and sends the ListSchemaExtensions API request.
@@ -1524,8 +1637,11 @@ func (c *DirectoryService) ListSchemaExtensionsRequest(input *ListSchemaExtensio
 		input = &ListSchemaExtensionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSchemaExtensionsOutput{})
-	return ListSchemaExtensionsRequest{Request: req, Input: input}
+	output := &ListSchemaExtensionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSchemaExtensionsRequest{Request: req, Input: input, Copy: c.ListSchemaExtensionsRequest}
 }
 
 const opListTagsForResource = "ListTagsForResource"
@@ -1534,6 +1650,7 @@ const opListTagsForResource = "ListTagsForResource"
 type ListTagsForResourceRequest struct {
 	*aws.Request
 	Input *ListTagsForResourceInput
+	Copy  func(*ListTagsForResourceInput) ListTagsForResourceRequest
 }
 
 // Send marshals and sends the ListTagsForResource API request.
@@ -1570,8 +1687,11 @@ func (c *DirectoryService) ListTagsForResourceRequest(input *ListTagsForResource
 		input = &ListTagsForResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsForResourceOutput{})
-	return ListTagsForResourceRequest{Request: req, Input: input}
+	output := &ListTagsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsForResourceRequest{Request: req, Input: input, Copy: c.ListTagsForResourceRequest}
 }
 
 const opRegisterEventTopic = "RegisterEventTopic"
@@ -1580,6 +1700,7 @@ const opRegisterEventTopic = "RegisterEventTopic"
 type RegisterEventTopicRequest struct {
 	*aws.Request
 	Input *RegisterEventTopicInput
+	Copy  func(*RegisterEventTopicInput) RegisterEventTopicRequest
 }
 
 // Send marshals and sends the RegisterEventTopic API request.
@@ -1621,8 +1742,11 @@ func (c *DirectoryService) RegisterEventTopicRequest(input *RegisterEventTopicIn
 		input = &RegisterEventTopicInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterEventTopicOutput{})
-	return RegisterEventTopicRequest{Request: req, Input: input}
+	output := &RegisterEventTopicOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterEventTopicRequest{Request: req, Input: input, Copy: c.RegisterEventTopicRequest}
 }
 
 const opRemoveIpRoutes = "RemoveIpRoutes"
@@ -1631,6 +1755,7 @@ const opRemoveIpRoutes = "RemoveIpRoutes"
 type RemoveIpRoutesRequest struct {
 	*aws.Request
 	Input *RemoveIpRoutesInput
+	Copy  func(*RemoveIpRoutesInput) RemoveIpRoutesRequest
 }
 
 // Send marshals and sends the RemoveIpRoutes API request.
@@ -1667,8 +1792,11 @@ func (c *DirectoryService) RemoveIpRoutesRequest(input *RemoveIpRoutesInput) Rem
 		input = &RemoveIpRoutesInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveIpRoutesOutput{})
-	return RemoveIpRoutesRequest{Request: req, Input: input}
+	output := &RemoveIpRoutesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveIpRoutesRequest{Request: req, Input: input, Copy: c.RemoveIpRoutesRequest}
 }
 
 const opRemoveTagsFromResource = "RemoveTagsFromResource"
@@ -1677,6 +1805,7 @@ const opRemoveTagsFromResource = "RemoveTagsFromResource"
 type RemoveTagsFromResourceRequest struct {
 	*aws.Request
 	Input *RemoveTagsFromResourceInput
+	Copy  func(*RemoveTagsFromResourceInput) RemoveTagsFromResourceRequest
 }
 
 // Send marshals and sends the RemoveTagsFromResource API request.
@@ -1713,8 +1842,62 @@ func (c *DirectoryService) RemoveTagsFromResourceRequest(input *RemoveTagsFromRe
 		input = &RemoveTagsFromResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsFromResourceOutput{})
-	return RemoveTagsFromResourceRequest{Request: req, Input: input}
+	output := &RemoveTagsFromResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsFromResourceRequest{Request: req, Input: input, Copy: c.RemoveTagsFromResourceRequest}
+}
+
+const opResetUserPassword = "ResetUserPassword"
+
+// ResetUserPasswordRequest is a API request type for the ResetUserPassword API operation.
+type ResetUserPasswordRequest struct {
+	*aws.Request
+	Input *ResetUserPasswordInput
+	Copy  func(*ResetUserPasswordInput) ResetUserPasswordRequest
+}
+
+// Send marshals and sends the ResetUserPassword API request.
+func (r ResetUserPasswordRequest) Send() (*ResetUserPasswordOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*ResetUserPasswordOutput), nil
+}
+
+// ResetUserPasswordRequest returns a request value for making API operation for
+// AWS Directory Service.
+//
+// Resets the password for any user in your AWS Managed Microsoft AD or Simple
+// AD directory.
+//
+//    // Example sending a request using the ResetUserPasswordRequest method.
+//    req := client.ResetUserPasswordRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ResetUserPassword
+func (c *DirectoryService) ResetUserPasswordRequest(input *ResetUserPasswordInput) ResetUserPasswordRequest {
+	op := &aws.Operation{
+		Name:       opResetUserPassword,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ResetUserPasswordInput{}
+	}
+
+	output := &ResetUserPasswordOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ResetUserPasswordRequest{Request: req, Input: input, Copy: c.ResetUserPasswordRequest}
 }
 
 const opRestoreFromSnapshot = "RestoreFromSnapshot"
@@ -1723,6 +1906,7 @@ const opRestoreFromSnapshot = "RestoreFromSnapshot"
 type RestoreFromSnapshotRequest struct {
 	*aws.Request
 	Input *RestoreFromSnapshotInput
+	Copy  func(*RestoreFromSnapshotInput) RestoreFromSnapshotRequest
 }
 
 // Send marshals and sends the RestoreFromSnapshot API request.
@@ -1767,8 +1951,11 @@ func (c *DirectoryService) RestoreFromSnapshotRequest(input *RestoreFromSnapshot
 		input = &RestoreFromSnapshotInput{}
 	}
 
-	req := c.newRequest(op, input, &RestoreFromSnapshotOutput{})
-	return RestoreFromSnapshotRequest{Request: req, Input: input}
+	output := &RestoreFromSnapshotOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RestoreFromSnapshotRequest{Request: req, Input: input, Copy: c.RestoreFromSnapshotRequest}
 }
 
 const opStartSchemaExtension = "StartSchemaExtension"
@@ -1777,6 +1964,7 @@ const opStartSchemaExtension = "StartSchemaExtension"
 type StartSchemaExtensionRequest struct {
 	*aws.Request
 	Input *StartSchemaExtensionInput
+	Copy  func(*StartSchemaExtensionInput) StartSchemaExtensionRequest
 }
 
 // Send marshals and sends the StartSchemaExtension API request.
@@ -1813,8 +2001,11 @@ func (c *DirectoryService) StartSchemaExtensionRequest(input *StartSchemaExtensi
 		input = &StartSchemaExtensionInput{}
 	}
 
-	req := c.newRequest(op, input, &StartSchemaExtensionOutput{})
-	return StartSchemaExtensionRequest{Request: req, Input: input}
+	output := &StartSchemaExtensionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartSchemaExtensionRequest{Request: req, Input: input, Copy: c.StartSchemaExtensionRequest}
 }
 
 const opUpdateConditionalForwarder = "UpdateConditionalForwarder"
@@ -1823,6 +2014,7 @@ const opUpdateConditionalForwarder = "UpdateConditionalForwarder"
 type UpdateConditionalForwarderRequest struct {
 	*aws.Request
 	Input *UpdateConditionalForwarderInput
+	Copy  func(*UpdateConditionalForwarderInput) UpdateConditionalForwarderRequest
 }
 
 // Send marshals and sends the UpdateConditionalForwarder API request.
@@ -1859,8 +2051,11 @@ func (c *DirectoryService) UpdateConditionalForwarderRequest(input *UpdateCondit
 		input = &UpdateConditionalForwarderInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateConditionalForwarderOutput{})
-	return UpdateConditionalForwarderRequest{Request: req, Input: input}
+	output := &UpdateConditionalForwarderOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateConditionalForwarderRequest{Request: req, Input: input, Copy: c.UpdateConditionalForwarderRequest}
 }
 
 const opUpdateNumberOfDomainControllers = "UpdateNumberOfDomainControllers"
@@ -1869,6 +2064,7 @@ const opUpdateNumberOfDomainControllers = "UpdateNumberOfDomainControllers"
 type UpdateNumberOfDomainControllersRequest struct {
 	*aws.Request
 	Input *UpdateNumberOfDomainControllersInput
+	Copy  func(*UpdateNumberOfDomainControllersInput) UpdateNumberOfDomainControllersRequest
 }
 
 // Send marshals and sends the UpdateNumberOfDomainControllers API request.
@@ -1910,8 +2106,11 @@ func (c *DirectoryService) UpdateNumberOfDomainControllersRequest(input *UpdateN
 		input = &UpdateNumberOfDomainControllersInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateNumberOfDomainControllersOutput{})
-	return UpdateNumberOfDomainControllersRequest{Request: req, Input: input}
+	output := &UpdateNumberOfDomainControllersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateNumberOfDomainControllersRequest{Request: req, Input: input, Copy: c.UpdateNumberOfDomainControllersRequest}
 }
 
 const opUpdateRadius = "UpdateRadius"
@@ -1920,6 +2119,7 @@ const opUpdateRadius = "UpdateRadius"
 type UpdateRadiusRequest struct {
 	*aws.Request
 	Input *UpdateRadiusInput
+	Copy  func(*UpdateRadiusInput) UpdateRadiusRequest
 }
 
 // Send marshals and sends the UpdateRadius API request.
@@ -1957,8 +2157,11 @@ func (c *DirectoryService) UpdateRadiusRequest(input *UpdateRadiusInput) UpdateR
 		input = &UpdateRadiusInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateRadiusOutput{})
-	return UpdateRadiusRequest{Request: req, Input: input}
+	output := &UpdateRadiusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateRadiusRequest{Request: req, Input: input, Copy: c.UpdateRadiusRequest}
 }
 
 const opVerifyTrust = "VerifyTrust"
@@ -1967,6 +2170,7 @@ const opVerifyTrust = "VerifyTrust"
 type VerifyTrustRequest struct {
 	*aws.Request
 	Input *VerifyTrustInput
+	Copy  func(*VerifyTrustInput) VerifyTrustRequest
 }
 
 // Send marshals and sends the VerifyTrust API request.
@@ -2007,8 +2211,11 @@ func (c *DirectoryService) VerifyTrustRequest(input *VerifyTrustInput) VerifyTru
 		input = &VerifyTrustInput{}
 	}
 
-	req := c.newRequest(op, input, &VerifyTrustOutput{})
-	return VerifyTrustRequest{Request: req, Input: input}
+	output := &VerifyTrustOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return VerifyTrustRequest{Request: req, Input: input, Copy: c.VerifyTrustRequest}
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AddIpRoutesRequest
@@ -2024,7 +2231,7 @@ type AddIpRoutesInput struct {
 	// the IP address block of the DNS server used for your on-premises domain.
 	//
 	// IpRoutes is a required field
-	IpRoutes []*IpRoute `type:"list" required:"true"`
+	IpRoutes []IpRoute `type:"list" required:"true"`
 
 	// If set to true, updates the inbound and outbound rules of the security group
 	// that has the description: "AWS created security group for directory ID directory
@@ -2100,27 +2307,11 @@ func (s *AddIpRoutesInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *AddIpRoutesInput) SetDirectoryId(v string) *AddIpRoutesInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetIpRoutes sets the IpRoutes field's value.
-func (s *AddIpRoutesInput) SetIpRoutes(v []*IpRoute) *AddIpRoutesInput {
-	s.IpRoutes = v
-	return s
-}
-
-// SetUpdateSecurityGroupForDirectoryControllers sets the UpdateSecurityGroupForDirectoryControllers field's value.
-func (s *AddIpRoutesInput) SetUpdateSecurityGroupForDirectoryControllers(v bool) *AddIpRoutesInput {
-	s.UpdateSecurityGroupForDirectoryControllers = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AddIpRoutesResult
 type AddIpRoutesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2131,6 +2322,11 @@ func (s AddIpRoutesOutput) String() string {
 // GoString returns the string representation
 func (s AddIpRoutesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddIpRoutesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AddTagsToResourceRequest
@@ -2145,7 +2341,7 @@ type AddTagsToResourceInput struct {
 	// The tags to be assigned to the directory.
 	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2171,9 +2367,6 @@ func (s *AddTagsToResourceInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -2186,21 +2379,11 @@ func (s *AddTagsToResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddTagsToResourceInput) SetResourceId(v string) *AddTagsToResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AddTagsToResourceInput) SetTags(v []*Tag) *AddTagsToResourceInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/AddTagsToResourceResult
 type AddTagsToResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2211,6 +2394,11 @@ func (s AddTagsToResourceOutput) String() string {
 // GoString returns the string representation
 func (s AddTagsToResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsToResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a named directory attribute.
@@ -2246,18 +2434,6 @@ func (s *Attribute) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetName sets the Name field's value.
-func (s *Attribute) SetName(v string) *Attribute {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Attribute) SetValue(v string) *Attribute {
-	s.Value = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CancelSchemaExtensionRequest
@@ -2303,21 +2479,11 @@ func (s *CancelSchemaExtensionInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CancelSchemaExtensionInput) SetDirectoryId(v string) *CancelSchemaExtensionInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetSchemaExtensionId sets the SchemaExtensionId field's value.
-func (s *CancelSchemaExtensionInput) SetSchemaExtensionId(v string) *CancelSchemaExtensionInput {
-	s.SchemaExtensionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CancelSchemaExtensionResult
 type CancelSchemaExtensionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2330,6 +2496,11 @@ func (s CancelSchemaExtensionOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelSchemaExtensionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Contains information about a computer account in a directory.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/Computer
 type Computer struct {
@@ -2337,7 +2508,7 @@ type Computer struct {
 
 	// An array of Attribute objects containing the LDAP attributes that belong
 	// to the computer account.
-	ComputerAttributes []*Attribute `type:"list"`
+	ComputerAttributes []Attribute `type:"list"`
 
 	// The identifier of the computer.
 	ComputerId *string `min:"1" type:"string"`
@@ -2356,24 +2527,6 @@ func (s Computer) GoString() string {
 	return s.String()
 }
 
-// SetComputerAttributes sets the ComputerAttributes field's value.
-func (s *Computer) SetComputerAttributes(v []*Attribute) *Computer {
-	s.ComputerAttributes = v
-	return s
-}
-
-// SetComputerId sets the ComputerId field's value.
-func (s *Computer) SetComputerId(v string) *Computer {
-	s.ComputerId = &v
-	return s
-}
-
-// SetComputerName sets the ComputerName field's value.
-func (s *Computer) SetComputerName(v string) *Computer {
-	s.ComputerName = &v
-	return s
-}
-
 // Points to a remote domain with which you are setting up a trust relationship.
 // Conditional forwarders are required in order to set up a trust relationship
 // with another domain.
@@ -2384,7 +2537,7 @@ type ConditionalForwarder struct {
 	// The IP addresses of the remote DNS server associated with RemoteDomainName.
 	// This is the IP address of the DNS server that your conditional forwarder
 	// points to.
-	DnsIpAddrs []*string `type:"list"`
+	DnsIpAddrs []string `type:"list"`
 
 	// The fully qualified domain name (FQDN) of the remote domains pointed to by
 	// the conditional forwarder.
@@ -2393,7 +2546,7 @@ type ConditionalForwarder struct {
 	// The replication scope of the conditional forwarder. The only allowed value
 	// is Domain, which will replicate the conditional forwarder to all of the domain
 	// controllers for your AWS directory.
-	ReplicationScope ReplicationScope `type:"string"`
+	ReplicationScope ReplicationScope `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2404,24 +2557,6 @@ func (s ConditionalForwarder) String() string {
 // GoString returns the string representation
 func (s ConditionalForwarder) GoString() string {
 	return s.String()
-}
-
-// SetDnsIpAddrs sets the DnsIpAddrs field's value.
-func (s *ConditionalForwarder) SetDnsIpAddrs(v []*string) *ConditionalForwarder {
-	s.DnsIpAddrs = v
-	return s
-}
-
-// SetRemoteDomainName sets the RemoteDomainName field's value.
-func (s *ConditionalForwarder) SetRemoteDomainName(v string) *ConditionalForwarder {
-	s.RemoteDomainName = &v
-	return s
-}
-
-// SetReplicationScope sets the ReplicationScope field's value.
-func (s *ConditionalForwarder) SetReplicationScope(v ReplicationScope) *ConditionalForwarder {
-	s.ReplicationScope = v
-	return s
 }
 
 // Contains the inputs for the ConnectDirectory operation.
@@ -2454,7 +2589,7 @@ type ConnectDirectoryInput struct {
 	// The size of the directory.
 	//
 	// Size is a required field
-	Size DirectorySize `type:"string" required:"true"`
+	Size DirectorySize `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -2500,46 +2635,12 @@ func (s *ConnectDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetConnectSettings sets the ConnectSettings field's value.
-func (s *ConnectDirectoryInput) SetConnectSettings(v *DirectoryConnectSettings) *ConnectDirectoryInput {
-	s.ConnectSettings = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ConnectDirectoryInput) SetDescription(v string) *ConnectDirectoryInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ConnectDirectoryInput) SetName(v string) *ConnectDirectoryInput {
-	s.Name = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *ConnectDirectoryInput) SetPassword(v string) *ConnectDirectoryInput {
-	s.Password = &v
-	return s
-}
-
-// SetShortName sets the ShortName field's value.
-func (s *ConnectDirectoryInput) SetShortName(v string) *ConnectDirectoryInput {
-	s.ShortName = &v
-	return s
-}
-
-// SetSize sets the Size field's value.
-func (s *ConnectDirectoryInput) SetSize(v DirectorySize) *ConnectDirectoryInput {
-	s.Size = v
-	return s
-}
-
 // Contains the results of the ConnectDirectory operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ConnectDirectoryResult
 type ConnectDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier of the new directory.
 	DirectoryId *string `type:"string"`
@@ -2555,10 +2656,9 @@ func (s ConnectDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *ConnectDirectoryOutput) SetDirectoryId(v string) *ConnectDirectoryOutput {
-	s.DirectoryId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ConnectDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateAlias operation.
@@ -2611,22 +2711,12 @@ func (s *CreateAliasInput) Validate() error {
 	return nil
 }
 
-// SetAlias sets the Alias field's value.
-func (s *CreateAliasInput) SetAlias(v string) *CreateAliasInput {
-	s.Alias = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateAliasInput) SetDirectoryId(v string) *CreateAliasInput {
-	s.DirectoryId = &v
-	return s
-}
-
 // Contains the results of the CreateAlias operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateAliasResult
 type CreateAliasOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The alias for the directory.
 	Alias *string `min:"1" type:"string"`
@@ -2645,16 +2735,9 @@ func (s CreateAliasOutput) GoString() string {
 	return s.String()
 }
 
-// SetAlias sets the Alias field's value.
-func (s *CreateAliasOutput) SetAlias(v string) *CreateAliasOutput {
-	s.Alias = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateAliasOutput) SetDirectoryId(v string) *CreateAliasOutput {
-	s.DirectoryId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAliasOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateComputer operation.
@@ -2664,7 +2747,7 @@ type CreateComputerInput struct {
 
 	// An array of Attribute objects that contain any LDAP attributes to apply to
 	// the computer account.
-	ComputerAttributes []*Attribute `type:"list"`
+	ComputerAttributes []Attribute `type:"list"`
 
 	// The name of the computer account.
 	//
@@ -2723,9 +2806,6 @@ func (s *CreateComputerInput) Validate() error {
 	}
 	if s.ComputerAttributes != nil {
 		for i, v := range s.ComputerAttributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ComputerAttributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -2738,40 +2818,12 @@ func (s *CreateComputerInput) Validate() error {
 	return nil
 }
 
-// SetComputerAttributes sets the ComputerAttributes field's value.
-func (s *CreateComputerInput) SetComputerAttributes(v []*Attribute) *CreateComputerInput {
-	s.ComputerAttributes = v
-	return s
-}
-
-// SetComputerName sets the ComputerName field's value.
-func (s *CreateComputerInput) SetComputerName(v string) *CreateComputerInput {
-	s.ComputerName = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateComputerInput) SetDirectoryId(v string) *CreateComputerInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetOrganizationalUnitDistinguishedName sets the OrganizationalUnitDistinguishedName field's value.
-func (s *CreateComputerInput) SetOrganizationalUnitDistinguishedName(v string) *CreateComputerInput {
-	s.OrganizationalUnitDistinguishedName = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *CreateComputerInput) SetPassword(v string) *CreateComputerInput {
-	s.Password = &v
-	return s
-}
-
 // Contains the results for the CreateComputer operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateComputerResult
 type CreateComputerOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A Computer object that represents the computer account.
 	Computer *Computer `type:"structure"`
@@ -2787,10 +2839,9 @@ func (s CreateComputerOutput) GoString() string {
 	return s.String()
 }
 
-// SetComputer sets the Computer field's value.
-func (s *CreateComputerOutput) SetComputer(v *Computer) *CreateComputerOutput {
-	s.Computer = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateComputerOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Initiates the creation of a conditional forwarder for your AWS Directory
@@ -2809,7 +2860,7 @@ type CreateConditionalForwarderInput struct {
 	// The IP addresses of the remote DNS server associated with RemoteDomainName.
 	//
 	// DnsIpAddrs is a required field
-	DnsIpAddrs []*string `type:"list" required:"true"`
+	DnsIpAddrs []string `type:"list" required:"true"`
 
 	// The fully qualified domain name (FQDN) of the remote domain with which you
 	// will set up a trust relationship.
@@ -2850,28 +2901,12 @@ func (s *CreateConditionalForwarderInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateConditionalForwarderInput) SetDirectoryId(v string) *CreateConditionalForwarderInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetDnsIpAddrs sets the DnsIpAddrs field's value.
-func (s *CreateConditionalForwarderInput) SetDnsIpAddrs(v []*string) *CreateConditionalForwarderInput {
-	s.DnsIpAddrs = v
-	return s
-}
-
-// SetRemoteDomainName sets the RemoteDomainName field's value.
-func (s *CreateConditionalForwarderInput) SetRemoteDomainName(v string) *CreateConditionalForwarderInput {
-	s.RemoteDomainName = &v
-	return s
-}
-
 // The result of a CreateConditinalForwarder request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateConditionalForwarderResult
 type CreateConditionalForwarderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2882,6 +2917,11 @@ func (s CreateConditionalForwarderOutput) String() string {
 // GoString returns the string representation
 func (s CreateConditionalForwarderOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateConditionalForwarderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateDirectory operation.
@@ -2910,7 +2950,7 @@ type CreateDirectoryInput struct {
 	// The size of the directory.
 	//
 	// Size is a required field
-	Size DirectorySize `type:"string" required:"true"`
+	Size DirectorySize `type:"string" required:"true" enum:"true"`
 
 	// A DirectoryVpcSettings object that contains additional information for the
 	// operation.
@@ -2953,46 +2993,12 @@ func (s *CreateDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateDirectoryInput) SetDescription(v string) *CreateDirectoryInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateDirectoryInput) SetName(v string) *CreateDirectoryInput {
-	s.Name = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *CreateDirectoryInput) SetPassword(v string) *CreateDirectoryInput {
-	s.Password = &v
-	return s
-}
-
-// SetShortName sets the ShortName field's value.
-func (s *CreateDirectoryInput) SetShortName(v string) *CreateDirectoryInput {
-	s.ShortName = &v
-	return s
-}
-
-// SetSize sets the Size field's value.
-func (s *CreateDirectoryInput) SetSize(v DirectorySize) *CreateDirectoryInput {
-	s.Size = v
-	return s
-}
-
-// SetVpcSettings sets the VpcSettings field's value.
-func (s *CreateDirectoryInput) SetVpcSettings(v *DirectoryVpcSettings) *CreateDirectoryInput {
-	s.VpcSettings = v
-	return s
-}
-
 // Contains the results of the CreateDirectory operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateDirectoryResult
 type CreateDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier of the directory that was created.
 	DirectoryId *string `type:"string"`
@@ -3008,10 +3014,9 @@ func (s CreateDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateDirectoryOutput) SetDirectoryId(v string) *CreateDirectoryOutput {
-	s.DirectoryId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Creates a Microsoft AD in the AWS cloud.
@@ -3022,6 +3027,10 @@ type CreateMicrosoftADInput struct {
 	// A textual description for the directory. This label will appear on the AWS
 	// console Directory Details page after the directory is created.
 	Description *string `type:"string"`
+
+	// AWS Microsoft AD is available in two editions: Standard and Enterprise. Enterprise
+	// is the default.
+	Edition DirectoryEdition `type:"string" enum:"true"`
 
 	// The fully qualified domain name for the directory, such as corp.example.com.
 	// This name will resolve inside your VPC only. It does not need to be publicly
@@ -3083,40 +3092,12 @@ func (s *CreateMicrosoftADInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateMicrosoftADInput) SetDescription(v string) *CreateMicrosoftADInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateMicrosoftADInput) SetName(v string) *CreateMicrosoftADInput {
-	s.Name = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *CreateMicrosoftADInput) SetPassword(v string) *CreateMicrosoftADInput {
-	s.Password = &v
-	return s
-}
-
-// SetShortName sets the ShortName field's value.
-func (s *CreateMicrosoftADInput) SetShortName(v string) *CreateMicrosoftADInput {
-	s.ShortName = &v
-	return s
-}
-
-// SetVpcSettings sets the VpcSettings field's value.
-func (s *CreateMicrosoftADInput) SetVpcSettings(v *DirectoryVpcSettings) *CreateMicrosoftADInput {
-	s.VpcSettings = v
-	return s
-}
-
 // Result of a CreateMicrosoftAD request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateMicrosoftADResult
 type CreateMicrosoftADOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier of the directory that was created.
 	DirectoryId *string `type:"string"`
@@ -3132,10 +3113,9 @@ func (s CreateMicrosoftADOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateMicrosoftADOutput) SetDirectoryId(v string) *CreateMicrosoftADOutput {
-	s.DirectoryId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateMicrosoftADOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the CreateSnapshot operation.
@@ -3176,22 +3156,12 @@ func (s *CreateSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateSnapshotInput) SetDirectoryId(v string) *CreateSnapshotInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateSnapshotInput) SetName(v string) *CreateSnapshotInput {
-	s.Name = &v
-	return s
-}
-
 // Contains the results of the CreateSnapshot operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateSnapshotResult
 type CreateSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier of the snapshot that was created.
 	SnapshotId *string `type:"string"`
@@ -3207,10 +3177,9 @@ func (s CreateSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *CreateSnapshotOutput) SetSnapshotId(v string) *CreateSnapshotOutput {
-	s.SnapshotId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // AWS Directory Service for Microsoft Active Directory allows you to configure
@@ -3226,7 +3195,7 @@ type CreateTrustInput struct {
 	_ struct{} `type:"structure"`
 
 	// The IP addresses of the remote DNS server associated with RemoteDomainName.
-	ConditionalForwarderIpAddrs []*string `type:"list"`
+	ConditionalForwarderIpAddrs []string `type:"list"`
 
 	// The Directory ID of the Microsoft AD in the AWS cloud for which to establish
 	// the trust relationship.
@@ -3243,7 +3212,7 @@ type CreateTrustInput struct {
 	// The direction of the trust relationship.
 	//
 	// TrustDirection is a required field
-	TrustDirection TrustDirection `type:"string" required:"true"`
+	TrustDirection TrustDirection `type:"string" required:"true" enum:"true"`
 
 	// The trust password. The must be the same password that was used when creating
 	// the trust relationship on the external domain.
@@ -3252,7 +3221,7 @@ type CreateTrustInput struct {
 	TrustPassword *string `min:"1" type:"string" required:"true"`
 
 	// The trust relationship type.
-	TrustType TrustType `type:"string"`
+	TrustType TrustType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3293,46 +3262,12 @@ func (s *CreateTrustInput) Validate() error {
 	return nil
 }
 
-// SetConditionalForwarderIpAddrs sets the ConditionalForwarderIpAddrs field's value.
-func (s *CreateTrustInput) SetConditionalForwarderIpAddrs(v []*string) *CreateTrustInput {
-	s.ConditionalForwarderIpAddrs = v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *CreateTrustInput) SetDirectoryId(v string) *CreateTrustInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetRemoteDomainName sets the RemoteDomainName field's value.
-func (s *CreateTrustInput) SetRemoteDomainName(v string) *CreateTrustInput {
-	s.RemoteDomainName = &v
-	return s
-}
-
-// SetTrustDirection sets the TrustDirection field's value.
-func (s *CreateTrustInput) SetTrustDirection(v TrustDirection) *CreateTrustInput {
-	s.TrustDirection = v
-	return s
-}
-
-// SetTrustPassword sets the TrustPassword field's value.
-func (s *CreateTrustInput) SetTrustPassword(v string) *CreateTrustInput {
-	s.TrustPassword = &v
-	return s
-}
-
-// SetTrustType sets the TrustType field's value.
-func (s *CreateTrustInput) SetTrustType(v TrustType) *CreateTrustInput {
-	s.TrustType = v
-	return s
-}
-
 // The result of a CreateTrust request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/CreateTrustResult
 type CreateTrustOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A unique identifier for the trust relationship that was created.
 	TrustId *string `type:"string"`
@@ -3348,10 +3283,9 @@ func (s CreateTrustOutput) GoString() string {
 	return s.String()
 }
 
-// SetTrustId sets the TrustId field's value.
-func (s *CreateTrustOutput) SetTrustId(v string) *CreateTrustOutput {
-	s.TrustId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateTrustOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Deletes a conditional forwarder.
@@ -3399,22 +3333,12 @@ func (s *DeleteConditionalForwarderInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DeleteConditionalForwarderInput) SetDirectoryId(v string) *DeleteConditionalForwarderInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetRemoteDomainName sets the RemoteDomainName field's value.
-func (s *DeleteConditionalForwarderInput) SetRemoteDomainName(v string) *DeleteConditionalForwarderInput {
-	s.RemoteDomainName = &v
-	return s
-}
-
 // The result of a DeleteConditionalForwarder request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteConditionalForwarderResult
 type DeleteConditionalForwarderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3425,6 +3349,11 @@ func (s DeleteConditionalForwarderOutput) String() string {
 // GoString returns the string representation
 func (s DeleteConditionalForwarderOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteConditionalForwarderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DeleteDirectory operation.
@@ -3462,16 +3391,12 @@ func (s *DeleteDirectoryInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DeleteDirectoryInput) SetDirectoryId(v string) *DeleteDirectoryInput {
-	s.DirectoryId = &v
-	return s
-}
-
 // Contains the results of the DeleteDirectory operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteDirectoryResult
 type DeleteDirectoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The directory identifier.
 	DirectoryId *string `type:"string"`
@@ -3487,10 +3412,9 @@ func (s DeleteDirectoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DeleteDirectoryOutput) SetDirectoryId(v string) *DeleteDirectoryOutput {
-	s.DirectoryId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDirectoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DeleteSnapshot operation.
@@ -3528,16 +3452,12 @@ func (s *DeleteSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *DeleteSnapshotInput) SetSnapshotId(v string) *DeleteSnapshotInput {
-	s.SnapshotId = &v
-	return s
-}
-
 // Contains the results of the DeleteSnapshot operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteSnapshotResult
 type DeleteSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier of the directory snapshot that was deleted.
 	SnapshotId *string `type:"string"`
@@ -3553,10 +3473,9 @@ func (s DeleteSnapshotOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *DeleteSnapshotOutput) SetSnapshotId(v string) *DeleteSnapshotOutput {
-	s.SnapshotId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Deletes the local side of an existing trust relationship between the Microsoft
@@ -3598,22 +3517,12 @@ func (s *DeleteTrustInput) Validate() error {
 	return nil
 }
 
-// SetDeleteAssociatedConditionalForwarder sets the DeleteAssociatedConditionalForwarder field's value.
-func (s *DeleteTrustInput) SetDeleteAssociatedConditionalForwarder(v bool) *DeleteTrustInput {
-	s.DeleteAssociatedConditionalForwarder = &v
-	return s
-}
-
-// SetTrustId sets the TrustId field's value.
-func (s *DeleteTrustInput) SetTrustId(v string) *DeleteTrustInput {
-	s.TrustId = &v
-	return s
-}
-
 // The result of a DeleteTrust request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeleteTrustResult
 type DeleteTrustOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The Trust ID of the trust relationship that was deleted.
 	TrustId *string `type:"string"`
@@ -3629,10 +3538,9 @@ func (s DeleteTrustOutput) GoString() string {
 	return s.String()
 }
 
-// SetTrustId sets the TrustId field's value.
-func (s *DeleteTrustOutput) SetTrustId(v string) *DeleteTrustOutput {
-	s.TrustId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteTrustOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Removes the specified directory as a publisher to the specified SNS topic.
@@ -3683,22 +3591,12 @@ func (s *DeregisterEventTopicInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DeregisterEventTopicInput) SetDirectoryId(v string) *DeregisterEventTopicInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetTopicName sets the TopicName field's value.
-func (s *DeregisterEventTopicInput) SetTopicName(v string) *DeregisterEventTopicInput {
-	s.TopicName = &v
-	return s
-}
-
 // The result of a DeregisterEventTopic request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DeregisterEventTopicResult
 type DeregisterEventTopicOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3709,6 +3607,11 @@ func (s DeregisterEventTopicOutput) String() string {
 // GoString returns the string representation
 func (s DeregisterEventTopicOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterEventTopicOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a conditional forwarder.
@@ -3724,7 +3627,7 @@ type DescribeConditionalForwardersInput struct {
 	// The fully qualified domain names (FQDN) of the remote domains for which to
 	// get the list of associated conditional forwarders. If this member is null,
 	// all conditional forwarders are returned.
-	RemoteDomainNames []*string `type:"list"`
+	RemoteDomainNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -3751,25 +3654,15 @@ func (s *DescribeConditionalForwardersInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DescribeConditionalForwardersInput) SetDirectoryId(v string) *DescribeConditionalForwardersInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetRemoteDomainNames sets the RemoteDomainNames field's value.
-func (s *DescribeConditionalForwardersInput) SetRemoteDomainNames(v []*string) *DescribeConditionalForwardersInput {
-	s.RemoteDomainNames = v
-	return s
-}
-
 // The result of a DescribeConditionalForwarder request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeConditionalForwardersResult
 type DescribeConditionalForwardersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of conditional forwarders that have been created.
-	ConditionalForwarders []*ConditionalForwarder `type:"list"`
+	ConditionalForwarders []ConditionalForwarder `type:"list"`
 }
 
 // String returns the string representation
@@ -3782,10 +3675,9 @@ func (s DescribeConditionalForwardersOutput) GoString() string {
 	return s.String()
 }
 
-// SetConditionalForwarders sets the ConditionalForwarders field's value.
-func (s *DescribeConditionalForwardersOutput) SetConditionalForwarders(v []*ConditionalForwarder) *DescribeConditionalForwardersOutput {
-	s.ConditionalForwarders = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeConditionalForwardersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DescribeDirectories operation.
@@ -3798,7 +3690,7 @@ type DescribeDirectoriesInput struct {
 	// are returned.
 	//
 	// An empty list results in an InvalidParameterException being thrown.
-	DirectoryIds []*string `type:"list"`
+	DirectoryIds []string `type:"list"`
 
 	// The maximum number of items to return. If this value is zero, the maximum
 	// number of items is specified by the limitations of the operation.
@@ -3819,28 +3711,12 @@ func (s DescribeDirectoriesInput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryIds sets the DirectoryIds field's value.
-func (s *DescribeDirectoriesInput) SetDirectoryIds(v []*string) *DescribeDirectoriesInput {
-	s.DirectoryIds = v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeDirectoriesInput) SetLimit(v int64) *DescribeDirectoriesInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDirectoriesInput) SetNextToken(v string) *DescribeDirectoriesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Contains the results of the DescribeDirectories operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeDirectoriesResult
 type DescribeDirectoriesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The list of DirectoryDescription objects that were retrieved.
 	//
@@ -3848,7 +3724,7 @@ type DescribeDirectoriesOutput struct {
 	// in the Limit member of the request. This occurs if there are less than the
 	// requested number of items left to retrieve, or if the limitations of the
 	// operation have been exceeded.
-	DirectoryDescriptions []*DirectoryDescription `type:"list"`
+	DirectoryDescriptions []DirectoryDescription `type:"list"`
 
 	// If not null, more results are available. Pass this value for the NextToken
 	// parameter in a subsequent call to DescribeDirectories to retrieve the next
@@ -3866,16 +3742,9 @@ func (s DescribeDirectoriesOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryDescriptions sets the DirectoryDescriptions field's value.
-func (s *DescribeDirectoriesOutput) SetDirectoryDescriptions(v []*DirectoryDescription) *DescribeDirectoriesOutput {
-	s.DirectoryDescriptions = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDirectoriesOutput) SetNextToken(v string) *DescribeDirectoriesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDirectoriesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeDomainControllersRequest
@@ -3889,7 +3758,7 @@ type DescribeDomainControllersInput struct {
 
 	// A list of identifiers for the domain controllers whose information will be
 	// provided.
-	DomainControllerIds []*string `type:"list"`
+	DomainControllerIds []string `type:"list"`
 
 	// The maximum number of items to return.
 	Limit *int64 `type:"integer"`
@@ -3923,36 +3792,14 @@ func (s *DescribeDomainControllersInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DescribeDomainControllersInput) SetDirectoryId(v string) *DescribeDomainControllersInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetDomainControllerIds sets the DomainControllerIds field's value.
-func (s *DescribeDomainControllersInput) SetDomainControllerIds(v []*string) *DescribeDomainControllersInput {
-	s.DomainControllerIds = v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeDomainControllersInput) SetLimit(v int64) *DescribeDomainControllersInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDomainControllersInput) SetNextToken(v string) *DescribeDomainControllersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeDomainControllersResult
 type DescribeDomainControllersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// List of the DomainController objects that were retrieved.
-	DomainControllers []*DomainController `type:"list"`
+	DomainControllers []DomainController `type:"list"`
 
 	// If not null, more results are available. Pass this value for the NextToken
 	// parameter in a subsequent call to DescribeDomainControllers retrieve the
@@ -3970,16 +3817,9 @@ func (s DescribeDomainControllersOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainControllers sets the DomainControllers field's value.
-func (s *DescribeDomainControllersOutput) SetDomainControllers(v []*DomainController) *DescribeDomainControllersOutput {
-	s.DomainControllers = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeDomainControllersOutput) SetNextToken(v string) *DescribeDomainControllersOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDomainControllersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes event topics.
@@ -3995,7 +3835,7 @@ type DescribeEventTopicsInput struct {
 	// is null, all associations for the specified Directory ID are returned.
 	//
 	// An empty list results in an InvalidParameterException being thrown.
-	TopicNames []*string `type:"list"`
+	TopicNames []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4008,26 +3848,16 @@ func (s DescribeEventTopicsInput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DescribeEventTopicsInput) SetDirectoryId(v string) *DescribeEventTopicsInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetTopicNames sets the TopicNames field's value.
-func (s *DescribeEventTopicsInput) SetTopicNames(v []*string) *DescribeEventTopicsInput {
-	s.TopicNames = v
-	return s
-}
-
 // The result of a DescribeEventTopic request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeEventTopicsResult
 type DescribeEventTopicsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of SNS topic names that receive status messages from the specified
 	// Directory ID.
-	EventTopics []*EventTopic `type:"list"`
+	EventTopics []EventTopic `type:"list"`
 }
 
 // String returns the string representation
@@ -4040,10 +3870,9 @@ func (s DescribeEventTopicsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEventTopics sets the EventTopics field's value.
-func (s *DescribeEventTopicsOutput) SetEventTopics(v []*EventTopic) *DescribeEventTopicsOutput {
-	s.EventTopics = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEventTopicsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DescribeSnapshots operation.
@@ -4064,7 +3893,7 @@ type DescribeSnapshotsInput struct {
 	// A list of identifiers of the snapshots to obtain the information for. If
 	// this member is null or empty, all snapshots are returned using the Limit
 	// and NextToken members.
-	SnapshotIds []*string `type:"list"`
+	SnapshotIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4077,34 +3906,12 @@ func (s DescribeSnapshotsInput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DescribeSnapshotsInput) SetDirectoryId(v string) *DescribeSnapshotsInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeSnapshotsInput) SetLimit(v int64) *DescribeSnapshotsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeSnapshotsInput) SetNextToken(v string) *DescribeSnapshotsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSnapshotIds sets the SnapshotIds field's value.
-func (s *DescribeSnapshotsInput) SetSnapshotIds(v []*string) *DescribeSnapshotsInput {
-	s.SnapshotIds = v
-	return s
-}
-
 // Contains the results of the DescribeSnapshots operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeSnapshotsResult
 type DescribeSnapshotsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If not null, more results are available. Pass this value in the NextToken
 	// member of a subsequent call to DescribeSnapshots.
@@ -4116,7 +3923,7 @@ type DescribeSnapshotsOutput struct {
 	// in the Limit member of the request. This occurs if there are less than the
 	// requested number of items left to retrieve, or if the limitations of the
 	// operation have been exceeded.
-	Snapshots []*Snapshot `type:"list"`
+	Snapshots []Snapshot `type:"list"`
 }
 
 // String returns the string representation
@@ -4129,16 +3936,9 @@ func (s DescribeSnapshotsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeSnapshotsOutput) SetNextToken(v string) *DescribeSnapshotsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSnapshots sets the Snapshots field's value.
-func (s *DescribeSnapshotsOutput) SetSnapshots(v []*Snapshot) *DescribeSnapshotsOutput {
-	s.Snapshots = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSnapshotsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the trust relationships for a particular Microsoft AD in the AWS
@@ -4164,7 +3964,7 @@ type DescribeTrustsInput struct {
 	// to the current account are returned.
 	//
 	// An empty list results in an InvalidParameterException being thrown.
-	TrustIds []*string `type:"list"`
+	TrustIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -4177,34 +3977,12 @@ func (s DescribeTrustsInput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DescribeTrustsInput) SetDirectoryId(v string) *DescribeTrustsInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeTrustsInput) SetLimit(v int64) *DescribeTrustsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeTrustsInput) SetNextToken(v string) *DescribeTrustsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTrustIds sets the TrustIds field's value.
-func (s *DescribeTrustsInput) SetTrustIds(v []*string) *DescribeTrustsInput {
-	s.TrustIds = v
-	return s
-}
-
 // The result of a DescribeTrust request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeTrustsResult
 type DescribeTrustsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If not null, more results are available. Pass this value for the NextToken
 	// parameter in a subsequent call to DescribeTrusts to retrieve the next set
@@ -4217,7 +3995,7 @@ type DescribeTrustsOutput struct {
 	// in the Limit member of the request. This occurs if there are less than the
 	// requested number of items left to retrieve, or if the limitations of the
 	// operation have been exceeded.
-	Trusts []*Trust `type:"list"`
+	Trusts []Trust `type:"list"`
 }
 
 // String returns the string representation
@@ -4230,16 +4008,9 @@ func (s DescribeTrustsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeTrustsOutput) SetNextToken(v string) *DescribeTrustsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTrusts sets the Trusts field's value.
-func (s *DescribeTrustsOutput) SetTrusts(v []*Trust) *DescribeTrustsOutput {
-	s.Trusts = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeTrustsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information for the ConnectDirectory operation when an AD Connector
@@ -4252,7 +4023,7 @@ type DirectoryConnectSettings struct {
 	// the on-premises directory.
 	//
 	// CustomerDnsIps is a required field
-	CustomerDnsIps []*string `type:"list" required:"true"`
+	CustomerDnsIps []string `type:"list" required:"true"`
 
 	// The username of an account in the on-premises directory that is used to connect
 	// to the directory. This account must have the following privileges:
@@ -4269,7 +4040,7 @@ type DirectoryConnectSettings struct {
 	// A list of subnet identifiers in the VPC in which the AD Connector is created.
 	//
 	// SubnetIds is a required field
-	SubnetIds []*string `type:"list" required:"true"`
+	SubnetIds []string `type:"list" required:"true"`
 
 	// The identifier of the VPC in which the AD Connector is created.
 	//
@@ -4316,40 +4087,16 @@ func (s *DirectoryConnectSettings) Validate() error {
 	return nil
 }
 
-// SetCustomerDnsIps sets the CustomerDnsIps field's value.
-func (s *DirectoryConnectSettings) SetCustomerDnsIps(v []*string) *DirectoryConnectSettings {
-	s.CustomerDnsIps = v
-	return s
-}
-
-// SetCustomerUserName sets the CustomerUserName field's value.
-func (s *DirectoryConnectSettings) SetCustomerUserName(v string) *DirectoryConnectSettings {
-	s.CustomerUserName = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *DirectoryConnectSettings) SetSubnetIds(v []*string) *DirectoryConnectSettings {
-	s.SubnetIds = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *DirectoryConnectSettings) SetVpcId(v string) *DirectoryConnectSettings {
-	s.VpcId = &v
-	return s
-}
-
 // Contains information about an AD Connector directory.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DirectoryConnectSettingsDescription
 type DirectoryConnectSettingsDescription struct {
 	_ struct{} `type:"structure"`
 
 	// A list of the Availability Zones that the directory is in.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 
 	// The IP addresses of the AD Connector servers.
-	ConnectIps []*string `type:"list"`
+	ConnectIps []string `type:"list"`
 
 	// The username of the service account in the on-premises directory.
 	CustomerUserName *string `min:"1" type:"string"`
@@ -4358,7 +4105,7 @@ type DirectoryConnectSettingsDescription struct {
 	SecurityGroupId *string `type:"string"`
 
 	// A list of subnet identifiers in the VPC that the AD connector is in.
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 
 	// The identifier of the VPC that the AD Connector is in.
 	VpcId *string `type:"string"`
@@ -4372,42 +4119,6 @@ func (s DirectoryConnectSettingsDescription) String() string {
 // GoString returns the string representation
 func (s DirectoryConnectSettingsDescription) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *DirectoryConnectSettingsDescription) SetAvailabilityZones(v []*string) *DirectoryConnectSettingsDescription {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetConnectIps sets the ConnectIps field's value.
-func (s *DirectoryConnectSettingsDescription) SetConnectIps(v []*string) *DirectoryConnectSettingsDescription {
-	s.ConnectIps = v
-	return s
-}
-
-// SetCustomerUserName sets the CustomerUserName field's value.
-func (s *DirectoryConnectSettingsDescription) SetCustomerUserName(v string) *DirectoryConnectSettingsDescription {
-	s.CustomerUserName = &v
-	return s
-}
-
-// SetSecurityGroupId sets the SecurityGroupId field's value.
-func (s *DirectoryConnectSettingsDescription) SetSecurityGroupId(v string) *DirectoryConnectSettingsDescription {
-	s.SecurityGroupId = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *DirectoryConnectSettingsDescription) SetSubnetIds(v []*string) *DirectoryConnectSettingsDescription {
-	s.SubnetIds = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *DirectoryConnectSettingsDescription) SetVpcId(v string) *DirectoryConnectSettingsDescription {
-	s.VpcId = &v
-	return s
 }
 
 // Contains information about an AWS Directory Service directory.
@@ -4444,7 +4155,10 @@ type DirectoryDescription struct {
 	// AD directory servers. For an AD Connector directory, these are the IP addresses
 	// of the DNS servers or domain controllers in the on-premises directory to
 	// which the AD Connector is connected.
-	DnsIpAddrs []*string `type:"list"`
+	DnsIpAddrs []string `type:"list"`
+
+	// The edition associated with this directory.
+	Edition DirectoryEdition `type:"string" enum:"true"`
 
 	// Specifies when the directory was created.
 	LaunchTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -4457,20 +4171,20 @@ type DirectoryDescription struct {
 	RadiusSettings *RadiusSettings `type:"structure"`
 
 	// The status of the RADIUS MFA server connection.
-	RadiusStatus RadiusStatus `type:"string"`
+	RadiusStatus RadiusStatus `type:"string" enum:"true"`
 
 	// The short name of the directory.
 	ShortName *string `type:"string"`
 
 	// The directory size.
-	Size DirectorySize `type:"string"`
+	Size DirectorySize `type:"string" enum:"true"`
 
 	// Indicates if single-sign on is enabled for the directory. For more information,
 	// see EnableSso and DisableSso.
 	SsoEnabled *bool `type:"boolean"`
 
 	// The current stage of the directory.
-	Stage DirectoryStage `type:"string"`
+	Stage DirectoryStage `type:"string" enum:"true"`
 
 	// The date and time that the stage was last updated.
 	StageLastUpdatedDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -4479,7 +4193,7 @@ type DirectoryDescription struct {
 	StageReason *string `type:"string"`
 
 	// The directory size.
-	Type DirectoryType `type:"string"`
+	Type DirectoryType `type:"string" enum:"true"`
 
 	// A DirectoryVpcSettingsDescription object that contains additional information
 	// about a directory. This member is only present if the directory is a Simple
@@ -4495,120 +4209,6 @@ func (s DirectoryDescription) String() string {
 // GoString returns the string representation
 func (s DirectoryDescription) GoString() string {
 	return s.String()
-}
-
-// SetAccessUrl sets the AccessUrl field's value.
-func (s *DirectoryDescription) SetAccessUrl(v string) *DirectoryDescription {
-	s.AccessUrl = &v
-	return s
-}
-
-// SetAlias sets the Alias field's value.
-func (s *DirectoryDescription) SetAlias(v string) *DirectoryDescription {
-	s.Alias = &v
-	return s
-}
-
-// SetConnectSettings sets the ConnectSettings field's value.
-func (s *DirectoryDescription) SetConnectSettings(v *DirectoryConnectSettingsDescription) *DirectoryDescription {
-	s.ConnectSettings = v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *DirectoryDescription) SetDescription(v string) *DirectoryDescription {
-	s.Description = &v
-	return s
-}
-
-// SetDesiredNumberOfDomainControllers sets the DesiredNumberOfDomainControllers field's value.
-func (s *DirectoryDescription) SetDesiredNumberOfDomainControllers(v int64) *DirectoryDescription {
-	s.DesiredNumberOfDomainControllers = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DirectoryDescription) SetDirectoryId(v string) *DirectoryDescription {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetDnsIpAddrs sets the DnsIpAddrs field's value.
-func (s *DirectoryDescription) SetDnsIpAddrs(v []*string) *DirectoryDescription {
-	s.DnsIpAddrs = v
-	return s
-}
-
-// SetLaunchTime sets the LaunchTime field's value.
-func (s *DirectoryDescription) SetLaunchTime(v time.Time) *DirectoryDescription {
-	s.LaunchTime = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DirectoryDescription) SetName(v string) *DirectoryDescription {
-	s.Name = &v
-	return s
-}
-
-// SetRadiusSettings sets the RadiusSettings field's value.
-func (s *DirectoryDescription) SetRadiusSettings(v *RadiusSettings) *DirectoryDescription {
-	s.RadiusSettings = v
-	return s
-}
-
-// SetRadiusStatus sets the RadiusStatus field's value.
-func (s *DirectoryDescription) SetRadiusStatus(v RadiusStatus) *DirectoryDescription {
-	s.RadiusStatus = v
-	return s
-}
-
-// SetShortName sets the ShortName field's value.
-func (s *DirectoryDescription) SetShortName(v string) *DirectoryDescription {
-	s.ShortName = &v
-	return s
-}
-
-// SetSize sets the Size field's value.
-func (s *DirectoryDescription) SetSize(v DirectorySize) *DirectoryDescription {
-	s.Size = v
-	return s
-}
-
-// SetSsoEnabled sets the SsoEnabled field's value.
-func (s *DirectoryDescription) SetSsoEnabled(v bool) *DirectoryDescription {
-	s.SsoEnabled = &v
-	return s
-}
-
-// SetStage sets the Stage field's value.
-func (s *DirectoryDescription) SetStage(v DirectoryStage) *DirectoryDescription {
-	s.Stage = v
-	return s
-}
-
-// SetStageLastUpdatedDateTime sets the StageLastUpdatedDateTime field's value.
-func (s *DirectoryDescription) SetStageLastUpdatedDateTime(v time.Time) *DirectoryDescription {
-	s.StageLastUpdatedDateTime = &v
-	return s
-}
-
-// SetStageReason sets the StageReason field's value.
-func (s *DirectoryDescription) SetStageReason(v string) *DirectoryDescription {
-	s.StageReason = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *DirectoryDescription) SetType(v DirectoryType) *DirectoryDescription {
-	s.Type = v
-	return s
-}
-
-// SetVpcSettings sets the VpcSettings field's value.
-func (s *DirectoryDescription) SetVpcSettings(v *DirectoryVpcSettingsDescription) *DirectoryDescription {
-	s.VpcSettings = v
-	return s
 }
 
 // Contains directory limit information for a region.
@@ -4654,60 +4254,6 @@ func (s DirectoryLimits) GoString() string {
 	return s.String()
 }
 
-// SetCloudOnlyDirectoriesCurrentCount sets the CloudOnlyDirectoriesCurrentCount field's value.
-func (s *DirectoryLimits) SetCloudOnlyDirectoriesCurrentCount(v int64) *DirectoryLimits {
-	s.CloudOnlyDirectoriesCurrentCount = &v
-	return s
-}
-
-// SetCloudOnlyDirectoriesLimit sets the CloudOnlyDirectoriesLimit field's value.
-func (s *DirectoryLimits) SetCloudOnlyDirectoriesLimit(v int64) *DirectoryLimits {
-	s.CloudOnlyDirectoriesLimit = &v
-	return s
-}
-
-// SetCloudOnlyDirectoriesLimitReached sets the CloudOnlyDirectoriesLimitReached field's value.
-func (s *DirectoryLimits) SetCloudOnlyDirectoriesLimitReached(v bool) *DirectoryLimits {
-	s.CloudOnlyDirectoriesLimitReached = &v
-	return s
-}
-
-// SetCloudOnlyMicrosoftADCurrentCount sets the CloudOnlyMicrosoftADCurrentCount field's value.
-func (s *DirectoryLimits) SetCloudOnlyMicrosoftADCurrentCount(v int64) *DirectoryLimits {
-	s.CloudOnlyMicrosoftADCurrentCount = &v
-	return s
-}
-
-// SetCloudOnlyMicrosoftADLimit sets the CloudOnlyMicrosoftADLimit field's value.
-func (s *DirectoryLimits) SetCloudOnlyMicrosoftADLimit(v int64) *DirectoryLimits {
-	s.CloudOnlyMicrosoftADLimit = &v
-	return s
-}
-
-// SetCloudOnlyMicrosoftADLimitReached sets the CloudOnlyMicrosoftADLimitReached field's value.
-func (s *DirectoryLimits) SetCloudOnlyMicrosoftADLimitReached(v bool) *DirectoryLimits {
-	s.CloudOnlyMicrosoftADLimitReached = &v
-	return s
-}
-
-// SetConnectedDirectoriesCurrentCount sets the ConnectedDirectoriesCurrentCount field's value.
-func (s *DirectoryLimits) SetConnectedDirectoriesCurrentCount(v int64) *DirectoryLimits {
-	s.ConnectedDirectoriesCurrentCount = &v
-	return s
-}
-
-// SetConnectedDirectoriesLimit sets the ConnectedDirectoriesLimit field's value.
-func (s *DirectoryLimits) SetConnectedDirectoriesLimit(v int64) *DirectoryLimits {
-	s.ConnectedDirectoriesLimit = &v
-	return s
-}
-
-// SetConnectedDirectoriesLimitReached sets the ConnectedDirectoriesLimitReached field's value.
-func (s *DirectoryLimits) SetConnectedDirectoriesLimitReached(v bool) *DirectoryLimits {
-	s.ConnectedDirectoriesLimitReached = &v
-	return s
-}
-
 // Contains VPC information for the CreateDirectory or CreateMicrosoftAD operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DirectoryVpcSettings
 type DirectoryVpcSettings struct {
@@ -4718,7 +4264,7 @@ type DirectoryVpcSettings struct {
 	// directory server and a DNS server in each of these subnets.
 	//
 	// SubnetIds is a required field
-	SubnetIds []*string `type:"list" required:"true"`
+	SubnetIds []string `type:"list" required:"true"`
 
 	// The identifier of the VPC in which to create the directory.
 	//
@@ -4754,34 +4300,19 @@ func (s *DirectoryVpcSettings) Validate() error {
 	return nil
 }
 
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *DirectoryVpcSettings) SetSubnetIds(v []*string) *DirectoryVpcSettings {
-	s.SubnetIds = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *DirectoryVpcSettings) SetVpcId(v string) *DirectoryVpcSettings {
-	s.VpcId = &v
-	return s
-}
-
 // Contains information about the directory.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DirectoryVpcSettingsDescription
 type DirectoryVpcSettingsDescription struct {
 	_ struct{} `type:"structure"`
 
 	// The list of Availability Zones that the directory is in.
-	AvailabilityZones []*string `type:"list"`
+	AvailabilityZones []string `type:"list"`
 
-	// The security group identifier for the directory. If the directory was created
-	// before 8/1/2014, this is the identifier of the directory members security
-	// group that was created when the directory was created. If the directory was
-	// created after this date, this value is null.
+	// The domain controller security group identifier for the directory.
 	SecurityGroupId *string `type:"string"`
 
 	// The identifiers of the subnets for the directory servers.
-	SubnetIds []*string `type:"list"`
+	SubnetIds []string `type:"list"`
 
 	// The identifier of the VPC that the directory is in.
 	VpcId *string `type:"string"`
@@ -4795,30 +4326,6 @@ func (s DirectoryVpcSettingsDescription) String() string {
 // GoString returns the string representation
 func (s DirectoryVpcSettingsDescription) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZones sets the AvailabilityZones field's value.
-func (s *DirectoryVpcSettingsDescription) SetAvailabilityZones(v []*string) *DirectoryVpcSettingsDescription {
-	s.AvailabilityZones = v
-	return s
-}
-
-// SetSecurityGroupId sets the SecurityGroupId field's value.
-func (s *DirectoryVpcSettingsDescription) SetSecurityGroupId(v string) *DirectoryVpcSettingsDescription {
-	s.SecurityGroupId = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *DirectoryVpcSettingsDescription) SetSubnetIds(v []*string) *DirectoryVpcSettingsDescription {
-	s.SubnetIds = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *DirectoryVpcSettingsDescription) SetVpcId(v string) *DirectoryVpcSettingsDescription {
-	s.VpcId = &v
-	return s
 }
 
 // Contains the inputs for the DisableRadius operation.
@@ -4856,16 +4363,12 @@ func (s *DisableRadiusInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DisableRadiusInput) SetDirectoryId(v string) *DisableRadiusInput {
-	s.DirectoryId = &v
-	return s
-}
-
 // Contains the results of the DisableRadius operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DisableRadiusResult
 type DisableRadiusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4876,6 +4379,11 @@ func (s DisableRadiusOutput) String() string {
 // GoString returns the string representation
 func (s DisableRadiusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableRadiusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the DisableSso operation.
@@ -4935,28 +4443,12 @@ func (s *DisableSsoInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DisableSsoInput) SetDirectoryId(v string) *DisableSsoInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *DisableSsoInput) SetPassword(v string) *DisableSsoInput {
-	s.Password = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *DisableSsoInput) SetUserName(v string) *DisableSsoInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the results of the DisableSso operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DisableSsoResult
 type DisableSsoOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4967,6 +4459,11 @@ func (s DisableSsoOutput) String() string {
 // GoString returns the string representation
 func (s DisableSsoOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableSsoOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about the domain controllers for a specified directory.
@@ -4990,7 +4487,7 @@ type DomainController struct {
 	LaunchTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the domain controller.
-	Status DomainControllerStatus `type:"string"`
+	Status DomainControllerStatus `type:"string" enum:"true"`
 
 	// The date and time that the status was last updated.
 	StatusLastUpdatedDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -5013,66 +4510,6 @@ func (s DomainController) String() string {
 // GoString returns the string representation
 func (s DomainController) GoString() string {
 	return s.String()
-}
-
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *DomainController) SetAvailabilityZone(v string) *DomainController {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *DomainController) SetDirectoryId(v string) *DomainController {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetDnsIpAddr sets the DnsIpAddr field's value.
-func (s *DomainController) SetDnsIpAddr(v string) *DomainController {
-	s.DnsIpAddr = &v
-	return s
-}
-
-// SetDomainControllerId sets the DomainControllerId field's value.
-func (s *DomainController) SetDomainControllerId(v string) *DomainController {
-	s.DomainControllerId = &v
-	return s
-}
-
-// SetLaunchTime sets the LaunchTime field's value.
-func (s *DomainController) SetLaunchTime(v time.Time) *DomainController {
-	s.LaunchTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DomainController) SetStatus(v DomainControllerStatus) *DomainController {
-	s.Status = v
-	return s
-}
-
-// SetStatusLastUpdatedDateTime sets the StatusLastUpdatedDateTime field's value.
-func (s *DomainController) SetStatusLastUpdatedDateTime(v time.Time) *DomainController {
-	s.StatusLastUpdatedDateTime = &v
-	return s
-}
-
-// SetStatusReason sets the StatusReason field's value.
-func (s *DomainController) SetStatusReason(v string) *DomainController {
-	s.StatusReason = &v
-	return s
-}
-
-// SetSubnetId sets the SubnetId field's value.
-func (s *DomainController) SetSubnetId(v string) *DomainController {
-	s.SubnetId = &v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *DomainController) SetVpcId(v string) *DomainController {
-	s.VpcId = &v
-	return s
 }
 
 // Contains the inputs for the EnableRadius operation.
@@ -5124,22 +4561,12 @@ func (s *EnableRadiusInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *EnableRadiusInput) SetDirectoryId(v string) *EnableRadiusInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetRadiusSettings sets the RadiusSettings field's value.
-func (s *EnableRadiusInput) SetRadiusSettings(v *RadiusSettings) *EnableRadiusInput {
-	s.RadiusSettings = v
-	return s
-}
-
 // Contains the results of the EnableRadius operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/EnableRadiusResult
 type EnableRadiusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5150,6 +4577,11 @@ func (s EnableRadiusOutput) String() string {
 // GoString returns the string representation
 func (s EnableRadiusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableRadiusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the EnableSso operation.
@@ -5209,28 +4641,12 @@ func (s *EnableSsoInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *EnableSsoInput) SetDirectoryId(v string) *EnableSsoInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetPassword sets the Password field's value.
-func (s *EnableSsoInput) SetPassword(v string) *EnableSsoInput {
-	s.Password = &v
-	return s
-}
-
-// SetUserName sets the UserName field's value.
-func (s *EnableSsoInput) SetUserName(v string) *EnableSsoInput {
-	s.UserName = &v
-	return s
-}
-
 // Contains the results of the EnableSso operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/EnableSsoResult
 type EnableSsoOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5241,6 +4657,11 @@ func (s EnableSsoOutput) String() string {
 // GoString returns the string representation
 func (s EnableSsoOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableSsoOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about SNS topic and AWS Directory Service directory associations.
@@ -5256,7 +4677,7 @@ type EventTopic struct {
 	DirectoryId *string `type:"string"`
 
 	// The topic registration status.
-	Status TopicStatus `type:"string"`
+	Status TopicStatus `type:"string" enum:"true"`
 
 	// The SNS topic ARN (Amazon Resource Name).
 	TopicArn *string `type:"string"`
@@ -5273,36 +4694,6 @@ func (s EventTopic) String() string {
 // GoString returns the string representation
 func (s EventTopic) GoString() string {
 	return s.String()
-}
-
-// SetCreatedDateTime sets the CreatedDateTime field's value.
-func (s *EventTopic) SetCreatedDateTime(v time.Time) *EventTopic {
-	s.CreatedDateTime = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *EventTopic) SetDirectoryId(v string) *EventTopic {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *EventTopic) SetStatus(v TopicStatus) *EventTopic {
-	s.Status = v
-	return s
-}
-
-// SetTopicArn sets the TopicArn field's value.
-func (s *EventTopic) SetTopicArn(v string) *EventTopic {
-	s.TopicArn = &v
-	return s
-}
-
-// SetTopicName sets the TopicName field's value.
-func (s *EventTopic) SetTopicName(v string) *EventTopic {
-	s.TopicName = &v
-	return s
 }
 
 // Contains the inputs for the GetDirectoryLimits operation.
@@ -5326,6 +4717,8 @@ func (s GetDirectoryLimitsInput) GoString() string {
 type GetDirectoryLimitsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A DirectoryLimits object that contains the directory limits for the current
 	// region.
 	DirectoryLimits *DirectoryLimits `type:"structure"`
@@ -5341,10 +4734,9 @@ func (s GetDirectoryLimitsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDirectoryLimits sets the DirectoryLimits field's value.
-func (s *GetDirectoryLimitsOutput) SetDirectoryLimits(v *DirectoryLimits) *GetDirectoryLimitsOutput {
-	s.DirectoryLimits = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDirectoryLimitsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the GetSnapshotLimits operation.
@@ -5382,16 +4774,12 @@ func (s *GetSnapshotLimitsInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *GetSnapshotLimitsInput) SetDirectoryId(v string) *GetSnapshotLimitsInput {
-	s.DirectoryId = &v
-	return s
-}
-
 // Contains the results of the GetSnapshotLimits operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/GetSnapshotLimitsResult
 type GetSnapshotLimitsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A SnapshotLimits object that contains the manual snapshot limits for the
 	// specified directory.
@@ -5408,10 +4796,9 @@ func (s GetSnapshotLimitsOutput) GoString() string {
 	return s.String()
 }
 
-// SetSnapshotLimits sets the SnapshotLimits field's value.
-func (s *GetSnapshotLimitsOutput) SetSnapshotLimits(v *SnapshotLimits) *GetSnapshotLimitsOutput {
-	s.SnapshotLimits = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSnapshotLimitsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // IP address block. This is often the address block of the DNS server used
@@ -5439,18 +4826,6 @@ func (s IpRoute) GoString() string {
 	return s.String()
 }
 
-// SetCidrIp sets the CidrIp field's value.
-func (s *IpRoute) SetCidrIp(v string) *IpRoute {
-	s.CidrIp = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *IpRoute) SetDescription(v string) *IpRoute {
-	s.Description = &v
-	return s
-}
-
 // Information about one or more IP address blocks.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/IpRouteInfo
 type IpRouteInfo struct {
@@ -5469,7 +4844,7 @@ type IpRouteInfo struct {
 	DirectoryId *string `type:"string"`
 
 	// The status of the IP address block.
-	IpRouteStatusMsg IpRouteStatusMsg `type:"string"`
+	IpRouteStatusMsg IpRouteStatusMsg `type:"string" enum:"true"`
 
 	// The reason for the IpRouteStatusMsg.
 	IpRouteStatusReason *string `type:"string"`
@@ -5483,42 +4858,6 @@ func (s IpRouteInfo) String() string {
 // GoString returns the string representation
 func (s IpRouteInfo) GoString() string {
 	return s.String()
-}
-
-// SetAddedDateTime sets the AddedDateTime field's value.
-func (s *IpRouteInfo) SetAddedDateTime(v time.Time) *IpRouteInfo {
-	s.AddedDateTime = &v
-	return s
-}
-
-// SetCidrIp sets the CidrIp field's value.
-func (s *IpRouteInfo) SetCidrIp(v string) *IpRouteInfo {
-	s.CidrIp = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *IpRouteInfo) SetDescription(v string) *IpRouteInfo {
-	s.Description = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *IpRouteInfo) SetDirectoryId(v string) *IpRouteInfo {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetIpRouteStatusMsg sets the IpRouteStatusMsg field's value.
-func (s *IpRouteInfo) SetIpRouteStatusMsg(v IpRouteStatusMsg) *IpRouteInfo {
-	s.IpRouteStatusMsg = v
-	return s
-}
-
-// SetIpRouteStatusReason sets the IpRouteStatusReason field's value.
-func (s *IpRouteInfo) SetIpRouteStatusReason(v string) *IpRouteInfo {
-	s.IpRouteStatusReason = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListIpRoutesRequest
@@ -5563,30 +4902,14 @@ func (s *ListIpRoutesInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *ListIpRoutesInput) SetDirectoryId(v string) *ListIpRoutesInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *ListIpRoutesInput) SetLimit(v int64) *ListIpRoutesInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListIpRoutesInput) SetNextToken(v string) *ListIpRoutesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListIpRoutesResult
 type ListIpRoutesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of IpRoutes.
-	IpRoutesInfo []*IpRouteInfo `type:"list"`
+	IpRoutesInfo []IpRouteInfo `type:"list"`
 
 	// If not null, more results are available. Pass this value for the NextToken
 	// parameter in a subsequent call to ListIpRoutes to retrieve the next set of
@@ -5604,16 +4927,9 @@ func (s ListIpRoutesOutput) GoString() string {
 	return s.String()
 }
 
-// SetIpRoutesInfo sets the IpRoutesInfo field's value.
-func (s *ListIpRoutesOutput) SetIpRoutesInfo(v []*IpRouteInfo) *ListIpRoutesOutput {
-	s.IpRoutesInfo = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListIpRoutesOutput) SetNextToken(v string) *ListIpRoutesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListIpRoutesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListSchemaExtensionsRequest
@@ -5658,27 +4974,11 @@ func (s *ListSchemaExtensionsInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *ListSchemaExtensionsInput) SetDirectoryId(v string) *ListSchemaExtensionsInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *ListSchemaExtensionsInput) SetLimit(v int64) *ListSchemaExtensionsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListSchemaExtensionsInput) SetNextToken(v string) *ListSchemaExtensionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListSchemaExtensionsResult
 type ListSchemaExtensionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If not null, more results are available. Pass this value for the NextToken
 	// parameter in a subsequent call to ListSchemaExtensions to retrieve the next
@@ -5686,7 +4986,7 @@ type ListSchemaExtensionsOutput struct {
 	NextToken *string `type:"string"`
 
 	// Information about the schema extensions applied to the directory.
-	SchemaExtensionsInfo []*SchemaExtensionInfo `type:"list"`
+	SchemaExtensionsInfo []SchemaExtensionInfo `type:"list"`
 }
 
 // String returns the string representation
@@ -5699,16 +4999,9 @@ func (s ListSchemaExtensionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSchemaExtensionsOutput) SetNextToken(v string) *ListSchemaExtensionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSchemaExtensionsInfo sets the SchemaExtensionsInfo field's value.
-func (s *ListSchemaExtensionsOutput) SetSchemaExtensionsInfo(v []*SchemaExtensionInfo) *ListSchemaExtensionsOutput {
-	s.SchemaExtensionsInfo = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSchemaExtensionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListTagsForResourceRequest
@@ -5751,33 +5044,17 @@ func (s *ListTagsForResourceInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *ListTagsForResourceInput) SetLimit(v int64) *ListTagsForResourceInput {
-	s.Limit = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsForResourceInput) SetNextToken(v string) *ListTagsForResourceInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *ListTagsForResourceInput) SetResourceId(v string) *ListTagsForResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ListTagsForResourceResult
 type ListTagsForResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Reserved for future use.
 	NextToken *string `type:"string"`
 
 	// List of tags returned by the ListTagsForResource operation.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -5790,16 +5067,9 @@ func (s ListTagsForResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsForResourceOutput) SetNextToken(v string) *ListTagsForResourceOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *ListTagsForResourceOutput) SetTags(v []*Tag) *ListTagsForResourceOutput {
-	s.Tags = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about a Remote Authentication Dial In User Service (RADIUS)
@@ -5809,7 +5079,7 @@ type RadiusSettings struct {
 	_ struct{} `type:"structure"`
 
 	// The protocol specified for your RADIUS endpoints.
-	AuthenticationProtocol RadiusAuthenticationProtocol `type:"string"`
+	AuthenticationProtocol RadiusAuthenticationProtocol `type:"string" enum:"true"`
 
 	// Not currently used.
 	DisplayLabel *string `min:"1" type:"string"`
@@ -5825,7 +5095,7 @@ type RadiusSettings struct {
 
 	// An array of strings that contains the IP addresses of the RADIUS server endpoints,
 	// or the IP addresses of your RADIUS server load balancer.
-	RadiusServers []*string `type:"list"`
+	RadiusServers []string `type:"list"`
 
 	// The amount of time, in seconds, to wait for the RADIUS server to respond.
 	RadiusTimeout *int64 `min:"1" type:"integer"`
@@ -5867,54 +5137,6 @@ func (s *RadiusSettings) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAuthenticationProtocol sets the AuthenticationProtocol field's value.
-func (s *RadiusSettings) SetAuthenticationProtocol(v RadiusAuthenticationProtocol) *RadiusSettings {
-	s.AuthenticationProtocol = v
-	return s
-}
-
-// SetDisplayLabel sets the DisplayLabel field's value.
-func (s *RadiusSettings) SetDisplayLabel(v string) *RadiusSettings {
-	s.DisplayLabel = &v
-	return s
-}
-
-// SetRadiusPort sets the RadiusPort field's value.
-func (s *RadiusSettings) SetRadiusPort(v int64) *RadiusSettings {
-	s.RadiusPort = &v
-	return s
-}
-
-// SetRadiusRetries sets the RadiusRetries field's value.
-func (s *RadiusSettings) SetRadiusRetries(v int64) *RadiusSettings {
-	s.RadiusRetries = &v
-	return s
-}
-
-// SetRadiusServers sets the RadiusServers field's value.
-func (s *RadiusSettings) SetRadiusServers(v []*string) *RadiusSettings {
-	s.RadiusServers = v
-	return s
-}
-
-// SetRadiusTimeout sets the RadiusTimeout field's value.
-func (s *RadiusSettings) SetRadiusTimeout(v int64) *RadiusSettings {
-	s.RadiusTimeout = &v
-	return s
-}
-
-// SetSharedSecret sets the SharedSecret field's value.
-func (s *RadiusSettings) SetSharedSecret(v string) *RadiusSettings {
-	s.SharedSecret = &v
-	return s
-}
-
-// SetUseSameUsername sets the UseSameUsername field's value.
-func (s *RadiusSettings) SetUseSameUsername(v bool) *RadiusSettings {
-	s.UseSameUsername = &v
-	return s
 }
 
 // Registers a new event topic.
@@ -5965,22 +5187,12 @@ func (s *RegisterEventTopicInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *RegisterEventTopicInput) SetDirectoryId(v string) *RegisterEventTopicInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetTopicName sets the TopicName field's value.
-func (s *RegisterEventTopicInput) SetTopicName(v string) *RegisterEventTopicInput {
-	s.TopicName = &v
-	return s
-}
-
 // The result of a RegisterEventTopic request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RegisterEventTopicResult
 type RegisterEventTopicOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5993,6 +5205,11 @@ func (s RegisterEventTopicOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterEventTopicOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RemoveIpRoutesRequest
 type RemoveIpRoutesInput struct {
 	_ struct{} `type:"structure"`
@@ -6000,7 +5217,7 @@ type RemoveIpRoutesInput struct {
 	// IP address blocks that you want to remove.
 	//
 	// CidrIps is a required field
-	CidrIps []*string `type:"list" required:"true"`
+	CidrIps []string `type:"list" required:"true"`
 
 	// Identifier (ID) of the directory from which you want to remove the IP addresses.
 	//
@@ -6036,21 +5253,11 @@ func (s *RemoveIpRoutesInput) Validate() error {
 	return nil
 }
 
-// SetCidrIps sets the CidrIps field's value.
-func (s *RemoveIpRoutesInput) SetCidrIps(v []*string) *RemoveIpRoutesInput {
-	s.CidrIps = v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *RemoveIpRoutesInput) SetDirectoryId(v string) *RemoveIpRoutesInput {
-	s.DirectoryId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RemoveIpRoutesResult
 type RemoveIpRoutesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6061,6 +5268,11 @@ func (s RemoveIpRoutesOutput) String() string {
 // GoString returns the string representation
 func (s RemoveIpRoutesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveIpRoutesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RemoveTagsFromResourceRequest
@@ -6075,7 +5287,7 @@ type RemoveTagsFromResourceInput struct {
 	// The tag key (name) of the tag to be removed.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `type:"list" required:"true"`
+	TagKeys []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6106,21 +5318,11 @@ func (s *RemoveTagsFromResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *RemoveTagsFromResourceInput) SetResourceId(v string) *RemoveTagsFromResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *RemoveTagsFromResourceInput) SetTagKeys(v []*string) *RemoveTagsFromResourceInput {
-	s.TagKeys = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RemoveTagsFromResourceResult
 type RemoveTagsFromResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6131,6 +5333,92 @@ func (s RemoveTagsFromResourceOutput) String() string {
 // GoString returns the string representation
 func (s RemoveTagsFromResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsFromResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ResetUserPasswordRequest
+type ResetUserPasswordInput struct {
+	_ struct{} `type:"structure"`
+
+	// Identifier of the AWS Managed Microsoft AD or Simple AD directory in which
+	// the user resides.
+	//
+	// DirectoryId is a required field
+	DirectoryId *string `type:"string" required:"true"`
+
+	// The new password that will be reset.
+	//
+	// NewPassword is a required field
+	NewPassword *string `min:"1" type:"string" required:"true"`
+
+	// The username of the user whose password will be reset.
+	//
+	// UserName is a required field
+	UserName *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ResetUserPasswordInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResetUserPasswordInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ResetUserPasswordInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ResetUserPasswordInput"}
+
+	if s.DirectoryId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("DirectoryId"))
+	}
+
+	if s.NewPassword == nil {
+		invalidParams.Add(aws.NewErrParamRequired("NewPassword"))
+	}
+	if s.NewPassword != nil && len(*s.NewPassword) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("NewPassword", 1))
+	}
+
+	if s.UserName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("UserName"))
+	}
+	if s.UserName != nil && len(*s.UserName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("UserName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/ResetUserPasswordResult
+type ResetUserPasswordOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s ResetUserPasswordOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResetUserPasswordOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ResetUserPasswordOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An object representing the inputs for the RestoreFromSnapshot operation.
@@ -6168,16 +5456,12 @@ func (s *RestoreFromSnapshotInput) Validate() error {
 	return nil
 }
 
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *RestoreFromSnapshotInput) SetSnapshotId(v string) *RestoreFromSnapshotInput {
-	s.SnapshotId = &v
-	return s
-}
-
 // Contains the results of the RestoreFromSnapshot operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/RestoreFromSnapshotResult
 type RestoreFromSnapshotOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6188,6 +5472,11 @@ func (s RestoreFromSnapshotOutput) String() string {
 // GoString returns the string representation
 func (s RestoreFromSnapshotOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RestoreFromSnapshotOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about a schema extension.
@@ -6208,7 +5497,7 @@ type SchemaExtensionInfo struct {
 	SchemaExtensionId *string `type:"string"`
 
 	// The current status of the schema extension.
-	SchemaExtensionStatus SchemaExtensionStatus `type:"string"`
+	SchemaExtensionStatus SchemaExtensionStatus `type:"string" enum:"true"`
 
 	// The reason for the SchemaExtensionStatus.
 	SchemaExtensionStatusReason *string `type:"string"`
@@ -6226,48 +5515,6 @@ func (s SchemaExtensionInfo) String() string {
 // GoString returns the string representation
 func (s SchemaExtensionInfo) GoString() string {
 	return s.String()
-}
-
-// SetDescription sets the Description field's value.
-func (s *SchemaExtensionInfo) SetDescription(v string) *SchemaExtensionInfo {
-	s.Description = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *SchemaExtensionInfo) SetDirectoryId(v string) *SchemaExtensionInfo {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetEndDateTime sets the EndDateTime field's value.
-func (s *SchemaExtensionInfo) SetEndDateTime(v time.Time) *SchemaExtensionInfo {
-	s.EndDateTime = &v
-	return s
-}
-
-// SetSchemaExtensionId sets the SchemaExtensionId field's value.
-func (s *SchemaExtensionInfo) SetSchemaExtensionId(v string) *SchemaExtensionInfo {
-	s.SchemaExtensionId = &v
-	return s
-}
-
-// SetSchemaExtensionStatus sets the SchemaExtensionStatus field's value.
-func (s *SchemaExtensionInfo) SetSchemaExtensionStatus(v SchemaExtensionStatus) *SchemaExtensionInfo {
-	s.SchemaExtensionStatus = v
-	return s
-}
-
-// SetSchemaExtensionStatusReason sets the SchemaExtensionStatusReason field's value.
-func (s *SchemaExtensionInfo) SetSchemaExtensionStatusReason(v string) *SchemaExtensionInfo {
-	s.SchemaExtensionStatusReason = &v
-	return s
-}
-
-// SetStartDateTime sets the StartDateTime field's value.
-func (s *SchemaExtensionInfo) SetStartDateTime(v time.Time) *SchemaExtensionInfo {
-	s.StartDateTime = &v
-	return s
 }
 
 // Describes a directory snapshot.
@@ -6288,10 +5535,10 @@ type Snapshot struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The snapshot status.
-	Status SnapshotStatus `type:"string"`
+	Status SnapshotStatus `type:"string" enum:"true"`
 
 	// The snapshot type.
-	Type SnapshotType `type:"string"`
+	Type SnapshotType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6302,42 +5549,6 @@ func (s Snapshot) String() string {
 // GoString returns the string representation
 func (s Snapshot) GoString() string {
 	return s.String()
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *Snapshot) SetDirectoryId(v string) *Snapshot {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Snapshot) SetName(v string) *Snapshot {
-	s.Name = &v
-	return s
-}
-
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *Snapshot) SetSnapshotId(v string) *Snapshot {
-	s.SnapshotId = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *Snapshot) SetStartTime(v time.Time) *Snapshot {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Snapshot) SetStatus(v SnapshotStatus) *Snapshot {
-	s.Status = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Snapshot) SetType(v SnapshotType) *Snapshot {
-	s.Type = v
-	return s
 }
 
 // Contains manual snapshot limit information for a directory.
@@ -6363,24 +5574,6 @@ func (s SnapshotLimits) String() string {
 // GoString returns the string representation
 func (s SnapshotLimits) GoString() string {
 	return s.String()
-}
-
-// SetManualSnapshotsCurrentCount sets the ManualSnapshotsCurrentCount field's value.
-func (s *SnapshotLimits) SetManualSnapshotsCurrentCount(v int64) *SnapshotLimits {
-	s.ManualSnapshotsCurrentCount = &v
-	return s
-}
-
-// SetManualSnapshotsLimit sets the ManualSnapshotsLimit field's value.
-func (s *SnapshotLimits) SetManualSnapshotsLimit(v int64) *SnapshotLimits {
-	s.ManualSnapshotsLimit = &v
-	return s
-}
-
-// SetManualSnapshotsLimitReached sets the ManualSnapshotsLimitReached field's value.
-func (s *SnapshotLimits) SetManualSnapshotsLimitReached(v bool) *SnapshotLimits {
-	s.ManualSnapshotsLimitReached = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/StartSchemaExtensionRequest
@@ -6451,33 +5644,11 @@ func (s *StartSchemaExtensionInput) Validate() error {
 	return nil
 }
 
-// SetCreateSnapshotBeforeSchemaExtension sets the CreateSnapshotBeforeSchemaExtension field's value.
-func (s *StartSchemaExtensionInput) SetCreateSnapshotBeforeSchemaExtension(v bool) *StartSchemaExtensionInput {
-	s.CreateSnapshotBeforeSchemaExtension = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *StartSchemaExtensionInput) SetDescription(v string) *StartSchemaExtensionInput {
-	s.Description = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *StartSchemaExtensionInput) SetDirectoryId(v string) *StartSchemaExtensionInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetLdifContent sets the LdifContent field's value.
-func (s *StartSchemaExtensionInput) SetLdifContent(v string) *StartSchemaExtensionInput {
-	s.LdifContent = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/StartSchemaExtensionResult
 type StartSchemaExtensionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier of the schema extension that will be applied.
 	SchemaExtensionId *string `type:"string"`
@@ -6493,10 +5664,9 @@ func (s StartSchemaExtensionOutput) GoString() string {
 	return s.String()
 }
 
-// SetSchemaExtensionId sets the SchemaExtensionId field's value.
-func (s *StartSchemaExtensionOutput) SetSchemaExtensionId(v string) *StartSchemaExtensionOutput {
-	s.SchemaExtensionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartSchemaExtensionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Metadata assigned to a directory consisting of a key-value pair.
@@ -6550,18 +5720,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // Describes a trust relationship between an Microsoft AD in the AWS cloud and
 // an external domain.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/Trust
@@ -6585,19 +5743,19 @@ type Trust struct {
 	StateLastUpdatedDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The trust relationship direction.
-	TrustDirection TrustDirection `type:"string"`
+	TrustDirection TrustDirection `type:"string" enum:"true"`
 
 	// The unique ID of the trust relationship.
 	TrustId *string `type:"string"`
 
 	// The trust relationship state.
-	TrustState TrustState `type:"string"`
+	TrustState TrustState `type:"string" enum:"true"`
 
 	// The reason for the TrustState.
 	TrustStateReason *string `type:"string"`
 
 	// The trust relationship type.
-	TrustType TrustType `type:"string"`
+	TrustType TrustType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6608,66 +5766,6 @@ func (s Trust) String() string {
 // GoString returns the string representation
 func (s Trust) GoString() string {
 	return s.String()
-}
-
-// SetCreatedDateTime sets the CreatedDateTime field's value.
-func (s *Trust) SetCreatedDateTime(v time.Time) *Trust {
-	s.CreatedDateTime = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *Trust) SetDirectoryId(v string) *Trust {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetLastUpdatedDateTime sets the LastUpdatedDateTime field's value.
-func (s *Trust) SetLastUpdatedDateTime(v time.Time) *Trust {
-	s.LastUpdatedDateTime = &v
-	return s
-}
-
-// SetRemoteDomainName sets the RemoteDomainName field's value.
-func (s *Trust) SetRemoteDomainName(v string) *Trust {
-	s.RemoteDomainName = &v
-	return s
-}
-
-// SetStateLastUpdatedDateTime sets the StateLastUpdatedDateTime field's value.
-func (s *Trust) SetStateLastUpdatedDateTime(v time.Time) *Trust {
-	s.StateLastUpdatedDateTime = &v
-	return s
-}
-
-// SetTrustDirection sets the TrustDirection field's value.
-func (s *Trust) SetTrustDirection(v TrustDirection) *Trust {
-	s.TrustDirection = v
-	return s
-}
-
-// SetTrustId sets the TrustId field's value.
-func (s *Trust) SetTrustId(v string) *Trust {
-	s.TrustId = &v
-	return s
-}
-
-// SetTrustState sets the TrustState field's value.
-func (s *Trust) SetTrustState(v TrustState) *Trust {
-	s.TrustState = v
-	return s
-}
-
-// SetTrustStateReason sets the TrustStateReason field's value.
-func (s *Trust) SetTrustStateReason(v string) *Trust {
-	s.TrustStateReason = &v
-	return s
-}
-
-// SetTrustType sets the TrustType field's value.
-func (s *Trust) SetTrustType(v TrustType) *Trust {
-	s.TrustType = v
-	return s
 }
 
 // Updates a conditional forwarder.
@@ -6685,7 +5783,7 @@ type UpdateConditionalForwarderInput struct {
 	// forwarder.
 	//
 	// DnsIpAddrs is a required field
-	DnsIpAddrs []*string `type:"list" required:"true"`
+	DnsIpAddrs []string `type:"list" required:"true"`
 
 	// The fully qualified domain name (FQDN) of the remote domain with which you
 	// will set up a trust relationship.
@@ -6726,28 +5824,12 @@ func (s *UpdateConditionalForwarderInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *UpdateConditionalForwarderInput) SetDirectoryId(v string) *UpdateConditionalForwarderInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetDnsIpAddrs sets the DnsIpAddrs field's value.
-func (s *UpdateConditionalForwarderInput) SetDnsIpAddrs(v []*string) *UpdateConditionalForwarderInput {
-	s.DnsIpAddrs = v
-	return s
-}
-
-// SetRemoteDomainName sets the RemoteDomainName field's value.
-func (s *UpdateConditionalForwarderInput) SetRemoteDomainName(v string) *UpdateConditionalForwarderInput {
-	s.RemoteDomainName = &v
-	return s
-}
-
 // The result of an UpdateConditionalForwarder request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateConditionalForwarderResult
 type UpdateConditionalForwarderOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6758,6 +5840,11 @@ func (s UpdateConditionalForwarderOutput) String() string {
 // GoString returns the string representation
 func (s UpdateConditionalForwarderOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateConditionalForwarderOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateNumberOfDomainControllersRequest
@@ -6807,21 +5894,11 @@ func (s *UpdateNumberOfDomainControllersInput) Validate() error {
 	return nil
 }
 
-// SetDesiredNumber sets the DesiredNumber field's value.
-func (s *UpdateNumberOfDomainControllersInput) SetDesiredNumber(v int64) *UpdateNumberOfDomainControllersInput {
-	s.DesiredNumber = &v
-	return s
-}
-
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *UpdateNumberOfDomainControllersInput) SetDirectoryId(v string) *UpdateNumberOfDomainControllersInput {
-	s.DirectoryId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateNumberOfDomainControllersResult
 type UpdateNumberOfDomainControllersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6832,6 +5909,11 @@ func (s UpdateNumberOfDomainControllersOutput) String() string {
 // GoString returns the string representation
 func (s UpdateNumberOfDomainControllersOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateNumberOfDomainControllersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains the inputs for the UpdateRadius operation.
@@ -6883,22 +5965,12 @@ func (s *UpdateRadiusInput) Validate() error {
 	return nil
 }
 
-// SetDirectoryId sets the DirectoryId field's value.
-func (s *UpdateRadiusInput) SetDirectoryId(v string) *UpdateRadiusInput {
-	s.DirectoryId = &v
-	return s
-}
-
-// SetRadiusSettings sets the RadiusSettings field's value.
-func (s *UpdateRadiusInput) SetRadiusSettings(v *RadiusSettings) *UpdateRadiusInput {
-	s.RadiusSettings = v
-	return s
-}
-
 // Contains the results of the UpdateRadius operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/UpdateRadiusResult
 type UpdateRadiusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6909,6 +5981,11 @@ func (s UpdateRadiusOutput) String() string {
 // GoString returns the string representation
 func (s UpdateRadiusOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateRadiusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Initiates the verification of an existing trust relationship between a Microsoft
@@ -6947,16 +6024,12 @@ func (s *VerifyTrustInput) Validate() error {
 	return nil
 }
 
-// SetTrustId sets the TrustId field's value.
-func (s *VerifyTrustInput) SetTrustId(v string) *VerifyTrustInput {
-	s.TrustId = &v
-	return s
-}
-
 // Result of a VerifyTrust request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/VerifyTrustResult
 type VerifyTrustOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique Trust ID of the trust relationship that was verified.
 	TrustId *string `type:"string"`
@@ -6972,10 +6045,26 @@ func (s VerifyTrustOutput) GoString() string {
 	return s.String()
 }
 
-// SetTrustId sets the TrustId field's value.
-func (s *VerifyTrustOutput) SetTrustId(v string) *VerifyTrustOutput {
-	s.TrustId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s VerifyTrustOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+type DirectoryEdition string
+
+// Enum values for DirectoryEdition
+const (
+	DirectoryEditionEnterprise DirectoryEdition = "Enterprise"
+	DirectoryEditionStandard   DirectoryEdition = "Standard"
+)
+
+func (enum DirectoryEdition) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DirectoryEdition) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
 }
 
 type DirectorySize string
@@ -6985,6 +6074,15 @@ const (
 	DirectorySizeSmall DirectorySize = "Small"
 	DirectorySizeLarge DirectorySize = "Large"
 )
+
+func (enum DirectorySize) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DirectorySize) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DirectoryStage string
 
@@ -7003,6 +6101,15 @@ const (
 	DirectoryStageFailed        DirectoryStage = "Failed"
 )
 
+func (enum DirectoryStage) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DirectoryStage) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DirectoryType string
 
 // Enum values for DirectoryType
@@ -7011,6 +6118,15 @@ const (
 	DirectoryTypeAdconnector DirectoryType = "ADConnector"
 	DirectoryTypeMicrosoftAd DirectoryType = "MicrosoftAD"
 )
+
+func (enum DirectoryType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DirectoryType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DomainControllerStatus string
 
@@ -7025,6 +6141,15 @@ const (
 	DomainControllerStatusFailed    DomainControllerStatus = "Failed"
 )
 
+func (enum DomainControllerStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DomainControllerStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type IpRouteStatusMsg string
 
 // Enum values for IpRouteStatusMsg
@@ -7037,6 +6162,15 @@ const (
 	IpRouteStatusMsgRemoveFailed IpRouteStatusMsg = "RemoveFailed"
 )
 
+func (enum IpRouteStatusMsg) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum IpRouteStatusMsg) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type RadiusAuthenticationProtocol string
 
 // Enum values for RadiusAuthenticationProtocol
@@ -7047,6 +6181,15 @@ const (
 	RadiusAuthenticationProtocolMsChapv2 RadiusAuthenticationProtocol = "MS-CHAPv2"
 )
 
+func (enum RadiusAuthenticationProtocol) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RadiusAuthenticationProtocol) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type RadiusStatus string
 
 // Enum values for RadiusStatus
@@ -7056,12 +6199,30 @@ const (
 	RadiusStatusFailed    RadiusStatus = "Failed"
 )
 
+func (enum RadiusStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RadiusStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ReplicationScope string
 
 // Enum values for ReplicationScope
 const (
 	ReplicationScopeDomain ReplicationScope = "Domain"
 )
+
+func (enum ReplicationScope) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ReplicationScope) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SchemaExtensionStatus string
 
@@ -7078,6 +6239,15 @@ const (
 	SchemaExtensionStatusCompleted          SchemaExtensionStatus = "Completed"
 )
 
+func (enum SchemaExtensionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SchemaExtensionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SnapshotStatus string
 
 // Enum values for SnapshotStatus
@@ -7087,6 +6257,15 @@ const (
 	SnapshotStatusFailed    SnapshotStatus = "Failed"
 )
 
+func (enum SnapshotStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SnapshotStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SnapshotType string
 
 // Enum values for SnapshotType
@@ -7094,6 +6273,15 @@ const (
 	SnapshotTypeAuto   SnapshotType = "Auto"
 	SnapshotTypeManual SnapshotType = "Manual"
 )
+
+func (enum SnapshotType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SnapshotType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type TopicStatus string
 
@@ -7105,6 +6293,15 @@ const (
 	TopicStatusDeleted       TopicStatus = "Deleted"
 )
 
+func (enum TopicStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TopicStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TrustDirection string
 
 // Enum values for TrustDirection
@@ -7113,6 +6310,15 @@ const (
 	TrustDirectionOneWayIncoming TrustDirection = "One-Way: Incoming"
 	TrustDirectionTwoWay         TrustDirection = "Two-Way"
 )
+
+func (enum TrustDirection) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TrustDirection) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type TrustState string
 
@@ -7128,9 +6334,27 @@ const (
 	TrustStateFailed       TrustState = "Failed"
 )
 
+func (enum TrustState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TrustState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TrustType string
 
 // Enum values for TrustType
 const (
 	TrustTypeForest TrustType = "Forest"
 )
+
+func (enum TrustType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TrustType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

@@ -16,6 +16,7 @@ const opCreateBudget = "CreateBudget"
 type CreateBudgetRequest struct {
 	*aws.Request
 	Input *CreateBudgetInput
+	Copy  func(*CreateBudgetInput) CreateBudgetRequest
 }
 
 // Send marshals and sends the CreateBudget API request.
@@ -31,7 +32,7 @@ func (r CreateBudgetRequest) Send() (*CreateBudgetOutput, error) {
 // CreateBudgetRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Create a new budget
+// Creates a budget and, if included, notifications and subscribers.
 //
 //    // Example sending a request using the CreateBudgetRequest method.
 //    req := client.CreateBudgetRequest(params)
@@ -50,8 +51,11 @@ func (c *Budgets) CreateBudgetRequest(input *CreateBudgetInput) CreateBudgetRequ
 		input = &CreateBudgetInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateBudgetOutput{})
-	return CreateBudgetRequest{Request: req, Input: input}
+	output := &CreateBudgetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateBudgetRequest{Request: req, Input: input, Copy: c.CreateBudgetRequest}
 }
 
 const opCreateNotification = "CreateNotification"
@@ -60,6 +64,7 @@ const opCreateNotification = "CreateNotification"
 type CreateNotificationRequest struct {
 	*aws.Request
 	Input *CreateNotificationInput
+	Copy  func(*CreateNotificationInput) CreateNotificationRequest
 }
 
 // Send marshals and sends the CreateNotification API request.
@@ -75,7 +80,8 @@ func (r CreateNotificationRequest) Send() (*CreateNotificationOutput, error) {
 // CreateNotificationRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Create a new Notification with subscribers for a budget
+// Creates a notification. You must create the budget before you create the
+// associated notification.
 //
 //    // Example sending a request using the CreateNotificationRequest method.
 //    req := client.CreateNotificationRequest(params)
@@ -94,8 +100,11 @@ func (c *Budgets) CreateNotificationRequest(input *CreateNotificationInput) Crea
 		input = &CreateNotificationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateNotificationOutput{})
-	return CreateNotificationRequest{Request: req, Input: input}
+	output := &CreateNotificationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateNotificationRequest{Request: req, Input: input, Copy: c.CreateNotificationRequest}
 }
 
 const opCreateSubscriber = "CreateSubscriber"
@@ -104,6 +113,7 @@ const opCreateSubscriber = "CreateSubscriber"
 type CreateSubscriberRequest struct {
 	*aws.Request
 	Input *CreateSubscriberInput
+	Copy  func(*CreateSubscriberInput) CreateSubscriberRequest
 }
 
 // Send marshals and sends the CreateSubscriber API request.
@@ -119,7 +129,8 @@ func (r CreateSubscriberRequest) Send() (*CreateSubscriberOutput, error) {
 // CreateSubscriberRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Create a new Subscriber for a notification
+// Creates a subscriber. You must create the associated budget and notification
+// before you create the subscriber.
 //
 //    // Example sending a request using the CreateSubscriberRequest method.
 //    req := client.CreateSubscriberRequest(params)
@@ -138,8 +149,11 @@ func (c *Budgets) CreateSubscriberRequest(input *CreateSubscriberInput) CreateSu
 		input = &CreateSubscriberInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateSubscriberOutput{})
-	return CreateSubscriberRequest{Request: req, Input: input}
+	output := &CreateSubscriberOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateSubscriberRequest{Request: req, Input: input, Copy: c.CreateSubscriberRequest}
 }
 
 const opDeleteBudget = "DeleteBudget"
@@ -148,6 +162,7 @@ const opDeleteBudget = "DeleteBudget"
 type DeleteBudgetRequest struct {
 	*aws.Request
 	Input *DeleteBudgetInput
+	Copy  func(*DeleteBudgetInput) DeleteBudgetRequest
 }
 
 // Send marshals and sends the DeleteBudget API request.
@@ -163,7 +178,10 @@ func (r DeleteBudgetRequest) Send() (*DeleteBudgetOutput, error) {
 // DeleteBudgetRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Delete a budget and related notifications
+// Deletes a budget. You can delete your budget at any time.
+//
+// Deleting a budget also deletes the notifications and subscribers associated
+// with that budget.
 //
 //    // Example sending a request using the DeleteBudgetRequest method.
 //    req := client.DeleteBudgetRequest(params)
@@ -182,8 +200,11 @@ func (c *Budgets) DeleteBudgetRequest(input *DeleteBudgetInput) DeleteBudgetRequ
 		input = &DeleteBudgetInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteBudgetOutput{})
-	return DeleteBudgetRequest{Request: req, Input: input}
+	output := &DeleteBudgetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteBudgetRequest{Request: req, Input: input, Copy: c.DeleteBudgetRequest}
 }
 
 const opDeleteNotification = "DeleteNotification"
@@ -192,6 +213,7 @@ const opDeleteNotification = "DeleteNotification"
 type DeleteNotificationRequest struct {
 	*aws.Request
 	Input *DeleteNotificationInput
+	Copy  func(*DeleteNotificationInput) DeleteNotificationRequest
 }
 
 // Send marshals and sends the DeleteNotification API request.
@@ -207,7 +229,10 @@ func (r DeleteNotificationRequest) Send() (*DeleteNotificationOutput, error) {
 // DeleteNotificationRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Delete a notification and related subscribers
+// Deletes a notification.
+//
+// Deleting a notification also deletes the subscribers associated with the
+// notification.
 //
 //    // Example sending a request using the DeleteNotificationRequest method.
 //    req := client.DeleteNotificationRequest(params)
@@ -226,8 +251,11 @@ func (c *Budgets) DeleteNotificationRequest(input *DeleteNotificationInput) Dele
 		input = &DeleteNotificationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteNotificationOutput{})
-	return DeleteNotificationRequest{Request: req, Input: input}
+	output := &DeleteNotificationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteNotificationRequest{Request: req, Input: input, Copy: c.DeleteNotificationRequest}
 }
 
 const opDeleteSubscriber = "DeleteSubscriber"
@@ -236,6 +264,7 @@ const opDeleteSubscriber = "DeleteSubscriber"
 type DeleteSubscriberRequest struct {
 	*aws.Request
 	Input *DeleteSubscriberInput
+	Copy  func(*DeleteSubscriberInput) DeleteSubscriberRequest
 }
 
 // Send marshals and sends the DeleteSubscriber API request.
@@ -251,7 +280,9 @@ func (r DeleteSubscriberRequest) Send() (*DeleteSubscriberOutput, error) {
 // DeleteSubscriberRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Delete a Subscriber for a notification
+// Deletes a subscriber.
+//
+// Deleting the last subscriber to a notification also deletes the notification.
 //
 //    // Example sending a request using the DeleteSubscriberRequest method.
 //    req := client.DeleteSubscriberRequest(params)
@@ -270,8 +301,11 @@ func (c *Budgets) DeleteSubscriberRequest(input *DeleteSubscriberInput) DeleteSu
 		input = &DeleteSubscriberInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteSubscriberOutput{})
-	return DeleteSubscriberRequest{Request: req, Input: input}
+	output := &DeleteSubscriberOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteSubscriberRequest{Request: req, Input: input, Copy: c.DeleteSubscriberRequest}
 }
 
 const opDescribeBudget = "DescribeBudget"
@@ -280,6 +314,7 @@ const opDescribeBudget = "DescribeBudget"
 type DescribeBudgetRequest struct {
 	*aws.Request
 	Input *DescribeBudgetInput
+	Copy  func(*DescribeBudgetInput) DescribeBudgetRequest
 }
 
 // Send marshals and sends the DescribeBudget API request.
@@ -295,7 +330,7 @@ func (r DescribeBudgetRequest) Send() (*DescribeBudgetOutput, error) {
 // DescribeBudgetRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Get a single budget
+// Describes a budget.
 //
 //    // Example sending a request using the DescribeBudgetRequest method.
 //    req := client.DescribeBudgetRequest(params)
@@ -314,8 +349,11 @@ func (c *Budgets) DescribeBudgetRequest(input *DescribeBudgetInput) DescribeBudg
 		input = &DescribeBudgetInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeBudgetOutput{})
-	return DescribeBudgetRequest{Request: req, Input: input}
+	output := &DescribeBudgetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeBudgetRequest{Request: req, Input: input, Copy: c.DescribeBudgetRequest}
 }
 
 const opDescribeBudgets = "DescribeBudgets"
@@ -324,6 +362,7 @@ const opDescribeBudgets = "DescribeBudgets"
 type DescribeBudgetsRequest struct {
 	*aws.Request
 	Input *DescribeBudgetsInput
+	Copy  func(*DescribeBudgetsInput) DescribeBudgetsRequest
 }
 
 // Send marshals and sends the DescribeBudgets API request.
@@ -339,7 +378,7 @@ func (r DescribeBudgetsRequest) Send() (*DescribeBudgetsOutput, error) {
 // DescribeBudgetsRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Get all budgets for an account
+// Lists the budgets associated with an account.
 //
 //    // Example sending a request using the DescribeBudgetsRequest method.
 //    req := client.DescribeBudgetsRequest(params)
@@ -358,8 +397,11 @@ func (c *Budgets) DescribeBudgetsRequest(input *DescribeBudgetsInput) DescribeBu
 		input = &DescribeBudgetsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeBudgetsOutput{})
-	return DescribeBudgetsRequest{Request: req, Input: input}
+	output := &DescribeBudgetsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeBudgetsRequest{Request: req, Input: input, Copy: c.DescribeBudgetsRequest}
 }
 
 const opDescribeNotificationsForBudget = "DescribeNotificationsForBudget"
@@ -368,6 +410,7 @@ const opDescribeNotificationsForBudget = "DescribeNotificationsForBudget"
 type DescribeNotificationsForBudgetRequest struct {
 	*aws.Request
 	Input *DescribeNotificationsForBudgetInput
+	Copy  func(*DescribeNotificationsForBudgetInput) DescribeNotificationsForBudgetRequest
 }
 
 // Send marshals and sends the DescribeNotificationsForBudget API request.
@@ -383,7 +426,7 @@ func (r DescribeNotificationsForBudgetRequest) Send() (*DescribeNotificationsFor
 // DescribeNotificationsForBudgetRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Get notifications of a budget
+// Lists the notifications associated with a budget.
 //
 //    // Example sending a request using the DescribeNotificationsForBudgetRequest method.
 //    req := client.DescribeNotificationsForBudgetRequest(params)
@@ -402,8 +445,11 @@ func (c *Budgets) DescribeNotificationsForBudgetRequest(input *DescribeNotificat
 		input = &DescribeNotificationsForBudgetInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeNotificationsForBudgetOutput{})
-	return DescribeNotificationsForBudgetRequest{Request: req, Input: input}
+	output := &DescribeNotificationsForBudgetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeNotificationsForBudgetRequest{Request: req, Input: input, Copy: c.DescribeNotificationsForBudgetRequest}
 }
 
 const opDescribeSubscribersForNotification = "DescribeSubscribersForNotification"
@@ -412,6 +458,7 @@ const opDescribeSubscribersForNotification = "DescribeSubscribersForNotification
 type DescribeSubscribersForNotificationRequest struct {
 	*aws.Request
 	Input *DescribeSubscribersForNotificationInput
+	Copy  func(*DescribeSubscribersForNotificationInput) DescribeSubscribersForNotificationRequest
 }
 
 // Send marshals and sends the DescribeSubscribersForNotification API request.
@@ -427,7 +474,7 @@ func (r DescribeSubscribersForNotificationRequest) Send() (*DescribeSubscribersF
 // DescribeSubscribersForNotificationRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Get subscribers of a notification
+// Lists the subscribers associated with a notification.
 //
 //    // Example sending a request using the DescribeSubscribersForNotificationRequest method.
 //    req := client.DescribeSubscribersForNotificationRequest(params)
@@ -446,8 +493,11 @@ func (c *Budgets) DescribeSubscribersForNotificationRequest(input *DescribeSubsc
 		input = &DescribeSubscribersForNotificationInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeSubscribersForNotificationOutput{})
-	return DescribeSubscribersForNotificationRequest{Request: req, Input: input}
+	output := &DescribeSubscribersForNotificationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeSubscribersForNotificationRequest{Request: req, Input: input, Copy: c.DescribeSubscribersForNotificationRequest}
 }
 
 const opUpdateBudget = "UpdateBudget"
@@ -456,6 +506,7 @@ const opUpdateBudget = "UpdateBudget"
 type UpdateBudgetRequest struct {
 	*aws.Request
 	Input *UpdateBudgetInput
+	Copy  func(*UpdateBudgetInput) UpdateBudgetRequest
 }
 
 // Send marshals and sends the UpdateBudget API request.
@@ -471,7 +522,9 @@ func (r UpdateBudgetRequest) Send() (*UpdateBudgetOutput, error) {
 // UpdateBudgetRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Update the information of a budget already created
+// Updates a budget. You can change every part of a budget except for the budgetName
+// and the calculatedSpend. When a budget is modified, the calculatedSpend drops
+// to zero until AWS has new usage data to use for forecasting.
 //
 //    // Example sending a request using the UpdateBudgetRequest method.
 //    req := client.UpdateBudgetRequest(params)
@@ -490,8 +543,11 @@ func (c *Budgets) UpdateBudgetRequest(input *UpdateBudgetInput) UpdateBudgetRequ
 		input = &UpdateBudgetInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateBudgetOutput{})
-	return UpdateBudgetRequest{Request: req, Input: input}
+	output := &UpdateBudgetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateBudgetRequest{Request: req, Input: input, Copy: c.UpdateBudgetRequest}
 }
 
 const opUpdateNotification = "UpdateNotification"
@@ -500,6 +556,7 @@ const opUpdateNotification = "UpdateNotification"
 type UpdateNotificationRequest struct {
 	*aws.Request
 	Input *UpdateNotificationInput
+	Copy  func(*UpdateNotificationInput) UpdateNotificationRequest
 }
 
 // Send marshals and sends the UpdateNotification API request.
@@ -515,7 +572,7 @@ func (r UpdateNotificationRequest) Send() (*UpdateNotificationOutput, error) {
 // UpdateNotificationRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Update the information about a notification already created
+// Updates a notification.
 //
 //    // Example sending a request using the UpdateNotificationRequest method.
 //    req := client.UpdateNotificationRequest(params)
@@ -534,8 +591,11 @@ func (c *Budgets) UpdateNotificationRequest(input *UpdateNotificationInput) Upda
 		input = &UpdateNotificationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateNotificationOutput{})
-	return UpdateNotificationRequest{Request: req, Input: input}
+	output := &UpdateNotificationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateNotificationRequest{Request: req, Input: input, Copy: c.UpdateNotificationRequest}
 }
 
 const opUpdateSubscriber = "UpdateSubscriber"
@@ -544,6 +604,7 @@ const opUpdateSubscriber = "UpdateSubscriber"
 type UpdateSubscriberRequest struct {
 	*aws.Request
 	Input *UpdateSubscriberInput
+	Copy  func(*UpdateSubscriberInput) UpdateSubscriberRequest
 }
 
 // Send marshals and sends the UpdateSubscriber API request.
@@ -559,7 +620,7 @@ func (r UpdateSubscriberRequest) Send() (*UpdateSubscriberOutput, error) {
 // UpdateSubscriberRequest returns a request value for making API operation for
 // AWS Budgets.
 //
-// Update a subscriber
+// Updates a subscriber.
 //
 //    // Example sending a request using the UpdateSubscriberRequest method.
 //    req := client.UpdateSubscriberRequest(params)
@@ -578,50 +639,72 @@ func (c *Budgets) UpdateSubscriberRequest(input *UpdateSubscriberInput) UpdateSu
 		input = &UpdateSubscriberInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateSubscriberOutput{})
-	return UpdateSubscriberRequest{Request: req, Input: input}
+	output := &UpdateSubscriberOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateSubscriberRequest{Request: req, Input: input, Copy: c.UpdateSubscriberRequest}
 }
 
-// AWS Budget model
+// Represents the output of the CreateBudget operation. The content consists
+// of the detailed metadata and data file information, and the current status
+// of the budget.
+//
+// The ARN pattern for a budget is: arn:aws:budgetservice::AccountId:budget/budgetName
 type Budget struct {
 	_ struct{} `type:"structure"`
 
-	// A structure that represents either a cost spend or usage spend. Contains
-	// an amount and a unit.
+	// The total amount of cost, usage, or RI utilization that you want to track
+	// with your budget.
 	//
-	// BudgetLimit is a required field
-	BudgetLimit *Spend `type:"structure" required:"true"`
+	// BudgetLimit is required for cost or usage budgets, but optional for RI utilization
+	// budgets. RI utilization budgets default to the only valid value for RI utilization
+	// budgets, which is 100.
+	BudgetLimit *Spend `type:"structure"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of a budget. Unique within accounts. : and \ characters are not
+	// allowed in the BudgetName.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// The type of a budget. It should be COST, USAGE, or RI_UTILIZATION.
+	// Whether this budget tracks monetary costs, usage, or RI utilization.
 	//
 	// BudgetType is a required field
-	BudgetType BudgetType `type:"string" required:"true"`
+	BudgetType BudgetType `type:"string" required:"true" enum:"true"`
 
-	// A structure that holds the actual and forecasted spend for a budget.
+	// The actual and forecasted cost or usage being tracked by a budget.
 	CalculatedSpend *CalculatedSpend `type:"structure"`
 
-	// A map that represents the cost filters applied to the budget.
-	CostFilters map[string][]*string `type:"map"`
+	// The cost filters applied to a budget, such as service or region.
+	CostFilters map[string][]string `type:"map"`
 
-	// This includes the options for getting the cost of a budget.
+	// The types of costs included in this budget.
+	CostTypes *CostTypes `type:"structure"`
+
+	// The period of time covered by a budget. Has a start date and an end date.
+	// The start date must come before the end date. There are no restrictions on
+	// the end date.
 	//
-	// CostTypes is a required field
-	CostTypes *CostTypes `type:"structure" required:"true"`
-
-	// A time period indicating the start date and end date of a budget.
+	// If you created your budget and didn't specify a start date, AWS defaults
+	// to the start of your chosen time period (i.e. DAILY, MONTHLY, QUARTERLY,
+	// ANNUALLY). For example, if you created your budget on January 24th 2018,
+	// chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18
+	// 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00
+	// UTC. If you didn't specify an end date, AWS set your end date to 06/15/87
+	// 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management
+	// console and the API.
 	//
-	// TimePeriod is a required field
-	TimePeriod *TimePeriod `type:"structure" required:"true"`
+	// You can change either date with the UpdateBudget operation.
+	//
+	// After the end date, AWS deletes the budget and all associated notifications
+	// and subscribers.
+	TimePeriod *TimePeriod `type:"structure"`
 
-	// The time unit of the budget. e.g. MONTHLY, QUARTERLY, etc.
+	// The length of time until a budget resets the actual and forecasted spend.
 	//
 	// TimeUnit is a required field
-	TimeUnit TimeUnit `type:"string" required:"true"`
+	TimeUnit TimeUnit `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -638,23 +721,11 @@ func (s Budget) GoString() string {
 func (s *Budget) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "Budget"}
 
-	if s.BudgetLimit == nil {
-		invalidParams.Add(aws.NewErrParamRequired("BudgetLimit"))
-	}
-
 	if s.BudgetName == nil {
 		invalidParams.Add(aws.NewErrParamRequired("BudgetName"))
 	}
 	if len(s.BudgetType) == 0 {
 		invalidParams.Add(aws.NewErrParamRequired("BudgetType"))
-	}
-
-	if s.CostTypes == nil {
-		invalidParams.Add(aws.NewErrParamRequired("CostTypes"))
-	}
-
-	if s.TimePeriod == nil {
-		invalidParams.Add(aws.NewErrParamRequired("TimePeriod"))
 	}
 	if len(s.TimeUnit) == 0 {
 		invalidParams.Add(aws.NewErrParamRequired("TimeUnit"))
@@ -669,16 +740,6 @@ func (s *Budget) Validate() error {
 			invalidParams.AddNested("CalculatedSpend", err.(aws.ErrInvalidParams))
 		}
 	}
-	if s.CostTypes != nil {
-		if err := s.CostTypes.Validate(); err != nil {
-			invalidParams.AddNested("CostTypes", err.(aws.ErrInvalidParams))
-		}
-	}
-	if s.TimePeriod != nil {
-		if err := s.TimePeriod.Validate(); err != nil {
-			invalidParams.AddNested("TimePeriod", err.(aws.ErrInvalidParams))
-		}
-	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -686,66 +747,22 @@ func (s *Budget) Validate() error {
 	return nil
 }
 
-// SetBudgetLimit sets the BudgetLimit field's value.
-func (s *Budget) SetBudgetLimit(v *Spend) *Budget {
-	s.BudgetLimit = v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *Budget) SetBudgetName(v string) *Budget {
-	s.BudgetName = &v
-	return s
-}
-
-// SetBudgetType sets the BudgetType field's value.
-func (s *Budget) SetBudgetType(v BudgetType) *Budget {
-	s.BudgetType = v
-	return s
-}
-
-// SetCalculatedSpend sets the CalculatedSpend field's value.
-func (s *Budget) SetCalculatedSpend(v *CalculatedSpend) *Budget {
-	s.CalculatedSpend = v
-	return s
-}
-
-// SetCostFilters sets the CostFilters field's value.
-func (s *Budget) SetCostFilters(v map[string][]*string) *Budget {
-	s.CostFilters = v
-	return s
-}
-
-// SetCostTypes sets the CostTypes field's value.
-func (s *Budget) SetCostTypes(v *CostTypes) *Budget {
-	s.CostTypes = v
-	return s
-}
-
-// SetTimePeriod sets the TimePeriod field's value.
-func (s *Budget) SetTimePeriod(v *TimePeriod) *Budget {
-	s.TimePeriod = v
-	return s
-}
-
-// SetTimeUnit sets the TimeUnit field's value.
-func (s *Budget) SetTimeUnit(v TimeUnit) *Budget {
-	s.TimeUnit = v
-	return s
-}
-
-// A structure that holds the actual and forecasted spend for a budget.
+// The spend objects associated with this budget. The actualSpend tracks how
+// much you've used, cost, usage, or RI units, and the forecastedSpend tracks
+// how much you are predicted to spend if your current usage remains steady.
+//
+// For example, if it is the 20th of the month and you have spent 50 dollars
+// on Amazon EC2, your actualSpend is 50 USD, and your forecastedSpend is 75
+// USD.
 type CalculatedSpend struct {
 	_ struct{} `type:"structure"`
 
-	// A structure that represents either a cost spend or usage spend. Contains
-	// an amount and a unit.
+	// The amount of cost, usage, or RI units that you have used.
 	//
 	// ActualSpend is a required field
 	ActualSpend *Spend `type:"structure" required:"true"`
 
-	// A structure that represents either a cost spend or usage spend. Contains
-	// an amount and a unit.
+	// The amount of cost, usage, or RI units that you are forecasted to use.
 	ForecastedSpend *Spend `type:"structure"`
 }
 
@@ -783,36 +800,64 @@ func (s *CalculatedSpend) Validate() error {
 	return nil
 }
 
-// SetActualSpend sets the ActualSpend field's value.
-func (s *CalculatedSpend) SetActualSpend(v *Spend) *CalculatedSpend {
-	s.ActualSpend = v
-	return s
-}
-
-// SetForecastedSpend sets the ForecastedSpend field's value.
-func (s *CalculatedSpend) SetForecastedSpend(v *Spend) *CalculatedSpend {
-	s.ForecastedSpend = v
-	return s
-}
-
-// This includes the options for getting the cost of a budget.
+// The types of cost included in a budget, such as tax and subscriptions.
 type CostTypes struct {
 	_ struct{} `type:"structure"`
 
-	// A generic boolean value.
+	// Specifies whether a budget includes credits.
 	//
-	// IncludeSubscription is a required field
-	IncludeSubscription *bool `type:"boolean" required:"true"`
+	// The default value is true.
+	IncludeCredit *bool `type:"boolean"`
 
-	// A generic boolean value.
+	// Specifies whether a budget includes discounts.
 	//
-	// IncludeTax is a required field
-	IncludeTax *bool `type:"boolean" required:"true"`
+	// The default value is true.
+	IncludeDiscount *bool `type:"boolean"`
 
-	// A generic boolean value.
+	// Specifies whether a budget includes non-RI subscription costs.
 	//
-	// UseBlended is a required field
-	UseBlended *bool `type:"boolean" required:"true"`
+	// The default value is true.
+	IncludeOtherSubscription *bool `type:"boolean"`
+
+	// Specifies whether a budget includes recurring fees such as monthly RI fees.
+	//
+	// The default value is true.
+	IncludeRecurring *bool `type:"boolean"`
+
+	// Specifies whether a budget includes refunds.
+	//
+	// The default value is true.
+	IncludeRefund *bool `type:"boolean"`
+
+	// Specifies whether a budget includes subscriptions.
+	//
+	// The default value is true.
+	IncludeSubscription *bool `type:"boolean"`
+
+	// Specifies whether a budget includes support subscription fees.
+	//
+	// The default value is true.
+	IncludeSupport *bool `type:"boolean"`
+
+	// Specifies whether a budget includes taxes.
+	//
+	// The default value is true.
+	IncludeTax *bool `type:"boolean"`
+
+	// Specifies whether a budget includes upfront RI costs.
+	//
+	// The default value is true.
+	IncludeUpfront *bool `type:"boolean"`
+
+	// Specifies whether a budget uses the amortized rate.
+	//
+	// The default value is false.
+	UseAmortized *bool `type:"boolean"`
+
+	// Specifies whether a budget uses blended rate.
+	//
+	// The default value is false.
+	UseBlended *bool `type:"boolean"`
 }
 
 // String returns the string representation
@@ -825,62 +870,26 @@ func (s CostTypes) GoString() string {
 	return s.String()
 }
 
-// Validate inspects the fields of the type to determine if they are valid.
-func (s *CostTypes) Validate() error {
-	invalidParams := aws.ErrInvalidParams{Context: "CostTypes"}
-
-	if s.IncludeSubscription == nil {
-		invalidParams.Add(aws.NewErrParamRequired("IncludeSubscription"))
-	}
-
-	if s.IncludeTax == nil {
-		invalidParams.Add(aws.NewErrParamRequired("IncludeTax"))
-	}
-
-	if s.UseBlended == nil {
-		invalidParams.Add(aws.NewErrParamRequired("UseBlended"))
-	}
-
-	if invalidParams.Len() > 0 {
-		return invalidParams
-	}
-	return nil
-}
-
-// SetIncludeSubscription sets the IncludeSubscription field's value.
-func (s *CostTypes) SetIncludeSubscription(v bool) *CostTypes {
-	s.IncludeSubscription = &v
-	return s
-}
-
-// SetIncludeTax sets the IncludeTax field's value.
-func (s *CostTypes) SetIncludeTax(v bool) *CostTypes {
-	s.IncludeTax = &v
-	return s
-}
-
-// SetUseBlended sets the UseBlended field's value.
-func (s *CostTypes) SetUseBlended(v bool) *CostTypes {
-	s.UseBlended = &v
-	return s
-}
-
 // Request of CreateBudget
 type CreateBudgetInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// AWS Budget model
+	// The budget object that you want to create.
 	//
 	// Budget is a required field
 	Budget *Budget `type:"structure" required:"true"`
 
-	// A list of Notifications, each with a list of subscribers.
-	NotificationsWithSubscribers []*NotificationWithSubscribers `type:"list"`
+	// A notification that you want to associate with a budget. A budget can have
+	// up to five notifications, and each notification can have one SNS subscriber
+	// and up to ten email subscribers. If you include notifications and subscribers
+	// in your CreateBudget call, AWS creates the notifications and subscribers
+	// for you.
+	NotificationsWithSubscribers []NotificationWithSubscribers `type:"list"`
 }
 
 // String returns the string representation
@@ -914,9 +923,6 @@ func (s *CreateBudgetInput) Validate() error {
 	}
 	if s.NotificationsWithSubscribers != nil {
 		for i, v := range s.NotificationsWithSubscribers {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "NotificationsWithSubscribers", i), err.(aws.ErrInvalidParams))
 			}
@@ -929,27 +935,11 @@ func (s *CreateBudgetInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *CreateBudgetInput) SetAccountId(v string) *CreateBudgetInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudget sets the Budget field's value.
-func (s *CreateBudgetInput) SetBudget(v *Budget) *CreateBudgetInput {
-	s.Budget = v
-	return s
-}
-
-// SetNotificationsWithSubscribers sets the NotificationsWithSubscribers field's value.
-func (s *CreateBudgetInput) SetNotificationsWithSubscribers(v []*NotificationWithSubscribers) *CreateBudgetInput {
-	s.NotificationsWithSubscribers = v
-	return s
-}
-
 // Response of CreateBudget
 type CreateBudgetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -962,30 +952,37 @@ func (s CreateBudgetOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateBudgetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of CreateNotification
 type CreateNotificationInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget that you want to create
+	// a notification for.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget that you want AWS to notified you about. Budget names
+	// must be unique within an account.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification that you want to create.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
 
-	// A list of subscribers.
+	// A list of subscribers that you want to associate with the notification. Each
+	// notification can have one SNS subscriber and up to ten email subscribers.
 	//
 	// Subscribers is a required field
-	Subscribers []*Subscriber `min:"1" type:"list" required:"true"`
+	Subscribers []Subscriber `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1030,9 +1027,6 @@ func (s *CreateNotificationInput) Validate() error {
 	}
 	if s.Subscribers != nil {
 		for i, v := range s.Subscribers {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Subscribers", i), err.(aws.ErrInvalidParams))
 			}
@@ -1045,33 +1039,11 @@ func (s *CreateNotificationInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *CreateNotificationInput) SetAccountId(v string) *CreateNotificationInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *CreateNotificationInput) SetBudgetName(v string) *CreateNotificationInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *CreateNotificationInput) SetNotification(v *Notification) *CreateNotificationInput {
-	s.Notification = v
-	return s
-}
-
-// SetSubscribers sets the Subscribers field's value.
-func (s *CreateNotificationInput) SetSubscribers(v []*Subscriber) *CreateNotificationInput {
-	s.Subscribers = v
-	return s
-}
-
 // Response of CreateNotification
 type CreateNotificationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1084,28 +1056,33 @@ func (s CreateNotificationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of CreateSubscriber
 type CreateSubscriberInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId associated with the budget that you want to create a subscriber
+	// for.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget that you want to subscribe to. Budget names must be
+	// unique within an account.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification that you want to create a subscriber for.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
 
-	// Subscriber model. Each notification may contain multiple subscribers with
-	// different addresses.
+	// The subscriber that you want to associate with a budget notification.
 	//
 	// Subscriber is a required field
 	Subscriber *Subscriber `type:"structure" required:"true"`
@@ -1160,33 +1137,11 @@ func (s *CreateSubscriberInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *CreateSubscriberInput) SetAccountId(v string) *CreateSubscriberInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *CreateSubscriberInput) SetBudgetName(v string) *CreateSubscriberInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *CreateSubscriberInput) SetNotification(v *Notification) *CreateSubscriberInput {
-	s.Notification = v
-	return s
-}
-
-// SetSubscriber sets the Subscriber field's value.
-func (s *CreateSubscriberInput) SetSubscriber(v *Subscriber) *CreateSubscriberInput {
-	s.Subscriber = v
-	return s
-}
-
 // Response of CreateSubscriber
 type CreateSubscriberOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1199,16 +1154,21 @@ func (s CreateSubscriberOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateSubscriberOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of DeleteBudget
 type DeleteBudgetInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget that you want to delete.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget that you want to delete.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
@@ -1245,21 +1205,11 @@ func (s *DeleteBudgetInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DeleteBudgetInput) SetAccountId(v string) *DeleteBudgetInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *DeleteBudgetInput) SetBudgetName(v string) *DeleteBudgetInput {
-	s.BudgetName = &v
-	return s
-}
-
 // Response of DeleteBudget
 type DeleteBudgetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1272,22 +1222,27 @@ func (s DeleteBudgetOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteBudgetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of DeleteNotification
 type DeleteNotificationInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget whose notification you want
+	// to delete.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget whose notification you want to delete.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification that you want to delete.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
@@ -1333,27 +1288,11 @@ func (s *DeleteNotificationInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DeleteNotificationInput) SetAccountId(v string) *DeleteNotificationInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *DeleteNotificationInput) SetBudgetName(v string) *DeleteNotificationInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *DeleteNotificationInput) SetNotification(v *Notification) *DeleteNotificationInput {
-	s.Notification = v
-	return s
-}
-
 // Response of DeleteNotification
 type DeleteNotificationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1366,28 +1305,32 @@ func (s DeleteNotificationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of DeleteSubscriber
 type DeleteSubscriberInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget whose subscriber you want
+	// to delete.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget whose subscriber you want to delete.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification whose subscriber you want to delete.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
 
-	// Subscriber model. Each notification may contain multiple subscribers with
-	// different addresses.
+	// The subscriber that you want to delete.
 	//
 	// Subscriber is a required field
 	Subscriber *Subscriber `type:"structure" required:"true"`
@@ -1442,33 +1385,11 @@ func (s *DeleteSubscriberInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DeleteSubscriberInput) SetAccountId(v string) *DeleteSubscriberInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *DeleteSubscriberInput) SetBudgetName(v string) *DeleteSubscriberInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *DeleteSubscriberInput) SetNotification(v *Notification) *DeleteSubscriberInput {
-	s.Notification = v
-	return s
-}
-
-// SetSubscriber sets the Subscriber field's value.
-func (s *DeleteSubscriberInput) SetSubscriber(v *Subscriber) *DeleteSubscriberInput {
-	s.Subscriber = v
-	return s
-}
-
 // Response of DeleteSubscriber
 type DeleteSubscriberOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1481,16 +1402,22 @@ func (s DeleteSubscriberOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteSubscriberOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of DescribeBudget
 type DescribeBudgetInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget that you want a description
+	// of.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget that you want a description of.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
@@ -1527,23 +1454,13 @@ func (s *DescribeBudgetInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DescribeBudgetInput) SetAccountId(v string) *DescribeBudgetInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *DescribeBudgetInput) SetBudgetName(v string) *DescribeBudgetInput {
-	s.BudgetName = &v
-	return s
-}
-
 // Response of DescribeBudget
 type DescribeBudgetOutput struct {
 	_ struct{} `type:"structure"`
 
-	// AWS Budget model
+	responseMetadata aws.Response
+
+	// The description of the budget.
 	Budget *Budget `type:"structure"`
 }
 
@@ -1557,26 +1474,25 @@ func (s DescribeBudgetOutput) GoString() string {
 	return s.String()
 }
 
-// SetBudget sets the Budget field's value.
-func (s *DescribeBudgetOutput) SetBudget(v *Budget) *DescribeBudgetOutput {
-	s.Budget = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeBudgetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request of DescribeBudgets
 type DescribeBudgetsInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budgets that you want descriptions
+	// of.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// An integer to represent how many entries a paginated response contains. Maximum
-	// is set to 100.
+	// Optional integer. Specifies the maximum number of results to return in response.
 	MaxResults *int64 `min:"1" type:"integer"`
 
-	// A generic String.
+	// The pagination token that indicates the next set of results to retrieve.
 	NextToken *string `type:"string"`
 }
 
@@ -1610,32 +1526,17 @@ func (s *DescribeBudgetsInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DescribeBudgetsInput) SetAccountId(v string) *DescribeBudgetsInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeBudgetsInput) SetMaxResults(v int64) *DescribeBudgetsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBudgetsInput) SetNextToken(v string) *DescribeBudgetsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Response of DescribeBudgets
 type DescribeBudgetsOutput struct {
 	_ struct{} `type:"structure"`
 
-	// A list of budgets
-	Budgets []*Budget `type:"list"`
+	responseMetadata aws.Response
 
-	// A generic String.
+	// A list of budgets.
+	Budgets []Budget `type:"list"`
+
+	// The pagination token that indicates the next set of results that you can
+	// retrieve.
 	NextToken *string `type:"string"`
 }
 
@@ -1649,37 +1550,30 @@ func (s DescribeBudgetsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBudgets sets the Budgets field's value.
-func (s *DescribeBudgetsOutput) SetBudgets(v []*Budget) *DescribeBudgetsOutput {
-	s.Budgets = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBudgetsOutput) SetNextToken(v string) *DescribeBudgetsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeBudgetsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request of DescribeNotificationsForBudget
 type DescribeNotificationsForBudgetInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget whose notifications you
+	// want descriptions of.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget whose notifications you want descriptions of.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// An integer to represent how many entries a paginated response contains. Maximum
-	// is set to 100.
+	// Optional integer. Specifies the maximum number of results to return in response.
 	MaxResults *int64 `min:"1" type:"integer"`
 
-	// A generic String.
+	// The pagination token that indicates the next set of results to retrieve.
 	NextToken *string `type:"string"`
 }
 
@@ -1717,39 +1611,18 @@ func (s *DescribeNotificationsForBudgetInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DescribeNotificationsForBudgetInput) SetAccountId(v string) *DescribeNotificationsForBudgetInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *DescribeNotificationsForBudgetInput) SetBudgetName(v string) *DescribeNotificationsForBudgetInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeNotificationsForBudgetInput) SetMaxResults(v int64) *DescribeNotificationsForBudgetInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeNotificationsForBudgetInput) SetNextToken(v string) *DescribeNotificationsForBudgetInput {
-	s.NextToken = &v
-	return s
-}
-
 // Response of GetNotificationsForBudget
 type DescribeNotificationsForBudgetOutput struct {
 	_ struct{} `type:"structure"`
 
-	// A generic String.
+	responseMetadata aws.Response
+
+	// The pagination token that indicates the next set of results that you can
+	// retrieve.
 	NextToken *string `type:"string"`
 
-	// A list of notifications.
-	Notifications []*Notification `type:"list"`
+	// A list of notifications associated with a budget.
+	Notifications []Notification `type:"list"`
 }
 
 // String returns the string representation
@@ -1762,41 +1635,33 @@ func (s DescribeNotificationsForBudgetOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeNotificationsForBudgetOutput) SetNextToken(v string) *DescribeNotificationsForBudgetOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNotifications sets the Notifications field's value.
-func (s *DescribeNotificationsForBudgetOutput) SetNotifications(v []*Notification) *DescribeNotificationsForBudgetOutput {
-	s.Notifications = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeNotificationsForBudgetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Request of DescribeSubscribersForNotification
 type DescribeSubscribersForNotificationInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget whose subscribers you want
+	// descriptions of.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget whose subscribers you want descriptions of.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// An integer to represent how many entries a paginated response contains. Maximum
-	// is set to 100.
+	// Optional integer. Specifies the maximum number of results to return in response.
 	MaxResults *int64 `min:"1" type:"integer"`
 
-	// A generic String.
+	// The pagination token that indicates the next set of results to retrieve.
 	NextToken *string `type:"string"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification whose subscribers you want to list.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
@@ -1845,45 +1710,18 @@ func (s *DescribeSubscribersForNotificationInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *DescribeSubscribersForNotificationInput) SetAccountId(v string) *DescribeSubscribersForNotificationInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *DescribeSubscribersForNotificationInput) SetBudgetName(v string) *DescribeSubscribersForNotificationInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeSubscribersForNotificationInput) SetMaxResults(v int64) *DescribeSubscribersForNotificationInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeSubscribersForNotificationInput) SetNextToken(v string) *DescribeSubscribersForNotificationInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *DescribeSubscribersForNotificationInput) SetNotification(v *Notification) *DescribeSubscribersForNotificationInput {
-	s.Notification = v
-	return s
-}
-
 // Response of DescribeSubscribersForNotification
 type DescribeSubscribersForNotificationOutput struct {
 	_ struct{} `type:"structure"`
 
-	// A generic String.
+	responseMetadata aws.Response
+
+	// The pagination token that indicates the next set of results that you can
+	// retrieve.
 	NextToken *string `type:"string"`
 
-	// A list of subscribers.
-	Subscribers []*Subscriber `min:"1" type:"list"`
+	// A list of subscribers associated with a notification.
+	Subscribers []Subscriber `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -1896,41 +1734,47 @@ func (s DescribeSubscribersForNotificationOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeSubscribersForNotificationOutput) SetNextToken(v string) *DescribeSubscribersForNotificationOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeSubscribersForNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetSubscribers sets the Subscribers field's value.
-func (s *DescribeSubscribersForNotificationOutput) SetSubscribers(v []*Subscriber) *DescribeSubscribersForNotificationOutput {
-	s.Subscribers = v
-	return s
-}
-
-// Notification model. Each budget may contain multiple notifications with different
-// settings.
+// A notification associated with a budget. A budget can have up to five notifications.
+//
+// Each notification must have at least one subscriber. A notification can have
+// one SNS subscriber and up to ten email subscribers, for a total of 11 subscribers.
+//
+// For example, if you have a budget for 200 dollars and you want to be notified
+// when you go over 160 dollars, create a notification with the following parameters:
+//
+//    * A notificationType of ACTUAL
+//
+//    * A comparisonOperator of GREATER_THAN
+//
+//    * A notification threshold of 80
 type Notification struct {
 	_ struct{} `type:"structure"`
 
-	// The comparison operator of a notification. Currently we support less than,
-	// equal to and greater than.
+	// The comparison used for this notification.
 	//
 	// ComparisonOperator is a required field
-	ComparisonOperator ComparisonOperator `type:"string" required:"true"`
+	ComparisonOperator ComparisonOperator `type:"string" required:"true" enum:"true"`
 
-	// The type of a notification. It should be ACTUAL or FORECASTED.
+	// Whether the notification is for how much you have spent (ACTUAL) or for how
+	// much you are forecasted to spend (FORECASTED).
 	//
 	// NotificationType is a required field
-	NotificationType NotificationType `type:"string" required:"true"`
+	NotificationType NotificationType `type:"string" required:"true" enum:"true"`
 
-	// The threshold of a notification. It should be a number between 0 and 1,000,000,000.
+	// The threshold associated with a notification. Thresholds are always a percentage.
 	//
 	// Threshold is a required field
 	Threshold *float64 `min:"0.1" type:"double" required:"true"`
 
-	// The type of threshold for a notification. It can be PERCENTAGE or ABSOLUTE_VALUE.
-	ThresholdType ThresholdType `type:"string"`
+	// The type of threshold for a notification. For ACTUAL thresholds, AWS notifies
+	// you when you go over the threshold, and for FORECASTED thresholds AWS notifies
+	// you when you are forecasted to go over the threshold.
+	ThresholdType ThresholdType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1966,45 +1810,20 @@ func (s *Notification) Validate() error {
 	return nil
 }
 
-// SetComparisonOperator sets the ComparisonOperator field's value.
-func (s *Notification) SetComparisonOperator(v ComparisonOperator) *Notification {
-	s.ComparisonOperator = v
-	return s
-}
-
-// SetNotificationType sets the NotificationType field's value.
-func (s *Notification) SetNotificationType(v NotificationType) *Notification {
-	s.NotificationType = v
-	return s
-}
-
-// SetThreshold sets the Threshold field's value.
-func (s *Notification) SetThreshold(v float64) *Notification {
-	s.Threshold = &v
-	return s
-}
-
-// SetThresholdType sets the ThresholdType field's value.
-func (s *Notification) SetThresholdType(v ThresholdType) *Notification {
-	s.ThresholdType = v
-	return s
-}
-
-// A structure to relate notification and a list of subscribers who belong to
-// the notification.
+// A notification with subscribers. A notification can have one SNS subscriber
+// and up to ten email subscribers, for a total of 11 subscribers.
 type NotificationWithSubscribers struct {
 	_ struct{} `type:"structure"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification associated with a budget.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
 
-	// A list of subscribers.
+	// A list of subscribers who are subscribed to this notification.
 	//
 	// Subscribers is a required field
-	Subscribers []*Subscriber `min:"1" type:"list" required:"true"`
+	Subscribers []Subscriber `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -2038,9 +1857,6 @@ func (s *NotificationWithSubscribers) Validate() error {
 	}
 	if s.Subscribers != nil {
 		for i, v := range s.Subscribers {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Subscribers", i), err.(aws.ErrInvalidParams))
 			}
@@ -2053,29 +1869,24 @@ func (s *NotificationWithSubscribers) Validate() error {
 	return nil
 }
 
-// SetNotification sets the Notification field's value.
-func (s *NotificationWithSubscribers) SetNotification(v *Notification) *NotificationWithSubscribers {
-	s.Notification = v
-	return s
-}
-
-// SetSubscribers sets the Subscribers field's value.
-func (s *NotificationWithSubscribers) SetSubscribers(v []*Subscriber) *NotificationWithSubscribers {
-	s.Subscribers = v
-	return s
-}
-
-// A structure that represents either a cost spend or usage spend. Contains
-// an amount and a unit.
+// The amount of cost or usage being measured for a budget.
+//
+// For example, a Spend for 3 GB of S3 usage would have the following parameters:
+//
+//    * An Amount of 3
+//
+//    * A unit of GB
 type Spend struct {
 	_ struct{} `type:"structure"`
 
-	// A string to represent NumericValue.
+	// The cost or usage amount associated with a budget forecast, actual spend,
+	// or budget threshold.
 	//
 	// Amount is a required field
 	Amount *string `type:"string" required:"true"`
 
-	// A string to represent budget spend unit. It should be not null and not empty.
+	// The unit of measurement used for the budget forecast, actual spend, or budget
+	// threshold, such as dollars or GB.
 	//
 	// Unit is a required field
 	Unit *string `min:"1" type:"string" required:"true"`
@@ -2112,32 +1923,27 @@ func (s *Spend) Validate() error {
 	return nil
 }
 
-// SetAmount sets the Amount field's value.
-func (s *Spend) SetAmount(v string) *Spend {
-	s.Amount = &v
-	return s
-}
-
-// SetUnit sets the Unit field's value.
-func (s *Spend) SetUnit(v string) *Spend {
-	s.Unit = &v
-	return s
-}
-
-// Subscriber model. Each notification may contain multiple subscribers with
-// different addresses.
+// The subscriber to a budget notification. The subscriber consists of a subscription
+// type and either an Amazon Simple Notification Service topic or an email address.
+//
+// For example, an email subscriber would have the following parameters:
+//
+//    * A subscriptionType of EMAIL
+//
+//    * An address of example@example.com
 type Subscriber struct {
 	_ struct{} `type:"structure"`
 
-	// A generic String.
+	// The address that AWS sends budget notifications to, either an SNS topic or
+	// an email.
 	//
 	// Address is a required field
-	Address *string `type:"string" required:"true"`
+	Address *string `min:"1" type:"string" required:"true"`
 
-	// The subscription type of the subscriber. It can be SMS or EMAIL.
+	// The type of notification that AWS sends to a subscriber.
 	//
 	// SubscriptionType is a required field
-	SubscriptionType SubscriptionType `type:"string" required:"true"`
+	SubscriptionType SubscriptionType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -2157,6 +1963,9 @@ func (s *Subscriber) Validate() error {
 	if s.Address == nil {
 		invalidParams.Add(aws.NewErrParamRequired("Address"))
 	}
+	if s.Address != nil && len(*s.Address) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Address", 1))
+	}
 	if len(s.SubscriptionType) == 0 {
 		invalidParams.Add(aws.NewErrParamRequired("SubscriptionType"))
 	}
@@ -2167,31 +1976,30 @@ func (s *Subscriber) Validate() error {
 	return nil
 }
 
-// SetAddress sets the Address field's value.
-func (s *Subscriber) SetAddress(v string) *Subscriber {
-	s.Address = &v
-	return s
-}
-
-// SetSubscriptionType sets the SubscriptionType field's value.
-func (s *Subscriber) SetSubscriptionType(v SubscriptionType) *Subscriber {
-	s.SubscriptionType = v
-	return s
-}
-
-// A time period indicating the start date and end date of a budget.
+// The period of time covered by a budget. Has a start date and an end date.
+// The start date must come before the end date. There are no restrictions on
+// the end date.
 type TimePeriod struct {
 	_ struct{} `type:"structure"`
 
-	// A generic timestamp. In Java it is transformed to a Date object.
+	// The end date for a budget. If you didn't specify an end date, AWS set your
+	// end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing
+	// and Cost Management console and the API.
 	//
-	// End is a required field
-	End *time.Time `type:"timestamp" timestampFormat:"unix" required:"true"`
+	// After the end date, AWS deletes the budget and all associated notifications
+	// and subscribers. You can change your end date with the UpdateBudget operation.
+	End *time.Time `type:"timestamp" timestampFormat:"unix"`
 
-	// A generic timestamp. In Java it is transformed to a Date object.
+	// The start date for a budget. If you created your budget and didn't specify
+	// a start date, AWS defaults to the start of your chosen time period (i.e.
+	// DAILY, MONTHLY, QUARTERLY, ANNUALLY). For example, if you created your budget
+	// on January 24th 2018, chose DAILY, and didn't set a start date, AWS set your
+	// start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start
+	// date to 01/01/18 00:00 UTC. The defaults are the same for the AWS Billing
+	// and Cost Management console and the API.
 	//
-	// Start is a required field
-	Start *time.Time `type:"timestamp" timestampFormat:"unix" required:"true"`
+	// You can change your start date with the UpdateBudget operation.
+	Start *time.Time `type:"timestamp" timestampFormat:"unix"`
 }
 
 // String returns the string representation
@@ -2204,46 +2012,16 @@ func (s TimePeriod) GoString() string {
 	return s.String()
 }
 
-// Validate inspects the fields of the type to determine if they are valid.
-func (s *TimePeriod) Validate() error {
-	invalidParams := aws.ErrInvalidParams{Context: "TimePeriod"}
-
-	if s.End == nil {
-		invalidParams.Add(aws.NewErrParamRequired("End"))
-	}
-
-	if s.Start == nil {
-		invalidParams.Add(aws.NewErrParamRequired("Start"))
-	}
-
-	if invalidParams.Len() > 0 {
-		return invalidParams
-	}
-	return nil
-}
-
-// SetEnd sets the End field's value.
-func (s *TimePeriod) SetEnd(v time.Time) *TimePeriod {
-	s.End = &v
-	return s
-}
-
-// SetStart sets the Start field's value.
-func (s *TimePeriod) SetStart(v time.Time) *TimePeriod {
-	s.Start = &v
-	return s
-}
-
 // Request of UpdateBudget
 type UpdateBudgetInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget that you want to update.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// AWS Budget model
+	// The budget that you want to update your budget to.
 	//
 	// NewBudget is a required field
 	NewBudget *Budget `type:"structure" required:"true"`
@@ -2285,21 +2063,11 @@ func (s *UpdateBudgetInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *UpdateBudgetInput) SetAccountId(v string) *UpdateBudgetInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetNewBudget sets the NewBudget field's value.
-func (s *UpdateBudgetInput) SetNewBudget(v *Budget) *UpdateBudgetInput {
-	s.NewBudget = v
-	return s
-}
-
 // Response of UpdateBudget
 type UpdateBudgetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2312,28 +2080,32 @@ func (s UpdateBudgetOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateBudgetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of UpdateNotification
 type UpdateNotificationInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget whose notification you want
+	// to update.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget whose notification you want to update.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The updated notification to be associated with a budget.
 	//
 	// NewNotification is a required field
 	NewNotification *Notification `type:"structure" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The previous notification associated with a budget.
 	//
 	// OldNotification is a required field
 	OldNotification *Notification `type:"structure" required:"true"`
@@ -2388,33 +2160,11 @@ func (s *UpdateNotificationInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *UpdateNotificationInput) SetAccountId(v string) *UpdateNotificationInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *UpdateNotificationInput) SetBudgetName(v string) *UpdateNotificationInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetNewNotification sets the NewNotification field's value.
-func (s *UpdateNotificationInput) SetNewNotification(v *Notification) *UpdateNotificationInput {
-	s.NewNotification = v
-	return s
-}
-
-// SetOldNotification sets the OldNotification field's value.
-func (s *UpdateNotificationInput) SetOldNotification(v *Notification) *UpdateNotificationInput {
-	s.OldNotification = v
-	return s
-}
-
 // Response of UpdateNotification
 type UpdateNotificationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2427,34 +2177,37 @@ func (s UpdateNotificationOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateNotificationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Request of UpdateSubscriber
 type UpdateSubscriberInput struct {
 	_ struct{} `type:"structure"`
 
-	// Account Id of the customer. It should be a 12 digit number.
+	// The accountId that is associated with the budget whose subscriber you want
+	// to update.
 	//
 	// AccountId is a required field
 	AccountId *string `min:"12" type:"string" required:"true"`
 
-	// A string represents the budget name. No ":" and "\" character is allowed.
+	// The name of the budget whose subscriber you want to update.
 	//
 	// BudgetName is a required field
 	BudgetName *string `type:"string" required:"true"`
 
-	// Subscriber model. Each notification may contain multiple subscribers with
-	// different addresses.
+	// The updated subscriber associated with a budget notification.
 	//
 	// NewSubscriber is a required field
 	NewSubscriber *Subscriber `type:"structure" required:"true"`
 
-	// Notification model. Each budget may contain multiple notifications with different
-	// settings.
+	// The notification whose subscriber you want to update.
 	//
 	// Notification is a required field
 	Notification *Notification `type:"structure" required:"true"`
 
-	// Subscriber model. Each notification may contain multiple subscribers with
-	// different addresses.
+	// The previous subscriber associated with a budget notification.
 	//
 	// OldSubscriber is a required field
 	OldSubscriber *Subscriber `type:"structure" required:"true"`
@@ -2518,39 +2271,11 @@ func (s *UpdateSubscriberInput) Validate() error {
 	return nil
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *UpdateSubscriberInput) SetAccountId(v string) *UpdateSubscriberInput {
-	s.AccountId = &v
-	return s
-}
-
-// SetBudgetName sets the BudgetName field's value.
-func (s *UpdateSubscriberInput) SetBudgetName(v string) *UpdateSubscriberInput {
-	s.BudgetName = &v
-	return s
-}
-
-// SetNewSubscriber sets the NewSubscriber field's value.
-func (s *UpdateSubscriberInput) SetNewSubscriber(v *Subscriber) *UpdateSubscriberInput {
-	s.NewSubscriber = v
-	return s
-}
-
-// SetNotification sets the Notification field's value.
-func (s *UpdateSubscriberInput) SetNotification(v *Notification) *UpdateSubscriberInput {
-	s.Notification = v
-	return s
-}
-
-// SetOldSubscriber sets the OldSubscriber field's value.
-func (s *UpdateSubscriberInput) SetOldSubscriber(v *Subscriber) *UpdateSubscriberInput {
-	s.OldSubscriber = v
-	return s
-}
-
 // Response of UpdateSubscriber
 type UpdateSubscriberOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -2563,6 +2288,11 @@ func (s UpdateSubscriberOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateSubscriberOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // The type of a budget. It should be COST, USAGE, or RI_UTILIZATION.
 type BudgetType string
 
@@ -2571,7 +2301,17 @@ const (
 	BudgetTypeUsage         BudgetType = "USAGE"
 	BudgetTypeCost          BudgetType = "COST"
 	BudgetTypeRiUtilization BudgetType = "RI_UTILIZATION"
+	BudgetTypeRiCoverage    BudgetType = "RI_COVERAGE"
 )
+
+func (enum BudgetType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BudgetType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The comparison operator of a notification. Currently we support less than,
 // equal to and greater than.
@@ -2584,6 +2324,15 @@ const (
 	ComparisonOperatorEqualTo     ComparisonOperator = "EQUAL_TO"
 )
 
+func (enum ComparisonOperator) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ComparisonOperator) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The type of a notification. It should be ACTUAL or FORECASTED.
 type NotificationType string
 
@@ -2592,6 +2341,15 @@ const (
 	NotificationTypeActual     NotificationType = "ACTUAL"
 	NotificationTypeForecasted NotificationType = "FORECASTED"
 )
+
+func (enum NotificationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NotificationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The subscription type of the subscriber. It can be SMS or EMAIL.
 type SubscriptionType string
@@ -2602,6 +2360,15 @@ const (
 	SubscriptionTypeEmail SubscriptionType = "EMAIL"
 )
 
+func (enum SubscriptionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SubscriptionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 // The type of threshold for a notification. It can be PERCENTAGE or ABSOLUTE_VALUE.
 type ThresholdType string
 
@@ -2610,6 +2377,15 @@ const (
 	ThresholdTypePercentage    ThresholdType = "PERCENTAGE"
 	ThresholdTypeAbsoluteValue ThresholdType = "ABSOLUTE_VALUE"
 )
+
+func (enum ThresholdType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ThresholdType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 // The time unit of the budget. e.g. MONTHLY, QUARTERLY, etc.
 type TimeUnit string
@@ -2621,3 +2397,12 @@ const (
 	TimeUnitQuarterly TimeUnit = "QUARTERLY"
 	TimeUnitAnnually  TimeUnit = "ANNUALLY"
 )
+
+func (enum TimeUnit) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TimeUnit) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

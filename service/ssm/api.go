@@ -16,6 +16,7 @@ const opAddTagsToResource = "AddTagsToResource"
 type AddTagsToResourceRequest struct {
 	*aws.Request
 	Input *AddTagsToResourceInput
+	Copy  func(*AddTagsToResourceInput) AddTagsToResourceRequest
 }
 
 // Send marshals and sends the AddTagsToResource API request.
@@ -41,7 +42,7 @@ func (r AddTagsToResourceRequest) Send() (*AddTagsToResourceOutput, error) {
 // and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev.
 // Or Key=Stack and Value=Production, Pre-Production, or Test.
 //
-// Each resource can have a maximum of 10 tags.
+// Each resource can have a maximum of 50 tags.
 //
 // We recommend that you devise a set of tag keys that meets your needs for
 // each resource type. Using a consistent set of tag keys makes it easier for
@@ -71,8 +72,11 @@ func (c *SSM) AddTagsToResourceRequest(input *AddTagsToResourceInput) AddTagsToR
 		input = &AddTagsToResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &AddTagsToResourceOutput{})
-	return AddTagsToResourceRequest{Request: req, Input: input}
+	output := &AddTagsToResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AddTagsToResourceRequest{Request: req, Input: input, Copy: c.AddTagsToResourceRequest}
 }
 
 const opCancelCommand = "CancelCommand"
@@ -81,6 +85,7 @@ const opCancelCommand = "CancelCommand"
 type CancelCommandRequest struct {
 	*aws.Request
 	Input *CancelCommandInput
+	Copy  func(*CancelCommandInput) CancelCommandRequest
 }
 
 // Send marshals and sends the CancelCommand API request.
@@ -118,8 +123,11 @@ func (c *SSM) CancelCommandRequest(input *CancelCommandInput) CancelCommandReque
 		input = &CancelCommandInput{}
 	}
 
-	req := c.newRequest(op, input, &CancelCommandOutput{})
-	return CancelCommandRequest{Request: req, Input: input}
+	output := &CancelCommandOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CancelCommandRequest{Request: req, Input: input, Copy: c.CancelCommandRequest}
 }
 
 const opCreateActivation = "CreateActivation"
@@ -128,6 +136,7 @@ const opCreateActivation = "CreateActivation"
 type CreateActivationRequest struct {
 	*aws.Request
 	Input *CreateActivationInput
+	Copy  func(*CreateActivationInput) CreateActivationRequest
 }
 
 // Send marshals and sends the CreateActivation API request.
@@ -168,8 +177,11 @@ func (c *SSM) CreateActivationRequest(input *CreateActivationInput) CreateActiva
 		input = &CreateActivationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateActivationOutput{})
-	return CreateActivationRequest{Request: req, Input: input}
+	output := &CreateActivationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateActivationRequest{Request: req, Input: input, Copy: c.CreateActivationRequest}
 }
 
 const opCreateAssociation = "CreateAssociation"
@@ -178,6 +190,7 @@ const opCreateAssociation = "CreateAssociation"
 type CreateAssociationRequest struct {
 	*aws.Request
 	Input *CreateAssociationInput
+	Copy  func(*CreateAssociationInput) CreateAssociationRequest
 }
 
 // Send marshals and sends the CreateAssociation API request.
@@ -222,8 +235,11 @@ func (c *SSM) CreateAssociationRequest(input *CreateAssociationInput) CreateAsso
 		input = &CreateAssociationInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAssociationOutput{})
-	return CreateAssociationRequest{Request: req, Input: input}
+	output := &CreateAssociationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAssociationRequest{Request: req, Input: input, Copy: c.CreateAssociationRequest}
 }
 
 const opCreateAssociationBatch = "CreateAssociationBatch"
@@ -232,6 +248,7 @@ const opCreateAssociationBatch = "CreateAssociationBatch"
 type CreateAssociationBatchRequest struct {
 	*aws.Request
 	Input *CreateAssociationBatchInput
+	Copy  func(*CreateAssociationBatchInput) CreateAssociationBatchRequest
 }
 
 // Send marshals and sends the CreateAssociationBatch API request.
@@ -276,8 +293,11 @@ func (c *SSM) CreateAssociationBatchRequest(input *CreateAssociationBatchInput) 
 		input = &CreateAssociationBatchInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateAssociationBatchOutput{})
-	return CreateAssociationBatchRequest{Request: req, Input: input}
+	output := &CreateAssociationBatchOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateAssociationBatchRequest{Request: req, Input: input, Copy: c.CreateAssociationBatchRequest}
 }
 
 const opCreateDocument = "CreateDocument"
@@ -286,6 +306,7 @@ const opCreateDocument = "CreateDocument"
 type CreateDocumentRequest struct {
 	*aws.Request
 	Input *CreateDocumentInput
+	Copy  func(*CreateDocumentInput) CreateDocumentRequest
 }
 
 // Send marshals and sends the CreateDocument API request.
@@ -325,8 +346,11 @@ func (c *SSM) CreateDocumentRequest(input *CreateDocumentInput) CreateDocumentRe
 		input = &CreateDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDocumentOutput{})
-	return CreateDocumentRequest{Request: req, Input: input}
+	output := &CreateDocumentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDocumentRequest{Request: req, Input: input, Copy: c.CreateDocumentRequest}
 }
 
 const opCreateMaintenanceWindow = "CreateMaintenanceWindow"
@@ -335,6 +359,7 @@ const opCreateMaintenanceWindow = "CreateMaintenanceWindow"
 type CreateMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *CreateMaintenanceWindowInput
+	Copy  func(*CreateMaintenanceWindowInput) CreateMaintenanceWindowRequest
 }
 
 // Send marshals and sends the CreateMaintenanceWindow API request.
@@ -371,8 +396,11 @@ func (c *SSM) CreateMaintenanceWindowRequest(input *CreateMaintenanceWindowInput
 		input = &CreateMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateMaintenanceWindowOutput{})
-	return CreateMaintenanceWindowRequest{Request: req, Input: input}
+	output := &CreateMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateMaintenanceWindowRequest{Request: req, Input: input, Copy: c.CreateMaintenanceWindowRequest}
 }
 
 const opCreatePatchBaseline = "CreatePatchBaseline"
@@ -381,6 +409,7 @@ const opCreatePatchBaseline = "CreatePatchBaseline"
 type CreatePatchBaselineRequest struct {
 	*aws.Request
 	Input *CreatePatchBaselineInput
+	Copy  func(*CreatePatchBaselineInput) CreatePatchBaselineRequest
 }
 
 // Send marshals and sends the CreatePatchBaseline API request.
@@ -397,6 +426,9 @@ func (r CreatePatchBaselineRequest) Send() (*CreatePatchBaselineOutput, error) {
 // Amazon Simple Systems Manager (SSM).
 //
 // Creates a patch baseline.
+//
+// For information about valid key and value pairs in PatchFilters for each
+// supported operating system type, see PatchFilter (http://docs.aws.amazon.com/systems-manager/latest/APIReference/API_PatchFilter.html).
 //
 //    // Example sending a request using the CreatePatchBaselineRequest method.
 //    req := client.CreatePatchBaselineRequest(params)
@@ -417,8 +449,11 @@ func (c *SSM) CreatePatchBaselineRequest(input *CreatePatchBaselineInput) Create
 		input = &CreatePatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePatchBaselineOutput{})
-	return CreatePatchBaselineRequest{Request: req, Input: input}
+	output := &CreatePatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePatchBaselineRequest{Request: req, Input: input, Copy: c.CreatePatchBaselineRequest}
 }
 
 const opCreateResourceDataSync = "CreateResourceDataSync"
@@ -427,6 +462,7 @@ const opCreateResourceDataSync = "CreateResourceDataSync"
 type CreateResourceDataSyncRequest struct {
 	*aws.Request
 	Input *CreateResourceDataSyncInput
+	Copy  func(*CreateResourceDataSyncInput) CreateResourceDataSyncRequest
 }
 
 // Send marshals and sends the CreateResourceDataSync API request.
@@ -445,8 +481,7 @@ func (r CreateResourceDataSyncRequest) Send() (*CreateResourceDataSyncOutput, er
 // Creates a resource data sync configuration to a single bucket in Amazon S3.
 // This is an asynchronous operation that returns immediately. After a successful
 // initial sync is completed, the system continuously syncs data to the Amazon
-// S3 bucket. To check the status of the sync, use the ListResourceDataSync
-// (API_ListResourceDataSync.html) operation.
+// S3 bucket. To check the status of the sync, use the ListResourceDataSync.
 //
 // By default, data is not encrypted in Amazon S3. We strongly recommend that
 // you enable encryption in Amazon S3 to ensure secure data storage. We also
@@ -474,8 +509,11 @@ func (c *SSM) CreateResourceDataSyncRequest(input *CreateResourceDataSyncInput) 
 		input = &CreateResourceDataSyncInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateResourceDataSyncOutput{})
-	return CreateResourceDataSyncRequest{Request: req, Input: input}
+	output := &CreateResourceDataSyncOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateResourceDataSyncRequest{Request: req, Input: input, Copy: c.CreateResourceDataSyncRequest}
 }
 
 const opDeleteActivation = "DeleteActivation"
@@ -484,6 +522,7 @@ const opDeleteActivation = "DeleteActivation"
 type DeleteActivationRequest struct {
 	*aws.Request
 	Input *DeleteActivationInput
+	Copy  func(*DeleteActivationInput) DeleteActivationRequest
 }
 
 // Send marshals and sends the DeleteActivation API request.
@@ -523,8 +562,11 @@ func (c *SSM) DeleteActivationRequest(input *DeleteActivationInput) DeleteActiva
 		input = &DeleteActivationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteActivationOutput{})
-	return DeleteActivationRequest{Request: req, Input: input}
+	output := &DeleteActivationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteActivationRequest{Request: req, Input: input, Copy: c.DeleteActivationRequest}
 }
 
 const opDeleteAssociation = "DeleteAssociation"
@@ -533,6 +575,7 @@ const opDeleteAssociation = "DeleteAssociation"
 type DeleteAssociationRequest struct {
 	*aws.Request
 	Input *DeleteAssociationInput
+	Copy  func(*DeleteAssociationInput) DeleteAssociationRequest
 }
 
 // Send marshals and sends the DeleteAssociation API request.
@@ -574,8 +617,11 @@ func (c *SSM) DeleteAssociationRequest(input *DeleteAssociationInput) DeleteAsso
 		input = &DeleteAssociationInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAssociationOutput{})
-	return DeleteAssociationRequest{Request: req, Input: input}
+	output := &DeleteAssociationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAssociationRequest{Request: req, Input: input, Copy: c.DeleteAssociationRequest}
 }
 
 const opDeleteDocument = "DeleteDocument"
@@ -584,6 +630,7 @@ const opDeleteDocument = "DeleteDocument"
 type DeleteDocumentRequest struct {
 	*aws.Request
 	Input *DeleteDocumentInput
+	Copy  func(*DeleteDocumentInput) DeleteDocumentRequest
 }
 
 // Send marshals and sends the DeleteDocument API request.
@@ -624,8 +671,63 @@ func (c *SSM) DeleteDocumentRequest(input *DeleteDocumentInput) DeleteDocumentRe
 		input = &DeleteDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDocumentOutput{})
-	return DeleteDocumentRequest{Request: req, Input: input}
+	output := &DeleteDocumentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDocumentRequest{Request: req, Input: input, Copy: c.DeleteDocumentRequest}
+}
+
+const opDeleteInventory = "DeleteInventory"
+
+// DeleteInventoryRequest is a API request type for the DeleteInventory API operation.
+type DeleteInventoryRequest struct {
+	*aws.Request
+	Input *DeleteInventoryInput
+	Copy  func(*DeleteInventoryInput) DeleteInventoryRequest
+}
+
+// Send marshals and sends the DeleteInventory API request.
+func (r DeleteInventoryRequest) Send() (*DeleteInventoryOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteInventoryOutput), nil
+}
+
+// DeleteInventoryRequest returns a request value for making API operation for
+// Amazon Simple Systems Manager (SSM).
+//
+// Delete a custom inventory type, or the data associated with a custom Inventory
+// type. Deleting a custom inventory type is also referred to as deleting a
+// custom inventory schema.
+//
+//    // Example sending a request using the DeleteInventoryRequest method.
+//    req := client.DeleteInventoryRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventory
+func (c *SSM) DeleteInventoryRequest(input *DeleteInventoryInput) DeleteInventoryRequest {
+	op := &aws.Operation{
+		Name:       opDeleteInventory,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteInventoryInput{}
+	}
+
+	output := &DeleteInventoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteInventoryRequest{Request: req, Input: input, Copy: c.DeleteInventoryRequest}
 }
 
 const opDeleteMaintenanceWindow = "DeleteMaintenanceWindow"
@@ -634,6 +736,7 @@ const opDeleteMaintenanceWindow = "DeleteMaintenanceWindow"
 type DeleteMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *DeleteMaintenanceWindowInput
+	Copy  func(*DeleteMaintenanceWindowInput) DeleteMaintenanceWindowRequest
 }
 
 // Send marshals and sends the DeleteMaintenanceWindow API request.
@@ -670,8 +773,11 @@ func (c *SSM) DeleteMaintenanceWindowRequest(input *DeleteMaintenanceWindowInput
 		input = &DeleteMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteMaintenanceWindowOutput{})
-	return DeleteMaintenanceWindowRequest{Request: req, Input: input}
+	output := &DeleteMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteMaintenanceWindowRequest{Request: req, Input: input, Copy: c.DeleteMaintenanceWindowRequest}
 }
 
 const opDeleteParameter = "DeleteParameter"
@@ -680,6 +786,7 @@ const opDeleteParameter = "DeleteParameter"
 type DeleteParameterRequest struct {
 	*aws.Request
 	Input *DeleteParameterInput
+	Copy  func(*DeleteParameterInput) DeleteParameterRequest
 }
 
 // Send marshals and sends the DeleteParameter API request.
@@ -716,8 +823,11 @@ func (c *SSM) DeleteParameterRequest(input *DeleteParameterInput) DeleteParamete
 		input = &DeleteParameterInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteParameterOutput{})
-	return DeleteParameterRequest{Request: req, Input: input}
+	output := &DeleteParameterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteParameterRequest{Request: req, Input: input, Copy: c.DeleteParameterRequest}
 }
 
 const opDeleteParameters = "DeleteParameters"
@@ -726,6 +836,7 @@ const opDeleteParameters = "DeleteParameters"
 type DeleteParametersRequest struct {
 	*aws.Request
 	Input *DeleteParametersInput
+	Copy  func(*DeleteParametersInput) DeleteParametersRequest
 }
 
 // Send marshals and sends the DeleteParameters API request.
@@ -763,8 +874,11 @@ func (c *SSM) DeleteParametersRequest(input *DeleteParametersInput) DeleteParame
 		input = &DeleteParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteParametersOutput{})
-	return DeleteParametersRequest{Request: req, Input: input}
+	output := &DeleteParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteParametersRequest{Request: req, Input: input, Copy: c.DeleteParametersRequest}
 }
 
 const opDeletePatchBaseline = "DeletePatchBaseline"
@@ -773,6 +887,7 @@ const opDeletePatchBaseline = "DeletePatchBaseline"
 type DeletePatchBaselineRequest struct {
 	*aws.Request
 	Input *DeletePatchBaselineInput
+	Copy  func(*DeletePatchBaselineInput) DeletePatchBaselineRequest
 }
 
 // Send marshals and sends the DeletePatchBaseline API request.
@@ -809,8 +924,11 @@ func (c *SSM) DeletePatchBaselineRequest(input *DeletePatchBaselineInput) Delete
 		input = &DeletePatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePatchBaselineOutput{})
-	return DeletePatchBaselineRequest{Request: req, Input: input}
+	output := &DeletePatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePatchBaselineRequest{Request: req, Input: input, Copy: c.DeletePatchBaselineRequest}
 }
 
 const opDeleteResourceDataSync = "DeleteResourceDataSync"
@@ -819,6 +937,7 @@ const opDeleteResourceDataSync = "DeleteResourceDataSync"
 type DeleteResourceDataSyncRequest struct {
 	*aws.Request
 	Input *DeleteResourceDataSyncInput
+	Copy  func(*DeleteResourceDataSyncInput) DeleteResourceDataSyncRequest
 }
 
 // Send marshals and sends the DeleteResourceDataSync API request.
@@ -858,8 +977,11 @@ func (c *SSM) DeleteResourceDataSyncRequest(input *DeleteResourceDataSyncInput) 
 		input = &DeleteResourceDataSyncInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteResourceDataSyncOutput{})
-	return DeleteResourceDataSyncRequest{Request: req, Input: input}
+	output := &DeleteResourceDataSyncOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteResourceDataSyncRequest{Request: req, Input: input, Copy: c.DeleteResourceDataSyncRequest}
 }
 
 const opDeregisterManagedInstance = "DeregisterManagedInstance"
@@ -868,6 +990,7 @@ const opDeregisterManagedInstance = "DeregisterManagedInstance"
 type DeregisterManagedInstanceRequest struct {
 	*aws.Request
 	Input *DeregisterManagedInstanceInput
+	Copy  func(*DeregisterManagedInstanceInput) DeregisterManagedInstanceRequest
 }
 
 // Send marshals and sends the DeregisterManagedInstance API request.
@@ -906,8 +1029,11 @@ func (c *SSM) DeregisterManagedInstanceRequest(input *DeregisterManagedInstanceI
 		input = &DeregisterManagedInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &DeregisterManagedInstanceOutput{})
-	return DeregisterManagedInstanceRequest{Request: req, Input: input}
+	output := &DeregisterManagedInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterManagedInstanceRequest{Request: req, Input: input, Copy: c.DeregisterManagedInstanceRequest}
 }
 
 const opDeregisterPatchBaselineForPatchGroup = "DeregisterPatchBaselineForPatchGroup"
@@ -916,6 +1042,7 @@ const opDeregisterPatchBaselineForPatchGroup = "DeregisterPatchBaselineForPatchG
 type DeregisterPatchBaselineForPatchGroupRequest struct {
 	*aws.Request
 	Input *DeregisterPatchBaselineForPatchGroupInput
+	Copy  func(*DeregisterPatchBaselineForPatchGroupInput) DeregisterPatchBaselineForPatchGroupRequest
 }
 
 // Send marshals and sends the DeregisterPatchBaselineForPatchGroup API request.
@@ -952,8 +1079,11 @@ func (c *SSM) DeregisterPatchBaselineForPatchGroupRequest(input *DeregisterPatch
 		input = &DeregisterPatchBaselineForPatchGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DeregisterPatchBaselineForPatchGroupOutput{})
-	return DeregisterPatchBaselineForPatchGroupRequest{Request: req, Input: input}
+	output := &DeregisterPatchBaselineForPatchGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterPatchBaselineForPatchGroupRequest{Request: req, Input: input, Copy: c.DeregisterPatchBaselineForPatchGroupRequest}
 }
 
 const opDeregisterTargetFromMaintenanceWindow = "DeregisterTargetFromMaintenanceWindow"
@@ -962,6 +1092,7 @@ const opDeregisterTargetFromMaintenanceWindow = "DeregisterTargetFromMaintenance
 type DeregisterTargetFromMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *DeregisterTargetFromMaintenanceWindowInput
+	Copy  func(*DeregisterTargetFromMaintenanceWindowInput) DeregisterTargetFromMaintenanceWindowRequest
 }
 
 // Send marshals and sends the DeregisterTargetFromMaintenanceWindow API request.
@@ -998,8 +1129,11 @@ func (c *SSM) DeregisterTargetFromMaintenanceWindowRequest(input *DeregisterTarg
 		input = &DeregisterTargetFromMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &DeregisterTargetFromMaintenanceWindowOutput{})
-	return DeregisterTargetFromMaintenanceWindowRequest{Request: req, Input: input}
+	output := &DeregisterTargetFromMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterTargetFromMaintenanceWindowRequest{Request: req, Input: input, Copy: c.DeregisterTargetFromMaintenanceWindowRequest}
 }
 
 const opDeregisterTaskFromMaintenanceWindow = "DeregisterTaskFromMaintenanceWindow"
@@ -1008,6 +1142,7 @@ const opDeregisterTaskFromMaintenanceWindow = "DeregisterTaskFromMaintenanceWind
 type DeregisterTaskFromMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *DeregisterTaskFromMaintenanceWindowInput
+	Copy  func(*DeregisterTaskFromMaintenanceWindowInput) DeregisterTaskFromMaintenanceWindowRequest
 }
 
 // Send marshals and sends the DeregisterTaskFromMaintenanceWindow API request.
@@ -1044,8 +1179,11 @@ func (c *SSM) DeregisterTaskFromMaintenanceWindowRequest(input *DeregisterTaskFr
 		input = &DeregisterTaskFromMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &DeregisterTaskFromMaintenanceWindowOutput{})
-	return DeregisterTaskFromMaintenanceWindowRequest{Request: req, Input: input}
+	output := &DeregisterTaskFromMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterTaskFromMaintenanceWindowRequest{Request: req, Input: input, Copy: c.DeregisterTaskFromMaintenanceWindowRequest}
 }
 
 const opDescribeActivations = "DescribeActivations"
@@ -1054,6 +1192,7 @@ const opDescribeActivations = "DescribeActivations"
 type DescribeActivationsRequest struct {
 	*aws.Request
 	Input *DescribeActivationsInput
+	Copy  func(*DescribeActivationsInput) DescribeActivationsRequest
 }
 
 // Send marshals and sends the DescribeActivations API request.
@@ -1098,58 +1237,57 @@ func (c *SSM) DescribeActivationsRequest(input *DescribeActivationsInput) Descri
 		input = &DescribeActivationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeActivationsOutput{})
-	return DescribeActivationsRequest{Request: req, Input: input}
+	output := &DescribeActivationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeActivationsRequest{Request: req, Input: input, Copy: c.DescribeActivationsRequest}
 }
 
-// DescribeActivationsPages iterates over the pages of a DescribeActivations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeActivations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeActivationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeActivations operation.
-//    pageNum := 0
-//    err := client.DescribeActivationsPages(params,
-//        func(page *DescribeActivationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeActivationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) DescribeActivationsPages(input *DescribeActivationsInput, fn func(*DescribeActivationsOutput, bool) bool) error {
-	return c.DescribeActivationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeActivationsRequest) Paginate(opts ...aws.Option) DescribeActivationsPager {
+	return DescribeActivationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeActivationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeActivationsPagesWithContext same as DescribeActivationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) DescribeActivationsPagesWithContext(ctx aws.Context, input *DescribeActivationsInput, fn func(*DescribeActivationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeActivationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeActivationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeActivationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeActivationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeActivationsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeActivationsPager) CurrentPage() *DescribeActivationsOutput {
+	return p.Pager.CurrentPage().(*DescribeActivationsOutput)
 }
 
 const opDescribeAssociation = "DescribeAssociation"
@@ -1158,6 +1296,7 @@ const opDescribeAssociation = "DescribeAssociation"
 type DescribeAssociationRequest struct {
 	*aws.Request
 	Input *DescribeAssociationInput
+	Copy  func(*DescribeAssociationInput) DescribeAssociationRequest
 }
 
 // Send marshals and sends the DescribeAssociation API request.
@@ -1173,8 +1312,11 @@ func (r DescribeAssociationRequest) Send() (*DescribeAssociationOutput, error) {
 // DescribeAssociationRequest returns a request value for making API operation for
 // Amazon Simple Systems Manager (SSM).
 //
-// Describes the associations for the specified Systems Manager document or
-// instance.
+// Describes the association for the specified target or instance. If you created
+// the association by using the Targets parameter, then you must retrieve the
+// association by using the association ID. If you created the association by
+// specifying an instance ID and a Systems Manager document, then you retrieve
+// the association by specifying the document name and the instance ID.
 //
 //    // Example sending a request using the DescribeAssociationRequest method.
 //    req := client.DescribeAssociationRequest(params)
@@ -1195,8 +1337,11 @@ func (c *SSM) DescribeAssociationRequest(input *DescribeAssociationInput) Descri
 		input = &DescribeAssociationInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAssociationOutput{})
-	return DescribeAssociationRequest{Request: req, Input: input}
+	output := &DescribeAssociationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAssociationRequest{Request: req, Input: input, Copy: c.DescribeAssociationRequest}
 }
 
 const opDescribeAutomationExecutions = "DescribeAutomationExecutions"
@@ -1205,6 +1350,7 @@ const opDescribeAutomationExecutions = "DescribeAutomationExecutions"
 type DescribeAutomationExecutionsRequest struct {
 	*aws.Request
 	Input *DescribeAutomationExecutionsInput
+	Copy  func(*DescribeAutomationExecutionsInput) DescribeAutomationExecutionsRequest
 }
 
 // Send marshals and sends the DescribeAutomationExecutions API request.
@@ -1241,8 +1387,62 @@ func (c *SSM) DescribeAutomationExecutionsRequest(input *DescribeAutomationExecu
 		input = &DescribeAutomationExecutionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAutomationExecutionsOutput{})
-	return DescribeAutomationExecutionsRequest{Request: req, Input: input}
+	output := &DescribeAutomationExecutionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAutomationExecutionsRequest{Request: req, Input: input, Copy: c.DescribeAutomationExecutionsRequest}
+}
+
+const opDescribeAutomationStepExecutions = "DescribeAutomationStepExecutions"
+
+// DescribeAutomationStepExecutionsRequest is a API request type for the DescribeAutomationStepExecutions API operation.
+type DescribeAutomationStepExecutionsRequest struct {
+	*aws.Request
+	Input *DescribeAutomationStepExecutionsInput
+	Copy  func(*DescribeAutomationStepExecutionsInput) DescribeAutomationStepExecutionsRequest
+}
+
+// Send marshals and sends the DescribeAutomationStepExecutions API request.
+func (r DescribeAutomationStepExecutionsRequest) Send() (*DescribeAutomationStepExecutionsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeAutomationStepExecutionsOutput), nil
+}
+
+// DescribeAutomationStepExecutionsRequest returns a request value for making API operation for
+// Amazon Simple Systems Manager (SSM).
+//
+// Information about all active and terminated step executions in an Automation
+// workflow.
+//
+//    // Example sending a request using the DescribeAutomationStepExecutionsRequest method.
+//    req := client.DescribeAutomationStepExecutionsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAutomationStepExecutions
+func (c *SSM) DescribeAutomationStepExecutionsRequest(input *DescribeAutomationStepExecutionsInput) DescribeAutomationStepExecutionsRequest {
+	op := &aws.Operation{
+		Name:       opDescribeAutomationStepExecutions,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeAutomationStepExecutionsInput{}
+	}
+
+	output := &DescribeAutomationStepExecutionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAutomationStepExecutionsRequest{Request: req, Input: input, Copy: c.DescribeAutomationStepExecutionsRequest}
 }
 
 const opDescribeAvailablePatches = "DescribeAvailablePatches"
@@ -1251,6 +1451,7 @@ const opDescribeAvailablePatches = "DescribeAvailablePatches"
 type DescribeAvailablePatchesRequest struct {
 	*aws.Request
 	Input *DescribeAvailablePatchesInput
+	Copy  func(*DescribeAvailablePatchesInput) DescribeAvailablePatchesRequest
 }
 
 // Send marshals and sends the DescribeAvailablePatches API request.
@@ -1287,8 +1488,11 @@ func (c *SSM) DescribeAvailablePatchesRequest(input *DescribeAvailablePatchesInp
 		input = &DescribeAvailablePatchesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeAvailablePatchesOutput{})
-	return DescribeAvailablePatchesRequest{Request: req, Input: input}
+	output := &DescribeAvailablePatchesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeAvailablePatchesRequest{Request: req, Input: input, Copy: c.DescribeAvailablePatchesRequest}
 }
 
 const opDescribeDocument = "DescribeDocument"
@@ -1297,6 +1501,7 @@ const opDescribeDocument = "DescribeDocument"
 type DescribeDocumentRequest struct {
 	*aws.Request
 	Input *DescribeDocumentInput
+	Copy  func(*DescribeDocumentInput) DescribeDocumentRequest
 }
 
 // Send marshals and sends the DescribeDocument API request.
@@ -1333,8 +1538,11 @@ func (c *SSM) DescribeDocumentRequest(input *DescribeDocumentInput) DescribeDocu
 		input = &DescribeDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDocumentOutput{})
-	return DescribeDocumentRequest{Request: req, Input: input}
+	output := &DescribeDocumentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDocumentRequest{Request: req, Input: input, Copy: c.DescribeDocumentRequest}
 }
 
 const opDescribeDocumentPermission = "DescribeDocumentPermission"
@@ -1343,6 +1551,7 @@ const opDescribeDocumentPermission = "DescribeDocumentPermission"
 type DescribeDocumentPermissionRequest struct {
 	*aws.Request
 	Input *DescribeDocumentPermissionInput
+	Copy  func(*DescribeDocumentPermissionInput) DescribeDocumentPermissionRequest
 }
 
 // Send marshals and sends the DescribeDocumentPermission API request.
@@ -1381,8 +1590,11 @@ func (c *SSM) DescribeDocumentPermissionRequest(input *DescribeDocumentPermissio
 		input = &DescribeDocumentPermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeDocumentPermissionOutput{})
-	return DescribeDocumentPermissionRequest{Request: req, Input: input}
+	output := &DescribeDocumentPermissionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeDocumentPermissionRequest{Request: req, Input: input, Copy: c.DescribeDocumentPermissionRequest}
 }
 
 const opDescribeEffectiveInstanceAssociations = "DescribeEffectiveInstanceAssociations"
@@ -1391,6 +1603,7 @@ const opDescribeEffectiveInstanceAssociations = "DescribeEffectiveInstanceAssoci
 type DescribeEffectiveInstanceAssociationsRequest struct {
 	*aws.Request
 	Input *DescribeEffectiveInstanceAssociationsInput
+	Copy  func(*DescribeEffectiveInstanceAssociationsInput) DescribeEffectiveInstanceAssociationsRequest
 }
 
 // Send marshals and sends the DescribeEffectiveInstanceAssociations API request.
@@ -1427,8 +1640,11 @@ func (c *SSM) DescribeEffectiveInstanceAssociationsRequest(input *DescribeEffect
 		input = &DescribeEffectiveInstanceAssociationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEffectiveInstanceAssociationsOutput{})
-	return DescribeEffectiveInstanceAssociationsRequest{Request: req, Input: input}
+	output := &DescribeEffectiveInstanceAssociationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEffectiveInstanceAssociationsRequest{Request: req, Input: input, Copy: c.DescribeEffectiveInstanceAssociationsRequest}
 }
 
 const opDescribeEffectivePatchesForPatchBaseline = "DescribeEffectivePatchesForPatchBaseline"
@@ -1437,6 +1653,7 @@ const opDescribeEffectivePatchesForPatchBaseline = "DescribeEffectivePatchesForP
 type DescribeEffectivePatchesForPatchBaselineRequest struct {
 	*aws.Request
 	Input *DescribeEffectivePatchesForPatchBaselineInput
+	Copy  func(*DescribeEffectivePatchesForPatchBaselineInput) DescribeEffectivePatchesForPatchBaselineRequest
 }
 
 // Send marshals and sends the DescribeEffectivePatchesForPatchBaseline API request.
@@ -1475,8 +1692,11 @@ func (c *SSM) DescribeEffectivePatchesForPatchBaselineRequest(input *DescribeEff
 		input = &DescribeEffectivePatchesForPatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeEffectivePatchesForPatchBaselineOutput{})
-	return DescribeEffectivePatchesForPatchBaselineRequest{Request: req, Input: input}
+	output := &DescribeEffectivePatchesForPatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeEffectivePatchesForPatchBaselineRequest{Request: req, Input: input, Copy: c.DescribeEffectivePatchesForPatchBaselineRequest}
 }
 
 const opDescribeInstanceAssociationsStatus = "DescribeInstanceAssociationsStatus"
@@ -1485,6 +1705,7 @@ const opDescribeInstanceAssociationsStatus = "DescribeInstanceAssociationsStatus
 type DescribeInstanceAssociationsStatusRequest struct {
 	*aws.Request
 	Input *DescribeInstanceAssociationsStatusInput
+	Copy  func(*DescribeInstanceAssociationsStatusInput) DescribeInstanceAssociationsStatusRequest
 }
 
 // Send marshals and sends the DescribeInstanceAssociationsStatus API request.
@@ -1521,8 +1742,11 @@ func (c *SSM) DescribeInstanceAssociationsStatusRequest(input *DescribeInstanceA
 		input = &DescribeInstanceAssociationsStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstanceAssociationsStatusOutput{})
-	return DescribeInstanceAssociationsStatusRequest{Request: req, Input: input}
+	output := &DescribeInstanceAssociationsStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstanceAssociationsStatusRequest{Request: req, Input: input, Copy: c.DescribeInstanceAssociationsStatusRequest}
 }
 
 const opDescribeInstanceInformation = "DescribeInstanceInformation"
@@ -1531,6 +1755,7 @@ const opDescribeInstanceInformation = "DescribeInstanceInformation"
 type DescribeInstanceInformationRequest struct {
 	*aws.Request
 	Input *DescribeInstanceInformationInput
+	Copy  func(*DescribeInstanceInformationInput) DescribeInstanceInformationRequest
 }
 
 // Send marshals and sends the DescribeInstanceInformation API request.
@@ -1578,58 +1803,57 @@ func (c *SSM) DescribeInstanceInformationRequest(input *DescribeInstanceInformat
 		input = &DescribeInstanceInformationInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstanceInformationOutput{})
-	return DescribeInstanceInformationRequest{Request: req, Input: input}
+	output := &DescribeInstanceInformationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstanceInformationRequest{Request: req, Input: input, Copy: c.DescribeInstanceInformationRequest}
 }
 
-// DescribeInstanceInformationPages iterates over the pages of a DescribeInstanceInformation operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeInstanceInformation method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeInstanceInformationRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeInstanceInformation operation.
-//    pageNum := 0
-//    err := client.DescribeInstanceInformationPages(params,
-//        func(page *DescribeInstanceInformationOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeInstanceInformationRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) DescribeInstanceInformationPages(input *DescribeInstanceInformationInput, fn func(*DescribeInstanceInformationOutput, bool) bool) error {
-	return c.DescribeInstanceInformationPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeInstanceInformationRequest) Paginate(opts ...aws.Option) DescribeInstanceInformationPager {
+	return DescribeInstanceInformationPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeInstanceInformationInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeInstanceInformationPagesWithContext same as DescribeInstanceInformationPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) DescribeInstanceInformationPagesWithContext(ctx aws.Context, input *DescribeInstanceInformationInput, fn func(*DescribeInstanceInformationOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeInstanceInformationInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeInstanceInformationRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeInstanceInformationOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeInstanceInformationPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeInstanceInformationPager struct {
+	aws.Pager
+}
+
+func (p *DescribeInstanceInformationPager) CurrentPage() *DescribeInstanceInformationOutput {
+	return p.Pager.CurrentPage().(*DescribeInstanceInformationOutput)
 }
 
 const opDescribeInstancePatchStates = "DescribeInstancePatchStates"
@@ -1638,6 +1862,7 @@ const opDescribeInstancePatchStates = "DescribeInstancePatchStates"
 type DescribeInstancePatchStatesRequest struct {
 	*aws.Request
 	Input *DescribeInstancePatchStatesInput
+	Copy  func(*DescribeInstancePatchStatesInput) DescribeInstancePatchStatesRequest
 }
 
 // Send marshals and sends the DescribeInstancePatchStates API request.
@@ -1674,8 +1899,11 @@ func (c *SSM) DescribeInstancePatchStatesRequest(input *DescribeInstancePatchSta
 		input = &DescribeInstancePatchStatesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstancePatchStatesOutput{})
-	return DescribeInstancePatchStatesRequest{Request: req, Input: input}
+	output := &DescribeInstancePatchStatesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstancePatchStatesRequest{Request: req, Input: input, Copy: c.DescribeInstancePatchStatesRequest}
 }
 
 const opDescribeInstancePatchStatesForPatchGroup = "DescribeInstancePatchStatesForPatchGroup"
@@ -1684,6 +1912,7 @@ const opDescribeInstancePatchStatesForPatchGroup = "DescribeInstancePatchStatesF
 type DescribeInstancePatchStatesForPatchGroupRequest struct {
 	*aws.Request
 	Input *DescribeInstancePatchStatesForPatchGroupInput
+	Copy  func(*DescribeInstancePatchStatesForPatchGroupInput) DescribeInstancePatchStatesForPatchGroupRequest
 }
 
 // Send marshals and sends the DescribeInstancePatchStatesForPatchGroup API request.
@@ -1721,8 +1950,11 @@ func (c *SSM) DescribeInstancePatchStatesForPatchGroupRequest(input *DescribeIns
 		input = &DescribeInstancePatchStatesForPatchGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstancePatchStatesForPatchGroupOutput{})
-	return DescribeInstancePatchStatesForPatchGroupRequest{Request: req, Input: input}
+	output := &DescribeInstancePatchStatesForPatchGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstancePatchStatesForPatchGroupRequest{Request: req, Input: input, Copy: c.DescribeInstancePatchStatesForPatchGroupRequest}
 }
 
 const opDescribeInstancePatches = "DescribeInstancePatches"
@@ -1731,6 +1963,7 @@ const opDescribeInstancePatches = "DescribeInstancePatches"
 type DescribeInstancePatchesRequest struct {
 	*aws.Request
 	Input *DescribeInstancePatchesInput
+	Copy  func(*DescribeInstancePatchesInput) DescribeInstancePatchesRequest
 }
 
 // Send marshals and sends the DescribeInstancePatches API request.
@@ -1768,8 +2001,61 @@ func (c *SSM) DescribeInstancePatchesRequest(input *DescribeInstancePatchesInput
 		input = &DescribeInstancePatchesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeInstancePatchesOutput{})
-	return DescribeInstancePatchesRequest{Request: req, Input: input}
+	output := &DescribeInstancePatchesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInstancePatchesRequest{Request: req, Input: input, Copy: c.DescribeInstancePatchesRequest}
+}
+
+const opDescribeInventoryDeletions = "DescribeInventoryDeletions"
+
+// DescribeInventoryDeletionsRequest is a API request type for the DescribeInventoryDeletions API operation.
+type DescribeInventoryDeletionsRequest struct {
+	*aws.Request
+	Input *DescribeInventoryDeletionsInput
+	Copy  func(*DescribeInventoryDeletionsInput) DescribeInventoryDeletionsRequest
+}
+
+// Send marshals and sends the DescribeInventoryDeletions API request.
+func (r DescribeInventoryDeletionsRequest) Send() (*DescribeInventoryDeletionsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DescribeInventoryDeletionsOutput), nil
+}
+
+// DescribeInventoryDeletionsRequest returns a request value for making API operation for
+// Amazon Simple Systems Manager (SSM).
+//
+// Describes a specific delete inventory operation.
+//
+//    // Example sending a request using the DescribeInventoryDeletionsRequest method.
+//    req := client.DescribeInventoryDeletionsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInventoryDeletions
+func (c *SSM) DescribeInventoryDeletionsRequest(input *DescribeInventoryDeletionsInput) DescribeInventoryDeletionsRequest {
+	op := &aws.Operation{
+		Name:       opDescribeInventoryDeletions,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DescribeInventoryDeletionsInput{}
+	}
+
+	output := &DescribeInventoryDeletionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeInventoryDeletionsRequest{Request: req, Input: input, Copy: c.DescribeInventoryDeletionsRequest}
 }
 
 const opDescribeMaintenanceWindowExecutionTaskInvocations = "DescribeMaintenanceWindowExecutionTaskInvocations"
@@ -1778,6 +2064,7 @@ const opDescribeMaintenanceWindowExecutionTaskInvocations = "DescribeMaintenance
 type DescribeMaintenanceWindowExecutionTaskInvocationsRequest struct {
 	*aws.Request
 	Input *DescribeMaintenanceWindowExecutionTaskInvocationsInput
+	Copy  func(*DescribeMaintenanceWindowExecutionTaskInvocationsInput) DescribeMaintenanceWindowExecutionTaskInvocationsRequest
 }
 
 // Send marshals and sends the DescribeMaintenanceWindowExecutionTaskInvocations API request.
@@ -1815,8 +2102,11 @@ func (c *SSM) DescribeMaintenanceWindowExecutionTaskInvocationsRequest(input *De
 		input = &DescribeMaintenanceWindowExecutionTaskInvocationsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMaintenanceWindowExecutionTaskInvocationsOutput{})
-	return DescribeMaintenanceWindowExecutionTaskInvocationsRequest{Request: req, Input: input}
+	output := &DescribeMaintenanceWindowExecutionTaskInvocationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMaintenanceWindowExecutionTaskInvocationsRequest{Request: req, Input: input, Copy: c.DescribeMaintenanceWindowExecutionTaskInvocationsRequest}
 }
 
 const opDescribeMaintenanceWindowExecutionTasks = "DescribeMaintenanceWindowExecutionTasks"
@@ -1825,6 +2115,7 @@ const opDescribeMaintenanceWindowExecutionTasks = "DescribeMaintenanceWindowExec
 type DescribeMaintenanceWindowExecutionTasksRequest struct {
 	*aws.Request
 	Input *DescribeMaintenanceWindowExecutionTasksInput
+	Copy  func(*DescribeMaintenanceWindowExecutionTasksInput) DescribeMaintenanceWindowExecutionTasksRequest
 }
 
 // Send marshals and sends the DescribeMaintenanceWindowExecutionTasks API request.
@@ -1861,8 +2152,11 @@ func (c *SSM) DescribeMaintenanceWindowExecutionTasksRequest(input *DescribeMain
 		input = &DescribeMaintenanceWindowExecutionTasksInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMaintenanceWindowExecutionTasksOutput{})
-	return DescribeMaintenanceWindowExecutionTasksRequest{Request: req, Input: input}
+	output := &DescribeMaintenanceWindowExecutionTasksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMaintenanceWindowExecutionTasksRequest{Request: req, Input: input, Copy: c.DescribeMaintenanceWindowExecutionTasksRequest}
 }
 
 const opDescribeMaintenanceWindowExecutions = "DescribeMaintenanceWindowExecutions"
@@ -1871,6 +2165,7 @@ const opDescribeMaintenanceWindowExecutions = "DescribeMaintenanceWindowExecutio
 type DescribeMaintenanceWindowExecutionsRequest struct {
 	*aws.Request
 	Input *DescribeMaintenanceWindowExecutionsInput
+	Copy  func(*DescribeMaintenanceWindowExecutionsInput) DescribeMaintenanceWindowExecutionsRequest
 }
 
 // Send marshals and sends the DescribeMaintenanceWindowExecutions API request.
@@ -1909,8 +2204,11 @@ func (c *SSM) DescribeMaintenanceWindowExecutionsRequest(input *DescribeMaintena
 		input = &DescribeMaintenanceWindowExecutionsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMaintenanceWindowExecutionsOutput{})
-	return DescribeMaintenanceWindowExecutionsRequest{Request: req, Input: input}
+	output := &DescribeMaintenanceWindowExecutionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMaintenanceWindowExecutionsRequest{Request: req, Input: input, Copy: c.DescribeMaintenanceWindowExecutionsRequest}
 }
 
 const opDescribeMaintenanceWindowTargets = "DescribeMaintenanceWindowTargets"
@@ -1919,6 +2217,7 @@ const opDescribeMaintenanceWindowTargets = "DescribeMaintenanceWindowTargets"
 type DescribeMaintenanceWindowTargetsRequest struct {
 	*aws.Request
 	Input *DescribeMaintenanceWindowTargetsInput
+	Copy  func(*DescribeMaintenanceWindowTargetsInput) DescribeMaintenanceWindowTargetsRequest
 }
 
 // Send marshals and sends the DescribeMaintenanceWindowTargets API request.
@@ -1955,8 +2254,11 @@ func (c *SSM) DescribeMaintenanceWindowTargetsRequest(input *DescribeMaintenance
 		input = &DescribeMaintenanceWindowTargetsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMaintenanceWindowTargetsOutput{})
-	return DescribeMaintenanceWindowTargetsRequest{Request: req, Input: input}
+	output := &DescribeMaintenanceWindowTargetsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMaintenanceWindowTargetsRequest{Request: req, Input: input, Copy: c.DescribeMaintenanceWindowTargetsRequest}
 }
 
 const opDescribeMaintenanceWindowTasks = "DescribeMaintenanceWindowTasks"
@@ -1965,6 +2267,7 @@ const opDescribeMaintenanceWindowTasks = "DescribeMaintenanceWindowTasks"
 type DescribeMaintenanceWindowTasksRequest struct {
 	*aws.Request
 	Input *DescribeMaintenanceWindowTasksInput
+	Copy  func(*DescribeMaintenanceWindowTasksInput) DescribeMaintenanceWindowTasksRequest
 }
 
 // Send marshals and sends the DescribeMaintenanceWindowTasks API request.
@@ -2001,8 +2304,11 @@ func (c *SSM) DescribeMaintenanceWindowTasksRequest(input *DescribeMaintenanceWi
 		input = &DescribeMaintenanceWindowTasksInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMaintenanceWindowTasksOutput{})
-	return DescribeMaintenanceWindowTasksRequest{Request: req, Input: input}
+	output := &DescribeMaintenanceWindowTasksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMaintenanceWindowTasksRequest{Request: req, Input: input, Copy: c.DescribeMaintenanceWindowTasksRequest}
 }
 
 const opDescribeMaintenanceWindows = "DescribeMaintenanceWindows"
@@ -2011,6 +2317,7 @@ const opDescribeMaintenanceWindows = "DescribeMaintenanceWindows"
 type DescribeMaintenanceWindowsRequest struct {
 	*aws.Request
 	Input *DescribeMaintenanceWindowsInput
+	Copy  func(*DescribeMaintenanceWindowsInput) DescribeMaintenanceWindowsRequest
 }
 
 // Send marshals and sends the DescribeMaintenanceWindows API request.
@@ -2047,8 +2354,11 @@ func (c *SSM) DescribeMaintenanceWindowsRequest(input *DescribeMaintenanceWindow
 		input = &DescribeMaintenanceWindowsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeMaintenanceWindowsOutput{})
-	return DescribeMaintenanceWindowsRequest{Request: req, Input: input}
+	output := &DescribeMaintenanceWindowsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeMaintenanceWindowsRequest{Request: req, Input: input, Copy: c.DescribeMaintenanceWindowsRequest}
 }
 
 const opDescribeParameters = "DescribeParameters"
@@ -2057,6 +2367,7 @@ const opDescribeParameters = "DescribeParameters"
 type DescribeParametersRequest struct {
 	*aws.Request
 	Input *DescribeParametersInput
+	Copy  func(*DescribeParametersInput) DescribeParametersRequest
 }
 
 // Send marshals and sends the DescribeParameters API request.
@@ -2107,58 +2418,57 @@ func (c *SSM) DescribeParametersRequest(input *DescribeParametersInput) Describe
 		input = &DescribeParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeParametersOutput{})
-	return DescribeParametersRequest{Request: req, Input: input}
+	output := &DescribeParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeParametersRequest{Request: req, Input: input, Copy: c.DescribeParametersRequest}
 }
 
-// DescribeParametersPages iterates over the pages of a DescribeParameters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeParameters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeParametersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeParameters operation.
-//    pageNum := 0
-//    err := client.DescribeParametersPages(params,
-//        func(page *DescribeParametersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeParametersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) DescribeParametersPages(input *DescribeParametersInput, fn func(*DescribeParametersOutput, bool) bool) error {
-	return c.DescribeParametersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeParametersRequest) Paginate(opts ...aws.Option) DescribeParametersPager {
+	return DescribeParametersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeParametersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeParametersPagesWithContext same as DescribeParametersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) DescribeParametersPagesWithContext(ctx aws.Context, input *DescribeParametersInput, fn func(*DescribeParametersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeParametersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeParametersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeParametersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeParametersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeParametersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeParametersPager) CurrentPage() *DescribeParametersOutput {
+	return p.Pager.CurrentPage().(*DescribeParametersOutput)
 }
 
 const opDescribePatchBaselines = "DescribePatchBaselines"
@@ -2167,6 +2477,7 @@ const opDescribePatchBaselines = "DescribePatchBaselines"
 type DescribePatchBaselinesRequest struct {
 	*aws.Request
 	Input *DescribePatchBaselinesInput
+	Copy  func(*DescribePatchBaselinesInput) DescribePatchBaselinesRequest
 }
 
 // Send marshals and sends the DescribePatchBaselines API request.
@@ -2203,8 +2514,11 @@ func (c *SSM) DescribePatchBaselinesRequest(input *DescribePatchBaselinesInput) 
 		input = &DescribePatchBaselinesInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePatchBaselinesOutput{})
-	return DescribePatchBaselinesRequest{Request: req, Input: input}
+	output := &DescribePatchBaselinesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePatchBaselinesRequest{Request: req, Input: input, Copy: c.DescribePatchBaselinesRequest}
 }
 
 const opDescribePatchGroupState = "DescribePatchGroupState"
@@ -2213,6 +2527,7 @@ const opDescribePatchGroupState = "DescribePatchGroupState"
 type DescribePatchGroupStateRequest struct {
 	*aws.Request
 	Input *DescribePatchGroupStateInput
+	Copy  func(*DescribePatchGroupStateInput) DescribePatchGroupStateRequest
 }
 
 // Send marshals and sends the DescribePatchGroupState API request.
@@ -2249,8 +2564,11 @@ func (c *SSM) DescribePatchGroupStateRequest(input *DescribePatchGroupStateInput
 		input = &DescribePatchGroupStateInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePatchGroupStateOutput{})
-	return DescribePatchGroupStateRequest{Request: req, Input: input}
+	output := &DescribePatchGroupStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePatchGroupStateRequest{Request: req, Input: input, Copy: c.DescribePatchGroupStateRequest}
 }
 
 const opDescribePatchGroups = "DescribePatchGroups"
@@ -2259,6 +2577,7 @@ const opDescribePatchGroups = "DescribePatchGroups"
 type DescribePatchGroupsRequest struct {
 	*aws.Request
 	Input *DescribePatchGroupsInput
+	Copy  func(*DescribePatchGroupsInput) DescribePatchGroupsRequest
 }
 
 // Send marshals and sends the DescribePatchGroups API request.
@@ -2295,8 +2614,11 @@ func (c *SSM) DescribePatchGroupsRequest(input *DescribePatchGroupsInput) Descri
 		input = &DescribePatchGroupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribePatchGroupsOutput{})
-	return DescribePatchGroupsRequest{Request: req, Input: input}
+	output := &DescribePatchGroupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribePatchGroupsRequest{Request: req, Input: input, Copy: c.DescribePatchGroupsRequest}
 }
 
 const opGetAutomationExecution = "GetAutomationExecution"
@@ -2305,6 +2627,7 @@ const opGetAutomationExecution = "GetAutomationExecution"
 type GetAutomationExecutionRequest struct {
 	*aws.Request
 	Input *GetAutomationExecutionInput
+	Copy  func(*GetAutomationExecutionInput) GetAutomationExecutionRequest
 }
 
 // Send marshals and sends the GetAutomationExecution API request.
@@ -2341,8 +2664,11 @@ func (c *SSM) GetAutomationExecutionRequest(input *GetAutomationExecutionInput) 
 		input = &GetAutomationExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAutomationExecutionOutput{})
-	return GetAutomationExecutionRequest{Request: req, Input: input}
+	output := &GetAutomationExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAutomationExecutionRequest{Request: req, Input: input, Copy: c.GetAutomationExecutionRequest}
 }
 
 const opGetCommandInvocation = "GetCommandInvocation"
@@ -2351,6 +2677,7 @@ const opGetCommandInvocation = "GetCommandInvocation"
 type GetCommandInvocationRequest struct {
 	*aws.Request
 	Input *GetCommandInvocationInput
+	Copy  func(*GetCommandInvocationInput) GetCommandInvocationRequest
 }
 
 // Send marshals and sends the GetCommandInvocation API request.
@@ -2388,8 +2715,11 @@ func (c *SSM) GetCommandInvocationRequest(input *GetCommandInvocationInput) GetC
 		input = &GetCommandInvocationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetCommandInvocationOutput{})
-	return GetCommandInvocationRequest{Request: req, Input: input}
+	output := &GetCommandInvocationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetCommandInvocationRequest{Request: req, Input: input, Copy: c.GetCommandInvocationRequest}
 }
 
 const opGetDefaultPatchBaseline = "GetDefaultPatchBaseline"
@@ -2398,6 +2728,7 @@ const opGetDefaultPatchBaseline = "GetDefaultPatchBaseline"
 type GetDefaultPatchBaselineRequest struct {
 	*aws.Request
 	Input *GetDefaultPatchBaselineInput
+	Copy  func(*GetDefaultPatchBaselineInput) GetDefaultPatchBaselineRequest
 }
 
 // Send marshals and sends the GetDefaultPatchBaseline API request.
@@ -2416,6 +2747,9 @@ func (r GetDefaultPatchBaselineRequest) Send() (*GetDefaultPatchBaselineOutput, 
 // Retrieves the default patch baseline. Note that Systems Manager supports
 // creating multiple default patch baselines. For example, you can create a
 // default patch baseline for each operating system.
+//
+// If you do not specify an operating system value, the default patch baseline
+// for Windows is returned.
 //
 //    // Example sending a request using the GetDefaultPatchBaselineRequest method.
 //    req := client.GetDefaultPatchBaselineRequest(params)
@@ -2436,8 +2770,11 @@ func (c *SSM) GetDefaultPatchBaselineRequest(input *GetDefaultPatchBaselineInput
 		input = &GetDefaultPatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDefaultPatchBaselineOutput{})
-	return GetDefaultPatchBaselineRequest{Request: req, Input: input}
+	output := &GetDefaultPatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDefaultPatchBaselineRequest{Request: req, Input: input, Copy: c.GetDefaultPatchBaselineRequest}
 }
 
 const opGetDeployablePatchSnapshotForInstance = "GetDeployablePatchSnapshotForInstance"
@@ -2446,6 +2783,7 @@ const opGetDeployablePatchSnapshotForInstance = "GetDeployablePatchSnapshotForIn
 type GetDeployablePatchSnapshotForInstanceRequest struct {
 	*aws.Request
 	Input *GetDeployablePatchSnapshotForInstanceInput
+	Copy  func(*GetDeployablePatchSnapshotForInstanceInput) GetDeployablePatchSnapshotForInstanceRequest
 }
 
 // Send marshals and sends the GetDeployablePatchSnapshotForInstance API request.
@@ -2483,8 +2821,11 @@ func (c *SSM) GetDeployablePatchSnapshotForInstanceRequest(input *GetDeployableP
 		input = &GetDeployablePatchSnapshotForInstanceInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDeployablePatchSnapshotForInstanceOutput{})
-	return GetDeployablePatchSnapshotForInstanceRequest{Request: req, Input: input}
+	output := &GetDeployablePatchSnapshotForInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDeployablePatchSnapshotForInstanceRequest{Request: req, Input: input, Copy: c.GetDeployablePatchSnapshotForInstanceRequest}
 }
 
 const opGetDocument = "GetDocument"
@@ -2493,6 +2834,7 @@ const opGetDocument = "GetDocument"
 type GetDocumentRequest struct {
 	*aws.Request
 	Input *GetDocumentInput
+	Copy  func(*GetDocumentInput) GetDocumentRequest
 }
 
 // Send marshals and sends the GetDocument API request.
@@ -2529,8 +2871,11 @@ func (c *SSM) GetDocumentRequest(input *GetDocumentInput) GetDocumentRequest {
 		input = &GetDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDocumentOutput{})
-	return GetDocumentRequest{Request: req, Input: input}
+	output := &GetDocumentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDocumentRequest{Request: req, Input: input, Copy: c.GetDocumentRequest}
 }
 
 const opGetInventory = "GetInventory"
@@ -2539,6 +2884,7 @@ const opGetInventory = "GetInventory"
 type GetInventoryRequest struct {
 	*aws.Request
 	Input *GetInventoryInput
+	Copy  func(*GetInventoryInput) GetInventoryRequest
 }
 
 // Send marshals and sends the GetInventory API request.
@@ -2575,8 +2921,11 @@ func (c *SSM) GetInventoryRequest(input *GetInventoryInput) GetInventoryRequest 
 		input = &GetInventoryInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInventoryOutput{})
-	return GetInventoryRequest{Request: req, Input: input}
+	output := &GetInventoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInventoryRequest{Request: req, Input: input, Copy: c.GetInventoryRequest}
 }
 
 const opGetInventorySchema = "GetInventorySchema"
@@ -2585,6 +2934,7 @@ const opGetInventorySchema = "GetInventorySchema"
 type GetInventorySchemaRequest struct {
 	*aws.Request
 	Input *GetInventorySchemaInput
+	Copy  func(*GetInventorySchemaInput) GetInventorySchemaRequest
 }
 
 // Send marshals and sends the GetInventorySchema API request.
@@ -2622,8 +2972,11 @@ func (c *SSM) GetInventorySchemaRequest(input *GetInventorySchemaInput) GetInven
 		input = &GetInventorySchemaInput{}
 	}
 
-	req := c.newRequest(op, input, &GetInventorySchemaOutput{})
-	return GetInventorySchemaRequest{Request: req, Input: input}
+	output := &GetInventorySchemaOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInventorySchemaRequest{Request: req, Input: input, Copy: c.GetInventorySchemaRequest}
 }
 
 const opGetMaintenanceWindow = "GetMaintenanceWindow"
@@ -2632,6 +2985,7 @@ const opGetMaintenanceWindow = "GetMaintenanceWindow"
 type GetMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *GetMaintenanceWindowInput
+	Copy  func(*GetMaintenanceWindowInput) GetMaintenanceWindowRequest
 }
 
 // Send marshals and sends the GetMaintenanceWindow API request.
@@ -2668,8 +3022,11 @@ func (c *SSM) GetMaintenanceWindowRequest(input *GetMaintenanceWindowInput) GetM
 		input = &GetMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &GetMaintenanceWindowOutput{})
-	return GetMaintenanceWindowRequest{Request: req, Input: input}
+	output := &GetMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetMaintenanceWindowRequest{Request: req, Input: input, Copy: c.GetMaintenanceWindowRequest}
 }
 
 const opGetMaintenanceWindowExecution = "GetMaintenanceWindowExecution"
@@ -2678,6 +3035,7 @@ const opGetMaintenanceWindowExecution = "GetMaintenanceWindowExecution"
 type GetMaintenanceWindowExecutionRequest struct {
 	*aws.Request
 	Input *GetMaintenanceWindowExecutionInput
+	Copy  func(*GetMaintenanceWindowExecutionInput) GetMaintenanceWindowExecutionRequest
 }
 
 // Send marshals and sends the GetMaintenanceWindowExecution API request.
@@ -2715,8 +3073,11 @@ func (c *SSM) GetMaintenanceWindowExecutionRequest(input *GetMaintenanceWindowEx
 		input = &GetMaintenanceWindowExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetMaintenanceWindowExecutionOutput{})
-	return GetMaintenanceWindowExecutionRequest{Request: req, Input: input}
+	output := &GetMaintenanceWindowExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetMaintenanceWindowExecutionRequest{Request: req, Input: input, Copy: c.GetMaintenanceWindowExecutionRequest}
 }
 
 const opGetMaintenanceWindowExecutionTask = "GetMaintenanceWindowExecutionTask"
@@ -2725,6 +3086,7 @@ const opGetMaintenanceWindowExecutionTask = "GetMaintenanceWindowExecutionTask"
 type GetMaintenanceWindowExecutionTaskRequest struct {
 	*aws.Request
 	Input *GetMaintenanceWindowExecutionTaskInput
+	Copy  func(*GetMaintenanceWindowExecutionTaskInput) GetMaintenanceWindowExecutionTaskRequest
 }
 
 // Send marshals and sends the GetMaintenanceWindowExecutionTask API request.
@@ -2762,8 +3124,11 @@ func (c *SSM) GetMaintenanceWindowExecutionTaskRequest(input *GetMaintenanceWind
 		input = &GetMaintenanceWindowExecutionTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &GetMaintenanceWindowExecutionTaskOutput{})
-	return GetMaintenanceWindowExecutionTaskRequest{Request: req, Input: input}
+	output := &GetMaintenanceWindowExecutionTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetMaintenanceWindowExecutionTaskRequest{Request: req, Input: input, Copy: c.GetMaintenanceWindowExecutionTaskRequest}
 }
 
 const opGetMaintenanceWindowExecutionTaskInvocation = "GetMaintenanceWindowExecutionTaskInvocation"
@@ -2772,6 +3137,7 @@ const opGetMaintenanceWindowExecutionTaskInvocation = "GetMaintenanceWindowExecu
 type GetMaintenanceWindowExecutionTaskInvocationRequest struct {
 	*aws.Request
 	Input *GetMaintenanceWindowExecutionTaskInvocationInput
+	Copy  func(*GetMaintenanceWindowExecutionTaskInvocationInput) GetMaintenanceWindowExecutionTaskInvocationRequest
 }
 
 // Send marshals and sends the GetMaintenanceWindowExecutionTaskInvocation API request.
@@ -2809,8 +3175,11 @@ func (c *SSM) GetMaintenanceWindowExecutionTaskInvocationRequest(input *GetMaint
 		input = &GetMaintenanceWindowExecutionTaskInvocationInput{}
 	}
 
-	req := c.newRequest(op, input, &GetMaintenanceWindowExecutionTaskInvocationOutput{})
-	return GetMaintenanceWindowExecutionTaskInvocationRequest{Request: req, Input: input}
+	output := &GetMaintenanceWindowExecutionTaskInvocationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetMaintenanceWindowExecutionTaskInvocationRequest{Request: req, Input: input, Copy: c.GetMaintenanceWindowExecutionTaskInvocationRequest}
 }
 
 const opGetMaintenanceWindowTask = "GetMaintenanceWindowTask"
@@ -2819,6 +3188,7 @@ const opGetMaintenanceWindowTask = "GetMaintenanceWindowTask"
 type GetMaintenanceWindowTaskRequest struct {
 	*aws.Request
 	Input *GetMaintenanceWindowTaskInput
+	Copy  func(*GetMaintenanceWindowTaskInput) GetMaintenanceWindowTaskRequest
 }
 
 // Send marshals and sends the GetMaintenanceWindowTask API request.
@@ -2855,8 +3225,11 @@ func (c *SSM) GetMaintenanceWindowTaskRequest(input *GetMaintenanceWindowTaskInp
 		input = &GetMaintenanceWindowTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &GetMaintenanceWindowTaskOutput{})
-	return GetMaintenanceWindowTaskRequest{Request: req, Input: input}
+	output := &GetMaintenanceWindowTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetMaintenanceWindowTaskRequest{Request: req, Input: input, Copy: c.GetMaintenanceWindowTaskRequest}
 }
 
 const opGetParameter = "GetParameter"
@@ -2865,6 +3238,7 @@ const opGetParameter = "GetParameter"
 type GetParameterRequest struct {
 	*aws.Request
 	Input *GetParameterInput
+	Copy  func(*GetParameterInput) GetParameterRequest
 }
 
 // Send marshals and sends the GetParameter API request.
@@ -2901,8 +3275,11 @@ func (c *SSM) GetParameterRequest(input *GetParameterInput) GetParameterRequest 
 		input = &GetParameterInput{}
 	}
 
-	req := c.newRequest(op, input, &GetParameterOutput{})
-	return GetParameterRequest{Request: req, Input: input}
+	output := &GetParameterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetParameterRequest{Request: req, Input: input, Copy: c.GetParameterRequest}
 }
 
 const opGetParameterHistory = "GetParameterHistory"
@@ -2911,6 +3288,7 @@ const opGetParameterHistory = "GetParameterHistory"
 type GetParameterHistoryRequest struct {
 	*aws.Request
 	Input *GetParameterHistoryInput
+	Copy  func(*GetParameterHistoryInput) GetParameterHistoryRequest
 }
 
 // Send marshals and sends the GetParameterHistory API request.
@@ -2953,58 +3331,57 @@ func (c *SSM) GetParameterHistoryRequest(input *GetParameterHistoryInput) GetPar
 		input = &GetParameterHistoryInput{}
 	}
 
-	req := c.newRequest(op, input, &GetParameterHistoryOutput{})
-	return GetParameterHistoryRequest{Request: req, Input: input}
+	output := &GetParameterHistoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetParameterHistoryRequest{Request: req, Input: input, Copy: c.GetParameterHistoryRequest}
 }
 
-// GetParameterHistoryPages iterates over the pages of a GetParameterHistory operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetParameterHistory method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetParameterHistoryRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetParameterHistory operation.
-//    pageNum := 0
-//    err := client.GetParameterHistoryPages(params,
-//        func(page *GetParameterHistoryOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetParameterHistoryRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) GetParameterHistoryPages(input *GetParameterHistoryInput, fn func(*GetParameterHistoryOutput, bool) bool) error {
-	return c.GetParameterHistoryPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetParameterHistoryRequest) Paginate(opts ...aws.Option) GetParameterHistoryPager {
+	return GetParameterHistoryPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetParameterHistoryInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetParameterHistoryPagesWithContext same as GetParameterHistoryPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) GetParameterHistoryPagesWithContext(ctx aws.Context, input *GetParameterHistoryInput, fn func(*GetParameterHistoryOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetParameterHistoryInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetParameterHistoryRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetParameterHistoryOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetParameterHistoryPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetParameterHistoryPager struct {
+	aws.Pager
+}
+
+func (p *GetParameterHistoryPager) CurrentPage() *GetParameterHistoryOutput {
+	return p.Pager.CurrentPage().(*GetParameterHistoryOutput)
 }
 
 const opGetParameters = "GetParameters"
@@ -3013,6 +3390,7 @@ const opGetParameters = "GetParameters"
 type GetParametersRequest struct {
 	*aws.Request
 	Input *GetParametersInput
+	Copy  func(*GetParametersInput) GetParametersRequest
 }
 
 // Send marshals and sends the GetParameters API request.
@@ -3049,8 +3427,11 @@ func (c *SSM) GetParametersRequest(input *GetParametersInput) GetParametersReque
 		input = &GetParametersInput{}
 	}
 
-	req := c.newRequest(op, input, &GetParametersOutput{})
-	return GetParametersRequest{Request: req, Input: input}
+	output := &GetParametersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetParametersRequest{Request: req, Input: input, Copy: c.GetParametersRequest}
 }
 
 const opGetParametersByPath = "GetParametersByPath"
@@ -3059,6 +3440,7 @@ const opGetParametersByPath = "GetParametersByPath"
 type GetParametersByPathRequest struct {
 	*aws.Request
 	Input *GetParametersByPathInput
+	Copy  func(*GetParametersByPathInput) GetParametersByPathRequest
 }
 
 // Send marshals and sends the GetParametersByPath API request.
@@ -3085,6 +3467,8 @@ func (r GetParametersByPathRequest) Send() (*GetParametersByPathOutput, error) {
 // that point and a NextToken. You can specify the NextToken in a subsequent
 // call to get the next set of results.
 //
+// This API action doesn't support filtering by tags.
+//
 //    // Example sending a request using the GetParametersByPathRequest method.
 //    req := client.GetParametersByPathRequest(params)
 //    resp, err := req.Send()
@@ -3110,58 +3494,57 @@ func (c *SSM) GetParametersByPathRequest(input *GetParametersByPathInput) GetPar
 		input = &GetParametersByPathInput{}
 	}
 
-	req := c.newRequest(op, input, &GetParametersByPathOutput{})
-	return GetParametersByPathRequest{Request: req, Input: input}
+	output := &GetParametersByPathOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetParametersByPathRequest{Request: req, Input: input, Copy: c.GetParametersByPathRequest}
 }
 
-// GetParametersByPathPages iterates over the pages of a GetParametersByPath operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetParametersByPath method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetParametersByPathRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetParametersByPath operation.
-//    pageNum := 0
-//    err := client.GetParametersByPathPages(params,
-//        func(page *GetParametersByPathOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetParametersByPathRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) GetParametersByPathPages(input *GetParametersByPathInput, fn func(*GetParametersByPathOutput, bool) bool) error {
-	return c.GetParametersByPathPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetParametersByPathRequest) Paginate(opts ...aws.Option) GetParametersByPathPager {
+	return GetParametersByPathPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetParametersByPathInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetParametersByPathPagesWithContext same as GetParametersByPathPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) GetParametersByPathPagesWithContext(ctx aws.Context, input *GetParametersByPathInput, fn func(*GetParametersByPathOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetParametersByPathInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetParametersByPathRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetParametersByPathOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetParametersByPathPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetParametersByPathPager struct {
+	aws.Pager
+}
+
+func (p *GetParametersByPathPager) CurrentPage() *GetParametersByPathOutput {
+	return p.Pager.CurrentPage().(*GetParametersByPathOutput)
 }
 
 const opGetPatchBaseline = "GetPatchBaseline"
@@ -3170,6 +3553,7 @@ const opGetPatchBaseline = "GetPatchBaseline"
 type GetPatchBaselineRequest struct {
 	*aws.Request
 	Input *GetPatchBaselineInput
+	Copy  func(*GetPatchBaselineInput) GetPatchBaselineRequest
 }
 
 // Send marshals and sends the GetPatchBaseline API request.
@@ -3206,8 +3590,11 @@ func (c *SSM) GetPatchBaselineRequest(input *GetPatchBaselineInput) GetPatchBase
 		input = &GetPatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPatchBaselineOutput{})
-	return GetPatchBaselineRequest{Request: req, Input: input}
+	output := &GetPatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPatchBaselineRequest{Request: req, Input: input, Copy: c.GetPatchBaselineRequest}
 }
 
 const opGetPatchBaselineForPatchGroup = "GetPatchBaselineForPatchGroup"
@@ -3216,6 +3603,7 @@ const opGetPatchBaselineForPatchGroup = "GetPatchBaselineForPatchGroup"
 type GetPatchBaselineForPatchGroupRequest struct {
 	*aws.Request
 	Input *GetPatchBaselineForPatchGroupInput
+	Copy  func(*GetPatchBaselineForPatchGroupInput) GetPatchBaselineForPatchGroupRequest
 }
 
 // Send marshals and sends the GetPatchBaselineForPatchGroup API request.
@@ -3253,8 +3641,11 @@ func (c *SSM) GetPatchBaselineForPatchGroupRequest(input *GetPatchBaselineForPat
 		input = &GetPatchBaselineForPatchGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPatchBaselineForPatchGroupOutput{})
-	return GetPatchBaselineForPatchGroupRequest{Request: req, Input: input}
+	output := &GetPatchBaselineForPatchGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPatchBaselineForPatchGroupRequest{Request: req, Input: input, Copy: c.GetPatchBaselineForPatchGroupRequest}
 }
 
 const opListAssociationVersions = "ListAssociationVersions"
@@ -3263,6 +3654,7 @@ const opListAssociationVersions = "ListAssociationVersions"
 type ListAssociationVersionsRequest struct {
 	*aws.Request
 	Input *ListAssociationVersionsInput
+	Copy  func(*ListAssociationVersionsInput) ListAssociationVersionsRequest
 }
 
 // Send marshals and sends the ListAssociationVersions API request.
@@ -3299,8 +3691,11 @@ func (c *SSM) ListAssociationVersionsRequest(input *ListAssociationVersionsInput
 		input = &ListAssociationVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAssociationVersionsOutput{})
-	return ListAssociationVersionsRequest{Request: req, Input: input}
+	output := &ListAssociationVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAssociationVersionsRequest{Request: req, Input: input, Copy: c.ListAssociationVersionsRequest}
 }
 
 const opListAssociations = "ListAssociations"
@@ -3309,6 +3704,7 @@ const opListAssociations = "ListAssociations"
 type ListAssociationsRequest struct {
 	*aws.Request
 	Input *ListAssociationsInput
+	Copy  func(*ListAssociationsInput) ListAssociationsRequest
 }
 
 // Send marshals and sends the ListAssociations API request.
@@ -3351,58 +3747,57 @@ func (c *SSM) ListAssociationsRequest(input *ListAssociationsInput) ListAssociat
 		input = &ListAssociationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListAssociationsOutput{})
-	return ListAssociationsRequest{Request: req, Input: input}
+	output := &ListAssociationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListAssociationsRequest{Request: req, Input: input, Copy: c.ListAssociationsRequest}
 }
 
-// ListAssociationsPages iterates over the pages of a ListAssociations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListAssociations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListAssociationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListAssociations operation.
-//    pageNum := 0
-//    err := client.ListAssociationsPages(params,
-//        func(page *ListAssociationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListAssociationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) ListAssociationsPages(input *ListAssociationsInput, fn func(*ListAssociationsOutput, bool) bool) error {
-	return c.ListAssociationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListAssociationsRequest) Paginate(opts ...aws.Option) ListAssociationsPager {
+	return ListAssociationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListAssociationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListAssociationsPagesWithContext same as ListAssociationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) ListAssociationsPagesWithContext(ctx aws.Context, input *ListAssociationsInput, fn func(*ListAssociationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListAssociationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListAssociationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListAssociationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListAssociationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListAssociationsPager struct {
+	aws.Pager
+}
+
+func (p *ListAssociationsPager) CurrentPage() *ListAssociationsOutput {
+	return p.Pager.CurrentPage().(*ListAssociationsOutput)
 }
 
 const opListCommandInvocations = "ListCommandInvocations"
@@ -3411,6 +3806,7 @@ const opListCommandInvocations = "ListCommandInvocations"
 type ListCommandInvocationsRequest struct {
 	*aws.Request
 	Input *ListCommandInvocationsInput
+	Copy  func(*ListCommandInvocationsInput) ListCommandInvocationsRequest
 }
 
 // Send marshals and sends the ListCommandInvocations API request.
@@ -3457,58 +3853,57 @@ func (c *SSM) ListCommandInvocationsRequest(input *ListCommandInvocationsInput) 
 		input = &ListCommandInvocationsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListCommandInvocationsOutput{})
-	return ListCommandInvocationsRequest{Request: req, Input: input}
+	output := &ListCommandInvocationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListCommandInvocationsRequest{Request: req, Input: input, Copy: c.ListCommandInvocationsRequest}
 }
 
-// ListCommandInvocationsPages iterates over the pages of a ListCommandInvocations operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListCommandInvocations method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListCommandInvocationsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListCommandInvocations operation.
-//    pageNum := 0
-//    err := client.ListCommandInvocationsPages(params,
-//        func(page *ListCommandInvocationsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListCommandInvocationsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) ListCommandInvocationsPages(input *ListCommandInvocationsInput, fn func(*ListCommandInvocationsOutput, bool) bool) error {
-	return c.ListCommandInvocationsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListCommandInvocationsRequest) Paginate(opts ...aws.Option) ListCommandInvocationsPager {
+	return ListCommandInvocationsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListCommandInvocationsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListCommandInvocationsPagesWithContext same as ListCommandInvocationsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) ListCommandInvocationsPagesWithContext(ctx aws.Context, input *ListCommandInvocationsInput, fn func(*ListCommandInvocationsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListCommandInvocationsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListCommandInvocationsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListCommandInvocationsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListCommandInvocationsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListCommandInvocationsPager struct {
+	aws.Pager
+}
+
+func (p *ListCommandInvocationsPager) CurrentPage() *ListCommandInvocationsOutput {
+	return p.Pager.CurrentPage().(*ListCommandInvocationsOutput)
 }
 
 const opListCommands = "ListCommands"
@@ -3517,6 +3912,7 @@ const opListCommands = "ListCommands"
 type ListCommandsRequest struct {
 	*aws.Request
 	Input *ListCommandsInput
+	Copy  func(*ListCommandsInput) ListCommandsRequest
 }
 
 // Send marshals and sends the ListCommands API request.
@@ -3559,58 +3955,57 @@ func (c *SSM) ListCommandsRequest(input *ListCommandsInput) ListCommandsRequest 
 		input = &ListCommandsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListCommandsOutput{})
-	return ListCommandsRequest{Request: req, Input: input}
+	output := &ListCommandsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListCommandsRequest{Request: req, Input: input, Copy: c.ListCommandsRequest}
 }
 
-// ListCommandsPages iterates over the pages of a ListCommands operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListCommands method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListCommandsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListCommands operation.
-//    pageNum := 0
-//    err := client.ListCommandsPages(params,
-//        func(page *ListCommandsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListCommandsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) ListCommandsPages(input *ListCommandsInput, fn func(*ListCommandsOutput, bool) bool) error {
-	return c.ListCommandsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListCommandsRequest) Paginate(opts ...aws.Option) ListCommandsPager {
+	return ListCommandsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListCommandsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListCommandsPagesWithContext same as ListCommandsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) ListCommandsPagesWithContext(ctx aws.Context, input *ListCommandsInput, fn func(*ListCommandsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListCommandsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListCommandsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListCommandsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListCommandsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListCommandsPager struct {
+	aws.Pager
+}
+
+func (p *ListCommandsPager) CurrentPage() *ListCommandsOutput {
+	return p.Pager.CurrentPage().(*ListCommandsOutput)
 }
 
 const opListComplianceItems = "ListComplianceItems"
@@ -3619,6 +4014,7 @@ const opListComplianceItems = "ListComplianceItems"
 type ListComplianceItemsRequest struct {
 	*aws.Request
 	Input *ListComplianceItemsInput
+	Copy  func(*ListComplianceItemsInput) ListComplianceItemsRequest
 }
 
 // Send marshals and sends the ListComplianceItems API request.
@@ -3658,8 +4054,11 @@ func (c *SSM) ListComplianceItemsRequest(input *ListComplianceItemsInput) ListCo
 		input = &ListComplianceItemsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListComplianceItemsOutput{})
-	return ListComplianceItemsRequest{Request: req, Input: input}
+	output := &ListComplianceItemsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListComplianceItemsRequest{Request: req, Input: input, Copy: c.ListComplianceItemsRequest}
 }
 
 const opListComplianceSummaries = "ListComplianceSummaries"
@@ -3668,6 +4067,7 @@ const opListComplianceSummaries = "ListComplianceSummaries"
 type ListComplianceSummariesRequest struct {
 	*aws.Request
 	Input *ListComplianceSummariesInput
+	Copy  func(*ListComplianceSummariesInput) ListComplianceSummariesRequest
 }
 
 // Send marshals and sends the ListComplianceSummaries API request.
@@ -3706,8 +4106,11 @@ func (c *SSM) ListComplianceSummariesRequest(input *ListComplianceSummariesInput
 		input = &ListComplianceSummariesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListComplianceSummariesOutput{})
-	return ListComplianceSummariesRequest{Request: req, Input: input}
+	output := &ListComplianceSummariesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListComplianceSummariesRequest{Request: req, Input: input, Copy: c.ListComplianceSummariesRequest}
 }
 
 const opListDocumentVersions = "ListDocumentVersions"
@@ -3716,6 +4119,7 @@ const opListDocumentVersions = "ListDocumentVersions"
 type ListDocumentVersionsRequest struct {
 	*aws.Request
 	Input *ListDocumentVersionsInput
+	Copy  func(*ListDocumentVersionsInput) ListDocumentVersionsRequest
 }
 
 // Send marshals and sends the ListDocumentVersions API request.
@@ -3752,8 +4156,11 @@ func (c *SSM) ListDocumentVersionsRequest(input *ListDocumentVersionsInput) List
 		input = &ListDocumentVersionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDocumentVersionsOutput{})
-	return ListDocumentVersionsRequest{Request: req, Input: input}
+	output := &ListDocumentVersionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDocumentVersionsRequest{Request: req, Input: input, Copy: c.ListDocumentVersionsRequest}
 }
 
 const opListDocuments = "ListDocuments"
@@ -3762,6 +4169,7 @@ const opListDocuments = "ListDocuments"
 type ListDocumentsRequest struct {
 	*aws.Request
 	Input *ListDocumentsInput
+	Copy  func(*ListDocumentsInput) ListDocumentsRequest
 }
 
 // Send marshals and sends the ListDocuments API request.
@@ -3804,58 +4212,57 @@ func (c *SSM) ListDocumentsRequest(input *ListDocumentsInput) ListDocumentsReque
 		input = &ListDocumentsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDocumentsOutput{})
-	return ListDocumentsRequest{Request: req, Input: input}
+	output := &ListDocumentsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDocumentsRequest{Request: req, Input: input, Copy: c.ListDocumentsRequest}
 }
 
-// ListDocumentsPages iterates over the pages of a ListDocuments operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListDocuments method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListDocumentsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListDocuments operation.
-//    pageNum := 0
-//    err := client.ListDocumentsPages(params,
-//        func(page *ListDocumentsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListDocumentsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SSM) ListDocumentsPages(input *ListDocumentsInput, fn func(*ListDocumentsOutput, bool) bool) error {
-	return c.ListDocumentsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListDocumentsRequest) Paginate(opts ...aws.Option) ListDocumentsPager {
+	return ListDocumentsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListDocumentsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListDocumentsPagesWithContext same as ListDocumentsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SSM) ListDocumentsPagesWithContext(ctx aws.Context, input *ListDocumentsInput, fn func(*ListDocumentsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListDocumentsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListDocumentsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListDocumentsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListDocumentsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListDocumentsPager struct {
+	aws.Pager
+}
+
+func (p *ListDocumentsPager) CurrentPage() *ListDocumentsOutput {
+	return p.Pager.CurrentPage().(*ListDocumentsOutput)
 }
 
 const opListInventoryEntries = "ListInventoryEntries"
@@ -3864,6 +4271,7 @@ const opListInventoryEntries = "ListInventoryEntries"
 type ListInventoryEntriesRequest struct {
 	*aws.Request
 	Input *ListInventoryEntriesInput
+	Copy  func(*ListInventoryEntriesInput) ListInventoryEntriesRequest
 }
 
 // Send marshals and sends the ListInventoryEntries API request.
@@ -3900,8 +4308,11 @@ func (c *SSM) ListInventoryEntriesRequest(input *ListInventoryEntriesInput) List
 		input = &ListInventoryEntriesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListInventoryEntriesOutput{})
-	return ListInventoryEntriesRequest{Request: req, Input: input}
+	output := &ListInventoryEntriesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInventoryEntriesRequest{Request: req, Input: input, Copy: c.ListInventoryEntriesRequest}
 }
 
 const opListResourceComplianceSummaries = "ListResourceComplianceSummaries"
@@ -3910,6 +4321,7 @@ const opListResourceComplianceSummaries = "ListResourceComplianceSummaries"
 type ListResourceComplianceSummariesRequest struct {
 	*aws.Request
 	Input *ListResourceComplianceSummariesInput
+	Copy  func(*ListResourceComplianceSummariesInput) ListResourceComplianceSummariesRequest
 }
 
 // Send marshals and sends the ListResourceComplianceSummaries API request.
@@ -3948,8 +4360,11 @@ func (c *SSM) ListResourceComplianceSummariesRequest(input *ListResourceComplian
 		input = &ListResourceComplianceSummariesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListResourceComplianceSummariesOutput{})
-	return ListResourceComplianceSummariesRequest{Request: req, Input: input}
+	output := &ListResourceComplianceSummariesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListResourceComplianceSummariesRequest{Request: req, Input: input, Copy: c.ListResourceComplianceSummariesRequest}
 }
 
 const opListResourceDataSync = "ListResourceDataSync"
@@ -3958,6 +4373,7 @@ const opListResourceDataSync = "ListResourceDataSync"
 type ListResourceDataSyncRequest struct {
 	*aws.Request
 	Input *ListResourceDataSyncInput
+	Copy  func(*ListResourceDataSyncInput) ListResourceDataSyncRequest
 }
 
 // Send marshals and sends the ListResourceDataSync API request.
@@ -4003,8 +4419,11 @@ func (c *SSM) ListResourceDataSyncRequest(input *ListResourceDataSyncInput) List
 		input = &ListResourceDataSyncInput{}
 	}
 
-	req := c.newRequest(op, input, &ListResourceDataSyncOutput{})
-	return ListResourceDataSyncRequest{Request: req, Input: input}
+	output := &ListResourceDataSyncOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListResourceDataSyncRequest{Request: req, Input: input, Copy: c.ListResourceDataSyncRequest}
 }
 
 const opListTagsForResource = "ListTagsForResource"
@@ -4013,6 +4432,7 @@ const opListTagsForResource = "ListTagsForResource"
 type ListTagsForResourceRequest struct {
 	*aws.Request
 	Input *ListTagsForResourceInput
+	Copy  func(*ListTagsForResourceInput) ListTagsForResourceRequest
 }
 
 // Send marshals and sends the ListTagsForResource API request.
@@ -4049,8 +4469,11 @@ func (c *SSM) ListTagsForResourceRequest(input *ListTagsForResourceInput) ListTa
 		input = &ListTagsForResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsForResourceOutput{})
-	return ListTagsForResourceRequest{Request: req, Input: input}
+	output := &ListTagsForResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsForResourceRequest{Request: req, Input: input, Copy: c.ListTagsForResourceRequest}
 }
 
 const opModifyDocumentPermission = "ModifyDocumentPermission"
@@ -4059,6 +4482,7 @@ const opModifyDocumentPermission = "ModifyDocumentPermission"
 type ModifyDocumentPermissionRequest struct {
 	*aws.Request
 	Input *ModifyDocumentPermissionInput
+	Copy  func(*ModifyDocumentPermissionInput) ModifyDocumentPermissionRequest
 }
 
 // Send marshals and sends the ModifyDocumentPermission API request.
@@ -4098,8 +4522,11 @@ func (c *SSM) ModifyDocumentPermissionRequest(input *ModifyDocumentPermissionInp
 		input = &ModifyDocumentPermissionInput{}
 	}
 
-	req := c.newRequest(op, input, &ModifyDocumentPermissionOutput{})
-	return ModifyDocumentPermissionRequest{Request: req, Input: input}
+	output := &ModifyDocumentPermissionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ModifyDocumentPermissionRequest{Request: req, Input: input, Copy: c.ModifyDocumentPermissionRequest}
 }
 
 const opPutComplianceItems = "PutComplianceItems"
@@ -4108,6 +4535,7 @@ const opPutComplianceItems = "PutComplianceItems"
 type PutComplianceItemsRequest struct {
 	*aws.Request
 	Input *PutComplianceItemsInput
+	Copy  func(*PutComplianceItemsInput) PutComplianceItemsRequest
 }
 
 // Send marshals and sends the PutComplianceItems API request.
@@ -4129,6 +4557,43 @@ func (r PutComplianceItemsRequest) Send() (*PutComplianceItemsOutput, error) {
 // so you must provide a full list of compliance items each time that you send
 // the request.
 //
+// ComplianceType can be one of the following:
+//
+//    * ExecutionId: The execution ID when the patch, association, or custom
+//    compliance item was applied.
+//
+//    * ExecutionType: Specify patch, association, or Custom:string.
+//
+//    * ExecutionTime. The time the patch, association, or custom compliance
+//    item was applied to the instance.
+//
+//    * Id: The patch, association, or custom compliance ID.
+//
+//    * Title: A title.
+//
+//    * Status: The status of the compliance item. For example, approved for
+//    patches, or Failed for associations.
+//
+//    * Severity: A patch severity. For example, critical.
+//
+//    * DocumentName: A SSM document name. For example, AWS-RunPatchBaseline.
+//
+//    * DocumentVersion: An SSM document version number. For example, 4.
+//
+//    * Classification: A patch classification. For example, security updates.
+//
+//    * PatchBaselineId: A patch baseline ID.
+//
+//    * PatchSeverity: A patch severity. For example, Critical.
+//
+//    * PatchState: A patch state. For example, InstancesWithFailedPatches.
+//
+//    * PatchGroup: The name of a patch group.
+//
+//    * InstalledTime: The time the association, patch, or custom compliance
+//    item was applied to the resource. Specify the time by using the following
+//    format: yyyy-MM-dd'T'HH:mm:ss'Z'
+//
 //    // Example sending a request using the PutComplianceItemsRequest method.
 //    req := client.PutComplianceItemsRequest(params)
 //    resp, err := req.Send()
@@ -4148,8 +4613,11 @@ func (c *SSM) PutComplianceItemsRequest(input *PutComplianceItemsInput) PutCompl
 		input = &PutComplianceItemsInput{}
 	}
 
-	req := c.newRequest(op, input, &PutComplianceItemsOutput{})
-	return PutComplianceItemsRequest{Request: req, Input: input}
+	output := &PutComplianceItemsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutComplianceItemsRequest{Request: req, Input: input, Copy: c.PutComplianceItemsRequest}
 }
 
 const opPutInventory = "PutInventory"
@@ -4158,6 +4626,7 @@ const opPutInventory = "PutInventory"
 type PutInventoryRequest struct {
 	*aws.Request
 	Input *PutInventoryInput
+	Copy  func(*PutInventoryInput) PutInventoryRequest
 }
 
 // Send marshals and sends the PutInventory API request.
@@ -4196,8 +4665,11 @@ func (c *SSM) PutInventoryRequest(input *PutInventoryInput) PutInventoryRequest 
 		input = &PutInventoryInput{}
 	}
 
-	req := c.newRequest(op, input, &PutInventoryOutput{})
-	return PutInventoryRequest{Request: req, Input: input}
+	output := &PutInventoryOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutInventoryRequest{Request: req, Input: input, Copy: c.PutInventoryRequest}
 }
 
 const opPutParameter = "PutParameter"
@@ -4206,6 +4678,7 @@ const opPutParameter = "PutParameter"
 type PutParameterRequest struct {
 	*aws.Request
 	Input *PutParameterInput
+	Copy  func(*PutParameterInput) PutParameterRequest
 }
 
 // Send marshals and sends the PutParameter API request.
@@ -4221,7 +4694,7 @@ func (r PutParameterRequest) Send() (*PutParameterOutput, error) {
 // PutParameterRequest returns a request value for making API operation for
 // Amazon Simple Systems Manager (SSM).
 //
-// Add one or more parameters to the system.
+// Add a parameter to the system.
 //
 //    // Example sending a request using the PutParameterRequest method.
 //    req := client.PutParameterRequest(params)
@@ -4242,8 +4715,11 @@ func (c *SSM) PutParameterRequest(input *PutParameterInput) PutParameterRequest 
 		input = &PutParameterInput{}
 	}
 
-	req := c.newRequest(op, input, &PutParameterOutput{})
-	return PutParameterRequest{Request: req, Input: input}
+	output := &PutParameterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutParameterRequest{Request: req, Input: input, Copy: c.PutParameterRequest}
 }
 
 const opRegisterDefaultPatchBaseline = "RegisterDefaultPatchBaseline"
@@ -4252,6 +4728,7 @@ const opRegisterDefaultPatchBaseline = "RegisterDefaultPatchBaseline"
 type RegisterDefaultPatchBaselineRequest struct {
 	*aws.Request
 	Input *RegisterDefaultPatchBaselineInput
+	Copy  func(*RegisterDefaultPatchBaselineInput) RegisterDefaultPatchBaselineRequest
 }
 
 // Send marshals and sends the RegisterDefaultPatchBaseline API request.
@@ -4288,8 +4765,11 @@ func (c *SSM) RegisterDefaultPatchBaselineRequest(input *RegisterDefaultPatchBas
 		input = &RegisterDefaultPatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterDefaultPatchBaselineOutput{})
-	return RegisterDefaultPatchBaselineRequest{Request: req, Input: input}
+	output := &RegisterDefaultPatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterDefaultPatchBaselineRequest{Request: req, Input: input, Copy: c.RegisterDefaultPatchBaselineRequest}
 }
 
 const opRegisterPatchBaselineForPatchGroup = "RegisterPatchBaselineForPatchGroup"
@@ -4298,6 +4778,7 @@ const opRegisterPatchBaselineForPatchGroup = "RegisterPatchBaselineForPatchGroup
 type RegisterPatchBaselineForPatchGroupRequest struct {
 	*aws.Request
 	Input *RegisterPatchBaselineForPatchGroupInput
+	Copy  func(*RegisterPatchBaselineForPatchGroupInput) RegisterPatchBaselineForPatchGroupRequest
 }
 
 // Send marshals and sends the RegisterPatchBaselineForPatchGroup API request.
@@ -4334,8 +4815,11 @@ func (c *SSM) RegisterPatchBaselineForPatchGroupRequest(input *RegisterPatchBase
 		input = &RegisterPatchBaselineForPatchGroupInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterPatchBaselineForPatchGroupOutput{})
-	return RegisterPatchBaselineForPatchGroupRequest{Request: req, Input: input}
+	output := &RegisterPatchBaselineForPatchGroupOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterPatchBaselineForPatchGroupRequest{Request: req, Input: input, Copy: c.RegisterPatchBaselineForPatchGroupRequest}
 }
 
 const opRegisterTargetWithMaintenanceWindow = "RegisterTargetWithMaintenanceWindow"
@@ -4344,6 +4828,7 @@ const opRegisterTargetWithMaintenanceWindow = "RegisterTargetWithMaintenanceWind
 type RegisterTargetWithMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *RegisterTargetWithMaintenanceWindowInput
+	Copy  func(*RegisterTargetWithMaintenanceWindowInput) RegisterTargetWithMaintenanceWindowRequest
 }
 
 // Send marshals and sends the RegisterTargetWithMaintenanceWindow API request.
@@ -4380,8 +4865,11 @@ func (c *SSM) RegisterTargetWithMaintenanceWindowRequest(input *RegisterTargetWi
 		input = &RegisterTargetWithMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterTargetWithMaintenanceWindowOutput{})
-	return RegisterTargetWithMaintenanceWindowRequest{Request: req, Input: input}
+	output := &RegisterTargetWithMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterTargetWithMaintenanceWindowRequest{Request: req, Input: input, Copy: c.RegisterTargetWithMaintenanceWindowRequest}
 }
 
 const opRegisterTaskWithMaintenanceWindow = "RegisterTaskWithMaintenanceWindow"
@@ -4390,6 +4878,7 @@ const opRegisterTaskWithMaintenanceWindow = "RegisterTaskWithMaintenanceWindow"
 type RegisterTaskWithMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *RegisterTaskWithMaintenanceWindowInput
+	Copy  func(*RegisterTaskWithMaintenanceWindowInput) RegisterTaskWithMaintenanceWindowRequest
 }
 
 // Send marshals and sends the RegisterTaskWithMaintenanceWindow API request.
@@ -4426,8 +4915,11 @@ func (c *SSM) RegisterTaskWithMaintenanceWindowRequest(input *RegisterTaskWithMa
 		input = &RegisterTaskWithMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &RegisterTaskWithMaintenanceWindowOutput{})
-	return RegisterTaskWithMaintenanceWindowRequest{Request: req, Input: input}
+	output := &RegisterTaskWithMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterTaskWithMaintenanceWindowRequest{Request: req, Input: input, Copy: c.RegisterTaskWithMaintenanceWindowRequest}
 }
 
 const opRemoveTagsFromResource = "RemoveTagsFromResource"
@@ -4436,6 +4928,7 @@ const opRemoveTagsFromResource = "RemoveTagsFromResource"
 type RemoveTagsFromResourceRequest struct {
 	*aws.Request
 	Input *RemoveTagsFromResourceInput
+	Copy  func(*RemoveTagsFromResourceInput) RemoveTagsFromResourceRequest
 }
 
 // Send marshals and sends the RemoveTagsFromResource API request.
@@ -4472,8 +4965,11 @@ func (c *SSM) RemoveTagsFromResourceRequest(input *RemoveTagsFromResourceInput) 
 		input = &RemoveTagsFromResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &RemoveTagsFromResourceOutput{})
-	return RemoveTagsFromResourceRequest{Request: req, Input: input}
+	output := &RemoveTagsFromResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RemoveTagsFromResourceRequest{Request: req, Input: input, Copy: c.RemoveTagsFromResourceRequest}
 }
 
 const opSendAutomationSignal = "SendAutomationSignal"
@@ -4482,6 +4978,7 @@ const opSendAutomationSignal = "SendAutomationSignal"
 type SendAutomationSignalRequest struct {
 	*aws.Request
 	Input *SendAutomationSignalInput
+	Copy  func(*SendAutomationSignalInput) SendAutomationSignalRequest
 }
 
 // Send marshals and sends the SendAutomationSignal API request.
@@ -4519,8 +5016,11 @@ func (c *SSM) SendAutomationSignalRequest(input *SendAutomationSignalInput) Send
 		input = &SendAutomationSignalInput{}
 	}
 
-	req := c.newRequest(op, input, &SendAutomationSignalOutput{})
-	return SendAutomationSignalRequest{Request: req, Input: input}
+	output := &SendAutomationSignalOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendAutomationSignalRequest{Request: req, Input: input, Copy: c.SendAutomationSignalRequest}
 }
 
 const opSendCommand = "SendCommand"
@@ -4529,6 +5029,7 @@ const opSendCommand = "SendCommand"
 type SendCommandRequest struct {
 	*aws.Request
 	Input *SendCommandInput
+	Copy  func(*SendCommandInput) SendCommandRequest
 }
 
 // Send marshals and sends the SendCommand API request.
@@ -4565,8 +5066,11 @@ func (c *SSM) SendCommandRequest(input *SendCommandInput) SendCommandRequest {
 		input = &SendCommandInput{}
 	}
 
-	req := c.newRequest(op, input, &SendCommandOutput{})
-	return SendCommandRequest{Request: req, Input: input}
+	output := &SendCommandOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SendCommandRequest{Request: req, Input: input, Copy: c.SendCommandRequest}
 }
 
 const opStartAutomationExecution = "StartAutomationExecution"
@@ -4575,6 +5079,7 @@ const opStartAutomationExecution = "StartAutomationExecution"
 type StartAutomationExecutionRequest struct {
 	*aws.Request
 	Input *StartAutomationExecutionInput
+	Copy  func(*StartAutomationExecutionInput) StartAutomationExecutionRequest
 }
 
 // Send marshals and sends the StartAutomationExecution API request.
@@ -4611,8 +5116,11 @@ func (c *SSM) StartAutomationExecutionRequest(input *StartAutomationExecutionInp
 		input = &StartAutomationExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StartAutomationExecutionOutput{})
-	return StartAutomationExecutionRequest{Request: req, Input: input}
+	output := &StartAutomationExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartAutomationExecutionRequest{Request: req, Input: input, Copy: c.StartAutomationExecutionRequest}
 }
 
 const opStopAutomationExecution = "StopAutomationExecution"
@@ -4621,6 +5129,7 @@ const opStopAutomationExecution = "StopAutomationExecution"
 type StopAutomationExecutionRequest struct {
 	*aws.Request
 	Input *StopAutomationExecutionInput
+	Copy  func(*StopAutomationExecutionInput) StopAutomationExecutionRequest
 }
 
 // Send marshals and sends the StopAutomationExecution API request.
@@ -4657,8 +5166,11 @@ func (c *SSM) StopAutomationExecutionRequest(input *StopAutomationExecutionInput
 		input = &StopAutomationExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StopAutomationExecutionOutput{})
-	return StopAutomationExecutionRequest{Request: req, Input: input}
+	output := &StopAutomationExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopAutomationExecutionRequest{Request: req, Input: input, Copy: c.StopAutomationExecutionRequest}
 }
 
 const opUpdateAssociation = "UpdateAssociation"
@@ -4667,6 +5179,7 @@ const opUpdateAssociation = "UpdateAssociation"
 type UpdateAssociationRequest struct {
 	*aws.Request
 	Input *UpdateAssociationInput
+	Copy  func(*UpdateAssociationInput) UpdateAssociationRequest
 }
 
 // Send marshals and sends the UpdateAssociation API request.
@@ -4704,8 +5217,11 @@ func (c *SSM) UpdateAssociationRequest(input *UpdateAssociationInput) UpdateAsso
 		input = &UpdateAssociationInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAssociationOutput{})
-	return UpdateAssociationRequest{Request: req, Input: input}
+	output := &UpdateAssociationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAssociationRequest{Request: req, Input: input, Copy: c.UpdateAssociationRequest}
 }
 
 const opUpdateAssociationStatus = "UpdateAssociationStatus"
@@ -4714,6 +5230,7 @@ const opUpdateAssociationStatus = "UpdateAssociationStatus"
 type UpdateAssociationStatusRequest struct {
 	*aws.Request
 	Input *UpdateAssociationStatusInput
+	Copy  func(*UpdateAssociationStatusInput) UpdateAssociationStatusRequest
 }
 
 // Send marshals and sends the UpdateAssociationStatus API request.
@@ -4751,8 +5268,11 @@ func (c *SSM) UpdateAssociationStatusRequest(input *UpdateAssociationStatusInput
 		input = &UpdateAssociationStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateAssociationStatusOutput{})
-	return UpdateAssociationStatusRequest{Request: req, Input: input}
+	output := &UpdateAssociationStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateAssociationStatusRequest{Request: req, Input: input, Copy: c.UpdateAssociationStatusRequest}
 }
 
 const opUpdateDocument = "UpdateDocument"
@@ -4761,6 +5281,7 @@ const opUpdateDocument = "UpdateDocument"
 type UpdateDocumentRequest struct {
 	*aws.Request
 	Input *UpdateDocumentInput
+	Copy  func(*UpdateDocumentInput) UpdateDocumentRequest
 }
 
 // Send marshals and sends the UpdateDocument API request.
@@ -4797,8 +5318,11 @@ func (c *SSM) UpdateDocumentRequest(input *UpdateDocumentInput) UpdateDocumentRe
 		input = &UpdateDocumentInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDocumentOutput{})
-	return UpdateDocumentRequest{Request: req, Input: input}
+	output := &UpdateDocumentOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDocumentRequest{Request: req, Input: input, Copy: c.UpdateDocumentRequest}
 }
 
 const opUpdateDocumentDefaultVersion = "UpdateDocumentDefaultVersion"
@@ -4807,6 +5331,7 @@ const opUpdateDocumentDefaultVersion = "UpdateDocumentDefaultVersion"
 type UpdateDocumentDefaultVersionRequest struct {
 	*aws.Request
 	Input *UpdateDocumentDefaultVersionInput
+	Copy  func(*UpdateDocumentDefaultVersionInput) UpdateDocumentDefaultVersionRequest
 }
 
 // Send marshals and sends the UpdateDocumentDefaultVersion API request.
@@ -4843,8 +5368,11 @@ func (c *SSM) UpdateDocumentDefaultVersionRequest(input *UpdateDocumentDefaultVe
 		input = &UpdateDocumentDefaultVersionInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDocumentDefaultVersionOutput{})
-	return UpdateDocumentDefaultVersionRequest{Request: req, Input: input}
+	output := &UpdateDocumentDefaultVersionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDocumentDefaultVersionRequest{Request: req, Input: input, Copy: c.UpdateDocumentDefaultVersionRequest}
 }
 
 const opUpdateMaintenanceWindow = "UpdateMaintenanceWindow"
@@ -4853,6 +5381,7 @@ const opUpdateMaintenanceWindow = "UpdateMaintenanceWindow"
 type UpdateMaintenanceWindowRequest struct {
 	*aws.Request
 	Input *UpdateMaintenanceWindowInput
+	Copy  func(*UpdateMaintenanceWindowInput) UpdateMaintenanceWindowRequest
 }
 
 // Send marshals and sends the UpdateMaintenanceWindow API request.
@@ -4889,8 +5418,11 @@ func (c *SSM) UpdateMaintenanceWindowRequest(input *UpdateMaintenanceWindowInput
 		input = &UpdateMaintenanceWindowInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateMaintenanceWindowOutput{})
-	return UpdateMaintenanceWindowRequest{Request: req, Input: input}
+	output := &UpdateMaintenanceWindowOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateMaintenanceWindowRequest{Request: req, Input: input, Copy: c.UpdateMaintenanceWindowRequest}
 }
 
 const opUpdateMaintenanceWindowTarget = "UpdateMaintenanceWindowTarget"
@@ -4899,6 +5431,7 @@ const opUpdateMaintenanceWindowTarget = "UpdateMaintenanceWindowTarget"
 type UpdateMaintenanceWindowTargetRequest struct {
 	*aws.Request
 	Input *UpdateMaintenanceWindowTargetInput
+	Copy  func(*UpdateMaintenanceWindowTargetInput) UpdateMaintenanceWindowTargetRequest
 }
 
 // Send marshals and sends the UpdateMaintenanceWindowTarget API request.
@@ -4951,8 +5484,11 @@ func (c *SSM) UpdateMaintenanceWindowTargetRequest(input *UpdateMaintenanceWindo
 		input = &UpdateMaintenanceWindowTargetInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateMaintenanceWindowTargetOutput{})
-	return UpdateMaintenanceWindowTargetRequest{Request: req, Input: input}
+	output := &UpdateMaintenanceWindowTargetOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateMaintenanceWindowTargetRequest{Request: req, Input: input, Copy: c.UpdateMaintenanceWindowTargetRequest}
 }
 
 const opUpdateMaintenanceWindowTask = "UpdateMaintenanceWindowTask"
@@ -4961,6 +5497,7 @@ const opUpdateMaintenanceWindowTask = "UpdateMaintenanceWindowTask"
 type UpdateMaintenanceWindowTaskRequest struct {
 	*aws.Request
 	Input *UpdateMaintenanceWindowTaskInput
+	Copy  func(*UpdateMaintenanceWindowTaskInput) UpdateMaintenanceWindowTaskRequest
 }
 
 // Send marshals and sends the UpdateMaintenanceWindowTask API request.
@@ -4979,18 +5516,18 @@ func (r UpdateMaintenanceWindowTaskRequest) Send() (*UpdateMaintenanceWindowTask
 // Modifies a task assigned to a Maintenance Window. You can't change the task
 // type, but you can change the following values:
 //
-// Task ARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript
-// to AWS-RunShellScript.
+//    * TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript
+//    to AWS-RunShellScript.
 //
-// Service role ARN.
+//    * ServiceRoleArn
 //
-// Task parameters.
+//    * TaskInvocationParameters
 //
-// Task priority.
+//    * Priority
 //
-// Task MaxConcurrency and MaxErrors.
+//    * MaxConcurrency
 //
-// Log location.
+//    * MaxErrors
 //
 // If a parameter is null, then the corresponding field is not modified. Also,
 // if you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow
@@ -5016,8 +5553,11 @@ func (c *SSM) UpdateMaintenanceWindowTaskRequest(input *UpdateMaintenanceWindowT
 		input = &UpdateMaintenanceWindowTaskInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateMaintenanceWindowTaskOutput{})
-	return UpdateMaintenanceWindowTaskRequest{Request: req, Input: input}
+	output := &UpdateMaintenanceWindowTaskOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateMaintenanceWindowTaskRequest{Request: req, Input: input, Copy: c.UpdateMaintenanceWindowTaskRequest}
 }
 
 const opUpdateManagedInstanceRole = "UpdateManagedInstanceRole"
@@ -5026,6 +5566,7 @@ const opUpdateManagedInstanceRole = "UpdateManagedInstanceRole"
 type UpdateManagedInstanceRoleRequest struct {
 	*aws.Request
 	Input *UpdateManagedInstanceRoleInput
+	Copy  func(*UpdateManagedInstanceRoleInput) UpdateManagedInstanceRoleRequest
 }
 
 // Send marshals and sends the UpdateManagedInstanceRole API request.
@@ -5063,8 +5604,11 @@ func (c *SSM) UpdateManagedInstanceRoleRequest(input *UpdateManagedInstanceRoleI
 		input = &UpdateManagedInstanceRoleInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateManagedInstanceRoleOutput{})
-	return UpdateManagedInstanceRoleRequest{Request: req, Input: input}
+	output := &UpdateManagedInstanceRoleOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateManagedInstanceRoleRequest{Request: req, Input: input, Copy: c.UpdateManagedInstanceRoleRequest}
 }
 
 const opUpdatePatchBaseline = "UpdatePatchBaseline"
@@ -5073,6 +5617,7 @@ const opUpdatePatchBaseline = "UpdatePatchBaseline"
 type UpdatePatchBaselineRequest struct {
 	*aws.Request
 	Input *UpdatePatchBaselineInput
+	Copy  func(*UpdatePatchBaselineInput) UpdatePatchBaselineRequest
 }
 
 // Send marshals and sends the UpdatePatchBaseline API request.
@@ -5090,6 +5635,9 @@ func (r UpdatePatchBaselineRequest) Send() (*UpdatePatchBaselineOutput, error) {
 //
 // Modifies an existing patch baseline. Fields not specified in the request
 // are left unchanged.
+//
+// For information about valid key and value pairs in PatchFilters for each
+// supported operating system type, see PatchFilter (http://docs.aws.amazon.com/systems-manager/latest/APIReference/API_PatchFilter.html).
 //
 //    // Example sending a request using the UpdatePatchBaselineRequest method.
 //    req := client.UpdatePatchBaselineRequest(params)
@@ -5110,8 +5658,11 @@ func (c *SSM) UpdatePatchBaselineRequest(input *UpdatePatchBaselineInput) Update
 		input = &UpdatePatchBaselineInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdatePatchBaselineOutput{})
-	return UpdatePatchBaselineRequest{Request: req, Input: input}
+	output := &UpdatePatchBaselineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdatePatchBaselineRequest{Request: req, Input: input, Copy: c.UpdatePatchBaselineRequest}
 }
 
 // An activation registers one or more on-premises servers or virtual machines
@@ -5161,80 +5712,46 @@ func (s Activation) GoString() string {
 	return s.String()
 }
 
-// SetActivationId sets the ActivationId field's value.
-func (s *Activation) SetActivationId(v string) *Activation {
-	s.ActivationId = &v
-	return s
-}
-
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *Activation) SetCreatedDate(v time.Time) *Activation {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetDefaultInstanceName sets the DefaultInstanceName field's value.
-func (s *Activation) SetDefaultInstanceName(v string) *Activation {
-	s.DefaultInstanceName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Activation) SetDescription(v string) *Activation {
-	s.Description = &v
-	return s
-}
-
-// SetExpirationDate sets the ExpirationDate field's value.
-func (s *Activation) SetExpirationDate(v time.Time) *Activation {
-	s.ExpirationDate = &v
-	return s
-}
-
-// SetExpired sets the Expired field's value.
-func (s *Activation) SetExpired(v bool) *Activation {
-	s.Expired = &v
-	return s
-}
-
-// SetIamRole sets the IamRole field's value.
-func (s *Activation) SetIamRole(v string) *Activation {
-	s.IamRole = &v
-	return s
-}
-
-// SetRegistrationLimit sets the RegistrationLimit field's value.
-func (s *Activation) SetRegistrationLimit(v int64) *Activation {
-	s.RegistrationLimit = &v
-	return s
-}
-
-// SetRegistrationsCount sets the RegistrationsCount field's value.
-func (s *Activation) SetRegistrationsCount(v int64) *Activation {
-	s.RegistrationsCount = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AddTagsToResourceRequest
 type AddTagsToResourceInput struct {
 	_ struct{} `type:"structure"`
 
 	// The resource ID you want to tag.
 	//
+	// Use the ID of the resource. Here are some examples:
+	//
+	// ManagedInstance: mi-012345abcde
+	//
+	// MaintenanceWindow: mw-012345abcde
+	//
+	// PatchBaseline: pb-012345abcde
+	//
+	// For the Document and Parameter values, use the name of the resource.
+	//
+	// The ManagedInstance type for this API action is only for on-premises managed
+	// instances. You must specify the the name of the managed instance in the following
+	// format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+	//
 	// ResourceId is a required field
 	ResourceId *string `type:"string" required:"true"`
 
 	// Specifies the type of resource you are tagging.
 	//
+	// The ManagedInstance type for this API action is for on-premises managed instances.
+	// You must specify the the name of the managed instance in the following format:
+	// mi-ID_number. For example, mi-1a2b3c4d5e6f.
+	//
 	// ResourceType is a required field
-	ResourceType ResourceTypeForTagging `type:"string" required:"true"`
+	ResourceType ResourceTypeForTagging `type:"string" required:"true" enum:"true"`
 
 	// One or more tags. The value parameter is required, but if you don't want
 	// the tag to have a value, specify the parameter with no value, and we set
 	// the value to an empty string.
 	//
+	// Do not enter personally identifiable information in this field.
+	//
 	// Tags is a required field
-	Tags []*Tag `type:"list" required:"true"`
+	Tags []Tag `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -5263,9 +5780,6 @@ func (s *AddTagsToResourceInput) Validate() error {
 	}
 	if s.Tags != nil {
 		for i, v := range s.Tags {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Tags", i), err.(aws.ErrInvalidParams))
 			}
@@ -5278,27 +5792,11 @@ func (s *AddTagsToResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *AddTagsToResourceInput) SetResourceId(v string) *AddTagsToResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *AddTagsToResourceInput) SetResourceType(v ResourceTypeForTagging) *AddTagsToResourceInput {
-	s.ResourceType = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *AddTagsToResourceInput) SetTags(v []*Tag) *AddTagsToResourceInput {
-	s.Tags = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AddTagsToResourceResult
 type AddTagsToResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5309,6 +5807,11 @@ func (s AddTagsToResourceOutput) String() string {
 // GoString returns the string representation
 func (s AddTagsToResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AddTagsToResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes an association of a Systems Manager document and an instance.
@@ -5345,7 +5848,7 @@ type Association struct {
 	ScheduleExpression *string `min:"1" type:"string"`
 
 	// The instances targeted by the request to create an association.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -5356,66 +5859,6 @@ func (s Association) String() string {
 // GoString returns the string representation
 func (s Association) GoString() string {
 	return s.String()
-}
-
-// SetAssociationId sets the AssociationId field's value.
-func (s *Association) SetAssociationId(v string) *Association {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationName sets the AssociationName field's value.
-func (s *Association) SetAssociationName(v string) *Association {
-	s.AssociationName = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *Association) SetAssociationVersion(v string) *Association {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *Association) SetDocumentVersion(v string) *Association {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *Association) SetInstanceId(v string) *Association {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLastExecutionDate sets the LastExecutionDate field's value.
-func (s *Association) SetLastExecutionDate(v time.Time) *Association {
-	s.LastExecutionDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Association) SetName(v string) *Association {
-	s.Name = &v
-	return s
-}
-
-// SetOverview sets the Overview field's value.
-func (s *Association) SetOverview(v *AssociationOverview) *Association {
-	s.Overview = v
-	return s
-}
-
-// SetScheduleExpression sets the ScheduleExpression field's value.
-func (s *Association) SetScheduleExpression(v string) *Association {
-	s.ScheduleExpression = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *Association) SetTargets(v []*Target) *Association {
-	s.Targets = v
-	return s
 }
 
 // Describes the parameters for a document.
@@ -5460,7 +5903,7 @@ type AssociationDescription struct {
 	Overview *AssociationOverview `type:"structure"`
 
 	// A description of the parameters for a document.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// A cron expression that specifies a schedule when the association runs.
 	ScheduleExpression *string `min:"1" type:"string"`
@@ -5469,7 +5912,7 @@ type AssociationDescription struct {
 	Status *AssociationStatus `type:"structure"`
 
 	// The instances targeted by the request.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -5482,102 +5925,6 @@ func (s AssociationDescription) GoString() string {
 	return s.String()
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *AssociationDescription) SetAssociationId(v string) *AssociationDescription {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationName sets the AssociationName field's value.
-func (s *AssociationDescription) SetAssociationName(v string) *AssociationDescription {
-	s.AssociationName = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *AssociationDescription) SetAssociationVersion(v string) *AssociationDescription {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetDate sets the Date field's value.
-func (s *AssociationDescription) SetDate(v time.Time) *AssociationDescription {
-	s.Date = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *AssociationDescription) SetDocumentVersion(v string) *AssociationDescription {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *AssociationDescription) SetInstanceId(v string) *AssociationDescription {
-	s.InstanceId = &v
-	return s
-}
-
-// SetLastExecutionDate sets the LastExecutionDate field's value.
-func (s *AssociationDescription) SetLastExecutionDate(v time.Time) *AssociationDescription {
-	s.LastExecutionDate = &v
-	return s
-}
-
-// SetLastSuccessfulExecutionDate sets the LastSuccessfulExecutionDate field's value.
-func (s *AssociationDescription) SetLastSuccessfulExecutionDate(v time.Time) *AssociationDescription {
-	s.LastSuccessfulExecutionDate = &v
-	return s
-}
-
-// SetLastUpdateAssociationDate sets the LastUpdateAssociationDate field's value.
-func (s *AssociationDescription) SetLastUpdateAssociationDate(v time.Time) *AssociationDescription {
-	s.LastUpdateAssociationDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *AssociationDescription) SetName(v string) *AssociationDescription {
-	s.Name = &v
-	return s
-}
-
-// SetOutputLocation sets the OutputLocation field's value.
-func (s *AssociationDescription) SetOutputLocation(v *InstanceAssociationOutputLocation) *AssociationDescription {
-	s.OutputLocation = v
-	return s
-}
-
-// SetOverview sets the Overview field's value.
-func (s *AssociationDescription) SetOverview(v *AssociationOverview) *AssociationDescription {
-	s.Overview = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *AssociationDescription) SetParameters(v map[string][]*string) *AssociationDescription {
-	s.Parameters = v
-	return s
-}
-
-// SetScheduleExpression sets the ScheduleExpression field's value.
-func (s *AssociationDescription) SetScheduleExpression(v string) *AssociationDescription {
-	s.ScheduleExpression = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AssociationDescription) SetStatus(v *AssociationStatus) *AssociationDescription {
-	s.Status = v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *AssociationDescription) SetTargets(v []*Target) *AssociationDescription {
-	s.Targets = v
-	return s
-}
-
 // Describes a filter.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AssociationFilter
 type AssociationFilter struct {
@@ -5586,7 +5933,7 @@ type AssociationFilter struct {
 	// The name of the filter.
 	//
 	// Key is a required field
-	Key AssociationFilterKey `locationName:"key" type:"string" required:"true"`
+	Key AssociationFilterKey `locationName:"key" type:"string" required:"true" enum:"true"`
 
 	// The filter value.
 	//
@@ -5624,18 +5971,6 @@ func (s *AssociationFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *AssociationFilter) SetKey(v AssociationFilterKey) *AssociationFilter {
-	s.Key = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *AssociationFilter) SetValue(v string) *AssociationFilter {
-	s.Value = &v
-	return s
-}
-
 // Information about the association.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AssociationOverview
 type AssociationOverview struct {
@@ -5644,7 +5979,7 @@ type AssociationOverview struct {
 	// Returns the number of targets for the association status. For example, if
 	// you created an association with two instances, and one of them was successful,
 	// this would return the count of instances by status.
-	AssociationStatusAggregatedCount map[string]*int64 `type:"map"`
+	AssociationStatusAggregatedCount map[string]int64 `type:"map"`
 
 	// A detailed status of the association.
 	DetailedStatus *string `type:"string"`
@@ -5661,24 +5996,6 @@ func (s AssociationOverview) String() string {
 // GoString returns the string representation
 func (s AssociationOverview) GoString() string {
 	return s.String()
-}
-
-// SetAssociationStatusAggregatedCount sets the AssociationStatusAggregatedCount field's value.
-func (s *AssociationOverview) SetAssociationStatusAggregatedCount(v map[string]*int64) *AssociationOverview {
-	s.AssociationStatusAggregatedCount = v
-	return s
-}
-
-// SetDetailedStatus sets the DetailedStatus field's value.
-func (s *AssociationOverview) SetDetailedStatus(v string) *AssociationOverview {
-	s.DetailedStatus = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *AssociationOverview) SetStatus(v string) *AssociationOverview {
-	s.Status = &v
-	return s
 }
 
 // Describes an association status.
@@ -5702,7 +6019,7 @@ type AssociationStatus struct {
 	// The status.
 	//
 	// Name is a required field
-	Name AssociationStatusName `type:"string" required:"true"`
+	Name AssociationStatusName `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -5739,30 +6056,6 @@ func (s *AssociationStatus) Validate() error {
 	return nil
 }
 
-// SetAdditionalInfo sets the AdditionalInfo field's value.
-func (s *AssociationStatus) SetAdditionalInfo(v string) *AssociationStatus {
-	s.AdditionalInfo = &v
-	return s
-}
-
-// SetDate sets the Date field's value.
-func (s *AssociationStatus) SetDate(v time.Time) *AssociationStatus {
-	s.Date = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *AssociationStatus) SetMessage(v string) *AssociationStatus {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *AssociationStatus) SetName(v AssociationStatusName) *AssociationStatus {
-	s.Name = v
-	return s
-}
-
 // Information about the association version.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AssociationVersionInfo
 type AssociationVersionInfo struct {
@@ -5793,7 +6086,7 @@ type AssociationVersionInfo struct {
 	OutputLocation *InstanceAssociationOutputLocation `type:"structure"`
 
 	// Parameters specified when the association version was created.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// The cron or rate schedule specified for the association when the association
 	// version was created.
@@ -5801,7 +6094,7 @@ type AssociationVersionInfo struct {
 
 	// The targets specified for the association when the association version was
 	// created.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -5814,66 +6107,6 @@ func (s AssociationVersionInfo) GoString() string {
 	return s.String()
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *AssociationVersionInfo) SetAssociationId(v string) *AssociationVersionInfo {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationName sets the AssociationName field's value.
-func (s *AssociationVersionInfo) SetAssociationName(v string) *AssociationVersionInfo {
-	s.AssociationName = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *AssociationVersionInfo) SetAssociationVersion(v string) *AssociationVersionInfo {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *AssociationVersionInfo) SetCreatedDate(v time.Time) *AssociationVersionInfo {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *AssociationVersionInfo) SetDocumentVersion(v string) *AssociationVersionInfo {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *AssociationVersionInfo) SetName(v string) *AssociationVersionInfo {
-	s.Name = &v
-	return s
-}
-
-// SetOutputLocation sets the OutputLocation field's value.
-func (s *AssociationVersionInfo) SetOutputLocation(v *InstanceAssociationOutputLocation) *AssociationVersionInfo {
-	s.OutputLocation = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *AssociationVersionInfo) SetParameters(v map[string][]*string) *AssociationVersionInfo {
-	s.Parameters = v
-	return s
-}
-
-// SetScheduleExpression sets the ScheduleExpression field's value.
-func (s *AssociationVersionInfo) SetScheduleExpression(v string) *AssociationVersionInfo {
-	s.ScheduleExpression = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *AssociationVersionInfo) SetTargets(v []*Target) *AssociationVersionInfo {
-	s.Targets = v
-	return s
-}
-
 // Detailed information about the current state of an individual Automation
 // execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AutomationExecution
@@ -5884,13 +6117,22 @@ type AutomationExecution struct {
 	AutomationExecutionId *string `min:"36" type:"string"`
 
 	// The execution status of the Automation.
-	AutomationExecutionStatus AutomationExecutionStatus `type:"string"`
+	AutomationExecutionStatus AutomationExecutionStatus `type:"string" enum:"true"`
+
+	// The action of the currently executing step.
+	CurrentAction *string `type:"string"`
+
+	// The name of the currently executing step.
+	CurrentStepName *string `type:"string"`
 
 	// The name of the Automation document used during the execution.
 	DocumentName *string `type:"string"`
 
 	// The version of the document to use during execution.
 	DocumentVersion *string `type:"string"`
+
+	// The Amazon Resource Name (ARN) of the user who executed the automation.
+	ExecutedBy *string `type:"string"`
 
 	// The time the execution finished.
 	ExecutionEndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -5902,16 +6144,45 @@ type AutomationExecution struct {
 	// Failed.
 	FailureMessage *string `type:"string"`
 
+	// The MaxConcurrency value specified by the user when the execution started.
+	MaxConcurrency *string `min:"1" type:"string"`
+
+	// The MaxErrors value specified by the user when the execution started.
+	MaxErrors *string `min:"1" type:"string"`
+
+	// The automation execution mode.
+	Mode ExecutionMode `type:"string" enum:"true"`
+
 	// The list of execution outputs as defined in the automation document.
-	Outputs map[string][]*string `min:"1" type:"map"`
+	Outputs map[string][]string `min:"1" type:"map"`
 
 	// The key-value map of execution parameters, which were supplied when calling
 	// StartAutomationExecution.
-	Parameters map[string][]*string `min:"1" type:"map"`
+	Parameters map[string][]string `min:"1" type:"map"`
+
+	// The AutomationExecutionId of the parent automation.
+	ParentAutomationExecutionId *string `min:"36" type:"string"`
+
+	// A list of resolved targets in the rate control execution.
+	ResolvedTargets *ResolvedTargets `type:"structure"`
 
 	// A list of details about the current state of all steps that comprise an execution.
 	// An Automation document contains a list of steps that are executed in order.
-	StepExecutions []*StepExecution `type:"list"`
+	StepExecutions []StepExecution `type:"list"`
+
+	// A boolean value that indicates if the response contains the full list of
+	// the Automation step executions. If true, use the DescribeAutomationStepExecutions
+	// API action to get the full list of step executions.
+	StepExecutionsTruncated *bool `type:"boolean"`
+
+	// The target of the execution.
+	Target *string `type:"string"`
+
+	// The parameter name.
+	TargetParameterName *string `min:"1" type:"string"`
+
+	// The specified targets.
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -5924,82 +6195,24 @@ func (s AutomationExecution) GoString() string {
 	return s.String()
 }
 
-// SetAutomationExecutionId sets the AutomationExecutionId field's value.
-func (s *AutomationExecution) SetAutomationExecutionId(v string) *AutomationExecution {
-	s.AutomationExecutionId = &v
-	return s
-}
-
-// SetAutomationExecutionStatus sets the AutomationExecutionStatus field's value.
-func (s *AutomationExecution) SetAutomationExecutionStatus(v AutomationExecutionStatus) *AutomationExecution {
-	s.AutomationExecutionStatus = v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *AutomationExecution) SetDocumentName(v string) *AutomationExecution {
-	s.DocumentName = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *AutomationExecution) SetDocumentVersion(v string) *AutomationExecution {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetExecutionEndTime sets the ExecutionEndTime field's value.
-func (s *AutomationExecution) SetExecutionEndTime(v time.Time) *AutomationExecution {
-	s.ExecutionEndTime = &v
-	return s
-}
-
-// SetExecutionStartTime sets the ExecutionStartTime field's value.
-func (s *AutomationExecution) SetExecutionStartTime(v time.Time) *AutomationExecution {
-	s.ExecutionStartTime = &v
-	return s
-}
-
-// SetFailureMessage sets the FailureMessage field's value.
-func (s *AutomationExecution) SetFailureMessage(v string) *AutomationExecution {
-	s.FailureMessage = &v
-	return s
-}
-
-// SetOutputs sets the Outputs field's value.
-func (s *AutomationExecution) SetOutputs(v map[string][]*string) *AutomationExecution {
-	s.Outputs = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *AutomationExecution) SetParameters(v map[string][]*string) *AutomationExecution {
-	s.Parameters = v
-	return s
-}
-
-// SetStepExecutions sets the StepExecutions field's value.
-func (s *AutomationExecution) SetStepExecutions(v []*StepExecution) *AutomationExecution {
-	s.StepExecutions = v
-	return s
-}
-
 // A filter used to match specific automation executions. This is used to limit
 // the scope of Automation execution information returned.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AutomationExecutionFilter
 type AutomationExecutionFilter struct {
 	_ struct{} `type:"structure"`
 
-	// The aspect of the Automation execution information that should be limited.
+	// One or more keys to limit the results. Valid filter keys include the following:
+	// DocumentNamePrefix, ExecutionStatus, ExecutionId, ParentExecutionId, CurrentAction,
+	// StartTimeBefore, StartTimeAfter.
 	//
 	// Key is a required field
-	Key AutomationExecutionFilterKey `type:"string" required:"true"`
+	Key AutomationExecutionFilterKey `type:"string" required:"true" enum:"true"`
 
 	// The values used to limit the execution information associated with the filter's
 	// key.
 	//
 	// Values is a required field
-	Values []*string `min:"1" type:"list" required:"true"`
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -6032,18 +6245,6 @@ func (s *AutomationExecutionFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *AutomationExecutionFilter) SetKey(v AutomationExecutionFilterKey) *AutomationExecutionFilter {
-	s.Key = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *AutomationExecutionFilter) SetValues(v []*string) *AutomationExecutionFilter {
-	s.Values = v
-	return s
-}
-
 // Details about a specific Automation execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AutomationExecutionMetadata
 type AutomationExecutionMetadata struct {
@@ -6054,7 +6255,13 @@ type AutomationExecutionMetadata struct {
 
 	// The status of the execution. Valid values include: Running, Succeeded, Failed,
 	// Timed out, or Cancelled.
-	AutomationExecutionStatus AutomationExecutionStatus `type:"string"`
+	AutomationExecutionStatus AutomationExecutionStatus `type:"string" enum:"true"`
+
+	// The action of the currently executing step.
+	CurrentAction *string `type:"string"`
+
+	// The name of the currently executing step.
+	CurrentStepName *string `type:"string"`
 
 	// The name of the Automation document used during execution.
 	DocumentName *string `type:"string"`
@@ -6072,11 +6279,38 @@ type AutomationExecutionMetadata struct {
 	// The time the execution started.>
 	ExecutionStartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
+	// The list of execution outputs as defined in the Automation document.
+	FailureMessage *string `type:"string"`
+
 	// An Amazon S3 bucket where execution information is stored.
 	LogFile *string `type:"string"`
 
+	// The MaxConcurrency value specified by the user when starting the Automation.
+	MaxConcurrency *string `min:"1" type:"string"`
+
+	// The MaxErrors value specified by the user when starting the Automation.
+	MaxErrors *string `min:"1" type:"string"`
+
+	// The Automation execution mode.
+	Mode ExecutionMode `type:"string" enum:"true"`
+
 	// The list of execution outputs as defined in the Automation document.
-	Outputs map[string][]*string `min:"1" type:"map"`
+	Outputs map[string][]string `min:"1" type:"map"`
+
+	// The ExecutionId of the parent Automation.
+	ParentAutomationExecutionId *string `min:"36" type:"string"`
+
+	// A list of targets that resolved during the execution.
+	ResolvedTargets *ResolvedTargets `type:"structure"`
+
+	// The list of execution outputs as defined in the Automation document.
+	Target *string `type:"string"`
+
+	// The list of execution outputs as defined in the Automation document.
+	TargetParameterName *string `min:"1" type:"string"`
+
+	// The targets defined by the user when starting the Automation.
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -6087,60 +6321,6 @@ func (s AutomationExecutionMetadata) String() string {
 // GoString returns the string representation
 func (s AutomationExecutionMetadata) GoString() string {
 	return s.String()
-}
-
-// SetAutomationExecutionId sets the AutomationExecutionId field's value.
-func (s *AutomationExecutionMetadata) SetAutomationExecutionId(v string) *AutomationExecutionMetadata {
-	s.AutomationExecutionId = &v
-	return s
-}
-
-// SetAutomationExecutionStatus sets the AutomationExecutionStatus field's value.
-func (s *AutomationExecutionMetadata) SetAutomationExecutionStatus(v AutomationExecutionStatus) *AutomationExecutionMetadata {
-	s.AutomationExecutionStatus = v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *AutomationExecutionMetadata) SetDocumentName(v string) *AutomationExecutionMetadata {
-	s.DocumentName = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *AutomationExecutionMetadata) SetDocumentVersion(v string) *AutomationExecutionMetadata {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetExecutedBy sets the ExecutedBy field's value.
-func (s *AutomationExecutionMetadata) SetExecutedBy(v string) *AutomationExecutionMetadata {
-	s.ExecutedBy = &v
-	return s
-}
-
-// SetExecutionEndTime sets the ExecutionEndTime field's value.
-func (s *AutomationExecutionMetadata) SetExecutionEndTime(v time.Time) *AutomationExecutionMetadata {
-	s.ExecutionEndTime = &v
-	return s
-}
-
-// SetExecutionStartTime sets the ExecutionStartTime field's value.
-func (s *AutomationExecutionMetadata) SetExecutionStartTime(v time.Time) *AutomationExecutionMetadata {
-	s.ExecutionStartTime = &v
-	return s
-}
-
-// SetLogFile sets the LogFile field's value.
-func (s *AutomationExecutionMetadata) SetLogFile(v string) *AutomationExecutionMetadata {
-	s.LogFile = &v
-	return s
-}
-
-// SetOutputs sets the Outputs field's value.
-func (s *AutomationExecutionMetadata) SetOutputs(v map[string][]*string) *AutomationExecutionMetadata {
-	s.Outputs = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CancelCommandRequest
@@ -6155,7 +6335,7 @@ type CancelCommandInput struct {
 	// (Optional) A list of instance IDs on which you want to cancel the command.
 	// If not provided, the command is canceled on every instance on which it was
 	// requested.
-	InstanceIds []*string `type:"list"`
+	InstanceIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -6185,23 +6365,13 @@ func (s *CancelCommandInput) Validate() error {
 	return nil
 }
 
-// SetCommandId sets the CommandId field's value.
-func (s *CancelCommandInput) SetCommandId(v string) *CancelCommandInput {
-	s.CommandId = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *CancelCommandInput) SetInstanceIds(v []*string) *CancelCommandInput {
-	s.InstanceIds = v
-	return s
-}
-
 // Whether or not the command was successfully canceled. There is no guarantee
 // that a request can be canceled.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CancelCommandResult
 type CancelCommandOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -6212,6 +6382,11 @@ func (s CancelCommandOutput) String() string {
 // GoString returns the string representation
 func (s CancelCommandOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CancelCommandOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes a command request.
@@ -6234,16 +6409,19 @@ type Command struct {
 	// The name of the document requested for execution.
 	DocumentName *string `type:"string"`
 
+	// The SSM document version.
+	DocumentVersion *string `type:"string"`
+
 	// The number of targets for which the status is Failed or Execution Timed Out.
 	ErrorCount *int64 `type:"integer"`
 
 	// If this time is reached and the command has not already started executing,
-	// it will not execute. Calculated based on the ExpiresAfter user input provided
+	// it will not run. Calculated based on the ExpiresAfter user input provided
 	// as part of the SendCommand API.
 	ExpiresAfter *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The instance IDs against which this command was requested.
-	InstanceIds []*string `type:"list"`
+	InstanceIds []string `type:"list"`
 
 	// The maximum number of instances that are allowed to execute the command at
 	// the same time. You can specify a number of instances, such as 10, or a percentage
@@ -6254,9 +6432,9 @@ type Command struct {
 
 	// The maximum number of errors allowed before the system stops sending the
 	// command to additional targets. You can specify a number of errors, such as
-	// 10, or a percentage or errors, such as 10%. The default value is 50. For
-	// more information about how to use MaxErrors, see Executing a Command Using
-	// Systems Manager Run Command (http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html).
+	// 10, or a percentage or errors, such as 10%. The default value is 0. For more
+	// information about how to use MaxErrors, see Executing a Command Using Systems
+	// Manager Run Command (http://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html).
 	MaxErrors *string `min:"1" type:"string"`
 
 	// Configurations for sending notifications about command status changes.
@@ -6276,7 +6454,7 @@ type Command struct {
 	OutputS3Region *string `min:"3" type:"string"`
 
 	// The parameter values to be inserted in the document when executing the command.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// The date and time the command was requested.
 	RequestedDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -6286,7 +6464,7 @@ type Command struct {
 	ServiceRole *string `type:"string"`
 
 	// The status of the command.
-	Status CommandStatus `type:"string"`
+	Status CommandStatus `type:"string" enum:"true"`
 
 	// A detailed status of the command execution. StatusDetails includes more information
 	// than Status because it includes states resulting from error and concurrency
@@ -6329,7 +6507,7 @@ type Command struct {
 	// An array of search criteria that targets instances using a Key,Value combination
 	// that you specify. Targets is required if you don't provide one or more instance
 	// IDs in the call.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -6342,126 +6520,6 @@ func (s Command) GoString() string {
 	return s.String()
 }
 
-// SetCommandId sets the CommandId field's value.
-func (s *Command) SetCommandId(v string) *Command {
-	s.CommandId = &v
-	return s
-}
-
-// SetComment sets the Comment field's value.
-func (s *Command) SetComment(v string) *Command {
-	s.Comment = &v
-	return s
-}
-
-// SetCompletedCount sets the CompletedCount field's value.
-func (s *Command) SetCompletedCount(v int64) *Command {
-	s.CompletedCount = &v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *Command) SetDocumentName(v string) *Command {
-	s.DocumentName = &v
-	return s
-}
-
-// SetErrorCount sets the ErrorCount field's value.
-func (s *Command) SetErrorCount(v int64) *Command {
-	s.ErrorCount = &v
-	return s
-}
-
-// SetExpiresAfter sets the ExpiresAfter field's value.
-func (s *Command) SetExpiresAfter(v time.Time) *Command {
-	s.ExpiresAfter = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *Command) SetInstanceIds(v []*string) *Command {
-	s.InstanceIds = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *Command) SetMaxConcurrency(v string) *Command {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *Command) SetMaxErrors(v string) *Command {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetNotificationConfig sets the NotificationConfig field's value.
-func (s *Command) SetNotificationConfig(v *NotificationConfig) *Command {
-	s.NotificationConfig = v
-	return s
-}
-
-// SetOutputS3BucketName sets the OutputS3BucketName field's value.
-func (s *Command) SetOutputS3BucketName(v string) *Command {
-	s.OutputS3BucketName = &v
-	return s
-}
-
-// SetOutputS3KeyPrefix sets the OutputS3KeyPrefix field's value.
-func (s *Command) SetOutputS3KeyPrefix(v string) *Command {
-	s.OutputS3KeyPrefix = &v
-	return s
-}
-
-// SetOutputS3Region sets the OutputS3Region field's value.
-func (s *Command) SetOutputS3Region(v string) *Command {
-	s.OutputS3Region = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *Command) SetParameters(v map[string][]*string) *Command {
-	s.Parameters = v
-	return s
-}
-
-// SetRequestedDateTime sets the RequestedDateTime field's value.
-func (s *Command) SetRequestedDateTime(v time.Time) *Command {
-	s.RequestedDateTime = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *Command) SetServiceRole(v string) *Command {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Command) SetStatus(v CommandStatus) *Command {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *Command) SetStatusDetails(v string) *Command {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTargetCount sets the TargetCount field's value.
-func (s *Command) SetTargetCount(v int64) *Command {
-	s.TargetCount = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *Command) SetTargets(v []*Target) *Command {
-	s.Targets = v
-	return s
-}
-
 // Describes a command filter.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CommandFilter
 type CommandFilter struct {
@@ -6470,7 +6528,7 @@ type CommandFilter struct {
 	// The name of the filter.
 	//
 	// Key is a required field
-	Key CommandFilterKey `locationName:"key" type:"string" required:"true"`
+	Key CommandFilterKey `locationName:"key" type:"string" required:"true" enum:"true"`
 
 	// The filter value.
 	//
@@ -6508,18 +6566,6 @@ func (s *CommandFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *CommandFilter) SetKey(v CommandFilterKey) *CommandFilter {
-	s.Key = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *CommandFilter) SetValue(v string) *CommandFilter {
-	s.Value = &v
-	return s
-}
-
 // An invocation is copy of a command sent to a specific instance. A command
 // can apply to one or more instances. A command invocation applies to one instance.
 // For example, if a user executes SendCommand against three instances, then
@@ -6532,7 +6578,7 @@ type CommandInvocation struct {
 	// The command against which this invocation was requested.
 	CommandId *string `min:"36" type:"string"`
 
-	CommandPlugins []*CommandPlugin `type:"list"`
+	CommandPlugins []CommandPlugin `type:"list"`
 
 	// User-specified information about the command, such as a brief description
 	// of what the command should do.
@@ -6540,6 +6586,9 @@ type CommandInvocation struct {
 
 	// The document name that was requested for execution.
 	DocumentName *string `type:"string"`
+
+	// The SSM document version.
+	DocumentVersion *string `type:"string"`
 
 	// The instance ID in which this invocation was requested.
 	InstanceId *string `type:"string"`
@@ -6573,7 +6622,7 @@ type CommandInvocation struct {
 	StandardOutputUrl *string `type:"string"`
 
 	// Whether or not the invocation succeeded, failed, or is pending.
-	Status CommandInvocationStatus `type:"string"`
+	Status CommandInvocationStatus `type:"string" enum:"true"`
 
 	// A detailed status of the command execution for each invocation (each instance
 	// targeted by the command). StatusDetails includes more information than Status
@@ -6631,90 +6680,6 @@ func (s CommandInvocation) String() string {
 // GoString returns the string representation
 func (s CommandInvocation) GoString() string {
 	return s.String()
-}
-
-// SetCommandId sets the CommandId field's value.
-func (s *CommandInvocation) SetCommandId(v string) *CommandInvocation {
-	s.CommandId = &v
-	return s
-}
-
-// SetCommandPlugins sets the CommandPlugins field's value.
-func (s *CommandInvocation) SetCommandPlugins(v []*CommandPlugin) *CommandInvocation {
-	s.CommandPlugins = v
-	return s
-}
-
-// SetComment sets the Comment field's value.
-func (s *CommandInvocation) SetComment(v string) *CommandInvocation {
-	s.Comment = &v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *CommandInvocation) SetDocumentName(v string) *CommandInvocation {
-	s.DocumentName = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *CommandInvocation) SetInstanceId(v string) *CommandInvocation {
-	s.InstanceId = &v
-	return s
-}
-
-// SetInstanceName sets the InstanceName field's value.
-func (s *CommandInvocation) SetInstanceName(v string) *CommandInvocation {
-	s.InstanceName = &v
-	return s
-}
-
-// SetNotificationConfig sets the NotificationConfig field's value.
-func (s *CommandInvocation) SetNotificationConfig(v *NotificationConfig) *CommandInvocation {
-	s.NotificationConfig = v
-	return s
-}
-
-// SetRequestedDateTime sets the RequestedDateTime field's value.
-func (s *CommandInvocation) SetRequestedDateTime(v time.Time) *CommandInvocation {
-	s.RequestedDateTime = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *CommandInvocation) SetServiceRole(v string) *CommandInvocation {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetStandardErrorUrl sets the StandardErrorUrl field's value.
-func (s *CommandInvocation) SetStandardErrorUrl(v string) *CommandInvocation {
-	s.StandardErrorUrl = &v
-	return s
-}
-
-// SetStandardOutputUrl sets the StandardOutputUrl field's value.
-func (s *CommandInvocation) SetStandardOutputUrl(v string) *CommandInvocation {
-	s.StandardOutputUrl = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *CommandInvocation) SetStatus(v CommandInvocationStatus) *CommandInvocation {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *CommandInvocation) SetStatusDetails(v string) *CommandInvocation {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTraceOutput sets the TraceOutput field's value.
-func (s *CommandInvocation) SetTraceOutput(v string) *CommandInvocation {
-	s.TraceOutput = &v
-	return s
 }
 
 // Describes plugin details.
@@ -6785,7 +6750,7 @@ type CommandPlugin struct {
 	StandardOutputUrl *string `type:"string"`
 
 	// The status of this plugin. You can execute a document with multiple plugins.
-	Status CommandPluginStatus `type:"string"`
+	Status CommandPluginStatus `type:"string" enum:"true"`
 
 	// A detailed status of the plugin execution. StatusDetails includes more information
 	// than Status because it includes states resulting from error and concurrency
@@ -6841,78 +6806,6 @@ func (s CommandPlugin) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *CommandPlugin) SetName(v string) *CommandPlugin {
-	s.Name = &v
-	return s
-}
-
-// SetOutput sets the Output field's value.
-func (s *CommandPlugin) SetOutput(v string) *CommandPlugin {
-	s.Output = &v
-	return s
-}
-
-// SetOutputS3BucketName sets the OutputS3BucketName field's value.
-func (s *CommandPlugin) SetOutputS3BucketName(v string) *CommandPlugin {
-	s.OutputS3BucketName = &v
-	return s
-}
-
-// SetOutputS3KeyPrefix sets the OutputS3KeyPrefix field's value.
-func (s *CommandPlugin) SetOutputS3KeyPrefix(v string) *CommandPlugin {
-	s.OutputS3KeyPrefix = &v
-	return s
-}
-
-// SetOutputS3Region sets the OutputS3Region field's value.
-func (s *CommandPlugin) SetOutputS3Region(v string) *CommandPlugin {
-	s.OutputS3Region = &v
-	return s
-}
-
-// SetResponseCode sets the ResponseCode field's value.
-func (s *CommandPlugin) SetResponseCode(v int64) *CommandPlugin {
-	s.ResponseCode = &v
-	return s
-}
-
-// SetResponseFinishDateTime sets the ResponseFinishDateTime field's value.
-func (s *CommandPlugin) SetResponseFinishDateTime(v time.Time) *CommandPlugin {
-	s.ResponseFinishDateTime = &v
-	return s
-}
-
-// SetResponseStartDateTime sets the ResponseStartDateTime field's value.
-func (s *CommandPlugin) SetResponseStartDateTime(v time.Time) *CommandPlugin {
-	s.ResponseStartDateTime = &v
-	return s
-}
-
-// SetStandardErrorUrl sets the StandardErrorUrl field's value.
-func (s *CommandPlugin) SetStandardErrorUrl(v string) *CommandPlugin {
-	s.StandardErrorUrl = &v
-	return s
-}
-
-// SetStandardOutputUrl sets the StandardOutputUrl field's value.
-func (s *CommandPlugin) SetStandardOutputUrl(v string) *CommandPlugin {
-	s.StandardOutputUrl = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *CommandPlugin) SetStatus(v CommandPluginStatus) *CommandPlugin {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *CommandPlugin) SetStatusDetails(v string) *CommandPlugin {
-	s.StatusDetails = &v
-	return s
-}
-
 // A summary of the call execution that includes an execution ID, the type of
 // execution (for example, Command), and the date/time of the execution using
 // a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
@@ -6958,24 +6851,6 @@ func (s *ComplianceExecutionSummary) Validate() error {
 	return nil
 }
 
-// SetExecutionId sets the ExecutionId field's value.
-func (s *ComplianceExecutionSummary) SetExecutionId(v string) *ComplianceExecutionSummary {
-	s.ExecutionId = &v
-	return s
-}
-
-// SetExecutionTime sets the ExecutionTime field's value.
-func (s *ComplianceExecutionSummary) SetExecutionTime(v time.Time) *ComplianceExecutionSummary {
-	s.ExecutionTime = &v
-	return s
-}
-
-// SetExecutionType sets the ExecutionType field's value.
-func (s *ComplianceExecutionSummary) SetExecutionType(v string) *ComplianceExecutionSummary {
-	s.ExecutionType = &v
-	return s
-}
-
 // Information about the compliance as defined by the resource type. For example,
 // for a patch resource type, Items includes information about the PatchSeverity,
 // Classification, etc.
@@ -6988,14 +6863,14 @@ type ComplianceItem struct {
 	ComplianceType *string `min:"1" type:"string"`
 
 	// A "Key": "Value" tag combination for the compliance item.
-	Details map[string]*string `type:"map"`
+	Details map[string]string `type:"map"`
 
 	// A summary for the compliance item. The summary includes an execution ID,
 	// the execution type (for example, command), and the execution time.
 	ExecutionSummary *ComplianceExecutionSummary `type:"structure"`
 
 	// An ID for the compliance item. For example, if the compliance item is a Windows
-	// patch, the ID could be the number of the KB article. Here's an example: KB4010320.
+	// patch, the ID could be the number of the KB article; for example: KB4010320.
 	Id *string `min:"1" type:"string"`
 
 	// An ID for the resource. For a managed instance, this is the instance ID.
@@ -7007,14 +6882,14 @@ type ComplianceItem struct {
 
 	// The severity of the compliance status. Severity can be one of the following:
 	// Critical, High, Medium, Low, Informational, Unspecified.
-	Severity ComplianceSeverity `type:"string"`
+	Severity ComplianceSeverity `type:"string" enum:"true"`
 
 	// The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT.
-	Status ComplianceStatus `type:"string"`
+	Status ComplianceStatus `type:"string" enum:"true"`
 
 	// A title for the compliance item. For example, if the compliance item is a
-	// Windows patch, the title could be the title of the KB article for the patch.
-	// Here's an example: Security Update for Active Directory Federation Services.
+	// Windows patch, the title could be the title of the KB article for the patch;
+	// for example: Security Update for Active Directory Federation Services.
 	Title *string `type:"string"`
 }
 
@@ -7028,67 +6903,13 @@ func (s ComplianceItem) GoString() string {
 	return s.String()
 }
 
-// SetComplianceType sets the ComplianceType field's value.
-func (s *ComplianceItem) SetComplianceType(v string) *ComplianceItem {
-	s.ComplianceType = &v
-	return s
-}
-
-// SetDetails sets the Details field's value.
-func (s *ComplianceItem) SetDetails(v map[string]*string) *ComplianceItem {
-	s.Details = v
-	return s
-}
-
-// SetExecutionSummary sets the ExecutionSummary field's value.
-func (s *ComplianceItem) SetExecutionSummary(v *ComplianceExecutionSummary) *ComplianceItem {
-	s.ExecutionSummary = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *ComplianceItem) SetId(v string) *ComplianceItem {
-	s.Id = &v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *ComplianceItem) SetResourceId(v string) *ComplianceItem {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *ComplianceItem) SetResourceType(v string) *ComplianceItem {
-	s.ResourceType = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *ComplianceItem) SetSeverity(v ComplianceSeverity) *ComplianceItem {
-	s.Severity = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ComplianceItem) SetStatus(v ComplianceStatus) *ComplianceItem {
-	s.Status = v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *ComplianceItem) SetTitle(v string) *ComplianceItem {
-	s.Title = &v
-	return s
-}
-
 // Information about a compliance item.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ComplianceItemEntry
 type ComplianceItemEntry struct {
 	_ struct{} `type:"structure"`
 
 	// A "Key": "Value" tag combination for the compliance item.
-	Details map[string]*string `type:"map"`
+	Details map[string]string `type:"map"`
 
 	// The compliance item ID. For example, if the compliance item is a Windows
 	// patch, the ID could be the number of the KB article.
@@ -7098,16 +6919,16 @@ type ComplianceItemEntry struct {
 	// Critical, High, Medium, Low, Informational, Unspecified.
 	//
 	// Severity is a required field
-	Severity ComplianceSeverity `type:"string" required:"true"`
+	Severity ComplianceSeverity `type:"string" required:"true" enum:"true"`
 
 	// The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT.
 	//
 	// Status is a required field
-	Status ComplianceStatus `type:"string" required:"true"`
+	Status ComplianceStatus `type:"string" required:"true" enum:"true"`
 
 	// The title of the compliance item. For example, if the compliance item is
-	// a Windows patch, the title could be the title of the KB article for the patch.
-	// Here's an example: Security Update for Active Directory Federation Services.
+	// a Windows patch, the title could be the title of the KB article for the patch;
+	// for example: Security Update for Active Directory Federation Services.
 	Title *string `type:"string"`
 }
 
@@ -7140,36 +6961,6 @@ func (s *ComplianceItemEntry) Validate() error {
 	return nil
 }
 
-// SetDetails sets the Details field's value.
-func (s *ComplianceItemEntry) SetDetails(v map[string]*string) *ComplianceItemEntry {
-	s.Details = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *ComplianceItemEntry) SetId(v string) *ComplianceItemEntry {
-	s.Id = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *ComplianceItemEntry) SetSeverity(v ComplianceSeverity) *ComplianceItemEntry {
-	s.Severity = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ComplianceItemEntry) SetStatus(v ComplianceStatus) *ComplianceItemEntry {
-	s.Status = v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *ComplianceItemEntry) SetTitle(v string) *ComplianceItemEntry {
-	s.Title = &v
-	return s
-}
-
 // One or more filters. Use a filter to return a more specific list of results.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ComplianceStringFilter
 type ComplianceStringFilter struct {
@@ -7180,10 +6971,10 @@ type ComplianceStringFilter struct {
 
 	// The type of comparison that should be performed for the value: Equal, NotEqual,
 	// BeginWith, LessThan, or GreaterThan.
-	Type ComplianceQueryOperatorType `type:"string"`
+	Type ComplianceQueryOperatorType `type:"string" enum:"true"`
 
 	// The value for which to search.
-	Values []*string `locationNameList:"FilterValue" min:"1" type:"list"`
+	Values []string `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -7212,24 +7003,6 @@ func (s *ComplianceStringFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *ComplianceStringFilter) SetKey(v string) *ComplianceStringFilter {
-	s.Key = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ComplianceStringFilter) SetType(v ComplianceQueryOperatorType) *ComplianceStringFilter {
-	s.Type = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *ComplianceStringFilter) SetValues(v []*string) *ComplianceStringFilter {
-	s.Values = v
-	return s
-}
-
 // A summary of compliance information by compliance type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ComplianceSummaryItem
 type ComplianceSummaryItem struct {
@@ -7256,24 +7029,6 @@ func (s ComplianceSummaryItem) GoString() string {
 	return s.String()
 }
 
-// SetComplianceType sets the ComplianceType field's value.
-func (s *ComplianceSummaryItem) SetComplianceType(v string) *ComplianceSummaryItem {
-	s.ComplianceType = &v
-	return s
-}
-
-// SetCompliantSummary sets the CompliantSummary field's value.
-func (s *ComplianceSummaryItem) SetCompliantSummary(v *CompliantSummary) *ComplianceSummaryItem {
-	s.CompliantSummary = v
-	return s
-}
-
-// SetNonCompliantSummary sets the NonCompliantSummary field's value.
-func (s *ComplianceSummaryItem) SetNonCompliantSummary(v *NonCompliantSummary) *ComplianceSummaryItem {
-	s.NonCompliantSummary = v
-	return s
-}
-
 // A summary of resources that are compliant. The summary is organized according
 // to the resource count for each compliance type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CompliantSummary
@@ -7297,28 +7052,20 @@ func (s CompliantSummary) GoString() string {
 	return s.String()
 }
 
-// SetCompliantCount sets the CompliantCount field's value.
-func (s *CompliantSummary) SetCompliantCount(v int64) *CompliantSummary {
-	s.CompliantCount = &v
-	return s
-}
-
-// SetSeveritySummary sets the SeveritySummary field's value.
-func (s *CompliantSummary) SetSeveritySummary(v *SeveritySummary) *CompliantSummary {
-	s.SeveritySummary = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateActivationRequest
 type CreateActivationInput struct {
 	_ struct{} `type:"structure"`
 
 	// The name of the registered, managed instance as it will appear in the Amazon
 	// EC2 console or when you use the AWS command line tools to list EC2 resources.
+	//
+	// Do not enter personally identifiable information in this field.
 	DefaultInstanceName *string `type:"string"`
 
-	// A userdefined description of the resource that you want to register with
+	// A user-defined description of the resource that you want to register with
 	// Amazon EC2.
+	//
+	// Do not enter personally identifiable information in this field.
 	Description *string `type:"string"`
 
 	// The date by which this activation request should expire. The default value
@@ -7363,39 +7110,11 @@ func (s *CreateActivationInput) Validate() error {
 	return nil
 }
 
-// SetDefaultInstanceName sets the DefaultInstanceName field's value.
-func (s *CreateActivationInput) SetDefaultInstanceName(v string) *CreateActivationInput {
-	s.DefaultInstanceName = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateActivationInput) SetDescription(v string) *CreateActivationInput {
-	s.Description = &v
-	return s
-}
-
-// SetExpirationDate sets the ExpirationDate field's value.
-func (s *CreateActivationInput) SetExpirationDate(v time.Time) *CreateActivationInput {
-	s.ExpirationDate = &v
-	return s
-}
-
-// SetIamRole sets the IamRole field's value.
-func (s *CreateActivationInput) SetIamRole(v string) *CreateActivationInput {
-	s.IamRole = &v
-	return s
-}
-
-// SetRegistrationLimit sets the RegistrationLimit field's value.
-func (s *CreateActivationInput) SetRegistrationLimit(v int64) *CreateActivationInput {
-	s.RegistrationLimit = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateActivationResult
 type CreateActivationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The code the system generates when it processes the activation. The activation
 	// code functions like a password to validate the activation ID.
@@ -7416,16 +7135,9 @@ func (s CreateActivationOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivationCode sets the ActivationCode field's value.
-func (s *CreateActivationOutput) SetActivationCode(v string) *CreateActivationOutput {
-	s.ActivationCode = &v
-	return s
-}
-
-// SetActivationId sets the ActivationId field's value.
-func (s *CreateActivationOutput) SetActivationId(v string) *CreateActivationOutput {
-	s.ActivationId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateActivationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateAssociationBatchRequest
@@ -7435,7 +7147,7 @@ type CreateAssociationBatchInput struct {
 	// One or more associations.
 	//
 	// Entries is a required field
-	Entries []*CreateAssociationBatchRequestEntry `locationNameList:"entries" min:"1" type:"list" required:"true"`
+	Entries []CreateAssociationBatchRequestEntry `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -7460,9 +7172,6 @@ func (s *CreateAssociationBatchInput) Validate() error {
 	}
 	if s.Entries != nil {
 		for i, v := range s.Entries {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Entries", i), err.(aws.ErrInvalidParams))
 			}
@@ -7475,21 +7184,17 @@ func (s *CreateAssociationBatchInput) Validate() error {
 	return nil
 }
 
-// SetEntries sets the Entries field's value.
-func (s *CreateAssociationBatchInput) SetEntries(v []*CreateAssociationBatchRequestEntry) *CreateAssociationBatchInput {
-	s.Entries = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateAssociationBatchResult
 type CreateAssociationBatchOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the associations that failed.
-	Failed []*FailedCreateAssociation `locationNameList:"FailedCreateAssociationEntry" type:"list"`
+	Failed []FailedCreateAssociation `type:"list"`
 
 	// Information about the associations that succeeded.
-	Successful []*AssociationDescription `locationNameList:"AssociationDescription" type:"list"`
+	Successful []AssociationDescription `type:"list"`
 }
 
 // String returns the string representation
@@ -7502,16 +7207,9 @@ func (s CreateAssociationBatchOutput) GoString() string {
 	return s.String()
 }
 
-// SetFailed sets the Failed field's value.
-func (s *CreateAssociationBatchOutput) SetFailed(v []*FailedCreateAssociation) *CreateAssociationBatchOutput {
-	s.Failed = v
-	return s
-}
-
-// SetSuccessful sets the Successful field's value.
-func (s *CreateAssociationBatchOutput) SetSuccessful(v []*AssociationDescription) *CreateAssociationBatchOutput {
-	s.Successful = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAssociationBatchOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Describes the association of a Systems Manager document and an instance.
@@ -7537,13 +7235,13 @@ type CreateAssociationBatchRequestEntry struct {
 	OutputLocation *InstanceAssociationOutputLocation `type:"structure"`
 
 	// A description of the parameters for a document.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// A cron expression that specifies a schedule when the association runs.
 	ScheduleExpression *string `min:"1" type:"string"`
 
 	// The instances targeted by the request.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -7573,9 +7271,6 @@ func (s *CreateAssociationBatchRequestEntry) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -7586,54 +7281,6 @@ func (s *CreateAssociationBatchRequestEntry) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAssociationName sets the AssociationName field's value.
-func (s *CreateAssociationBatchRequestEntry) SetAssociationName(v string) *CreateAssociationBatchRequestEntry {
-	s.AssociationName = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *CreateAssociationBatchRequestEntry) SetDocumentVersion(v string) *CreateAssociationBatchRequestEntry {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *CreateAssociationBatchRequestEntry) SetInstanceId(v string) *CreateAssociationBatchRequestEntry {
-	s.InstanceId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateAssociationBatchRequestEntry) SetName(v string) *CreateAssociationBatchRequestEntry {
-	s.Name = &v
-	return s
-}
-
-// SetOutputLocation sets the OutputLocation field's value.
-func (s *CreateAssociationBatchRequestEntry) SetOutputLocation(v *InstanceAssociationOutputLocation) *CreateAssociationBatchRequestEntry {
-	s.OutputLocation = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *CreateAssociationBatchRequestEntry) SetParameters(v map[string][]*string) *CreateAssociationBatchRequestEntry {
-	s.Parameters = v
-	return s
-}
-
-// SetScheduleExpression sets the ScheduleExpression field's value.
-func (s *CreateAssociationBatchRequestEntry) SetScheduleExpression(v string) *CreateAssociationBatchRequestEntry {
-	s.ScheduleExpression = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *CreateAssociationBatchRequestEntry) SetTargets(v []*Target) *CreateAssociationBatchRequestEntry {
-	s.Targets = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateAssociationRequest
@@ -7659,13 +7306,13 @@ type CreateAssociationInput struct {
 	OutputLocation *InstanceAssociationOutputLocation `type:"structure"`
 
 	// The parameters for the documents runtime configuration.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// A cron expression when the association will be applied to the target(s).
 	ScheduleExpression *string `min:"1" type:"string"`
 
 	// The targets (either instances or tags) for the association.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -7695,9 +7342,6 @@ func (s *CreateAssociationInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -7710,57 +7354,11 @@ func (s *CreateAssociationInput) Validate() error {
 	return nil
 }
 
-// SetAssociationName sets the AssociationName field's value.
-func (s *CreateAssociationInput) SetAssociationName(v string) *CreateAssociationInput {
-	s.AssociationName = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *CreateAssociationInput) SetDocumentVersion(v string) *CreateAssociationInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *CreateAssociationInput) SetInstanceId(v string) *CreateAssociationInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateAssociationInput) SetName(v string) *CreateAssociationInput {
-	s.Name = &v
-	return s
-}
-
-// SetOutputLocation sets the OutputLocation field's value.
-func (s *CreateAssociationInput) SetOutputLocation(v *InstanceAssociationOutputLocation) *CreateAssociationInput {
-	s.OutputLocation = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *CreateAssociationInput) SetParameters(v map[string][]*string) *CreateAssociationInput {
-	s.Parameters = v
-	return s
-}
-
-// SetScheduleExpression sets the ScheduleExpression field's value.
-func (s *CreateAssociationInput) SetScheduleExpression(v string) *CreateAssociationInput {
-	s.ScheduleExpression = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *CreateAssociationInput) SetTargets(v []*Target) *CreateAssociationInput {
-	s.Targets = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateAssociationResult
 type CreateAssociationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the association.
 	AssociationDescription *AssociationDescription `type:"structure"`
@@ -7776,29 +7374,50 @@ func (s CreateAssociationOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationDescription sets the AssociationDescription field's value.
-func (s *CreateAssociationOutput) SetAssociationDescription(v *AssociationDescription) *CreateAssociationOutput {
-	s.AssociationDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateAssociationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateDocumentRequest
 type CreateDocumentInput struct {
 	_ struct{} `type:"structure"`
 
-	// A valid JSON string.
+	// A valid JSON or YAML string.
 	//
 	// Content is a required field
 	Content *string `min:"1" type:"string" required:"true"`
 
+	// Specify the document format for the request. The document format can be either
+	// JSON or YAML. JSON is the default format.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
+
 	// The type of document to create. Valid document types include: Policy, Automation,
 	// and Command.
-	DocumentType DocumentType `type:"string"`
+	DocumentType DocumentType `type:"string" enum:"true"`
 
 	// A name for the Systems Manager document.
 	//
+	// Do not use the following to begin the names of documents you create. They
+	// are reserved by AWS for use as document prefixes:
+	//
+	// aws
+	//
+	// amazon
+	//
+	// amzn
+	//
 	// Name is a required field
 	Name *string `type:"string" required:"true"`
+
+	// Specify a target type to define the kinds of resources the document can run
+	// on. For example, to run a document on EC2 instances, specify the following
+	// value: /AWS::EC2::Instance. If you specify a value of '/' the document can
+	// run on all types of resources. If you don't specify a value, the document
+	// can't run on any resources. For a list of valid resource types, see AWS Resource
+	// Types Reference (http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+	// in the AWS CloudFormation User Guide.
+	TargetType *string `type:"string"`
 }
 
 // String returns the string representation
@@ -7832,27 +7451,11 @@ func (s *CreateDocumentInput) Validate() error {
 	return nil
 }
 
-// SetContent sets the Content field's value.
-func (s *CreateDocumentInput) SetContent(v string) *CreateDocumentInput {
-	s.Content = &v
-	return s
-}
-
-// SetDocumentType sets the DocumentType field's value.
-func (s *CreateDocumentInput) SetDocumentType(v DocumentType) *CreateDocumentInput {
-	s.DocumentType = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateDocumentInput) SetName(v string) *CreateDocumentInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateDocumentResult
 type CreateDocumentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the Systems Manager document.
 	DocumentDescription *DocumentDescription `type:"structure"`
@@ -7868,10 +7471,9 @@ func (s CreateDocumentOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocumentDescription sets the DocumentDescription field's value.
-func (s *CreateDocumentOutput) SetDocumentDescription(v *DocumentDescription) *CreateDocumentOutput {
-	s.DocumentDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateMaintenanceWindowRequest
@@ -7973,51 +7575,11 @@ func (s *CreateMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetAllowUnassociatedTargets sets the AllowUnassociatedTargets field's value.
-func (s *CreateMaintenanceWindowInput) SetAllowUnassociatedTargets(v bool) *CreateMaintenanceWindowInput {
-	s.AllowUnassociatedTargets = &v
-	return s
-}
-
-// SetClientToken sets the ClientToken field's value.
-func (s *CreateMaintenanceWindowInput) SetClientToken(v string) *CreateMaintenanceWindowInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetCutoff sets the Cutoff field's value.
-func (s *CreateMaintenanceWindowInput) SetCutoff(v int64) *CreateMaintenanceWindowInput {
-	s.Cutoff = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreateMaintenanceWindowInput) SetDescription(v string) *CreateMaintenanceWindowInput {
-	s.Description = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *CreateMaintenanceWindowInput) SetDuration(v int64) *CreateMaintenanceWindowInput {
-	s.Duration = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateMaintenanceWindowInput) SetName(v string) *CreateMaintenanceWindowInput {
-	s.Name = &v
-	return s
-}
-
-// SetSchedule sets the Schedule field's value.
-func (s *CreateMaintenanceWindowInput) SetSchedule(v string) *CreateMaintenanceWindowInput {
-	s.Schedule = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateMaintenanceWindowResult
 type CreateMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the created Maintenance Window.
 	WindowId *string `min:"20" type:"string"`
@@ -8033,10 +7595,9 @@ func (s CreateMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *CreateMaintenanceWindowOutput) SetWindowId(v string) *CreateMaintenanceWindowOutput {
-	s.WindowId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreatePatchBaselineRequest
@@ -8047,13 +7608,22 @@ type CreatePatchBaselineInput struct {
 	ApprovalRules *PatchRuleGroup `type:"structure"`
 
 	// A list of explicitly approved patches for the baseline.
-	ApprovedPatches []*string `type:"list"`
+	//
+	// For information about accepted formats for lists of approved patches and
+	// rejected patches, see Package Name Formats for Approved and Rejected Patch
+	// Lists (http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+	// in the AWS Systems Manager User Guide.
+	ApprovedPatches []string `type:"list"`
 
 	// Defines the compliance level for approved patches. This means that if an
 	// approved patch is reported as missing, this is the severity of the compliance
-	// violation. Valid compliance severity levels include the following: CRITICAL,
-	// HIGH, MEDIUM, LOW, INFORMATIONAL, UNSPECIFIED. The default value is UNSPECIFIED.
-	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string"`
+	// violation. The default value is UNSPECIFIED.
+	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string" enum:"true"`
+
+	// Indicates whether the list of approved patches includes non-security updates
+	// that should be applied to the instances. The default value is 'false'. Applies
+	// to Linux instances only.
+	ApprovedPatchesEnableNonSecurity *bool `type:"boolean"`
 
 	// User-provided idempotency token.
 	ClientToken *string `min:"1" type:"string" idempotencyToken:"true"`
@@ -8069,13 +7639,21 @@ type CreatePatchBaselineInput struct {
 	// Name is a required field
 	Name *string `min:"3" type:"string" required:"true"`
 
-	// Defines the operating system the patch baseline applies to. Supported operating
-	// systems include WINDOWS, AMAZON_LINUX, UBUNTU and REDHAT_ENTERPRISE_LINUX.
-	// The Default value is WINDOWS.
-	OperatingSystem OperatingSystem `type:"string"`
+	// Defines the operating system the patch baseline applies to. The Default value
+	// is WINDOWS.
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 
 	// A list of explicitly rejected patches for the baseline.
-	RejectedPatches []*string `type:"list"`
+	//
+	// For information about accepted formats for lists of approved patches and
+	// rejected patches, see Package Name Formats for Approved and Rejected Patch
+	// Lists (http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+	// in the AWS Systems Manager User Guide.
+	RejectedPatches []string `type:"list"`
+
+	// Information about the patches to use to update the instances, including target
+	// operating systems and source repositories. Applies to Linux instances only.
+	Sources []PatchSource `type:"list"`
 }
 
 // String returns the string representation
@@ -8114,6 +7692,13 @@ func (s *CreatePatchBaselineInput) Validate() error {
 			invalidParams.AddNested("GlobalFilters", err.(aws.ErrInvalidParams))
 		}
 	}
+	if s.Sources != nil {
+		for i, v := range s.Sources {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Sources", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -8121,63 +7706,11 @@ func (s *CreatePatchBaselineInput) Validate() error {
 	return nil
 }
 
-// SetApprovalRules sets the ApprovalRules field's value.
-func (s *CreatePatchBaselineInput) SetApprovalRules(v *PatchRuleGroup) *CreatePatchBaselineInput {
-	s.ApprovalRules = v
-	return s
-}
-
-// SetApprovedPatches sets the ApprovedPatches field's value.
-func (s *CreatePatchBaselineInput) SetApprovedPatches(v []*string) *CreatePatchBaselineInput {
-	s.ApprovedPatches = v
-	return s
-}
-
-// SetApprovedPatchesComplianceLevel sets the ApprovedPatchesComplianceLevel field's value.
-func (s *CreatePatchBaselineInput) SetApprovedPatchesComplianceLevel(v PatchComplianceLevel) *CreatePatchBaselineInput {
-	s.ApprovedPatchesComplianceLevel = v
-	return s
-}
-
-// SetClientToken sets the ClientToken field's value.
-func (s *CreatePatchBaselineInput) SetClientToken(v string) *CreatePatchBaselineInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *CreatePatchBaselineInput) SetDescription(v string) *CreatePatchBaselineInput {
-	s.Description = &v
-	return s
-}
-
-// SetGlobalFilters sets the GlobalFilters field's value.
-func (s *CreatePatchBaselineInput) SetGlobalFilters(v *PatchFilterGroup) *CreatePatchBaselineInput {
-	s.GlobalFilters = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreatePatchBaselineInput) SetName(v string) *CreatePatchBaselineInput {
-	s.Name = &v
-	return s
-}
-
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *CreatePatchBaselineInput) SetOperatingSystem(v OperatingSystem) *CreatePatchBaselineInput {
-	s.OperatingSystem = v
-	return s
-}
-
-// SetRejectedPatches sets the RejectedPatches field's value.
-func (s *CreatePatchBaselineInput) SetRejectedPatches(v []*string) *CreatePatchBaselineInput {
-	s.RejectedPatches = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreatePatchBaselineResult
 type CreatePatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the created patch baseline.
 	BaselineId *string `min:"20" type:"string"`
@@ -8193,10 +7726,9 @@ func (s CreatePatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *CreatePatchBaselineOutput) SetBaselineId(v string) *CreatePatchBaselineOutput {
-	s.BaselineId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateResourceDataSyncRequest
@@ -8250,21 +7782,11 @@ func (s *CreateResourceDataSyncInput) Validate() error {
 	return nil
 }
 
-// SetS3Destination sets the S3Destination field's value.
-func (s *CreateResourceDataSyncInput) SetS3Destination(v *ResourceDataSyncS3Destination) *CreateResourceDataSyncInput {
-	s.S3Destination = v
-	return s
-}
-
-// SetSyncName sets the SyncName field's value.
-func (s *CreateResourceDataSyncInput) SetSyncName(v string) *CreateResourceDataSyncInput {
-	s.SyncName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateResourceDataSyncResult
 type CreateResourceDataSyncOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8275,6 +7797,11 @@ func (s CreateResourceDataSyncOutput) String() string {
 // GoString returns the string representation
 func (s CreateResourceDataSyncOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateResourceDataSyncOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteActivationRequest
@@ -8311,15 +7838,11 @@ func (s *DeleteActivationInput) Validate() error {
 	return nil
 }
 
-// SetActivationId sets the ActivationId field's value.
-func (s *DeleteActivationInput) SetActivationId(v string) *DeleteActivationInput {
-	s.ActivationId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteActivationResult
 type DeleteActivationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8330,6 +7853,11 @@ func (s DeleteActivationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteActivationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteActivationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteAssociationRequest
@@ -8356,27 +7884,11 @@ func (s DeleteAssociationInput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *DeleteAssociationInput) SetAssociationId(v string) *DeleteAssociationInput {
-	s.AssociationId = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *DeleteAssociationInput) SetInstanceId(v string) *DeleteAssociationInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DeleteAssociationInput) SetName(v string) *DeleteAssociationInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteAssociationResult
 type DeleteAssociationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8387,6 +7899,11 @@ func (s DeleteAssociationOutput) String() string {
 // GoString returns the string representation
 func (s DeleteAssociationOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAssociationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteDocumentRequest
@@ -8423,15 +7940,11 @@ func (s *DeleteDocumentInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteDocumentInput) SetName(v string) *DeleteDocumentInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteDocumentResult
 type DeleteDocumentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8442,6 +7955,111 @@ func (s DeleteDocumentOutput) String() string {
 // GoString returns the string representation
 func (s DeleteDocumentOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventoryRequest
+type DeleteInventoryInput struct {
+	_ struct{} `type:"structure"`
+
+	// User-provided idempotency token.
+	ClientToken *string `min:"1" type:"string" idempotencyToken:"true"`
+
+	// Use this option to view a summary of the deletion request without deleting
+	// any data or the data type. This option is useful when you only want to understand
+	// what will be deleted. Once you validate that the data to be deleted is what
+	// you intend to delete, you can run the same command without specifying the
+	// DryRun option.
+	DryRun *bool `type:"boolean"`
+
+	// Use the SchemaDeleteOption to delete a custom inventory type (schema). If
+	// you don't choose this option, the system only deletes existing inventory
+	// data associated with the custom inventory type. Choose one of the following
+	// options:
+	//
+	// DisableSchema: If you choose this option, the system ignores all inventory
+	// data for the specified version, and any earlier versions. To enable this
+	// schema again, you must call the PutInventory action for a version greater
+	// than the disbled version.
+	//
+	// DeleteSchema: This option deletes the specified custom type from the Inventory
+	// service. You can recreate the schema later, if you want.
+	SchemaDeleteOption InventorySchemaDeleteOption `type:"string" enum:"true"`
+
+	// The name of the custom inventory type for which you want to delete either
+	// all previously collected data, or the inventory type itself.
+	//
+	// TypeName is a required field
+	TypeName *string `min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteInventoryInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteInventoryInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteInventoryInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteInventoryInput"}
+	if s.ClientToken != nil && len(*s.ClientToken) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ClientToken", 1))
+	}
+
+	if s.TypeName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("TypeName"))
+	}
+	if s.TypeName != nil && len(*s.TypeName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("TypeName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventoryResult
+type DeleteInventoryOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// Every DeleteInventory action is assigned a unique ID. This option returns
+	// a unique ID. You can use this ID to query the status of a delete operation.
+	// This option is useful for ensuring that a delete operation has completed
+	// before you begin other actions.
+	DeletionId *string `type:"string"`
+
+	// A summary of the delete operation. For more information about this summary,
+	// see Understanding the Delete Inventory Summary (http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-delete.html#sysman-inventory-delete-summary).
+	DeletionSummary *InventoryDeletionSummary `type:"structure"`
+
+	// The name of the inventory data type specified in the request.
+	TypeName *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s DeleteInventoryOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteInventoryOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteInventoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteMaintenanceWindowRequest
@@ -8481,15 +8099,11 @@ func (s *DeleteMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *DeleteMaintenanceWindowInput) SetWindowId(v string) *DeleteMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteMaintenanceWindowResult
 type DeleteMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the deleted Maintenance Window.
 	WindowId *string `min:"20" type:"string"`
@@ -8505,10 +8119,9 @@ func (s DeleteMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *DeleteMaintenanceWindowOutput) SetWindowId(v string) *DeleteMaintenanceWindowOutput {
-	s.WindowId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteParameterRequest
@@ -8548,15 +8161,11 @@ func (s *DeleteParameterInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeleteParameterInput) SetName(v string) *DeleteParameterInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteParameterResult
 type DeleteParameterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8569,6 +8178,11 @@ func (s DeleteParameterOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteParameterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteParametersRequest
 type DeleteParametersInput struct {
 	_ struct{} `type:"structure"`
@@ -8576,7 +8190,7 @@ type DeleteParametersInput struct {
 	// The names of the parameters to delete.
 	//
 	// Names is a required field
-	Names []*string `min:"1" type:"list" required:"true"`
+	Names []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -8606,22 +8220,18 @@ func (s *DeleteParametersInput) Validate() error {
 	return nil
 }
 
-// SetNames sets the Names field's value.
-func (s *DeleteParametersInput) SetNames(v []*string) *DeleteParametersInput {
-	s.Names = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteParametersResult
 type DeleteParametersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of the deleted parameters.
-	DeletedParameters []*string `min:"1" type:"list"`
+	DeletedParameters []string `min:"1" type:"list"`
 
 	// The names of parameters that weren't deleted because the parameters are not
 	// valid.
-	InvalidParameters []*string `min:"1" type:"list"`
+	InvalidParameters []string `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -8634,16 +8244,9 @@ func (s DeleteParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetDeletedParameters sets the DeletedParameters field's value.
-func (s *DeleteParametersOutput) SetDeletedParameters(v []*string) *DeleteParametersOutput {
-	s.DeletedParameters = v
-	return s
-}
-
-// SetInvalidParameters sets the InvalidParameters field's value.
-func (s *DeleteParametersOutput) SetInvalidParameters(v []*string) *DeleteParametersOutput {
-	s.InvalidParameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeletePatchBaselineRequest
@@ -8683,15 +8286,11 @@ func (s *DeletePatchBaselineInput) Validate() error {
 	return nil
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *DeletePatchBaselineInput) SetBaselineId(v string) *DeletePatchBaselineInput {
-	s.BaselineId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeletePatchBaselineResult
 type DeletePatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the deleted patch baseline.
 	BaselineId *string `min:"20" type:"string"`
@@ -8707,10 +8306,9 @@ func (s DeletePatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *DeletePatchBaselineOutput) SetBaselineId(v string) *DeletePatchBaselineOutput {
-	s.BaselineId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteResourceDataSyncRequest
@@ -8750,15 +8348,11 @@ func (s *DeleteResourceDataSyncInput) Validate() error {
 	return nil
 }
 
-// SetSyncName sets the SyncName field's value.
-func (s *DeleteResourceDataSyncInput) SetSyncName(v string) *DeleteResourceDataSyncInput {
-	s.SyncName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteResourceDataSyncResult
 type DeleteResourceDataSyncOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8769,6 +8363,11 @@ func (s DeleteResourceDataSyncOutput) String() string {
 // GoString returns the string representation
 func (s DeleteResourceDataSyncOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteResourceDataSyncOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterManagedInstanceRequest
@@ -8806,15 +8405,11 @@ func (s *DeregisterManagedInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *DeregisterManagedInstanceInput) SetInstanceId(v string) *DeregisterManagedInstanceInput {
-	s.InstanceId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterManagedInstanceResult
 type DeregisterManagedInstanceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -8825,6 +8420,11 @@ func (s DeregisterManagedInstanceOutput) String() string {
 // GoString returns the string representation
 func (s DeregisterManagedInstanceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterManagedInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterPatchBaselineForPatchGroupRequest
@@ -8876,21 +8476,11 @@ func (s *DeregisterPatchBaselineForPatchGroupInput) Validate() error {
 	return nil
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *DeregisterPatchBaselineForPatchGroupInput) SetBaselineId(v string) *DeregisterPatchBaselineForPatchGroupInput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *DeregisterPatchBaselineForPatchGroupInput) SetPatchGroup(v string) *DeregisterPatchBaselineForPatchGroupInput {
-	s.PatchGroup = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterPatchBaselineForPatchGroupResult
 type DeregisterPatchBaselineForPatchGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the patch baseline the patch group was deregistered from.
 	BaselineId *string `min:"20" type:"string"`
@@ -8909,16 +8499,9 @@ func (s DeregisterPatchBaselineForPatchGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *DeregisterPatchBaselineForPatchGroupOutput) SetBaselineId(v string) *DeregisterPatchBaselineForPatchGroupOutput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *DeregisterPatchBaselineForPatchGroupOutput) SetPatchGroup(v string) *DeregisterPatchBaselineForPatchGroupOutput {
-	s.PatchGroup = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterPatchBaselineForPatchGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterTargetFromMaintenanceWindowRequest
@@ -8975,27 +8558,11 @@ func (s *DeregisterTargetFromMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetSafe sets the Safe field's value.
-func (s *DeregisterTargetFromMaintenanceWindowInput) SetSafe(v bool) *DeregisterTargetFromMaintenanceWindowInput {
-	s.Safe = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *DeregisterTargetFromMaintenanceWindowInput) SetWindowId(v string) *DeregisterTargetFromMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *DeregisterTargetFromMaintenanceWindowInput) SetWindowTargetId(v string) *DeregisterTargetFromMaintenanceWindowInput {
-	s.WindowTargetId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterTargetFromMaintenanceWindowResult
 type DeregisterTargetFromMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the Maintenance Window the target was removed from.
 	WindowId *string `min:"20" type:"string"`
@@ -9014,16 +8581,9 @@ func (s DeregisterTargetFromMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *DeregisterTargetFromMaintenanceWindowOutput) SetWindowId(v string) *DeregisterTargetFromMaintenanceWindowOutput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *DeregisterTargetFromMaintenanceWindowOutput) SetWindowTargetId(v string) *DeregisterTargetFromMaintenanceWindowOutput {
-	s.WindowTargetId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterTargetFromMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterTaskFromMaintenanceWindowRequest
@@ -9075,21 +8635,11 @@ func (s *DeregisterTaskFromMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *DeregisterTaskFromMaintenanceWindowInput) SetWindowId(v string) *DeregisterTaskFromMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *DeregisterTaskFromMaintenanceWindowInput) SetWindowTaskId(v string) *DeregisterTaskFromMaintenanceWindowInput {
-	s.WindowTaskId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeregisterTaskFromMaintenanceWindowResult
 type DeregisterTaskFromMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the Maintenance Window the task was removed from.
 	WindowId *string `min:"20" type:"string"`
@@ -9108,16 +8658,9 @@ func (s DeregisterTaskFromMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *DeregisterTaskFromMaintenanceWindowOutput) SetWindowId(v string) *DeregisterTaskFromMaintenanceWindowOutput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *DeregisterTaskFromMaintenanceWindowOutput) SetWindowTaskId(v string) *DeregisterTaskFromMaintenanceWindowOutput {
-	s.WindowTaskId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterTaskFromMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Filter for the DescribeActivation API.
@@ -9126,10 +8669,10 @@ type DescribeActivationsFilter struct {
 	_ struct{} `type:"structure"`
 
 	// The name of the filter.
-	FilterKey DescribeActivationsFilterKeys `type:"string"`
+	FilterKey DescribeActivationsFilterKeys `type:"string" enum:"true"`
 
 	// The filter values.
-	FilterValues []*string `type:"list"`
+	FilterValues []string `type:"list"`
 }
 
 // String returns the string representation
@@ -9142,24 +8685,12 @@ func (s DescribeActivationsFilter) GoString() string {
 	return s.String()
 }
 
-// SetFilterKey sets the FilterKey field's value.
-func (s *DescribeActivationsFilter) SetFilterKey(v DescribeActivationsFilterKeys) *DescribeActivationsFilter {
-	s.FilterKey = v
-	return s
-}
-
-// SetFilterValues sets the FilterValues field's value.
-func (s *DescribeActivationsFilter) SetFilterValues(v []*string) *DescribeActivationsFilter {
-	s.FilterValues = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeActivationsRequest
 type DescribeActivationsInput struct {
 	_ struct{} `type:"structure"`
 
 	// A filter to view information about your activations.
-	Filters []*DescribeActivationsFilter `type:"list"`
+	Filters []DescribeActivationsFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -9193,30 +8724,14 @@ func (s *DescribeActivationsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeActivationsInput) SetFilters(v []*DescribeActivationsFilter) *DescribeActivationsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeActivationsInput) SetMaxResults(v int64) *DescribeActivationsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeActivationsInput) SetNextToken(v string) *DescribeActivationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeActivationsResult
 type DescribeActivationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of activations for your AWS account.
-	ActivationList []*Activation `type:"list"`
+	ActivationList []Activation `type:"list"`
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
@@ -9233,16 +8748,9 @@ func (s DescribeActivationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetActivationList sets the ActivationList field's value.
-func (s *DescribeActivationsOutput) SetActivationList(v []*Activation) *DescribeActivationsOutput {
-	s.ActivationList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeActivationsOutput) SetNextToken(v string) *DescribeActivationsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeActivationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationRequest
@@ -9275,33 +8783,11 @@ func (s DescribeAssociationInput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *DescribeAssociationInput) SetAssociationId(v string) *DescribeAssociationInput {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *DescribeAssociationInput) SetAssociationVersion(v string) *DescribeAssociationInput {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *DescribeAssociationInput) SetInstanceId(v string) *DescribeAssociationInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DescribeAssociationInput) SetName(v string) *DescribeAssociationInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAssociationResult
 type DescribeAssociationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the association.
 	AssociationDescription *AssociationDescription `type:"structure"`
@@ -9317,10 +8803,9 @@ func (s DescribeAssociationOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationDescription sets the AssociationDescription field's value.
-func (s *DescribeAssociationOutput) SetAssociationDescription(v *AssociationDescription) *DescribeAssociationOutput {
-	s.AssociationDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAssociationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAutomationExecutionsRequest
@@ -9328,7 +8813,7 @@ type DescribeAutomationExecutionsInput struct {
 	_ struct{} `type:"structure"`
 
 	// Filters used to limit the scope of executions that are requested.
-	Filters []*AutomationExecutionFilter `min:"1" type:"list"`
+	Filters []AutomationExecutionFilter `min:"1" type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -9361,9 +8846,6 @@ func (s *DescribeAutomationExecutionsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -9376,31 +8858,15 @@ func (s *DescribeAutomationExecutionsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeAutomationExecutionsInput) SetFilters(v []*AutomationExecutionFilter) *DescribeAutomationExecutionsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeAutomationExecutionsInput) SetMaxResults(v int64) *DescribeAutomationExecutionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAutomationExecutionsInput) SetNextToken(v string) *DescribeAutomationExecutionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAutomationExecutionsResult
 type DescribeAutomationExecutionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of details about each automation execution which has occurred which
 	// matches the filter specification, if any.
-	AutomationExecutionMetadataList []*AutomationExecutionMetadata `type:"list"`
+	AutomationExecutionMetadataList []AutomationExecutionMetadata `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -9417,16 +8883,105 @@ func (s DescribeAutomationExecutionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutomationExecutionMetadataList sets the AutomationExecutionMetadataList field's value.
-func (s *DescribeAutomationExecutionsOutput) SetAutomationExecutionMetadataList(v []*AutomationExecutionMetadata) *DescribeAutomationExecutionsOutput {
-	s.AutomationExecutionMetadataList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAutomationExecutionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAutomationExecutionsOutput) SetNextToken(v string) *DescribeAutomationExecutionsOutput {
-	s.NextToken = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAutomationStepExecutionsRequest
+type DescribeAutomationStepExecutionsInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Automation execution ID for which you want step execution descriptions.
+	//
+	// AutomationExecutionId is a required field
+	AutomationExecutionId *string `min:"36" type:"string" required:"true"`
+
+	// One or more filters to limit the number of step executions returned by the
+	// request.
+	Filters []StepExecutionFilter `min:"1" type:"list"`
+
+	// The maximum number of items to return for this call. The call also returns
+	// a token that you can specify in a subsequent call to get the next set of
+	// results.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// The token for the next set of items to return. (You received this token from
+	// a previous call.)
+	NextToken *string `type:"string"`
+
+	// A boolean that indicates whether to list step executions in reverse order
+	// by start time. The default value is false.
+	ReverseOrder *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s DescribeAutomationStepExecutionsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeAutomationStepExecutionsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeAutomationStepExecutionsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DescribeAutomationStepExecutionsInput"}
+
+	if s.AutomationExecutionId == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AutomationExecutionId"))
+	}
+	if s.AutomationExecutionId != nil && len(*s.AutomationExecutionId) < 36 {
+		invalidParams.Add(aws.NewErrParamMinLen("AutomationExecutionId", 36))
+	}
+	if s.Filters != nil && len(s.Filters) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Filters", 1))
+	}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxResults", 1))
+	}
+	if s.Filters != nil {
+		for i, v := range s.Filters {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAutomationStepExecutionsResult
+type DescribeAutomationStepExecutionsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The token to use when requesting the next set of items. If there are no additional
+	// items to return, the string is empty.
+	NextToken *string `type:"string"`
+
+	// A list of details about the current state of all steps that make up an execution.
+	StepExecutions []StepExecution `type:"list"`
+}
+
+// String returns the string representation
+func (s DescribeAutomationStepExecutionsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeAutomationStepExecutionsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAutomationStepExecutionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAvailablePatchesRequest
@@ -9434,7 +8989,7 @@ type DescribeAvailablePatchesInput struct {
 	_ struct{} `type:"structure"`
 
 	// Filters used to scope down the returned patches.
-	Filters []*PatchOrchestratorFilter `type:"list"`
+	Filters []PatchOrchestratorFilter `type:"list"`
 
 	// The maximum number of patches to return (per page).
 	MaxResults *int64 `min:"1" type:"integer"`
@@ -9462,9 +9017,6 @@ func (s *DescribeAvailablePatchesInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -9477,34 +9029,18 @@ func (s *DescribeAvailablePatchesInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeAvailablePatchesInput) SetFilters(v []*PatchOrchestratorFilter) *DescribeAvailablePatchesInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeAvailablePatchesInput) SetMaxResults(v int64) *DescribeAvailablePatchesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAvailablePatchesInput) SetNextToken(v string) *DescribeAvailablePatchesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeAvailablePatchesResult
 type DescribeAvailablePatchesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// An array of patches. Each entry in the array is a patch structure.
-	Patches []*Patch `type:"list"`
+	Patches []Patch `type:"list"`
 }
 
 // String returns the string representation
@@ -9517,16 +9053,9 @@ func (s DescribeAvailablePatchesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeAvailablePatchesOutput) SetNextToken(v string) *DescribeAvailablePatchesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPatches sets the Patches field's value.
-func (s *DescribeAvailablePatchesOutput) SetPatches(v []*Patch) *DescribeAvailablePatchesOutput {
-	s.Patches = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeAvailablePatchesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeDocumentRequest
@@ -9567,21 +9096,11 @@ func (s *DescribeDocumentInput) Validate() error {
 	return nil
 }
 
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *DescribeDocumentInput) SetDocumentVersion(v string) *DescribeDocumentInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DescribeDocumentInput) SetName(v string) *DescribeDocumentInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeDocumentResult
 type DescribeDocumentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the Systems Manager document.
 	Document *DocumentDescription `type:"structure"`
@@ -9597,10 +9116,9 @@ func (s DescribeDocumentOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocument sets the Document field's value.
-func (s *DescribeDocumentOutput) SetDocument(v *DocumentDescription) *DescribeDocumentOutput {
-	s.Document = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeDocumentPermissionRequest
@@ -9615,7 +9133,7 @@ type DescribeDocumentPermissionInput struct {
 	// The permission type for the document. The permission type can be Share.
 	//
 	// PermissionType is a required field
-	PermissionType DocumentPermissionType `type:"string" required:"true"`
+	PermissionType DocumentPermissionType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -9645,25 +9163,15 @@ func (s *DescribeDocumentPermissionInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DescribeDocumentPermissionInput) SetName(v string) *DescribeDocumentPermissionInput {
-	s.Name = &v
-	return s
-}
-
-// SetPermissionType sets the PermissionType field's value.
-func (s *DescribeDocumentPermissionInput) SetPermissionType(v DocumentPermissionType) *DescribeDocumentPermissionInput {
-	s.PermissionType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeDocumentPermissionResponse
 type DescribeDocumentPermissionOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The account IDs that have permission to use this document. The ID can be
 	// either an AWS account or All.
-	AccountIds []*string `locationNameList:"AccountId" type:"list"`
+	AccountIds []string `type:"list"`
 }
 
 // String returns the string representation
@@ -9676,10 +9184,9 @@ func (s DescribeDocumentPermissionOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccountIds sets the AccountIds field's value.
-func (s *DescribeDocumentPermissionOutput) SetAccountIds(v []*string) *DescribeDocumentPermissionOutput {
-	s.AccountIds = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeDocumentPermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeEffectiveInstanceAssociationsRequest
@@ -9728,30 +9235,14 @@ func (s *DescribeEffectiveInstanceAssociationsInput) Validate() error {
 	return nil
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *DescribeEffectiveInstanceAssociationsInput) SetInstanceId(v string) *DescribeEffectiveInstanceAssociationsInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeEffectiveInstanceAssociationsInput) SetMaxResults(v int64) *DescribeEffectiveInstanceAssociationsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEffectiveInstanceAssociationsInput) SetNextToken(v string) *DescribeEffectiveInstanceAssociationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeEffectiveInstanceAssociationsResult
 type DescribeEffectiveInstanceAssociationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The associations for the requested instance.
-	Associations []*InstanceAssociation `type:"list"`
+	Associations []InstanceAssociation `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -9768,16 +9259,9 @@ func (s DescribeEffectiveInstanceAssociationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociations sets the Associations field's value.
-func (s *DescribeEffectiveInstanceAssociationsOutput) SetAssociations(v []*InstanceAssociation) *DescribeEffectiveInstanceAssociationsOutput {
-	s.Associations = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEffectiveInstanceAssociationsOutput) SetNextToken(v string) *DescribeEffectiveInstanceAssociationsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEffectiveInstanceAssociationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeEffectivePatchesForPatchBaselineRequest
@@ -9827,30 +9311,14 @@ func (s *DescribeEffectivePatchesForPatchBaselineInput) Validate() error {
 	return nil
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *DescribeEffectivePatchesForPatchBaselineInput) SetBaselineId(v string) *DescribeEffectivePatchesForPatchBaselineInput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeEffectivePatchesForPatchBaselineInput) SetMaxResults(v int64) *DescribeEffectivePatchesForPatchBaselineInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEffectivePatchesForPatchBaselineInput) SetNextToken(v string) *DescribeEffectivePatchesForPatchBaselineInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeEffectivePatchesForPatchBaselineResult
 type DescribeEffectivePatchesForPatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of patches and patch status.
-	EffectivePatches []*EffectivePatch `type:"list"`
+	EffectivePatches []EffectivePatch `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -9867,16 +9335,9 @@ func (s DescribeEffectivePatchesForPatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetEffectivePatches sets the EffectivePatches field's value.
-func (s *DescribeEffectivePatchesForPatchBaselineOutput) SetEffectivePatches(v []*EffectivePatch) *DescribeEffectivePatchesForPatchBaselineOutput {
-	s.EffectivePatches = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeEffectivePatchesForPatchBaselineOutput) SetNextToken(v string) *DescribeEffectivePatchesForPatchBaselineOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeEffectivePatchesForPatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstanceAssociationsStatusRequest
@@ -9925,30 +9386,14 @@ func (s *DescribeInstanceAssociationsStatusInput) Validate() error {
 	return nil
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *DescribeInstanceAssociationsStatusInput) SetInstanceId(v string) *DescribeInstanceAssociationsStatusInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeInstanceAssociationsStatusInput) SetMaxResults(v int64) *DescribeInstanceAssociationsStatusInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstanceAssociationsStatusInput) SetNextToken(v string) *DescribeInstanceAssociationsStatusInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstanceAssociationsStatusResult
 type DescribeInstanceAssociationsStatusOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Status information about the association.
-	InstanceAssociationStatusInfos []*InstanceAssociationStatusInfo `type:"list"`
+	InstanceAssociationStatusInfos []InstanceAssociationStatusInfo `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -9965,16 +9410,9 @@ func (s DescribeInstanceAssociationsStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceAssociationStatusInfos sets the InstanceAssociationStatusInfos field's value.
-func (s *DescribeInstanceAssociationsStatusOutput) SetInstanceAssociationStatusInfos(v []*InstanceAssociationStatusInfo) *DescribeInstanceAssociationsStatusOutput {
-	s.InstanceAssociationStatusInfos = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstanceAssociationsStatusOutput) SetNextToken(v string) *DescribeInstanceAssociationsStatusOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstanceAssociationsStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstanceInformationRequest
@@ -9982,10 +9420,10 @@ type DescribeInstanceInformationInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of instances.
-	Filters []*InstanceInformationStringFilter `locationNameList:"InstanceInformationStringFilter" type:"list"`
+	Filters []InstanceInformationStringFilter `type:"list"`
 
 	// One or more filters. Use a filter to return a more specific list of instances.
-	InstanceInformationFilterList []*InstanceInformationFilter `locationNameList:"InstanceInformationFilter" type:"list"`
+	InstanceInformationFilterList []InstanceInformationFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -10015,9 +9453,6 @@ func (s *DescribeInstanceInformationInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10025,9 +9460,6 @@ func (s *DescribeInstanceInformationInput) Validate() error {
 	}
 	if s.InstanceInformationFilterList != nil {
 		for i, v := range s.InstanceInformationFilterList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InstanceInformationFilterList", i), err.(aws.ErrInvalidParams))
 			}
@@ -10040,36 +9472,14 @@ func (s *DescribeInstanceInformationInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeInstanceInformationInput) SetFilters(v []*InstanceInformationStringFilter) *DescribeInstanceInformationInput {
-	s.Filters = v
-	return s
-}
-
-// SetInstanceInformationFilterList sets the InstanceInformationFilterList field's value.
-func (s *DescribeInstanceInformationInput) SetInstanceInformationFilterList(v []*InstanceInformationFilter) *DescribeInstanceInformationInput {
-	s.InstanceInformationFilterList = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeInstanceInformationInput) SetMaxResults(v int64) *DescribeInstanceInformationInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstanceInformationInput) SetNextToken(v string) *DescribeInstanceInformationInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstanceInformationResult
 type DescribeInstanceInformationOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The instance information list.
-	InstanceInformationList []*InstanceInformation `locationNameList:"InstanceInformation" type:"list"`
+	InstanceInformationList []InstanceInformation `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -10086,16 +9496,9 @@ func (s DescribeInstanceInformationOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceInformationList sets the InstanceInformationList field's value.
-func (s *DescribeInstanceInformationOutput) SetInstanceInformationList(v []*InstanceInformation) *DescribeInstanceInformationOutput {
-	s.InstanceInformationList = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstanceInformationOutput) SetNextToken(v string) *DescribeInstanceInformationOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstanceInformationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePatchStatesForPatchGroupRequest
@@ -10109,7 +9512,7 @@ type DescribeInstancePatchStatesForPatchGroupInput struct {
 	// Values (array containing a single string)
 	//
 	// Type (string "Equal", "NotEqual", "LessThan", "GreaterThan")
-	Filters []*InstancePatchStateFilter `type:"list"`
+	Filters []InstancePatchStateFilter `type:"list"`
 
 	// The maximum number of patches to return (per page).
 	MaxResults *int64 `min:"10" type:"integer"`
@@ -10150,9 +9553,6 @@ func (s *DescribeInstancePatchStatesForPatchGroupInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10165,36 +9565,14 @@ func (s *DescribeInstancePatchStatesForPatchGroupInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeInstancePatchStatesForPatchGroupInput) SetFilters(v []*InstancePatchStateFilter) *DescribeInstancePatchStatesForPatchGroupInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeInstancePatchStatesForPatchGroupInput) SetMaxResults(v int64) *DescribeInstancePatchStatesForPatchGroupInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancePatchStatesForPatchGroupInput) SetNextToken(v string) *DescribeInstancePatchStatesForPatchGroupInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *DescribeInstancePatchStatesForPatchGroupInput) SetPatchGroup(v string) *DescribeInstancePatchStatesForPatchGroupInput {
-	s.PatchGroup = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePatchStatesForPatchGroupResult
 type DescribeInstancePatchStatesForPatchGroupOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The high-level patch state for the requested instances.
-	InstancePatchStates []*InstancePatchState `min:"1" type:"list"`
+	InstancePatchStates []InstancePatchState `min:"1" type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -10211,16 +9589,9 @@ func (s DescribeInstancePatchStatesForPatchGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstancePatchStates sets the InstancePatchStates field's value.
-func (s *DescribeInstancePatchStatesForPatchGroupOutput) SetInstancePatchStates(v []*InstancePatchState) *DescribeInstancePatchStatesForPatchGroupOutput {
-	s.InstancePatchStates = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancePatchStatesForPatchGroupOutput) SetNextToken(v string) *DescribeInstancePatchStatesForPatchGroupOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstancePatchStatesForPatchGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePatchStatesRequest
@@ -10230,7 +9601,7 @@ type DescribeInstancePatchStatesInput struct {
 	// The ID of the instance whose patch state information should be retrieved.
 	//
 	// InstanceIds is a required field
-	InstanceIds []*string `type:"list" required:"true"`
+	InstanceIds []string `type:"list" required:"true"`
 
 	// The maximum number of instances to return (per page).
 	MaxResults *int64 `min:"10" type:"integer"`
@@ -10267,30 +9638,14 @@ func (s *DescribeInstancePatchStatesInput) Validate() error {
 	return nil
 }
 
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *DescribeInstancePatchStatesInput) SetInstanceIds(v []*string) *DescribeInstancePatchStatesInput {
-	s.InstanceIds = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeInstancePatchStatesInput) SetMaxResults(v int64) *DescribeInstancePatchStatesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancePatchStatesInput) SetNextToken(v string) *DescribeInstancePatchStatesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePatchStatesResult
 type DescribeInstancePatchStatesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The high-level patch state for the requested instances.
-	InstancePatchStates []*InstancePatchState `type:"list"`
+	InstancePatchStates []InstancePatchState `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -10307,16 +9662,9 @@ func (s DescribeInstancePatchStatesOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstancePatchStates sets the InstancePatchStates field's value.
-func (s *DescribeInstancePatchStatesOutput) SetInstancePatchStates(v []*InstancePatchState) *DescribeInstancePatchStatesOutput {
-	s.InstancePatchStates = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancePatchStatesOutput) SetNextToken(v string) *DescribeInstancePatchStatesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstancePatchStatesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePatchesRequest
@@ -10328,7 +9676,7 @@ type DescribeInstancePatchesInput struct {
 	// Key (string, between 1 and 128 characters)
 	//
 	// Values (array of strings, each string between 1 and 256 characters)
-	Filters []*PatchOrchestratorFilter `type:"list"`
+	Filters []PatchOrchestratorFilter `type:"list"`
 
 	// The ID of the instance whose patch state information should be retrieved.
 	//
@@ -10365,9 +9713,6 @@ func (s *DescribeInstancePatchesInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10380,33 +9725,11 @@ func (s *DescribeInstancePatchesInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeInstancePatchesInput) SetFilters(v []*PatchOrchestratorFilter) *DescribeInstancePatchesInput {
-	s.Filters = v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *DescribeInstancePatchesInput) SetInstanceId(v string) *DescribeInstancePatchesInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeInstancePatchesInput) SetMaxResults(v int64) *DescribeInstancePatchesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancePatchesInput) SetNextToken(v string) *DescribeInstancePatchesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePatchesResult
 type DescribeInstancePatchesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -10428,7 +9751,7 @@ type DescribeInstancePatchesOutput struct {
 	// InstalledTime (DateTime)
 	//
 	// InstalledBy (string)
-	Patches []*PatchComplianceData `type:"list"`
+	Patches []PatchComplianceData `type:"list"`
 }
 
 // String returns the string representation
@@ -10441,16 +9764,78 @@ func (s DescribeInstancePatchesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeInstancePatchesOutput) SetNextToken(v string) *DescribeInstancePatchesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInstancePatchesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetPatches sets the Patches field's value.
-func (s *DescribeInstancePatchesOutput) SetPatches(v []*PatchComplianceData) *DescribeInstancePatchesOutput {
-	s.Patches = v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInventoryDeletionsRequest
+type DescribeInventoryDeletionsInput struct {
+	_ struct{} `type:"structure"`
+
+	// Specify the delete inventory ID for which you want information. This ID was
+	// returned by the DeleteInventory action.
+	DeletionId *string `type:"string"`
+
+	// The maximum number of items to return for this call. The call also returns
+	// a token that you can specify in a subsequent call to get the next set of
+	// results.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// A token to start the list. Use this token to get the next set of results.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeInventoryDeletionsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeInventoryDeletionsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DescribeInventoryDeletionsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DescribeInventoryDeletionsInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxResults", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInventoryDeletionsResult
+type DescribeInventoryDeletionsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// A list of status items for deleted inventory.
+	InventoryDeletions []InventoryDeletionStatusItem `type:"list"`
+
+	// The token for the next set of items to return. Use this token to get the
+	// next set of results.
+	NextToken *string `type:"string"`
+}
+
+// String returns the string representation
+func (s DescribeInventoryDeletionsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DescribeInventoryDeletionsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeInventoryDeletionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowExecutionTaskInvocationsRequest
@@ -10460,7 +9845,7 @@ type DescribeMaintenanceWindowExecutionTaskInvocationsInput struct {
 	// Optional filters used to scope down the returned task invocations. The supported
 	// filter key is STATUS with the corresponding values PENDING, IN_PROGRESS,
 	// SUCCESS, FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
-	Filters []*MaintenanceWindowFilter `type:"list"`
+	Filters []MaintenanceWindowFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -10515,9 +9900,6 @@ func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) Validate() erro
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10530,46 +9912,18 @@ func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) Validate() erro
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) SetFilters(v []*MaintenanceWindowFilter) *DescribeMaintenanceWindowExecutionTaskInvocationsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) SetMaxResults(v int64) *DescribeMaintenanceWindowExecutionTaskInvocationsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) SetNextToken(v string) *DescribeMaintenanceWindowExecutionTaskInvocationsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) SetTaskId(v string) *DescribeMaintenanceWindowExecutionTaskInvocationsInput {
-	s.TaskId = &v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsInput) SetWindowExecutionId(v string) *DescribeMaintenanceWindowExecutionTaskInvocationsInput {
-	s.WindowExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowExecutionTaskInvocationsResult
 type DescribeMaintenanceWindowExecutionTaskInvocationsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Information about the task invocation results per invocation.
-	WindowExecutionTaskInvocationIdentities []*MaintenanceWindowExecutionTaskInvocationIdentity `type:"list"`
+	WindowExecutionTaskInvocationIdentities []MaintenanceWindowExecutionTaskInvocationIdentity `type:"list"`
 }
 
 // String returns the string representation
@@ -10582,16 +9936,9 @@ func (s DescribeMaintenanceWindowExecutionTaskInvocationsOutput) GoString() stri
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsOutput) SetNextToken(v string) *DescribeMaintenanceWindowExecutionTaskInvocationsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowExecutionTaskInvocationIdentities sets the WindowExecutionTaskInvocationIdentities field's value.
-func (s *DescribeMaintenanceWindowExecutionTaskInvocationsOutput) SetWindowExecutionTaskInvocationIdentities(v []*MaintenanceWindowExecutionTaskInvocationIdentity) *DescribeMaintenanceWindowExecutionTaskInvocationsOutput {
-	s.WindowExecutionTaskInvocationIdentities = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMaintenanceWindowExecutionTaskInvocationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowExecutionTasksRequest
@@ -10601,7 +9948,7 @@ type DescribeMaintenanceWindowExecutionTasksInput struct {
 	// Optional filters used to scope down the returned tasks. The supported filter
 	// key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS,
 	// FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
-	Filters []*MaintenanceWindowFilter `type:"list"`
+	Filters []MaintenanceWindowFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -10644,9 +9991,6 @@ func (s *DescribeMaintenanceWindowExecutionTasksInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10659,40 +10003,18 @@ func (s *DescribeMaintenanceWindowExecutionTasksInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeMaintenanceWindowExecutionTasksInput) SetFilters(v []*MaintenanceWindowFilter) *DescribeMaintenanceWindowExecutionTasksInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeMaintenanceWindowExecutionTasksInput) SetMaxResults(v int64) *DescribeMaintenanceWindowExecutionTasksInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowExecutionTasksInput) SetNextToken(v string) *DescribeMaintenanceWindowExecutionTasksInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *DescribeMaintenanceWindowExecutionTasksInput) SetWindowExecutionId(v string) *DescribeMaintenanceWindowExecutionTasksInput {
-	s.WindowExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowExecutionTasksResult
 type DescribeMaintenanceWindowExecutionTasksOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Information about the task executions.
-	WindowExecutionTaskIdentities []*MaintenanceWindowExecutionTaskIdentity `type:"list"`
+	WindowExecutionTaskIdentities []MaintenanceWindowExecutionTaskIdentity `type:"list"`
 }
 
 // String returns the string representation
@@ -10705,16 +10027,9 @@ func (s DescribeMaintenanceWindowExecutionTasksOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowExecutionTasksOutput) SetNextToken(v string) *DescribeMaintenanceWindowExecutionTasksOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowExecutionTaskIdentities sets the WindowExecutionTaskIdentities field's value.
-func (s *DescribeMaintenanceWindowExecutionTasksOutput) SetWindowExecutionTaskIdentities(v []*MaintenanceWindowExecutionTaskIdentity) *DescribeMaintenanceWindowExecutionTasksOutput {
-	s.WindowExecutionTaskIdentities = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMaintenanceWindowExecutionTasksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowExecutionsRequest
@@ -10729,7 +10044,7 @@ type DescribeMaintenanceWindowExecutionsInput struct {
 	//
 	// The supported Keys are ExecutedBefore and ExecutedAfter with the value being
 	// a date/time string such as 2016-11-04T05:00:00Z.
-	Filters []*MaintenanceWindowFilter `type:"list"`
+	Filters []MaintenanceWindowFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -10771,9 +10086,6 @@ func (s *DescribeMaintenanceWindowExecutionsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10786,40 +10098,18 @@ func (s *DescribeMaintenanceWindowExecutionsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeMaintenanceWindowExecutionsInput) SetFilters(v []*MaintenanceWindowFilter) *DescribeMaintenanceWindowExecutionsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeMaintenanceWindowExecutionsInput) SetMaxResults(v int64) *DescribeMaintenanceWindowExecutionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowExecutionsInput) SetNextToken(v string) *DescribeMaintenanceWindowExecutionsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *DescribeMaintenanceWindowExecutionsInput) SetWindowId(v string) *DescribeMaintenanceWindowExecutionsInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowExecutionsResult
 type DescribeMaintenanceWindowExecutionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Information about the Maintenance Windows execution.
-	WindowExecutions []*MaintenanceWindowExecution `type:"list"`
+	WindowExecutions []MaintenanceWindowExecution `type:"list"`
 }
 
 // String returns the string representation
@@ -10832,16 +10122,9 @@ func (s DescribeMaintenanceWindowExecutionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowExecutionsOutput) SetNextToken(v string) *DescribeMaintenanceWindowExecutionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowExecutions sets the WindowExecutions field's value.
-func (s *DescribeMaintenanceWindowExecutionsOutput) SetWindowExecutions(v []*MaintenanceWindowExecution) *DescribeMaintenanceWindowExecutionsOutput {
-	s.WindowExecutions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMaintenanceWindowExecutionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowTargetsRequest
@@ -10850,7 +10133,7 @@ type DescribeMaintenanceWindowTargetsInput struct {
 
 	// Optional filters that can be used to narrow down the scope of the returned
 	// window targets. The supported filter keys are Type, WindowTargetId and OwnerInformation.
-	Filters []*MaintenanceWindowFilter `type:"list"`
+	Filters []MaintenanceWindowFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -10892,9 +10175,6 @@ func (s *DescribeMaintenanceWindowTargetsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -10907,40 +10187,18 @@ func (s *DescribeMaintenanceWindowTargetsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeMaintenanceWindowTargetsInput) SetFilters(v []*MaintenanceWindowFilter) *DescribeMaintenanceWindowTargetsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeMaintenanceWindowTargetsInput) SetMaxResults(v int64) *DescribeMaintenanceWindowTargetsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowTargetsInput) SetNextToken(v string) *DescribeMaintenanceWindowTargetsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *DescribeMaintenanceWindowTargetsInput) SetWindowId(v string) *DescribeMaintenanceWindowTargetsInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowTargetsResult
 type DescribeMaintenanceWindowTargetsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Information about the targets in the Maintenance Window.
-	Targets []*MaintenanceWindowTarget `type:"list"`
+	Targets []MaintenanceWindowTarget `type:"list"`
 }
 
 // String returns the string representation
@@ -10953,16 +10211,9 @@ func (s DescribeMaintenanceWindowTargetsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowTargetsOutput) SetNextToken(v string) *DescribeMaintenanceWindowTargetsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *DescribeMaintenanceWindowTargetsOutput) SetTargets(v []*MaintenanceWindowTarget) *DescribeMaintenanceWindowTargetsOutput {
-	s.Targets = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMaintenanceWindowTargetsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowTasksRequest
@@ -10971,7 +10222,7 @@ type DescribeMaintenanceWindowTasksInput struct {
 
 	// Optional filters used to narrow down the scope of the returned tasks. The
 	// supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
-	Filters []*MaintenanceWindowFilter `type:"list"`
+	Filters []MaintenanceWindowFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -11013,9 +10264,6 @@ func (s *DescribeMaintenanceWindowTasksInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -11028,40 +10276,18 @@ func (s *DescribeMaintenanceWindowTasksInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeMaintenanceWindowTasksInput) SetFilters(v []*MaintenanceWindowFilter) *DescribeMaintenanceWindowTasksInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeMaintenanceWindowTasksInput) SetMaxResults(v int64) *DescribeMaintenanceWindowTasksInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowTasksInput) SetNextToken(v string) *DescribeMaintenanceWindowTasksInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *DescribeMaintenanceWindowTasksInput) SetWindowId(v string) *DescribeMaintenanceWindowTasksInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowTasksResult
 type DescribeMaintenanceWindowTasksOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Information about the tasks in the Maintenance Window.
-	Tasks []*MaintenanceWindowTask `type:"list"`
+	Tasks []MaintenanceWindowTask `type:"list"`
 }
 
 // String returns the string representation
@@ -11074,16 +10300,9 @@ func (s DescribeMaintenanceWindowTasksOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowTasksOutput) SetNextToken(v string) *DescribeMaintenanceWindowTasksOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTasks sets the Tasks field's value.
-func (s *DescribeMaintenanceWindowTasksOutput) SetTasks(v []*MaintenanceWindowTask) *DescribeMaintenanceWindowTasksOutput {
-	s.Tasks = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMaintenanceWindowTasksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowsRequest
@@ -11092,7 +10311,7 @@ type DescribeMaintenanceWindowsInput struct {
 
 	// Optional filters used to narrow down the scope of the returned Maintenance
 	// Windows. Supported filter keys are Name and Enabled.
-	Filters []*MaintenanceWindowFilter `type:"list"`
+	Filters []MaintenanceWindowFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -11122,9 +10341,6 @@ func (s *DescribeMaintenanceWindowsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -11137,34 +10353,18 @@ func (s *DescribeMaintenanceWindowsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeMaintenanceWindowsInput) SetFilters(v []*MaintenanceWindowFilter) *DescribeMaintenanceWindowsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeMaintenanceWindowsInput) SetMaxResults(v int64) *DescribeMaintenanceWindowsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowsInput) SetNextToken(v string) *DescribeMaintenanceWindowsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeMaintenanceWindowsResult
 type DescribeMaintenanceWindowsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Information about the Maintenance Windows.
-	WindowIdentities []*MaintenanceWindowIdentity `type:"list"`
+	WindowIdentities []MaintenanceWindowIdentity `type:"list"`
 }
 
 // String returns the string representation
@@ -11177,16 +10377,9 @@ func (s DescribeMaintenanceWindowsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeMaintenanceWindowsOutput) SetNextToken(v string) *DescribeMaintenanceWindowsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWindowIdentities sets the WindowIdentities field's value.
-func (s *DescribeMaintenanceWindowsOutput) SetWindowIdentities(v []*MaintenanceWindowIdentity) *DescribeMaintenanceWindowsOutput {
-	s.WindowIdentities = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeMaintenanceWindowsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeParametersRequest
@@ -11194,7 +10387,7 @@ type DescribeParametersInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	Filters []*ParametersFilter `type:"list"`
+	Filters []ParametersFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -11206,7 +10399,7 @@ type DescribeParametersInput struct {
 	NextToken *string `type:"string"`
 
 	// Filters to limit the request results.
-	ParameterFilters []*ParameterStringFilter `type:"list"`
+	ParameterFilters []ParameterStringFilter `type:"list"`
 }
 
 // String returns the string representation
@@ -11227,9 +10420,6 @@ func (s *DescribeParametersInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -11237,9 +10427,6 @@ func (s *DescribeParametersInput) Validate() error {
 	}
 	if s.ParameterFilters != nil {
 		for i, v := range s.ParameterFilters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterFilters", i), err.(aws.ErrInvalidParams))
 			}
@@ -11252,40 +10439,18 @@ func (s *DescribeParametersInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeParametersInput) SetFilters(v []*ParametersFilter) *DescribeParametersInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeParametersInput) SetMaxResults(v int64) *DescribeParametersInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeParametersInput) SetNextToken(v string) *DescribeParametersInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParameterFilters sets the ParameterFilters field's value.
-func (s *DescribeParametersInput) SetParameterFilters(v []*ParameterStringFilter) *DescribeParametersInput {
-	s.ParameterFilters = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeParametersResult
 type DescribeParametersOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Parameters returned by the request.
-	Parameters []*ParameterMetadata `type:"list"`
+	Parameters []ParameterMetadata `type:"list"`
 }
 
 // String returns the string representation
@@ -11298,16 +10463,9 @@ func (s DescribeParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeParametersOutput) SetNextToken(v string) *DescribeParametersOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *DescribeParametersOutput) SetParameters(v []*ParameterMetadata) *DescribeParametersOutput {
-	s.Parameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchBaselinesRequest
@@ -11319,7 +10477,7 @@ type DescribePatchBaselinesInput struct {
 	// Key: (string, "NAME_PREFIX" or "OWNER")
 	//
 	// Value: (array of strings, exactly 1 entry, between 1 and 255 characters)
-	Filters []*PatchOrchestratorFilter `type:"list"`
+	Filters []PatchOrchestratorFilter `type:"list"`
 
 	// The maximum number of patch baselines to return (per page).
 	MaxResults *int64 `min:"1" type:"integer"`
@@ -11347,9 +10505,6 @@ func (s *DescribePatchBaselinesInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -11362,30 +10517,14 @@ func (s *DescribePatchBaselinesInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribePatchBaselinesInput) SetFilters(v []*PatchOrchestratorFilter) *DescribePatchBaselinesInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribePatchBaselinesInput) SetMaxResults(v int64) *DescribePatchBaselinesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribePatchBaselinesInput) SetNextToken(v string) *DescribePatchBaselinesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchBaselinesResult
 type DescribePatchBaselinesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// An array of PatchBaselineIdentity elements.
-	BaselineIdentities []*PatchBaselineIdentity `type:"list"`
+	BaselineIdentities []PatchBaselineIdentity `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -11402,16 +10541,9 @@ func (s DescribePatchBaselinesOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineIdentities sets the BaselineIdentities field's value.
-func (s *DescribePatchBaselinesOutput) SetBaselineIdentities(v []*PatchBaselineIdentity) *DescribePatchBaselinesOutput {
-	s.BaselineIdentities = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribePatchBaselinesOutput) SetNextToken(v string) *DescribePatchBaselinesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePatchBaselinesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchGroupStateRequest
@@ -11451,15 +10583,11 @@ func (s *DescribePatchGroupStateInput) Validate() error {
 	return nil
 }
 
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *DescribePatchGroupStateInput) SetPatchGroup(v string) *DescribePatchGroupStateInput {
-	s.PatchGroup = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchGroupStateResult
 type DescribePatchGroupStateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The number of instances in the patch group.
 	Instances *int64 `type:"integer"`
@@ -11492,40 +10620,9 @@ func (s DescribePatchGroupStateOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstances sets the Instances field's value.
-func (s *DescribePatchGroupStateOutput) SetInstances(v int64) *DescribePatchGroupStateOutput {
-	s.Instances = &v
-	return s
-}
-
-// SetInstancesWithFailedPatches sets the InstancesWithFailedPatches field's value.
-func (s *DescribePatchGroupStateOutput) SetInstancesWithFailedPatches(v int64) *DescribePatchGroupStateOutput {
-	s.InstancesWithFailedPatches = &v
-	return s
-}
-
-// SetInstancesWithInstalledOtherPatches sets the InstancesWithInstalledOtherPatches field's value.
-func (s *DescribePatchGroupStateOutput) SetInstancesWithInstalledOtherPatches(v int64) *DescribePatchGroupStateOutput {
-	s.InstancesWithInstalledOtherPatches = &v
-	return s
-}
-
-// SetInstancesWithInstalledPatches sets the InstancesWithInstalledPatches field's value.
-func (s *DescribePatchGroupStateOutput) SetInstancesWithInstalledPatches(v int64) *DescribePatchGroupStateOutput {
-	s.InstancesWithInstalledPatches = &v
-	return s
-}
-
-// SetInstancesWithMissingPatches sets the InstancesWithMissingPatches field's value.
-func (s *DescribePatchGroupStateOutput) SetInstancesWithMissingPatches(v int64) *DescribePatchGroupStateOutput {
-	s.InstancesWithMissingPatches = &v
-	return s
-}
-
-// SetInstancesWithNotApplicablePatches sets the InstancesWithNotApplicablePatches field's value.
-func (s *DescribePatchGroupStateOutput) SetInstancesWithNotApplicablePatches(v int64) *DescribePatchGroupStateOutput {
-	s.InstancesWithNotApplicablePatches = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePatchGroupStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchGroupsRequest
@@ -11533,7 +10630,7 @@ type DescribePatchGroupsInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	Filters []*PatchOrchestratorFilter `type:"list"`
+	Filters []PatchOrchestratorFilter `type:"list"`
 
 	// The maximum number of patch groups to return (per page).
 	MaxResults *int64 `min:"1" type:"integer"`
@@ -11561,9 +10658,6 @@ func (s *DescribePatchGroupsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -11576,34 +10670,18 @@ func (s *DescribePatchGroupsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribePatchGroupsInput) SetFilters(v []*PatchOrchestratorFilter) *DescribePatchGroupsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribePatchGroupsInput) SetMaxResults(v int64) *DescribePatchGroupsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribePatchGroupsInput) SetNextToken(v string) *DescribePatchGroupsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribePatchGroupsResult
 type DescribePatchGroupsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Each entry in the array contains:
 	//
 	// PatchGroup: string (between 1 and 256 characters, Regex: ^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)
 	//
 	// PatchBaselineIdentity: A PatchBaselineIdentity element.
-	Mappings []*PatchGroupPatchBaselineMapping `type:"list"`
+	Mappings []PatchGroupPatchBaselineMapping `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -11620,16 +10698,9 @@ func (s DescribePatchGroupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetMappings sets the Mappings field's value.
-func (s *DescribePatchGroupsOutput) SetMappings(v []*PatchGroupPatchBaselineMapping) *DescribePatchGroupsOutput {
-	s.Mappings = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribePatchGroupsOutput) SetNextToken(v string) *DescribePatchGroupsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribePatchGroupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A default version of a document.
@@ -11654,18 +10725,6 @@ func (s DocumentDefaultVersionDescription) GoString() string {
 	return s.String()
 }
 
-// SetDefaultVersion sets the DefaultVersion field's value.
-func (s *DocumentDefaultVersionDescription) SetDefaultVersion(v string) *DocumentDefaultVersionDescription {
-	s.DefaultVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DocumentDefaultVersionDescription) SetName(v string) *DocumentDefaultVersionDescription {
-	s.Name = &v
-	return s
-}
-
 // Describes a Systems Manager document.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DocumentDescription
 type DocumentDescription struct {
@@ -11680,8 +10739,11 @@ type DocumentDescription struct {
 	// A description of the document.
 	Description *string `type:"string"`
 
+	// The document format, either JSON or YAML.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
+
 	// The type of document.
-	DocumentType DocumentType `type:"string"`
+	DocumentType DocumentType `type:"string" enum:"true"`
 
 	// The document version.
 	DocumentVersion *string `type:"string"`
@@ -11694,7 +10756,7 @@ type DocumentDescription struct {
 	// Sha256 or Sha1.
 	//
 	// Sha1 hashes have been deprecated.
-	HashType DocumentHashType `type:"string"`
+	HashType DocumentHashType `type:"string" enum:"true"`
 
 	// The latest version of the document.
 	LatestVersion *string `type:"string"`
@@ -11706,10 +10768,10 @@ type DocumentDescription struct {
 	Owner *string `type:"string"`
 
 	// A description of the parameters for a document.
-	Parameters []*DocumentParameter `locationNameList:"DocumentParameter" type:"list"`
+	Parameters []DocumentParameter `type:"list"`
 
 	// The list of OS platforms compatible with this Systems Manager document.
-	PlatformTypes []PlatformType `locationNameList:"PlatformType" type:"list"`
+	PlatformTypes []PlatformType `type:"list"`
 
 	// The schema version.
 	SchemaVersion *string `type:"string"`
@@ -11718,10 +10780,16 @@ type DocumentDescription struct {
 	Sha1 *string `type:"string"`
 
 	// The status of the Systems Manager document.
-	Status DocumentStatus `type:"string"`
+	Status DocumentStatus `type:"string" enum:"true"`
 
 	// The tags, or metadata, that have been applied to the document.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
+
+	// The target type which defines the kinds of resources the document can run
+	// on. For example, /AWS::EC2::Instance. For a list of valid resource types,
+	// see AWS Resource Types Reference (http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+	// in the AWS CloudFormation User Guide.
+	TargetType *string `type:"string"`
 }
 
 // String returns the string representation
@@ -11734,102 +10802,6 @@ func (s DocumentDescription) GoString() string {
 	return s.String()
 }
 
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *DocumentDescription) SetCreatedDate(v time.Time) *DocumentDescription {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetDefaultVersion sets the DefaultVersion field's value.
-func (s *DocumentDescription) SetDefaultVersion(v string) *DocumentDescription {
-	s.DefaultVersion = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *DocumentDescription) SetDescription(v string) *DocumentDescription {
-	s.Description = &v
-	return s
-}
-
-// SetDocumentType sets the DocumentType field's value.
-func (s *DocumentDescription) SetDocumentType(v DocumentType) *DocumentDescription {
-	s.DocumentType = v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *DocumentDescription) SetDocumentVersion(v string) *DocumentDescription {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetHash sets the Hash field's value.
-func (s *DocumentDescription) SetHash(v string) *DocumentDescription {
-	s.Hash = &v
-	return s
-}
-
-// SetHashType sets the HashType field's value.
-func (s *DocumentDescription) SetHashType(v DocumentHashType) *DocumentDescription {
-	s.HashType = v
-	return s
-}
-
-// SetLatestVersion sets the LatestVersion field's value.
-func (s *DocumentDescription) SetLatestVersion(v string) *DocumentDescription {
-	s.LatestVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DocumentDescription) SetName(v string) *DocumentDescription {
-	s.Name = &v
-	return s
-}
-
-// SetOwner sets the Owner field's value.
-func (s *DocumentDescription) SetOwner(v string) *DocumentDescription {
-	s.Owner = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *DocumentDescription) SetParameters(v []*DocumentParameter) *DocumentDescription {
-	s.Parameters = v
-	return s
-}
-
-// SetPlatformTypes sets the PlatformTypes field's value.
-func (s *DocumentDescription) SetPlatformTypes(v []PlatformType) *DocumentDescription {
-	s.PlatformTypes = v
-	return s
-}
-
-// SetSchemaVersion sets the SchemaVersion field's value.
-func (s *DocumentDescription) SetSchemaVersion(v string) *DocumentDescription {
-	s.SchemaVersion = &v
-	return s
-}
-
-// SetSha1 sets the Sha1 field's value.
-func (s *DocumentDescription) SetSha1(v string) *DocumentDescription {
-	s.Sha1 = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *DocumentDescription) SetStatus(v DocumentStatus) *DocumentDescription {
-	s.Status = v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *DocumentDescription) SetTags(v []*Tag) *DocumentDescription {
-	s.Tags = v
-	return s
-}
-
 // Describes a filter.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DocumentFilter
 type DocumentFilter struct {
@@ -11838,7 +10810,7 @@ type DocumentFilter struct {
 	// The name of the filter.
 	//
 	// Key is a required field
-	Key DocumentFilterKey `locationName:"key" type:"string" required:"true"`
+	Key DocumentFilterKey `locationName:"key" type:"string" required:"true" enum:"true"`
 
 	// The value of the filter.
 	//
@@ -11876,25 +10848,16 @@ func (s *DocumentFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *DocumentFilter) SetKey(v DocumentFilterKey) *DocumentFilter {
-	s.Key = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *DocumentFilter) SetValue(v string) *DocumentFilter {
-	s.Value = &v
-	return s
-}
-
 // Describes the name of a Systems Manager document.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DocumentIdentifier
 type DocumentIdentifier struct {
 	_ struct{} `type:"structure"`
 
+	// The document format, either JSON or YAML.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
+
 	// The document type.
-	DocumentType DocumentType `type:"string"`
+	DocumentType DocumentType `type:"string" enum:"true"`
 
 	// The document version.
 	DocumentVersion *string `type:"string"`
@@ -11906,13 +10869,19 @@ type DocumentIdentifier struct {
 	Owner *string `type:"string"`
 
 	// The operating system platform.
-	PlatformTypes []PlatformType `locationNameList:"PlatformType" type:"list"`
+	PlatformTypes []PlatformType `type:"list"`
 
 	// The schema version.
 	SchemaVersion *string `type:"string"`
 
 	// The tags, or metadata, that have been applied to the document.
-	Tags []*Tag `type:"list"`
+	Tags []Tag `type:"list"`
+
+	// The target type which defines the kinds of resources the document can run
+	// on. For example, /AWS::EC2::Instance. For a list of valid resource types,
+	// see AWS Resource Types Reference (http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html)
+	// in the AWS CloudFormation User Guide.
+	TargetType *string `type:"string"`
 }
 
 // String returns the string representation
@@ -11923,48 +10892,6 @@ func (s DocumentIdentifier) String() string {
 // GoString returns the string representation
 func (s DocumentIdentifier) GoString() string {
 	return s.String()
-}
-
-// SetDocumentType sets the DocumentType field's value.
-func (s *DocumentIdentifier) SetDocumentType(v DocumentType) *DocumentIdentifier {
-	s.DocumentType = v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *DocumentIdentifier) SetDocumentVersion(v string) *DocumentIdentifier {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DocumentIdentifier) SetName(v string) *DocumentIdentifier {
-	s.Name = &v
-	return s
-}
-
-// SetOwner sets the Owner field's value.
-func (s *DocumentIdentifier) SetOwner(v string) *DocumentIdentifier {
-	s.Owner = &v
-	return s
-}
-
-// SetPlatformTypes sets the PlatformTypes field's value.
-func (s *DocumentIdentifier) SetPlatformTypes(v []PlatformType) *DocumentIdentifier {
-	s.PlatformTypes = v
-	return s
-}
-
-// SetSchemaVersion sets the SchemaVersion field's value.
-func (s *DocumentIdentifier) SetSchemaVersion(v string) *DocumentIdentifier {
-	s.SchemaVersion = &v
-	return s
-}
-
-// SetTags sets the Tags field's value.
-func (s *DocumentIdentifier) SetTags(v []*Tag) *DocumentIdentifier {
-	s.Tags = v
-	return s
 }
 
 // One or more filters. Use a filter to return a more specific list of documents.
@@ -12000,7 +10927,7 @@ type DocumentKeyValuesFilter struct {
 	Key *string `min:"1" type:"string"`
 
 	// The value for the filter key.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -12026,18 +10953,6 @@ func (s *DocumentKeyValuesFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *DocumentKeyValuesFilter) SetKey(v string) *DocumentKeyValuesFilter {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *DocumentKeyValuesFilter) SetValues(v []*string) *DocumentKeyValuesFilter {
-	s.Values = v
-	return s
-}
-
 // Parameters specified in a System Manager document that execute on the server
 // when the command is run.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DocumentParameter
@@ -12056,7 +10971,7 @@ type DocumentParameter struct {
 	Name *string `type:"string"`
 
 	// The type of parameter. The type can be either String or StringList.
-	Type DocumentParameterType `type:"string"`
+	Type DocumentParameterType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -12069,30 +10984,6 @@ func (s DocumentParameter) GoString() string {
 	return s.String()
 }
 
-// SetDefaultValue sets the DefaultValue field's value.
-func (s *DocumentParameter) SetDefaultValue(v string) *DocumentParameter {
-	s.DefaultValue = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *DocumentParameter) SetDescription(v string) *DocumentParameter {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DocumentParameter) SetName(v string) *DocumentParameter {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *DocumentParameter) SetType(v DocumentParameterType) *DocumentParameter {
-	s.Type = v
-	return s
-}
-
 // Version information about the document.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DocumentVersionInfo
 type DocumentVersionInfo struct {
@@ -12100,6 +10991,9 @@ type DocumentVersionInfo struct {
 
 	// The date the document was created.
 	CreatedDate *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// The document format, either JSON or YAML.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
 
 	// The document version.
 	DocumentVersion *string `type:"string"`
@@ -12119,30 +11013,6 @@ func (s DocumentVersionInfo) String() string {
 // GoString returns the string representation
 func (s DocumentVersionInfo) GoString() string {
 	return s.String()
-}
-
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *DocumentVersionInfo) SetCreatedDate(v time.Time) *DocumentVersionInfo {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *DocumentVersionInfo) SetDocumentVersion(v string) *DocumentVersionInfo {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetIsDefaultVersion sets the IsDefaultVersion field's value.
-func (s *DocumentVersionInfo) SetIsDefaultVersion(v bool) *DocumentVersionInfo {
-	s.IsDefaultVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DocumentVersionInfo) SetName(v string) *DocumentVersionInfo {
-	s.Name = &v
-	return s
 }
 
 // The EffectivePatch structure defines metadata about a patch along with the
@@ -12175,18 +11045,6 @@ func (s EffectivePatch) GoString() string {
 	return s.String()
 }
 
-// SetPatch sets the Patch field's value.
-func (s *EffectivePatch) SetPatch(v *Patch) *EffectivePatch {
-	s.Patch = v
-	return s
-}
-
-// SetPatchStatus sets the PatchStatus field's value.
-func (s *EffectivePatch) SetPatchStatus(v *PatchStatus) *EffectivePatch {
-	s.PatchStatus = v
-	return s
-}
-
 // Describes a failed association.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/FailedCreateAssociation
 type FailedCreateAssociation struct {
@@ -12196,7 +11054,7 @@ type FailedCreateAssociation struct {
 	Entry *CreateAssociationBatchRequestEntry `type:"structure"`
 
 	// The source of the failure.
-	Fault Fault `type:"string"`
+	Fault Fault `type:"string" enum:"true"`
 
 	// A description of the failure.
 	Message *string `type:"string"`
@@ -12212,31 +11070,13 @@ func (s FailedCreateAssociation) GoString() string {
 	return s.String()
 }
 
-// SetEntry sets the Entry field's value.
-func (s *FailedCreateAssociation) SetEntry(v *CreateAssociationBatchRequestEntry) *FailedCreateAssociation {
-	s.Entry = v
-	return s
-}
-
-// SetFault sets the Fault field's value.
-func (s *FailedCreateAssociation) SetFault(v Fault) *FailedCreateAssociation {
-	s.Fault = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *FailedCreateAssociation) SetMessage(v string) *FailedCreateAssociation {
-	s.Message = &v
-	return s
-}
-
 // Information about an Automation failure.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/FailureDetails
 type FailureDetails struct {
 	_ struct{} `type:"structure"`
 
 	// Detailed information about the Automation step failure.
-	Details map[string][]*string `min:"1" type:"map"`
+	Details map[string][]string `min:"1" type:"map"`
 
 	// The stage of the Automation execution when the failure occurred. The stages
 	// include the following: InputValidation, PreVerification, Invocation, PostVerification.
@@ -12255,24 +11095,6 @@ func (s FailureDetails) String() string {
 // GoString returns the string representation
 func (s FailureDetails) GoString() string {
 	return s.String()
-}
-
-// SetDetails sets the Details field's value.
-func (s *FailureDetails) SetDetails(v map[string][]*string) *FailureDetails {
-	s.Details = v
-	return s
-}
-
-// SetFailureStage sets the FailureStage field's value.
-func (s *FailureDetails) SetFailureStage(v string) *FailureDetails {
-	s.FailureStage = &v
-	return s
-}
-
-// SetFailureType sets the FailureType field's value.
-func (s *FailureDetails) SetFailureType(v string) *FailureDetails {
-	s.FailureType = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetAutomationExecutionRequest
@@ -12314,15 +11136,11 @@ func (s *GetAutomationExecutionInput) Validate() error {
 	return nil
 }
 
-// SetAutomationExecutionId sets the AutomationExecutionId field's value.
-func (s *GetAutomationExecutionInput) SetAutomationExecutionId(v string) *GetAutomationExecutionInput {
-	s.AutomationExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetAutomationExecutionResult
 type GetAutomationExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Detailed information about the current state of an automation execution.
 	AutomationExecution *AutomationExecution `type:"structure"`
@@ -12338,10 +11156,9 @@ func (s GetAutomationExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutomationExecution sets the AutomationExecution field's value.
-func (s *GetAutomationExecutionOutput) SetAutomationExecution(v *AutomationExecution) *GetAutomationExecutionOutput {
-	s.AutomationExecution = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAutomationExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCommandInvocationRequest
@@ -12400,27 +11217,11 @@ func (s *GetCommandInvocationInput) Validate() error {
 	return nil
 }
 
-// SetCommandId sets the CommandId field's value.
-func (s *GetCommandInvocationInput) SetCommandId(v string) *GetCommandInvocationInput {
-	s.CommandId = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *GetCommandInvocationInput) SetInstanceId(v string) *GetCommandInvocationInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetPluginName sets the PluginName field's value.
-func (s *GetCommandInvocationInput) SetPluginName(v string) *GetCommandInvocationInput {
-	s.PluginName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetCommandInvocationResult
 type GetCommandInvocationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The parent command ID of the invocation plugin.
 	CommandId *string `min:"36" type:"string"`
@@ -12430,6 +11231,9 @@ type GetCommandInvocationOutput struct {
 
 	// The name of the document that was executed. For example, AWS-RunShellScript.
 	DocumentName *string `type:"string"`
+
+	// The SSM document version used in the request.
+	DocumentVersion *string `type:"string"`
 
 	// Duration since ExecutionStartDateTime.
 	ExecutionElapsedTime *string `type:"string"`
@@ -12483,9 +11287,8 @@ type GetCommandInvocationOutput struct {
 	// If an Amazon S3 bucket was not specified, then this string is empty.
 	StandardOutputUrl *string `type:"string"`
 
-	// The status of the parent command for this invocation. This status can be
-	// different than StatusDetails.
-	Status CommandInvocationStatus `type:"string"`
+	// The status of this invocation plugin. This status can be different than StatusDetails.
+	Status CommandInvocationStatus `type:"string" enum:"true"`
 
 	// A detailed status of the command execution for an invocation. StatusDetails
 	// includes more information than Status because it includes states resulting
@@ -12547,94 +11350,9 @@ func (s GetCommandInvocationOutput) GoString() string {
 	return s.String()
 }
 
-// SetCommandId sets the CommandId field's value.
-func (s *GetCommandInvocationOutput) SetCommandId(v string) *GetCommandInvocationOutput {
-	s.CommandId = &v
-	return s
-}
-
-// SetComment sets the Comment field's value.
-func (s *GetCommandInvocationOutput) SetComment(v string) *GetCommandInvocationOutput {
-	s.Comment = &v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *GetCommandInvocationOutput) SetDocumentName(v string) *GetCommandInvocationOutput {
-	s.DocumentName = &v
-	return s
-}
-
-// SetExecutionElapsedTime sets the ExecutionElapsedTime field's value.
-func (s *GetCommandInvocationOutput) SetExecutionElapsedTime(v string) *GetCommandInvocationOutput {
-	s.ExecutionElapsedTime = &v
-	return s
-}
-
-// SetExecutionEndDateTime sets the ExecutionEndDateTime field's value.
-func (s *GetCommandInvocationOutput) SetExecutionEndDateTime(v string) *GetCommandInvocationOutput {
-	s.ExecutionEndDateTime = &v
-	return s
-}
-
-// SetExecutionStartDateTime sets the ExecutionStartDateTime field's value.
-func (s *GetCommandInvocationOutput) SetExecutionStartDateTime(v string) *GetCommandInvocationOutput {
-	s.ExecutionStartDateTime = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *GetCommandInvocationOutput) SetInstanceId(v string) *GetCommandInvocationOutput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetPluginName sets the PluginName field's value.
-func (s *GetCommandInvocationOutput) SetPluginName(v string) *GetCommandInvocationOutput {
-	s.PluginName = &v
-	return s
-}
-
-// SetResponseCode sets the ResponseCode field's value.
-func (s *GetCommandInvocationOutput) SetResponseCode(v int64) *GetCommandInvocationOutput {
-	s.ResponseCode = &v
-	return s
-}
-
-// SetStandardErrorContent sets the StandardErrorContent field's value.
-func (s *GetCommandInvocationOutput) SetStandardErrorContent(v string) *GetCommandInvocationOutput {
-	s.StandardErrorContent = &v
-	return s
-}
-
-// SetStandardErrorUrl sets the StandardErrorUrl field's value.
-func (s *GetCommandInvocationOutput) SetStandardErrorUrl(v string) *GetCommandInvocationOutput {
-	s.StandardErrorUrl = &v
-	return s
-}
-
-// SetStandardOutputContent sets the StandardOutputContent field's value.
-func (s *GetCommandInvocationOutput) SetStandardOutputContent(v string) *GetCommandInvocationOutput {
-	s.StandardOutputContent = &v
-	return s
-}
-
-// SetStandardOutputUrl sets the StandardOutputUrl field's value.
-func (s *GetCommandInvocationOutput) SetStandardOutputUrl(v string) *GetCommandInvocationOutput {
-	s.StandardOutputUrl = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetCommandInvocationOutput) SetStatus(v CommandInvocationStatus) *GetCommandInvocationOutput {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *GetCommandInvocationOutput) SetStatusDetails(v string) *GetCommandInvocationOutput {
-	s.StatusDetails = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetCommandInvocationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetDefaultPatchBaselineRequest
@@ -12642,7 +11360,7 @@ type GetDefaultPatchBaselineInput struct {
 	_ struct{} `type:"structure"`
 
 	// Returns the default patch baseline for the specified operating system.
-	OperatingSystem OperatingSystem `type:"string"`
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -12655,21 +11373,17 @@ func (s GetDefaultPatchBaselineInput) GoString() string {
 	return s.String()
 }
 
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *GetDefaultPatchBaselineInput) SetOperatingSystem(v OperatingSystem) *GetDefaultPatchBaselineInput {
-	s.OperatingSystem = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetDefaultPatchBaselineResult
 type GetDefaultPatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the default patch baseline.
 	BaselineId *string `min:"20" type:"string"`
 
 	// The operating system for the returned patch baseline.
-	OperatingSystem OperatingSystem `type:"string"`
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -12682,16 +11396,9 @@ func (s GetDefaultPatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *GetDefaultPatchBaselineOutput) SetBaselineId(v string) *GetDefaultPatchBaselineOutput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *GetDefaultPatchBaselineOutput) SetOperatingSystem(v OperatingSystem) *GetDefaultPatchBaselineOutput {
-	s.OperatingSystem = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDefaultPatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetDeployablePatchSnapshotForInstanceRequest
@@ -12741,21 +11448,11 @@ func (s *GetDeployablePatchSnapshotForInstanceInput) Validate() error {
 	return nil
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *GetDeployablePatchSnapshotForInstanceInput) SetInstanceId(v string) *GetDeployablePatchSnapshotForInstanceInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *GetDeployablePatchSnapshotForInstanceInput) SetSnapshotId(v string) *GetDeployablePatchSnapshotForInstanceInput {
-	s.SnapshotId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetDeployablePatchSnapshotForInstanceResult
 type GetDeployablePatchSnapshotForInstanceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the instance.
 	InstanceId *string `type:"string"`
@@ -12781,33 +11478,18 @@ func (s GetDeployablePatchSnapshotForInstanceOutput) GoString() string {
 	return s.String()
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *GetDeployablePatchSnapshotForInstanceOutput) SetInstanceId(v string) *GetDeployablePatchSnapshotForInstanceOutput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetProduct sets the Product field's value.
-func (s *GetDeployablePatchSnapshotForInstanceOutput) SetProduct(v string) *GetDeployablePatchSnapshotForInstanceOutput {
-	s.Product = &v
-	return s
-}
-
-// SetSnapshotDownloadUrl sets the SnapshotDownloadUrl field's value.
-func (s *GetDeployablePatchSnapshotForInstanceOutput) SetSnapshotDownloadUrl(v string) *GetDeployablePatchSnapshotForInstanceOutput {
-	s.SnapshotDownloadUrl = &v
-	return s
-}
-
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *GetDeployablePatchSnapshotForInstanceOutput) SetSnapshotId(v string) *GetDeployablePatchSnapshotForInstanceOutput {
-	s.SnapshotId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDeployablePatchSnapshotForInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetDocumentRequest
 type GetDocumentInput struct {
 	_ struct{} `type:"structure"`
+
+	// Returns the document in the specified format. The document format can be
+	// either JSON or YAML. JSON is the default format.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
 
 	// The document version for which you want information.
 	DocumentVersion *string `type:"string"`
@@ -12842,27 +11524,20 @@ func (s *GetDocumentInput) Validate() error {
 	return nil
 }
 
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *GetDocumentInput) SetDocumentVersion(v string) *GetDocumentInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetDocumentInput) SetName(v string) *GetDocumentInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetDocumentResult
 type GetDocumentOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The contents of the Systems Manager document.
 	Content *string `min:"1" type:"string"`
 
+	// The document format, either JSON or YAML.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
+
 	// The document type.
-	DocumentType DocumentType `type:"string"`
+	DocumentType DocumentType `type:"string" enum:"true"`
 
 	// The document version.
 	DocumentVersion *string `type:"string"`
@@ -12881,36 +11556,23 @@ func (s GetDocumentOutput) GoString() string {
 	return s.String()
 }
 
-// SetContent sets the Content field's value.
-func (s *GetDocumentOutput) SetContent(v string) *GetDocumentOutput {
-	s.Content = &v
-	return s
-}
-
-// SetDocumentType sets the DocumentType field's value.
-func (s *GetDocumentOutput) SetDocumentType(v DocumentType) *GetDocumentOutput {
-	s.DocumentType = v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *GetDocumentOutput) SetDocumentVersion(v string) *GetDocumentOutput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetDocumentOutput) SetName(v string) *GetDocumentOutput {
-	s.Name = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetInventoryRequest
 type GetInventoryInput struct {
 	_ struct{} `type:"structure"`
 
+	// Returns counts of inventory types based on one or more expressions. For example,
+	// if you aggregate by using an expression that uses the AWS:InstanceInformation.PlatformType
+	// type, you can see a count of how many Windows and Linux instances exist in
+	// your inventoried fleet.
+	Aggregators []InventoryAggregator `min:"1" type:"list"`
+
 	// One or more filters. Use a filter to return a more specific list of results.
-	Filters []*InventoryFilter `locationNameList:"InventoryFilter" min:"1" type:"list"`
+	Filters []InventoryFilter `min:"1" type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -12922,7 +11584,7 @@ type GetInventoryInput struct {
 	NextToken *string `type:"string"`
 
 	// The list of inventory item types to return.
-	ResultAttributes []*ResultAttribute `locationNameList:"ResultAttribute" min:"1" type:"list"`
+	ResultAttributes []ResultAttribute `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -12938,6 +11600,9 @@ func (s GetInventoryInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *GetInventoryInput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "GetInventoryInput"}
+	if s.Aggregators != nil && len(s.Aggregators) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Aggregators", 1))
+	}
 	if s.Filters != nil && len(s.Filters) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("Filters", 1))
 	}
@@ -12947,11 +11612,15 @@ func (s *GetInventoryInput) Validate() error {
 	if s.ResultAttributes != nil && len(s.ResultAttributes) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("ResultAttributes", 1))
 	}
+	if s.Aggregators != nil {
+		for i, v := range s.Aggregators {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Aggregators", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -12959,9 +11628,6 @@ func (s *GetInventoryInput) Validate() error {
 	}
 	if s.ResultAttributes != nil {
 		for i, v := range s.ResultAttributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ResultAttributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -12974,36 +11640,14 @@ func (s *GetInventoryInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *GetInventoryInput) SetFilters(v []*InventoryFilter) *GetInventoryInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetInventoryInput) SetMaxResults(v int64) *GetInventoryInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetInventoryInput) SetNextToken(v string) *GetInventoryInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResultAttributes sets the ResultAttributes field's value.
-func (s *GetInventoryInput) SetResultAttributes(v []*ResultAttribute) *GetInventoryInput {
-	s.ResultAttributes = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetInventoryResult
 type GetInventoryOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Collection of inventory entities such as a collection of instance inventory.
-	Entities []*InventoryResultEntity `locationNameList:"Entity" type:"list"`
+	Entities []InventoryResultEntity `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -13020,21 +11664,19 @@ func (s GetInventoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetEntities sets the Entities field's value.
-func (s *GetInventoryOutput) SetEntities(v []*InventoryResultEntity) *GetInventoryOutput {
-	s.Entities = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetInventoryOutput) SetNextToken(v string) *GetInventoryOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInventoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetInventorySchemaRequest
 type GetInventorySchemaInput struct {
 	_ struct{} `type:"structure"`
+
+	// Returns inventory schemas that support aggregation. For example, this call
+	// returns the AWS:InstanceInformation type, because it supports aggregation
+	// based on the PlatformName, PlatformType, and PlatformVersion attributes.
+	Aggregator *bool `type:"boolean"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -13075,40 +11717,18 @@ func (s *GetInventorySchemaInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetInventorySchemaInput) SetMaxResults(v int64) *GetInventorySchemaInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetInventorySchemaInput) SetNextToken(v string) *GetInventorySchemaInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSubType sets the SubType field's value.
-func (s *GetInventorySchemaInput) SetSubType(v bool) *GetInventorySchemaInput {
-	s.SubType = &v
-	return s
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *GetInventorySchemaInput) SetTypeName(v string) *GetInventorySchemaInput {
-	s.TypeName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetInventorySchemaResult
 type GetInventorySchemaOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// Inventory schemas returned by the request.
-	Schemas []*InventoryItemSchema `type:"list"`
+	Schemas []InventoryItemSchema `type:"list"`
 }
 
 // String returns the string representation
@@ -13121,16 +11741,9 @@ func (s GetInventorySchemaOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetInventorySchemaOutput) SetNextToken(v string) *GetInventorySchemaOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSchemas sets the Schemas field's value.
-func (s *GetInventorySchemaOutput) SetSchemas(v []*InventoryItemSchema) *GetInventorySchemaOutput {
-	s.Schemas = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInventorySchemaOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowExecutionRequest
@@ -13170,15 +11783,11 @@ func (s *GetMaintenanceWindowExecutionInput) Validate() error {
 	return nil
 }
 
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionInput) SetWindowExecutionId(v string) *GetMaintenanceWindowExecutionInput {
-	s.WindowExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowExecutionResult
 type GetMaintenanceWindowExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The time the Maintenance Window finished executing.
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -13187,13 +11796,13 @@ type GetMaintenanceWindowExecutionOutput struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the Maintenance Window execution.
-	Status MaintenanceWindowExecutionStatus `type:"string"`
+	Status MaintenanceWindowExecutionStatus `type:"string" enum:"true"`
 
 	// The details explaining the Status. Only available for certain status values.
 	StatusDetails *string `type:"string"`
 
 	// The ID of the task executions from the Maintenance Window execution.
-	TaskIds []*string `type:"list"`
+	TaskIds []string `type:"list"`
 
 	// The ID of the Maintenance Window execution.
 	WindowExecutionId *string `min:"36" type:"string"`
@@ -13209,40 +11818,9 @@ func (s GetMaintenanceWindowExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetMaintenanceWindowExecutionOutput) SetEndTime(v time.Time) *GetMaintenanceWindowExecutionOutput {
-	s.EndTime = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *GetMaintenanceWindowExecutionOutput) SetStartTime(v time.Time) *GetMaintenanceWindowExecutionOutput {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetMaintenanceWindowExecutionOutput) SetStatus(v MaintenanceWindowExecutionStatus) *GetMaintenanceWindowExecutionOutput {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *GetMaintenanceWindowExecutionOutput) SetStatusDetails(v string) *GetMaintenanceWindowExecutionOutput {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTaskIds sets the TaskIds field's value.
-func (s *GetMaintenanceWindowExecutionOutput) SetTaskIds(v []*string) *GetMaintenanceWindowExecutionOutput {
-	s.TaskIds = v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionOutput) SetWindowExecutionId(v string) *GetMaintenanceWindowExecutionOutput {
-	s.WindowExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetMaintenanceWindowExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowExecutionTaskRequest
@@ -13293,18 +11871,6 @@ func (s *GetMaintenanceWindowExecutionTaskInput) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInput) SetTaskId(v string) *GetMaintenanceWindowExecutionTaskInput {
-	s.TaskId = &v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInput) SetWindowExecutionId(v string) *GetMaintenanceWindowExecutionTaskInput {
-	s.WindowExecutionId = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowExecutionTaskInvocationRequest
@@ -13369,27 +11935,11 @@ func (s *GetMaintenanceWindowExecutionTaskInvocationInput) Validate() error {
 	return nil
 }
 
-// SetInvocationId sets the InvocationId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationInput) SetInvocationId(v string) *GetMaintenanceWindowExecutionTaskInvocationInput {
-	s.InvocationId = &v
-	return s
-}
-
-// SetTaskId sets the TaskId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationInput) SetTaskId(v string) *GetMaintenanceWindowExecutionTaskInvocationInput {
-	s.TaskId = &v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationInput) SetWindowExecutionId(v string) *GetMaintenanceWindowExecutionTaskInvocationInput {
-	s.WindowExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowExecutionTaskInvocationResult
 type GetMaintenanceWindowExecutionTaskInvocationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The time that the task finished executing on the target.
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -13411,7 +11961,7 @@ type GetMaintenanceWindowExecutionTaskInvocationOutput struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The task status for an invocation.
-	Status MaintenanceWindowExecutionStatus `type:"string"`
+	Status MaintenanceWindowExecutionStatus `type:"string" enum:"true"`
 
 	// The details explaining the status. Details are only available for certain
 	// status values.
@@ -13422,7 +11972,7 @@ type GetMaintenanceWindowExecutionTaskInvocationOutput struct {
 
 	// Retrieves the task type for a Maintenance Window. Task types include the
 	// following: LAMBDA, STEP_FUNCTION, AUTOMATION, RUN_COMMAND.
-	TaskType MaintenanceWindowTaskType `type:"string"`
+	TaskType MaintenanceWindowTaskType `type:"string" enum:"true"`
 
 	// The Maintenance Window execution ID.
 	WindowExecutionId *string `min:"36" type:"string"`
@@ -13441,81 +11991,16 @@ func (s GetMaintenanceWindowExecutionTaskInvocationOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetEndTime(v time.Time) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.EndTime = &v
-	return s
-}
-
-// SetExecutionId sets the ExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetExecutionId(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.ExecutionId = &v
-	return s
-}
-
-// SetInvocationId sets the InvocationId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetInvocationId(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.InvocationId = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetOwnerInformation(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetParameters(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.Parameters = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetStartTime(v time.Time) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetStatus(v MaintenanceWindowExecutionStatus) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetStatusDetails(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTaskExecutionId sets the TaskExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetTaskExecutionId(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.TaskExecutionId = &v
-	return s
-}
-
-// SetTaskType sets the TaskType field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetTaskType(v MaintenanceWindowTaskType) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.TaskType = v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetWindowExecutionId(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.WindowExecutionId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *GetMaintenanceWindowExecutionTaskInvocationOutput) SetWindowTargetId(v string) *GetMaintenanceWindowExecutionTaskInvocationOutput {
-	s.WindowTargetId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetMaintenanceWindowExecutionTaskInvocationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowExecutionTaskResult
 type GetMaintenanceWindowExecutionTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The time the task execution completed.
 	EndTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -13537,7 +12022,7 @@ type GetMaintenanceWindowExecutionTaskOutput struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the task.
-	Status MaintenanceWindowExecutionStatus `type:"string"`
+	Status MaintenanceWindowExecutionStatus `type:"string" enum:"true"`
 
 	// The details explaining the Status. Only available for certain status values.
 	StatusDetails *string `type:"string"`
@@ -13549,16 +12034,22 @@ type GetMaintenanceWindowExecutionTaskOutput struct {
 	// was retrieved.
 	TaskExecutionId *string `min:"36" type:"string"`
 
-	// The parameters passed to the task when it was executed. The map has the following
-	// format:
+	// The parameters passed to the task when it was executed.
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	//
+	// The map has the following format:
 	//
 	// Key: string, between 1 and 255 characters
 	//
 	// Value: an array of strings, each string is between 1 and 255 characters
-	TaskParameters []map[string]*MaintenanceWindowTaskParameterValueExpression `type:"list"`
+	TaskParameters []map[string]MaintenanceWindowTaskParameterValueExpression `type:"list"`
 
 	// The type of task executed.
-	Type MaintenanceWindowTaskType `type:"string"`
+	Type MaintenanceWindowTaskType `type:"string" enum:"true"`
 
 	// The ID of the Maintenance Window execution that includes the task.
 	WindowExecutionId *string `min:"36" type:"string"`
@@ -13574,82 +12065,9 @@ func (s GetMaintenanceWindowExecutionTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetEndTime(v time.Time) *GetMaintenanceWindowExecutionTaskOutput {
-	s.EndTime = &v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetMaxConcurrency(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetMaxErrors(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetPriority sets the Priority field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetPriority(v int64) *GetMaintenanceWindowExecutionTaskOutput {
-	s.Priority = &v
-	return s
-}
-
-// SetServiceRole sets the ServiceRole field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetServiceRole(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.ServiceRole = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetStartTime(v time.Time) *GetMaintenanceWindowExecutionTaskOutput {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetStatus(v MaintenanceWindowExecutionStatus) *GetMaintenanceWindowExecutionTaskOutput {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetStatusDetails(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetTaskArn(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskExecutionId sets the TaskExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetTaskExecutionId(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.TaskExecutionId = &v
-	return s
-}
-
-// SetTaskParameters sets the TaskParameters field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetTaskParameters(v []map[string]*MaintenanceWindowTaskParameterValueExpression) *GetMaintenanceWindowExecutionTaskOutput {
-	s.TaskParameters = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetType(v MaintenanceWindowTaskType) *GetMaintenanceWindowExecutionTaskOutput {
-	s.Type = v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *GetMaintenanceWindowExecutionTaskOutput) SetWindowExecutionId(v string) *GetMaintenanceWindowExecutionTaskOutput {
-	s.WindowExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetMaintenanceWindowExecutionTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowRequest
@@ -13689,15 +12107,11 @@ func (s *GetMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *GetMaintenanceWindowInput) SetWindowId(v string) *GetMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowResult
 type GetMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Whether targets must be registered with the Maintenance Window before tasks
 	// can be defined for those targets.
@@ -13742,64 +12156,9 @@ func (s GetMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetAllowUnassociatedTargets sets the AllowUnassociatedTargets field's value.
-func (s *GetMaintenanceWindowOutput) SetAllowUnassociatedTargets(v bool) *GetMaintenanceWindowOutput {
-	s.AllowUnassociatedTargets = &v
-	return s
-}
-
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetMaintenanceWindowOutput) SetCreatedDate(v time.Time) *GetMaintenanceWindowOutput {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetCutoff sets the Cutoff field's value.
-func (s *GetMaintenanceWindowOutput) SetCutoff(v int64) *GetMaintenanceWindowOutput {
-	s.Cutoff = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *GetMaintenanceWindowOutput) SetDescription(v string) *GetMaintenanceWindowOutput {
-	s.Description = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *GetMaintenanceWindowOutput) SetDuration(v int64) *GetMaintenanceWindowOutput {
-	s.Duration = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *GetMaintenanceWindowOutput) SetEnabled(v bool) *GetMaintenanceWindowOutput {
-	s.Enabled = &v
-	return s
-}
-
-// SetModifiedDate sets the ModifiedDate field's value.
-func (s *GetMaintenanceWindowOutput) SetModifiedDate(v time.Time) *GetMaintenanceWindowOutput {
-	s.ModifiedDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetMaintenanceWindowOutput) SetName(v string) *GetMaintenanceWindowOutput {
-	s.Name = &v
-	return s
-}
-
-// SetSchedule sets the Schedule field's value.
-func (s *GetMaintenanceWindowOutput) SetSchedule(v string) *GetMaintenanceWindowOutput {
-	s.Schedule = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *GetMaintenanceWindowOutput) SetWindowId(v string) *GetMaintenanceWindowOutput {
-	s.WindowId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowTaskRequest
@@ -13851,26 +12210,21 @@ func (s *GetMaintenanceWindowTaskInput) Validate() error {
 	return nil
 }
 
-// SetWindowId sets the WindowId field's value.
-func (s *GetMaintenanceWindowTaskInput) SetWindowId(v string) *GetMaintenanceWindowTaskInput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *GetMaintenanceWindowTaskInput) SetWindowTaskId(v string) *GetMaintenanceWindowTaskInput {
-	s.WindowTaskId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetMaintenanceWindowTaskResult
 type GetMaintenanceWindowTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The retrieved task description.
 	Description *string `min:"1" type:"string"`
 
 	// The location in Amazon S3 where the task results are logged.
+	//
+	// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+	// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
 	LoggingInfo *LoggingInfo `type:"structure"`
 
 	// The maximum number of targets allowed to run this task in parallel.
@@ -13890,7 +12244,7 @@ type GetMaintenanceWindowTaskOutput struct {
 	ServiceRoleArn *string `type:"string"`
 
 	// The targets where the task should execute.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The resource that the task used during execution. For RUN_COMMAND and AUTOMATION
 	// task types, the TaskArn is the Systems Manager Document name/ARN. For LAMBDA
@@ -13902,10 +12256,15 @@ type GetMaintenanceWindowTaskOutput struct {
 	TaskInvocationParameters *MaintenanceWindowTaskInvocationParameters `type:"structure"`
 
 	// The parameters to pass to the task when it executes.
-	TaskParameters map[string]*MaintenanceWindowTaskParameterValueExpression `type:"map"`
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	TaskParameters map[string]MaintenanceWindowTaskParameterValueExpression `type:"map"`
 
 	// The type of task to execute.
-	TaskType MaintenanceWindowTaskType `type:"string"`
+	TaskType MaintenanceWindowTaskType `type:"string" enum:"true"`
 
 	// The retrieved Maintenance Window ID.
 	WindowId *string `min:"20" type:"string"`
@@ -13924,88 +12283,9 @@ func (s GetMaintenanceWindowTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetDescription(v string) *GetMaintenanceWindowTaskOutput {
-	s.Description = &v
-	return s
-}
-
-// SetLoggingInfo sets the LoggingInfo field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetLoggingInfo(v *LoggingInfo) *GetMaintenanceWindowTaskOutput {
-	s.LoggingInfo = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetMaxConcurrency(v string) *GetMaintenanceWindowTaskOutput {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetMaxErrors(v string) *GetMaintenanceWindowTaskOutput {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetName(v string) *GetMaintenanceWindowTaskOutput {
-	s.Name = &v
-	return s
-}
-
-// SetPriority sets the Priority field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetPriority(v int64) *GetMaintenanceWindowTaskOutput {
-	s.Priority = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetServiceRoleArn(v string) *GetMaintenanceWindowTaskOutput {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetTargets(v []*Target) *GetMaintenanceWindowTaskOutput {
-	s.Targets = v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetTaskArn(v string) *GetMaintenanceWindowTaskOutput {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskInvocationParameters sets the TaskInvocationParameters field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetTaskInvocationParameters(v *MaintenanceWindowTaskInvocationParameters) *GetMaintenanceWindowTaskOutput {
-	s.TaskInvocationParameters = v
-	return s
-}
-
-// SetTaskParameters sets the TaskParameters field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetTaskParameters(v map[string]*MaintenanceWindowTaskParameterValueExpression) *GetMaintenanceWindowTaskOutput {
-	s.TaskParameters = v
-	return s
-}
-
-// SetTaskType sets the TaskType field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetTaskType(v MaintenanceWindowTaskType) *GetMaintenanceWindowTaskOutput {
-	s.TaskType = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetWindowId(v string) *GetMaintenanceWindowTaskOutput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *GetMaintenanceWindowTaskOutput) SetWindowTaskId(v string) *GetMaintenanceWindowTaskOutput {
-	s.WindowTaskId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetMaintenanceWindowTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParameterHistoryRequest
@@ -14061,40 +12341,18 @@ func (s *GetParameterHistoryInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetParameterHistoryInput) SetMaxResults(v int64) *GetParameterHistoryInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetParameterHistoryInput) SetName(v string) *GetParameterHistoryInput {
-	s.Name = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetParameterHistoryInput) SetNextToken(v string) *GetParameterHistoryInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetWithDecryption sets the WithDecryption field's value.
-func (s *GetParameterHistoryInput) SetWithDecryption(v bool) *GetParameterHistoryInput {
-	s.WithDecryption = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParameterHistoryResult
 type GetParameterHistoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
 	NextToken *string `type:"string"`
 
 	// A list of parameters returned by the request.
-	Parameters []*ParameterHistory `type:"list"`
+	Parameters []ParameterHistory `type:"list"`
 }
 
 // String returns the string representation
@@ -14107,16 +12365,9 @@ func (s GetParameterHistoryOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetParameterHistoryOutput) SetNextToken(v string) *GetParameterHistoryOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *GetParameterHistoryOutput) SetParameters(v []*ParameterHistory) *GetParameterHistoryOutput {
-	s.Parameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetParameterHistoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParameterRequest
@@ -14160,21 +12411,11 @@ func (s *GetParameterInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetParameterInput) SetName(v string) *GetParameterInput {
-	s.Name = &v
-	return s
-}
-
-// SetWithDecryption sets the WithDecryption field's value.
-func (s *GetParameterInput) SetWithDecryption(v bool) *GetParameterInput {
-	s.WithDecryption = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParameterResult
 type GetParameterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about a parameter.
 	Parameter *Parameter `type:"structure"`
@@ -14190,10 +12431,9 @@ func (s GetParameterOutput) GoString() string {
 	return s.String()
 }
 
-// SetParameter sets the Parameter field's value.
-func (s *GetParameterOutput) SetParameter(v *Parameter) *GetParameterOutput {
-	s.Parameter = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetParameterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParametersByPathRequest
@@ -14209,18 +12449,24 @@ type GetParametersByPathInput struct {
 	NextToken *string `type:"string"`
 
 	// Filters to limit the request results.
-	ParameterFilters []*ParameterStringFilter `type:"list"`
+	//
+	// You can't filter using the parameter name.
+	ParameterFilters []ParameterStringFilter `type:"list"`
 
 	// The hierarchy for the parameter. Hierarchies start with a forward slash (/)
-	// and end with the parameter name. A hierarchy can have a maximum of five levels.
-	// Examples: /Environment/Test/DBString003
-	//
-	// /Finance/Prod/IAD/OS/WinServ2016/license15
+	// and end with the parameter name. A hierarchy can have a maximum of 15 levels.
+	// Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
 	//
 	// Path is a required field
 	Path *string `min:"1" type:"string" required:"true"`
 
 	// Retrieve all parameters within a hierarchy.
+	//
+	// If a user has access to a path, then the user can access all levels of that
+	// path. For example, if a user has permission to access path /a, then the user
+	// can also access /a/b. Even if a user has explicitly been denied access in
+	// IAM for parameter /a, they can still call the GetParametersByPath API action
+	// recursively and view /a/b.
 	Recursive *bool `type:"boolean"`
 
 	// Retrieve all parameters in a hierarchy with their value decrypted.
@@ -14252,9 +12498,6 @@ func (s *GetParametersByPathInput) Validate() error {
 	}
 	if s.ParameterFilters != nil {
 		for i, v := range s.ParameterFilters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ParameterFilters", i), err.(aws.ErrInvalidParams))
 			}
@@ -14267,52 +12510,18 @@ func (s *GetParametersByPathInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetParametersByPathInput) SetMaxResults(v int64) *GetParametersByPathInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetParametersByPathInput) SetNextToken(v string) *GetParametersByPathInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParameterFilters sets the ParameterFilters field's value.
-func (s *GetParametersByPathInput) SetParameterFilters(v []*ParameterStringFilter) *GetParametersByPathInput {
-	s.ParameterFilters = v
-	return s
-}
-
-// SetPath sets the Path field's value.
-func (s *GetParametersByPathInput) SetPath(v string) *GetParametersByPathInput {
-	s.Path = &v
-	return s
-}
-
-// SetRecursive sets the Recursive field's value.
-func (s *GetParametersByPathInput) SetRecursive(v bool) *GetParametersByPathInput {
-	s.Recursive = &v
-	return s
-}
-
-// SetWithDecryption sets the WithDecryption field's value.
-func (s *GetParametersByPathInput) SetWithDecryption(v bool) *GetParametersByPathInput {
-	s.WithDecryption = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParametersByPathResult
 type GetParametersByPathOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
 	NextToken *string `type:"string"`
 
 	// A list of parameters found in the specified hierarchy.
-	Parameters []*Parameter `type:"list"`
+	Parameters []Parameter `type:"list"`
 }
 
 // String returns the string representation
@@ -14325,16 +12534,9 @@ func (s GetParametersByPathOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetParametersByPathOutput) SetNextToken(v string) *GetParametersByPathOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *GetParametersByPathOutput) SetParameters(v []*Parameter) *GetParametersByPathOutput {
-	s.Parameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetParametersByPathOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParametersRequest
@@ -14344,7 +12546,7 @@ type GetParametersInput struct {
 	// Names of the parameters for which you want to query information.
 	//
 	// Names is a required field
-	Names []*string `min:"1" type:"list" required:"true"`
+	Names []string `min:"1" type:"list" required:"true"`
 
 	// Return decrypted secure string value. Return decrypted values for secure
 	// string parameters. This flag is ignored for String and StringList parameter
@@ -14379,28 +12581,18 @@ func (s *GetParametersInput) Validate() error {
 	return nil
 }
 
-// SetNames sets the Names field's value.
-func (s *GetParametersInput) SetNames(v []*string) *GetParametersInput {
-	s.Names = v
-	return s
-}
-
-// SetWithDecryption sets the WithDecryption field's value.
-func (s *GetParametersInput) SetWithDecryption(v bool) *GetParametersInput {
-	s.WithDecryption = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetParametersResult
 type GetParametersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of parameters that are not formatted correctly or do not run when
 	// executed.
-	InvalidParameters []*string `min:"1" type:"list"`
+	InvalidParameters []string `min:"1" type:"list"`
 
 	// A list of details for a parameter.
-	Parameters []*Parameter `type:"list"`
+	Parameters []Parameter `type:"list"`
 }
 
 // String returns the string representation
@@ -14413,16 +12605,9 @@ func (s GetParametersOutput) GoString() string {
 	return s.String()
 }
 
-// SetInvalidParameters sets the InvalidParameters field's value.
-func (s *GetParametersOutput) SetInvalidParameters(v []*string) *GetParametersOutput {
-	s.InvalidParameters = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *GetParametersOutput) SetParameters(v []*Parameter) *GetParametersOutput {
-	s.Parameters = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetParametersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetPatchBaselineForPatchGroupRequest
@@ -14431,7 +12616,7 @@ type GetPatchBaselineForPatchGroupInput struct {
 
 	// Returns he operating system rule specified for patch groups using the patch
 	// baseline.
-	OperatingSystem OperatingSystem `type:"string"`
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 
 	// The name of the patch group whose patch baseline should be retrieved.
 	//
@@ -14466,27 +12651,17 @@ func (s *GetPatchBaselineForPatchGroupInput) Validate() error {
 	return nil
 }
 
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *GetPatchBaselineForPatchGroupInput) SetOperatingSystem(v OperatingSystem) *GetPatchBaselineForPatchGroupInput {
-	s.OperatingSystem = v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *GetPatchBaselineForPatchGroupInput) SetPatchGroup(v string) *GetPatchBaselineForPatchGroupInput {
-	s.PatchGroup = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetPatchBaselineForPatchGroupResult
 type GetPatchBaselineForPatchGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the patch baseline that should be used for the patch group.
 	BaselineId *string `min:"20" type:"string"`
 
 	// The operating system rule specified for patch groups using the patch baseline.
-	OperatingSystem OperatingSystem `type:"string"`
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 
 	// The name of the patch group.
 	PatchGroup *string `min:"1" type:"string"`
@@ -14502,22 +12677,9 @@ func (s GetPatchBaselineForPatchGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *GetPatchBaselineForPatchGroupOutput) SetBaselineId(v string) *GetPatchBaselineForPatchGroupOutput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *GetPatchBaselineForPatchGroupOutput) SetOperatingSystem(v OperatingSystem) *GetPatchBaselineForPatchGroupOutput {
-	s.OperatingSystem = v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *GetPatchBaselineForPatchGroupOutput) SetPatchGroup(v string) *GetPatchBaselineForPatchGroupOutput {
-	s.PatchGroup = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPatchBaselineForPatchGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetPatchBaselineRequest
@@ -14557,25 +12719,26 @@ func (s *GetPatchBaselineInput) Validate() error {
 	return nil
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *GetPatchBaselineInput) SetBaselineId(v string) *GetPatchBaselineInput {
-	s.BaselineId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetPatchBaselineResult
 type GetPatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A set of rules used to include patches in the baseline.
 	ApprovalRules *PatchRuleGroup `type:"structure"`
 
 	// A list of explicitly approved patches for the baseline.
-	ApprovedPatches []*string `type:"list"`
+	ApprovedPatches []string `type:"list"`
 
 	// Returns the specified compliance severity level for approved patches in the
 	// patch baseline.
-	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string"`
+	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string" enum:"true"`
+
+	// Indicates whether the list of approved patches includes non-security updates
+	// that should be applied to the instances. The default value is 'false'. Applies
+	// to Linux instances only.
+	ApprovedPatchesEnableNonSecurity *bool `type:"boolean"`
 
 	// The ID of the retrieved patch baseline.
 	BaselineId *string `min:"20" type:"string"`
@@ -14596,13 +12759,17 @@ type GetPatchBaselineOutput struct {
 	Name *string `min:"3" type:"string"`
 
 	// Returns the operating system specified for the patch baseline.
-	OperatingSystem OperatingSystem `type:"string"`
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 
 	// Patch groups included in the patch baseline.
-	PatchGroups []*string `type:"list"`
+	PatchGroups []string `type:"list"`
 
 	// A list of explicitly rejected patches for the baseline.
-	RejectedPatches []*string `type:"list"`
+	RejectedPatches []string `type:"list"`
+
+	// Information about the patches to use to update the instances, including target
+	// operating systems and source repositories. Applies to Linux instances only.
+	Sources []PatchSource `type:"list"`
 }
 
 // String returns the string representation
@@ -14615,76 +12782,9 @@ func (s GetPatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetApprovalRules sets the ApprovalRules field's value.
-func (s *GetPatchBaselineOutput) SetApprovalRules(v *PatchRuleGroup) *GetPatchBaselineOutput {
-	s.ApprovalRules = v
-	return s
-}
-
-// SetApprovedPatches sets the ApprovedPatches field's value.
-func (s *GetPatchBaselineOutput) SetApprovedPatches(v []*string) *GetPatchBaselineOutput {
-	s.ApprovedPatches = v
-	return s
-}
-
-// SetApprovedPatchesComplianceLevel sets the ApprovedPatchesComplianceLevel field's value.
-func (s *GetPatchBaselineOutput) SetApprovedPatchesComplianceLevel(v PatchComplianceLevel) *GetPatchBaselineOutput {
-	s.ApprovedPatchesComplianceLevel = v
-	return s
-}
-
-// SetBaselineId sets the BaselineId field's value.
-func (s *GetPatchBaselineOutput) SetBaselineId(v string) *GetPatchBaselineOutput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *GetPatchBaselineOutput) SetCreatedDate(v time.Time) *GetPatchBaselineOutput {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *GetPatchBaselineOutput) SetDescription(v string) *GetPatchBaselineOutput {
-	s.Description = &v
-	return s
-}
-
-// SetGlobalFilters sets the GlobalFilters field's value.
-func (s *GetPatchBaselineOutput) SetGlobalFilters(v *PatchFilterGroup) *GetPatchBaselineOutput {
-	s.GlobalFilters = v
-	return s
-}
-
-// SetModifiedDate sets the ModifiedDate field's value.
-func (s *GetPatchBaselineOutput) SetModifiedDate(v time.Time) *GetPatchBaselineOutput {
-	s.ModifiedDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *GetPatchBaselineOutput) SetName(v string) *GetPatchBaselineOutput {
-	s.Name = &v
-	return s
-}
-
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *GetPatchBaselineOutput) SetOperatingSystem(v OperatingSystem) *GetPatchBaselineOutput {
-	s.OperatingSystem = v
-	return s
-}
-
-// SetPatchGroups sets the PatchGroups field's value.
-func (s *GetPatchBaselineOutput) SetPatchGroups(v []*string) *GetPatchBaselineOutput {
-	s.PatchGroups = v
-	return s
-}
-
-// SetRejectedPatches sets the RejectedPatches field's value.
-func (s *GetPatchBaselineOutput) SetRejectedPatches(v []*string) *GetPatchBaselineOutput {
-	s.RejectedPatches = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Status information about the aggregated associations.
@@ -14696,7 +12796,7 @@ type InstanceAggregatedAssociationOverview struct {
 	DetailedStatus *string `type:"string"`
 
 	// The number of associations for the instance(s).
-	InstanceAssociationStatusAggregatedCount map[string]*int64 `type:"map"`
+	InstanceAssociationStatusAggregatedCount map[string]int64 `type:"map"`
 }
 
 // String returns the string representation
@@ -14707,18 +12807,6 @@ func (s InstanceAggregatedAssociationOverview) String() string {
 // GoString returns the string representation
 func (s InstanceAggregatedAssociationOverview) GoString() string {
 	return s.String()
-}
-
-// SetDetailedStatus sets the DetailedStatus field's value.
-func (s *InstanceAggregatedAssociationOverview) SetDetailedStatus(v string) *InstanceAggregatedAssociationOverview {
-	s.DetailedStatus = &v
-	return s
-}
-
-// SetInstanceAssociationStatusAggregatedCount sets the InstanceAssociationStatusAggregatedCount field's value.
-func (s *InstanceAggregatedAssociationOverview) SetInstanceAssociationStatusAggregatedCount(v map[string]*int64) *InstanceAggregatedAssociationOverview {
-	s.InstanceAssociationStatusAggregatedCount = v
-	return s
 }
 
 // One or more association documents on the instance.
@@ -14747,30 +12835,6 @@ func (s InstanceAssociation) String() string {
 // GoString returns the string representation
 func (s InstanceAssociation) GoString() string {
 	return s.String()
-}
-
-// SetAssociationId sets the AssociationId field's value.
-func (s *InstanceAssociation) SetAssociationId(v string) *InstanceAssociation {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *InstanceAssociation) SetAssociationVersion(v string) *InstanceAssociation {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetContent sets the Content field's value.
-func (s *InstanceAssociation) SetContent(v string) *InstanceAssociation {
-	s.Content = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *InstanceAssociation) SetInstanceId(v string) *InstanceAssociation {
-	s.InstanceId = &v
-	return s
 }
 
 // An Amazon S3 bucket where you want to store the results of this request.
@@ -14807,12 +12871,6 @@ func (s *InstanceAssociationOutputLocation) Validate() error {
 	return nil
 }
 
-// SetS3Location sets the S3Location field's value.
-func (s *InstanceAssociationOutputLocation) SetS3Location(v *S3OutputLocation) *InstanceAssociationOutputLocation {
-	s.S3Location = v
-	return s
-}
-
 // The URL of Amazon S3 bucket where you want to store the results of this request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceAssociationOutputUrl
 type InstanceAssociationOutputUrl struct {
@@ -14830,12 +12888,6 @@ func (s InstanceAssociationOutputUrl) String() string {
 // GoString returns the string representation
 func (s InstanceAssociationOutputUrl) GoString() string {
 	return s.String()
-}
-
-// SetS3OutputUrl sets the S3OutputUrl field's value.
-func (s *InstanceAssociationOutputUrl) SetS3OutputUrl(v *S3OutputUrl) *InstanceAssociationOutputUrl {
-	s.S3OutputUrl = v
-	return s
 }
 
 // Status information about the instance association.
@@ -14891,78 +12943,6 @@ func (s InstanceAssociationStatusInfo) GoString() string {
 	return s.String()
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *InstanceAssociationStatusInfo) SetAssociationId(v string) *InstanceAssociationStatusInfo {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationName sets the AssociationName field's value.
-func (s *InstanceAssociationStatusInfo) SetAssociationName(v string) *InstanceAssociationStatusInfo {
-	s.AssociationName = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *InstanceAssociationStatusInfo) SetAssociationVersion(v string) *InstanceAssociationStatusInfo {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetDetailedStatus sets the DetailedStatus field's value.
-func (s *InstanceAssociationStatusInfo) SetDetailedStatus(v string) *InstanceAssociationStatusInfo {
-	s.DetailedStatus = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *InstanceAssociationStatusInfo) SetDocumentVersion(v string) *InstanceAssociationStatusInfo {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetErrorCode sets the ErrorCode field's value.
-func (s *InstanceAssociationStatusInfo) SetErrorCode(v string) *InstanceAssociationStatusInfo {
-	s.ErrorCode = &v
-	return s
-}
-
-// SetExecutionDate sets the ExecutionDate field's value.
-func (s *InstanceAssociationStatusInfo) SetExecutionDate(v time.Time) *InstanceAssociationStatusInfo {
-	s.ExecutionDate = &v
-	return s
-}
-
-// SetExecutionSummary sets the ExecutionSummary field's value.
-func (s *InstanceAssociationStatusInfo) SetExecutionSummary(v string) *InstanceAssociationStatusInfo {
-	s.ExecutionSummary = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *InstanceAssociationStatusInfo) SetInstanceId(v string) *InstanceAssociationStatusInfo {
-	s.InstanceId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceAssociationStatusInfo) SetName(v string) *InstanceAssociationStatusInfo {
-	s.Name = &v
-	return s
-}
-
-// SetOutputUrl sets the OutputUrl field's value.
-func (s *InstanceAssociationStatusInfo) SetOutputUrl(v *InstanceAssociationOutputUrl) *InstanceAssociationStatusInfo {
-	s.OutputUrl = v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *InstanceAssociationStatusInfo) SetStatus(v string) *InstanceAssociationStatusInfo {
-	s.Status = &v
-	return s
-}
-
 // Describes a filter for a specific list of instances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceInformation
 type InstanceInformation struct {
@@ -14994,6 +12974,9 @@ type InstanceInformation struct {
 	InstanceId *string `type:"string"`
 
 	// Indicates whether latest version of the SSM Agent is running on your instance.
+	// Some older versions of Windows Server use the EC2Config service to process
+	// SSM requests. For this reason, this field does not indicate whether or not
+	// the latest version is installed on Windows managed instances.
 	IsLatestVersion *bool `type:"boolean"`
 
 	// The date the association was last executed.
@@ -15009,13 +12992,13 @@ type InstanceInformation struct {
 	Name *string `type:"string"`
 
 	// Connection status of the SSM Agent.
-	PingStatus PingStatus `type:"string"`
+	PingStatus PingStatus `type:"string" enum:"true"`
 
 	// The name of the operating system platform running on your instance.
 	PlatformName *string `type:"string"`
 
 	// The operating system platform type.
-	PlatformType PlatformType `type:"string"`
+	PlatformType PlatformType `type:"string" enum:"true"`
 
 	// The version of the OS platform running on your instance.
 	PlatformVersion *string `type:"string"`
@@ -15024,7 +13007,7 @@ type InstanceInformation struct {
 	RegistrationDate *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The type of instance. Instances are either EC2 instances or managed instances.
-	ResourceType ResourceType `type:"string"`
+	ResourceType ResourceType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -15037,120 +13020,6 @@ func (s InstanceInformation) GoString() string {
 	return s.String()
 }
 
-// SetActivationId sets the ActivationId field's value.
-func (s *InstanceInformation) SetActivationId(v string) *InstanceInformation {
-	s.ActivationId = &v
-	return s
-}
-
-// SetAgentVersion sets the AgentVersion field's value.
-func (s *InstanceInformation) SetAgentVersion(v string) *InstanceInformation {
-	s.AgentVersion = &v
-	return s
-}
-
-// SetAssociationOverview sets the AssociationOverview field's value.
-func (s *InstanceInformation) SetAssociationOverview(v *InstanceAggregatedAssociationOverview) *InstanceInformation {
-	s.AssociationOverview = v
-	return s
-}
-
-// SetAssociationStatus sets the AssociationStatus field's value.
-func (s *InstanceInformation) SetAssociationStatus(v string) *InstanceInformation {
-	s.AssociationStatus = &v
-	return s
-}
-
-// SetComputerName sets the ComputerName field's value.
-func (s *InstanceInformation) SetComputerName(v string) *InstanceInformation {
-	s.ComputerName = &v
-	return s
-}
-
-// SetIPAddress sets the IPAddress field's value.
-func (s *InstanceInformation) SetIPAddress(v string) *InstanceInformation {
-	s.IPAddress = &v
-	return s
-}
-
-// SetIamRole sets the IamRole field's value.
-func (s *InstanceInformation) SetIamRole(v string) *InstanceInformation {
-	s.IamRole = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *InstanceInformation) SetInstanceId(v string) *InstanceInformation {
-	s.InstanceId = &v
-	return s
-}
-
-// SetIsLatestVersion sets the IsLatestVersion field's value.
-func (s *InstanceInformation) SetIsLatestVersion(v bool) *InstanceInformation {
-	s.IsLatestVersion = &v
-	return s
-}
-
-// SetLastAssociationExecutionDate sets the LastAssociationExecutionDate field's value.
-func (s *InstanceInformation) SetLastAssociationExecutionDate(v time.Time) *InstanceInformation {
-	s.LastAssociationExecutionDate = &v
-	return s
-}
-
-// SetLastPingDateTime sets the LastPingDateTime field's value.
-func (s *InstanceInformation) SetLastPingDateTime(v time.Time) *InstanceInformation {
-	s.LastPingDateTime = &v
-	return s
-}
-
-// SetLastSuccessfulAssociationExecutionDate sets the LastSuccessfulAssociationExecutionDate field's value.
-func (s *InstanceInformation) SetLastSuccessfulAssociationExecutionDate(v time.Time) *InstanceInformation {
-	s.LastSuccessfulAssociationExecutionDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InstanceInformation) SetName(v string) *InstanceInformation {
-	s.Name = &v
-	return s
-}
-
-// SetPingStatus sets the PingStatus field's value.
-func (s *InstanceInformation) SetPingStatus(v PingStatus) *InstanceInformation {
-	s.PingStatus = v
-	return s
-}
-
-// SetPlatformName sets the PlatformName field's value.
-func (s *InstanceInformation) SetPlatformName(v string) *InstanceInformation {
-	s.PlatformName = &v
-	return s
-}
-
-// SetPlatformType sets the PlatformType field's value.
-func (s *InstanceInformation) SetPlatformType(v PlatformType) *InstanceInformation {
-	s.PlatformType = v
-	return s
-}
-
-// SetPlatformVersion sets the PlatformVersion field's value.
-func (s *InstanceInformation) SetPlatformVersion(v string) *InstanceInformation {
-	s.PlatformVersion = &v
-	return s
-}
-
-// SetRegistrationDate sets the RegistrationDate field's value.
-func (s *InstanceInformation) SetRegistrationDate(v time.Time) *InstanceInformation {
-	s.RegistrationDate = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *InstanceInformation) SetResourceType(v ResourceType) *InstanceInformation {
-	s.ResourceType = v
-	return s
-}
-
 // Describes a filter for a specific list of instances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceInformationFilter
 type InstanceInformationFilter struct {
@@ -15159,12 +13028,12 @@ type InstanceInformationFilter struct {
 	// The name of the filter.
 	//
 	// Key is a required field
-	Key InstanceInformationFilterKey `locationName:"key" type:"string" required:"true"`
+	Key InstanceInformationFilterKey `locationName:"key" type:"string" required:"true" enum:"true"`
 
 	// The filter values.
 	//
 	// ValueSet is a required field
-	ValueSet []*string `locationName:"valueSet" locationNameList:"InstanceInformationFilterValue" min:"1" type:"list" required:"true"`
+	ValueSet []string `locationName:"valueSet" min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -15197,18 +13066,6 @@ func (s *InstanceInformationFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *InstanceInformationFilter) SetKey(v InstanceInformationFilterKey) *InstanceInformationFilter {
-	s.Key = v
-	return s
-}
-
-// SetValueSet sets the ValueSet field's value.
-func (s *InstanceInformationFilter) SetValueSet(v []*string) *InstanceInformationFilter {
-	s.ValueSet = v
-	return s
-}
-
 // The filters to describe or get information about your managed instances.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceInformationStringFilter
 type InstanceInformationStringFilter struct {
@@ -15225,7 +13082,7 @@ type InstanceInformationStringFilter struct {
 	// The filter values.
 	//
 	// Values is a required field
-	Values []*string `locationNameList:"InstanceInformationFilterValue" min:"1" type:"list" required:"true"`
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -15260,18 +13117,6 @@ func (s *InstanceInformationStringFilter) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *InstanceInformationStringFilter) SetKey(v string) *InstanceInformationStringFilter {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *InstanceInformationStringFilter) SetValues(v []*string) *InstanceInformationStringFilter {
-	s.Values = v
-	return s
 }
 
 // Defines the high-level patch compliance state for a managed instance, providing
@@ -15316,7 +13161,7 @@ type InstancePatchState struct {
 	// state) or INSTALL (install missing patches).
 	//
 	// Operation is a required field
-	Operation PatchOperationType `type:"string" required:"true"`
+	Operation PatchOperationType `type:"string" required:"true" enum:"true"`
 
 	// The time the most recent patching operation completed on the instance.
 	//
@@ -15328,7 +13173,7 @@ type InstancePatchState struct {
 	// OperationStartTime is a required field
 	OperationStartTime *time.Time `type:"timestamp" timestampFormat:"unix" required:"true"`
 
-	// Placeholder information, this field will always be empty in the current release
+	// Placeholder information. This field will always be empty in the current release
 	// of the service.
 	OwnerInformation *string `min:"1" type:"string"`
 
@@ -15352,84 +13197,6 @@ func (s InstancePatchState) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *InstancePatchState) SetBaselineId(v string) *InstancePatchState {
-	s.BaselineId = &v
-	return s
-}
-
-// SetFailedCount sets the FailedCount field's value.
-func (s *InstancePatchState) SetFailedCount(v int64) *InstancePatchState {
-	s.FailedCount = &v
-	return s
-}
-
-// SetInstalledCount sets the InstalledCount field's value.
-func (s *InstancePatchState) SetInstalledCount(v int64) *InstancePatchState {
-	s.InstalledCount = &v
-	return s
-}
-
-// SetInstalledOtherCount sets the InstalledOtherCount field's value.
-func (s *InstancePatchState) SetInstalledOtherCount(v int64) *InstancePatchState {
-	s.InstalledOtherCount = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *InstancePatchState) SetInstanceId(v string) *InstancePatchState {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMissingCount sets the MissingCount field's value.
-func (s *InstancePatchState) SetMissingCount(v int64) *InstancePatchState {
-	s.MissingCount = &v
-	return s
-}
-
-// SetNotApplicableCount sets the NotApplicableCount field's value.
-func (s *InstancePatchState) SetNotApplicableCount(v int64) *InstancePatchState {
-	s.NotApplicableCount = &v
-	return s
-}
-
-// SetOperation sets the Operation field's value.
-func (s *InstancePatchState) SetOperation(v PatchOperationType) *InstancePatchState {
-	s.Operation = v
-	return s
-}
-
-// SetOperationEndTime sets the OperationEndTime field's value.
-func (s *InstancePatchState) SetOperationEndTime(v time.Time) *InstancePatchState {
-	s.OperationEndTime = &v
-	return s
-}
-
-// SetOperationStartTime sets the OperationStartTime field's value.
-func (s *InstancePatchState) SetOperationStartTime(v time.Time) *InstancePatchState {
-	s.OperationStartTime = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *InstancePatchState) SetOwnerInformation(v string) *InstancePatchState {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *InstancePatchState) SetPatchGroup(v string) *InstancePatchState {
-	s.PatchGroup = &v
-	return s
-}
-
-// SetSnapshotId sets the SnapshotId field's value.
-func (s *InstancePatchState) SetSnapshotId(v string) *InstancePatchState {
-	s.SnapshotId = &v
-	return s
-}
-
 // Defines a filter used in DescribeInstancePatchStatesForPatchGroup used to
 // scope down the information returned by the API.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstancePatchStateFilter
@@ -15446,12 +13213,12 @@ type InstancePatchStateFilter struct {
 	// LessThan or GreaterThan.
 	//
 	// Type is a required field
-	Type InstancePatchStateOperatorType `type:"string" required:"true"`
+	Type InstancePatchStateOperatorType `type:"string" required:"true" enum:"true"`
 
 	// The value for the filter, must be an integer greater than or equal to 0.
 	//
 	// Values is a required field
-	Values []*string `min:"1" type:"list" required:"true"`
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -15491,22 +13258,139 @@ func (s *InstancePatchStateFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *InstancePatchStateFilter) SetKey(v string) *InstancePatchStateFilter {
-	s.Key = &v
-	return s
+// Specifies the inventory type and attribute for the aggregation execution.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryAggregator
+type InventoryAggregator struct {
+	_ struct{} `type:"structure"`
+
+	// Nested aggregators to further refine aggregation for an inventory type.
+	Aggregators []InventoryAggregator `min:"1" type:"list"`
+
+	// The inventory type and attribute name for aggregation.
+	Expression *string `min:"1" type:"string"`
 }
 
-// SetType sets the Type field's value.
-func (s *InstancePatchStateFilter) SetType(v InstancePatchStateOperatorType) *InstancePatchStateFilter {
-	s.Type = v
-	return s
+// String returns the string representation
+func (s InventoryAggregator) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetValues sets the Values field's value.
-func (s *InstancePatchStateFilter) SetValues(v []*string) *InstancePatchStateFilter {
-	s.Values = v
-	return s
+// GoString returns the string representation
+func (s InventoryAggregator) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *InventoryAggregator) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "InventoryAggregator"}
+	if s.Aggregators != nil && len(s.Aggregators) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Aggregators", 1))
+	}
+	if s.Expression != nil && len(*s.Expression) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Expression", 1))
+	}
+	if s.Aggregators != nil {
+		for i, v := range s.Aggregators {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Aggregators", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Status information returned by the DeleteInventory action.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryDeletionStatusItem
+type InventoryDeletionStatusItem struct {
+	_ struct{} `type:"structure"`
+
+	// The deletion ID returned by the DeleteInventory action.
+	DeletionId *string `type:"string"`
+
+	// The UTC timestamp when the delete operation started.
+	DeletionStartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// Information about the delete operation. For more information about this summary,
+	// see Understanding the Delete Inventory Summary (http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-delete.html#sysman-inventory-delete-summary).
+	DeletionSummary *InventoryDeletionSummary `type:"structure"`
+
+	// The status of the operation. Possible values are InProgress and Complete.
+	LastStatus InventoryDeletionStatus `type:"string" enum:"true"`
+
+	// Information about the status.
+	LastStatusMessage *string `type:"string"`
+
+	// The UTC timestamp of when the last status report.
+	LastStatusUpdateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// The name of the inventory data type.
+	TypeName *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s InventoryDeletionStatusItem) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s InventoryDeletionStatusItem) GoString() string {
+	return s.String()
+}
+
+// Information about the delete operation.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryDeletionSummary
+type InventoryDeletionSummary struct {
+	_ struct{} `type:"structure"`
+
+	// Remaining number of items to delete.
+	RemainingCount *int64 `type:"integer"`
+
+	// A list of counts and versions for deleted items.
+	SummaryItems []InventoryDeletionSummaryItem `type:"list"`
+
+	// The total number of items to delete. This count does not change during the
+	// delete operation.
+	TotalCount *int64 `type:"integer"`
+}
+
+// String returns the string representation
+func (s InventoryDeletionSummary) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s InventoryDeletionSummary) GoString() string {
+	return s.String()
+}
+
+// Either a count, remaining count, or a version number in a delete inventory
+// summary.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryDeletionSummaryItem
+type InventoryDeletionSummaryItem struct {
+	_ struct{} `type:"structure"`
+
+	// A count of the number of deleted items.
+	Count *int64 `type:"integer"`
+
+	// The remaining number of items to delete.
+	RemainingCount *int64 `type:"integer"`
+
+	// The inventory type version.
+	Version *string `type:"string"`
+}
+
+// String returns the string representation
+func (s InventoryDeletionSummaryItem) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s InventoryDeletionSummaryItem) GoString() string {
+	return s.String()
 }
 
 // One or more filters. Use a filter to return a more specific list of results.
@@ -15520,14 +13404,14 @@ type InventoryFilter struct {
 	Key *string `min:"1" type:"string" required:"true"`
 
 	// The type of filter. Valid values include the following: "Equal"|"NotEqual"|"BeginWith"|"LessThan"|"GreaterThan"
-	Type InventoryQueryOperatorType `type:"string"`
+	Type InventoryQueryOperatorType `type:"string" enum:"true"`
 
 	// Inventory filter values. Example: inventory filter where instance IDs are
 	// specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g,
 	// i-1a2b3c4d5e6,Type=Equal
 	//
 	// Values is a required field
-	Values []*string `locationNameList:"FilterValue" min:"1" type:"list" required:"true"`
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -15564,24 +13448,6 @@ func (s *InventoryFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *InventoryFilter) SetKey(v string) *InventoryFilter {
-	s.Key = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *InventoryFilter) SetType(v InventoryQueryOperatorType) *InventoryFilter {
-	s.Type = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *InventoryFilter) SetValues(v []*string) *InventoryFilter {
-	s.Values = v
-	return s
-}
-
 // Information collected from managed instances based on your inventory policy
 // document
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryItem
@@ -15594,7 +13460,7 @@ type InventoryItem struct {
 	CaptureTime *string `type:"string" required:"true"`
 
 	// The inventory data of the inventory type.
-	Content []map[string]*string `type:"list"`
+	Content []map[string]string `type:"list"`
 
 	// MD5 hash of the inventory item type contents. The content hash is used to
 	// determine whether to update inventory information. The PutInventory API does
@@ -15605,7 +13471,7 @@ type InventoryItem struct {
 	// A map of associated properties for a specified inventory type. For example,
 	// with this attribute, you can specify the ExecutionId, ExecutionType, ComplianceType
 	// properties of the AWS:ComplianceItem type.
-	Context map[string]*string `type:"map"`
+	Context map[string]string `type:"map"`
 
 	// The schema version for the inventory item.
 	//
@@ -15656,42 +13522,6 @@ func (s *InventoryItem) Validate() error {
 	return nil
 }
 
-// SetCaptureTime sets the CaptureTime field's value.
-func (s *InventoryItem) SetCaptureTime(v string) *InventoryItem {
-	s.CaptureTime = &v
-	return s
-}
-
-// SetContent sets the Content field's value.
-func (s *InventoryItem) SetContent(v []map[string]*string) *InventoryItem {
-	s.Content = v
-	return s
-}
-
-// SetContentHash sets the ContentHash field's value.
-func (s *InventoryItem) SetContentHash(v string) *InventoryItem {
-	s.ContentHash = &v
-	return s
-}
-
-// SetContext sets the Context field's value.
-func (s *InventoryItem) SetContext(v map[string]*string) *InventoryItem {
-	s.Context = v
-	return s
-}
-
-// SetSchemaVersion sets the SchemaVersion field's value.
-func (s *InventoryItem) SetSchemaVersion(v string) *InventoryItem {
-	s.SchemaVersion = &v
-	return s
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *InventoryItem) SetTypeName(v string) *InventoryItem {
-	s.TypeName = &v
-	return s
-}
-
 // Attributes are the entries within the inventory item content. It contains
 // name and value.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryItemAttribute
@@ -15701,7 +13531,7 @@ type InventoryItemAttribute struct {
 	// The data type of the inventory item attribute.
 	//
 	// DataType is a required field
-	DataType InventoryAttributeDataType `type:"string" required:"true"`
+	DataType InventoryAttributeDataType `type:"string" required:"true" enum:"true"`
 
 	// Name of the inventory item attribute.
 	//
@@ -15719,18 +13549,6 @@ func (s InventoryItemAttribute) GoString() string {
 	return s.String()
 }
 
-// SetDataType sets the DataType field's value.
-func (s *InventoryItemAttribute) SetDataType(v InventoryAttributeDataType) *InventoryItemAttribute {
-	s.DataType = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *InventoryItemAttribute) SetName(v string) *InventoryItemAttribute {
-	s.Name = &v
-	return s
-}
-
 // The inventory item schema definition. Users can use this to compose inventory
 // query filters.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryItemSchema
@@ -15741,7 +13559,11 @@ type InventoryItemSchema struct {
 	// name.
 	//
 	// Attributes is a required field
-	Attributes []*InventoryItemAttribute `locationNameList:"Attribute" min:"1" type:"list" required:"true"`
+	Attributes []InventoryItemAttribute `min:"1" type:"list" required:"true"`
+
+	// The alias name of the inventory type. The alias name is used for display
+	// purposes.
+	DisplayName *string `type:"string"`
 
 	// The name of the inventory type. Default inventory item type names start with
 	// AWS. Custom inventory type names will start with Custom. Default inventory
@@ -15765,31 +13587,13 @@ func (s InventoryItemSchema) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *InventoryItemSchema) SetAttributes(v []*InventoryItemAttribute) *InventoryItemSchema {
-	s.Attributes = v
-	return s
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *InventoryItemSchema) SetTypeName(v string) *InventoryItemSchema {
-	s.TypeName = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *InventoryItemSchema) SetVersion(v string) *InventoryItemSchema {
-	s.Version = &v
-	return s
-}
-
 // Inventory query results.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryResultEntity
 type InventoryResultEntity struct {
 	_ struct{} `type:"structure"`
 
-	// The data section in the inventory result entity json.
-	Data map[string]*InventoryResultItem `type:"map"`
+	// The data section in the inventory result entity JSON.
+	Data map[string]InventoryResultItem `type:"map"`
 
 	// ID of the inventory result entity. For example, for managed instance inventory
 	// the result will be the managed instance ID. For EC2 instance inventory, the
@@ -15807,18 +13611,6 @@ func (s InventoryResultEntity) GoString() string {
 	return s.String()
 }
 
-// SetData sets the Data field's value.
-func (s *InventoryResultEntity) SetData(v map[string]*InventoryResultItem) *InventoryResultEntity {
-	s.Data = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *InventoryResultEntity) SetId(v string) *InventoryResultEntity {
-	s.Id = &v
-	return s
-}
-
 // The inventory result item.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryResultItem
 type InventoryResultItem struct {
@@ -15831,7 +13623,7 @@ type InventoryResultItem struct {
 	// names and values.
 	//
 	// Content is a required field
-	Content []map[string]*string `type:"list" required:"true"`
+	Content []map[string]string `type:"list" required:"true"`
 
 	// MD5 hash of the inventory item type contents. The content hash is used to
 	// determine whether to update inventory information. The PutInventory API does
@@ -15858,36 +13650,6 @@ func (s InventoryResultItem) String() string {
 // GoString returns the string representation
 func (s InventoryResultItem) GoString() string {
 	return s.String()
-}
-
-// SetCaptureTime sets the CaptureTime field's value.
-func (s *InventoryResultItem) SetCaptureTime(v string) *InventoryResultItem {
-	s.CaptureTime = &v
-	return s
-}
-
-// SetContent sets the Content field's value.
-func (s *InventoryResultItem) SetContent(v []map[string]*string) *InventoryResultItem {
-	s.Content = v
-	return s
-}
-
-// SetContentHash sets the ContentHash field's value.
-func (s *InventoryResultItem) SetContentHash(v string) *InventoryResultItem {
-	s.ContentHash = &v
-	return s
-}
-
-// SetSchemaVersion sets the SchemaVersion field's value.
-func (s *InventoryResultItem) SetSchemaVersion(v string) *InventoryResultItem {
-	s.SchemaVersion = &v
-	return s
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *InventoryResultItem) SetTypeName(v string) *InventoryResultItem {
-	s.TypeName = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListAssociationVersionsRequest
@@ -15935,31 +13697,15 @@ func (s *ListAssociationVersionsInput) Validate() error {
 	return nil
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *ListAssociationVersionsInput) SetAssociationId(v string) *ListAssociationVersionsInput {
-	s.AssociationId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAssociationVersionsInput) SetMaxResults(v int64) *ListAssociationVersionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAssociationVersionsInput) SetNextToken(v string) *ListAssociationVersionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListAssociationVersionsResult
 type ListAssociationVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about all versions of the association for the specified association
 	// ID.
-	AssociationVersions []*AssociationVersionInfo `min:"1" type:"list"`
+	AssociationVersions []AssociationVersionInfo `min:"1" type:"list"`
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
@@ -15976,16 +13722,9 @@ func (s ListAssociationVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationVersions sets the AssociationVersions field's value.
-func (s *ListAssociationVersionsOutput) SetAssociationVersions(v []*AssociationVersionInfo) *ListAssociationVersionsOutput {
-	s.AssociationVersions = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAssociationVersionsOutput) SetNextToken(v string) *ListAssociationVersionsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAssociationVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListAssociationsRequest
@@ -15993,7 +13732,7 @@ type ListAssociationsInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	AssociationFilterList []*AssociationFilter `locationNameList:"AssociationFilter" min:"1" type:"list"`
+	AssociationFilterList []AssociationFilter `min:"1" type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -16026,9 +13765,6 @@ func (s *ListAssociationsInput) Validate() error {
 	}
 	if s.AssociationFilterList != nil {
 		for i, v := range s.AssociationFilterList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "AssociationFilterList", i), err.(aws.ErrInvalidParams))
 			}
@@ -16041,30 +13777,14 @@ func (s *ListAssociationsInput) Validate() error {
 	return nil
 }
 
-// SetAssociationFilterList sets the AssociationFilterList field's value.
-func (s *ListAssociationsInput) SetAssociationFilterList(v []*AssociationFilter) *ListAssociationsInput {
-	s.AssociationFilterList = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListAssociationsInput) SetMaxResults(v int64) *ListAssociationsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAssociationsInput) SetNextToken(v string) *ListAssociationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListAssociationsResult
 type ListAssociationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The associations.
-	Associations []*Association `locationNameList:"Association" type:"list"`
+	Associations []Association `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -16081,16 +13801,9 @@ func (s ListAssociationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociations sets the Associations field's value.
-func (s *ListAssociationsOutput) SetAssociations(v []*Association) *ListAssociationsOutput {
-	s.Associations = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListAssociationsOutput) SetNextToken(v string) *ListAssociationsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListAssociationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListCommandInvocationsRequest
@@ -16106,7 +13819,7 @@ type ListCommandInvocationsInput struct {
 
 	// (Optional) One or more filters. Use a filter to return a more specific list
 	// of results.
-	Filters []*CommandFilter `min:"1" type:"list"`
+	Filters []CommandFilter `min:"1" type:"list"`
 
 	// (Optional) The command execution details for a specific instance ID.
 	InstanceId *string `type:"string"`
@@ -16145,9 +13858,6 @@ func (s *ListCommandInvocationsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -16160,48 +13870,14 @@ func (s *ListCommandInvocationsInput) Validate() error {
 	return nil
 }
 
-// SetCommandId sets the CommandId field's value.
-func (s *ListCommandInvocationsInput) SetCommandId(v string) *ListCommandInvocationsInput {
-	s.CommandId = &v
-	return s
-}
-
-// SetDetails sets the Details field's value.
-func (s *ListCommandInvocationsInput) SetDetails(v bool) *ListCommandInvocationsInput {
-	s.Details = &v
-	return s
-}
-
-// SetFilters sets the Filters field's value.
-func (s *ListCommandInvocationsInput) SetFilters(v []*CommandFilter) *ListCommandInvocationsInput {
-	s.Filters = v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *ListCommandInvocationsInput) SetInstanceId(v string) *ListCommandInvocationsInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListCommandInvocationsInput) SetMaxResults(v int64) *ListCommandInvocationsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCommandInvocationsInput) SetNextToken(v string) *ListCommandInvocationsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListCommandInvocationsResult
 type ListCommandInvocationsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// (Optional) A list of all invocations.
-	CommandInvocations []*CommandInvocation `type:"list"`
+	CommandInvocations []CommandInvocation `type:"list"`
 
 	// (Optional) The token for the next set of items to return. (You received this
 	// token from a previous call.)
@@ -16218,16 +13894,9 @@ func (s ListCommandInvocationsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCommandInvocations sets the CommandInvocations field's value.
-func (s *ListCommandInvocationsOutput) SetCommandInvocations(v []*CommandInvocation) *ListCommandInvocationsOutput {
-	s.CommandInvocations = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCommandInvocationsOutput) SetNextToken(v string) *ListCommandInvocationsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListCommandInvocationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListCommandsRequest
@@ -16239,7 +13908,7 @@ type ListCommandsInput struct {
 
 	// (Optional) One or more filters. Use a filter to return a more specific list
 	// of results.
-	Filters []*CommandFilter `min:"1" type:"list"`
+	Filters []CommandFilter `min:"1" type:"list"`
 
 	// (Optional) Lists commands issued against this instance ID.
 	InstanceId *string `type:"string"`
@@ -16278,9 +13947,6 @@ func (s *ListCommandsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -16293,42 +13959,14 @@ func (s *ListCommandsInput) Validate() error {
 	return nil
 }
 
-// SetCommandId sets the CommandId field's value.
-func (s *ListCommandsInput) SetCommandId(v string) *ListCommandsInput {
-	s.CommandId = &v
-	return s
-}
-
-// SetFilters sets the Filters field's value.
-func (s *ListCommandsInput) SetFilters(v []*CommandFilter) *ListCommandsInput {
-	s.Filters = v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *ListCommandsInput) SetInstanceId(v string) *ListCommandsInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListCommandsInput) SetMaxResults(v int64) *ListCommandsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCommandsInput) SetNextToken(v string) *ListCommandsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListCommandsResult
 type ListCommandsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// (Optional) The list of commands requested by the user.
-	Commands []*Command `type:"list"`
+	Commands []Command `type:"list"`
 
 	// (Optional) The token for the next set of items to return. (You received this
 	// token from a previous call.)
@@ -16345,16 +13983,9 @@ func (s ListCommandsOutput) GoString() string {
 	return s.String()
 }
 
-// SetCommands sets the Commands field's value.
-func (s *ListCommandsOutput) SetCommands(v []*Command) *ListCommandsOutput {
-	s.Commands = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListCommandsOutput) SetNextToken(v string) *ListCommandsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListCommandsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListComplianceItemsRequest
@@ -16363,7 +13994,7 @@ type ListComplianceItemsInput struct {
 
 	// One or more compliance filters. Use a filter to return a more specific list
 	// of results.
-	Filters []*ComplianceStringFilter `locationNameList:"ComplianceFilter" type:"list"`
+	Filters []ComplianceStringFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -16375,11 +14006,11 @@ type ListComplianceItemsInput struct {
 
 	// The ID for the resources from which to get compliance information. Currently,
 	// you can only specify one resource ID.
-	ResourceIds []*string `min:"1" type:"list"`
+	ResourceIds []string `min:"1" type:"list"`
 
 	// The type of resource from which to get compliance information. Currently,
 	// the only supported resource type is ManagedInstance.
-	ResourceTypes []*string `min:"1" type:"list"`
+	ResourceTypes []string `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -16406,9 +14037,6 @@ func (s *ListComplianceItemsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -16421,42 +14049,14 @@ func (s *ListComplianceItemsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *ListComplianceItemsInput) SetFilters(v []*ComplianceStringFilter) *ListComplianceItemsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListComplianceItemsInput) SetMaxResults(v int64) *ListComplianceItemsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListComplianceItemsInput) SetNextToken(v string) *ListComplianceItemsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceIds sets the ResourceIds field's value.
-func (s *ListComplianceItemsInput) SetResourceIds(v []*string) *ListComplianceItemsInput {
-	s.ResourceIds = v
-	return s
-}
-
-// SetResourceTypes sets the ResourceTypes field's value.
-func (s *ListComplianceItemsInput) SetResourceTypes(v []*string) *ListComplianceItemsInput {
-	s.ResourceTypes = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListComplianceItemsResult
 type ListComplianceItemsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of compliance information for the specified resource ID.
-	ComplianceItems []*ComplianceItem `locationNameList:"Item" type:"list"`
+	ComplianceItems []ComplianceItem `type:"list"`
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
@@ -16473,16 +14073,9 @@ func (s ListComplianceItemsOutput) GoString() string {
 	return s.String()
 }
 
-// SetComplianceItems sets the ComplianceItems field's value.
-func (s *ListComplianceItemsOutput) SetComplianceItems(v []*ComplianceItem) *ListComplianceItemsOutput {
-	s.ComplianceItems = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListComplianceItemsOutput) SetNextToken(v string) *ListComplianceItemsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListComplianceItemsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListComplianceSummariesRequest
@@ -16491,7 +14084,7 @@ type ListComplianceSummariesInput struct {
 
 	// One or more compliance or inventory filters. Use a filter to return a more
 	// specific list of results.
-	Filters []*ComplianceStringFilter `locationNameList:"ComplianceFilter" type:"list"`
+	Filters []ComplianceStringFilter `type:"list"`
 
 	// The maximum number of items to return for this call. Currently, you can specify
 	// null or 50. The call also returns a token that you can specify in a subsequent
@@ -16520,9 +14113,6 @@ func (s *ListComplianceSummariesInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -16535,32 +14125,16 @@ func (s *ListComplianceSummariesInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *ListComplianceSummariesInput) SetFilters(v []*ComplianceStringFilter) *ListComplianceSummariesInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListComplianceSummariesInput) SetMaxResults(v int64) *ListComplianceSummariesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListComplianceSummariesInput) SetNextToken(v string) *ListComplianceSummariesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListComplianceSummariesResult
 type ListComplianceSummariesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of compliant and non-compliant summary counts based on compliance
 	// types. For example, this call returns State Manager associations, patches,
 	// or custom compliance types according to the filter criteria that you specified.
-	ComplianceSummaryItems []*ComplianceSummaryItem `locationNameList:"Item" type:"list"`
+	ComplianceSummaryItems []ComplianceSummaryItem `type:"list"`
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
@@ -16577,16 +14151,9 @@ func (s ListComplianceSummariesOutput) GoString() string {
 	return s.String()
 }
 
-// SetComplianceSummaryItems sets the ComplianceSummaryItems field's value.
-func (s *ListComplianceSummariesOutput) SetComplianceSummaryItems(v []*ComplianceSummaryItem) *ListComplianceSummariesOutput {
-	s.ComplianceSummaryItems = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListComplianceSummariesOutput) SetNextToken(v string) *ListComplianceSummariesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListComplianceSummariesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListDocumentVersionsRequest
@@ -16635,30 +14202,14 @@ func (s *ListDocumentVersionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListDocumentVersionsInput) SetMaxResults(v int64) *ListDocumentVersionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ListDocumentVersionsInput) SetName(v string) *ListDocumentVersionsInput {
-	s.Name = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDocumentVersionsInput) SetNextToken(v string) *ListDocumentVersionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListDocumentVersionsResult
 type ListDocumentVersionsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The document versions.
-	DocumentVersions []*DocumentVersionInfo `min:"1" type:"list"`
+	DocumentVersions []DocumentVersionInfo `min:"1" type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -16675,16 +14226,9 @@ func (s ListDocumentVersionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocumentVersions sets the DocumentVersions field's value.
-func (s *ListDocumentVersionsOutput) SetDocumentVersions(v []*DocumentVersionInfo) *ListDocumentVersionsOutput {
-	s.DocumentVersions = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDocumentVersionsOutput) SetNextToken(v string) *ListDocumentVersionsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDocumentVersionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListDocumentsRequest
@@ -16692,10 +14236,10 @@ type ListDocumentsInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	DocumentFilterList []*DocumentFilter `locationNameList:"DocumentFilter" min:"1" type:"list"`
+	DocumentFilterList []DocumentFilter `min:"1" type:"list"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	Filters []*DocumentKeyValuesFilter `type:"list"`
+	Filters []DocumentKeyValuesFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -16728,9 +14272,6 @@ func (s *ListDocumentsInput) Validate() error {
 	}
 	if s.DocumentFilterList != nil {
 		for i, v := range s.DocumentFilterList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "DocumentFilterList", i), err.(aws.ErrInvalidParams))
 			}
@@ -16738,9 +14279,6 @@ func (s *ListDocumentsInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -16753,36 +14291,14 @@ func (s *ListDocumentsInput) Validate() error {
 	return nil
 }
 
-// SetDocumentFilterList sets the DocumentFilterList field's value.
-func (s *ListDocumentsInput) SetDocumentFilterList(v []*DocumentFilter) *ListDocumentsInput {
-	s.DocumentFilterList = v
-	return s
-}
-
-// SetFilters sets the Filters field's value.
-func (s *ListDocumentsInput) SetFilters(v []*DocumentKeyValuesFilter) *ListDocumentsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListDocumentsInput) SetMaxResults(v int64) *ListDocumentsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDocumentsInput) SetNextToken(v string) *ListDocumentsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListDocumentsResult
 type ListDocumentsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The names of the Systems Manager documents.
-	DocumentIdentifiers []*DocumentIdentifier `locationNameList:"DocumentIdentifier" type:"list"`
+	DocumentIdentifiers []DocumentIdentifier `type:"list"`
 
 	// The token to use when requesting the next set of items. If there are no additional
 	// items to return, the string is empty.
@@ -16799,16 +14315,9 @@ func (s ListDocumentsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocumentIdentifiers sets the DocumentIdentifiers field's value.
-func (s *ListDocumentsOutput) SetDocumentIdentifiers(v []*DocumentIdentifier) *ListDocumentsOutput {
-	s.DocumentIdentifiers = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDocumentsOutput) SetNextToken(v string) *ListDocumentsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDocumentsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListInventoryEntriesRequest
@@ -16816,7 +14325,7 @@ type ListInventoryEntriesInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	Filters []*InventoryFilter `locationNameList:"InventoryFilter" min:"1" type:"list"`
+	Filters []InventoryFilter `min:"1" type:"list"`
 
 	// The instance ID for which you want inventory information.
 	//
@@ -16870,9 +14379,6 @@ func (s *ListInventoryEntriesInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -16885,45 +14391,17 @@ func (s *ListInventoryEntriesInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *ListInventoryEntriesInput) SetFilters(v []*InventoryFilter) *ListInventoryEntriesInput {
-	s.Filters = v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *ListInventoryEntriesInput) SetInstanceId(v string) *ListInventoryEntriesInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListInventoryEntriesInput) SetMaxResults(v int64) *ListInventoryEntriesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListInventoryEntriesInput) SetNextToken(v string) *ListInventoryEntriesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *ListInventoryEntriesInput) SetTypeName(v string) *ListInventoryEntriesInput {
-	s.TypeName = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListInventoryEntriesResult
 type ListInventoryEntriesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The time that inventory information was collected for the instance(s).
 	CaptureTime *string `type:"string"`
 
 	// A list of inventory items on the instance(s).
-	Entries []map[string]*string `type:"list"`
+	Entries []map[string]string `type:"list"`
 
 	// The instance ID targeted by the request to query inventory information.
 	InstanceId *string `type:"string"`
@@ -16949,40 +14427,9 @@ func (s ListInventoryEntriesOutput) GoString() string {
 	return s.String()
 }
 
-// SetCaptureTime sets the CaptureTime field's value.
-func (s *ListInventoryEntriesOutput) SetCaptureTime(v string) *ListInventoryEntriesOutput {
-	s.CaptureTime = &v
-	return s
-}
-
-// SetEntries sets the Entries field's value.
-func (s *ListInventoryEntriesOutput) SetEntries(v []map[string]*string) *ListInventoryEntriesOutput {
-	s.Entries = v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *ListInventoryEntriesOutput) SetInstanceId(v string) *ListInventoryEntriesOutput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListInventoryEntriesOutput) SetNextToken(v string) *ListInventoryEntriesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSchemaVersion sets the SchemaVersion field's value.
-func (s *ListInventoryEntriesOutput) SetSchemaVersion(v string) *ListInventoryEntriesOutput {
-	s.SchemaVersion = &v
-	return s
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *ListInventoryEntriesOutput) SetTypeName(v string) *ListInventoryEntriesOutput {
-	s.TypeName = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInventoryEntriesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListResourceComplianceSummariesRequest
@@ -16990,7 +14437,7 @@ type ListResourceComplianceSummariesInput struct {
 	_ struct{} `type:"structure"`
 
 	// One or more filters. Use a filter to return a more specific list of results.
-	Filters []*ComplianceStringFilter `locationNameList:"ComplianceFilter" type:"list"`
+	Filters []ComplianceStringFilter `type:"list"`
 
 	// The maximum number of items to return for this call. The call also returns
 	// a token that you can specify in a subsequent call to get the next set of
@@ -17019,9 +14466,6 @@ func (s *ListResourceComplianceSummariesInput) Validate() error {
 	}
 	if s.Filters != nil {
 		for i, v := range s.Filters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
 			}
@@ -17034,27 +14478,11 @@ func (s *ListResourceComplianceSummariesInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *ListResourceComplianceSummariesInput) SetFilters(v []*ComplianceStringFilter) *ListResourceComplianceSummariesInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListResourceComplianceSummariesInput) SetMaxResults(v int64) *ListResourceComplianceSummariesInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListResourceComplianceSummariesInput) SetNextToken(v string) *ListResourceComplianceSummariesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListResourceComplianceSummariesResult
 type ListResourceComplianceSummariesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
@@ -17063,7 +14491,7 @@ type ListResourceComplianceSummariesOutput struct {
 	// A summary count for specified or targeted managed instances. Summary count
 	// includes information about compliant and non-compliant State Manager associations,
 	// patch status, or custom items according to the filter criteria that you specify.
-	ResourceComplianceSummaryItems []*ResourceComplianceSummaryItem `locationNameList:"Item" type:"list"`
+	ResourceComplianceSummaryItems []ResourceComplianceSummaryItem `type:"list"`
 }
 
 // String returns the string representation
@@ -17076,16 +14504,9 @@ func (s ListResourceComplianceSummariesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListResourceComplianceSummariesOutput) SetNextToken(v string) *ListResourceComplianceSummariesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceComplianceSummaryItems sets the ResourceComplianceSummaryItems field's value.
-func (s *ListResourceComplianceSummariesOutput) SetResourceComplianceSummaryItems(v []*ResourceComplianceSummaryItem) *ListResourceComplianceSummariesOutput {
-	s.ResourceComplianceSummaryItems = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListResourceComplianceSummariesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListResourceDataSyncRequest
@@ -17124,28 +14545,18 @@ func (s *ListResourceDataSyncInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListResourceDataSyncInput) SetMaxResults(v int64) *ListResourceDataSyncInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListResourceDataSyncInput) SetNextToken(v string) *ListResourceDataSyncInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListResourceDataSyncResult
 type ListResourceDataSyncOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The token for the next set of items to return. Use this token to get the
 	// next set of results.
 	NextToken *string `type:"string"`
 
 	// A list of your current Resource Data Sync configurations and their statuses.
-	ResourceDataSyncItems []*ResourceDataSyncItem `type:"list"`
+	ResourceDataSyncItems []ResourceDataSyncItem `type:"list"`
 }
 
 // String returns the string representation
@@ -17158,16 +14569,9 @@ func (s ListResourceDataSyncOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListResourceDataSyncOutput) SetNextToken(v string) *ListResourceDataSyncOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceDataSyncItems sets the ResourceDataSyncItems field's value.
-func (s *ListResourceDataSyncOutput) SetResourceDataSyncItems(v []*ResourceDataSyncItem) *ListResourceDataSyncOutput {
-	s.ResourceDataSyncItems = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListResourceDataSyncOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListTagsForResourceRequest
@@ -17182,7 +14586,7 @@ type ListTagsForResourceInput struct {
 	// Returns a list of tags for a specific resource type.
 	//
 	// ResourceType is a required field
-	ResourceType ResourceTypeForTagging `type:"string" required:"true"`
+	ResourceType ResourceTypeForTagging `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -17212,24 +14616,14 @@ func (s *ListTagsForResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *ListTagsForResourceInput) SetResourceId(v string) *ListTagsForResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *ListTagsForResourceInput) SetResourceType(v ResourceTypeForTagging) *ListTagsForResourceInput {
-	s.ResourceType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListTagsForResourceResult
 type ListTagsForResourceOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of tags.
-	TagList []*Tag `type:"list"`
+	TagList []Tag `type:"list"`
 }
 
 // String returns the string representation
@@ -17242,13 +14636,17 @@ func (s ListTagsForResourceOutput) GoString() string {
 	return s.String()
 }
 
-// SetTagList sets the TagList field's value.
-func (s *ListTagsForResourceOutput) SetTagList(v []*Tag) *ListTagsForResourceOutput {
-	s.TagList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsForResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Information about an Amazon S3 bucket to write instance-level logs to.
+//
+// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/LoggingInfo
 type LoggingInfo struct {
 	_ struct{} `type:"structure"`
@@ -17301,24 +14699,6 @@ func (s *LoggingInfo) Validate() error {
 	return nil
 }
 
-// SetS3BucketName sets the S3BucketName field's value.
-func (s *LoggingInfo) SetS3BucketName(v string) *LoggingInfo {
-	s.S3BucketName = &v
-	return s
-}
-
-// SetS3KeyPrefix sets the S3KeyPrefix field's value.
-func (s *LoggingInfo) SetS3KeyPrefix(v string) *LoggingInfo {
-	s.S3KeyPrefix = &v
-	return s
-}
-
-// SetS3Region sets the S3Region field's value.
-func (s *LoggingInfo) SetS3Region(v string) *LoggingInfo {
-	s.S3Region = &v
-	return s
-}
-
 // The parameters for an AUTOMATION task type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowAutomationParameters
 type MaintenanceWindowAutomationParameters struct {
@@ -17328,7 +14708,23 @@ type MaintenanceWindowAutomationParameters struct {
 	DocumentVersion *string `type:"string"`
 
 	// The parameters for the AUTOMATION task.
-	Parameters map[string][]*string `min:"1" type:"map"`
+	//
+	// For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow
+	// and UpdateMaintenanceWindowTask.
+	//
+	// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+	// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	//
+	// For AUTOMATION task types, Systems Manager ignores any values specified for
+	// these parameters.
+	Parameters map[string][]string `min:"1" type:"map"`
 }
 
 // String returns the string representation
@@ -17354,18 +14750,6 @@ func (s *MaintenanceWindowAutomationParameters) Validate() error {
 	return nil
 }
 
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *MaintenanceWindowAutomationParameters) SetDocumentVersion(v string) *MaintenanceWindowAutomationParameters {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *MaintenanceWindowAutomationParameters) SetParameters(v map[string][]*string) *MaintenanceWindowAutomationParameters {
-	s.Parameters = v
-	return s
-}
-
 // Describes the information about an execution of a Maintenance Window.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowExecution
 type MaintenanceWindowExecution struct {
@@ -17378,7 +14762,7 @@ type MaintenanceWindowExecution struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the execution.
-	Status MaintenanceWindowExecutionStatus `type:"string"`
+	Status MaintenanceWindowExecutionStatus `type:"string" enum:"true"`
 
 	// The details explaining the Status. Only available for certain status values.
 	StatusDetails *string `type:"string"`
@@ -17400,42 +14784,6 @@ func (s MaintenanceWindowExecution) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *MaintenanceWindowExecution) SetEndTime(v time.Time) *MaintenanceWindowExecution {
-	s.EndTime = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *MaintenanceWindowExecution) SetStartTime(v time.Time) *MaintenanceWindowExecution {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *MaintenanceWindowExecution) SetStatus(v MaintenanceWindowExecutionStatus) *MaintenanceWindowExecution {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *MaintenanceWindowExecution) SetStatusDetails(v string) *MaintenanceWindowExecution {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *MaintenanceWindowExecution) SetWindowExecutionId(v string) *MaintenanceWindowExecution {
-	s.WindowExecutionId = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *MaintenanceWindowExecution) SetWindowId(v string) *MaintenanceWindowExecution {
-	s.WindowId = &v
-	return s
-}
-
 // Information about a task execution performed as part of a Maintenance Window
 // execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowExecutionTaskIdentity
@@ -17449,7 +14797,7 @@ type MaintenanceWindowExecutionTaskIdentity struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the task execution.
-	Status MaintenanceWindowExecutionStatus `type:"string"`
+	Status MaintenanceWindowExecutionStatus `type:"string" enum:"true"`
 
 	// The details explaining the status of the task execution. Only available for
 	// certain status values.
@@ -17462,7 +14810,7 @@ type MaintenanceWindowExecutionTaskIdentity struct {
 	TaskExecutionId *string `min:"36" type:"string"`
 
 	// The type of executed task.
-	TaskType MaintenanceWindowTaskType `type:"string"`
+	TaskType MaintenanceWindowTaskType `type:"string" enum:"true"`
 
 	// The ID of the Maintenance Window execution that ran the task.
 	WindowExecutionId *string `min:"36" type:"string"`
@@ -17476,54 +14824,6 @@ func (s MaintenanceWindowExecutionTaskIdentity) String() string {
 // GoString returns the string representation
 func (s MaintenanceWindowExecutionTaskIdentity) GoString() string {
 	return s.String()
-}
-
-// SetEndTime sets the EndTime field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetEndTime(v time.Time) *MaintenanceWindowExecutionTaskIdentity {
-	s.EndTime = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetStartTime(v time.Time) *MaintenanceWindowExecutionTaskIdentity {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetStatus(v MaintenanceWindowExecutionStatus) *MaintenanceWindowExecutionTaskIdentity {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetStatusDetails(v string) *MaintenanceWindowExecutionTaskIdentity {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetTaskArn(v string) *MaintenanceWindowExecutionTaskIdentity {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskExecutionId sets the TaskExecutionId field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetTaskExecutionId(v string) *MaintenanceWindowExecutionTaskIdentity {
-	s.TaskExecutionId = &v
-	return s
-}
-
-// SetTaskType sets the TaskType field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetTaskType(v MaintenanceWindowTaskType) *MaintenanceWindowExecutionTaskIdentity {
-	s.TaskType = v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *MaintenanceWindowExecutionTaskIdentity) SetWindowExecutionId(v string) *MaintenanceWindowExecutionTaskIdentity {
-	s.WindowExecutionId = &v
-	return s
 }
 
 // Describes the information about a task invocation for a particular target
@@ -17554,7 +14854,7 @@ type MaintenanceWindowExecutionTaskInvocationIdentity struct {
 	StartTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The status of the task invocation.
-	Status MaintenanceWindowExecutionStatus `type:"string"`
+	Status MaintenanceWindowExecutionStatus `type:"string" enum:"true"`
 
 	// The details explaining the status of the task invocation. Only available
 	// for certain Status values.
@@ -17564,7 +14864,7 @@ type MaintenanceWindowExecutionTaskInvocationIdentity struct {
 	TaskExecutionId *string `min:"36" type:"string"`
 
 	// The task type.
-	TaskType MaintenanceWindowTaskType `type:"string"`
+	TaskType MaintenanceWindowTaskType `type:"string" enum:"true"`
 
 	// The ID of the Maintenance Window execution that ran the task.
 	WindowExecutionId *string `min:"36" type:"string"`
@@ -17584,78 +14884,6 @@ func (s MaintenanceWindowExecutionTaskInvocationIdentity) GoString() string {
 	return s.String()
 }
 
-// SetEndTime sets the EndTime field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetEndTime(v time.Time) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.EndTime = &v
-	return s
-}
-
-// SetExecutionId sets the ExecutionId field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetExecutionId(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.ExecutionId = &v
-	return s
-}
-
-// SetInvocationId sets the InvocationId field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetInvocationId(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.InvocationId = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetOwnerInformation(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetParameters(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.Parameters = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetStartTime(v time.Time) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetStatus(v MaintenanceWindowExecutionStatus) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.Status = v
-	return s
-}
-
-// SetStatusDetails sets the StatusDetails field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetStatusDetails(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.StatusDetails = &v
-	return s
-}
-
-// SetTaskExecutionId sets the TaskExecutionId field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetTaskExecutionId(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.TaskExecutionId = &v
-	return s
-}
-
-// SetTaskType sets the TaskType field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetTaskType(v MaintenanceWindowTaskType) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.TaskType = v
-	return s
-}
-
-// SetWindowExecutionId sets the WindowExecutionId field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetWindowExecutionId(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.WindowExecutionId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *MaintenanceWindowExecutionTaskInvocationIdentity) SetWindowTargetId(v string) *MaintenanceWindowExecutionTaskInvocationIdentity {
-	s.WindowTargetId = &v
-	return s
-}
-
 // Filter used in the request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowFilter
 type MaintenanceWindowFilter struct {
@@ -17665,7 +14893,7 @@ type MaintenanceWindowFilter struct {
 	Key *string `min:"1" type:"string"`
 
 	// The filter values.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -17689,18 +14917,6 @@ func (s *MaintenanceWindowFilter) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *MaintenanceWindowFilter) SetKey(v string) *MaintenanceWindowFilter {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *MaintenanceWindowFilter) SetValues(v []*string) *MaintenanceWindowFilter {
-	s.Values = v
-	return s
 }
 
 // Information about the Maintenance Window.
@@ -17738,43 +14954,23 @@ func (s MaintenanceWindowIdentity) GoString() string {
 	return s.String()
 }
 
-// SetCutoff sets the Cutoff field's value.
-func (s *MaintenanceWindowIdentity) SetCutoff(v int64) *MaintenanceWindowIdentity {
-	s.Cutoff = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *MaintenanceWindowIdentity) SetDescription(v string) *MaintenanceWindowIdentity {
-	s.Description = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *MaintenanceWindowIdentity) SetDuration(v int64) *MaintenanceWindowIdentity {
-	s.Duration = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *MaintenanceWindowIdentity) SetEnabled(v bool) *MaintenanceWindowIdentity {
-	s.Enabled = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *MaintenanceWindowIdentity) SetName(v string) *MaintenanceWindowIdentity {
-	s.Name = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *MaintenanceWindowIdentity) SetWindowId(v string) *MaintenanceWindowIdentity {
-	s.WindowId = &v
-	return s
-}
-
 // The parameters for a LAMBDA task type.
+//
+// For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow
+// and UpdateMaintenanceWindowTask.
+//
+// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+//
+// TaskParameters has been deprecated. To specify parameters to pass to a task
+// when it runs, instead use the Parameters option in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+//
+// For Lambda tasks, Systems Manager ignores any values specified for TaskParameters
+// and LoggingInfo.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowLambdaParameters
 type MaintenanceWindowLambdaParameters struct {
 	_ struct{} `type:"structure"`
@@ -17822,25 +15018,23 @@ func (s *MaintenanceWindowLambdaParameters) Validate() error {
 	return nil
 }
 
-// SetClientContext sets the ClientContext field's value.
-func (s *MaintenanceWindowLambdaParameters) SetClientContext(v string) *MaintenanceWindowLambdaParameters {
-	s.ClientContext = &v
-	return s
-}
-
-// SetPayload sets the Payload field's value.
-func (s *MaintenanceWindowLambdaParameters) SetPayload(v []byte) *MaintenanceWindowLambdaParameters {
-	s.Payload = v
-	return s
-}
-
-// SetQualifier sets the Qualifier field's value.
-func (s *MaintenanceWindowLambdaParameters) SetQualifier(v string) *MaintenanceWindowLambdaParameters {
-	s.Qualifier = &v
-	return s
-}
-
 // The parameters for a RUN_COMMAND task type.
+//
+// For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow
+// and UpdateMaintenanceWindowTask.
+//
+// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+//
+// TaskParameters has been deprecated. To specify parameters to pass to a task
+// when it runs, instead use the Parameters option in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+//
+// For Run Command tasks, Systems Manager uses specified values for TaskParameters
+// and LoggingInfo only if no values are specified for TaskInvocationParameters.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowRunCommandParameters
 type MaintenanceWindowRunCommandParameters struct {
 	_ struct{} `type:"structure"`
@@ -17853,7 +15047,7 @@ type MaintenanceWindowRunCommandParameters struct {
 	DocumentHash *string `type:"string"`
 
 	// SHA-256 or SHA-1. SHA-1 hashes have been deprecated.
-	DocumentHashType DocumentHashType `type:"string"`
+	DocumentHashType DocumentHashType `type:"string" enum:"true"`
 
 	// Configurations for sending notifications about command status changes on
 	// a per-instance basis.
@@ -17866,7 +15060,7 @@ type MaintenanceWindowRunCommandParameters struct {
 	OutputS3KeyPrefix *string `type:"string"`
 
 	// The parameters for the RUN_COMMAND task execution.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// The IAM service role to assume during task execution.
 	ServiceRoleArn *string `type:"string"`
@@ -17902,61 +15096,23 @@ func (s *MaintenanceWindowRunCommandParameters) Validate() error {
 	return nil
 }
 
-// SetComment sets the Comment field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetComment(v string) *MaintenanceWindowRunCommandParameters {
-	s.Comment = &v
-	return s
-}
-
-// SetDocumentHash sets the DocumentHash field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetDocumentHash(v string) *MaintenanceWindowRunCommandParameters {
-	s.DocumentHash = &v
-	return s
-}
-
-// SetDocumentHashType sets the DocumentHashType field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetDocumentHashType(v DocumentHashType) *MaintenanceWindowRunCommandParameters {
-	s.DocumentHashType = v
-	return s
-}
-
-// SetNotificationConfig sets the NotificationConfig field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetNotificationConfig(v *NotificationConfig) *MaintenanceWindowRunCommandParameters {
-	s.NotificationConfig = v
-	return s
-}
-
-// SetOutputS3BucketName sets the OutputS3BucketName field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetOutputS3BucketName(v string) *MaintenanceWindowRunCommandParameters {
-	s.OutputS3BucketName = &v
-	return s
-}
-
-// SetOutputS3KeyPrefix sets the OutputS3KeyPrefix field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetOutputS3KeyPrefix(v string) *MaintenanceWindowRunCommandParameters {
-	s.OutputS3KeyPrefix = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetParameters(v map[string][]*string) *MaintenanceWindowRunCommandParameters {
-	s.Parameters = v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetServiceRoleArn(v string) *MaintenanceWindowRunCommandParameters {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTimeoutSeconds sets the TimeoutSeconds field's value.
-func (s *MaintenanceWindowRunCommandParameters) SetTimeoutSeconds(v int64) *MaintenanceWindowRunCommandParameters {
-	s.TimeoutSeconds = &v
-	return s
-}
-
-// The parameters for the STEP_FUNCTION execution.
+// The parameters for a STEP_FUNCTION task.
+//
+// For information about specifying and updating task parameters, see RegisterTaskWithMaintenanceWindow
+// and UpdateMaintenanceWindowTask.
+//
+// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+//
+// TaskParameters has been deprecated. To specify parameters to pass to a task
+// when it runs, instead use the Parameters option in the TaskInvocationParameters
+// structure. For information about how Systems Manager handles these options
+// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+//
+// For Step Functions tasks, Systems Manager ignores any values specified for
+// TaskParameters and LoggingInfo.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowStepFunctionsParameters
 type MaintenanceWindowStepFunctionsParameters struct {
 	_ struct{} `type:"structure"`
@@ -17991,18 +15147,6 @@ func (s *MaintenanceWindowStepFunctionsParameters) Validate() error {
 	return nil
 }
 
-// SetInput sets the Input field's value.
-func (s *MaintenanceWindowStepFunctionsParameters) SetInput(v string) *MaintenanceWindowStepFunctionsParameters {
-	s.Input = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *MaintenanceWindowStepFunctionsParameters) SetName(v string) *MaintenanceWindowStepFunctionsParameters {
-	s.Name = &v
-	return s
-}
-
 // The target registered with the Maintenance Window.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowTarget
 type MaintenanceWindowTarget struct {
@@ -18019,11 +15163,11 @@ type MaintenanceWindowTarget struct {
 	OwnerInformation *string `min:"1" type:"string"`
 
 	// The type of target.
-	ResourceType MaintenanceWindowResourceType `type:"string"`
+	ResourceType MaintenanceWindowResourceType `type:"string" enum:"true"`
 
 	// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=<instanceid1>,<instanceid2>.
 	// Tags are specified using Key=<tag name>,Values=<tag value>.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The Maintenance Window ID where the target is registered.
 	WindowId *string `min:"20" type:"string"`
@@ -18042,48 +15186,6 @@ func (s MaintenanceWindowTarget) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *MaintenanceWindowTarget) SetDescription(v string) *MaintenanceWindowTarget {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *MaintenanceWindowTarget) SetName(v string) *MaintenanceWindowTarget {
-	s.Name = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *MaintenanceWindowTarget) SetOwnerInformation(v string) *MaintenanceWindowTarget {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *MaintenanceWindowTarget) SetResourceType(v MaintenanceWindowResourceType) *MaintenanceWindowTarget {
-	s.ResourceType = v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *MaintenanceWindowTarget) SetTargets(v []*Target) *MaintenanceWindowTarget {
-	s.Targets = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *MaintenanceWindowTarget) SetWindowId(v string) *MaintenanceWindowTarget {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *MaintenanceWindowTarget) SetWindowTargetId(v string) *MaintenanceWindowTarget {
-	s.WindowTargetId = &v
-	return s
-}
-
 // Information about a task defined for a Maintenance Window.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowTask
 type MaintenanceWindowTask struct {
@@ -18093,6 +15195,11 @@ type MaintenanceWindowTask struct {
 	Description *string `min:"1" type:"string"`
 
 	// Information about an Amazon S3 bucket to write task-level logs to.
+	//
+	// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+	// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
 	LoggingInfo *LoggingInfo `type:"structure"`
 
 	// The maximum number of targets this task can be run for in parallel.
@@ -18114,7 +15221,7 @@ type MaintenanceWindowTask struct {
 
 	// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=<instanceid1>,<instanceid2>.
 	// Tags are specified using Key=<tag name>,Values=<tag value>.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION
 	// task types, TaskArn is the Systems Manager document name or ARN. For LAMBDA
@@ -18123,11 +15230,16 @@ type MaintenanceWindowTask struct {
 	TaskArn *string `min:"1" type:"string"`
 
 	// The parameters that should be passed to the task when it is executed.
-	TaskParameters map[string]*MaintenanceWindowTaskParameterValueExpression `type:"map"`
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	TaskParameters map[string]MaintenanceWindowTaskParameterValueExpression `type:"map"`
 
 	// The type of task. The type can be one of the following: RUN_COMMAND, AUTOMATION,
 	// LAMBDA, or STEP_FUNCTION.
-	Type MaintenanceWindowTaskType `type:"string"`
+	Type MaintenanceWindowTaskType `type:"string" enum:"true"`
 
 	// The Maintenance Window ID where the task is registered.
 	WindowId *string `min:"20" type:"string"`
@@ -18146,90 +15258,12 @@ func (s MaintenanceWindowTask) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *MaintenanceWindowTask) SetDescription(v string) *MaintenanceWindowTask {
-	s.Description = &v
-	return s
-}
-
-// SetLoggingInfo sets the LoggingInfo field's value.
-func (s *MaintenanceWindowTask) SetLoggingInfo(v *LoggingInfo) *MaintenanceWindowTask {
-	s.LoggingInfo = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *MaintenanceWindowTask) SetMaxConcurrency(v string) *MaintenanceWindowTask {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *MaintenanceWindowTask) SetMaxErrors(v string) *MaintenanceWindowTask {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *MaintenanceWindowTask) SetName(v string) *MaintenanceWindowTask {
-	s.Name = &v
-	return s
-}
-
-// SetPriority sets the Priority field's value.
-func (s *MaintenanceWindowTask) SetPriority(v int64) *MaintenanceWindowTask {
-	s.Priority = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *MaintenanceWindowTask) SetServiceRoleArn(v string) *MaintenanceWindowTask {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *MaintenanceWindowTask) SetTargets(v []*Target) *MaintenanceWindowTask {
-	s.Targets = v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *MaintenanceWindowTask) SetTaskArn(v string) *MaintenanceWindowTask {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskParameters sets the TaskParameters field's value.
-func (s *MaintenanceWindowTask) SetTaskParameters(v map[string]*MaintenanceWindowTaskParameterValueExpression) *MaintenanceWindowTask {
-	s.TaskParameters = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *MaintenanceWindowTask) SetType(v MaintenanceWindowTaskType) *MaintenanceWindowTask {
-	s.Type = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *MaintenanceWindowTask) SetWindowId(v string) *MaintenanceWindowTask {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *MaintenanceWindowTask) SetWindowTaskId(v string) *MaintenanceWindowTask {
-	s.WindowTaskId = &v
-	return s
-}
-
 // The parameters for task execution.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowTaskInvocationParameters
 type MaintenanceWindowTaskInvocationParameters struct {
 	_ struct{} `type:"structure"`
 
-	// The parameters for a AUTOMATION task type.
+	// The parameters for an AUTOMATION task type.
 	Automation *MaintenanceWindowAutomationParameters `type:"structure"`
 
 	// The parameters for a LAMBDA task type.
@@ -18282,30 +15316,6 @@ func (s *MaintenanceWindowTaskInvocationParameters) Validate() error {
 	return nil
 }
 
-// SetAutomation sets the Automation field's value.
-func (s *MaintenanceWindowTaskInvocationParameters) SetAutomation(v *MaintenanceWindowAutomationParameters) *MaintenanceWindowTaskInvocationParameters {
-	s.Automation = v
-	return s
-}
-
-// SetLambda sets the Lambda field's value.
-func (s *MaintenanceWindowTaskInvocationParameters) SetLambda(v *MaintenanceWindowLambdaParameters) *MaintenanceWindowTaskInvocationParameters {
-	s.Lambda = v
-	return s
-}
-
-// SetRunCommand sets the RunCommand field's value.
-func (s *MaintenanceWindowTaskInvocationParameters) SetRunCommand(v *MaintenanceWindowRunCommandParameters) *MaintenanceWindowTaskInvocationParameters {
-	s.RunCommand = v
-	return s
-}
-
-// SetStepFunctions sets the StepFunctions field's value.
-func (s *MaintenanceWindowTaskInvocationParameters) SetStepFunctions(v *MaintenanceWindowStepFunctionsParameters) *MaintenanceWindowTaskInvocationParameters {
-	s.StepFunctions = v
-	return s
-}
-
 // Defines the values for a task parameter.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MaintenanceWindowTaskParameterValueExpression
 type MaintenanceWindowTaskParameterValueExpression struct {
@@ -18313,7 +15323,7 @@ type MaintenanceWindowTaskParameterValueExpression struct {
 
 	// This field contains an array of 0 or more strings, each 1 to 255 characters
 	// in length.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -18326,25 +15336,19 @@ func (s MaintenanceWindowTaskParameterValueExpression) GoString() string {
 	return s.String()
 }
 
-// SetValues sets the Values field's value.
-func (s *MaintenanceWindowTaskParameterValueExpression) SetValues(v []*string) *MaintenanceWindowTaskParameterValueExpression {
-	s.Values = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ModifyDocumentPermissionRequest
 type ModifyDocumentPermissionInput struct {
 	_ struct{} `type:"structure"`
 
 	// The AWS user accounts that should have access to the document. The account
 	// IDs can either be a group of account IDs or All.
-	AccountIdsToAdd []*string `locationNameList:"AccountId" type:"list"`
+	AccountIdsToAdd []string `type:"list"`
 
 	// The AWS user accounts that should no longer have access to the document.
 	// The AWS user account can either be a group of account IDs or All. This action
 	// has a higher priority than AccountIdsToAdd. If you specify an account ID
 	// to add and the same ID to remove, the system removes access to the document.
-	AccountIdsToRemove []*string `locationNameList:"AccountId" type:"list"`
+	AccountIdsToRemove []string `type:"list"`
 
 	// The name of the document that you want to share.
 	//
@@ -18354,7 +15358,7 @@ type ModifyDocumentPermissionInput struct {
 	// The permission type for the document. The permission type can be Share.
 	//
 	// PermissionType is a required field
-	PermissionType DocumentPermissionType `type:"string" required:"true"`
+	PermissionType DocumentPermissionType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -18384,33 +15388,11 @@ func (s *ModifyDocumentPermissionInput) Validate() error {
 	return nil
 }
 
-// SetAccountIdsToAdd sets the AccountIdsToAdd field's value.
-func (s *ModifyDocumentPermissionInput) SetAccountIdsToAdd(v []*string) *ModifyDocumentPermissionInput {
-	s.AccountIdsToAdd = v
-	return s
-}
-
-// SetAccountIdsToRemove sets the AccountIdsToRemove field's value.
-func (s *ModifyDocumentPermissionInput) SetAccountIdsToRemove(v []*string) *ModifyDocumentPermissionInput {
-	s.AccountIdsToRemove = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ModifyDocumentPermissionInput) SetName(v string) *ModifyDocumentPermissionInput {
-	s.Name = &v
-	return s
-}
-
-// SetPermissionType sets the PermissionType field's value.
-func (s *ModifyDocumentPermissionInput) SetPermissionType(v DocumentPermissionType) *ModifyDocumentPermissionInput {
-	s.PermissionType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ModifyDocumentPermissionResponse
 type ModifyDocumentPermissionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -18421,6 +15403,11 @@ func (s ModifyDocumentPermissionOutput) String() string {
 // GoString returns the string representation
 func (s ModifyDocumentPermissionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ModifyDocumentPermissionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A summary of resources that are not compliant. The summary is organized according
@@ -18446,18 +15433,6 @@ func (s NonCompliantSummary) GoString() string {
 	return s.String()
 }
 
-// SetNonCompliantCount sets the NonCompliantCount field's value.
-func (s *NonCompliantSummary) SetNonCompliantCount(v int64) *NonCompliantSummary {
-	s.NonCompliantCount = &v
-	return s
-}
-
-// SetSeveritySummary sets the SeveritySummary field's value.
-func (s *NonCompliantSummary) SetSeveritySummary(v *SeveritySummary) *NonCompliantSummary {
-	s.SeveritySummary = v
-	return s
-}
-
 // Configurations for sending notifications.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/NotificationConfig
 type NotificationConfig struct {
@@ -18471,13 +15446,13 @@ type NotificationConfig struct {
 	// include the following: All (events), InProgress, Success, TimedOut, Cancelled,
 	// Failed. To learn more about these events, see Setting Up Events and Notifications
 	// (http://docs.aws.amazon.com/systems-manager/latest/userguide/monitor-commands.html)
-	// in the Amazon EC2 Systems Manager User Guide.
+	// in the AWS Systems Manager User Guide.
 	NotificationEvents []NotificationEvent `type:"list"`
 
 	// Command: Receive notification when the status of a command changes. Invocation:
 	// For commands sent to multiple instances, receive notification on a per-instance
 	// basis when the status of a command changes.
-	NotificationType NotificationType `type:"string"`
+	NotificationType NotificationType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -18490,24 +15465,6 @@ func (s NotificationConfig) GoString() string {
 	return s.String()
 }
 
-// SetNotificationArn sets the NotificationArn field's value.
-func (s *NotificationConfig) SetNotificationArn(v string) *NotificationConfig {
-	s.NotificationArn = &v
-	return s
-}
-
-// SetNotificationEvents sets the NotificationEvents field's value.
-func (s *NotificationConfig) SetNotificationEvents(v []NotificationEvent) *NotificationConfig {
-	s.NotificationEvents = v
-	return s
-}
-
-// SetNotificationType sets the NotificationType field's value.
-func (s *NotificationConfig) SetNotificationType(v NotificationType) *NotificationConfig {
-	s.NotificationType = v
-	return s
-}
-
 // An Amazon EC2 Systems Manager parameter in Parameter Store.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/Parameter
 type Parameter struct {
@@ -18518,10 +15475,13 @@ type Parameter struct {
 
 	// The type of parameter. Valid values include the following: String, String
 	// list, Secure string.
-	Type ParameterType `type:"string"`
+	Type ParameterType `type:"string" enum:"true"`
 
 	// The parameter value.
 	Value *string `min:"1" type:"string"`
+
+	// The parameter version.
+	Version *int64 `type:"long"`
 }
 
 // String returns the string representation
@@ -18532,24 +15492,6 @@ func (s Parameter) String() string {
 // GoString returns the string representation
 func (s Parameter) GoString() string {
 	return s.String()
-}
-
-// SetName sets the Name field's value.
-func (s *Parameter) SetName(v string) *Parameter {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Parameter) SetType(v ParameterType) *Parameter {
-	s.Type = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Parameter) SetValue(v string) *Parameter {
-	s.Value = &v
-	return s
 }
 
 // Information about parameter usage.
@@ -18563,7 +15505,7 @@ type ParameterHistory struct {
 	AllowedPattern *string `type:"string"`
 
 	// Information about the parameter.
-	Description *string `min:"1" type:"string"`
+	Description *string `type:"string"`
 
 	// The ID of the query key used for this parameter.
 	KeyId *string `min:"1" type:"string"`
@@ -18578,10 +15520,13 @@ type ParameterHistory struct {
 	Name *string `min:"1" type:"string"`
 
 	// The type of parameter used.
-	Type ParameterType `type:"string"`
+	Type ParameterType `type:"string" enum:"true"`
 
 	// The parameter value.
 	Value *string `min:"1" type:"string"`
+
+	// The parameter version.
+	Version *int64 `type:"long"`
 }
 
 // String returns the string representation
@@ -18592,54 +15537,6 @@ func (s ParameterHistory) String() string {
 // GoString returns the string representation
 func (s ParameterHistory) GoString() string {
 	return s.String()
-}
-
-// SetAllowedPattern sets the AllowedPattern field's value.
-func (s *ParameterHistory) SetAllowedPattern(v string) *ParameterHistory {
-	s.AllowedPattern = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ParameterHistory) SetDescription(v string) *ParameterHistory {
-	s.Description = &v
-	return s
-}
-
-// SetKeyId sets the KeyId field's value.
-func (s *ParameterHistory) SetKeyId(v string) *ParameterHistory {
-	s.KeyId = &v
-	return s
-}
-
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *ParameterHistory) SetLastModifiedDate(v time.Time) *ParameterHistory {
-	s.LastModifiedDate = &v
-	return s
-}
-
-// SetLastModifiedUser sets the LastModifiedUser field's value.
-func (s *ParameterHistory) SetLastModifiedUser(v string) *ParameterHistory {
-	s.LastModifiedUser = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ParameterHistory) SetName(v string) *ParameterHistory {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ParameterHistory) SetType(v ParameterType) *ParameterHistory {
-	s.Type = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *ParameterHistory) SetValue(v string) *ParameterHistory {
-	s.Value = &v
-	return s
 }
 
 // Metada includes information like the ARN of the last user and the date/time
@@ -18654,7 +15551,7 @@ type ParameterMetadata struct {
 	AllowedPattern *string `type:"string"`
 
 	// Description of the parameter actions.
-	Description *string `min:"1" type:"string"`
+	Description *string `type:"string"`
 
 	// The ID of the query key used for this parameter.
 	KeyId *string `min:"1" type:"string"`
@@ -18670,7 +15567,10 @@ type ParameterMetadata struct {
 
 	// The type of parameter. Valid parameter types include the following: String,
 	// String list, Secure string.
-	Type ParameterType `type:"string"`
+	Type ParameterType `type:"string" enum:"true"`
+
+	// The parameter version.
+	Version *int64 `type:"long"`
 }
 
 // String returns the string representation
@@ -18681,48 +15581,6 @@ func (s ParameterMetadata) String() string {
 // GoString returns the string representation
 func (s ParameterMetadata) GoString() string {
 	return s.String()
-}
-
-// SetAllowedPattern sets the AllowedPattern field's value.
-func (s *ParameterMetadata) SetAllowedPattern(v string) *ParameterMetadata {
-	s.AllowedPattern = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *ParameterMetadata) SetDescription(v string) *ParameterMetadata {
-	s.Description = &v
-	return s
-}
-
-// SetKeyId sets the KeyId field's value.
-func (s *ParameterMetadata) SetKeyId(v string) *ParameterMetadata {
-	s.KeyId = &v
-	return s
-}
-
-// SetLastModifiedDate sets the LastModifiedDate field's value.
-func (s *ParameterMetadata) SetLastModifiedDate(v time.Time) *ParameterMetadata {
-	s.LastModifiedDate = &v
-	return s
-}
-
-// SetLastModifiedUser sets the LastModifiedUser field's value.
-func (s *ParameterMetadata) SetLastModifiedUser(v string) *ParameterMetadata {
-	s.LastModifiedUser = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ParameterMetadata) SetName(v string) *ParameterMetadata {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ParameterMetadata) SetType(v ParameterType) *ParameterMetadata {
-	s.Type = v
-	return s
 }
 
 // One or more filters. Use a filter to return a more specific list of results.
@@ -18740,7 +15598,7 @@ type ParameterStringFilter struct {
 	Option *string `min:"1" type:"string"`
 
 	// The value you want to search for.
-	Values []*string `min:"1" type:"list"`
+	Values []string `min:"1" type:"list"`
 }
 
 // String returns the string representation
@@ -18776,25 +15634,7 @@ func (s *ParameterStringFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *ParameterStringFilter) SetKey(v string) *ParameterStringFilter {
-	s.Key = &v
-	return s
-}
-
-// SetOption sets the Option field's value.
-func (s *ParameterStringFilter) SetOption(v string) *ParameterStringFilter {
-	s.Option = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *ParameterStringFilter) SetValues(v []*string) *ParameterStringFilter {
-	s.Values = v
-	return s
-}
-
-// One or more filters. Use a filter to return a more specific list of results.
+// This data type is deprecated. Instead, use ParameterStringFilter.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ParametersFilter
 type ParametersFilter struct {
 	_ struct{} `type:"structure"`
@@ -18802,12 +15642,12 @@ type ParametersFilter struct {
 	// The name of the filter.
 	//
 	// Key is a required field
-	Key ParametersFilterKey `type:"string" required:"true"`
+	Key ParametersFilterKey `type:"string" required:"true" enum:"true"`
 
 	// The filter values.
 	//
 	// Values is a required field
-	Values []*string `min:"1" type:"list" required:"true"`
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -18838,18 +15678,6 @@ func (s *ParametersFilter) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *ParametersFilter) SetKey(v ParametersFilterKey) *ParametersFilter {
-	s.Key = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *ParametersFilter) SetValues(v []*string) *ParametersFilter {
-	s.Values = v
-	return s
 }
 
 // Represents metadata about a patch.
@@ -18908,84 +15736,6 @@ func (s Patch) GoString() string {
 	return s.String()
 }
 
-// SetClassification sets the Classification field's value.
-func (s *Patch) SetClassification(v string) *Patch {
-	s.Classification = &v
-	return s
-}
-
-// SetContentUrl sets the ContentUrl field's value.
-func (s *Patch) SetContentUrl(v string) *Patch {
-	s.ContentUrl = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *Patch) SetDescription(v string) *Patch {
-	s.Description = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Patch) SetId(v string) *Patch {
-	s.Id = &v
-	return s
-}
-
-// SetKbNumber sets the KbNumber field's value.
-func (s *Patch) SetKbNumber(v string) *Patch {
-	s.KbNumber = &v
-	return s
-}
-
-// SetLanguage sets the Language field's value.
-func (s *Patch) SetLanguage(v string) *Patch {
-	s.Language = &v
-	return s
-}
-
-// SetMsrcNumber sets the MsrcNumber field's value.
-func (s *Patch) SetMsrcNumber(v string) *Patch {
-	s.MsrcNumber = &v
-	return s
-}
-
-// SetMsrcSeverity sets the MsrcSeverity field's value.
-func (s *Patch) SetMsrcSeverity(v string) *Patch {
-	s.MsrcSeverity = &v
-	return s
-}
-
-// SetProduct sets the Product field's value.
-func (s *Patch) SetProduct(v string) *Patch {
-	s.Product = &v
-	return s
-}
-
-// SetProductFamily sets the ProductFamily field's value.
-func (s *Patch) SetProductFamily(v string) *Patch {
-	s.ProductFamily = &v
-	return s
-}
-
-// SetReleaseDate sets the ReleaseDate field's value.
-func (s *Patch) SetReleaseDate(v time.Time) *Patch {
-	s.ReleaseDate = &v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *Patch) SetTitle(v string) *Patch {
-	s.Title = &v
-	return s
-}
-
-// SetVendor sets the Vendor field's value.
-func (s *Patch) SetVendor(v string) *Patch {
-	s.Vendor = &v
-	return s
-}
-
 // Defines the basic information about a patch baseline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchBaselineIdentity
 type PatchBaselineIdentity struct {
@@ -19005,10 +15755,9 @@ type PatchBaselineIdentity struct {
 	// default patch baseline for each operating system.
 	DefaultBaseline *bool `type:"boolean"`
 
-	// Defines the operating system the patch baseline applies to. Supported operating
-	// systems include WINDOWS, AMAZON_LINUX, UBUNTU and REDHAT_ENTERPRISE_LINUX.
-	// The Default value is WINDOWS.
-	OperatingSystem OperatingSystem `type:"string"`
+	// Defines the operating system the patch baseline applies to. The Default value
+	// is WINDOWS.
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -19019,36 +15768,6 @@ func (s PatchBaselineIdentity) String() string {
 // GoString returns the string representation
 func (s PatchBaselineIdentity) GoString() string {
 	return s.String()
-}
-
-// SetBaselineDescription sets the BaselineDescription field's value.
-func (s *PatchBaselineIdentity) SetBaselineDescription(v string) *PatchBaselineIdentity {
-	s.BaselineDescription = &v
-	return s
-}
-
-// SetBaselineId sets the BaselineId field's value.
-func (s *PatchBaselineIdentity) SetBaselineId(v string) *PatchBaselineIdentity {
-	s.BaselineId = &v
-	return s
-}
-
-// SetBaselineName sets the BaselineName field's value.
-func (s *PatchBaselineIdentity) SetBaselineName(v string) *PatchBaselineIdentity {
-	s.BaselineName = &v
-	return s
-}
-
-// SetDefaultBaseline sets the DefaultBaseline field's value.
-func (s *PatchBaselineIdentity) SetDefaultBaseline(v bool) *PatchBaselineIdentity {
-	s.DefaultBaseline = &v
-	return s
-}
-
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *PatchBaselineIdentity) SetOperatingSystem(v OperatingSystem) *PatchBaselineIdentity {
-	s.OperatingSystem = v
-	return s
 }
 
 // Information about the state of a patch on a particular instance as it relates
@@ -19082,7 +15801,7 @@ type PatchComplianceData struct {
 	// NOT_APPLICABLE or FAILED).
 	//
 	// State is a required field
-	State PatchComplianceDataState `type:"string" required:"true"`
+	State PatchComplianceDataState `type:"string" required:"true" enum:"true"`
 
 	// The title of the patch.
 	//
@@ -19100,56 +15819,366 @@ func (s PatchComplianceData) GoString() string {
 	return s.String()
 }
 
-// SetClassification sets the Classification field's value.
-func (s *PatchComplianceData) SetClassification(v string) *PatchComplianceData {
-	s.Classification = &v
-	return s
-}
-
-// SetInstalledTime sets the InstalledTime field's value.
-func (s *PatchComplianceData) SetInstalledTime(v time.Time) *PatchComplianceData {
-	s.InstalledTime = &v
-	return s
-}
-
-// SetKBId sets the KBId field's value.
-func (s *PatchComplianceData) SetKBId(v string) *PatchComplianceData {
-	s.KBId = &v
-	return s
-}
-
-// SetSeverity sets the Severity field's value.
-func (s *PatchComplianceData) SetSeverity(v string) *PatchComplianceData {
-	s.Severity = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *PatchComplianceData) SetState(v PatchComplianceDataState) *PatchComplianceData {
-	s.State = v
-	return s
-}
-
-// SetTitle sets the Title field's value.
-func (s *PatchComplianceData) SetTitle(v string) *PatchComplianceData {
-	s.Title = &v
-	return s
-}
-
 // Defines a patch filter.
+//
+// A patch filter consists of key/value pairs, but not all keys are valid for
+// all operating system types. For example, the key PRODUCT is valid for all
+// supported operating system types. The key MSRC_SEVERITY, however, is valid
+// only for Windows operating systems, and the key SECTION is valid only for
+// Ubuntu operating systems.
+//
+// Refer to the following sections for information about which keys may be used
+// with each major operating system, and which values are valid for each key.
+//
+// Windows Operating Systems
+//
+// The supported keys for Windows operating systems are PRODUCT, CLASSIFICATION,
+// and MSRC_SEVERITY. See the following lists for valid values for each of these
+// keys.
+//
+// Supported key:PRODUCT
+//
+// Supported values:
+//
+//    * Windows7
+//
+//    * Windows8
+//
+//    * Windows8.1
+//
+//    * Windows8Embedded
+//
+//    * Windows10
+//
+//    * Windows10LTSB
+//
+//    * WindowsServer2008
+//
+//    * WindowsServer2008R2
+//
+//    * WindowsServer2012
+//
+//    * WindowsServer2012R2
+//
+//    * WindowsServer2016
+//
+// Supported key:CLASSIFICATION
+//
+// Supported values:
+//
+//    * CriticalUpdates
+//
+//    * DefinitionUpdates
+//
+//    * Drivers
+//
+//    * FeaturePacks
+//
+//    * SecurityUpdates
+//
+//    * ServicePacks
+//
+//    * Tools
+//
+//    * UpdateRollups
+//
+//    * Updates
+//
+//    * Upgrades
+//
+// Supported key:MSRC_SEVERITY
+//
+// Supported values:
+//
+//    * Critical
+//
+//    * Important
+//
+//    * Moderate
+//
+//    * Low
+//
+//    * Unspecified
+//
+// Ubuntu Operating Systems
+//
+// The supported keys for Ubuntu operating systems are PRODUCT, PRIORITY, and
+// SECTION. See the following lists for valid values for each of these keys.
+//
+// Supported key:PRODUCT
+//
+// Supported values:
+//
+//    * Ubuntu14.04
+//
+//    * Ubuntu16.04
+//
+// Supported key:PRIORITY
+//
+// Supported values:
+//
+//    * Required
+//
+//    * Important
+//
+//    * Standard
+//
+//    * Optional
+//
+//    * Extra
+//
+// Supported key:SECTION
+//
+// Only the length of the key value is validated. Minimum length is 1. Maximum
+// length is 64.
+//
+// Amazon Linux Operating Systems
+//
+// The supported keys for Amazon Linux operating systems are PRODUCT, CLASSIFICATION,
+// and SEVERITY. See the following lists for valid values for each of these
+// keys.
+//
+// Supported key:PRODUCT
+//
+// Supported values:
+//
+//    * AmazonLinux2012.03
+//
+//    * AmazonLinux2012.09
+//
+//    * AmazonLinux2013.03
+//
+//    * AmazonLinux2013.09
+//
+//    * AmazonLinux2014.03
+//
+//    * AmazonLinux2014.09
+//
+//    * AmazonLinux2015.03
+//
+//    * AmazonLinux2015.09
+//
+//    * AmazonLinux2016.03
+//
+//    * AmazonLinux2016.09
+//
+//    * AmazonLinux2017.03
+//
+//    * AmazonLinux2017.09
+//
+// Supported key:CLASSIFICATION
+//
+// Supported values:
+//
+//    * Security
+//
+//    * Bugfix
+//
+//    * Enhancement
+//
+//    * Recommended
+//
+//    * Newpackage
+//
+// Supported key:SEVERITY
+//
+// Supported values:
+//
+//    * Critical
+//
+//    * Important
+//
+//    * Medium
+//
+//    * Low
+//
+// RedHat Enterprise Linux (RHEL) Operating Systems
+//
+// The supported keys for RedHat Enterprise Linux operating systems are PRODUCT,
+// CLASSIFICATION, and SEVERITY. See the following lists for valid values for
+// each of these keys.
+//
+// Supported key:PRODUCT
+//
+// Supported values:
+//
+//    * RedhatEnterpriseLinux6.5
+//
+//    * RedhatEnterpriseLinux6.6
+//
+//    * RedhatEnterpriseLinux6.7
+//
+//    * RedhatEnterpriseLinux6.8
+//
+//    * RedhatEnterpriseLinux6.9
+//
+//    * RedhatEnterpriseLinux7.0
+//
+//    * RedhatEnterpriseLinux7.1
+//
+//    * RedhatEnterpriseLinux7.2
+//
+//    * RedhatEnterpriseLinux7.3
+//
+//    * RedhatEnterpriseLinux7.4
+//
+// Supported key:CLASSIFICATION
+//
+// Supported values:
+//
+//    * Security
+//
+//    * Bugfix
+//
+//    * Enhancement
+//
+//    * Recommended
+//
+//    * Newpackage
+//
+// Supported key:SEVERITY
+//
+// Supported values:
+//
+//    * Critical
+//
+//    * Important
+//
+//    * Medium
+//
+//    * Low
+//
+// SUSE Linux Enterprise Server (SLES) Operating Systems
+//
+// The supported keys for SLES operating systems are PRODUCT, CLASSIFICATION,
+// and SEVERITY. See the following lists for valid values for each of these
+// keys.
+//
+// Supported key:PRODUCT
+//
+// Supported values:
+//
+//    * Suse12.0
+//
+//    * Suse12.1
+//
+//    * Suse12.2
+//
+//    * Suse12.3
+//
+//    * Suse12.4
+//
+//    * Suse12.5
+//
+//    * Suse12.6
+//
+//    * Suse12.7
+//
+//    * Suse12.8
+//
+//    * Suse12.9
+//
+// Supported key:CLASSIFICATION
+//
+// Supported values:
+//
+//    * Security
+//
+//    * Recommended
+//
+//    * Optional
+//
+//    * Feature
+//
+//    * Document
+//
+//    * Yast
+//
+// Supported key:SEVERITY
+//
+// Supported values:
+//
+//    * Critical
+//
+//    * Important
+//
+//    * Moderate
+//
+//    * Low
+//
+// CentOS Operating Systems
+//
+// The supported keys for CentOS operating systems are PRODUCT, CLASSIFICATION,
+// and SEVERITY. See the following lists for valid values for each of these
+// keys.
+//
+// Supported key:PRODUCT
+//
+// Supported values:
+//
+//    * CentOS6.5
+//
+//    * CentOS6.6
+//
+//    * CentOS6.7
+//
+//    * CentOS6.8
+//
+//    * CentOS6.9
+//
+//    * CentOS7.0
+//
+//    * CentOS7.1
+//
+//    * CentOS7.2
+//
+//    * CentOS7.3
+//
+//    * CentOS7.4
+//
+// Supported key:CLASSIFICATION
+//
+// Supported values:
+//
+//    * Security
+//
+//    * Bugfix
+//
+//    * Enhancement
+//
+//    * Recommended
+//
+//    * Newpackage
+//
+// Supported key:SEVERITY
+//
+// Supported values:
+//
+//    * Critical
+//
+//    * Important
+//
+//    * Medium
+//
+//    * Low
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchFilter
 type PatchFilter struct {
 	_ struct{} `type:"structure"`
 
-	// The key for the filter (PRODUCT, CLASSIFICATION, MSRC_SEVERITY, PATCH_ID)
+	// The key for the filter.
+	//
+	// See PatchFilter for lists of valid keys for each operating system type.
 	//
 	// Key is a required field
-	Key PatchFilterKey `type:"string" required:"true"`
+	Key PatchFilterKey `type:"string" required:"true" enum:"true"`
 
 	// The value for the filter key.
 	//
+	// See PatchFilter for lists of valid values for each key based on operating
+	// system type.
+	//
 	// Values is a required field
-	Values []*string `min:"1" type:"list" required:"true"`
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -19182,18 +16211,6 @@ func (s *PatchFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *PatchFilter) SetKey(v PatchFilterKey) *PatchFilter {
-	s.Key = v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *PatchFilter) SetValues(v []*string) *PatchFilter {
-	s.Values = v
-	return s
-}
-
 // A set of patch filters, typically used for approval rules.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchFilterGroup
 type PatchFilterGroup struct {
@@ -19202,7 +16219,7 @@ type PatchFilterGroup struct {
 	// The set of patch filters that make up the group.
 	//
 	// PatchFilters is a required field
-	PatchFilters []*PatchFilter `type:"list" required:"true"`
+	PatchFilters []PatchFilter `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -19224,9 +16241,6 @@ func (s *PatchFilterGroup) Validate() error {
 	}
 	if s.PatchFilters != nil {
 		for i, v := range s.PatchFilters {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "PatchFilters", i), err.(aws.ErrInvalidParams))
 			}
@@ -19237,12 +16251,6 @@ func (s *PatchFilterGroup) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetPatchFilters sets the PatchFilters field's value.
-func (s *PatchFilterGroup) SetPatchFilters(v []*PatchFilter) *PatchFilterGroup {
-	s.PatchFilters = v
-	return s
 }
 
 // The mapping between a patch group and the patch baseline the patch group
@@ -19268,18 +16276,6 @@ func (s PatchGroupPatchBaselineMapping) GoString() string {
 	return s.String()
 }
 
-// SetBaselineIdentity sets the BaselineIdentity field's value.
-func (s *PatchGroupPatchBaselineMapping) SetBaselineIdentity(v *PatchBaselineIdentity) *PatchGroupPatchBaselineMapping {
-	s.BaselineIdentity = v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *PatchGroupPatchBaselineMapping) SetPatchGroup(v string) *PatchGroupPatchBaselineMapping {
-	s.PatchGroup = &v
-	return s
-}
-
 // Defines a filter used in Patch Manager APIs.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchOrchestratorFilter
 type PatchOrchestratorFilter struct {
@@ -19289,7 +16285,7 @@ type PatchOrchestratorFilter struct {
 	Key *string `min:"1" type:"string"`
 
 	// The value for the filter.
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -19315,18 +16311,6 @@ func (s *PatchOrchestratorFilter) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *PatchOrchestratorFilter) SetKey(v string) *PatchOrchestratorFilter {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *PatchOrchestratorFilter) SetValues(v []*string) *PatchOrchestratorFilter {
-	s.Values = v
-	return s
-}
-
 // Defines an approval rule for a patch baseline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchRule
 type PatchRule struct {
@@ -19341,7 +16325,12 @@ type PatchRule struct {
 	// A compliance severity level for all approved patches in a patch baseline.
 	// Valid compliance severity levels include the following: Unspecified, Critical,
 	// High, Medium, Low, and Informational.
-	ComplianceLevel PatchComplianceLevel `type:"string"`
+	ComplianceLevel PatchComplianceLevel `type:"string" enum:"true"`
+
+	// For instances identified by the approval rule filters, enables a patch baseline
+	// to apply non-security updates available in the specified repository. The
+	// default value is 'false'. Applies to Linux instances only.
+	EnableNonSecurity *bool `type:"boolean"`
 
 	// The patch filter group that defines the criteria for the rule.
 	//
@@ -19382,24 +16371,6 @@ func (s *PatchRule) Validate() error {
 	return nil
 }
 
-// SetApproveAfterDays sets the ApproveAfterDays field's value.
-func (s *PatchRule) SetApproveAfterDays(v int64) *PatchRule {
-	s.ApproveAfterDays = &v
-	return s
-}
-
-// SetComplianceLevel sets the ComplianceLevel field's value.
-func (s *PatchRule) SetComplianceLevel(v PatchComplianceLevel) *PatchRule {
-	s.ComplianceLevel = v
-	return s
-}
-
-// SetPatchFilterGroup sets the PatchFilterGroup field's value.
-func (s *PatchRule) SetPatchFilterGroup(v *PatchFilterGroup) *PatchRule {
-	s.PatchFilterGroup = v
-	return s
-}
-
 // A set of rules defining the approval rules for a patch baseline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchRuleGroup
 type PatchRuleGroup struct {
@@ -19408,7 +16379,7 @@ type PatchRuleGroup struct {
 	// The rules that make up the rule group.
 	//
 	// PatchRules is a required field
-	PatchRules []*PatchRule `type:"list" required:"true"`
+	PatchRules []PatchRule `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -19430,9 +16401,6 @@ func (s *PatchRuleGroup) Validate() error {
 	}
 	if s.PatchRules != nil {
 		for i, v := range s.PatchRules {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "PatchRules", i), err.(aws.ErrInvalidParams))
 			}
@@ -19445,10 +16413,74 @@ func (s *PatchRuleGroup) Validate() error {
 	return nil
 }
 
-// SetPatchRules sets the PatchRules field's value.
-func (s *PatchRuleGroup) SetPatchRules(v []*PatchRule) *PatchRuleGroup {
-	s.PatchRules = v
-	return s
+// Information about the patches to use to update the instances, including target
+// operating systems and source repository. Applies to Linux instances only.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchSource
+type PatchSource struct {
+	_ struct{} `type:"structure"`
+
+	// The value of the yum repo configuration. For example:
+	//
+	// cachedir=/var/cache/yum/$basesearch
+	//
+	// $releasever
+	//
+	// keepcache=0
+	//
+	// debualevel=2
+	//
+	// Configuration is a required field
+	Configuration *string `min:"1" type:"string" required:"true"`
+
+	// The name specified to identify the patch source.
+	//
+	// Name is a required field
+	Name *string `type:"string" required:"true"`
+
+	// The specific operating system versions a patch repository applies to, such
+	// as "Ubuntu16.04", "AmazonLinux2016.09", "RedhatEnterpriseLinux7.2" or "Suse12.7".
+	// For lists of supported product values, see PatchFilter.
+	//
+	// Products is a required field
+	Products []string `min:"1" type:"list" required:"true"`
+}
+
+// String returns the string representation
+func (s PatchSource) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PatchSource) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PatchSource) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PatchSource"}
+
+	if s.Configuration == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Configuration"))
+	}
+	if s.Configuration != nil && len(*s.Configuration) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Configuration", 1))
+	}
+
+	if s.Name == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Name"))
+	}
+
+	if s.Products == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Products"))
+	}
+	if s.Products != nil && len(s.Products) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Products", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
 // Information about the approval status of a patch.
@@ -19460,11 +16492,11 @@ type PatchStatus struct {
 	ApprovalDate *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The compliance severity level for a patch.
-	ComplianceLevel PatchComplianceLevel `type:"string"`
+	ComplianceLevel PatchComplianceLevel `type:"string" enum:"true"`
 
 	// The approval status of a patch (APPROVED, PENDING_APPROVAL, EXPLICIT_APPROVED,
 	// EXPLICIT_REJECTED).
-	DeploymentStatus PatchDeploymentStatus `type:"string"`
+	DeploymentStatus PatchDeploymentStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -19475,24 +16507,6 @@ func (s PatchStatus) String() string {
 // GoString returns the string representation
 func (s PatchStatus) GoString() string {
 	return s.String()
-}
-
-// SetApprovalDate sets the ApprovalDate field's value.
-func (s *PatchStatus) SetApprovalDate(v time.Time) *PatchStatus {
-	s.ApprovalDate = &v
-	return s
-}
-
-// SetComplianceLevel sets the ComplianceLevel field's value.
-func (s *PatchStatus) SetComplianceLevel(v PatchComplianceLevel) *PatchStatus {
-	s.ComplianceLevel = v
-	return s
-}
-
-// SetDeploymentStatus sets the DeploymentStatus field's value.
-func (s *PatchStatus) SetDeploymentStatus(v PatchDeploymentStatus) *PatchStatus {
-	s.DeploymentStatus = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutComplianceItemsRequest
@@ -19522,7 +16536,7 @@ type PutComplianceItemsInput struct {
 	// Classification, etc.
 	//
 	// Items is a required field
-	Items []*ComplianceItemEntry `type:"list" required:"true"`
+	Items []ComplianceItemEntry `type:"list" required:"true"`
 
 	// Specify an ID for this resource. For a managed instance, this is the instance
 	// ID.
@@ -19586,9 +16600,6 @@ func (s *PutComplianceItemsInput) Validate() error {
 	}
 	if s.Items != nil {
 		for i, v := range s.Items {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Items", i), err.(aws.ErrInvalidParams))
 			}
@@ -19601,45 +16612,11 @@ func (s *PutComplianceItemsInput) Validate() error {
 	return nil
 }
 
-// SetComplianceType sets the ComplianceType field's value.
-func (s *PutComplianceItemsInput) SetComplianceType(v string) *PutComplianceItemsInput {
-	s.ComplianceType = &v
-	return s
-}
-
-// SetExecutionSummary sets the ExecutionSummary field's value.
-func (s *PutComplianceItemsInput) SetExecutionSummary(v *ComplianceExecutionSummary) *PutComplianceItemsInput {
-	s.ExecutionSummary = v
-	return s
-}
-
-// SetItemContentHash sets the ItemContentHash field's value.
-func (s *PutComplianceItemsInput) SetItemContentHash(v string) *PutComplianceItemsInput {
-	s.ItemContentHash = &v
-	return s
-}
-
-// SetItems sets the Items field's value.
-func (s *PutComplianceItemsInput) SetItems(v []*ComplianceItemEntry) *PutComplianceItemsInput {
-	s.Items = v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *PutComplianceItemsInput) SetResourceId(v string) *PutComplianceItemsInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *PutComplianceItemsInput) SetResourceType(v string) *PutComplianceItemsInput {
-	s.ResourceType = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutComplianceItemsResult
 type PutComplianceItemsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -19650,6 +16627,11 @@ func (s PutComplianceItemsOutput) String() string {
 // GoString returns the string representation
 func (s PutComplianceItemsOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutComplianceItemsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutInventoryRequest
@@ -19664,7 +16646,7 @@ type PutInventoryInput struct {
 	// The inventory items that you want to add or update on instances.
 	//
 	// Items is a required field
-	Items []*InventoryItem `locationNameList:"Item" min:"1" type:"list" required:"true"`
+	Items []InventoryItem `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -19693,9 +16675,6 @@ func (s *PutInventoryInput) Validate() error {
 	}
 	if s.Items != nil {
 		for i, v := range s.Items {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Items", i), err.(aws.ErrInvalidParams))
 			}
@@ -19708,21 +16687,14 @@ func (s *PutInventoryInput) Validate() error {
 	return nil
 }
 
-// SetInstanceId sets the InstanceId field's value.
-func (s *PutInventoryInput) SetInstanceId(v string) *PutInventoryInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetItems sets the Items field's value.
-func (s *PutInventoryInput) SetItems(v []*InventoryItem) *PutInventoryInput {
-	s.Items = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutInventoryResult
 type PutInventoryOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// Information about the request.
+	Message *string `type:"string"`
 }
 
 // String returns the string representation
@@ -19735,6 +16707,11 @@ func (s PutInventoryOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutInventoryOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutParameterRequest
 type PutParameterInput struct {
 	_ struct{} `type:"structure"`
@@ -19744,15 +16721,27 @@ type PutParameterInput struct {
 	// AllowedPattern=^\d+$
 	AllowedPattern *string `type:"string"`
 
-	// Information about the parameter that you want to add to the system
-	Description *string `min:"1" type:"string"`
+	// Information about the parameter that you want to add to the system.
+	//
+	// Do not enter personally identifiable information in this field.
+	Description *string `type:"string"`
 
 	// The KMS Key ID that you want to use to encrypt a parameter when you choose
 	// the SecureString data type. If you don't specify a key ID, the system uses
 	// the default key associated with your AWS account.
 	KeyId *string `min:"1" type:"string"`
 
-	// The name of the parameter that you want to add to the system.
+	// The fully qualified name of the parameter that you want to add to the system.
+	// The fully qualified name includes the complete hierarchy of the parameter
+	// path and name. For example: /Dev/DBServer/MySQL/db-string13
+	//
+	// For information about parameter name requirements and restrictions, see About
+	// Creating Systems Manager Parameters (http://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html#sysman-paramstore-su-create-about)
+	// in the AWS Systems Manager User Guide.
+	//
+	// The maximum length constraint listed below includes capacity for additional
+	// system attributes that are not part of the name. The maximum length for the
+	// fully qualified parameter name is 1011 characters.
 	//
 	// Name is a required field
 	Name *string `min:"1" type:"string" required:"true"`
@@ -19763,7 +16752,7 @@ type PutParameterInput struct {
 	// The type of parameter that you want to add to the system.
 	//
 	// Type is a required field
-	Type ParameterType `type:"string" required:"true"`
+	Type ParameterType `type:"string" required:"true" enum:"true"`
 
 	// The parameter value that you want to add to the system.
 	//
@@ -19784,9 +16773,6 @@ func (s PutParameterInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *PutParameterInput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "PutParameterInput"}
-	if s.Description != nil && len(*s.Description) < 1 {
-		invalidParams.Add(aws.NewErrParamMinLen("Description", 1))
-	}
 	if s.KeyId != nil && len(*s.KeyId) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("KeyId", 1))
 	}
@@ -19814,51 +16800,19 @@ func (s *PutParameterInput) Validate() error {
 	return nil
 }
 
-// SetAllowedPattern sets the AllowedPattern field's value.
-func (s *PutParameterInput) SetAllowedPattern(v string) *PutParameterInput {
-	s.AllowedPattern = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *PutParameterInput) SetDescription(v string) *PutParameterInput {
-	s.Description = &v
-	return s
-}
-
-// SetKeyId sets the KeyId field's value.
-func (s *PutParameterInput) SetKeyId(v string) *PutParameterInput {
-	s.KeyId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PutParameterInput) SetName(v string) *PutParameterInput {
-	s.Name = &v
-	return s
-}
-
-// SetOverwrite sets the Overwrite field's value.
-func (s *PutParameterInput) SetOverwrite(v bool) *PutParameterInput {
-	s.Overwrite = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *PutParameterInput) SetType(v ParameterType) *PutParameterInput {
-	s.Type = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *PutParameterInput) SetValue(v string) *PutParameterInput {
-	s.Value = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutParameterResult
 type PutParameterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The new version number of a parameter. If you edit a parameter value, Parameter
+	// Store automatically creates a new version and assigns this new version a
+	// unique ID. You can reference a parameter version ID in API actions or in
+	// Systems Manager documents (SSM documents). By default, if you don't specify
+	// a specific version, the system returns the latest parameter value when a
+	// parameter is called.
+	Version *int64 `type:"long"`
 }
 
 // String returns the string representation
@@ -19869,6 +16823,11 @@ func (s PutParameterOutput) String() string {
 // GoString returns the string representation
 func (s PutParameterOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutParameterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterDefaultPatchBaselineRequest
@@ -19908,15 +16867,11 @@ func (s *RegisterDefaultPatchBaselineInput) Validate() error {
 	return nil
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *RegisterDefaultPatchBaselineInput) SetBaselineId(v string) *RegisterDefaultPatchBaselineInput {
-	s.BaselineId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterDefaultPatchBaselineResult
 type RegisterDefaultPatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the default patch baseline.
 	BaselineId *string `min:"20" type:"string"`
@@ -19932,10 +16887,9 @@ func (s RegisterDefaultPatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *RegisterDefaultPatchBaselineOutput) SetBaselineId(v string) *RegisterDefaultPatchBaselineOutput {
-	s.BaselineId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterDefaultPatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterPatchBaselineForPatchGroupRequest
@@ -19987,21 +16941,11 @@ func (s *RegisterPatchBaselineForPatchGroupInput) Validate() error {
 	return nil
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *RegisterPatchBaselineForPatchGroupInput) SetBaselineId(v string) *RegisterPatchBaselineForPatchGroupInput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *RegisterPatchBaselineForPatchGroupInput) SetPatchGroup(v string) *RegisterPatchBaselineForPatchGroupInput {
-	s.PatchGroup = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterPatchBaselineForPatchGroupResult
 type RegisterPatchBaselineForPatchGroupOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the patch baseline the patch group was registered with.
 	BaselineId *string `min:"20" type:"string"`
@@ -20020,16 +16964,9 @@ func (s RegisterPatchBaselineForPatchGroupOutput) GoString() string {
 	return s.String()
 }
 
-// SetBaselineId sets the BaselineId field's value.
-func (s *RegisterPatchBaselineForPatchGroupOutput) SetBaselineId(v string) *RegisterPatchBaselineForPatchGroupOutput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetPatchGroup sets the PatchGroup field's value.
-func (s *RegisterPatchBaselineForPatchGroupOutput) SetPatchGroup(v string) *RegisterPatchBaselineForPatchGroupOutput {
-	s.PatchGroup = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterPatchBaselineForPatchGroupOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterTargetWithMaintenanceWindowRequest
@@ -20052,13 +16989,22 @@ type RegisterTargetWithMaintenanceWindowInput struct {
 	// The type of target being registered with the Maintenance Window.
 	//
 	// ResourceType is a required field
-	ResourceType MaintenanceWindowResourceType `type:"string" required:"true"`
+	ResourceType MaintenanceWindowResourceType `type:"string" required:"true" enum:"true"`
 
-	// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=<instanceid1>,<instanceid2>.
-	// Tags are specified using Key=<tag name>,Values=<tag value>.
+	// The targets (either instances or tags).
+	//
+	// Specify instances using the following format:
+	//
+	// Key=InstanceIds,Values=<instance-id-1>,<instance-id-2>
+	//
+	// Specify tags using either of the following formats:
+	//
+	// Key=tag:<tag-key>,Values=<tag-value-1>,<tag-value-2>
+	//
+	// Key=tag-key,Values=<tag-key-1>,<tag-key-2>
 	//
 	// Targets is a required field
-	Targets []*Target `type:"list" required:"true"`
+	Targets []Target `type:"list" required:"true"`
 
 	// The ID of the Maintenance Window the target should be registered with.
 	//
@@ -20107,9 +17053,6 @@ func (s *RegisterTargetWithMaintenanceWindowInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -20122,51 +17065,11 @@ func (s *RegisterTargetWithMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetClientToken(v string) *RegisterTargetWithMaintenanceWindowInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetDescription(v string) *RegisterTargetWithMaintenanceWindowInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetName(v string) *RegisterTargetWithMaintenanceWindowInput {
-	s.Name = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetOwnerInformation(v string) *RegisterTargetWithMaintenanceWindowInput {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetResourceType(v MaintenanceWindowResourceType) *RegisterTargetWithMaintenanceWindowInput {
-	s.ResourceType = v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetTargets(v []*Target) *RegisterTargetWithMaintenanceWindowInput {
-	s.Targets = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *RegisterTargetWithMaintenanceWindowInput) SetWindowId(v string) *RegisterTargetWithMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterTargetWithMaintenanceWindowResult
 type RegisterTargetWithMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the target definition in this Maintenance Window.
 	WindowTargetId *string `min:"36" type:"string"`
@@ -20182,10 +17085,9 @@ func (s RegisterTargetWithMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *RegisterTargetWithMaintenanceWindowOutput) SetWindowTargetId(v string) *RegisterTargetWithMaintenanceWindowOutput {
-	s.WindowTargetId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterTargetWithMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterTaskWithMaintenanceWindowRequest
@@ -20200,6 +17102,11 @@ type RegisterTaskWithMaintenanceWindowInput struct {
 
 	// A structure containing information about an Amazon S3 bucket to write instance-level
 	// logs to.
+	//
+	// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+	// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
 	LoggingInfo *LoggingInfo `type:"structure"`
 
 	// The maximum number of targets this task can be run for in parallel.
@@ -20225,11 +17132,18 @@ type RegisterTaskWithMaintenanceWindowInput struct {
 	// ServiceRoleArn is a required field
 	ServiceRoleArn *string `type:"string" required:"true"`
 
-	// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=<instanceid1>,<instanceid2>.
-	// Tags are specified using Key=<tag name>,Values=<tag value>.
+	// The targets (either instances or Maintenance Window targets).
+	//
+	// Specify instances using the following format:
+	//
+	// Key=InstanceIds,Values=<instance-id-1>,<instance-id-2>
+	//
+	// Specify Maintenance Window targets using the following format:
+	//
+	// Key=<WindowTargetIds>,Values=<window-target-id-1>,<window-target-id-2>
 	//
 	// Targets is a required field
-	Targets []*Target `type:"list" required:"true"`
+	Targets []Target `type:"list" required:"true"`
 
 	// The ARN of the task to execute
 	//
@@ -20241,14 +17155,19 @@ type RegisterTaskWithMaintenanceWindowInput struct {
 	TaskInvocationParameters *MaintenanceWindowTaskInvocationParameters `type:"structure"`
 
 	// The parameters that should be passed to the task when it is executed.
-	TaskParameters map[string]*MaintenanceWindowTaskParameterValueExpression `type:"map"`
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	TaskParameters map[string]MaintenanceWindowTaskParameterValueExpression `type:"map"`
 
 	// The type of task being registered.
 	//
 	// TaskType is a required field
-	TaskType MaintenanceWindowTaskType `type:"string" required:"true"`
+	TaskType MaintenanceWindowTaskType `type:"string" required:"true" enum:"true"`
 
-	// The id of the Maintenance Window the task should be added to.
+	// The ID of the Maintenance Window the task should be added to.
 	//
 	// WindowId is a required field
 	WindowId *string `min:"20" type:"string" required:"true"`
@@ -20322,9 +17241,6 @@ func (s *RegisterTaskWithMaintenanceWindowInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -20342,93 +17258,11 @@ func (s *RegisterTaskWithMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetClientToken(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetDescription(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.Description = &v
-	return s
-}
-
-// SetLoggingInfo sets the LoggingInfo field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetLoggingInfo(v *LoggingInfo) *RegisterTaskWithMaintenanceWindowInput {
-	s.LoggingInfo = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetMaxConcurrency(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetMaxErrors(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetName(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.Name = &v
-	return s
-}
-
-// SetPriority sets the Priority field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetPriority(v int64) *RegisterTaskWithMaintenanceWindowInput {
-	s.Priority = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetServiceRoleArn(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetTargets(v []*Target) *RegisterTaskWithMaintenanceWindowInput {
-	s.Targets = v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetTaskArn(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskInvocationParameters sets the TaskInvocationParameters field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetTaskInvocationParameters(v *MaintenanceWindowTaskInvocationParameters) *RegisterTaskWithMaintenanceWindowInput {
-	s.TaskInvocationParameters = v
-	return s
-}
-
-// SetTaskParameters sets the TaskParameters field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetTaskParameters(v map[string]*MaintenanceWindowTaskParameterValueExpression) *RegisterTaskWithMaintenanceWindowInput {
-	s.TaskParameters = v
-	return s
-}
-
-// SetTaskType sets the TaskType field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetTaskType(v MaintenanceWindowTaskType) *RegisterTaskWithMaintenanceWindowInput {
-	s.TaskType = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *RegisterTaskWithMaintenanceWindowInput) SetWindowId(v string) *RegisterTaskWithMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RegisterTaskWithMaintenanceWindowResult
 type RegisterTaskWithMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The id of the task in the Maintenance Window.
 	WindowTaskId *string `min:"36" type:"string"`
@@ -20444,30 +17278,46 @@ func (s RegisterTaskWithMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *RegisterTaskWithMaintenanceWindowOutput) SetWindowTaskId(v string) *RegisterTaskWithMaintenanceWindowOutput {
-	s.WindowTaskId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterTaskWithMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RemoveTagsFromResourceRequest
 type RemoveTagsFromResourceInput struct {
 	_ struct{} `type:"structure"`
 
-	// The resource ID for which you want to remove tags.
+	// The resource ID for which you want to remove tags. Use the ID of the resource.
+	// Here are some examples:
+	//
+	// ManagedInstance: mi-012345abcde
+	//
+	// MaintenanceWindow: mw-012345abcde
+	//
+	// PatchBaseline: pb-012345abcde
+	//
+	// For the Document and Parameter values, use the name of the resource.
+	//
+	// The ManagedInstance type for this API action is only for on-premises managed
+	// instances. You must specify the the name of the managed instance in the following
+	// format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
 	//
 	// ResourceId is a required field
 	ResourceId *string `type:"string" required:"true"`
 
 	// The type of resource of which you want to remove a tag.
 	//
+	// The ManagedInstance type for this API action is only for on-premises managed
+	// instances. You must specify the the name of the managed instance in the following
+	// format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+	//
 	// ResourceType is a required field
-	ResourceType ResourceTypeForTagging `type:"string" required:"true"`
+	ResourceType ResourceTypeForTagging `type:"string" required:"true" enum:"true"`
 
 	// Tag keys that you want to remove from the specified resource.
 	//
 	// TagKeys is a required field
-	TagKeys []*string `type:"list" required:"true"`
+	TagKeys []string `type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -20501,27 +17351,11 @@ func (s *RemoveTagsFromResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *RemoveTagsFromResourceInput) SetResourceId(v string) *RemoveTagsFromResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *RemoveTagsFromResourceInput) SetResourceType(v ResourceTypeForTagging) *RemoveTagsFromResourceInput {
-	s.ResourceType = v
-	return s
-}
-
-// SetTagKeys sets the TagKeys field's value.
-func (s *RemoveTagsFromResourceInput) SetTagKeys(v []*string) *RemoveTagsFromResourceInput {
-	s.TagKeys = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/RemoveTagsFromResourceResult
 type RemoveTagsFromResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -20531,6 +17365,34 @@ func (s RemoveTagsFromResourceOutput) String() string {
 
 // GoString returns the string representation
 func (s RemoveTagsFromResourceOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RemoveTagsFromResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Information about targets that resolved during the Automation execution.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResolvedTargets
+type ResolvedTargets struct {
+	_ struct{} `type:"structure"`
+
+	// A list of parameter values sent to targets that resolved during the Automation
+	// execution.
+	ParameterValues []string `type:"list"`
+
+	// A boolean value indicating whether the resolved target list is truncated.
+	Truncated *bool `type:"boolean"`
+}
+
+// String returns the string representation
+func (s ResolvedTargets) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ResolvedTargets) GoString() string {
 	return s.String()
 }
 
@@ -20553,7 +17415,7 @@ type ResourceComplianceSummaryItem struct {
 
 	// The highest severity item found for the resource. The resource is compliant
 	// for this item.
-	OverallSeverity ComplianceSeverity `type:"string"`
+	OverallSeverity ComplianceSeverity `type:"string" enum:"true"`
 
 	// The resource ID.
 	ResourceId *string `min:"1" type:"string"`
@@ -20562,7 +17424,7 @@ type ResourceComplianceSummaryItem struct {
 	ResourceType *string `min:"1" type:"string"`
 
 	// The compliance status for the resource.
-	Status ComplianceStatus `type:"string"`
+	Status ComplianceStatus `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -20575,54 +17437,6 @@ func (s ResourceComplianceSummaryItem) GoString() string {
 	return s.String()
 }
 
-// SetComplianceType sets the ComplianceType field's value.
-func (s *ResourceComplianceSummaryItem) SetComplianceType(v string) *ResourceComplianceSummaryItem {
-	s.ComplianceType = &v
-	return s
-}
-
-// SetCompliantSummary sets the CompliantSummary field's value.
-func (s *ResourceComplianceSummaryItem) SetCompliantSummary(v *CompliantSummary) *ResourceComplianceSummaryItem {
-	s.CompliantSummary = v
-	return s
-}
-
-// SetExecutionSummary sets the ExecutionSummary field's value.
-func (s *ResourceComplianceSummaryItem) SetExecutionSummary(v *ComplianceExecutionSummary) *ResourceComplianceSummaryItem {
-	s.ExecutionSummary = v
-	return s
-}
-
-// SetNonCompliantSummary sets the NonCompliantSummary field's value.
-func (s *ResourceComplianceSummaryItem) SetNonCompliantSummary(v *NonCompliantSummary) *ResourceComplianceSummaryItem {
-	s.NonCompliantSummary = v
-	return s
-}
-
-// SetOverallSeverity sets the OverallSeverity field's value.
-func (s *ResourceComplianceSummaryItem) SetOverallSeverity(v ComplianceSeverity) *ResourceComplianceSummaryItem {
-	s.OverallSeverity = v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *ResourceComplianceSummaryItem) SetResourceId(v string) *ResourceComplianceSummaryItem {
-	s.ResourceId = &v
-	return s
-}
-
-// SetResourceType sets the ResourceType field's value.
-func (s *ResourceComplianceSummaryItem) SetResourceType(v string) *ResourceComplianceSummaryItem {
-	s.ResourceType = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ResourceComplianceSummaryItem) SetStatus(v ComplianceStatus) *ResourceComplianceSummaryItem {
-	s.Status = v
-	return s
-}
-
 // Information about a Resource Data Sync configuration, including its current
 // status and last successful sync.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResourceDataSyncItem
@@ -20630,10 +17444,13 @@ type ResourceDataSyncItem struct {
 	_ struct{} `type:"structure"`
 
 	// The status reported by the last sync.
-	LastStatus LastResourceDataSyncStatus `type:"string"`
+	LastStatus LastResourceDataSyncStatus `type:"string" enum:"true"`
 
 	// The last time the sync operations returned a status of SUCCESSFUL (UTC).
 	LastSuccessfulSyncTime *time.Time `type:"timestamp" timestampFormat:"unix"`
+
+	// The status message details reported by the last sync.
+	LastSyncStatusMessage *string `type:"string"`
 
 	// The last time the configuration attempted to sync (UTC).
 	LastSyncTime *time.Time `type:"timestamp" timestampFormat:"unix"`
@@ -20656,42 +17473,6 @@ func (s ResourceDataSyncItem) String() string {
 // GoString returns the string representation
 func (s ResourceDataSyncItem) GoString() string {
 	return s.String()
-}
-
-// SetLastStatus sets the LastStatus field's value.
-func (s *ResourceDataSyncItem) SetLastStatus(v LastResourceDataSyncStatus) *ResourceDataSyncItem {
-	s.LastStatus = v
-	return s
-}
-
-// SetLastSuccessfulSyncTime sets the LastSuccessfulSyncTime field's value.
-func (s *ResourceDataSyncItem) SetLastSuccessfulSyncTime(v time.Time) *ResourceDataSyncItem {
-	s.LastSuccessfulSyncTime = &v
-	return s
-}
-
-// SetLastSyncTime sets the LastSyncTime field's value.
-func (s *ResourceDataSyncItem) SetLastSyncTime(v time.Time) *ResourceDataSyncItem {
-	s.LastSyncTime = &v
-	return s
-}
-
-// SetS3Destination sets the S3Destination field's value.
-func (s *ResourceDataSyncItem) SetS3Destination(v *ResourceDataSyncS3Destination) *ResourceDataSyncItem {
-	s.S3Destination = v
-	return s
-}
-
-// SetSyncCreatedTime sets the SyncCreatedTime field's value.
-func (s *ResourceDataSyncItem) SetSyncCreatedTime(v time.Time) *ResourceDataSyncItem {
-	s.SyncCreatedTime = &v
-	return s
-}
-
-// SetSyncName sets the SyncName field's value.
-func (s *ResourceDataSyncItem) SetSyncName(v string) *ResourceDataSyncItem {
-	s.SyncName = &v
-	return s
 }
 
 // Information about the target Amazon S3 bucket for the Resource Data Sync.
@@ -20719,7 +17500,7 @@ type ResourceDataSyncS3Destination struct {
 	// A supported sync format. The following format is currently supported: JsonSerDe
 	//
 	// SyncFormat is a required field
-	SyncFormat ResourceDataSyncS3Format `type:"string" required:"true"`
+	SyncFormat ResourceDataSyncS3Format `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -20765,36 +17546,6 @@ func (s *ResourceDataSyncS3Destination) Validate() error {
 	return nil
 }
 
-// SetAWSKMSKeyARN sets the AWSKMSKeyARN field's value.
-func (s *ResourceDataSyncS3Destination) SetAWSKMSKeyARN(v string) *ResourceDataSyncS3Destination {
-	s.AWSKMSKeyARN = &v
-	return s
-}
-
-// SetBucketName sets the BucketName field's value.
-func (s *ResourceDataSyncS3Destination) SetBucketName(v string) *ResourceDataSyncS3Destination {
-	s.BucketName = &v
-	return s
-}
-
-// SetPrefix sets the Prefix field's value.
-func (s *ResourceDataSyncS3Destination) SetPrefix(v string) *ResourceDataSyncS3Destination {
-	s.Prefix = &v
-	return s
-}
-
-// SetRegion sets the Region field's value.
-func (s *ResourceDataSyncS3Destination) SetRegion(v string) *ResourceDataSyncS3Destination {
-	s.Region = &v
-	return s
-}
-
-// SetSyncFormat sets the SyncFormat field's value.
-func (s *ResourceDataSyncS3Destination) SetSyncFormat(v ResourceDataSyncS3Format) *ResourceDataSyncS3Destination {
-	s.SyncFormat = v
-	return s
-}
-
 // The inventory item result attribute.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResultAttribute
 type ResultAttribute struct {
@@ -20832,12 +17583,6 @@ func (s *ResultAttribute) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetTypeName sets the TypeName field's value.
-func (s *ResultAttribute) SetTypeName(v string) *ResultAttribute {
-	s.TypeName = &v
-	return s
 }
 
 // An Amazon S3 bucket where you want to store the results of this request.
@@ -20883,24 +17628,6 @@ func (s *S3OutputLocation) Validate() error {
 	return nil
 }
 
-// SetOutputS3BucketName sets the OutputS3BucketName field's value.
-func (s *S3OutputLocation) SetOutputS3BucketName(v string) *S3OutputLocation {
-	s.OutputS3BucketName = &v
-	return s
-}
-
-// SetOutputS3KeyPrefix sets the OutputS3KeyPrefix field's value.
-func (s *S3OutputLocation) SetOutputS3KeyPrefix(v string) *S3OutputLocation {
-	s.OutputS3KeyPrefix = &v
-	return s
-}
-
-// SetOutputS3Region sets the OutputS3Region field's value.
-func (s *S3OutputLocation) SetOutputS3Region(v string) *S3OutputLocation {
-	s.OutputS3Region = &v
-	return s
-}
-
 // A URL for the Amazon S3 bucket where you want to store the results of this
 // request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/S3OutputUrl
@@ -20922,12 +17649,6 @@ func (s S3OutputUrl) GoString() string {
 	return s.String()
 }
 
-// SetOutputUrl sets the OutputUrl field's value.
-func (s *S3OutputUrl) SetOutputUrl(v string) *S3OutputUrl {
-	s.OutputUrl = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/SendAutomationSignalRequest
 type SendAutomationSignalInput struct {
 	_ struct{} `type:"structure"`
@@ -20940,13 +17661,13 @@ type SendAutomationSignalInput struct {
 
 	// The data sent with the signal. The data schema depends on the type of signal
 	// used in the request.
-	Payload map[string][]*string `min:"1" type:"map"`
+	Payload map[string][]string `min:"1" type:"map"`
 
 	// The type of signal. Valid signal types include the following: Approve and
 	// Reject
 	//
 	// SignalType is a required field
-	SignalType SignalType `type:"string" required:"true"`
+	SignalType SignalType `type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -20982,27 +17703,11 @@ func (s *SendAutomationSignalInput) Validate() error {
 	return nil
 }
 
-// SetAutomationExecutionId sets the AutomationExecutionId field's value.
-func (s *SendAutomationSignalInput) SetAutomationExecutionId(v string) *SendAutomationSignalInput {
-	s.AutomationExecutionId = &v
-	return s
-}
-
-// SetPayload sets the Payload field's value.
-func (s *SendAutomationSignalInput) SetPayload(v map[string][]*string) *SendAutomationSignalInput {
-	s.Payload = v
-	return s
-}
-
-// SetSignalType sets the SignalType field's value.
-func (s *SendAutomationSignalInput) SetSignalType(v SignalType) *SendAutomationSignalInput {
-	s.SignalType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/SendAutomationSignalResult
 type SendAutomationSignalOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21013,6 +17718,11 @@ func (s SendAutomationSignalOutput) String() string {
 // GoString returns the string representation
 func (s SendAutomationSignalOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendAutomationSignalOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/SendCommandRequest
@@ -21031,7 +17741,7 @@ type SendCommandInput struct {
 	// Sha256 or Sha1.
 	//
 	// Sha1 hashes have been deprecated.
-	DocumentHashType DocumentHashType `type:"string"`
+	DocumentHashType DocumentHashType `type:"string" enum:"true"`
 
 	// Required. The name of the Systems Manager document to execute. This can be
 	// a public document or a custom document.
@@ -21039,12 +17749,16 @@ type SendCommandInput struct {
 	// DocumentName is a required field
 	DocumentName *string `type:"string" required:"true"`
 
+	// The SSM document version to use in the request. You can specify Default,
+	// Latest, or a specific version number.
+	DocumentVersion *string `type:"string"`
+
 	// The instance IDs where the command should execute. You can specify a maximum
 	// of 50 IDs. If you prefer not to list individual instance IDs, you can instead
 	// send commands to a fleet of instances using the Targets parameter, which
 	// accepts EC2 tags. For more information about how to use Targets, see Sending
 	// Commands to a Fleet (http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html).
-	InstanceIds []*string `type:"list"`
+	InstanceIds []string `type:"list"`
 
 	// (Optional) The maximum number of instances that are allowed to execute the
 	// command at the same time. You can specify a number such as 10 or a percentage
@@ -21055,7 +17769,7 @@ type SendCommandInput struct {
 	// The maximum number of errors allowed without the command failing. When the
 	// command fails one more time beyond the value of MaxErrors, the systems stops
 	// sending the command to additional targets. You can specify a number like
-	// 10 or a percentage like 10%. The default value is 50. For more information
+	// 10 or a percentage like 10%. The default value is 0. For more information
 	// about how to use MaxErrors, see Using Error Controls (http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-maxerrors.html).
 	MaxErrors *string `min:"1" type:"string"`
 
@@ -21075,7 +17789,7 @@ type SendCommandInput struct {
 	OutputS3Region *string `min:"3" type:"string"`
 
 	// The required and optional parameters specified in the document being executed.
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// The IAM role that Systems Manager uses to send notifications.
 	ServiceRoleArn *string `type:"string"`
@@ -21084,10 +17798,10 @@ type SendCommandInput struct {
 	// combination that you specify. Targets is required if you don't provide one
 	// or more instance IDs in the call. For more information about how to use Targets,
 	// see Sending Commands to a Fleet (http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html).
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// If this time is reached and the command has not already started executing,
-	// it will not execute.
+	// it will not run.
 	TimeoutSeconds *int64 `min:"30" type:"integer"`
 }
 
@@ -21125,9 +17839,6 @@ func (s *SendCommandInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -21140,99 +17851,11 @@ func (s *SendCommandInput) Validate() error {
 	return nil
 }
 
-// SetComment sets the Comment field's value.
-func (s *SendCommandInput) SetComment(v string) *SendCommandInput {
-	s.Comment = &v
-	return s
-}
-
-// SetDocumentHash sets the DocumentHash field's value.
-func (s *SendCommandInput) SetDocumentHash(v string) *SendCommandInput {
-	s.DocumentHash = &v
-	return s
-}
-
-// SetDocumentHashType sets the DocumentHashType field's value.
-func (s *SendCommandInput) SetDocumentHashType(v DocumentHashType) *SendCommandInput {
-	s.DocumentHashType = v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *SendCommandInput) SetDocumentName(v string) *SendCommandInput {
-	s.DocumentName = &v
-	return s
-}
-
-// SetInstanceIds sets the InstanceIds field's value.
-func (s *SendCommandInput) SetInstanceIds(v []*string) *SendCommandInput {
-	s.InstanceIds = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *SendCommandInput) SetMaxConcurrency(v string) *SendCommandInput {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *SendCommandInput) SetMaxErrors(v string) *SendCommandInput {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetNotificationConfig sets the NotificationConfig field's value.
-func (s *SendCommandInput) SetNotificationConfig(v *NotificationConfig) *SendCommandInput {
-	s.NotificationConfig = v
-	return s
-}
-
-// SetOutputS3BucketName sets the OutputS3BucketName field's value.
-func (s *SendCommandInput) SetOutputS3BucketName(v string) *SendCommandInput {
-	s.OutputS3BucketName = &v
-	return s
-}
-
-// SetOutputS3KeyPrefix sets the OutputS3KeyPrefix field's value.
-func (s *SendCommandInput) SetOutputS3KeyPrefix(v string) *SendCommandInput {
-	s.OutputS3KeyPrefix = &v
-	return s
-}
-
-// SetOutputS3Region sets the OutputS3Region field's value.
-func (s *SendCommandInput) SetOutputS3Region(v string) *SendCommandInput {
-	s.OutputS3Region = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *SendCommandInput) SetParameters(v map[string][]*string) *SendCommandInput {
-	s.Parameters = v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *SendCommandInput) SetServiceRoleArn(v string) *SendCommandInput {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *SendCommandInput) SetTargets(v []*Target) *SendCommandInput {
-	s.Targets = v
-	return s
-}
-
-// SetTimeoutSeconds sets the TimeoutSeconds field's value.
-func (s *SendCommandInput) SetTimeoutSeconds(v int64) *SendCommandInput {
-	s.TimeoutSeconds = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/SendCommandResult
 type SendCommandOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The request as it was received by Systems Manager. Also provides the command
 	// ID which can be used future references to this request.
@@ -21249,10 +17872,9 @@ func (s SendCommandOutput) GoString() string {
 	return s.String()
 }
 
-// SetCommand sets the Command field's value.
-func (s *SendCommandOutput) SetCommand(v *Command) *SendCommandOutput {
-	s.Command = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SendCommandOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The number of managed instances found for each patch severity level defined
@@ -21302,42 +17924,6 @@ func (s SeveritySummary) GoString() string {
 	return s.String()
 }
 
-// SetCriticalCount sets the CriticalCount field's value.
-func (s *SeveritySummary) SetCriticalCount(v int64) *SeveritySummary {
-	s.CriticalCount = &v
-	return s
-}
-
-// SetHighCount sets the HighCount field's value.
-func (s *SeveritySummary) SetHighCount(v int64) *SeveritySummary {
-	s.HighCount = &v
-	return s
-}
-
-// SetInformationalCount sets the InformationalCount field's value.
-func (s *SeveritySummary) SetInformationalCount(v int64) *SeveritySummary {
-	s.InformationalCount = &v
-	return s
-}
-
-// SetLowCount sets the LowCount field's value.
-func (s *SeveritySummary) SetLowCount(v int64) *SeveritySummary {
-	s.LowCount = &v
-	return s
-}
-
-// SetMediumCount sets the MediumCount field's value.
-func (s *SeveritySummary) SetMediumCount(v int64) *SeveritySummary {
-	s.MediumCount = &v
-	return s
-}
-
-// SetUnspecifiedCount sets the UnspecifiedCount field's value.
-func (s *SeveritySummary) SetUnspecifiedCount(v int64) *SeveritySummary {
-	s.UnspecifiedCount = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartAutomationExecutionRequest
 type StartAutomationExecutionInput struct {
 	_ struct{} `type:"structure"`
@@ -21354,9 +17940,41 @@ type StartAutomationExecutionInput struct {
 	// The version of the Automation document to use for this execution.
 	DocumentVersion *string `type:"string"`
 
+	// The maximum number of targets allowed to run this task in parallel. You can
+	// specify a number, such as 10, or a percentage, such as 10%. The default value
+	// is 10.
+	MaxConcurrency *string `min:"1" type:"string"`
+
+	// The number of errors that are allowed before the system stops running the
+	// automation on additional targets. You can specify either an absolute number
+	// of errors, for example 10, or a percentage of the target set, for example
+	// 10%. If you specify 3, for example, the system stops running the automation
+	// when the fourth error is received. If you specify 0, then the system stops
+	// running the automation on additional targets after the first error result
+	// is returned. If you run an automation on 50 resources and set max-errors
+	// to 10%, then the system stops running the automation on additional targets
+	// when the sixth error is received.
+	//
+	// Executions that are already running an automation when max-errors is reached
+	// are allowed to complete, but some of these executions may fail as well. If
+	// you need to ensure that there won't be more than max-errors failed executions,
+	// set max-concurrency to 1 so the executions proceed one at a time.
+	MaxErrors *string `min:"1" type:"string"`
+
+	// The execution mode of the automation. Valid modes include the following:
+	// Auto and Interactive. The default mode is Auto.
+	Mode ExecutionMode `type:"string" enum:"true"`
+
 	// A key-value map of execution parameters, which match the declared parameters
 	// in the Automation document.
-	Parameters map[string][]*string `min:"1" type:"map"`
+	Parameters map[string][]string `min:"1" type:"map"`
+
+	// The name of the parameter used as the target resource for the rate-controlled
+	// execution. Required if you specify Targets.
+	TargetParameterName *string `min:"1" type:"string"`
+
+	// A key-value mapping to target resources. Required if you specify TargetParameterName.
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -21379,8 +17997,24 @@ func (s *StartAutomationExecutionInput) Validate() error {
 	if s.DocumentName == nil {
 		invalidParams.Add(aws.NewErrParamRequired("DocumentName"))
 	}
+	if s.MaxConcurrency != nil && len(*s.MaxConcurrency) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("MaxConcurrency", 1))
+	}
+	if s.MaxErrors != nil && len(*s.MaxErrors) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("MaxErrors", 1))
+	}
 	if s.Parameters != nil && len(s.Parameters) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("Parameters", 1))
+	}
+	if s.TargetParameterName != nil && len(*s.TargetParameterName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("TargetParameterName", 1))
+	}
+	if s.Targets != nil {
+		for i, v := range s.Targets {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
+			}
+		}
 	}
 
 	if invalidParams.Len() > 0 {
@@ -21389,33 +18023,11 @@ func (s *StartAutomationExecutionInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *StartAutomationExecutionInput) SetClientToken(v string) *StartAutomationExecutionInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetDocumentName sets the DocumentName field's value.
-func (s *StartAutomationExecutionInput) SetDocumentName(v string) *StartAutomationExecutionInput {
-	s.DocumentName = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *StartAutomationExecutionInput) SetDocumentVersion(v string) *StartAutomationExecutionInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *StartAutomationExecutionInput) SetParameters(v map[string][]*string) *StartAutomationExecutionInput {
-	s.Parameters = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartAutomationExecutionResult
 type StartAutomationExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique ID of a newly scheduled automation execution.
 	AutomationExecutionId *string `min:"36" type:"string"`
@@ -21431,10 +18043,9 @@ func (s StartAutomationExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetAutomationExecutionId sets the AutomationExecutionId field's value.
-func (s *StartAutomationExecutionOutput) SetAutomationExecutionId(v string) *StartAutomationExecutionOutput {
-	s.AutomationExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartAutomationExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Detailed information about an the execution state of an Automation step.
@@ -21461,10 +18072,20 @@ type StepExecution struct {
 	FailureMessage *string `type:"string"`
 
 	// Fully-resolved values passed into the step before execution.
-	Inputs map[string]*string `type:"map"`
+	Inputs map[string]string `type:"map"`
+
+	// The maximum number of tries to run the action of the step. The default value
+	// is 1.
+	MaxAttempts *int64 `type:"integer"`
+
+	// The action to take if the step fails. The default value is Abort.
+	OnFailure *string `type:"string"`
 
 	// Returned values from the execution of the step.
-	Outputs map[string][]*string `min:"1" type:"map"`
+	Outputs map[string][]string `min:"1" type:"map"`
+
+	// A user-specified list of parameters to override when executing a step.
+	OverriddenParameters map[string][]string `min:"1" type:"map"`
 
 	// A message associated with the response code for an execution.
 	Response *string `type:"string"`
@@ -21472,12 +18093,18 @@ type StepExecution struct {
 	// The response code returned by the execution of the step.
 	ResponseCode *string `type:"string"`
 
+	// The unique ID of a step execution.
+	StepExecutionId *string `type:"string"`
+
 	// The name of this execution step.
 	StepName *string `type:"string"`
 
 	// The execution status for this step. Valid values include: Pending, InProgress,
 	// Success, Cancelled, Failed, and TimedOut.
-	StepStatus AutomationExecutionStatus `type:"string"`
+	StepStatus AutomationExecutionStatus `type:"string" enum:"true"`
+
+	// The timeout seconds of the step.
+	TimeoutSeconds *int64 `type:"long"`
 }
 
 // String returns the string representation
@@ -21490,70 +18117,53 @@ func (s StepExecution) GoString() string {
 	return s.String()
 }
 
-// SetAction sets the Action field's value.
-func (s *StepExecution) SetAction(v string) *StepExecution {
-	s.Action = &v
-	return s
+// A filter to limit the amount of step execution information returned by the
+// call.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StepExecutionFilter
+type StepExecutionFilter struct {
+	_ struct{} `type:"structure"`
+
+	// One or more keys to limit the results. Valid filter keys include the following:
+	// StepName, Action, StepExecutionId, StepExecutionStatus, StartTimeBefore,
+	// StartTimeAfter.
+	//
+	// Key is a required field
+	Key StepExecutionFilterKey `type:"string" required:"true" enum:"true"`
+
+	// The values of the filter key.
+	//
+	// Values is a required field
+	Values []string `min:"1" type:"list" required:"true"`
 }
 
-// SetExecutionEndTime sets the ExecutionEndTime field's value.
-func (s *StepExecution) SetExecutionEndTime(v time.Time) *StepExecution {
-	s.ExecutionEndTime = &v
-	return s
+// String returns the string representation
+func (s StepExecutionFilter) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetExecutionStartTime sets the ExecutionStartTime field's value.
-func (s *StepExecution) SetExecutionStartTime(v time.Time) *StepExecution {
-	s.ExecutionStartTime = &v
-	return s
+// GoString returns the string representation
+func (s StepExecutionFilter) GoString() string {
+	return s.String()
 }
 
-// SetFailureDetails sets the FailureDetails field's value.
-func (s *StepExecution) SetFailureDetails(v *FailureDetails) *StepExecution {
-	s.FailureDetails = v
-	return s
-}
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *StepExecutionFilter) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "StepExecutionFilter"}
+	if len(s.Key) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("Key"))
+	}
 
-// SetFailureMessage sets the FailureMessage field's value.
-func (s *StepExecution) SetFailureMessage(v string) *StepExecution {
-	s.FailureMessage = &v
-	return s
-}
+	if s.Values == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Values"))
+	}
+	if s.Values != nil && len(s.Values) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Values", 1))
+	}
 
-// SetInputs sets the Inputs field's value.
-func (s *StepExecution) SetInputs(v map[string]*string) *StepExecution {
-	s.Inputs = v
-	return s
-}
-
-// SetOutputs sets the Outputs field's value.
-func (s *StepExecution) SetOutputs(v map[string][]*string) *StepExecution {
-	s.Outputs = v
-	return s
-}
-
-// SetResponse sets the Response field's value.
-func (s *StepExecution) SetResponse(v string) *StepExecution {
-	s.Response = &v
-	return s
-}
-
-// SetResponseCode sets the ResponseCode field's value.
-func (s *StepExecution) SetResponseCode(v string) *StepExecution {
-	s.ResponseCode = &v
-	return s
-}
-
-// SetStepName sets the StepName field's value.
-func (s *StepExecution) SetStepName(v string) *StepExecution {
-	s.StepName = &v
-	return s
-}
-
-// SetStepStatus sets the StepStatus field's value.
-func (s *StepExecution) SetStepStatus(v AutomationExecutionStatus) *StepExecution {
-	s.StepStatus = v
-	return s
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StopAutomationExecutionRequest
@@ -21564,6 +18174,10 @@ type StopAutomationExecutionInput struct {
 	//
 	// AutomationExecutionId is a required field
 	AutomationExecutionId *string `min:"36" type:"string" required:"true"`
+
+	// The stop request type. Valid types include the following: Cancel and Complete.
+	// The default type is Cancel.
+	Type StopType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -21593,15 +18207,11 @@ func (s *StopAutomationExecutionInput) Validate() error {
 	return nil
 }
 
-// SetAutomationExecutionId sets the AutomationExecutionId field's value.
-func (s *StopAutomationExecutionInput) SetAutomationExecutionId(v string) *StopAutomationExecutionInput {
-	s.AutomationExecutionId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StopAutomationExecutionResult
 type StopAutomationExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -21612,6 +18222,11 @@ func (s StopAutomationExecutionOutput) String() string {
 // GoString returns the string representation
 func (s StopAutomationExecutionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopAutomationExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Metadata that you assign to your AWS resources. Tags enable you to categorize
@@ -21667,18 +18282,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // An array of search criteria that targets instances using a Key,Value combination
 // that you specify. Targets is required if you don't provide one or more instance
 // IDs in the call.
@@ -21697,7 +18300,7 @@ type Target struct {
 	// include Amazon EC2 tags of ServerRole,WebServer. For more information about
 	// how to send commands that target instances using Key,Value parameters, see
 	// Executing a Command Using Systems Manager Run Command (http://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html).
-	Values []*string `type:"list"`
+	Values []string `type:"list"`
 }
 
 // String returns the string representation
@@ -21721,18 +18324,6 @@ func (s *Target) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetKey sets the Key field's value.
-func (s *Target) SetKey(v string) *Target {
-	s.Key = &v
-	return s
-}
-
-// SetValues sets the Values field's value.
-func (s *Target) SetValues(v []*string) *Target {
-	s.Values = v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateAssociationRequest
@@ -21763,13 +18354,13 @@ type UpdateAssociationInput struct {
 
 	// The parameters you want to update for the association. If you create a parameter
 	// using Parameter Store, you can reference the parameter using {{ssm:parameter-name}}
-	Parameters map[string][]*string `type:"map"`
+	Parameters map[string][]string `type:"map"`
 
 	// The cron expression used to schedule the association that you want to update.
 	ScheduleExpression *string `min:"1" type:"string"`
 
 	// The targets of the association.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 }
 
 // String returns the string representation
@@ -21799,9 +18390,6 @@ func (s *UpdateAssociationInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -21814,63 +18402,11 @@ func (s *UpdateAssociationInput) Validate() error {
 	return nil
 }
 
-// SetAssociationId sets the AssociationId field's value.
-func (s *UpdateAssociationInput) SetAssociationId(v string) *UpdateAssociationInput {
-	s.AssociationId = &v
-	return s
-}
-
-// SetAssociationName sets the AssociationName field's value.
-func (s *UpdateAssociationInput) SetAssociationName(v string) *UpdateAssociationInput {
-	s.AssociationName = &v
-	return s
-}
-
-// SetAssociationVersion sets the AssociationVersion field's value.
-func (s *UpdateAssociationInput) SetAssociationVersion(v string) *UpdateAssociationInput {
-	s.AssociationVersion = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *UpdateAssociationInput) SetDocumentVersion(v string) *UpdateAssociationInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateAssociationInput) SetName(v string) *UpdateAssociationInput {
-	s.Name = &v
-	return s
-}
-
-// SetOutputLocation sets the OutputLocation field's value.
-func (s *UpdateAssociationInput) SetOutputLocation(v *InstanceAssociationOutputLocation) *UpdateAssociationInput {
-	s.OutputLocation = v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *UpdateAssociationInput) SetParameters(v map[string][]*string) *UpdateAssociationInput {
-	s.Parameters = v
-	return s
-}
-
-// SetScheduleExpression sets the ScheduleExpression field's value.
-func (s *UpdateAssociationInput) SetScheduleExpression(v string) *UpdateAssociationInput {
-	s.ScheduleExpression = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *UpdateAssociationInput) SetTargets(v []*Target) *UpdateAssociationInput {
-	s.Targets = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateAssociationResult
 type UpdateAssociationOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The description of the association that was updated.
 	AssociationDescription *AssociationDescription `type:"structure"`
@@ -21886,10 +18422,9 @@ func (s UpdateAssociationOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationDescription sets the AssociationDescription field's value.
-func (s *UpdateAssociationOutput) SetAssociationDescription(v *AssociationDescription) *UpdateAssociationOutput {
-	s.AssociationDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAssociationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateAssociationStatusRequest
@@ -21949,27 +18484,11 @@ func (s *UpdateAssociationStatusInput) Validate() error {
 	return nil
 }
 
-// SetAssociationStatus sets the AssociationStatus field's value.
-func (s *UpdateAssociationStatusInput) SetAssociationStatus(v *AssociationStatus) *UpdateAssociationStatusInput {
-	s.AssociationStatus = v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *UpdateAssociationStatusInput) SetInstanceId(v string) *UpdateAssociationStatusInput {
-	s.InstanceId = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateAssociationStatusInput) SetName(v string) *UpdateAssociationStatusInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateAssociationStatusResult
 type UpdateAssociationStatusOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the association.
 	AssociationDescription *AssociationDescription `type:"structure"`
@@ -21985,10 +18504,9 @@ func (s UpdateAssociationStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetAssociationDescription sets the AssociationDescription field's value.
-func (s *UpdateAssociationStatusOutput) SetAssociationDescription(v *AssociationDescription) *UpdateAssociationStatusOutput {
-	s.AssociationDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateAssociationStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateDocumentDefaultVersionRequest
@@ -22034,21 +18552,11 @@ func (s *UpdateDocumentDefaultVersionInput) Validate() error {
 	return nil
 }
 
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *UpdateDocumentDefaultVersionInput) SetDocumentVersion(v string) *UpdateDocumentDefaultVersionInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateDocumentDefaultVersionInput) SetName(v string) *UpdateDocumentDefaultVersionInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateDocumentDefaultVersionResult
 type UpdateDocumentDefaultVersionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The description of a custom document that you want to set as the default
 	// version.
@@ -22065,10 +18573,9 @@ func (s UpdateDocumentDefaultVersionOutput) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateDocumentDefaultVersionOutput) SetDescription(v *DocumentDefaultVersionDescription) *UpdateDocumentDefaultVersionOutput {
-	s.Description = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDocumentDefaultVersionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateDocumentRequest
@@ -22080,6 +18587,10 @@ type UpdateDocumentInput struct {
 	// Content is a required field
 	Content *string `min:"1" type:"string" required:"true"`
 
+	// Specify the document format for the new document version. Systems Manager
+	// supports JSON and YAML documents. JSON is the default format.
+	DocumentFormat DocumentFormat `type:"string" enum:"true"`
+
 	// The version of the document that you want to update.
 	DocumentVersion *string `type:"string"`
 
@@ -22087,6 +18598,9 @@ type UpdateDocumentInput struct {
 	//
 	// Name is a required field
 	Name *string `type:"string" required:"true"`
+
+	// Specify a new target type for the document.
+	TargetType *string `type:"string"`
 }
 
 // String returns the string representation
@@ -22120,27 +18634,11 @@ func (s *UpdateDocumentInput) Validate() error {
 	return nil
 }
 
-// SetContent sets the Content field's value.
-func (s *UpdateDocumentInput) SetContent(v string) *UpdateDocumentInput {
-	s.Content = &v
-	return s
-}
-
-// SetDocumentVersion sets the DocumentVersion field's value.
-func (s *UpdateDocumentInput) SetDocumentVersion(v string) *UpdateDocumentInput {
-	s.DocumentVersion = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateDocumentInput) SetName(v string) *UpdateDocumentInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateDocumentResult
 type UpdateDocumentOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A description of the document that was updated.
 	DocumentDescription *DocumentDescription `type:"structure"`
@@ -22156,10 +18654,9 @@ func (s UpdateDocumentOutput) GoString() string {
 	return s.String()
 }
 
-// SetDocumentDescription sets the DocumentDescription field's value.
-func (s *UpdateDocumentOutput) SetDocumentDescription(v *DocumentDescription) *UpdateDocumentOutput {
-	s.DocumentDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDocumentOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateMaintenanceWindowRequest
@@ -22239,63 +18736,11 @@ func (s *UpdateMaintenanceWindowInput) Validate() error {
 	return nil
 }
 
-// SetAllowUnassociatedTargets sets the AllowUnassociatedTargets field's value.
-func (s *UpdateMaintenanceWindowInput) SetAllowUnassociatedTargets(v bool) *UpdateMaintenanceWindowInput {
-	s.AllowUnassociatedTargets = &v
-	return s
-}
-
-// SetCutoff sets the Cutoff field's value.
-func (s *UpdateMaintenanceWindowInput) SetCutoff(v int64) *UpdateMaintenanceWindowInput {
-	s.Cutoff = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateMaintenanceWindowInput) SetDescription(v string) *UpdateMaintenanceWindowInput {
-	s.Description = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *UpdateMaintenanceWindowInput) SetDuration(v int64) *UpdateMaintenanceWindowInput {
-	s.Duration = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *UpdateMaintenanceWindowInput) SetEnabled(v bool) *UpdateMaintenanceWindowInput {
-	s.Enabled = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateMaintenanceWindowInput) SetName(v string) *UpdateMaintenanceWindowInput {
-	s.Name = &v
-	return s
-}
-
-// SetReplace sets the Replace field's value.
-func (s *UpdateMaintenanceWindowInput) SetReplace(v bool) *UpdateMaintenanceWindowInput {
-	s.Replace = &v
-	return s
-}
-
-// SetSchedule sets the Schedule field's value.
-func (s *UpdateMaintenanceWindowInput) SetSchedule(v string) *UpdateMaintenanceWindowInput {
-	s.Schedule = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *UpdateMaintenanceWindowInput) SetWindowId(v string) *UpdateMaintenanceWindowInput {
-	s.WindowId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateMaintenanceWindowResult
 type UpdateMaintenanceWindowOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Whether targets must be registered with the Maintenance Window before tasks
 	// can be defined for those targets.
@@ -22334,52 +18779,9 @@ func (s UpdateMaintenanceWindowOutput) GoString() string {
 	return s.String()
 }
 
-// SetAllowUnassociatedTargets sets the AllowUnassociatedTargets field's value.
-func (s *UpdateMaintenanceWindowOutput) SetAllowUnassociatedTargets(v bool) *UpdateMaintenanceWindowOutput {
-	s.AllowUnassociatedTargets = &v
-	return s
-}
-
-// SetCutoff sets the Cutoff field's value.
-func (s *UpdateMaintenanceWindowOutput) SetCutoff(v int64) *UpdateMaintenanceWindowOutput {
-	s.Cutoff = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateMaintenanceWindowOutput) SetDescription(v string) *UpdateMaintenanceWindowOutput {
-	s.Description = &v
-	return s
-}
-
-// SetDuration sets the Duration field's value.
-func (s *UpdateMaintenanceWindowOutput) SetDuration(v int64) *UpdateMaintenanceWindowOutput {
-	s.Duration = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *UpdateMaintenanceWindowOutput) SetEnabled(v bool) *UpdateMaintenanceWindowOutput {
-	s.Enabled = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateMaintenanceWindowOutput) SetName(v string) *UpdateMaintenanceWindowOutput {
-	s.Name = &v
-	return s
-}
-
-// SetSchedule sets the Schedule field's value.
-func (s *UpdateMaintenanceWindowOutput) SetSchedule(v string) *UpdateMaintenanceWindowOutput {
-	s.Schedule = &v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *UpdateMaintenanceWindowOutput) SetWindowId(v string) *UpdateMaintenanceWindowOutput {
-	s.WindowId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateMaintenanceWindowOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateMaintenanceWindowTargetRequest
@@ -22402,7 +18804,7 @@ type UpdateMaintenanceWindowTargetInput struct {
 	Replace *bool `type:"boolean"`
 
 	// The targets to add or replace.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The Maintenance Window ID with which to modify the target.
 	//
@@ -22453,9 +18855,6 @@ func (s *UpdateMaintenanceWindowTargetInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -22468,51 +18867,11 @@ func (s *UpdateMaintenanceWindowTargetInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetDescription(v string) *UpdateMaintenanceWindowTargetInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetName(v string) *UpdateMaintenanceWindowTargetInput {
-	s.Name = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetOwnerInformation(v string) *UpdateMaintenanceWindowTargetInput {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetReplace sets the Replace field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetReplace(v bool) *UpdateMaintenanceWindowTargetInput {
-	s.Replace = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetTargets(v []*Target) *UpdateMaintenanceWindowTargetInput {
-	s.Targets = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetWindowId(v string) *UpdateMaintenanceWindowTargetInput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *UpdateMaintenanceWindowTargetInput) SetWindowTargetId(v string) *UpdateMaintenanceWindowTargetInput {
-	s.WindowTargetId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateMaintenanceWindowTargetResult
 type UpdateMaintenanceWindowTargetOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The updated description.
 	Description *string `min:"1" type:"string"`
@@ -22524,7 +18883,7 @@ type UpdateMaintenanceWindowTargetOutput struct {
 	OwnerInformation *string `min:"1" type:"string"`
 
 	// The updated targets.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The Maintenance Window ID specified in the update request.
 	WindowId *string `min:"20" type:"string"`
@@ -22543,40 +18902,9 @@ func (s UpdateMaintenanceWindowTargetOutput) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateMaintenanceWindowTargetOutput) SetDescription(v string) *UpdateMaintenanceWindowTargetOutput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateMaintenanceWindowTargetOutput) SetName(v string) *UpdateMaintenanceWindowTargetOutput {
-	s.Name = &v
-	return s
-}
-
-// SetOwnerInformation sets the OwnerInformation field's value.
-func (s *UpdateMaintenanceWindowTargetOutput) SetOwnerInformation(v string) *UpdateMaintenanceWindowTargetOutput {
-	s.OwnerInformation = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *UpdateMaintenanceWindowTargetOutput) SetTargets(v []*Target) *UpdateMaintenanceWindowTargetOutput {
-	s.Targets = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *UpdateMaintenanceWindowTargetOutput) SetWindowId(v string) *UpdateMaintenanceWindowTargetOutput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTargetId sets the WindowTargetId field's value.
-func (s *UpdateMaintenanceWindowTargetOutput) SetWindowTargetId(v string) *UpdateMaintenanceWindowTargetOutput {
-	s.WindowTargetId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateMaintenanceWindowTargetOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateMaintenanceWindowTaskRequest
@@ -22587,6 +18915,11 @@ type UpdateMaintenanceWindowTaskInput struct {
 	Description *string `min:"1" type:"string"`
 
 	// The new logging location in Amazon S3 to specify.
+	//
+	// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+	// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
 	LoggingInfo *LoggingInfo `type:"structure"`
 
 	// The new MaxConcurrency value you want to specify. MaxConcurrency is the number
@@ -22616,7 +18949,7 @@ type UpdateMaintenanceWindowTaskInput struct {
 	// The targets (either instances or tags) to modify. Instances are specified
 	// using Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified
 	// using Key=tag_name,Values=tag_value.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The task ARN to modify.
 	TaskArn *string `min:"1" type:"string"`
@@ -22625,12 +18958,19 @@ type UpdateMaintenanceWindowTaskInput struct {
 	// fields that match the task type. All other fields should be empty.
 	TaskInvocationParameters *MaintenanceWindowTaskInvocationParameters `type:"structure"`
 
-	// The parameters to modify. The map has the following format:
+	// The parameters to modify.
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	//
+	// The map has the following format:
 	//
 	// Key: string, between 1 and 255 characters
 	//
 	// Value: an array of strings, each string is between 1 and 255 characters
-	TaskParameters map[string]*MaintenanceWindowTaskParameterValueExpression `type:"map"`
+	TaskParameters map[string]MaintenanceWindowTaskParameterValueExpression `type:"map"`
 
 	// The Maintenance Window ID that contains the task to modify.
 	//
@@ -22692,9 +19032,6 @@ func (s *UpdateMaintenanceWindowTaskInput) Validate() error {
 	}
 	if s.Targets != nil {
 		for i, v := range s.Targets {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Targets", i), err.(aws.ErrInvalidParams))
 			}
@@ -22712,98 +19049,21 @@ func (s *UpdateMaintenanceWindowTaskInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetDescription(v string) *UpdateMaintenanceWindowTaskInput {
-	s.Description = &v
-	return s
-}
-
-// SetLoggingInfo sets the LoggingInfo field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetLoggingInfo(v *LoggingInfo) *UpdateMaintenanceWindowTaskInput {
-	s.LoggingInfo = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetMaxConcurrency(v string) *UpdateMaintenanceWindowTaskInput {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetMaxErrors(v string) *UpdateMaintenanceWindowTaskInput {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetName(v string) *UpdateMaintenanceWindowTaskInput {
-	s.Name = &v
-	return s
-}
-
-// SetPriority sets the Priority field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetPriority(v int64) *UpdateMaintenanceWindowTaskInput {
-	s.Priority = &v
-	return s
-}
-
-// SetReplace sets the Replace field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetReplace(v bool) *UpdateMaintenanceWindowTaskInput {
-	s.Replace = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetServiceRoleArn(v string) *UpdateMaintenanceWindowTaskInput {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetTargets(v []*Target) *UpdateMaintenanceWindowTaskInput {
-	s.Targets = v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetTaskArn(v string) *UpdateMaintenanceWindowTaskInput {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskInvocationParameters sets the TaskInvocationParameters field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetTaskInvocationParameters(v *MaintenanceWindowTaskInvocationParameters) *UpdateMaintenanceWindowTaskInput {
-	s.TaskInvocationParameters = v
-	return s
-}
-
-// SetTaskParameters sets the TaskParameters field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetTaskParameters(v map[string]*MaintenanceWindowTaskParameterValueExpression) *UpdateMaintenanceWindowTaskInput {
-	s.TaskParameters = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetWindowId(v string) *UpdateMaintenanceWindowTaskInput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *UpdateMaintenanceWindowTaskInput) SetWindowTaskId(v string) *UpdateMaintenanceWindowTaskInput {
-	s.WindowTaskId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateMaintenanceWindowTaskResult
 type UpdateMaintenanceWindowTaskOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The updated task description.
 	Description *string `min:"1" type:"string"`
 
 	// The updated logging information in Amazon S3.
+	//
+	// LoggingInfo has been deprecated. To specify an S3 bucket to contain logs,
+	// instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
 	LoggingInfo *LoggingInfo `type:"structure"`
 
 	// The updated MaxConcurrency value.
@@ -22822,7 +19082,7 @@ type UpdateMaintenanceWindowTaskOutput struct {
 	ServiceRoleArn *string `type:"string"`
 
 	// The updated target values.
-	Targets []*Target `type:"list"`
+	Targets []Target `type:"list"`
 
 	// The updated task ARN value.
 	TaskArn *string `min:"1" type:"string"`
@@ -22831,7 +19091,12 @@ type UpdateMaintenanceWindowTaskOutput struct {
 	TaskInvocationParameters *MaintenanceWindowTaskInvocationParameters `type:"structure"`
 
 	// The updated parameter values.
-	TaskParameters map[string]*MaintenanceWindowTaskParameterValueExpression `type:"map"`
+	//
+	// TaskParameters has been deprecated. To specify parameters to pass to a task
+	// when it runs, instead use the Parameters option in the TaskInvocationParameters
+	// structure. For information about how Systems Manager handles these options
+	// for the supported Maintenance Window task types, see MaintenanceWindowTaskInvocationParameters.
+	TaskParameters map[string]MaintenanceWindowTaskParameterValueExpression `type:"map"`
 
 	// The ID of the Maintenance Window that was updated.
 	WindowId *string `min:"20" type:"string"`
@@ -22850,82 +19115,9 @@ func (s UpdateMaintenanceWindowTaskOutput) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetDescription(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.Description = &v
-	return s
-}
-
-// SetLoggingInfo sets the LoggingInfo field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetLoggingInfo(v *LoggingInfo) *UpdateMaintenanceWindowTaskOutput {
-	s.LoggingInfo = v
-	return s
-}
-
-// SetMaxConcurrency sets the MaxConcurrency field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetMaxConcurrency(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.MaxConcurrency = &v
-	return s
-}
-
-// SetMaxErrors sets the MaxErrors field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetMaxErrors(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.MaxErrors = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetName(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.Name = &v
-	return s
-}
-
-// SetPriority sets the Priority field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetPriority(v int64) *UpdateMaintenanceWindowTaskOutput {
-	s.Priority = &v
-	return s
-}
-
-// SetServiceRoleArn sets the ServiceRoleArn field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetServiceRoleArn(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.ServiceRoleArn = &v
-	return s
-}
-
-// SetTargets sets the Targets field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetTargets(v []*Target) *UpdateMaintenanceWindowTaskOutput {
-	s.Targets = v
-	return s
-}
-
-// SetTaskArn sets the TaskArn field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetTaskArn(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.TaskArn = &v
-	return s
-}
-
-// SetTaskInvocationParameters sets the TaskInvocationParameters field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetTaskInvocationParameters(v *MaintenanceWindowTaskInvocationParameters) *UpdateMaintenanceWindowTaskOutput {
-	s.TaskInvocationParameters = v
-	return s
-}
-
-// SetTaskParameters sets the TaskParameters field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetTaskParameters(v map[string]*MaintenanceWindowTaskParameterValueExpression) *UpdateMaintenanceWindowTaskOutput {
-	s.TaskParameters = v
-	return s
-}
-
-// SetWindowId sets the WindowId field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetWindowId(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.WindowId = &v
-	return s
-}
-
-// SetWindowTaskId sets the WindowTaskId field's value.
-func (s *UpdateMaintenanceWindowTaskOutput) SetWindowTaskId(v string) *UpdateMaintenanceWindowTaskOutput {
-	s.WindowTaskId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateMaintenanceWindowTaskOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateManagedInstanceRoleRequest
@@ -22971,21 +19163,11 @@ func (s *UpdateManagedInstanceRoleInput) Validate() error {
 	return nil
 }
 
-// SetIamRole sets the IamRole field's value.
-func (s *UpdateManagedInstanceRoleInput) SetIamRole(v string) *UpdateManagedInstanceRoleInput {
-	s.IamRole = &v
-	return s
-}
-
-// SetInstanceId sets the InstanceId field's value.
-func (s *UpdateManagedInstanceRoleInput) SetInstanceId(v string) *UpdateManagedInstanceRoleInput {
-	s.InstanceId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateManagedInstanceRoleResult
 type UpdateManagedInstanceRoleOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -22998,6 +19180,11 @@ func (s UpdateManagedInstanceRoleOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateManagedInstanceRoleOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdatePatchBaselineRequest
 type UpdatePatchBaselineInput struct {
 	_ struct{} `type:"structure"`
@@ -23006,10 +19193,20 @@ type UpdatePatchBaselineInput struct {
 	ApprovalRules *PatchRuleGroup `type:"structure"`
 
 	// A list of explicitly approved patches for the baseline.
-	ApprovedPatches []*string `type:"list"`
+	//
+	// For information about accepted formats for lists of approved patches and
+	// rejected patches, see Package Name Formats for Approved and Rejected Patch
+	// Lists (http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+	// in the AWS Systems Manager User Guide.
+	ApprovedPatches []string `type:"list"`
 
 	// Assigns a new compliance severity level to an existing patch baseline.
-	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string"`
+	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string" enum:"true"`
+
+	// Indicates whether the list of approved patches includes non-security updates
+	// that should be applied to the instances. The default value is 'false'. Applies
+	// to Linux instances only.
+	ApprovedPatchesEnableNonSecurity *bool `type:"boolean"`
 
 	// The ID of the patch baseline to update.
 	//
@@ -23026,7 +19223,21 @@ type UpdatePatchBaselineInput struct {
 	Name *string `min:"3" type:"string"`
 
 	// A list of explicitly rejected patches for the baseline.
-	RejectedPatches []*string `type:"list"`
+	//
+	// For information about accepted formats for lists of approved patches and
+	// rejected patches, see Package Name Formats for Approved and Rejected Patch
+	// Lists (http://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-approved-rejected-package-name-formats.html)
+	// in the AWS Systems Manager User Guide.
+	RejectedPatches []string `type:"list"`
+
+	// If True, then all fields that are required by the CreatePatchBaseline action
+	// are also required for this API request. Optional fields that are not specified
+	// are set to null.
+	Replace *bool `type:"boolean"`
+
+	// Information about the patches to use to update the instances, including target
+	// operating systems and source repositories. Applies to Linux instances only.
+	Sources []PatchSource `type:"list"`
 }
 
 // String returns the string representation
@@ -23065,6 +19276,13 @@ func (s *UpdatePatchBaselineInput) Validate() error {
 			invalidParams.AddNested("GlobalFilters", err.(aws.ErrInvalidParams))
 		}
 	}
+	if s.Sources != nil {
+		for i, v := range s.Sources {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Sources", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -23072,67 +19290,26 @@ func (s *UpdatePatchBaselineInput) Validate() error {
 	return nil
 }
 
-// SetApprovalRules sets the ApprovalRules field's value.
-func (s *UpdatePatchBaselineInput) SetApprovalRules(v *PatchRuleGroup) *UpdatePatchBaselineInput {
-	s.ApprovalRules = v
-	return s
-}
-
-// SetApprovedPatches sets the ApprovedPatches field's value.
-func (s *UpdatePatchBaselineInput) SetApprovedPatches(v []*string) *UpdatePatchBaselineInput {
-	s.ApprovedPatches = v
-	return s
-}
-
-// SetApprovedPatchesComplianceLevel sets the ApprovedPatchesComplianceLevel field's value.
-func (s *UpdatePatchBaselineInput) SetApprovedPatchesComplianceLevel(v PatchComplianceLevel) *UpdatePatchBaselineInput {
-	s.ApprovedPatchesComplianceLevel = v
-	return s
-}
-
-// SetBaselineId sets the BaselineId field's value.
-func (s *UpdatePatchBaselineInput) SetBaselineId(v string) *UpdatePatchBaselineInput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdatePatchBaselineInput) SetDescription(v string) *UpdatePatchBaselineInput {
-	s.Description = &v
-	return s
-}
-
-// SetGlobalFilters sets the GlobalFilters field's value.
-func (s *UpdatePatchBaselineInput) SetGlobalFilters(v *PatchFilterGroup) *UpdatePatchBaselineInput {
-	s.GlobalFilters = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdatePatchBaselineInput) SetName(v string) *UpdatePatchBaselineInput {
-	s.Name = &v
-	return s
-}
-
-// SetRejectedPatches sets the RejectedPatches field's value.
-func (s *UpdatePatchBaselineInput) SetRejectedPatches(v []*string) *UpdatePatchBaselineInput {
-	s.RejectedPatches = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdatePatchBaselineResult
 type UpdatePatchBaselineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A set of rules used to include patches in the baseline.
 	ApprovalRules *PatchRuleGroup `type:"structure"`
 
 	// A list of explicitly approved patches for the baseline.
-	ApprovedPatches []*string `type:"list"`
+	ApprovedPatches []string `type:"list"`
 
 	// The compliance severity level assigned to the patch baseline after the update
 	// completed.
-	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string"`
+	ApprovedPatchesComplianceLevel PatchComplianceLevel `type:"string" enum:"true"`
+
+	// Indicates whether the list of approved patches includes non-security updates
+	// that should be applied to the instances. The default value is 'false'. Applies
+	// to Linux instances only.
+	ApprovedPatchesEnableNonSecurity *bool `type:"boolean"`
 
 	// The ID of the deleted patch baseline.
 	BaselineId *string `min:"20" type:"string"`
@@ -23153,10 +19330,14 @@ type UpdatePatchBaselineOutput struct {
 	Name *string `min:"3" type:"string"`
 
 	// The operating system rule used by the updated patch baseline.
-	OperatingSystem OperatingSystem `type:"string"`
+	OperatingSystem OperatingSystem `type:"string" enum:"true"`
 
 	// A list of explicitly rejected patches for the baseline.
-	RejectedPatches []*string `type:"list"`
+	RejectedPatches []string `type:"list"`
+
+	// Information about the patches to use to update the instances, including target
+	// operating systems and source repositories. Applies to Linux instances only.
+	Sources []PatchSource `type:"list"`
 }
 
 // String returns the string representation
@@ -23169,70 +19350,9 @@ func (s UpdatePatchBaselineOutput) GoString() string {
 	return s.String()
 }
 
-// SetApprovalRules sets the ApprovalRules field's value.
-func (s *UpdatePatchBaselineOutput) SetApprovalRules(v *PatchRuleGroup) *UpdatePatchBaselineOutput {
-	s.ApprovalRules = v
-	return s
-}
-
-// SetApprovedPatches sets the ApprovedPatches field's value.
-func (s *UpdatePatchBaselineOutput) SetApprovedPatches(v []*string) *UpdatePatchBaselineOutput {
-	s.ApprovedPatches = v
-	return s
-}
-
-// SetApprovedPatchesComplianceLevel sets the ApprovedPatchesComplianceLevel field's value.
-func (s *UpdatePatchBaselineOutput) SetApprovedPatchesComplianceLevel(v PatchComplianceLevel) *UpdatePatchBaselineOutput {
-	s.ApprovedPatchesComplianceLevel = v
-	return s
-}
-
-// SetBaselineId sets the BaselineId field's value.
-func (s *UpdatePatchBaselineOutput) SetBaselineId(v string) *UpdatePatchBaselineOutput {
-	s.BaselineId = &v
-	return s
-}
-
-// SetCreatedDate sets the CreatedDate field's value.
-func (s *UpdatePatchBaselineOutput) SetCreatedDate(v time.Time) *UpdatePatchBaselineOutput {
-	s.CreatedDate = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdatePatchBaselineOutput) SetDescription(v string) *UpdatePatchBaselineOutput {
-	s.Description = &v
-	return s
-}
-
-// SetGlobalFilters sets the GlobalFilters field's value.
-func (s *UpdatePatchBaselineOutput) SetGlobalFilters(v *PatchFilterGroup) *UpdatePatchBaselineOutput {
-	s.GlobalFilters = v
-	return s
-}
-
-// SetModifiedDate sets the ModifiedDate field's value.
-func (s *UpdatePatchBaselineOutput) SetModifiedDate(v time.Time) *UpdatePatchBaselineOutput {
-	s.ModifiedDate = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdatePatchBaselineOutput) SetName(v string) *UpdatePatchBaselineOutput {
-	s.Name = &v
-	return s
-}
-
-// SetOperatingSystem sets the OperatingSystem field's value.
-func (s *UpdatePatchBaselineOutput) SetOperatingSystem(v OperatingSystem) *UpdatePatchBaselineOutput {
-	s.OperatingSystem = v
-	return s
-}
-
-// SetRejectedPatches sets the RejectedPatches field's value.
-func (s *UpdatePatchBaselineOutput) SetRejectedPatches(v []*string) *UpdatePatchBaselineOutput {
-	s.RejectedPatches = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdatePatchBaselineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type AssociationFilterKey string
@@ -23248,6 +19368,15 @@ const (
 	AssociationFilterKeyAssociationName       AssociationFilterKey = "AssociationName"
 )
 
+func (enum AssociationFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AssociationFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AssociationStatusName string
 
 // Enum values for AssociationStatusName
@@ -23257,13 +19386,36 @@ const (
 	AssociationStatusNameFailed  AssociationStatusName = "Failed"
 )
 
+func (enum AssociationStatusName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AssociationStatusName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type AutomationExecutionFilterKey string
 
 // Enum values for AutomationExecutionFilterKey
 const (
 	AutomationExecutionFilterKeyDocumentNamePrefix AutomationExecutionFilterKey = "DocumentNamePrefix"
 	AutomationExecutionFilterKeyExecutionStatus    AutomationExecutionFilterKey = "ExecutionStatus"
+	AutomationExecutionFilterKeyExecutionId        AutomationExecutionFilterKey = "ExecutionId"
+	AutomationExecutionFilterKeyParentExecutionId  AutomationExecutionFilterKey = "ParentExecutionId"
+	AutomationExecutionFilterKeyCurrentAction      AutomationExecutionFilterKey = "CurrentAction"
+	AutomationExecutionFilterKeyStartTimeBefore    AutomationExecutionFilterKey = "StartTimeBefore"
+	AutomationExecutionFilterKeyStartTimeAfter     AutomationExecutionFilterKey = "StartTimeAfter"
 )
+
+func (enum AutomationExecutionFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AutomationExecutionFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type AutomationExecutionStatus string
 
@@ -23274,9 +19426,19 @@ const (
 	AutomationExecutionStatusWaiting    AutomationExecutionStatus = "Waiting"
 	AutomationExecutionStatusSuccess    AutomationExecutionStatus = "Success"
 	AutomationExecutionStatusTimedOut   AutomationExecutionStatus = "TimedOut"
+	AutomationExecutionStatusCancelling AutomationExecutionStatus = "Cancelling"
 	AutomationExecutionStatusCancelled  AutomationExecutionStatus = "Cancelled"
 	AutomationExecutionStatusFailed     AutomationExecutionStatus = "Failed"
 )
+
+func (enum AutomationExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum AutomationExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CommandFilterKey string
 
@@ -23286,6 +19448,15 @@ const (
 	CommandFilterKeyInvokedBefore CommandFilterKey = "InvokedBefore"
 	CommandFilterKeyStatus        CommandFilterKey = "Status"
 )
+
+func (enum CommandFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CommandFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CommandInvocationStatus string
 
@@ -23301,6 +19472,15 @@ const (
 	CommandInvocationStatusCancelling CommandInvocationStatus = "Cancelling"
 )
 
+func (enum CommandInvocationStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CommandInvocationStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type CommandPluginStatus string
 
 // Enum values for CommandPluginStatus
@@ -23312,6 +19492,15 @@ const (
 	CommandPluginStatusCancelled  CommandPluginStatus = "Cancelled"
 	CommandPluginStatusFailed     CommandPluginStatus = "Failed"
 )
+
+func (enum CommandPluginStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CommandPluginStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type CommandStatus string
 
@@ -23326,6 +19515,15 @@ const (
 	CommandStatusCancelling CommandStatus = "Cancelling"
 )
 
+func (enum CommandStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CommandStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ComplianceQueryOperatorType string
 
 // Enum values for ComplianceQueryOperatorType
@@ -23336,6 +19534,15 @@ const (
 	ComplianceQueryOperatorTypeLessThan    ComplianceQueryOperatorType = "LESS_THAN"
 	ComplianceQueryOperatorTypeGreaterThan ComplianceQueryOperatorType = "GREATER_THAN"
 )
+
+func (enum ComplianceQueryOperatorType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ComplianceQueryOperatorType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ComplianceSeverity string
 
@@ -23349,6 +19556,15 @@ const (
 	ComplianceSeverityUnspecified   ComplianceSeverity = "UNSPECIFIED"
 )
 
+func (enum ComplianceSeverity) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ComplianceSeverity) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ComplianceStatus string
 
 // Enum values for ComplianceStatus
@@ -23356,6 +19572,15 @@ const (
 	ComplianceStatusCompliant    ComplianceStatus = "COMPLIANT"
 	ComplianceStatusNonCompliant ComplianceStatus = "NON_COMPLIANT"
 )
+
+func (enum ComplianceStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ComplianceStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DescribeActivationsFilterKeys string
 
@@ -23365,6 +19590,15 @@ const (
 	DescribeActivationsFilterKeysDefaultInstanceName DescribeActivationsFilterKeys = "DefaultInstanceName"
 	DescribeActivationsFilterKeysIamRole             DescribeActivationsFilterKeys = "IamRole"
 )
+
+func (enum DescribeActivationsFilterKeys) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DescribeActivationsFilterKeys) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DocumentFilterKey string
 
@@ -23376,6 +19610,32 @@ const (
 	DocumentFilterKeyDocumentType  DocumentFilterKey = "DocumentType"
 )
 
+func (enum DocumentFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type DocumentFormat string
+
+// Enum values for DocumentFormat
+const (
+	DocumentFormatYaml DocumentFormat = "YAML"
+	DocumentFormatJson DocumentFormat = "JSON"
+)
+
+func (enum DocumentFormat) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentFormat) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DocumentHashType string
 
 // Enum values for DocumentHashType
@@ -23383,6 +19643,15 @@ const (
 	DocumentHashTypeSha256 DocumentHashType = "Sha256"
 	DocumentHashTypeSha1   DocumentHashType = "Sha1"
 )
+
+func (enum DocumentHashType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentHashType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DocumentParameterType string
 
@@ -23392,12 +19661,30 @@ const (
 	DocumentParameterTypeStringList DocumentParameterType = "StringList"
 )
 
+func (enum DocumentParameterType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentParameterType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DocumentPermissionType string
 
 // Enum values for DocumentPermissionType
 const (
 	DocumentPermissionTypeShare DocumentPermissionType = "Share"
 )
+
+func (enum DocumentPermissionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentPermissionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DocumentStatus string
 
@@ -23409,6 +19696,15 @@ const (
 	DocumentStatusDeleting DocumentStatus = "Deleting"
 )
 
+func (enum DocumentStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DocumentType string
 
 // Enum values for DocumentType
@@ -23418,6 +19714,32 @@ const (
 	DocumentTypeAutomation DocumentType = "Automation"
 )
 
+func (enum DocumentType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DocumentType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type ExecutionMode string
+
+// Enum values for ExecutionMode
+const (
+	ExecutionModeAuto        ExecutionMode = "Auto"
+	ExecutionModeInteractive ExecutionMode = "Interactive"
+)
+
+func (enum ExecutionMode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExecutionMode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type Fault string
 
 // Enum values for Fault
@@ -23426,6 +19748,15 @@ const (
 	FaultServer  Fault = "Server"
 	FaultUnknown Fault = "Unknown"
 )
+
+func (enum Fault) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum Fault) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InstanceInformationFilterKey string
 
@@ -23441,6 +19772,15 @@ const (
 	InstanceInformationFilterKeyAssociationStatus InstanceInformationFilterKey = "AssociationStatus"
 )
 
+func (enum InstanceInformationFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceInformationFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InstancePatchStateOperatorType string
 
 // Enum values for InstancePatchStateOperatorType
@@ -23451,6 +19791,15 @@ const (
 	InstancePatchStateOperatorTypeGreaterThan InstancePatchStateOperatorType = "GreaterThan"
 )
 
+func (enum InstancePatchStateOperatorType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstancePatchStateOperatorType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type InventoryAttributeDataType string
 
 // Enum values for InventoryAttributeDataType
@@ -23458,6 +19807,32 @@ const (
 	InventoryAttributeDataTypeString InventoryAttributeDataType = "string"
 	InventoryAttributeDataTypeNumber InventoryAttributeDataType = "number"
 )
+
+func (enum InventoryAttributeDataType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryAttributeDataType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InventoryDeletionStatus string
+
+// Enum values for InventoryDeletionStatus
+const (
+	InventoryDeletionStatusInProgress InventoryDeletionStatus = "InProgress"
+	InventoryDeletionStatusComplete   InventoryDeletionStatus = "Complete"
+)
+
+func (enum InventoryDeletionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryDeletionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type InventoryQueryOperatorType string
 
@@ -23470,6 +19845,32 @@ const (
 	InventoryQueryOperatorTypeGreaterThan InventoryQueryOperatorType = "GreaterThan"
 )
 
+func (enum InventoryQueryOperatorType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventoryQueryOperatorType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InventorySchemaDeleteOption string
+
+// Enum values for InventorySchemaDeleteOption
+const (
+	InventorySchemaDeleteOptionDisableSchema InventorySchemaDeleteOption = "DisableSchema"
+	InventorySchemaDeleteOptionDeleteSchema  InventorySchemaDeleteOption = "DeleteSchema"
+)
+
+func (enum InventorySchemaDeleteOption) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InventorySchemaDeleteOption) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type LastResourceDataSyncStatus string
 
 // Enum values for LastResourceDataSyncStatus
@@ -23478,6 +19879,15 @@ const (
 	LastResourceDataSyncStatusFailed     LastResourceDataSyncStatus = "Failed"
 	LastResourceDataSyncStatusInProgress LastResourceDataSyncStatus = "InProgress"
 )
+
+func (enum LastResourceDataSyncStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum LastResourceDataSyncStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type MaintenanceWindowExecutionStatus string
 
@@ -23493,12 +19903,30 @@ const (
 	MaintenanceWindowExecutionStatusSkippedOverlapping MaintenanceWindowExecutionStatus = "SKIPPED_OVERLAPPING"
 )
 
+func (enum MaintenanceWindowExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MaintenanceWindowExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type MaintenanceWindowResourceType string
 
 // Enum values for MaintenanceWindowResourceType
 const (
 	MaintenanceWindowResourceTypeInstance MaintenanceWindowResourceType = "INSTANCE"
 )
+
+func (enum MaintenanceWindowResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MaintenanceWindowResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type MaintenanceWindowTaskType string
 
@@ -23509,6 +19937,15 @@ const (
 	MaintenanceWindowTaskTypeStepFunctions MaintenanceWindowTaskType = "STEP_FUNCTIONS"
 	MaintenanceWindowTaskTypeLambda        MaintenanceWindowTaskType = "LAMBDA"
 )
+
+func (enum MaintenanceWindowTaskType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum MaintenanceWindowTaskType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type NotificationEvent string
 
@@ -23522,6 +19959,15 @@ const (
 	NotificationEventFailed     NotificationEvent = "Failed"
 )
 
+func (enum NotificationEvent) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NotificationEvent) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type NotificationType string
 
 // Enum values for NotificationType
@@ -23529,6 +19975,15 @@ const (
 	NotificationTypeCommand    NotificationType = "Command"
 	NotificationTypeInvocation NotificationType = "Invocation"
 )
+
+func (enum NotificationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NotificationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type OperatingSystem string
 
@@ -23538,7 +19993,18 @@ const (
 	OperatingSystemAmazonLinux           OperatingSystem = "AMAZON_LINUX"
 	OperatingSystemUbuntu                OperatingSystem = "UBUNTU"
 	OperatingSystemRedhatEnterpriseLinux OperatingSystem = "REDHAT_ENTERPRISE_LINUX"
+	OperatingSystemSuse                  OperatingSystem = "SUSE"
+	OperatingSystemCentos                OperatingSystem = "CENTOS"
 )
+
+func (enum OperatingSystem) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OperatingSystem) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ParameterType string
 
@@ -23549,6 +20015,15 @@ const (
 	ParameterTypeSecureString ParameterType = "SecureString"
 )
 
+func (enum ParameterType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ParameterType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ParametersFilterKey string
 
 // Enum values for ParametersFilterKey
@@ -23557,6 +20032,15 @@ const (
 	ParametersFilterKeyType  ParametersFilterKey = "Type"
 	ParametersFilterKeyKeyId ParametersFilterKey = "KeyId"
 )
+
+func (enum ParametersFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ParametersFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PatchComplianceDataState string
 
@@ -23568,6 +20052,15 @@ const (
 	PatchComplianceDataStateNotApplicable  PatchComplianceDataState = "NOT_APPLICABLE"
 	PatchComplianceDataStateFailed         PatchComplianceDataState = "FAILED"
 )
+
+func (enum PatchComplianceDataState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PatchComplianceDataState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PatchComplianceLevel string
 
@@ -23581,6 +20074,15 @@ const (
 	PatchComplianceLevelUnspecified   PatchComplianceLevel = "UNSPECIFIED"
 )
 
+func (enum PatchComplianceLevel) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PatchComplianceLevel) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PatchDeploymentStatus string
 
 // Enum values for PatchDeploymentStatus
@@ -23590,6 +20092,15 @@ const (
 	PatchDeploymentStatusExplicitApproved PatchDeploymentStatus = "EXPLICIT_APPROVED"
 	PatchDeploymentStatusExplicitRejected PatchDeploymentStatus = "EXPLICIT_REJECTED"
 )
+
+func (enum PatchDeploymentStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PatchDeploymentStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PatchFilterKey string
 
@@ -23604,6 +20115,15 @@ const (
 	PatchFilterKeySeverity       PatchFilterKey = "SEVERITY"
 )
 
+func (enum PatchFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PatchFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PatchOperationType string
 
 // Enum values for PatchOperationType
@@ -23611,6 +20131,15 @@ const (
 	PatchOperationTypeScan    PatchOperationType = "Scan"
 	PatchOperationTypeInstall PatchOperationType = "Install"
 )
+
+func (enum PatchOperationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PatchOperationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type PingStatus string
 
@@ -23621,6 +20150,15 @@ const (
 	PingStatusInactive       PingStatus = "Inactive"
 )
 
+func (enum PingStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PingStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PlatformType string
 
 // Enum values for PlatformType
@@ -23629,12 +20167,30 @@ const (
 	PlatformTypeLinux   PlatformType = "Linux"
 )
 
+func (enum PlatformType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PlatformType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ResourceDataSyncS3Format string
 
 // Enum values for ResourceDataSyncS3Format
 const (
 	ResourceDataSyncS3FormatJsonSerDe ResourceDataSyncS3Format = "JsonSerDe"
 )
+
+func (enum ResourceDataSyncS3Format) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceDataSyncS3Format) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ResourceType string
 
@@ -23644,6 +20200,15 @@ const (
 	ResourceTypeDocument        ResourceType = "Document"
 	ResourceTypeEc2instance     ResourceType = "EC2Instance"
 )
+
+func (enum ResourceType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ResourceTypeForTagging string
 
@@ -23656,10 +20221,69 @@ const (
 	ResourceTypeForTaggingPatchBaseline     ResourceTypeForTagging = "PatchBaseline"
 )
 
+func (enum ResourceTypeForTagging) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ResourceTypeForTagging) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type SignalType string
 
 // Enum values for SignalType
 const (
-	SignalTypeApprove SignalType = "Approve"
-	SignalTypeReject  SignalType = "Reject"
+	SignalTypeApprove   SignalType = "Approve"
+	SignalTypeReject    SignalType = "Reject"
+	SignalTypeStartStep SignalType = "StartStep"
+	SignalTypeStopStep  SignalType = "StopStep"
+	SignalTypeResume    SignalType = "Resume"
 )
+
+func (enum SignalType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SignalType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type StepExecutionFilterKey string
+
+// Enum values for StepExecutionFilterKey
+const (
+	StepExecutionFilterKeyStartTimeBefore     StepExecutionFilterKey = "StartTimeBefore"
+	StepExecutionFilterKeyStartTimeAfter      StepExecutionFilterKey = "StartTimeAfter"
+	StepExecutionFilterKeyStepExecutionStatus StepExecutionFilterKey = "StepExecutionStatus"
+	StepExecutionFilterKeyStepExecutionId     StepExecutionFilterKey = "StepExecutionId"
+	StepExecutionFilterKeyStepName            StepExecutionFilterKey = "StepName"
+	StepExecutionFilterKeyAction              StepExecutionFilterKey = "Action"
+)
+
+func (enum StepExecutionFilterKey) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StepExecutionFilterKey) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type StopType string
+
+// Enum values for StopType
+const (
+	StopTypeComplete StopType = "Complete"
+	StopTypeCancel   StopType = "Cancel"
+)
+
+func (enum StopType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StopType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

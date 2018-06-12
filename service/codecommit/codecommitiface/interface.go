@@ -9,7 +9,6 @@
 package codecommitiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/codecommit"
 )
 
@@ -67,20 +66,35 @@ type CodeCommitAPI interface {
 
 	CreateBranchRequest(*codecommit.CreateBranchInput) codecommit.CreateBranchRequest
 
+	CreatePullRequestRequest(*codecommit.CreatePullRequestInput) codecommit.CreatePullRequestRequest
+
 	CreateRepositoryRequest(*codecommit.CreateRepositoryInput) codecommit.CreateRepositoryRequest
 
+	DeleteBranchRequest(*codecommit.DeleteBranchInput) codecommit.DeleteBranchRequest
+
+	DeleteCommentContentRequest(*codecommit.DeleteCommentContentInput) codecommit.DeleteCommentContentRequest
+
 	DeleteRepositoryRequest(*codecommit.DeleteRepositoryInput) codecommit.DeleteRepositoryRequest
+
+	DescribePullRequestEventsRequest(*codecommit.DescribePullRequestEventsInput) codecommit.DescribePullRequestEventsRequest
 
 	GetBlobRequest(*codecommit.GetBlobInput) codecommit.GetBlobRequest
 
 	GetBranchRequest(*codecommit.GetBranchInput) codecommit.GetBranchRequest
 
+	GetCommentRequest(*codecommit.GetCommentInput) codecommit.GetCommentRequest
+
+	GetCommentsForComparedCommitRequest(*codecommit.GetCommentsForComparedCommitInput) codecommit.GetCommentsForComparedCommitRequest
+
+	GetCommentsForPullRequestRequest(*codecommit.GetCommentsForPullRequestInput) codecommit.GetCommentsForPullRequestRequest
+
 	GetCommitRequest(*codecommit.GetCommitInput) codecommit.GetCommitRequest
 
 	GetDifferencesRequest(*codecommit.GetDifferencesInput) codecommit.GetDifferencesRequest
 
-	GetDifferencesPages(*codecommit.GetDifferencesInput, func(*codecommit.GetDifferencesOutput, bool) bool) error
-	GetDifferencesPagesWithContext(aws.Context, *codecommit.GetDifferencesInput, func(*codecommit.GetDifferencesOutput, bool) bool, ...aws.Option) error
+	GetMergeConflictsRequest(*codecommit.GetMergeConflictsInput) codecommit.GetMergeConflictsRequest
+
+	GetPullRequestRequest(*codecommit.GetPullRequestInput) codecommit.GetPullRequestRequest
 
 	GetRepositoryRequest(*codecommit.GetRepositoryInput) codecommit.GetRepositoryRequest
 
@@ -88,19 +102,33 @@ type CodeCommitAPI interface {
 
 	ListBranchesRequest(*codecommit.ListBranchesInput) codecommit.ListBranchesRequest
 
-	ListBranchesPages(*codecommit.ListBranchesInput, func(*codecommit.ListBranchesOutput, bool) bool) error
-	ListBranchesPagesWithContext(aws.Context, *codecommit.ListBranchesInput, func(*codecommit.ListBranchesOutput, bool) bool, ...aws.Option) error
+	ListPullRequestsRequest(*codecommit.ListPullRequestsInput) codecommit.ListPullRequestsRequest
 
 	ListRepositoriesRequest(*codecommit.ListRepositoriesInput) codecommit.ListRepositoriesRequest
 
-	ListRepositoriesPages(*codecommit.ListRepositoriesInput, func(*codecommit.ListRepositoriesOutput, bool) bool) error
-	ListRepositoriesPagesWithContext(aws.Context, *codecommit.ListRepositoriesInput, func(*codecommit.ListRepositoriesOutput, bool) bool, ...aws.Option) error
+	MergePullRequestByFastForwardRequest(*codecommit.MergePullRequestByFastForwardInput) codecommit.MergePullRequestByFastForwardRequest
+
+	PostCommentForComparedCommitRequest(*codecommit.PostCommentForComparedCommitInput) codecommit.PostCommentForComparedCommitRequest
+
+	PostCommentForPullRequestRequest(*codecommit.PostCommentForPullRequestInput) codecommit.PostCommentForPullRequestRequest
+
+	PostCommentReplyRequest(*codecommit.PostCommentReplyInput) codecommit.PostCommentReplyRequest
+
+	PutFileRequest(*codecommit.PutFileInput) codecommit.PutFileRequest
 
 	PutRepositoryTriggersRequest(*codecommit.PutRepositoryTriggersInput) codecommit.PutRepositoryTriggersRequest
 
 	TestRepositoryTriggersRequest(*codecommit.TestRepositoryTriggersInput) codecommit.TestRepositoryTriggersRequest
 
+	UpdateCommentRequest(*codecommit.UpdateCommentInput) codecommit.UpdateCommentRequest
+
 	UpdateDefaultBranchRequest(*codecommit.UpdateDefaultBranchInput) codecommit.UpdateDefaultBranchRequest
+
+	UpdatePullRequestDescriptionRequest(*codecommit.UpdatePullRequestDescriptionInput) codecommit.UpdatePullRequestDescriptionRequest
+
+	UpdatePullRequestStatusRequest(*codecommit.UpdatePullRequestStatusInput) codecommit.UpdatePullRequestStatusRequest
+
+	UpdatePullRequestTitleRequest(*codecommit.UpdatePullRequestTitleInput) codecommit.UpdatePullRequestTitleRequest
 
 	UpdateRepositoryDescriptionRequest(*codecommit.UpdateRepositoryDescriptionInput) codecommit.UpdateRepositoryDescriptionRequest
 

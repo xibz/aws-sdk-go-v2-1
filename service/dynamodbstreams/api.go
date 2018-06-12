@@ -16,6 +16,7 @@ const opDescribeStream = "DescribeStream"
 type DescribeStreamRequest struct {
 	*aws.Request
 	Input *DescribeStreamInput
+	Copy  func(*DescribeStreamInput) DescribeStreamRequest
 }
 
 // Send marshals and sends the DescribeStream API request.
@@ -62,8 +63,11 @@ func (c *DynamoDBStreams) DescribeStreamRequest(input *DescribeStreamInput) Desc
 		input = &DescribeStreamInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeStreamOutput{})
-	return DescribeStreamRequest{Request: req, Input: input}
+	output := &DescribeStreamOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeStreamRequest{Request: req, Input: input, Copy: c.DescribeStreamRequest}
 }
 
 const opGetRecords = "GetRecords"
@@ -72,6 +76,7 @@ const opGetRecords = "GetRecords"
 type GetRecordsRequest struct {
 	*aws.Request
 	Input *GetRecordsInput
+	Copy  func(*GetRecordsInput) GetRecordsRequest
 }
 
 // Send marshals and sends the GetRecords API request.
@@ -118,8 +123,11 @@ func (c *DynamoDBStreams) GetRecordsRequest(input *GetRecordsInput) GetRecordsRe
 		input = &GetRecordsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRecordsOutput{})
-	return GetRecordsRequest{Request: req, Input: input}
+	output := &GetRecordsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRecordsRequest{Request: req, Input: input, Copy: c.GetRecordsRequest}
 }
 
 const opGetShardIterator = "GetShardIterator"
@@ -128,6 +136,7 @@ const opGetShardIterator = "GetShardIterator"
 type GetShardIteratorRequest struct {
 	*aws.Request
 	Input *GetShardIteratorInput
+	Copy  func(*GetShardIteratorInput) GetShardIteratorRequest
 }
 
 // Send marshals and sends the GetShardIterator API request.
@@ -168,8 +177,11 @@ func (c *DynamoDBStreams) GetShardIteratorRequest(input *GetShardIteratorInput) 
 		input = &GetShardIteratorInput{}
 	}
 
-	req := c.newRequest(op, input, &GetShardIteratorOutput{})
-	return GetShardIteratorRequest{Request: req, Input: input}
+	output := &GetShardIteratorOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetShardIteratorRequest{Request: req, Input: input, Copy: c.GetShardIteratorRequest}
 }
 
 const opListStreams = "ListStreams"
@@ -178,6 +190,7 @@ const opListStreams = "ListStreams"
 type ListStreamsRequest struct {
 	*aws.Request
 	Input *ListStreamsInput
+	Copy  func(*ListStreamsInput) ListStreamsRequest
 }
 
 // Send marshals and sends the ListStreams API request.
@@ -218,8 +231,11 @@ func (c *DynamoDBStreams) ListStreamsRequest(input *ListStreamsInput) ListStream
 		input = &ListStreamsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListStreamsOutput{})
-	return ListStreamsRequest{Request: req, Input: input}
+	output := &ListStreamsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListStreamsRequest{Request: req, Input: input, Copy: c.ListStreamsRequest}
 }
 
 // Represents the input of a DescribeStream operation.
@@ -273,28 +289,12 @@ func (s *DescribeStreamInput) Validate() error {
 	return nil
 }
 
-// SetExclusiveStartShardId sets the ExclusiveStartShardId field's value.
-func (s *DescribeStreamInput) SetExclusiveStartShardId(v string) *DescribeStreamInput {
-	s.ExclusiveStartShardId = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *DescribeStreamInput) SetLimit(v int64) *DescribeStreamInput {
-	s.Limit = &v
-	return s
-}
-
-// SetStreamArn sets the StreamArn field's value.
-func (s *DescribeStreamInput) SetStreamArn(v string) *DescribeStreamInput {
-	s.StreamArn = &v
-	return s
-}
-
 // Represents the output of a DescribeStream operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/DescribeStreamOutput
 type DescribeStreamOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A complete description of the stream, including its creation date and time,
 	// the DynamoDB table associated with the stream, the shard IDs within the stream,
@@ -313,10 +313,9 @@ func (s DescribeStreamOutput) GoString() string {
 	return s.String()
 }
 
-// SetStreamDescription sets the StreamDescription field's value.
-func (s *DescribeStreamOutput) SetStreamDescription(v *StreamDescription) *DescribeStreamOutput {
-	s.StreamDescription = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeStreamOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a GetRecords operation.
@@ -365,22 +364,12 @@ func (s *GetRecordsInput) Validate() error {
 	return nil
 }
 
-// SetLimit sets the Limit field's value.
-func (s *GetRecordsInput) SetLimit(v int64) *GetRecordsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetShardIterator sets the ShardIterator field's value.
-func (s *GetRecordsInput) SetShardIterator(v string) *GetRecordsInput {
-	s.ShardIterator = &v
-	return s
-}
-
 // Represents the output of a GetRecords operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/GetRecordsOutput
 type GetRecordsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The next position in the shard from which to start sequentially reading stream
 	// records. If set to null, the shard has been closed and the requested iterator
@@ -388,7 +377,7 @@ type GetRecordsOutput struct {
 	NextShardIterator *string `min:"1" type:"string"`
 
 	// The stream records from the shard, which were retrieved using the shard iterator.
-	Records []*Record `type:"list"`
+	Records []Record `type:"list"`
 }
 
 // String returns the string representation
@@ -401,16 +390,9 @@ func (s GetRecordsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextShardIterator sets the NextShardIterator field's value.
-func (s *GetRecordsOutput) SetNextShardIterator(v string) *GetRecordsOutput {
-	s.NextShardIterator = &v
-	return s
-}
-
-// SetRecords sets the Records field's value.
-func (s *GetRecordsOutput) SetRecords(v []*Record) *GetRecordsOutput {
-	s.Records = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRecordsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a GetShardIterator operation.
@@ -445,7 +427,7 @@ type GetShardIteratorInput struct {
 	//    shard, so that you always read the most recent data in the shard.
 	//
 	// ShardIteratorType is a required field
-	ShardIteratorType ShardIteratorType `type:"string" required:"true"`
+	ShardIteratorType ShardIteratorType `type:"string" required:"true" enum:"true"`
 
 	// The Amazon Resource Name (ARN) for the stream.
 	//
@@ -493,34 +475,12 @@ func (s *GetShardIteratorInput) Validate() error {
 	return nil
 }
 
-// SetSequenceNumber sets the SequenceNumber field's value.
-func (s *GetShardIteratorInput) SetSequenceNumber(v string) *GetShardIteratorInput {
-	s.SequenceNumber = &v
-	return s
-}
-
-// SetShardId sets the ShardId field's value.
-func (s *GetShardIteratorInput) SetShardId(v string) *GetShardIteratorInput {
-	s.ShardId = &v
-	return s
-}
-
-// SetShardIteratorType sets the ShardIteratorType field's value.
-func (s *GetShardIteratorInput) SetShardIteratorType(v ShardIteratorType) *GetShardIteratorInput {
-	s.ShardIteratorType = v
-	return s
-}
-
-// SetStreamArn sets the StreamArn field's value.
-func (s *GetShardIteratorInput) SetStreamArn(v string) *GetShardIteratorInput {
-	s.StreamArn = &v
-	return s
-}
-
 // Represents the output of a GetShardIterator operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/GetShardIteratorOutput
 type GetShardIteratorOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The position in the shard from which to start reading stream records sequentially.
 	// A shard iterator specifies this position using the sequence number of a stream
@@ -538,10 +498,9 @@ func (s GetShardIteratorOutput) GoString() string {
 	return s.String()
 }
 
-// SetShardIterator sets the ShardIterator field's value.
-func (s *GetShardIteratorOutput) SetShardIterator(v string) *GetShardIteratorOutput {
-	s.ShardIterator = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetShardIteratorOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains details about the type of identity that made the request.
@@ -565,18 +524,6 @@ func (s Identity) String() string {
 // GoString returns the string representation
 func (s Identity) GoString() string {
 	return s.String()
-}
-
-// SetPrincipalId sets the PrincipalId field's value.
-func (s *Identity) SetPrincipalId(v string) *Identity {
-	s.PrincipalId = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Identity) SetType(v string) *Identity {
-	s.Type = &v
-	return s
 }
 
 // Represents the input of a ListStreams operation.
@@ -626,28 +573,12 @@ func (s *ListStreamsInput) Validate() error {
 	return nil
 }
 
-// SetExclusiveStartStreamArn sets the ExclusiveStartStreamArn field's value.
-func (s *ListStreamsInput) SetExclusiveStartStreamArn(v string) *ListStreamsInput {
-	s.ExclusiveStartStreamArn = &v
-	return s
-}
-
-// SetLimit sets the Limit field's value.
-func (s *ListStreamsInput) SetLimit(v int64) *ListStreamsInput {
-	s.Limit = &v
-	return s
-}
-
-// SetTableName sets the TableName field's value.
-func (s *ListStreamsInput) SetTableName(v string) *ListStreamsInput {
-	s.TableName = &v
-	return s
-}
-
 // Represents the output of a ListStreams operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/ListStreamsOutput
 type ListStreamsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The stream ARN of the item where the operation stopped, inclusive of the
 	// previous result set. Use this value to start a new operation, excluding this
@@ -662,7 +593,7 @@ type ListStreamsOutput struct {
 	LastEvaluatedStreamArn *string `min:"37" type:"string"`
 
 	// A list of stream descriptors associated with the current account and endpoint.
-	Streams []*Stream `type:"list"`
+	Streams []Stream `type:"list"`
 }
 
 // String returns the string representation
@@ -675,16 +606,9 @@ func (s ListStreamsOutput) GoString() string {
 	return s.String()
 }
 
-// SetLastEvaluatedStreamArn sets the LastEvaluatedStreamArn field's value.
-func (s *ListStreamsOutput) SetLastEvaluatedStreamArn(v string) *ListStreamsOutput {
-	s.LastEvaluatedStreamArn = &v
-	return s
-}
-
-// SetStreams sets the Streams field's value.
-func (s *ListStreamsOutput) SetStreams(v []*Stream) *ListStreamsOutput {
-	s.Streams = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListStreamsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A description of a unique event within a stream.
@@ -710,7 +634,7 @@ type Record struct {
 	//    * MODIFY - one or more of an existing item's attributes were modified.
 	//
 	//    * REMOVE - the item was deleted from the table
-	EventName OperationType `locationName:"eventName" type:"string"`
+	EventName OperationType `locationName:"eventName" type:"string" enum:"true"`
 
 	// The AWS service from which the stream record originated. For DynamoDB Streams,
 	// this is aws:dynamodb.
@@ -747,48 +671,6 @@ func (s Record) GoString() string {
 	return s.String()
 }
 
-// SetAwsRegion sets the AwsRegion field's value.
-func (s *Record) SetAwsRegion(v string) *Record {
-	s.AwsRegion = &v
-	return s
-}
-
-// SetDynamodb sets the Dynamodb field's value.
-func (s *Record) SetDynamodb(v *StreamRecord) *Record {
-	s.Dynamodb = v
-	return s
-}
-
-// SetEventID sets the EventID field's value.
-func (s *Record) SetEventID(v string) *Record {
-	s.EventID = &v
-	return s
-}
-
-// SetEventName sets the EventName field's value.
-func (s *Record) SetEventName(v OperationType) *Record {
-	s.EventName = v
-	return s
-}
-
-// SetEventSource sets the EventSource field's value.
-func (s *Record) SetEventSource(v string) *Record {
-	s.EventSource = &v
-	return s
-}
-
-// SetEventVersion sets the EventVersion field's value.
-func (s *Record) SetEventVersion(v string) *Record {
-	s.EventVersion = &v
-	return s
-}
-
-// SetUserIdentity sets the UserIdentity field's value.
-func (s *Record) SetUserIdentity(v *Identity) *Record {
-	s.UserIdentity = v
-	return s
-}
-
 // The beginning and ending sequence numbers for the stream records contained
 // within a shard.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/SequenceNumberRange
@@ -810,18 +692,6 @@ func (s SequenceNumberRange) String() string {
 // GoString returns the string representation
 func (s SequenceNumberRange) GoString() string {
 	return s.String()
-}
-
-// SetEndingSequenceNumber sets the EndingSequenceNumber field's value.
-func (s *SequenceNumberRange) SetEndingSequenceNumber(v string) *SequenceNumberRange {
-	s.EndingSequenceNumber = &v
-	return s
-}
-
-// SetStartingSequenceNumber sets the StartingSequenceNumber field's value.
-func (s *SequenceNumberRange) SetStartingSequenceNumber(v string) *SequenceNumberRange {
-	s.StartingSequenceNumber = &v
-	return s
 }
 
 // A uniquely identified group of stream records within a stream.
@@ -847,24 +717,6 @@ func (s Shard) String() string {
 // GoString returns the string representation
 func (s Shard) GoString() string {
 	return s.String()
-}
-
-// SetParentShardId sets the ParentShardId field's value.
-func (s *Shard) SetParentShardId(v string) *Shard {
-	s.ParentShardId = &v
-	return s
-}
-
-// SetSequenceNumberRange sets the SequenceNumberRange field's value.
-func (s *Shard) SetSequenceNumberRange(v *SequenceNumberRange) *Shard {
-	s.SequenceNumberRange = v
-	return s
-}
-
-// SetShardId sets the ShardId field's value.
-func (s *Shard) SetShardId(v string) *Shard {
-	s.ShardId = &v
-	return s
 }
 
 // Represents all of the data describing a particular stream.
@@ -903,24 +755,6 @@ func (s Stream) GoString() string {
 	return s.String()
 }
 
-// SetStreamArn sets the StreamArn field's value.
-func (s *Stream) SetStreamArn(v string) *Stream {
-	s.StreamArn = &v
-	return s
-}
-
-// SetStreamLabel sets the StreamLabel field's value.
-func (s *Stream) SetStreamLabel(v string) *Stream {
-	s.StreamLabel = &v
-	return s
-}
-
-// SetTableName sets the TableName field's value.
-func (s *Stream) SetTableName(v string) *Stream {
-	s.TableName = &v
-	return s
-}
-
 // Represents all of the data describing a particular stream.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/StreamDescription
 type StreamDescription struct {
@@ -930,7 +764,7 @@ type StreamDescription struct {
 	CreationRequestDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The key attribute(s) of the stream's DynamoDB table.
-	KeySchema []*dynamodb.KeySchemaElement `min:"1" type:"list"`
+	KeySchema []dynamodb.KeySchemaElement `min:"1" type:"list"`
 
 	// The shard ID of the item where the operation stopped, inclusive of the previous
 	// result set. Use this value to start a new operation, excluding this value
@@ -945,7 +779,7 @@ type StreamDescription struct {
 	LastEvaluatedShardId *string `min:"28" type:"string"`
 
 	// The shards that comprise the stream.
-	Shards []*Shard `type:"list"`
+	Shards []Shard `type:"list"`
 
 	// The Amazon Resource Name (ARN) for the stream.
 	StreamArn *string `min:"37" type:"string"`
@@ -973,7 +807,7 @@ type StreamDescription struct {
 	//    * DISABLING - Streams is currently being disabled on the DynamoDB table.
 	//
 	//    * DISABLED - the stream is disabled.
-	StreamStatus StreamStatus `type:"string"`
+	StreamStatus StreamStatus `type:"string" enum:"true"`
 
 	// Indicates the format of the records within this stream:
 	//
@@ -988,7 +822,7 @@ type StreamDescription struct {
 	//
 	//    * NEW_AND_OLD_IMAGES - both the new and the old images of the items from
 	//    the table.
-	StreamViewType StreamViewType `type:"string"`
+	StreamViewType StreamViewType `type:"string" enum:"true"`
 
 	// The DynamoDB table with which the stream is associated.
 	TableName *string `min:"3" type:"string"`
@@ -1004,60 +838,6 @@ func (s StreamDescription) GoString() string {
 	return s.String()
 }
 
-// SetCreationRequestDateTime sets the CreationRequestDateTime field's value.
-func (s *StreamDescription) SetCreationRequestDateTime(v time.Time) *StreamDescription {
-	s.CreationRequestDateTime = &v
-	return s
-}
-
-// SetKeySchema sets the KeySchema field's value.
-func (s *StreamDescription) SetKeySchema(v []*dynamodb.KeySchemaElement) *StreamDescription {
-	s.KeySchema = v
-	return s
-}
-
-// SetLastEvaluatedShardId sets the LastEvaluatedShardId field's value.
-func (s *StreamDescription) SetLastEvaluatedShardId(v string) *StreamDescription {
-	s.LastEvaluatedShardId = &v
-	return s
-}
-
-// SetShards sets the Shards field's value.
-func (s *StreamDescription) SetShards(v []*Shard) *StreamDescription {
-	s.Shards = v
-	return s
-}
-
-// SetStreamArn sets the StreamArn field's value.
-func (s *StreamDescription) SetStreamArn(v string) *StreamDescription {
-	s.StreamArn = &v
-	return s
-}
-
-// SetStreamLabel sets the StreamLabel field's value.
-func (s *StreamDescription) SetStreamLabel(v string) *StreamDescription {
-	s.StreamLabel = &v
-	return s
-}
-
-// SetStreamStatus sets the StreamStatus field's value.
-func (s *StreamDescription) SetStreamStatus(v StreamStatus) *StreamDescription {
-	s.StreamStatus = v
-	return s
-}
-
-// SetStreamViewType sets the StreamViewType field's value.
-func (s *StreamDescription) SetStreamViewType(v StreamViewType) *StreamDescription {
-	s.StreamViewType = v
-	return s
-}
-
-// SetTableName sets the TableName field's value.
-func (s *StreamDescription) SetTableName(v string) *StreamDescription {
-	s.TableName = &v
-	return s
-}
-
 // A description of a single data modification that was performed on an item
 // in a DynamoDB table.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/streams-dynamodb-2012-08-10/StreamRecord
@@ -1069,13 +849,13 @@ type StreamRecord struct {
 	ApproximateCreationDateTime *time.Time `type:"timestamp" timestampFormat:"unix"`
 
 	// The primary key attribute(s) for the DynamoDB item that was modified.
-	Keys map[string]*dynamodb.AttributeValue `type:"map"`
+	Keys map[string]dynamodb.AttributeValue `type:"map"`
 
 	// The item in the DynamoDB table as it appeared after it was modified.
-	NewImage map[string]*dynamodb.AttributeValue `type:"map"`
+	NewImage map[string]dynamodb.AttributeValue `type:"map"`
 
 	// The item in the DynamoDB table as it appeared before it was modified.
-	OldImage map[string]*dynamodb.AttributeValue `type:"map"`
+	OldImage map[string]dynamodb.AttributeValue `type:"map"`
 
 	// The sequence number of the stream record.
 	SequenceNumber *string `min:"21" type:"string"`
@@ -1093,7 +873,7 @@ type StreamRecord struct {
 	//    * OLD_IMAGE - the entire item, as it appeared before it was modified.
 	//
 	//    * NEW_AND_OLD_IMAGES - both the new and the old item images of the item.
-	StreamViewType StreamViewType `type:"string"`
+	StreamViewType StreamViewType `type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1106,48 +886,6 @@ func (s StreamRecord) GoString() string {
 	return s.String()
 }
 
-// SetApproximateCreationDateTime sets the ApproximateCreationDateTime field's value.
-func (s *StreamRecord) SetApproximateCreationDateTime(v time.Time) *StreamRecord {
-	s.ApproximateCreationDateTime = &v
-	return s
-}
-
-// SetKeys sets the Keys field's value.
-func (s *StreamRecord) SetKeys(v map[string]*dynamodb.AttributeValue) *StreamRecord {
-	s.Keys = v
-	return s
-}
-
-// SetNewImage sets the NewImage field's value.
-func (s *StreamRecord) SetNewImage(v map[string]*dynamodb.AttributeValue) *StreamRecord {
-	s.NewImage = v
-	return s
-}
-
-// SetOldImage sets the OldImage field's value.
-func (s *StreamRecord) SetOldImage(v map[string]*dynamodb.AttributeValue) *StreamRecord {
-	s.OldImage = v
-	return s
-}
-
-// SetSequenceNumber sets the SequenceNumber field's value.
-func (s *StreamRecord) SetSequenceNumber(v string) *StreamRecord {
-	s.SequenceNumber = &v
-	return s
-}
-
-// SetSizeBytes sets the SizeBytes field's value.
-func (s *StreamRecord) SetSizeBytes(v int64) *StreamRecord {
-	s.SizeBytes = &v
-	return s
-}
-
-// SetStreamViewType sets the StreamViewType field's value.
-func (s *StreamRecord) SetStreamViewType(v StreamViewType) *StreamRecord {
-	s.StreamViewType = v
-	return s
-}
-
 type KeyType string
 
 // Enum values for KeyType
@@ -1155,6 +893,15 @@ const (
 	KeyTypeHash  KeyType = "HASH"
 	KeyTypeRange KeyType = "RANGE"
 )
+
+func (enum KeyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum KeyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type OperationType string
 
@@ -1164,6 +911,15 @@ const (
 	OperationTypeModify OperationType = "MODIFY"
 	OperationTypeRemove OperationType = "REMOVE"
 )
+
+func (enum OperationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OperationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ShardIteratorType string
 
@@ -1175,6 +931,15 @@ const (
 	ShardIteratorTypeAfterSequenceNumber ShardIteratorType = "AFTER_SEQUENCE_NUMBER"
 )
 
+func (enum ShardIteratorType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ShardIteratorType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StreamStatus string
 
 // Enum values for StreamStatus
@@ -1185,6 +950,15 @@ const (
 	StreamStatusDisabled  StreamStatus = "DISABLED"
 )
 
+func (enum StreamStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StreamStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StreamViewType string
 
 // Enum values for StreamViewType
@@ -1194,3 +968,12 @@ const (
 	StreamViewTypeNewAndOldImages StreamViewType = "NEW_AND_OLD_IMAGES"
 	StreamViewTypeKeysOnly        StreamViewType = "KEYS_ONLY"
 )
+
+func (enum StreamViewType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StreamViewType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

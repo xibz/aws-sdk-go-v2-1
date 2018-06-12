@@ -4,7 +4,6 @@ package rest
 import (
 	"bytes"
 	"encoding/base64"
-	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -235,14 +234,28 @@ func buildQueryString(query url.Values, v reflect.Value, name string, tag reflec
 		for _, item := range value {
 			query.Add(name, *item)
 		}
+	case []string:
+		for _, item := range value {
+			query.Add(name, item)
+		}
 	case map[string]*string:
 		for key, item := range value {
 			query.Add(key, *item)
+		}
+	case map[string]string:
+		for key, item := range value {
+			query.Add(key, item)
 		}
 	case map[string][]*string:
 		for key, items := range value {
 			for _, item := range items {
 				query.Add(key, *item)
+			}
+		}
+	case map[string][]string:
+		for key, items := range value {
+			for _, item := range items {
+				query.Add(key, item)
 			}
 		}
 	default:
@@ -286,13 +299,12 @@ func EscapePath(path string, encodeSep bool) string {
 	return buf.String()
 }
 
-func convertType(v reflect.Value, tag reflect.StructTag) (string, error) {
+func convertType(v reflect.Value, tag reflect.StructTag) (str string, err error) {
 	v = reflect.Indirect(v)
 	if !v.IsValid() {
 		return "", &protocol.ErrValueNotSet{}
 	}
 
-	var str string
 	switch value := v.Interface().(type) {
 	case string:
 		str = value
@@ -307,17 +319,20 @@ func convertType(v reflect.Value, tag reflect.StructTag) (string, error) {
 	case time.Time:
 		str = value.UTC().Format(RFC822)
 	case aws.JSONValue:
-		b, err := json.Marshal(value)
-		if err != nil {
-			return "", err
+		if len(value) == 0 {
+			return "", &protocol.ErrValueNotSet{}
 		}
+		escaping := protocol.NoEscape
 		if tag.Get("location") == "header" {
-			str = base64.StdEncoding.EncodeToString(b)
-		} else {
-			str = string(b)
+			escaping = protocol.Base64Escape
 		}
+		str, err = protocol.EncodeJSONValue(value, escaping)
+		if err != nil {
+			return "", fmt.Errorf("unable to encode JSONValue, %v", err)
+		}
+
 	default:
-		err := fmt.Errorf("Unsupported value for param %v (%s)", v.Interface(), v.Type())
+		err := fmt.Errorf("unsupported value for param %v (%s)", v.Interface(), v.Type())
 		return "", err
 	}
 	return str, nil

@@ -9,7 +9,6 @@
 package directoryserviceiface
 
 import (
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/directoryservice"
 )
 
@@ -101,9 +100,6 @@ type DirectoryServiceAPI interface {
 
 	DescribeDomainControllersRequest(*directoryservice.DescribeDomainControllersInput) directoryservice.DescribeDomainControllersRequest
 
-	DescribeDomainControllersPages(*directoryservice.DescribeDomainControllersInput, func(*directoryservice.DescribeDomainControllersOutput, bool) bool) error
-	DescribeDomainControllersPagesWithContext(aws.Context, *directoryservice.DescribeDomainControllersInput, func(*directoryservice.DescribeDomainControllersOutput, bool) bool, ...aws.Option) error
-
 	DescribeEventTopicsRequest(*directoryservice.DescribeEventTopicsInput) directoryservice.DescribeEventTopicsRequest
 
 	DescribeSnapshotsRequest(*directoryservice.DescribeSnapshotsInput) directoryservice.DescribeSnapshotsRequest
@@ -133,6 +129,8 @@ type DirectoryServiceAPI interface {
 	RemoveIpRoutesRequest(*directoryservice.RemoveIpRoutesInput) directoryservice.RemoveIpRoutesRequest
 
 	RemoveTagsFromResourceRequest(*directoryservice.RemoveTagsFromResourceInput) directoryservice.RemoveTagsFromResourceRequest
+
+	ResetUserPasswordRequest(*directoryservice.ResetUserPasswordInput) directoryservice.ResetUserPasswordRequest
 
 	RestoreFromSnapshotRequest(*directoryservice.RestoreFromSnapshotInput) directoryservice.RestoreFromSnapshotRequest
 

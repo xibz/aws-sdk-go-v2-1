@@ -18,6 +18,7 @@ const opAcknowledgeJob = "AcknowledgeJob"
 type AcknowledgeJobRequest struct {
 	*aws.Request
 	Input *AcknowledgeJobInput
+	Copy  func(*AcknowledgeJobInput) AcknowledgeJobRequest
 }
 
 // Send marshals and sends the AcknowledgeJob API request.
@@ -55,8 +56,11 @@ func (c *CodePipeline) AcknowledgeJobRequest(input *AcknowledgeJobInput) Acknowl
 		input = &AcknowledgeJobInput{}
 	}
 
-	req := c.newRequest(op, input, &AcknowledgeJobOutput{})
-	return AcknowledgeJobRequest{Request: req, Input: input}
+	output := &AcknowledgeJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AcknowledgeJobRequest{Request: req, Input: input, Copy: c.AcknowledgeJobRequest}
 }
 
 const opAcknowledgeThirdPartyJob = "AcknowledgeThirdPartyJob"
@@ -65,6 +69,7 @@ const opAcknowledgeThirdPartyJob = "AcknowledgeThirdPartyJob"
 type AcknowledgeThirdPartyJobRequest struct {
 	*aws.Request
 	Input *AcknowledgeThirdPartyJobInput
+	Copy  func(*AcknowledgeThirdPartyJobInput) AcknowledgeThirdPartyJobRequest
 }
 
 // Send marshals and sends the AcknowledgeThirdPartyJob API request.
@@ -102,8 +107,11 @@ func (c *CodePipeline) AcknowledgeThirdPartyJobRequest(input *AcknowledgeThirdPa
 		input = &AcknowledgeThirdPartyJobInput{}
 	}
 
-	req := c.newRequest(op, input, &AcknowledgeThirdPartyJobOutput{})
-	return AcknowledgeThirdPartyJobRequest{Request: req, Input: input}
+	output := &AcknowledgeThirdPartyJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return AcknowledgeThirdPartyJobRequest{Request: req, Input: input, Copy: c.AcknowledgeThirdPartyJobRequest}
 }
 
 const opCreateCustomActionType = "CreateCustomActionType"
@@ -112,6 +120,7 @@ const opCreateCustomActionType = "CreateCustomActionType"
 type CreateCustomActionTypeRequest struct {
 	*aws.Request
 	Input *CreateCustomActionTypeInput
+	Copy  func(*CreateCustomActionTypeInput) CreateCustomActionTypeRequest
 }
 
 // Send marshals and sends the CreateCustomActionType API request.
@@ -149,8 +158,11 @@ func (c *CodePipeline) CreateCustomActionTypeRequest(input *CreateCustomActionTy
 		input = &CreateCustomActionTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateCustomActionTypeOutput{})
-	return CreateCustomActionTypeRequest{Request: req, Input: input}
+	output := &CreateCustomActionTypeOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateCustomActionTypeRequest{Request: req, Input: input, Copy: c.CreateCustomActionTypeRequest}
 }
 
 const opCreatePipeline = "CreatePipeline"
@@ -159,6 +171,7 @@ const opCreatePipeline = "CreatePipeline"
 type CreatePipelineRequest struct {
 	*aws.Request
 	Input *CreatePipelineInput
+	Copy  func(*CreatePipelineInput) CreatePipelineRequest
 }
 
 // Send marshals and sends the CreatePipeline API request.
@@ -195,8 +208,11 @@ func (c *CodePipeline) CreatePipelineRequest(input *CreatePipelineInput) CreateP
 		input = &CreatePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &CreatePipelineOutput{})
-	return CreatePipelineRequest{Request: req, Input: input}
+	output := &CreatePipelineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreatePipelineRequest{Request: req, Input: input, Copy: c.CreatePipelineRequest}
 }
 
 const opDeleteCustomActionType = "DeleteCustomActionType"
@@ -205,6 +221,7 @@ const opDeleteCustomActionType = "DeleteCustomActionType"
 type DeleteCustomActionTypeRequest struct {
 	*aws.Request
 	Input *DeleteCustomActionTypeInput
+	Copy  func(*DeleteCustomActionTypeInput) DeleteCustomActionTypeRequest
 }
 
 // Send marshals and sends the DeleteCustomActionType API request.
@@ -223,8 +240,11 @@ func (r DeleteCustomActionTypeRequest) Send() (*DeleteCustomActionTypeOutput, er
 // Marks a custom action as deleted. PollForJobs for the custom action will
 // fail after the action is marked for deletion. Only used for custom actions.
 //
-// You cannot recreate a custom action after it has been deleted unless you
-// increase the version number of the action.
+// To re-create a custom action after it has been deleted you must use a string
+// in the version field that has never been used before. This string can be
+// an incremented version number, for example. To restore a deleted custom action,
+// use a JSON file that is identical to the deleted action, including the original
+// string in the version field.
 //
 //    // Example sending a request using the DeleteCustomActionTypeRequest method.
 //    req := client.DeleteCustomActionTypeRequest(params)
@@ -245,10 +265,13 @@ func (c *CodePipeline) DeleteCustomActionTypeRequest(input *DeleteCustomActionTy
 		input = &DeleteCustomActionTypeInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteCustomActionTypeOutput{})
+	output := &DeleteCustomActionTypeOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteCustomActionTypeRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteCustomActionTypeRequest{Request: req, Input: input, Copy: c.DeleteCustomActionTypeRequest}
 }
 
 const opDeletePipeline = "DeletePipeline"
@@ -257,6 +280,7 @@ const opDeletePipeline = "DeletePipeline"
 type DeletePipelineRequest struct {
 	*aws.Request
 	Input *DeletePipelineInput
+	Copy  func(*DeletePipelineInput) DeletePipelineRequest
 }
 
 // Send marshals and sends the DeletePipeline API request.
@@ -293,10 +317,119 @@ func (c *CodePipeline) DeletePipelineRequest(input *DeletePipelineInput) DeleteP
 		input = &DeletePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &DeletePipelineOutput{})
+	output := &DeletePipelineOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeletePipelineRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeletePipelineRequest{Request: req, Input: input, Copy: c.DeletePipelineRequest}
+}
+
+const opDeleteWebhook = "DeleteWebhook"
+
+// DeleteWebhookRequest is a API request type for the DeleteWebhook API operation.
+type DeleteWebhookRequest struct {
+	*aws.Request
+	Input *DeleteWebhookInput
+	Copy  func(*DeleteWebhookInput) DeleteWebhookRequest
+}
+
+// Send marshals and sends the DeleteWebhook API request.
+func (r DeleteWebhookRequest) Send() (*DeleteWebhookOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteWebhookOutput), nil
+}
+
+// DeleteWebhookRequest returns a request value for making API operation for
+// AWS CodePipeline.
+//
+// Deletes a previously created webhook by name. Deleting the webhook stops
+// AWS CodePipeline from starting a pipeline every time an external event occurs.
+// The API will return successfully when trying to delete a webhook that is
+// already deleted. If a deleted webhook is re-created by calling PutWebhook
+// with the same name, it will have a different URL.
+//
+//    // Example sending a request using the DeleteWebhookRequest method.
+//    req := client.DeleteWebhookRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeleteWebhook
+func (c *CodePipeline) DeleteWebhookRequest(input *DeleteWebhookInput) DeleteWebhookRequest {
+	op := &aws.Operation{
+		Name:       opDeleteWebhook,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteWebhookInput{}
+	}
+
+	output := &DeleteWebhookOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteWebhookRequest{Request: req, Input: input, Copy: c.DeleteWebhookRequest}
+}
+
+const opDeregisterWebhookWithThirdParty = "DeregisterWebhookWithThirdParty"
+
+// DeregisterWebhookWithThirdPartyRequest is a API request type for the DeregisterWebhookWithThirdParty API operation.
+type DeregisterWebhookWithThirdPartyRequest struct {
+	*aws.Request
+	Input *DeregisterWebhookWithThirdPartyInput
+	Copy  func(*DeregisterWebhookWithThirdPartyInput) DeregisterWebhookWithThirdPartyRequest
+}
+
+// Send marshals and sends the DeregisterWebhookWithThirdParty API request.
+func (r DeregisterWebhookWithThirdPartyRequest) Send() (*DeregisterWebhookWithThirdPartyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeregisterWebhookWithThirdPartyOutput), nil
+}
+
+// DeregisterWebhookWithThirdPartyRequest returns a request value for making API operation for
+// AWS CodePipeline.
+//
+// Removes the connection between the webhook that was created by CodePipeline
+// and the external tool with events to be detected. Currently only supported
+// for webhooks that target an action type of GitHub.
+//
+//    // Example sending a request using the DeregisterWebhookWithThirdPartyRequest method.
+//    req := client.DeregisterWebhookWithThirdPartyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeregisterWebhookWithThirdParty
+func (c *CodePipeline) DeregisterWebhookWithThirdPartyRequest(input *DeregisterWebhookWithThirdPartyInput) DeregisterWebhookWithThirdPartyRequest {
+	op := &aws.Operation{
+		Name:       opDeregisterWebhookWithThirdParty,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeregisterWebhookWithThirdPartyInput{}
+	}
+
+	output := &DeregisterWebhookWithThirdPartyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeregisterWebhookWithThirdPartyRequest{Request: req, Input: input, Copy: c.DeregisterWebhookWithThirdPartyRequest}
 }
 
 const opDisableStageTransition = "DisableStageTransition"
@@ -305,6 +438,7 @@ const opDisableStageTransition = "DisableStageTransition"
 type DisableStageTransitionRequest struct {
 	*aws.Request
 	Input *DisableStageTransitionInput
+	Copy  func(*DisableStageTransitionInput) DisableStageTransitionRequest
 }
 
 // Send marshals and sends the DisableStageTransition API request.
@@ -342,10 +476,13 @@ func (c *CodePipeline) DisableStageTransitionRequest(input *DisableStageTransiti
 		input = &DisableStageTransitionInput{}
 	}
 
-	req := c.newRequest(op, input, &DisableStageTransitionOutput{})
+	output := &DisableStageTransitionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DisableStageTransitionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DisableStageTransitionRequest{Request: req, Input: input, Copy: c.DisableStageTransitionRequest}
 }
 
 const opEnableStageTransition = "EnableStageTransition"
@@ -354,6 +491,7 @@ const opEnableStageTransition = "EnableStageTransition"
 type EnableStageTransitionRequest struct {
 	*aws.Request
 	Input *EnableStageTransitionInput
+	Copy  func(*EnableStageTransitionInput) EnableStageTransitionRequest
 }
 
 // Send marshals and sends the EnableStageTransition API request.
@@ -390,10 +528,13 @@ func (c *CodePipeline) EnableStageTransitionRequest(input *EnableStageTransition
 		input = &EnableStageTransitionInput{}
 	}
 
-	req := c.newRequest(op, input, &EnableStageTransitionOutput{})
+	output := &EnableStageTransitionOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return EnableStageTransitionRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return EnableStageTransitionRequest{Request: req, Input: input, Copy: c.EnableStageTransitionRequest}
 }
 
 const opGetJobDetails = "GetJobDetails"
@@ -402,6 +543,7 @@ const opGetJobDetails = "GetJobDetails"
 type GetJobDetailsRequest struct {
 	*aws.Request
 	Input *GetJobDetailsInput
+	Copy  func(*GetJobDetailsInput) GetJobDetailsRequest
 }
 
 // Send marshals and sends the GetJobDetails API request.
@@ -443,8 +585,11 @@ func (c *CodePipeline) GetJobDetailsRequest(input *GetJobDetailsInput) GetJobDet
 		input = &GetJobDetailsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetJobDetailsOutput{})
-	return GetJobDetailsRequest{Request: req, Input: input}
+	output := &GetJobDetailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetJobDetailsRequest{Request: req, Input: input, Copy: c.GetJobDetailsRequest}
 }
 
 const opGetPipeline = "GetPipeline"
@@ -453,6 +598,7 @@ const opGetPipeline = "GetPipeline"
 type GetPipelineRequest struct {
 	*aws.Request
 	Input *GetPipelineInput
+	Copy  func(*GetPipelineInput) GetPipelineRequest
 }
 
 // Send marshals and sends the GetPipeline API request.
@@ -491,8 +637,11 @@ func (c *CodePipeline) GetPipelineRequest(input *GetPipelineInput) GetPipelineRe
 		input = &GetPipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPipelineOutput{})
-	return GetPipelineRequest{Request: req, Input: input}
+	output := &GetPipelineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPipelineRequest{Request: req, Input: input, Copy: c.GetPipelineRequest}
 }
 
 const opGetPipelineExecution = "GetPipelineExecution"
@@ -501,6 +650,7 @@ const opGetPipelineExecution = "GetPipelineExecution"
 type GetPipelineExecutionRequest struct {
 	*aws.Request
 	Input *GetPipelineExecutionInput
+	Copy  func(*GetPipelineExecutionInput) GetPipelineExecutionRequest
 }
 
 // Send marshals and sends the GetPipelineExecution API request.
@@ -539,8 +689,11 @@ func (c *CodePipeline) GetPipelineExecutionRequest(input *GetPipelineExecutionIn
 		input = &GetPipelineExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPipelineExecutionOutput{})
-	return GetPipelineExecutionRequest{Request: req, Input: input}
+	output := &GetPipelineExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPipelineExecutionRequest{Request: req, Input: input, Copy: c.GetPipelineExecutionRequest}
 }
 
 const opGetPipelineState = "GetPipelineState"
@@ -549,6 +702,7 @@ const opGetPipelineState = "GetPipelineState"
 type GetPipelineStateRequest struct {
 	*aws.Request
 	Input *GetPipelineStateInput
+	Copy  func(*GetPipelineStateInput) GetPipelineStateRequest
 }
 
 // Send marshals and sends the GetPipelineState API request.
@@ -586,8 +740,11 @@ func (c *CodePipeline) GetPipelineStateRequest(input *GetPipelineStateInput) Get
 		input = &GetPipelineStateInput{}
 	}
 
-	req := c.newRequest(op, input, &GetPipelineStateOutput{})
-	return GetPipelineStateRequest{Request: req, Input: input}
+	output := &GetPipelineStateOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetPipelineStateRequest{Request: req, Input: input, Copy: c.GetPipelineStateRequest}
 }
 
 const opGetThirdPartyJobDetails = "GetThirdPartyJobDetails"
@@ -596,6 +753,7 @@ const opGetThirdPartyJobDetails = "GetThirdPartyJobDetails"
 type GetThirdPartyJobDetailsRequest struct {
 	*aws.Request
 	Input *GetThirdPartyJobDetailsInput
+	Copy  func(*GetThirdPartyJobDetailsInput) GetThirdPartyJobDetailsRequest
 }
 
 // Send marshals and sends the GetThirdPartyJobDetails API request.
@@ -638,8 +796,11 @@ func (c *CodePipeline) GetThirdPartyJobDetailsRequest(input *GetThirdPartyJobDet
 		input = &GetThirdPartyJobDetailsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetThirdPartyJobDetailsOutput{})
-	return GetThirdPartyJobDetailsRequest{Request: req, Input: input}
+	output := &GetThirdPartyJobDetailsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetThirdPartyJobDetailsRequest{Request: req, Input: input, Copy: c.GetThirdPartyJobDetailsRequest}
 }
 
 const opListActionTypes = "ListActionTypes"
@@ -648,6 +809,7 @@ const opListActionTypes = "ListActionTypes"
 type ListActionTypesRequest struct {
 	*aws.Request
 	Input *ListActionTypesInput
+	Copy  func(*ListActionTypesInput) ListActionTypesRequest
 }
 
 // Send marshals and sends the ListActionTypes API request.
@@ -685,8 +847,11 @@ func (c *CodePipeline) ListActionTypesRequest(input *ListActionTypesInput) ListA
 		input = &ListActionTypesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListActionTypesOutput{})
-	return ListActionTypesRequest{Request: req, Input: input}
+	output := &ListActionTypesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListActionTypesRequest{Request: req, Input: input, Copy: c.ListActionTypesRequest}
 }
 
 const opListPipelineExecutions = "ListPipelineExecutions"
@@ -695,6 +860,7 @@ const opListPipelineExecutions = "ListPipelineExecutions"
 type ListPipelineExecutionsRequest struct {
 	*aws.Request
 	Input *ListPipelineExecutionsInput
+	Copy  func(*ListPipelineExecutionsInput) ListPipelineExecutionsRequest
 }
 
 // Send marshals and sends the ListPipelineExecutions API request.
@@ -731,8 +897,11 @@ func (c *CodePipeline) ListPipelineExecutionsRequest(input *ListPipelineExecutio
 		input = &ListPipelineExecutionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPipelineExecutionsOutput{})
-	return ListPipelineExecutionsRequest{Request: req, Input: input}
+	output := &ListPipelineExecutionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPipelineExecutionsRequest{Request: req, Input: input, Copy: c.ListPipelineExecutionsRequest}
 }
 
 const opListPipelines = "ListPipelines"
@@ -741,6 +910,7 @@ const opListPipelines = "ListPipelines"
 type ListPipelinesRequest struct {
 	*aws.Request
 	Input *ListPipelinesInput
+	Copy  func(*ListPipelinesInput) ListPipelinesRequest
 }
 
 // Send marshals and sends the ListPipelines API request.
@@ -777,8 +947,63 @@ func (c *CodePipeline) ListPipelinesRequest(input *ListPipelinesInput) ListPipel
 		input = &ListPipelinesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListPipelinesOutput{})
-	return ListPipelinesRequest{Request: req, Input: input}
+	output := &ListPipelinesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListPipelinesRequest{Request: req, Input: input, Copy: c.ListPipelinesRequest}
+}
+
+const opListWebhooks = "ListWebhooks"
+
+// ListWebhooksRequest is a API request type for the ListWebhooks API operation.
+type ListWebhooksRequest struct {
+	*aws.Request
+	Input *ListWebhooksInput
+	Copy  func(*ListWebhooksInput) ListWebhooksRequest
+}
+
+// Send marshals and sends the ListWebhooks API request.
+func (r ListWebhooksRequest) Send() (*ListWebhooksOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*ListWebhooksOutput), nil
+}
+
+// ListWebhooksRequest returns a request value for making API operation for
+// AWS CodePipeline.
+//
+// Gets a listing of all the webhooks in this region for this account. The output
+// lists all webhooks and includes the webhook URL and ARN, as well the configuration
+// for each webhook.
+//
+//    // Example sending a request using the ListWebhooksRequest method.
+//    req := client.ListWebhooksRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListWebhooks
+func (c *CodePipeline) ListWebhooksRequest(input *ListWebhooksInput) ListWebhooksRequest {
+	op := &aws.Operation{
+		Name:       opListWebhooks,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ListWebhooksInput{}
+	}
+
+	output := &ListWebhooksOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListWebhooksRequest{Request: req, Input: input, Copy: c.ListWebhooksRequest}
 }
 
 const opPollForJobs = "PollForJobs"
@@ -787,6 +1012,7 @@ const opPollForJobs = "PollForJobs"
 type PollForJobsRequest struct {
 	*aws.Request
 	Input *PollForJobsInput
+	Copy  func(*PollForJobsInput) PollForJobsRequest
 }
 
 // Send marshals and sends the PollForJobs API request.
@@ -802,7 +1028,10 @@ func (r PollForJobsRequest) Send() (*PollForJobsOutput, error) {
 // PollForJobsRequest returns a request value for making API operation for
 // AWS CodePipeline.
 //
-// Returns information about any jobs for AWS CodePipeline to act upon.
+// Returns information about any jobs for AWS CodePipeline to act upon. PollForJobs
+// is only valid for action types with "Custom" in the owner field. If the action
+// type contains "AWS" or "ThirdParty" in the owner field, the PollForJobs action
+// returns an error.
 //
 // When this API is called, AWS CodePipeline returns temporary credentials for
 // the Amazon S3 bucket used to store artifacts for the pipeline, if the action
@@ -828,8 +1057,11 @@ func (c *CodePipeline) PollForJobsRequest(input *PollForJobsInput) PollForJobsRe
 		input = &PollForJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &PollForJobsOutput{})
-	return PollForJobsRequest{Request: req, Input: input}
+	output := &PollForJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PollForJobsRequest{Request: req, Input: input, Copy: c.PollForJobsRequest}
 }
 
 const opPollForThirdPartyJobs = "PollForThirdPartyJobs"
@@ -838,6 +1070,7 @@ const opPollForThirdPartyJobs = "PollForThirdPartyJobs"
 type PollForThirdPartyJobsRequest struct {
 	*aws.Request
 	Input *PollForThirdPartyJobsInput
+	Copy  func(*PollForThirdPartyJobsInput) PollForThirdPartyJobsRequest
 }
 
 // Send marshals and sends the PollForThirdPartyJobs API request.
@@ -879,8 +1112,11 @@ func (c *CodePipeline) PollForThirdPartyJobsRequest(input *PollForThirdPartyJobs
 		input = &PollForThirdPartyJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &PollForThirdPartyJobsOutput{})
-	return PollForThirdPartyJobsRequest{Request: req, Input: input}
+	output := &PollForThirdPartyJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PollForThirdPartyJobsRequest{Request: req, Input: input, Copy: c.PollForThirdPartyJobsRequest}
 }
 
 const opPutActionRevision = "PutActionRevision"
@@ -889,6 +1125,7 @@ const opPutActionRevision = "PutActionRevision"
 type PutActionRevisionRequest struct {
 	*aws.Request
 	Input *PutActionRevisionInput
+	Copy  func(*PutActionRevisionInput) PutActionRevisionRequest
 }
 
 // Send marshals and sends the PutActionRevision API request.
@@ -925,8 +1162,11 @@ func (c *CodePipeline) PutActionRevisionRequest(input *PutActionRevisionInput) P
 		input = &PutActionRevisionInput{}
 	}
 
-	req := c.newRequest(op, input, &PutActionRevisionOutput{})
-	return PutActionRevisionRequest{Request: req, Input: input}
+	output := &PutActionRevisionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutActionRevisionRequest{Request: req, Input: input, Copy: c.PutActionRevisionRequest}
 }
 
 const opPutApprovalResult = "PutApprovalResult"
@@ -935,6 +1175,7 @@ const opPutApprovalResult = "PutApprovalResult"
 type PutApprovalResultRequest struct {
 	*aws.Request
 	Input *PutApprovalResultInput
+	Copy  func(*PutApprovalResultInput) PutApprovalResultRequest
 }
 
 // Send marshals and sends the PutApprovalResult API request.
@@ -972,8 +1213,11 @@ func (c *CodePipeline) PutApprovalResultRequest(input *PutApprovalResultInput) P
 		input = &PutApprovalResultInput{}
 	}
 
-	req := c.newRequest(op, input, &PutApprovalResultOutput{})
-	return PutApprovalResultRequest{Request: req, Input: input}
+	output := &PutApprovalResultOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutApprovalResultRequest{Request: req, Input: input, Copy: c.PutApprovalResultRequest}
 }
 
 const opPutJobFailureResult = "PutJobFailureResult"
@@ -982,6 +1226,7 @@ const opPutJobFailureResult = "PutJobFailureResult"
 type PutJobFailureResultRequest struct {
 	*aws.Request
 	Input *PutJobFailureResultInput
+	Copy  func(*PutJobFailureResultInput) PutJobFailureResultRequest
 }
 
 // Send marshals and sends the PutJobFailureResult API request.
@@ -1019,10 +1264,13 @@ func (c *CodePipeline) PutJobFailureResultRequest(input *PutJobFailureResultInpu
 		input = &PutJobFailureResultInput{}
 	}
 
-	req := c.newRequest(op, input, &PutJobFailureResultOutput{})
+	output := &PutJobFailureResultOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutJobFailureResultRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutJobFailureResultRequest{Request: req, Input: input, Copy: c.PutJobFailureResultRequest}
 }
 
 const opPutJobSuccessResult = "PutJobSuccessResult"
@@ -1031,6 +1279,7 @@ const opPutJobSuccessResult = "PutJobSuccessResult"
 type PutJobSuccessResultRequest struct {
 	*aws.Request
 	Input *PutJobSuccessResultInput
+	Copy  func(*PutJobSuccessResultInput) PutJobSuccessResultRequest
 }
 
 // Send marshals and sends the PutJobSuccessResult API request.
@@ -1068,10 +1317,13 @@ func (c *CodePipeline) PutJobSuccessResultRequest(input *PutJobSuccessResultInpu
 		input = &PutJobSuccessResultInput{}
 	}
 
-	req := c.newRequest(op, input, &PutJobSuccessResultOutput{})
+	output := &PutJobSuccessResultOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutJobSuccessResultRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutJobSuccessResultRequest{Request: req, Input: input, Copy: c.PutJobSuccessResultRequest}
 }
 
 const opPutThirdPartyJobFailureResult = "PutThirdPartyJobFailureResult"
@@ -1080,6 +1332,7 @@ const opPutThirdPartyJobFailureResult = "PutThirdPartyJobFailureResult"
 type PutThirdPartyJobFailureResultRequest struct {
 	*aws.Request
 	Input *PutThirdPartyJobFailureResultInput
+	Copy  func(*PutThirdPartyJobFailureResultInput) PutThirdPartyJobFailureResultRequest
 }
 
 // Send marshals and sends the PutThirdPartyJobFailureResult API request.
@@ -1117,10 +1370,13 @@ func (c *CodePipeline) PutThirdPartyJobFailureResultRequest(input *PutThirdParty
 		input = &PutThirdPartyJobFailureResultInput{}
 	}
 
-	req := c.newRequest(op, input, &PutThirdPartyJobFailureResultOutput{})
+	output := &PutThirdPartyJobFailureResultOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutThirdPartyJobFailureResultRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutThirdPartyJobFailureResultRequest{Request: req, Input: input, Copy: c.PutThirdPartyJobFailureResultRequest}
 }
 
 const opPutThirdPartyJobSuccessResult = "PutThirdPartyJobSuccessResult"
@@ -1129,6 +1385,7 @@ const opPutThirdPartyJobSuccessResult = "PutThirdPartyJobSuccessResult"
 type PutThirdPartyJobSuccessResultRequest struct {
 	*aws.Request
 	Input *PutThirdPartyJobSuccessResultInput
+	Copy  func(*PutThirdPartyJobSuccessResultInput) PutThirdPartyJobSuccessResultRequest
 }
 
 // Send marshals and sends the PutThirdPartyJobSuccessResult API request.
@@ -1166,10 +1423,121 @@ func (c *CodePipeline) PutThirdPartyJobSuccessResultRequest(input *PutThirdParty
 		input = &PutThirdPartyJobSuccessResultInput{}
 	}
 
-	req := c.newRequest(op, input, &PutThirdPartyJobSuccessResultOutput{})
+	output := &PutThirdPartyJobSuccessResultOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(jsonrpc.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutThirdPartyJobSuccessResultRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutThirdPartyJobSuccessResultRequest{Request: req, Input: input, Copy: c.PutThirdPartyJobSuccessResultRequest}
+}
+
+const opPutWebhook = "PutWebhook"
+
+// PutWebhookRequest is a API request type for the PutWebhook API operation.
+type PutWebhookRequest struct {
+	*aws.Request
+	Input *PutWebhookInput
+	Copy  func(*PutWebhookInput) PutWebhookRequest
+}
+
+// Send marshals and sends the PutWebhook API request.
+func (r PutWebhookRequest) Send() (*PutWebhookOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*PutWebhookOutput), nil
+}
+
+// PutWebhookRequest returns a request value for making API operation for
+// AWS CodePipeline.
+//
+// Defines a webhook and returns a unique webhook URL generated by CodePipeline.
+// This URL can be supplied to third party source hosting providers to call
+// every time there's a code change. When CodePipeline receives a POST request
+// on this URL, the pipeline defined in the webhook is started as long as the
+// POST request satisfied the authentication and filtering requirements supplied
+// when defining the webhook. RegisterWebhookWithThirdParty and DeregisterWebhookWithThirdParty
+// APIs can be used to automatically configure supported third parties to call
+// the generated webhook URL.
+//
+//    // Example sending a request using the PutWebhookRequest method.
+//    req := client.PutWebhookRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutWebhook
+func (c *CodePipeline) PutWebhookRequest(input *PutWebhookInput) PutWebhookRequest {
+	op := &aws.Operation{
+		Name:       opPutWebhook,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &PutWebhookInput{}
+	}
+
+	output := &PutWebhookOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutWebhookRequest{Request: req, Input: input, Copy: c.PutWebhookRequest}
+}
+
+const opRegisterWebhookWithThirdParty = "RegisterWebhookWithThirdParty"
+
+// RegisterWebhookWithThirdPartyRequest is a API request type for the RegisterWebhookWithThirdParty API operation.
+type RegisterWebhookWithThirdPartyRequest struct {
+	*aws.Request
+	Input *RegisterWebhookWithThirdPartyInput
+	Copy  func(*RegisterWebhookWithThirdPartyInput) RegisterWebhookWithThirdPartyRequest
+}
+
+// Send marshals and sends the RegisterWebhookWithThirdParty API request.
+func (r RegisterWebhookWithThirdPartyRequest) Send() (*RegisterWebhookWithThirdPartyOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*RegisterWebhookWithThirdPartyOutput), nil
+}
+
+// RegisterWebhookWithThirdPartyRequest returns a request value for making API operation for
+// AWS CodePipeline.
+//
+// Configures a connection between the webhook that was created and the external
+// tool with events to be detected.
+//
+//    // Example sending a request using the RegisterWebhookWithThirdPartyRequest method.
+//    req := client.RegisterWebhookWithThirdPartyRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/RegisterWebhookWithThirdParty
+func (c *CodePipeline) RegisterWebhookWithThirdPartyRequest(input *RegisterWebhookWithThirdPartyInput) RegisterWebhookWithThirdPartyRequest {
+	op := &aws.Operation{
+		Name:       opRegisterWebhookWithThirdParty,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &RegisterWebhookWithThirdPartyInput{}
+	}
+
+	output := &RegisterWebhookWithThirdPartyOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RegisterWebhookWithThirdPartyRequest{Request: req, Input: input, Copy: c.RegisterWebhookWithThirdPartyRequest}
 }
 
 const opRetryStageExecution = "RetryStageExecution"
@@ -1178,6 +1546,7 @@ const opRetryStageExecution = "RetryStageExecution"
 type RetryStageExecutionRequest struct {
 	*aws.Request
 	Input *RetryStageExecutionInput
+	Copy  func(*RetryStageExecutionInput) RetryStageExecutionRequest
 }
 
 // Send marshals and sends the RetryStageExecution API request.
@@ -1214,8 +1583,11 @@ func (c *CodePipeline) RetryStageExecutionRequest(input *RetryStageExecutionInpu
 		input = &RetryStageExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &RetryStageExecutionOutput{})
-	return RetryStageExecutionRequest{Request: req, Input: input}
+	output := &RetryStageExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RetryStageExecutionRequest{Request: req, Input: input, Copy: c.RetryStageExecutionRequest}
 }
 
 const opStartPipelineExecution = "StartPipelineExecution"
@@ -1224,6 +1596,7 @@ const opStartPipelineExecution = "StartPipelineExecution"
 type StartPipelineExecutionRequest struct {
 	*aws.Request
 	Input *StartPipelineExecutionInput
+	Copy  func(*StartPipelineExecutionInput) StartPipelineExecutionRequest
 }
 
 // Send marshals and sends the StartPipelineExecution API request.
@@ -1261,8 +1634,11 @@ func (c *CodePipeline) StartPipelineExecutionRequest(input *StartPipelineExecuti
 		input = &StartPipelineExecutionInput{}
 	}
 
-	req := c.newRequest(op, input, &StartPipelineExecutionOutput{})
-	return StartPipelineExecutionRequest{Request: req, Input: input}
+	output := &StartPipelineExecutionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StartPipelineExecutionRequest{Request: req, Input: input, Copy: c.StartPipelineExecutionRequest}
 }
 
 const opUpdatePipeline = "UpdatePipeline"
@@ -1271,6 +1647,7 @@ const opUpdatePipeline = "UpdatePipeline"
 type UpdatePipelineRequest struct {
 	*aws.Request
 	Input *UpdatePipelineInput
+	Copy  func(*UpdatePipelineInput) UpdatePipelineRequest
 }
 
 // Send marshals and sends the UpdatePipeline API request.
@@ -1310,8 +1687,11 @@ func (c *CodePipeline) UpdatePipelineRequest(input *UpdatePipelineInput) UpdateP
 		input = &UpdatePipelineInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdatePipelineOutput{})
-	return UpdatePipelineRequest{Request: req, Input: input}
+	output := &UpdatePipelineOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdatePipelineRequest{Request: req, Input: input, Copy: c.UpdatePipelineRequest}
 }
 
 // Represents an AWS session credentials object. These credentials are temporary
@@ -1348,24 +1728,6 @@ func (s AWSSessionCredentials) GoString() string {
 	return s.String()
 }
 
-// SetAccessKeyId sets the AccessKeyId field's value.
-func (s *AWSSessionCredentials) SetAccessKeyId(v string) *AWSSessionCredentials {
-	s.AccessKeyId = &v
-	return s
-}
-
-// SetSecretAccessKey sets the SecretAccessKey field's value.
-func (s *AWSSessionCredentials) SetSecretAccessKey(v string) *AWSSessionCredentials {
-	s.SecretAccessKey = &v
-	return s
-}
-
-// SetSessionToken sets the SessionToken field's value.
-func (s *AWSSessionCredentials) SetSessionToken(v string) *AWSSessionCredentials {
-	s.SessionToken = &v
-	return s
-}
-
 // Represents the input of an AcknowledgeJob action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/AcknowledgeJobInput
 type AcknowledgeJobInput struct {
@@ -1381,7 +1743,7 @@ type AcknowledgeJobInput struct {
 	// response of the PollForJobs request that returned this job.
 	//
 	// Nonce is a required field
-	Nonce *string `locationName:"nonce" type:"string" required:"true"`
+	Nonce *string `locationName:"nonce" min:"1" type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -1405,6 +1767,9 @@ func (s *AcknowledgeJobInput) Validate() error {
 	if s.Nonce == nil {
 		invalidParams.Add(aws.NewErrParamRequired("Nonce"))
 	}
+	if s.Nonce != nil && len(*s.Nonce) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Nonce", 1))
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -1412,25 +1777,15 @@ func (s *AcknowledgeJobInput) Validate() error {
 	return nil
 }
 
-// SetJobId sets the JobId field's value.
-func (s *AcknowledgeJobInput) SetJobId(v string) *AcknowledgeJobInput {
-	s.JobId = &v
-	return s
-}
-
-// SetNonce sets the Nonce field's value.
-func (s *AcknowledgeJobInput) SetNonce(v string) *AcknowledgeJobInput {
-	s.Nonce = &v
-	return s
-}
-
 // Represents the output of an AcknowledgeJob action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/AcknowledgeJobOutput
 type AcknowledgeJobOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Whether the job worker has received the specified job.
-	Status JobStatus `locationName:"status" type:"string"`
+	Status JobStatus `locationName:"status" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1443,10 +1798,9 @@ func (s AcknowledgeJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *AcknowledgeJobOutput) SetStatus(v JobStatus) *AcknowledgeJobOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AcknowledgeJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of an AcknowledgeThirdPartyJob action.
@@ -1470,7 +1824,7 @@ type AcknowledgeThirdPartyJobInput struct {
 	// response to a GetThirdPartyJobDetails request.
 	//
 	// Nonce is a required field
-	Nonce *string `locationName:"nonce" type:"string" required:"true"`
+	Nonce *string `locationName:"nonce" min:"1" type:"string" required:"true"`
 }
 
 // String returns the string representation
@@ -1504,6 +1858,9 @@ func (s *AcknowledgeThirdPartyJobInput) Validate() error {
 	if s.Nonce == nil {
 		invalidParams.Add(aws.NewErrParamRequired("Nonce"))
 	}
+	if s.Nonce != nil && len(*s.Nonce) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Nonce", 1))
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
@@ -1511,31 +1868,15 @@ func (s *AcknowledgeThirdPartyJobInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *AcknowledgeThirdPartyJobInput) SetClientToken(v string) *AcknowledgeThirdPartyJobInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *AcknowledgeThirdPartyJobInput) SetJobId(v string) *AcknowledgeThirdPartyJobInput {
-	s.JobId = &v
-	return s
-}
-
-// SetNonce sets the Nonce field's value.
-func (s *AcknowledgeThirdPartyJobInput) SetNonce(v string) *AcknowledgeThirdPartyJobInput {
-	s.Nonce = &v
-	return s
-}
-
 // Represents the output of an AcknowledgeThirdPartyJob action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/AcknowledgeThirdPartyJobOutput
 type AcknowledgeThirdPartyJobOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The status information for the third party job, if any.
-	Status JobStatus `locationName:"status" type:"string"`
+	Status JobStatus `locationName:"status" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1548,10 +1889,9 @@ func (s AcknowledgeThirdPartyJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetStatus sets the Status field's value.
-func (s *AcknowledgeThirdPartyJobOutput) SetStatus(v JobStatus) *AcknowledgeThirdPartyJobOutput {
-	s.Status = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s AcknowledgeThirdPartyJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents information about an action configuration.
@@ -1560,7 +1900,7 @@ type ActionConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// The configuration data for the action.
-	Configuration map[string]*string `locationName:"configuration" type:"map"`
+	Configuration map[string]string `locationName:"configuration" type:"map"`
 }
 
 // String returns the string representation
@@ -1571,12 +1911,6 @@ func (s ActionConfiguration) String() string {
 // GoString returns the string representation
 func (s ActionConfiguration) GoString() string {
 	return s.String()
-}
-
-// SetConfiguration sets the Configuration field's value.
-func (s *ActionConfiguration) SetConfiguration(v map[string]*string) *ActionConfiguration {
-	s.Configuration = v
-	return s
 }
 
 // Represents information about an action configuration property.
@@ -1625,7 +1959,7 @@ type ActionConfigurationProperty struct {
 	Secret *bool `locationName:"secret" type:"boolean" required:"true"`
 
 	// The type of the configuration property.
-	Type ActionConfigurationPropertyType `locationName:"type" type:"string"`
+	Type ActionConfigurationPropertyType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -1670,48 +2004,6 @@ func (s *ActionConfigurationProperty) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *ActionConfigurationProperty) SetDescription(v string) *ActionConfigurationProperty {
-	s.Description = &v
-	return s
-}
-
-// SetKey sets the Key field's value.
-func (s *ActionConfigurationProperty) SetKey(v bool) *ActionConfigurationProperty {
-	s.Key = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ActionConfigurationProperty) SetName(v string) *ActionConfigurationProperty {
-	s.Name = &v
-	return s
-}
-
-// SetQueryable sets the Queryable field's value.
-func (s *ActionConfigurationProperty) SetQueryable(v bool) *ActionConfigurationProperty {
-	s.Queryable = &v
-	return s
-}
-
-// SetRequired sets the Required field's value.
-func (s *ActionConfigurationProperty) SetRequired(v bool) *ActionConfigurationProperty {
-	s.Required = &v
-	return s
-}
-
-// SetSecret sets the Secret field's value.
-func (s *ActionConfigurationProperty) SetSecret(v bool) *ActionConfigurationProperty {
-	s.Secret = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ActionConfigurationProperty) SetType(v ActionConfigurationPropertyType) *ActionConfigurationProperty {
-	s.Type = v
-	return s
-}
-
 // Represents the context of an action within the stage of a pipeline to a job
 // worker.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ActionContext
@@ -1732,12 +2024,6 @@ func (s ActionContext) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *ActionContext) SetName(v string) *ActionContext {
-	s.Name = &v
-	return s
-}
-
 // Represents information about an action declaration.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ActionDeclaration
 type ActionDeclaration struct {
@@ -1749,11 +2035,11 @@ type ActionDeclaration struct {
 	ActionTypeId *ActionTypeId `locationName:"actionTypeId" type:"structure" required:"true"`
 
 	// The action declaration's configuration.
-	Configuration map[string]*string `locationName:"configuration" type:"map"`
+	Configuration map[string]string `locationName:"configuration" type:"map"`
 
 	// The name or ID of the artifact consumed by the action, such as a test or
 	// build artifact.
-	InputArtifacts []*InputArtifact `locationName:"inputArtifacts" type:"list"`
+	InputArtifacts []InputArtifact `locationName:"inputArtifacts" type:"list"`
 
 	// The action declaration's name.
 	//
@@ -1762,7 +2048,7 @@ type ActionDeclaration struct {
 
 	// The name or ID of the result of the action declaration, such as a test or
 	// build artifact.
-	OutputArtifacts []*OutputArtifact `locationName:"outputArtifacts" type:"list"`
+	OutputArtifacts []OutputArtifact `locationName:"outputArtifacts" type:"list"`
 
 	// The ARN of the IAM service role that will perform the declared action. This
 	// is assumed through the roleArn for the pipeline.
@@ -1806,9 +2092,6 @@ func (s *ActionDeclaration) Validate() error {
 	}
 	if s.InputArtifacts != nil {
 		for i, v := range s.InputArtifacts {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "InputArtifacts", i), err.(aws.ErrInvalidParams))
 			}
@@ -1816,9 +2099,6 @@ func (s *ActionDeclaration) Validate() error {
 	}
 	if s.OutputArtifacts != nil {
 		for i, v := range s.OutputArtifacts {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "OutputArtifacts", i), err.(aws.ErrInvalidParams))
 			}
@@ -1829,48 +2109,6 @@ func (s *ActionDeclaration) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetActionTypeId sets the ActionTypeId field's value.
-func (s *ActionDeclaration) SetActionTypeId(v *ActionTypeId) *ActionDeclaration {
-	s.ActionTypeId = v
-	return s
-}
-
-// SetConfiguration sets the Configuration field's value.
-func (s *ActionDeclaration) SetConfiguration(v map[string]*string) *ActionDeclaration {
-	s.Configuration = v
-	return s
-}
-
-// SetInputArtifacts sets the InputArtifacts field's value.
-func (s *ActionDeclaration) SetInputArtifacts(v []*InputArtifact) *ActionDeclaration {
-	s.InputArtifacts = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ActionDeclaration) SetName(v string) *ActionDeclaration {
-	s.Name = &v
-	return s
-}
-
-// SetOutputArtifacts sets the OutputArtifacts field's value.
-func (s *ActionDeclaration) SetOutputArtifacts(v []*OutputArtifact) *ActionDeclaration {
-	s.OutputArtifacts = v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *ActionDeclaration) SetRoleArn(v string) *ActionDeclaration {
-	s.RoleArn = &v
-	return s
-}
-
-// SetRunOrder sets the RunOrder field's value.
-func (s *ActionDeclaration) SetRunOrder(v int64) *ActionDeclaration {
-	s.RunOrder = &v
-	return s
 }
 
 // Represents information about the run of an action.
@@ -1899,10 +2137,10 @@ type ActionExecution struct {
 
 	// The status of the action, or for a completed action, the last status of the
 	// action.
-	Status ActionExecutionStatus `locationName:"status" type:"string"`
+	Status ActionExecutionStatus `locationName:"status" type:"string" enum:"true"`
 
 	// A summary of the run of the action.
-	Summary *string `locationName:"summary" type:"string"`
+	Summary *string `locationName:"summary" min:"1" type:"string"`
 
 	// The system-generated token used to identify a unique approval request. The
 	// token for each open approval request can be obtained using the GetPipelineState
@@ -1919,60 +2157,6 @@ func (s ActionExecution) String() string {
 // GoString returns the string representation
 func (s ActionExecution) GoString() string {
 	return s.String()
-}
-
-// SetErrorDetails sets the ErrorDetails field's value.
-func (s *ActionExecution) SetErrorDetails(v *ErrorDetails) *ActionExecution {
-	s.ErrorDetails = v
-	return s
-}
-
-// SetExternalExecutionId sets the ExternalExecutionId field's value.
-func (s *ActionExecution) SetExternalExecutionId(v string) *ActionExecution {
-	s.ExternalExecutionId = &v
-	return s
-}
-
-// SetExternalExecutionUrl sets the ExternalExecutionUrl field's value.
-func (s *ActionExecution) SetExternalExecutionUrl(v string) *ActionExecution {
-	s.ExternalExecutionUrl = &v
-	return s
-}
-
-// SetLastStatusChange sets the LastStatusChange field's value.
-func (s *ActionExecution) SetLastStatusChange(v time.Time) *ActionExecution {
-	s.LastStatusChange = &v
-	return s
-}
-
-// SetLastUpdatedBy sets the LastUpdatedBy field's value.
-func (s *ActionExecution) SetLastUpdatedBy(v string) *ActionExecution {
-	s.LastUpdatedBy = &v
-	return s
-}
-
-// SetPercentComplete sets the PercentComplete field's value.
-func (s *ActionExecution) SetPercentComplete(v int64) *ActionExecution {
-	s.PercentComplete = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *ActionExecution) SetStatus(v ActionExecutionStatus) *ActionExecution {
-	s.Status = v
-	return s
-}
-
-// SetSummary sets the Summary field's value.
-func (s *ActionExecution) SetSummary(v string) *ActionExecution {
-	s.Summary = &v
-	return s
-}
-
-// SetToken sets the Token field's value.
-func (s *ActionExecution) SetToken(v string) *ActionExecution {
-	s.Token = &v
-	return s
 }
 
 // Represents information about the version (or revision) of an action.
@@ -2037,24 +2221,6 @@ func (s *ActionRevision) Validate() error {
 	return nil
 }
 
-// SetCreated sets the Created field's value.
-func (s *ActionRevision) SetCreated(v time.Time) *ActionRevision {
-	s.Created = &v
-	return s
-}
-
-// SetRevisionChangeId sets the RevisionChangeId field's value.
-func (s *ActionRevision) SetRevisionChangeId(v string) *ActionRevision {
-	s.RevisionChangeId = &v
-	return s
-}
-
-// SetRevisionId sets the RevisionId field's value.
-func (s *ActionRevision) SetRevisionId(v string) *ActionRevision {
-	s.RevisionId = &v
-	return s
-}
-
 // Represents information about the state of an action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ActionState
 type ActionState struct {
@@ -2088,43 +2254,13 @@ func (s ActionState) GoString() string {
 	return s.String()
 }
 
-// SetActionName sets the ActionName field's value.
-func (s *ActionState) SetActionName(v string) *ActionState {
-	s.ActionName = &v
-	return s
-}
-
-// SetCurrentRevision sets the CurrentRevision field's value.
-func (s *ActionState) SetCurrentRevision(v *ActionRevision) *ActionState {
-	s.CurrentRevision = v
-	return s
-}
-
-// SetEntityUrl sets the EntityUrl field's value.
-func (s *ActionState) SetEntityUrl(v string) *ActionState {
-	s.EntityUrl = &v
-	return s
-}
-
-// SetLatestExecution sets the LatestExecution field's value.
-func (s *ActionState) SetLatestExecution(v *ActionExecution) *ActionState {
-	s.LatestExecution = v
-	return s
-}
-
-// SetRevisionUrl sets the RevisionUrl field's value.
-func (s *ActionState) SetRevisionUrl(v string) *ActionState {
-	s.RevisionUrl = &v
-	return s
-}
-
 // Returns information about the details of an action type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ActionType
 type ActionType struct {
 	_ struct{} `type:"structure"`
 
 	// The configuration properties for the action type.
-	ActionConfigurationProperties []*ActionConfigurationProperty `locationName:"actionConfigurationProperties" type:"list"`
+	ActionConfigurationProperties []ActionConfigurationProperty `locationName:"actionConfigurationProperties" type:"list"`
 
 	// Represents information about an action type.
 	//
@@ -2155,36 +2291,6 @@ func (s ActionType) GoString() string {
 	return s.String()
 }
 
-// SetActionConfigurationProperties sets the ActionConfigurationProperties field's value.
-func (s *ActionType) SetActionConfigurationProperties(v []*ActionConfigurationProperty) *ActionType {
-	s.ActionConfigurationProperties = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *ActionType) SetId(v *ActionTypeId) *ActionType {
-	s.Id = v
-	return s
-}
-
-// SetInputArtifactDetails sets the InputArtifactDetails field's value.
-func (s *ActionType) SetInputArtifactDetails(v *ArtifactDetails) *ActionType {
-	s.InputArtifactDetails = v
-	return s
-}
-
-// SetOutputArtifactDetails sets the OutputArtifactDetails field's value.
-func (s *ActionType) SetOutputArtifactDetails(v *ArtifactDetails) *ActionType {
-	s.OutputArtifactDetails = v
-	return s
-}
-
-// SetSettings sets the Settings field's value.
-func (s *ActionType) SetSettings(v *ActionTypeSettings) *ActionType {
-	s.Settings = v
-	return s
-}
-
 // Represents information about an action type.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ActionTypeId
 type ActionTypeId struct {
@@ -2195,12 +2301,12 @@ type ActionTypeId struct {
 	// the values below.
 	//
 	// Category is a required field
-	Category ActionCategory `locationName:"category" type:"string" required:"true"`
+	Category ActionCategory `locationName:"category" type:"string" required:"true" enum:"true"`
 
 	// The creator of the action being called.
 	//
 	// Owner is a required field
-	Owner ActionOwner `locationName:"owner" type:"string" required:"true"`
+	Owner ActionOwner `locationName:"owner" type:"string" required:"true" enum:"true"`
 
 	// The provider of the service being called by the action. Valid providers are
 	// determined by the action category. For example, an action in the Deploy category
@@ -2210,7 +2316,7 @@ type ActionTypeId struct {
 	// Provider is a required field
 	Provider *string `locationName:"provider" min:"1" type:"string" required:"true"`
 
-	// A string that identifies the action type.
+	// A string that describes the action version.
 	//
 	// Version is a required field
 	Version *string `locationName:"version" min:"1" type:"string" required:"true"`
@@ -2254,30 +2360,6 @@ func (s *ActionTypeId) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetCategory sets the Category field's value.
-func (s *ActionTypeId) SetCategory(v ActionCategory) *ActionTypeId {
-	s.Category = v
-	return s
-}
-
-// SetOwner sets the Owner field's value.
-func (s *ActionTypeId) SetOwner(v ActionOwner) *ActionTypeId {
-	s.Owner = v
-	return s
-}
-
-// SetProvider sets the Provider field's value.
-func (s *ActionTypeId) SetProvider(v string) *ActionTypeId {
-	s.Provider = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *ActionTypeId) SetVersion(v string) *ActionTypeId {
-	s.Version = &v
-	return s
 }
 
 // Returns information about the settings for an action type.
@@ -2340,30 +2422,6 @@ func (s *ActionTypeSettings) Validate() error {
 	return nil
 }
 
-// SetEntityUrlTemplate sets the EntityUrlTemplate field's value.
-func (s *ActionTypeSettings) SetEntityUrlTemplate(v string) *ActionTypeSettings {
-	s.EntityUrlTemplate = &v
-	return s
-}
-
-// SetExecutionUrlTemplate sets the ExecutionUrlTemplate field's value.
-func (s *ActionTypeSettings) SetExecutionUrlTemplate(v string) *ActionTypeSettings {
-	s.ExecutionUrlTemplate = &v
-	return s
-}
-
-// SetRevisionUrlTemplate sets the RevisionUrlTemplate field's value.
-func (s *ActionTypeSettings) SetRevisionUrlTemplate(v string) *ActionTypeSettings {
-	s.RevisionUrlTemplate = &v
-	return s
-}
-
-// SetThirdPartyConfigurationUrl sets the ThirdPartyConfigurationUrl field's value.
-func (s *ActionTypeSettings) SetThirdPartyConfigurationUrl(v string) *ActionTypeSettings {
-	s.ThirdPartyConfigurationUrl = &v
-	return s
-}
-
 // Represents information about the result of an approval request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ApprovalResult
 type ApprovalResult struct {
@@ -2372,7 +2430,7 @@ type ApprovalResult struct {
 	// The response submitted by a reviewer assigned to an approval action request.
 	//
 	// Status is a required field
-	Status ApprovalStatus `locationName:"status" type:"string" required:"true"`
+	Status ApprovalStatus `locationName:"status" type:"string" required:"true" enum:"true"`
 
 	// The summary of the current status of the approval request.
 	//
@@ -2407,18 +2465,6 @@ func (s *ApprovalResult) Validate() error {
 	return nil
 }
 
-// SetStatus sets the Status field's value.
-func (s *ApprovalResult) SetStatus(v ApprovalStatus) *ApprovalResult {
-	s.Status = v
-	return s
-}
-
-// SetSummary sets the Summary field's value.
-func (s *ApprovalResult) SetSummary(v string) *ApprovalResult {
-	s.Summary = &v
-	return s
-}
-
 // Represents information about an artifact that will be worked upon by actions
 // in the pipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/Artifact
@@ -2444,24 +2490,6 @@ func (s Artifact) String() string {
 // GoString returns the string representation
 func (s Artifact) GoString() string {
 	return s.String()
-}
-
-// SetLocation sets the Location field's value.
-func (s *Artifact) SetLocation(v *ArtifactLocation) *Artifact {
-	s.Location = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Artifact) SetName(v string) *Artifact {
-	s.Name = &v
-	return s
-}
-
-// SetRevision sets the Revision field's value.
-func (s *Artifact) SetRevision(v string) *Artifact {
-	s.Revision = &v
-	return s
 }
 
 // Returns information about the details of an artifact.
@@ -2508,18 +2536,6 @@ func (s *ArtifactDetails) Validate() error {
 	return nil
 }
 
-// SetMaximumCount sets the MaximumCount field's value.
-func (s *ArtifactDetails) SetMaximumCount(v int64) *ArtifactDetails {
-	s.MaximumCount = &v
-	return s
-}
-
-// SetMinimumCount sets the MinimumCount field's value.
-func (s *ArtifactDetails) SetMinimumCount(v int64) *ArtifactDetails {
-	s.MinimumCount = &v
-	return s
-}
-
 // Represents information about the location of an artifact.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ArtifactLocation
 type ArtifactLocation struct {
@@ -2529,7 +2545,7 @@ type ArtifactLocation struct {
 	S3Location *S3ArtifactLocation `locationName:"s3Location" type:"structure"`
 
 	// The type of artifact in the location.
-	Type ArtifactLocationType `locationName:"type" type:"string"`
+	Type ArtifactLocationType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -2540,18 +2556,6 @@ func (s ArtifactLocation) String() string {
 // GoString returns the string representation
 func (s ArtifactLocation) GoString() string {
 	return s.String()
-}
-
-// SetS3Location sets the S3Location field's value.
-func (s *ArtifactLocation) SetS3Location(v *S3ArtifactLocation) *ArtifactLocation {
-	s.S3Location = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ArtifactLocation) SetType(v ArtifactLocationType) *ArtifactLocation {
-	s.Type = v
-	return s
 }
 
 // Represents revision details of an artifact.
@@ -2596,42 +2600,6 @@ func (s ArtifactRevision) GoString() string {
 	return s.String()
 }
 
-// SetCreated sets the Created field's value.
-func (s *ArtifactRevision) SetCreated(v time.Time) *ArtifactRevision {
-	s.Created = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ArtifactRevision) SetName(v string) *ArtifactRevision {
-	s.Name = &v
-	return s
-}
-
-// SetRevisionChangeIdentifier sets the RevisionChangeIdentifier field's value.
-func (s *ArtifactRevision) SetRevisionChangeIdentifier(v string) *ArtifactRevision {
-	s.RevisionChangeIdentifier = &v
-	return s
-}
-
-// SetRevisionId sets the RevisionId field's value.
-func (s *ArtifactRevision) SetRevisionId(v string) *ArtifactRevision {
-	s.RevisionId = &v
-	return s
-}
-
-// SetRevisionSummary sets the RevisionSummary field's value.
-func (s *ArtifactRevision) SetRevisionSummary(v string) *ArtifactRevision {
-	s.RevisionSummary = &v
-	return s
-}
-
-// SetRevisionUrl sets the RevisionUrl field's value.
-func (s *ArtifactRevision) SetRevisionUrl(v string) *ArtifactRevision {
-	s.RevisionUrl = &v
-	return s
-}
-
 // The Amazon S3 bucket where artifacts are stored for the pipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ArtifactStore
 type ArtifactStore struct {
@@ -2654,7 +2622,7 @@ type ArtifactStore struct {
 	// The type of the artifact store, such as S3.
 	//
 	// Type is a required field
-	Type ArtifactStoreType `locationName:"type" type:"string" required:"true"`
+	Type ArtifactStoreType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -2692,24 +2660,6 @@ func (s *ArtifactStore) Validate() error {
 	return nil
 }
 
-// SetEncryptionKey sets the EncryptionKey field's value.
-func (s *ArtifactStore) SetEncryptionKey(v *EncryptionKey) *ArtifactStore {
-	s.EncryptionKey = v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *ArtifactStore) SetLocation(v string) *ArtifactStore {
-	s.Location = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ArtifactStore) SetType(v ArtifactStoreType) *ArtifactStore {
-	s.Type = v
-	return s
-}
-
 // Reserved for future use.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/BlockerDeclaration
 type BlockerDeclaration struct {
@@ -2723,7 +2673,7 @@ type BlockerDeclaration struct {
 	// Reserved for future use.
 	//
 	// Type is a required field
-	Type BlockerType `locationName:"type" type:"string" required:"true"`
+	Type BlockerType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -2756,18 +2706,6 @@ func (s *BlockerDeclaration) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *BlockerDeclaration) SetName(v string) *BlockerDeclaration {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *BlockerDeclaration) SetType(v BlockerType) *BlockerDeclaration {
-	s.Type = v
-	return s
-}
-
 // Represents the input of a CreateCustomActionType operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/CreateCustomActionTypeInput
 type CreateCustomActionTypeInput struct {
@@ -2779,7 +2717,7 @@ type CreateCustomActionTypeInput struct {
 	// functional. These values are reserved for future use.
 	//
 	// Category is a required field
-	Category ActionCategory `locationName:"category" type:"string" required:"true"`
+	Category ActionCategory `locationName:"category" type:"string" required:"true" enum:"true"`
 
 	// The configuration properties for the custom action.
 	//
@@ -2787,7 +2725,7 @@ type CreateCustomActionTypeInput struct {
 	// within the URL templates by following the format of {Config:name}, as long
 	// as the configuration property is both required and not secret. For more information,
 	// see Create a Custom Action for a Pipeline (http://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html).
-	ConfigurationProperties []*ActionConfigurationProperty `locationName:"configurationProperties" type:"list"`
+	ConfigurationProperties []ActionConfigurationProperty `locationName:"configurationProperties" type:"list"`
 
 	// The details of the input artifact for the action, such as its commit ID.
 	//
@@ -2853,9 +2791,6 @@ func (s *CreateCustomActionTypeInput) Validate() error {
 	}
 	if s.ConfigurationProperties != nil {
 		for i, v := range s.ConfigurationProperties {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "ConfigurationProperties", i), err.(aws.ErrInvalidParams))
 			}
@@ -2883,52 +2818,12 @@ func (s *CreateCustomActionTypeInput) Validate() error {
 	return nil
 }
 
-// SetCategory sets the Category field's value.
-func (s *CreateCustomActionTypeInput) SetCategory(v ActionCategory) *CreateCustomActionTypeInput {
-	s.Category = v
-	return s
-}
-
-// SetConfigurationProperties sets the ConfigurationProperties field's value.
-func (s *CreateCustomActionTypeInput) SetConfigurationProperties(v []*ActionConfigurationProperty) *CreateCustomActionTypeInput {
-	s.ConfigurationProperties = v
-	return s
-}
-
-// SetInputArtifactDetails sets the InputArtifactDetails field's value.
-func (s *CreateCustomActionTypeInput) SetInputArtifactDetails(v *ArtifactDetails) *CreateCustomActionTypeInput {
-	s.InputArtifactDetails = v
-	return s
-}
-
-// SetOutputArtifactDetails sets the OutputArtifactDetails field's value.
-func (s *CreateCustomActionTypeInput) SetOutputArtifactDetails(v *ArtifactDetails) *CreateCustomActionTypeInput {
-	s.OutputArtifactDetails = v
-	return s
-}
-
-// SetProvider sets the Provider field's value.
-func (s *CreateCustomActionTypeInput) SetProvider(v string) *CreateCustomActionTypeInput {
-	s.Provider = &v
-	return s
-}
-
-// SetSettings sets the Settings field's value.
-func (s *CreateCustomActionTypeInput) SetSettings(v *ActionTypeSettings) *CreateCustomActionTypeInput {
-	s.Settings = v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *CreateCustomActionTypeInput) SetVersion(v string) *CreateCustomActionTypeInput {
-	s.Version = &v
-	return s
-}
-
 // Represents the output of a CreateCustomActionType operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/CreateCustomActionTypeOutput
 type CreateCustomActionTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Returns information about the details of an action type.
 	//
@@ -2946,10 +2841,9 @@ func (s CreateCustomActionTypeOutput) GoString() string {
 	return s.String()
 }
 
-// SetActionType sets the ActionType field's value.
-func (s *CreateCustomActionTypeOutput) SetActionType(v *ActionType) *CreateCustomActionTypeOutput {
-	s.ActionType = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateCustomActionTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a CreatePipeline action.
@@ -2992,16 +2886,12 @@ func (s *CreatePipelineInput) Validate() error {
 	return nil
 }
 
-// SetPipeline sets the Pipeline field's value.
-func (s *CreatePipelineInput) SetPipeline(v *PipelineDeclaration) *CreatePipelineInput {
-	s.Pipeline = v
-	return s
-}
-
 // Represents the output of a CreatePipeline action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/CreatePipelineOutput
 type CreatePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Represents the structure of actions and stages to be performed in the pipeline.
 	Pipeline *PipelineDeclaration `locationName:"pipeline" type:"structure"`
@@ -3017,10 +2907,9 @@ func (s CreatePipelineOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipeline sets the Pipeline field's value.
-func (s *CreatePipelineOutput) SetPipeline(v *PipelineDeclaration) *CreatePipelineOutput {
-	s.Pipeline = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreatePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents information about a current revision.
@@ -3083,30 +2972,6 @@ func (s *CurrentRevision) Validate() error {
 	return nil
 }
 
-// SetChangeIdentifier sets the ChangeIdentifier field's value.
-func (s *CurrentRevision) SetChangeIdentifier(v string) *CurrentRevision {
-	s.ChangeIdentifier = &v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *CurrentRevision) SetCreated(v time.Time) *CurrentRevision {
-	s.Created = &v
-	return s
-}
-
-// SetRevision sets the Revision field's value.
-func (s *CurrentRevision) SetRevision(v string) *CurrentRevision {
-	s.Revision = &v
-	return s
-}
-
-// SetRevisionSummary sets the RevisionSummary field's value.
-func (s *CurrentRevision) SetRevisionSummary(v string) *CurrentRevision {
-	s.RevisionSummary = &v
-	return s
-}
-
 // Represents the input of a DeleteCustomActionType operation. The custom action
 // will be marked as deleted.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeleteCustomActionTypeInput
@@ -3117,7 +2982,7 @@ type DeleteCustomActionTypeInput struct {
 	// or deploy.
 	//
 	// Category is a required field
-	Category ActionCategory `locationName:"category" type:"string" required:"true"`
+	Category ActionCategory `locationName:"category" type:"string" required:"true" enum:"true"`
 
 	// The provider of the service used in the custom action, such as AWS CodeDeploy.
 	//
@@ -3167,27 +3032,11 @@ func (s *DeleteCustomActionTypeInput) Validate() error {
 	return nil
 }
 
-// SetCategory sets the Category field's value.
-func (s *DeleteCustomActionTypeInput) SetCategory(v ActionCategory) *DeleteCustomActionTypeInput {
-	s.Category = v
-	return s
-}
-
-// SetProvider sets the Provider field's value.
-func (s *DeleteCustomActionTypeInput) SetProvider(v string) *DeleteCustomActionTypeInput {
-	s.Provider = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *DeleteCustomActionTypeInput) SetVersion(v string) *DeleteCustomActionTypeInput {
-	s.Version = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeleteCustomActionTypeOutput
 type DeleteCustomActionTypeOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3198,6 +3047,11 @@ func (s DeleteCustomActionTypeOutput) String() string {
 // GoString returns the string representation
 func (s DeleteCustomActionTypeOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteCustomActionTypeOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a DeletePipeline action.
@@ -3238,15 +3092,11 @@ func (s *DeletePipelineInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeletePipelineInput) SetName(v string) *DeletePipelineInput {
-	s.Name = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeletePipelineOutput
 type DeletePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3257,6 +3107,123 @@ func (s DeletePipelineOutput) String() string {
 // GoString returns the string representation
 func (s DeletePipelineOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeletePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeleteWebhookInput
+type DeleteWebhookInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the webhook you want to delete.
+	//
+	// Name is a required field
+	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteWebhookInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteWebhookInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteWebhookInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteWebhookInput"}
+
+	if s.Name == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Name"))
+	}
+	if s.Name != nil && len(*s.Name) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Name", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeleteWebhookOutput
+type DeleteWebhookOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeleteWebhookOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteWebhookOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteWebhookOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeregisterWebhookWithThirdPartyInput
+type DeregisterWebhookWithThirdPartyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of the webhook you want to deregister.
+	WebhookName *string `locationName:"webhookName" min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s DeregisterWebhookWithThirdPartyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeregisterWebhookWithThirdPartyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeregisterWebhookWithThirdPartyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeregisterWebhookWithThirdPartyInput"}
+	if s.WebhookName != nil && len(*s.WebhookName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("WebhookName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DeregisterWebhookWithThirdPartyOutput
+type DeregisterWebhookWithThirdPartyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeregisterWebhookWithThirdPartyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeregisterWebhookWithThirdPartyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeregisterWebhookWithThirdPartyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a DisableStageTransition action.
@@ -3289,7 +3256,7 @@ type DisableStageTransitionInput struct {
 	// in that stage (outbound).
 	//
 	// TransitionType is a required field
-	TransitionType StageTransitionType `locationName:"transitionType" type:"string" required:"true"`
+	TransitionType StageTransitionType `locationName:"transitionType" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3336,33 +3303,11 @@ func (s *DisableStageTransitionInput) Validate() error {
 	return nil
 }
 
-// SetPipelineName sets the PipelineName field's value.
-func (s *DisableStageTransitionInput) SetPipelineName(v string) *DisableStageTransitionInput {
-	s.PipelineName = &v
-	return s
-}
-
-// SetReason sets the Reason field's value.
-func (s *DisableStageTransitionInput) SetReason(v string) *DisableStageTransitionInput {
-	s.Reason = &v
-	return s
-}
-
-// SetStageName sets the StageName field's value.
-func (s *DisableStageTransitionInput) SetStageName(v string) *DisableStageTransitionInput {
-	s.StageName = &v
-	return s
-}
-
-// SetTransitionType sets the TransitionType field's value.
-func (s *DisableStageTransitionInput) SetTransitionType(v StageTransitionType) *DisableStageTransitionInput {
-	s.TransitionType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/DisableStageTransitionOutput
 type DisableStageTransitionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3373,6 +3318,11 @@ func (s DisableStageTransitionOutput) String() string {
 // GoString returns the string representation
 func (s DisableStageTransitionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DisableStageTransitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of an EnableStageTransition action.
@@ -3397,7 +3347,7 @@ type EnableStageTransitionInput struct {
 	// will be allowed to transition to the next stage (outbound).
 	//
 	// TransitionType is a required field
-	TransitionType StageTransitionType `locationName:"transitionType" type:"string" required:"true"`
+	TransitionType StageTransitionType `locationName:"transitionType" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3437,27 +3387,11 @@ func (s *EnableStageTransitionInput) Validate() error {
 	return nil
 }
 
-// SetPipelineName sets the PipelineName field's value.
-func (s *EnableStageTransitionInput) SetPipelineName(v string) *EnableStageTransitionInput {
-	s.PipelineName = &v
-	return s
-}
-
-// SetStageName sets the StageName field's value.
-func (s *EnableStageTransitionInput) SetStageName(v string) *EnableStageTransitionInput {
-	s.StageName = &v
-	return s
-}
-
-// SetTransitionType sets the TransitionType field's value.
-func (s *EnableStageTransitionInput) SetTransitionType(v StageTransitionType) *EnableStageTransitionInput {
-	s.TransitionType = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/EnableStageTransitionOutput
 type EnableStageTransitionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -3468,6 +3402,11 @@ func (s EnableStageTransitionOutput) String() string {
 // GoString returns the string representation
 func (s EnableStageTransitionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s EnableStageTransitionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents information about the key used to encrypt data in the artifact
@@ -3486,7 +3425,7 @@ type EncryptionKey struct {
 	// key. When creating or updating a pipeline, the value must be set to 'KMS'.
 	//
 	// Type is a required field
-	Type EncryptionKeyType `locationName:"type" type:"string" required:"true"`
+	Type EncryptionKeyType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3519,18 +3458,6 @@ func (s *EncryptionKey) Validate() error {
 	return nil
 }
 
-// SetId sets the Id field's value.
-func (s *EncryptionKey) SetId(v string) *EncryptionKey {
-	s.Id = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *EncryptionKey) SetType(v EncryptionKeyType) *EncryptionKey {
-	s.Type = v
-	return s
-}
-
 // Represents information about an error in AWS CodePipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ErrorDetails
 type ErrorDetails struct {
@@ -3540,7 +3467,7 @@ type ErrorDetails struct {
 	Code *string `locationName:"code" type:"string"`
 
 	// The text of the error message.
-	Message *string `locationName:"message" type:"string"`
+	Message *string `locationName:"message" min:"1" type:"string"`
 }
 
 // String returns the string representation
@@ -3551,18 +3478,6 @@ func (s ErrorDetails) String() string {
 // GoString returns the string representation
 func (s ErrorDetails) GoString() string {
 	return s.String()
-}
-
-// SetCode sets the Code field's value.
-func (s *ErrorDetails) SetCode(v string) *ErrorDetails {
-	s.Code = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *ErrorDetails) SetMessage(v string) *ErrorDetails {
-	s.Message = &v
-	return s
 }
 
 // The details of the actions taken and results produced on an artifact as it
@@ -3580,7 +3495,7 @@ type ExecutionDetails struct {
 	PercentComplete *int64 `locationName:"percentComplete" type:"integer"`
 
 	// The summary of the current status of the actions.
-	Summary *string `locationName:"summary" type:"string"`
+	Summary *string `locationName:"summary" min:"1" type:"string"`
 }
 
 // String returns the string representation
@@ -3599,29 +3514,14 @@ func (s *ExecutionDetails) Validate() error {
 	if s.ExternalExecutionId != nil && len(*s.ExternalExecutionId) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("ExternalExecutionId", 1))
 	}
+	if s.Summary != nil && len(*s.Summary) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Summary", 1))
+	}
 
 	if invalidParams.Len() > 0 {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetExternalExecutionId sets the ExternalExecutionId field's value.
-func (s *ExecutionDetails) SetExternalExecutionId(v string) *ExecutionDetails {
-	s.ExternalExecutionId = &v
-	return s
-}
-
-// SetPercentComplete sets the PercentComplete field's value.
-func (s *ExecutionDetails) SetPercentComplete(v int64) *ExecutionDetails {
-	s.PercentComplete = &v
-	return s
-}
-
-// SetSummary sets the Summary field's value.
-func (s *ExecutionDetails) SetSummary(v string) *ExecutionDetails {
-	s.Summary = &v
-	return s
 }
 
 // Represents information about failure details.
@@ -3635,12 +3535,12 @@ type FailureDetails struct {
 	// The message about the failure.
 	//
 	// Message is a required field
-	Message *string `locationName:"message" type:"string" required:"true"`
+	Message *string `locationName:"message" min:"1" type:"string" required:"true"`
 
 	// The type of the failure.
 	//
 	// Type is a required field
-	Type FailureType `locationName:"type" type:"string" required:"true"`
+	Type FailureType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -3663,6 +3563,9 @@ func (s *FailureDetails) Validate() error {
 	if s.Message == nil {
 		invalidParams.Add(aws.NewErrParamRequired("Message"))
 	}
+	if s.Message != nil && len(*s.Message) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Message", 1))
+	}
 	if len(s.Type) == 0 {
 		invalidParams.Add(aws.NewErrParamRequired("Type"))
 	}
@@ -3671,24 +3574,6 @@ func (s *FailureDetails) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetExternalExecutionId sets the ExternalExecutionId field's value.
-func (s *FailureDetails) SetExternalExecutionId(v string) *FailureDetails {
-	s.ExternalExecutionId = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *FailureDetails) SetMessage(v string) *FailureDetails {
-	s.Message = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *FailureDetails) SetType(v FailureType) *FailureDetails {
-	s.Type = v
-	return s
 }
 
 // Represents the input of a GetJobDetails action.
@@ -3726,16 +3611,12 @@ func (s *GetJobDetailsInput) Validate() error {
 	return nil
 }
 
-// SetJobId sets the JobId field's value.
-func (s *GetJobDetailsInput) SetJobId(v string) *GetJobDetailsInput {
-	s.JobId = &v
-	return s
-}
-
 // Represents the output of a GetJobDetails action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetJobDetailsOutput
 type GetJobDetailsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The details of the job.
 	//
@@ -3754,10 +3635,9 @@ func (s GetJobDetailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobDetails sets the JobDetails field's value.
-func (s *GetJobDetailsOutput) SetJobDetails(v *JobDetails) *GetJobDetailsOutput {
-	s.JobDetails = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetJobDetailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a GetPipelineExecution action.
@@ -3807,22 +3687,12 @@ func (s *GetPipelineExecutionInput) Validate() error {
 	return nil
 }
 
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *GetPipelineExecutionInput) SetPipelineExecutionId(v string) *GetPipelineExecutionInput {
-	s.PipelineExecutionId = &v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *GetPipelineExecutionInput) SetPipelineName(v string) *GetPipelineExecutionInput {
-	s.PipelineName = &v
-	return s
-}
-
 // Represents the output of a GetPipelineExecution action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetPipelineExecutionOutput
 type GetPipelineExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Represents information about the execution of a pipeline.
 	PipelineExecution *PipelineExecution `locationName:"pipelineExecution" type:"structure"`
@@ -3838,10 +3708,9 @@ func (s GetPipelineExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipelineExecution sets the PipelineExecution field's value.
-func (s *GetPipelineExecutionOutput) SetPipelineExecution(v *PipelineExecution) *GetPipelineExecutionOutput {
-	s.PipelineExecution = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPipelineExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a GetPipeline action.
@@ -3890,22 +3759,12 @@ func (s *GetPipelineInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetPipelineInput) SetName(v string) *GetPipelineInput {
-	s.Name = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *GetPipelineInput) SetVersion(v int64) *GetPipelineInput {
-	s.Version = &v
-	return s
-}
-
 // Represents the output of a GetPipeline action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetPipelineOutput
 type GetPipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Represents the pipeline metadata information returned as part of the output
 	// of a GetPipeline action.
@@ -3925,16 +3784,9 @@ func (s GetPipelineOutput) GoString() string {
 	return s.String()
 }
 
-// SetMetadata sets the Metadata field's value.
-func (s *GetPipelineOutput) SetMetadata(v *PipelineMetadata) *GetPipelineOutput {
-	s.Metadata = v
-	return s
-}
-
-// SetPipeline sets the Pipeline field's value.
-func (s *GetPipelineOutput) SetPipeline(v *PipelineDeclaration) *GetPipelineOutput {
-	s.Pipeline = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a GetPipelineState action.
@@ -3975,16 +3827,12 @@ func (s *GetPipelineStateInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *GetPipelineStateInput) SetName(v string) *GetPipelineStateInput {
-	s.Name = &v
-	return s
-}
-
 // Represents the output of a GetPipelineState action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetPipelineStateOutput
 type GetPipelineStateOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The date and time the pipeline was created, in timestamp format.
 	Created *time.Time `locationName:"created" type:"timestamp" timestampFormat:"unix"`
@@ -3999,7 +3847,7 @@ type GetPipelineStateOutput struct {
 
 	// A list of the pipeline stage output information, including stage name, state,
 	// most recent run details, whether the stage is disabled, and other data.
-	StageStates []*StageState `locationName:"stageStates" type:"list"`
+	StageStates []StageState `locationName:"stageStates" type:"list"`
 
 	// The date and time the pipeline was last updated, in timestamp format.
 	Updated *time.Time `locationName:"updated" type:"timestamp" timestampFormat:"unix"`
@@ -4015,34 +3863,9 @@ func (s GetPipelineStateOutput) GoString() string {
 	return s.String()
 }
 
-// SetCreated sets the Created field's value.
-func (s *GetPipelineStateOutput) SetCreated(v time.Time) *GetPipelineStateOutput {
-	s.Created = &v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *GetPipelineStateOutput) SetPipelineName(v string) *GetPipelineStateOutput {
-	s.PipelineName = &v
-	return s
-}
-
-// SetPipelineVersion sets the PipelineVersion field's value.
-func (s *GetPipelineStateOutput) SetPipelineVersion(v int64) *GetPipelineStateOutput {
-	s.PipelineVersion = &v
-	return s
-}
-
-// SetStageStates sets the StageStates field's value.
-func (s *GetPipelineStateOutput) SetStageStates(v []*StageState) *GetPipelineStateOutput {
-	s.StageStates = v
-	return s
-}
-
-// SetUpdated sets the Updated field's value.
-func (s *GetPipelineStateOutput) SetUpdated(v time.Time) *GetPipelineStateOutput {
-	s.Updated = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetPipelineStateOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a GetThirdPartyJobDetails action.
@@ -4096,22 +3919,12 @@ func (s *GetThirdPartyJobDetailsInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *GetThirdPartyJobDetailsInput) SetClientToken(v string) *GetThirdPartyJobDetailsInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *GetThirdPartyJobDetailsInput) SetJobId(v string) *GetThirdPartyJobDetailsInput {
-	s.JobId = &v
-	return s
-}
-
 // Represents the output of a GetThirdPartyJobDetails action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetThirdPartyJobDetailsOutput
 type GetThirdPartyJobDetailsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The details of the job, including any protected values defined for the job.
 	JobDetails *ThirdPartyJobDetails `locationName:"jobDetails" type:"structure"`
@@ -4127,10 +3940,9 @@ func (s GetThirdPartyJobDetailsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobDetails sets the JobDetails field's value.
-func (s *GetThirdPartyJobDetailsOutput) SetJobDetails(v *ThirdPartyJobDetails) *GetThirdPartyJobDetailsOutput {
-	s.JobDetails = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetThirdPartyJobDetailsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents information about an artifact to be worked on, such as a test
@@ -4178,12 +3990,6 @@ func (s *InputArtifact) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *InputArtifact) SetName(v string) *InputArtifact {
-	s.Name = &v
-	return s
-}
-
 // Represents information about a job.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/Job
 type Job struct {
@@ -4201,7 +4007,7 @@ type Job struct {
 	// A system-generated random number that AWS CodePipeline uses to ensure that
 	// the job is being worked on by only one job worker. Use this number in an
 	// AcknowledgeJob request.
-	Nonce *string `locationName:"nonce" type:"string"`
+	Nonce *string `locationName:"nonce" min:"1" type:"string"`
 }
 
 // String returns the string representation
@@ -4212,30 +4018,6 @@ func (s Job) String() string {
 // GoString returns the string representation
 func (s Job) GoString() string {
 	return s.String()
-}
-
-// SetAccountId sets the AccountId field's value.
-func (s *Job) SetAccountId(v string) *Job {
-	s.AccountId = &v
-	return s
-}
-
-// SetData sets the Data field's value.
-func (s *Job) SetData(v *JobData) *Job {
-	s.Data = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Job) SetId(v string) *Job {
-	s.Id = &v
-	return s
-}
-
-// SetNonce sets the Nonce field's value.
-func (s *Job) SetNonce(v string) *Job {
-	s.Nonce = &v
-	return s
 }
 
 // Represents additional information about a job required for a job worker to
@@ -4258,17 +4040,17 @@ type JobData struct {
 
 	// A system-generated token, such as a AWS CodeDeploy deployment ID, that a
 	// job requires in order to continue the job asynchronously.
-	ContinuationToken *string `locationName:"continuationToken" type:"string"`
+	ContinuationToken *string `locationName:"continuationToken" min:"1" type:"string"`
 
 	// Represents information about the key used to encrypt data in the artifact
 	// store, such as an AWS Key Management Service (AWS KMS) key.
 	EncryptionKey *EncryptionKey `locationName:"encryptionKey" type:"structure"`
 
 	// The artifact supplied to the job.
-	InputArtifacts []*Artifact `locationName:"inputArtifacts" type:"list"`
+	InputArtifacts []Artifact `locationName:"inputArtifacts" type:"list"`
 
 	// The output of the job.
-	OutputArtifacts []*Artifact `locationName:"outputArtifacts" type:"list"`
+	OutputArtifacts []Artifact `locationName:"outputArtifacts" type:"list"`
 
 	// Represents information about a pipeline to a job worker.
 	PipelineContext *PipelineContext `locationName:"pipelineContext" type:"structure"`
@@ -4282,54 +4064,6 @@ func (s JobData) String() string {
 // GoString returns the string representation
 func (s JobData) GoString() string {
 	return s.String()
-}
-
-// SetActionConfiguration sets the ActionConfiguration field's value.
-func (s *JobData) SetActionConfiguration(v *ActionConfiguration) *JobData {
-	s.ActionConfiguration = v
-	return s
-}
-
-// SetActionTypeId sets the ActionTypeId field's value.
-func (s *JobData) SetActionTypeId(v *ActionTypeId) *JobData {
-	s.ActionTypeId = v
-	return s
-}
-
-// SetArtifactCredentials sets the ArtifactCredentials field's value.
-func (s *JobData) SetArtifactCredentials(v *AWSSessionCredentials) *JobData {
-	s.ArtifactCredentials = v
-	return s
-}
-
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *JobData) SetContinuationToken(v string) *JobData {
-	s.ContinuationToken = &v
-	return s
-}
-
-// SetEncryptionKey sets the EncryptionKey field's value.
-func (s *JobData) SetEncryptionKey(v *EncryptionKey) *JobData {
-	s.EncryptionKey = v
-	return s
-}
-
-// SetInputArtifacts sets the InputArtifacts field's value.
-func (s *JobData) SetInputArtifacts(v []*Artifact) *JobData {
-	s.InputArtifacts = v
-	return s
-}
-
-// SetOutputArtifacts sets the OutputArtifacts field's value.
-func (s *JobData) SetOutputArtifacts(v []*Artifact) *JobData {
-	s.OutputArtifacts = v
-	return s
-}
-
-// SetPipelineContext sets the PipelineContext field's value.
-func (s *JobData) SetPipelineContext(v *PipelineContext) *JobData {
-	s.PipelineContext = v
-	return s
 }
 
 // Represents information about the details of a job.
@@ -4358,31 +4092,13 @@ func (s JobDetails) GoString() string {
 	return s.String()
 }
 
-// SetAccountId sets the AccountId field's value.
-func (s *JobDetails) SetAccountId(v string) *JobDetails {
-	s.AccountId = &v
-	return s
-}
-
-// SetData sets the Data field's value.
-func (s *JobDetails) SetData(v *JobData) *JobDetails {
-	s.Data = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *JobDetails) SetId(v string) *JobDetails {
-	s.Id = &v
-	return s
-}
-
 // Represents the input of a ListActionTypes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListActionTypesInput
 type ListActionTypesInput struct {
 	_ struct{} `type:"structure"`
 
 	// Filters the list of action types to those created by a specified entity.
-	ActionOwnerFilter ActionOwner `locationName:"actionOwnerFilter" type:"string"`
+	ActionOwnerFilter ActionOwner `locationName:"actionOwnerFilter" type:"string" enum:"true"`
 
 	// An identifier that was returned from the previous list action types call,
 	// which can be used to return the next set of action types in the list.
@@ -4412,27 +4128,17 @@ func (s *ListActionTypesInput) Validate() error {
 	return nil
 }
 
-// SetActionOwnerFilter sets the ActionOwnerFilter field's value.
-func (s *ListActionTypesInput) SetActionOwnerFilter(v ActionOwner) *ListActionTypesInput {
-	s.ActionOwnerFilter = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListActionTypesInput) SetNextToken(v string) *ListActionTypesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the output of a ListActionTypes action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListActionTypesOutput
 type ListActionTypesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Provides details of the action types.
 	//
 	// ActionTypes is a required field
-	ActionTypes []*ActionType `locationName:"actionTypes" type:"list" required:"true"`
+	ActionTypes []ActionType `locationName:"actionTypes" type:"list" required:"true"`
 
 	// If the amount of returned information is significantly large, an identifier
 	// is also returned which can be used in a subsequent list action types call
@@ -4450,16 +4156,9 @@ func (s ListActionTypesOutput) GoString() string {
 	return s.String()
 }
 
-// SetActionTypes sets the ActionTypes field's value.
-func (s *ListActionTypesOutput) SetActionTypes(v []*ActionType) *ListActionTypesOutput {
-	s.ActionTypes = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListActionTypesOutput) SetNextToken(v string) *ListActionTypesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListActionTypesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a ListPipelineExecutions action.
@@ -4516,28 +4215,12 @@ func (s *ListPipelineExecutionsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListPipelineExecutionsInput) SetMaxResults(v int64) *ListPipelineExecutionsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListPipelineExecutionsInput) SetNextToken(v string) *ListPipelineExecutionsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *ListPipelineExecutionsInput) SetPipelineName(v string) *ListPipelineExecutionsInput {
-	s.PipelineName = &v
-	return s
-}
-
 // Represents the output of a ListPipelineExecutions action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListPipelineExecutionsOutput
 type ListPipelineExecutionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A token that can be used in the next ListPipelineExecutions call. To view
 	// all items in the list, continue to call this operation with each subsequent
@@ -4545,7 +4228,7 @@ type ListPipelineExecutionsOutput struct {
 	NextToken *string `locationName:"nextToken" min:"1" type:"string"`
 
 	// A list of executions in the history of a pipeline.
-	PipelineExecutionSummaries []*PipelineExecutionSummary `locationName:"pipelineExecutionSummaries" type:"list"`
+	PipelineExecutionSummaries []PipelineExecutionSummary `locationName:"pipelineExecutionSummaries" type:"list"`
 }
 
 // String returns the string representation
@@ -4558,16 +4241,9 @@ func (s ListPipelineExecutionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPipelineExecutionsOutput) SetNextToken(v string) *ListPipelineExecutionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetPipelineExecutionSummaries sets the PipelineExecutionSummaries field's value.
-func (s *ListPipelineExecutionsOutput) SetPipelineExecutionSummaries(v []*PipelineExecutionSummary) *ListPipelineExecutionsOutput {
-	s.PipelineExecutionSummaries = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPipelineExecutionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a ListPipelines action.
@@ -4603,16 +4279,12 @@ func (s *ListPipelinesInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPipelinesInput) SetNextToken(v string) *ListPipelinesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the output of a ListPipelines action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListPipelinesOutput
 type ListPipelinesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the amount of returned information is significantly large, an identifier
 	// is also returned which can be used in a subsequent list pipelines call to
@@ -4620,7 +4292,7 @@ type ListPipelinesOutput struct {
 	NextToken *string `locationName:"nextToken" min:"1" type:"string"`
 
 	// The list of pipelines.
-	Pipelines []*PipelineSummary `locationName:"pipelines" type:"list"`
+	Pipelines []PipelineSummary `locationName:"pipelines" type:"list"`
 }
 
 // String returns the string representation
@@ -4633,16 +4305,123 @@ func (s ListPipelinesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListPipelinesOutput) SetNextToken(v string) *ListPipelinesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListPipelinesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetPipelines sets the Pipelines field's value.
-func (s *ListPipelinesOutput) SetPipelines(v []*PipelineSummary) *ListPipelinesOutput {
-	s.Pipelines = v
-	return s
+// The detail returned for each webhook after listing webhooks, such as the
+// webhook URL, the webhook name, and the webhook ARN.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListWebhookItem
+type ListWebhookItem struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the webhook.
+	Arn *string `locationName:"arn" type:"string"`
+
+	// The detail returned for each webhook, such as the webhook authentication
+	// type and filter rules.
+	//
+	// Definition is a required field
+	Definition *WebhookDefinition `locationName:"definition" type:"structure" required:"true"`
+
+	// The number code of the error.
+	ErrorCode *string `locationName:"errorCode" type:"string"`
+
+	// The text of the error message about the webhook.
+	ErrorMessage *string `locationName:"errorMessage" type:"string"`
+
+	// The date and time a webhook was last successfully triggered, in timestamp
+	// format.
+	LastTriggered *time.Time `locationName:"lastTriggered" type:"timestamp" timestampFormat:"unix"`
+
+	// A unique URL generated by CodePipeline. When a POST request is made to this
+	// URL, the defined pipeline is started as long as the body of the post request
+	// satisfies the defined authentication and filtering conditions. Deleting and
+	// re-creating a webhook will make the old URL invalid and generate a new URL.
+	//
+	// Url is a required field
+	Url *string `locationName:"url" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s ListWebhookItem) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListWebhookItem) GoString() string {
+	return s.String()
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListWebhooksInput
+type ListWebhooksInput struct {
+	_ struct{} `type:"structure"`
+
+	// The maximum number of results to return in a single call. To retrieve the
+	// remaining results, make another call with the returned nextToken value.
+	MaxResults *int64 `min:"1" type:"integer"`
+
+	// The token that was returned from the previous ListWebhooks call, which can
+	// be used to return the next set of webhooks in the list.
+	NextToken *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s ListWebhooksInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListWebhooksInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListWebhooksInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ListWebhooksInput"}
+	if s.MaxResults != nil && *s.MaxResults < 1 {
+		invalidParams.Add(aws.NewErrParamMinValue("MaxResults", 1))
+	}
+	if s.NextToken != nil && len(*s.NextToken) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("NextToken", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListWebhooksOutput
+type ListWebhooksOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// If the amount of returned information is significantly large, an identifier
+	// is also returned and can be used in a subsequent ListWebhooks call to return
+	// the next set of webhooks in the list.
+	NextToken *string `min:"1" type:"string"`
+
+	// The JSON detail returned for each webhook in the list output for the ListWebhooks
+	// call.
+	Webhooks []ListWebhookItem `locationName:"webhooks" type:"list"`
+}
+
+// String returns the string representation
+func (s ListWebhooksOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListWebhooksOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListWebhooksOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents information about the output of an action.
@@ -4691,12 +4470,6 @@ func (s *OutputArtifact) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *OutputArtifact) SetName(v string) *OutputArtifact {
-	s.Name = &v
-	return s
-}
-
 // Represents information about a pipeline to a job worker.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PipelineContext
 type PipelineContext struct {
@@ -4721,24 +4494,6 @@ func (s PipelineContext) String() string {
 // GoString returns the string representation
 func (s PipelineContext) GoString() string {
 	return s.String()
-}
-
-// SetAction sets the Action field's value.
-func (s *PipelineContext) SetAction(v *ActionContext) *PipelineContext {
-	s.Action = v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *PipelineContext) SetPipelineName(v string) *PipelineContext {
-	s.PipelineName = &v
-	return s
-}
-
-// SetStage sets the Stage field's value.
-func (s *PipelineContext) SetStage(v *StageContext) *PipelineContext {
-	s.Stage = v
-	return s
 }
 
 // Represents the structure of actions and stages to be performed in the pipeline.
@@ -4767,7 +4522,7 @@ type PipelineDeclaration struct {
 	// The stage in which to perform the action.
 	//
 	// Stages is a required field
-	Stages []*StageDeclaration `locationName:"stages" type:"list" required:"true"`
+	Stages []StageDeclaration `locationName:"stages" type:"list" required:"true"`
 
 	// The version number of the pipeline. A new pipeline always has a version number
 	// of 1. This number is automatically incremented when a pipeline is updated.
@@ -4816,9 +4571,6 @@ func (s *PipelineDeclaration) Validate() error {
 	}
 	if s.Stages != nil {
 		for i, v := range s.Stages {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Stages", i), err.(aws.ErrInvalidParams))
 			}
@@ -4831,43 +4583,13 @@ func (s *PipelineDeclaration) Validate() error {
 	return nil
 }
 
-// SetArtifactStore sets the ArtifactStore field's value.
-func (s *PipelineDeclaration) SetArtifactStore(v *ArtifactStore) *PipelineDeclaration {
-	s.ArtifactStore = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PipelineDeclaration) SetName(v string) *PipelineDeclaration {
-	s.Name = &v
-	return s
-}
-
-// SetRoleArn sets the RoleArn field's value.
-func (s *PipelineDeclaration) SetRoleArn(v string) *PipelineDeclaration {
-	s.RoleArn = &v
-	return s
-}
-
-// SetStages sets the Stages field's value.
-func (s *PipelineDeclaration) SetStages(v []*StageDeclaration) *PipelineDeclaration {
-	s.Stages = v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *PipelineDeclaration) SetVersion(v int64) *PipelineDeclaration {
-	s.Version = &v
-	return s
-}
-
 // Represents information about an execution of a pipeline.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PipelineExecution
 type PipelineExecution struct {
 	_ struct{} `type:"structure"`
 
 	// A list of ArtifactRevision objects included in a pipeline execution.
-	ArtifactRevisions []*ArtifactRevision `locationName:"artifactRevisions" type:"list"`
+	ArtifactRevisions []ArtifactRevision `locationName:"artifactRevisions" type:"list"`
 
 	// The ID of the pipeline execution.
 	PipelineExecutionId *string `locationName:"pipelineExecutionId" type:"string"`
@@ -4889,7 +4611,7 @@ type PipelineExecution struct {
 	//    the pipeline instead.
 	//
 	//    * Failed: The pipeline execution was not completed successfully.
-	Status PipelineExecutionStatus `locationName:"status" type:"string"`
+	Status PipelineExecutionStatus `locationName:"status" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4900,36 +4622,6 @@ func (s PipelineExecution) String() string {
 // GoString returns the string representation
 func (s PipelineExecution) GoString() string {
 	return s.String()
-}
-
-// SetArtifactRevisions sets the ArtifactRevisions field's value.
-func (s *PipelineExecution) SetArtifactRevisions(v []*ArtifactRevision) *PipelineExecution {
-	s.ArtifactRevisions = v
-	return s
-}
-
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *PipelineExecution) SetPipelineExecutionId(v string) *PipelineExecution {
-	s.PipelineExecutionId = &v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *PipelineExecution) SetPipelineName(v string) *PipelineExecution {
-	s.PipelineName = &v
-	return s
-}
-
-// SetPipelineVersion sets the PipelineVersion field's value.
-func (s *PipelineExecution) SetPipelineVersion(v int64) *PipelineExecution {
-	s.PipelineVersion = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *PipelineExecution) SetStatus(v PipelineExecutionStatus) *PipelineExecution {
-	s.Status = v
-	return s
 }
 
 // Summary information about a pipeline execution.
@@ -4943,6 +4635,8 @@ type PipelineExecutionSummary struct {
 
 	// The ID of the pipeline execution.
 	PipelineExecutionId *string `locationName:"pipelineExecutionId" type:"string"`
+
+	SourceRevisions []SourceRevision `locationName:"sourceRevisions" type:"list"`
 
 	// The date and time when the pipeline execution began, in timestamp format.
 	StartTime *time.Time `locationName:"startTime" type:"timestamp" timestampFormat:"unix"`
@@ -4958,7 +4652,7 @@ type PipelineExecutionSummary struct {
 	//    the pipeline instead.
 	//
 	//    * Failed: The pipeline execution was not completed successfully.
-	Status PipelineExecutionStatus `locationName:"status" type:"string"`
+	Status PipelineExecutionStatus `locationName:"status" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4969,30 +4663,6 @@ func (s PipelineExecutionSummary) String() string {
 // GoString returns the string representation
 func (s PipelineExecutionSummary) GoString() string {
 	return s.String()
-}
-
-// SetLastUpdateTime sets the LastUpdateTime field's value.
-func (s *PipelineExecutionSummary) SetLastUpdateTime(v time.Time) *PipelineExecutionSummary {
-	s.LastUpdateTime = &v
-	return s
-}
-
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *PipelineExecutionSummary) SetPipelineExecutionId(v string) *PipelineExecutionSummary {
-	s.PipelineExecutionId = &v
-	return s
-}
-
-// SetStartTime sets the StartTime field's value.
-func (s *PipelineExecutionSummary) SetStartTime(v time.Time) *PipelineExecutionSummary {
-	s.StartTime = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *PipelineExecutionSummary) SetStatus(v PipelineExecutionStatus) *PipelineExecutionSummary {
-	s.Status = v
-	return s
 }
 
 // Information about a pipeline.
@@ -5018,24 +4688,6 @@ func (s PipelineMetadata) String() string {
 // GoString returns the string representation
 func (s PipelineMetadata) GoString() string {
 	return s.String()
-}
-
-// SetCreated sets the Created field's value.
-func (s *PipelineMetadata) SetCreated(v time.Time) *PipelineMetadata {
-	s.Created = &v
-	return s
-}
-
-// SetPipelineArn sets the PipelineArn field's value.
-func (s *PipelineMetadata) SetPipelineArn(v string) *PipelineMetadata {
-	s.PipelineArn = &v
-	return s
-}
-
-// SetUpdated sets the Updated field's value.
-func (s *PipelineMetadata) SetUpdated(v time.Time) *PipelineMetadata {
-	s.Updated = &v
-	return s
 }
 
 // Returns a summary of a pipeline.
@@ -5066,30 +4718,6 @@ func (s PipelineSummary) GoString() string {
 	return s.String()
 }
 
-// SetCreated sets the Created field's value.
-func (s *PipelineSummary) SetCreated(v time.Time) *PipelineSummary {
-	s.Created = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *PipelineSummary) SetName(v string) *PipelineSummary {
-	s.Name = &v
-	return s
-}
-
-// SetUpdated sets the Updated field's value.
-func (s *PipelineSummary) SetUpdated(v time.Time) *PipelineSummary {
-	s.Updated = &v
-	return s
-}
-
-// SetVersion sets the Version field's value.
-func (s *PipelineSummary) SetVersion(v int64) *PipelineSummary {
-	s.Version = &v
-	return s
-}
-
 // Represents the input of a PollForJobs action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PollForJobsInput
 type PollForJobsInput struct {
@@ -5107,7 +4735,7 @@ type PollForJobsInput struct {
 	// properties, this value must be null or an empty map. For an action type with
 	// a queryable property, you must supply that property as a key in the map.
 	// Only jobs whose action configuration matches the mapped value will be returned.
-	QueryParam map[string]*string `locationName:"queryParam" type:"map"`
+	QueryParam map[string]string `locationName:"queryParam" type:"map"`
 }
 
 // String returns the string representation
@@ -5142,31 +4770,15 @@ func (s *PollForJobsInput) Validate() error {
 	return nil
 }
 
-// SetActionTypeId sets the ActionTypeId field's value.
-func (s *PollForJobsInput) SetActionTypeId(v *ActionTypeId) *PollForJobsInput {
-	s.ActionTypeId = v
-	return s
-}
-
-// SetMaxBatchSize sets the MaxBatchSize field's value.
-func (s *PollForJobsInput) SetMaxBatchSize(v int64) *PollForJobsInput {
-	s.MaxBatchSize = &v
-	return s
-}
-
-// SetQueryParam sets the QueryParam field's value.
-func (s *PollForJobsInput) SetQueryParam(v map[string]*string) *PollForJobsInput {
-	s.QueryParam = v
-	return s
-}
-
 // Represents the output of a PollForJobs action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PollForJobsOutput
 type PollForJobsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the jobs to take action on.
-	Jobs []*Job `locationName:"jobs" type:"list"`
+	Jobs []Job `locationName:"jobs" type:"list"`
 }
 
 // String returns the string representation
@@ -5179,10 +4791,9 @@ func (s PollForJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobs sets the Jobs field's value.
-func (s *PollForJobsOutput) SetJobs(v []*Job) *PollForJobsOutput {
-	s.Jobs = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PollForJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PollForThirdPartyJobs action.
@@ -5231,25 +4842,15 @@ func (s *PollForThirdPartyJobsInput) Validate() error {
 	return nil
 }
 
-// SetActionTypeId sets the ActionTypeId field's value.
-func (s *PollForThirdPartyJobsInput) SetActionTypeId(v *ActionTypeId) *PollForThirdPartyJobsInput {
-	s.ActionTypeId = v
-	return s
-}
-
-// SetMaxBatchSize sets the MaxBatchSize field's value.
-func (s *PollForThirdPartyJobsInput) SetMaxBatchSize(v int64) *PollForThirdPartyJobsInput {
-	s.MaxBatchSize = &v
-	return s
-}
-
 // Represents the output of a PollForThirdPartyJobs action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PollForThirdPartyJobsOutput
 type PollForThirdPartyJobsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the jobs to take action on.
-	Jobs []*ThirdPartyJob `locationName:"jobs" type:"list"`
+	Jobs []ThirdPartyJob `locationName:"jobs" type:"list"`
 }
 
 // String returns the string representation
@@ -5262,10 +4863,9 @@ func (s PollForThirdPartyJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobs sets the Jobs field's value.
-func (s *PollForThirdPartyJobsOutput) SetJobs(v []*ThirdPartyJob) *PollForThirdPartyJobsOutput {
-	s.Jobs = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PollForThirdPartyJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PutActionRevision action.
@@ -5344,34 +4944,12 @@ func (s *PutActionRevisionInput) Validate() error {
 	return nil
 }
 
-// SetActionName sets the ActionName field's value.
-func (s *PutActionRevisionInput) SetActionName(v string) *PutActionRevisionInput {
-	s.ActionName = &v
-	return s
-}
-
-// SetActionRevision sets the ActionRevision field's value.
-func (s *PutActionRevisionInput) SetActionRevision(v *ActionRevision) *PutActionRevisionInput {
-	s.ActionRevision = v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *PutActionRevisionInput) SetPipelineName(v string) *PutActionRevisionInput {
-	s.PipelineName = &v
-	return s
-}
-
-// SetStageName sets the StageName field's value.
-func (s *PutActionRevisionInput) SetStageName(v string) *PutActionRevisionInput {
-	s.StageName = &v
-	return s
-}
-
 // Represents the output of a PutActionRevision action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutActionRevisionOutput
 type PutActionRevisionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Indicates whether the artifact revision was previously used in an execution
 	// of the specified pipeline.
@@ -5391,16 +4969,9 @@ func (s PutActionRevisionOutput) GoString() string {
 	return s.String()
 }
 
-// SetNewRevision sets the NewRevision field's value.
-func (s *PutActionRevisionOutput) SetNewRevision(v bool) *PutActionRevisionOutput {
-	s.NewRevision = &v
-	return s
-}
-
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *PutActionRevisionOutput) SetPipelineExecutionId(v string) *PutActionRevisionOutput {
-	s.PipelineExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutActionRevisionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PutApprovalResult action.
@@ -5491,40 +5062,12 @@ func (s *PutApprovalResultInput) Validate() error {
 	return nil
 }
 
-// SetActionName sets the ActionName field's value.
-func (s *PutApprovalResultInput) SetActionName(v string) *PutApprovalResultInput {
-	s.ActionName = &v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *PutApprovalResultInput) SetPipelineName(v string) *PutApprovalResultInput {
-	s.PipelineName = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *PutApprovalResultInput) SetResult(v *ApprovalResult) *PutApprovalResultInput {
-	s.Result = v
-	return s
-}
-
-// SetStageName sets the StageName field's value.
-func (s *PutApprovalResultInput) SetStageName(v string) *PutApprovalResultInput {
-	s.StageName = &v
-	return s
-}
-
-// SetToken sets the Token field's value.
-func (s *PutApprovalResultInput) SetToken(v string) *PutApprovalResultInput {
-	s.Token = &v
-	return s
-}
-
 // Represents the output of a PutApprovalResult action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutApprovalResultOutput
 type PutApprovalResultOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The timestamp showing when the approval or rejection was submitted.
 	ApprovedAt *time.Time `locationName:"approvedAt" type:"timestamp" timestampFormat:"unix"`
@@ -5540,10 +5083,9 @@ func (s PutApprovalResultOutput) GoString() string {
 	return s.String()
 }
 
-// SetApprovedAt sets the ApprovedAt field's value.
-func (s *PutApprovalResultOutput) SetApprovedAt(v time.Time) *PutApprovalResultOutput {
-	s.ApprovedAt = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutApprovalResultOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PutJobFailureResult action.
@@ -5596,21 +5138,11 @@ func (s *PutJobFailureResultInput) Validate() error {
 	return nil
 }
 
-// SetFailureDetails sets the FailureDetails field's value.
-func (s *PutJobFailureResultInput) SetFailureDetails(v *FailureDetails) *PutJobFailureResultInput {
-	s.FailureDetails = v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *PutJobFailureResultInput) SetJobId(v string) *PutJobFailureResultInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutJobFailureResultOutput
 type PutJobFailureResultOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5621,6 +5153,11 @@ func (s PutJobFailureResultOutput) String() string {
 // GoString returns the string representation
 func (s PutJobFailureResultOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutJobFailureResultOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PutJobSuccessResult action.
@@ -5634,7 +5171,7 @@ type PutJobSuccessResultInput struct {
 	// action. It can be reused to return additional information about the progress
 	// of the custom action. When the action is complete, no continuation token
 	// should be supplied.
-	ContinuationToken *string `locationName:"continuationToken" type:"string"`
+	ContinuationToken *string `locationName:"continuationToken" min:"1" type:"string"`
 
 	// The ID of the current revision of the artifact successfully worked upon by
 	// the job.
@@ -5664,6 +5201,9 @@ func (s PutJobSuccessResultInput) GoString() string {
 // Validate inspects the fields of the type to determine if they are valid.
 func (s *PutJobSuccessResultInput) Validate() error {
 	invalidParams := aws.ErrInvalidParams{Context: "PutJobSuccessResultInput"}
+	if s.ContinuationToken != nil && len(*s.ContinuationToken) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ContinuationToken", 1))
+	}
 
 	if s.JobId == nil {
 		invalidParams.Add(aws.NewErrParamRequired("JobId"))
@@ -5685,33 +5225,11 @@ func (s *PutJobSuccessResultInput) Validate() error {
 	return nil
 }
 
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *PutJobSuccessResultInput) SetContinuationToken(v string) *PutJobSuccessResultInput {
-	s.ContinuationToken = &v
-	return s
-}
-
-// SetCurrentRevision sets the CurrentRevision field's value.
-func (s *PutJobSuccessResultInput) SetCurrentRevision(v *CurrentRevision) *PutJobSuccessResultInput {
-	s.CurrentRevision = v
-	return s
-}
-
-// SetExecutionDetails sets the ExecutionDetails field's value.
-func (s *PutJobSuccessResultInput) SetExecutionDetails(v *ExecutionDetails) *PutJobSuccessResultInput {
-	s.ExecutionDetails = v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *PutJobSuccessResultInput) SetJobId(v string) *PutJobSuccessResultInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutJobSuccessResultOutput
 type PutJobSuccessResultOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5722,6 +5240,11 @@ func (s PutJobSuccessResultOutput) String() string {
 // GoString returns the string representation
 func (s PutJobSuccessResultOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutJobSuccessResultOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PutThirdPartyJobFailureResult action.
@@ -5789,27 +5312,11 @@ func (s *PutThirdPartyJobFailureResultInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *PutThirdPartyJobFailureResultInput) SetClientToken(v string) *PutThirdPartyJobFailureResultInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetFailureDetails sets the FailureDetails field's value.
-func (s *PutThirdPartyJobFailureResultInput) SetFailureDetails(v *FailureDetails) *PutThirdPartyJobFailureResultInput {
-	s.FailureDetails = v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *PutThirdPartyJobFailureResultInput) SetJobId(v string) *PutThirdPartyJobFailureResultInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutThirdPartyJobFailureResultOutput
 type PutThirdPartyJobFailureResultOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5820,6 +5327,11 @@ func (s PutThirdPartyJobFailureResultOutput) String() string {
 // GoString returns the string representation
 func (s PutThirdPartyJobFailureResultOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutThirdPartyJobFailureResultOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a PutThirdPartyJobSuccessResult action.
@@ -5839,7 +5351,7 @@ type PutThirdPartyJobSuccessResultInput struct {
 	// of the action. It can be reused to return additional information about the
 	// progress of the partner action. When the action is complete, no continuation
 	// token should be supplied.
-	ContinuationToken *string `locationName:"continuationToken" type:"string"`
+	ContinuationToken *string `locationName:"continuationToken" min:"1" type:"string"`
 
 	// Represents information about a current revision.
 	CurrentRevision *CurrentRevision `locationName:"currentRevision" type:"structure"`
@@ -5875,6 +5387,9 @@ func (s *PutThirdPartyJobSuccessResultInput) Validate() error {
 	if s.ClientToken != nil && len(*s.ClientToken) < 1 {
 		invalidParams.Add(aws.NewErrParamMinLen("ClientToken", 1))
 	}
+	if s.ContinuationToken != nil && len(*s.ContinuationToken) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("ContinuationToken", 1))
+	}
 
 	if s.JobId == nil {
 		invalidParams.Add(aws.NewErrParamRequired("JobId"))
@@ -5899,39 +5414,11 @@ func (s *PutThirdPartyJobSuccessResultInput) Validate() error {
 	return nil
 }
 
-// SetClientToken sets the ClientToken field's value.
-func (s *PutThirdPartyJobSuccessResultInput) SetClientToken(v string) *PutThirdPartyJobSuccessResultInput {
-	s.ClientToken = &v
-	return s
-}
-
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *PutThirdPartyJobSuccessResultInput) SetContinuationToken(v string) *PutThirdPartyJobSuccessResultInput {
-	s.ContinuationToken = &v
-	return s
-}
-
-// SetCurrentRevision sets the CurrentRevision field's value.
-func (s *PutThirdPartyJobSuccessResultInput) SetCurrentRevision(v *CurrentRevision) *PutThirdPartyJobSuccessResultInput {
-	s.CurrentRevision = v
-	return s
-}
-
-// SetExecutionDetails sets the ExecutionDetails field's value.
-func (s *PutThirdPartyJobSuccessResultInput) SetExecutionDetails(v *ExecutionDetails) *PutThirdPartyJobSuccessResultInput {
-	s.ExecutionDetails = v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *PutThirdPartyJobSuccessResultInput) SetJobId(v string) *PutThirdPartyJobSuccessResultInput {
-	s.JobId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutThirdPartyJobSuccessResultOutput
 type PutThirdPartyJobSuccessResultOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -5942,6 +5429,134 @@ func (s PutThirdPartyJobSuccessResultOutput) String() string {
 // GoString returns the string representation
 func (s PutThirdPartyJobSuccessResultOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutThirdPartyJobSuccessResultOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutWebhookInput
+type PutWebhookInput struct {
+	_ struct{} `type:"structure"`
+
+	// The detail provided in an input file to create the webhook, such as the webhook
+	// name, the pipeline name, and the action name. Give the webhook a unique name
+	// which identifies the webhook being defined. You may choose to name the webhook
+	// after the pipeline and action it targets so that you can easily recognize
+	// what it's used for later.
+	//
+	// Webhook is a required field
+	Webhook *WebhookDefinition `locationName:"webhook" type:"structure" required:"true"`
+}
+
+// String returns the string representation
+func (s PutWebhookInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutWebhookInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *PutWebhookInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "PutWebhookInput"}
+
+	if s.Webhook == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Webhook"))
+	}
+	if s.Webhook != nil {
+		if err := s.Webhook.Validate(); err != nil {
+			invalidParams.AddNested("Webhook", err.(aws.ErrInvalidParams))
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/PutWebhookOutput
+type PutWebhookOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// The detail returned from creating the webhook, such as the webhook name,
+	// webhook URL, and webhook ARN.
+	Webhook *ListWebhookItem `locationName:"webhook" type:"structure"`
+}
+
+// String returns the string representation
+func (s PutWebhookOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s PutWebhookOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutWebhookOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/RegisterWebhookWithThirdPartyInput
+type RegisterWebhookWithThirdPartyInput struct {
+	_ struct{} `type:"structure"`
+
+	// The name of an existing webhook created with PutWebhook to register with
+	// a supported third party.
+	WebhookName *string `locationName:"webhookName" min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s RegisterWebhookWithThirdPartyInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RegisterWebhookWithThirdPartyInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *RegisterWebhookWithThirdPartyInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "RegisterWebhookWithThirdPartyInput"}
+	if s.WebhookName != nil && len(*s.WebhookName) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("WebhookName", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/RegisterWebhookWithThirdPartyOutput
+type RegisterWebhookWithThirdPartyOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s RegisterWebhookWithThirdPartyOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s RegisterWebhookWithThirdPartyOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RegisterWebhookWithThirdPartyOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the input of a RetryStageExecution action.
@@ -5964,7 +5579,7 @@ type RetryStageExecutionInput struct {
 	// The scope of the retry attempt. Currently, the only supported value is FAILED_ACTIONS.
 	//
 	// RetryMode is a required field
-	RetryMode StageRetryMode `locationName:"retryMode" type:"string" required:"true"`
+	RetryMode StageRetryMode `locationName:"retryMode" type:"string" required:"true" enum:"true"`
 
 	// The name of the failed stage to be retried.
 	//
@@ -6013,34 +5628,12 @@ func (s *RetryStageExecutionInput) Validate() error {
 	return nil
 }
 
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *RetryStageExecutionInput) SetPipelineExecutionId(v string) *RetryStageExecutionInput {
-	s.PipelineExecutionId = &v
-	return s
-}
-
-// SetPipelineName sets the PipelineName field's value.
-func (s *RetryStageExecutionInput) SetPipelineName(v string) *RetryStageExecutionInput {
-	s.PipelineName = &v
-	return s
-}
-
-// SetRetryMode sets the RetryMode field's value.
-func (s *RetryStageExecutionInput) SetRetryMode(v StageRetryMode) *RetryStageExecutionInput {
-	s.RetryMode = v
-	return s
-}
-
-// SetStageName sets the StageName field's value.
-func (s *RetryStageExecutionInput) SetStageName(v string) *RetryStageExecutionInput {
-	s.StageName = &v
-	return s
-}
-
 // Represents the output of a RetryStageExecution action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/RetryStageExecutionOutput
 type RetryStageExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The ID of the current workflow execution in the failed stage.
 	PipelineExecutionId *string `locationName:"pipelineExecutionId" type:"string"`
@@ -6056,10 +5649,9 @@ func (s RetryStageExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *RetryStageExecutionOutput) SetPipelineExecutionId(v string) *RetryStageExecutionOutput {
-	s.PipelineExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RetryStageExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // The location of the Amazon S3 bucket that contains a revision.
@@ -6089,16 +5681,28 @@ func (s S3ArtifactLocation) GoString() string {
 	return s.String()
 }
 
-// SetBucketName sets the BucketName field's value.
-func (s *S3ArtifactLocation) SetBucketName(v string) *S3ArtifactLocation {
-	s.BucketName = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/SourceRevision
+type SourceRevision struct {
+	_ struct{} `type:"structure"`
+
+	// ActionName is a required field
+	ActionName *string `locationName:"actionName" min:"1" type:"string" required:"true"`
+
+	RevisionId *string `locationName:"revisionId" min:"1" type:"string"`
+
+	RevisionSummary *string `locationName:"revisionSummary" min:"1" type:"string"`
+
+	RevisionUrl *string `locationName:"revisionUrl" min:"1" type:"string"`
 }
 
-// SetObjectKey sets the ObjectKey field's value.
-func (s *S3ArtifactLocation) SetObjectKey(v string) *S3ArtifactLocation {
-	s.ObjectKey = &v
-	return s
+// String returns the string representation
+func (s SourceRevision) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s SourceRevision) GoString() string {
+	return s.String()
 }
 
 // Represents information about a stage to a job worker.
@@ -6120,12 +5724,6 @@ func (s StageContext) GoString() string {
 	return s.String()
 }
 
-// SetName sets the Name field's value.
-func (s *StageContext) SetName(v string) *StageContext {
-	s.Name = &v
-	return s
-}
-
 // Represents information about a stage and its definition.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/StageDeclaration
 type StageDeclaration struct {
@@ -6134,10 +5732,10 @@ type StageDeclaration struct {
 	// The actions included in a stage.
 	//
 	// Actions is a required field
-	Actions []*ActionDeclaration `locationName:"actions" type:"list" required:"true"`
+	Actions []ActionDeclaration `locationName:"actions" type:"list" required:"true"`
 
 	// Reserved for future use.
-	Blockers []*BlockerDeclaration `locationName:"blockers" type:"list"`
+	Blockers []BlockerDeclaration `locationName:"blockers" type:"list"`
 
 	// The name of the stage.
 	//
@@ -6171,9 +5769,6 @@ func (s *StageDeclaration) Validate() error {
 	}
 	if s.Actions != nil {
 		for i, v := range s.Actions {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Actions", i), err.(aws.ErrInvalidParams))
 			}
@@ -6181,9 +5776,6 @@ func (s *StageDeclaration) Validate() error {
 	}
 	if s.Blockers != nil {
 		for i, v := range s.Blockers {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Blockers", i), err.(aws.ErrInvalidParams))
 			}
@@ -6194,24 +5786,6 @@ func (s *StageDeclaration) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetActions sets the Actions field's value.
-func (s *StageDeclaration) SetActions(v []*ActionDeclaration) *StageDeclaration {
-	s.Actions = v
-	return s
-}
-
-// SetBlockers sets the Blockers field's value.
-func (s *StageDeclaration) SetBlockers(v []*BlockerDeclaration) *StageDeclaration {
-	s.Blockers = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *StageDeclaration) SetName(v string) *StageDeclaration {
-	s.Name = &v
-	return s
 }
 
 // Represents information about the run of a stage.
@@ -6228,7 +5802,7 @@ type StageExecution struct {
 	// stage.
 	//
 	// Status is a required field
-	Status StageExecutionStatus `locationName:"status" type:"string" required:"true"`
+	Status StageExecutionStatus `locationName:"status" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -6241,25 +5815,13 @@ func (s StageExecution) GoString() string {
 	return s.String()
 }
 
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *StageExecution) SetPipelineExecutionId(v string) *StageExecution {
-	s.PipelineExecutionId = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *StageExecution) SetStatus(v StageExecutionStatus) *StageExecution {
-	s.Status = v
-	return s
-}
-
 // Represents information about the state of the stage.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/StageState
 type StageState struct {
 	_ struct{} `type:"structure"`
 
 	// The state of the stage.
-	ActionStates []*ActionState `locationName:"actionStates" type:"list"`
+	ActionStates []ActionState `locationName:"actionStates" type:"list"`
 
 	// The state of the inbound transition, which is either enabled or disabled.
 	InboundTransitionState *TransitionState `locationName:"inboundTransitionState" type:"structure"`
@@ -6280,30 +5842,6 @@ func (s StageState) String() string {
 // GoString returns the string representation
 func (s StageState) GoString() string {
 	return s.String()
-}
-
-// SetActionStates sets the ActionStates field's value.
-func (s *StageState) SetActionStates(v []*ActionState) *StageState {
-	s.ActionStates = v
-	return s
-}
-
-// SetInboundTransitionState sets the InboundTransitionState field's value.
-func (s *StageState) SetInboundTransitionState(v *TransitionState) *StageState {
-	s.InboundTransitionState = v
-	return s
-}
-
-// SetLatestExecution sets the LatestExecution field's value.
-func (s *StageState) SetLatestExecution(v *StageExecution) *StageState {
-	s.LatestExecution = v
-	return s
-}
-
-// SetStageName sets the StageName field's value.
-func (s *StageState) SetStageName(v string) *StageState {
-	s.StageName = &v
-	return s
 }
 
 // Represents the input of a StartPipelineExecution action.
@@ -6344,16 +5882,12 @@ func (s *StartPipelineExecutionInput) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *StartPipelineExecutionInput) SetName(v string) *StartPipelineExecutionInput {
-	s.Name = &v
-	return s
-}
-
 // Represents the output of a StartPipelineExecution action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/StartPipelineExecutionOutput
 type StartPipelineExecutionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The unique system-generated ID of the pipeline execution that was started.
 	PipelineExecutionId *string `locationName:"pipelineExecutionId" type:"string"`
@@ -6369,10 +5903,9 @@ func (s StartPipelineExecutionOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipelineExecutionId sets the PipelineExecutionId field's value.
-func (s *StartPipelineExecutionOutput) SetPipelineExecutionId(v string) *StartPipelineExecutionOutput {
-	s.PipelineExecutionId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StartPipelineExecutionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A response to a PollForThirdPartyJobs request returned by AWS CodePipeline
@@ -6399,18 +5932,6 @@ func (s ThirdPartyJob) GoString() string {
 	return s.String()
 }
 
-// SetClientId sets the ClientId field's value.
-func (s *ThirdPartyJob) SetClientId(v string) *ThirdPartyJob {
-	s.ClientId = &v
-	return s
-}
-
-// SetJobId sets the JobId field's value.
-func (s *ThirdPartyJob) SetJobId(v string) *ThirdPartyJob {
-	s.JobId = &v
-	return s
-}
-
 // Represents information about the job data for a partner action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ThirdPartyJobData
 type ThirdPartyJobData struct {
@@ -6430,7 +5951,7 @@ type ThirdPartyJobData struct {
 
 	// A system-generated token, such as a AWS CodeDeploy deployment ID, that a
 	// job requires in order to continue the job asynchronously.
-	ContinuationToken *string `locationName:"continuationToken" type:"string"`
+	ContinuationToken *string `locationName:"continuationToken" min:"1" type:"string"`
 
 	// The encryption key used to encrypt and decrypt data in the artifact store
 	// for the pipeline, such as an AWS Key Management Service (AWS KMS) key. This
@@ -6442,12 +5963,12 @@ type ThirdPartyJobData struct {
 	// by the user when the action is created. The input artifact name must match
 	// the name of an output artifact generated by an action in an earlier action
 	// or stage of the pipeline.
-	InputArtifacts []*Artifact `locationName:"inputArtifacts" type:"list"`
+	InputArtifacts []Artifact `locationName:"inputArtifacts" type:"list"`
 
 	// The name of the artifact that will be the result of the action, if any. This
 	// name might be system-generated, such as "MyBuiltApp", or might be defined
 	// by the user when the action is created.
-	OutputArtifacts []*Artifact `locationName:"outputArtifacts" type:"list"`
+	OutputArtifacts []Artifact `locationName:"outputArtifacts" type:"list"`
 
 	// Represents information about a pipeline to a job worker.
 	PipelineContext *PipelineContext `locationName:"pipelineContext" type:"structure"`
@@ -6461,54 +5982,6 @@ func (s ThirdPartyJobData) String() string {
 // GoString returns the string representation
 func (s ThirdPartyJobData) GoString() string {
 	return s.String()
-}
-
-// SetActionConfiguration sets the ActionConfiguration field's value.
-func (s *ThirdPartyJobData) SetActionConfiguration(v *ActionConfiguration) *ThirdPartyJobData {
-	s.ActionConfiguration = v
-	return s
-}
-
-// SetActionTypeId sets the ActionTypeId field's value.
-func (s *ThirdPartyJobData) SetActionTypeId(v *ActionTypeId) *ThirdPartyJobData {
-	s.ActionTypeId = v
-	return s
-}
-
-// SetArtifactCredentials sets the ArtifactCredentials field's value.
-func (s *ThirdPartyJobData) SetArtifactCredentials(v *AWSSessionCredentials) *ThirdPartyJobData {
-	s.ArtifactCredentials = v
-	return s
-}
-
-// SetContinuationToken sets the ContinuationToken field's value.
-func (s *ThirdPartyJobData) SetContinuationToken(v string) *ThirdPartyJobData {
-	s.ContinuationToken = &v
-	return s
-}
-
-// SetEncryptionKey sets the EncryptionKey field's value.
-func (s *ThirdPartyJobData) SetEncryptionKey(v *EncryptionKey) *ThirdPartyJobData {
-	s.EncryptionKey = v
-	return s
-}
-
-// SetInputArtifacts sets the InputArtifacts field's value.
-func (s *ThirdPartyJobData) SetInputArtifacts(v []*Artifact) *ThirdPartyJobData {
-	s.InputArtifacts = v
-	return s
-}
-
-// SetOutputArtifacts sets the OutputArtifacts field's value.
-func (s *ThirdPartyJobData) SetOutputArtifacts(v []*Artifact) *ThirdPartyJobData {
-	s.OutputArtifacts = v
-	return s
-}
-
-// SetPipelineContext sets the PipelineContext field's value.
-func (s *ThirdPartyJobData) SetPipelineContext(v *PipelineContext) *ThirdPartyJobData {
-	s.PipelineContext = v
-	return s
 }
 
 // The details of a job sent in response to a GetThirdPartyJobDetails request.
@@ -6525,7 +5998,7 @@ type ThirdPartyJobDetails struct {
 	// A system-generated random number that AWS CodePipeline uses to ensure that
 	// the job is being worked on by only one job worker. Use this number in an
 	// AcknowledgeThirdPartyJob request.
-	Nonce *string `locationName:"nonce" type:"string"`
+	Nonce *string `locationName:"nonce" min:"1" type:"string"`
 }
 
 // String returns the string representation
@@ -6536,24 +6009,6 @@ func (s ThirdPartyJobDetails) String() string {
 // GoString returns the string representation
 func (s ThirdPartyJobDetails) GoString() string {
 	return s.String()
-}
-
-// SetData sets the Data field's value.
-func (s *ThirdPartyJobDetails) SetData(v *ThirdPartyJobData) *ThirdPartyJobDetails {
-	s.Data = v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *ThirdPartyJobDetails) SetId(v string) *ThirdPartyJobDetails {
-	s.Id = &v
-	return s
-}
-
-// SetNonce sets the Nonce field's value.
-func (s *ThirdPartyJobDetails) SetNonce(v string) *ThirdPartyJobDetails {
-	s.Nonce = &v
-	return s
 }
 
 // Represents information about the state of transitions between one stage and
@@ -6584,30 +6039,6 @@ func (s TransitionState) String() string {
 // GoString returns the string representation
 func (s TransitionState) GoString() string {
 	return s.String()
-}
-
-// SetDisabledReason sets the DisabledReason field's value.
-func (s *TransitionState) SetDisabledReason(v string) *TransitionState {
-	s.DisabledReason = &v
-	return s
-}
-
-// SetEnabled sets the Enabled field's value.
-func (s *TransitionState) SetEnabled(v bool) *TransitionState {
-	s.Enabled = &v
-	return s
-}
-
-// SetLastChangedAt sets the LastChangedAt field's value.
-func (s *TransitionState) SetLastChangedAt(v time.Time) *TransitionState {
-	s.LastChangedAt = &v
-	return s
-}
-
-// SetLastChangedBy sets the LastChangedBy field's value.
-func (s *TransitionState) SetLastChangedBy(v string) *TransitionState {
-	s.LastChangedBy = &v
-	return s
 }
 
 // Represents the input of an UpdatePipeline action.
@@ -6650,16 +6081,12 @@ func (s *UpdatePipelineInput) Validate() error {
 	return nil
 }
 
-// SetPipeline sets the Pipeline field's value.
-func (s *UpdatePipelineInput) SetPipeline(v *PipelineDeclaration) *UpdatePipelineInput {
-	s.Pipeline = v
-	return s
-}
-
 // Represents the output of an UpdatePipeline action.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/UpdatePipelineOutput
 type UpdatePipelineOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The structure of the updated pipeline.
 	Pipeline *PipelineDeclaration `locationName:"pipeline" type:"structure"`
@@ -6675,10 +6102,215 @@ func (s UpdatePipelineOutput) GoString() string {
 	return s.String()
 }
 
-// SetPipeline sets the Pipeline field's value.
-func (s *UpdatePipelineOutput) SetPipeline(v *PipelineDeclaration) *UpdatePipelineOutput {
-	s.Pipeline = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdatePipelineOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/WebhookAuthConfiguration
+type WebhookAuthConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	AllowedIPRange *string `min:"1" type:"string"`
+
+	SecretToken *string `min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s WebhookAuthConfiguration) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s WebhookAuthConfiguration) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *WebhookAuthConfiguration) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "WebhookAuthConfiguration"}
+	if s.AllowedIPRange != nil && len(*s.AllowedIPRange) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("AllowedIPRange", 1))
+	}
+	if s.SecretToken != nil && len(*s.SecretToken) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("SecretToken", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Represents information about a webhook and its definition.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/WebhookDefinition
+type WebhookDefinition struct {
+	_ struct{} `type:"structure"`
+
+	// Supported options are GITHUB_HMAC, IP and UNAUTHENTICATED.
+	//
+	//    *  GITHUB_HMAC implements the authentication scheme described here: https://developer.github.com/webhooks/securing/
+	//
+	//    *  IP will reject webhooks trigger requests unless they originate from
+	//    an IP within the IP range whitelisted in the authentication configuration.
+	//
+	//    *  UNAUTHENTICATED will accept all webhook trigger requests regardless
+	//    of origin.
+	//
+	// Authentication is a required field
+	Authentication WebhookAuthenticationType `locationName:"authentication" type:"string" required:"true" enum:"true"`
+
+	// Properties that configure the authentication applied to incoming webhook
+	// trigger requests. The required properties depend on the authentication type.
+	// For GITHUB_HMAC, only the SecretToken property must be set. For IP, only
+	// the AllowedIPRange property must be set to a valid CIDR range. For UNAUTHENTICATED,
+	// no properties can be set.
+	//
+	// AuthenticationConfiguration is a required field
+	AuthenticationConfiguration *WebhookAuthConfiguration `locationName:"authenticationConfiguration" type:"structure" required:"true"`
+
+	// A list of rules applied to the body/payload sent in the POST request to a
+	// webhook URL. All defined rules must pass for the request to be accepted and
+	// the pipeline started.
+	//
+	// Filters is a required field
+	Filters []WebhookFilterRule `locationName:"filters" type:"list" required:"true"`
+
+	// The name of the webhook.
+	//
+	// Name is a required field
+	Name *string `locationName:"name" min:"1" type:"string" required:"true"`
+
+	// The name of the action in a pipeline you want to connect to the webhook.
+	// The action must be from the source (first) stage of the pipeline.
+	//
+	// TargetAction is a required field
+	TargetAction *string `locationName:"targetAction" min:"1" type:"string" required:"true"`
+
+	// The name of the pipeline you want to connect to the webhook.
+	//
+	// TargetPipeline is a required field
+	TargetPipeline *string `locationName:"targetPipeline" min:"1" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s WebhookDefinition) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s WebhookDefinition) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *WebhookDefinition) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "WebhookDefinition"}
+	if len(s.Authentication) == 0 {
+		invalidParams.Add(aws.NewErrParamRequired("Authentication"))
+	}
+
+	if s.AuthenticationConfiguration == nil {
+		invalidParams.Add(aws.NewErrParamRequired("AuthenticationConfiguration"))
+	}
+
+	if s.Filters == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Filters"))
+	}
+
+	if s.Name == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Name"))
+	}
+	if s.Name != nil && len(*s.Name) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("Name", 1))
+	}
+
+	if s.TargetAction == nil {
+		invalidParams.Add(aws.NewErrParamRequired("TargetAction"))
+	}
+	if s.TargetAction != nil && len(*s.TargetAction) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("TargetAction", 1))
+	}
+
+	if s.TargetPipeline == nil {
+		invalidParams.Add(aws.NewErrParamRequired("TargetPipeline"))
+	}
+	if s.TargetPipeline != nil && len(*s.TargetPipeline) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("TargetPipeline", 1))
+	}
+	if s.AuthenticationConfiguration != nil {
+		if err := s.AuthenticationConfiguration.Validate(); err != nil {
+			invalidParams.AddNested("AuthenticationConfiguration", err.(aws.ErrInvalidParams))
+		}
+	}
+	if s.Filters != nil {
+		for i, v := range s.Filters {
+			if err := v.Validate(); err != nil {
+				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Filters", i), err.(aws.ErrInvalidParams))
+			}
+		}
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// The event criteria that specify when a webhook notification is sent to your
+// URL.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/WebhookFilterRule
+type WebhookFilterRule struct {
+	_ struct{} `type:"structure"`
+
+	// A JsonPath expression that will be applied to the body/payload of the webhook.
+	// The value selected by JsonPath expression must match the value specified
+	// in the matchEquals field, otherwise the request will be ignored. More information
+	// on JsonPath expressions can be found here: https://github.com/json-path/JsonPath.
+	//
+	// JsonPath is a required field
+	JsonPath *string `locationName:"jsonPath" min:"1" type:"string" required:"true"`
+
+	// The value selected by the JsonPath expression must match what is supplied
+	// in the MatchEquals field, otherwise the request will be ignored. Properties
+	// from the target action configuration can be included as placeholders in this
+	// value by surrounding the action configuration key with curly braces. For
+	// example, if the value supplied here is "refs/heads/{Branch}" and the target
+	// action has an action configuration property called "Branch" with a value
+	// of "master", the MatchEquals value will be evaluated as "refs/heads/master".
+	// A list of action configuration properties for built-in action types can be
+	// found here: Pipeline Structure Reference Action Requirements (http://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#action-requirements).
+	MatchEquals *string `locationName:"matchEquals" min:"1" type:"string"`
+}
+
+// String returns the string representation
+func (s WebhookFilterRule) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s WebhookFilterRule) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *WebhookFilterRule) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "WebhookFilterRule"}
+
+	if s.JsonPath == nil {
+		invalidParams.Add(aws.NewErrParamRequired("JsonPath"))
+	}
+	if s.JsonPath != nil && len(*s.JsonPath) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("JsonPath", 1))
+	}
+	if s.MatchEquals != nil && len(*s.MatchEquals) < 1 {
+		invalidParams.Add(aws.NewErrParamMinLen("MatchEquals", 1))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
 }
 
 type ActionCategory string
@@ -6693,6 +6325,15 @@ const (
 	ActionCategoryApproval ActionCategory = "Approval"
 )
 
+func (enum ActionCategory) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionCategory) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ActionConfigurationPropertyType string
 
 // Enum values for ActionConfigurationPropertyType
@@ -6701,6 +6342,15 @@ const (
 	ActionConfigurationPropertyTypeNumber  ActionConfigurationPropertyType = "Number"
 	ActionConfigurationPropertyTypeBoolean ActionConfigurationPropertyType = "Boolean"
 )
+
+func (enum ActionConfigurationPropertyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionConfigurationPropertyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ActionExecutionStatus string
 
@@ -6711,6 +6361,15 @@ const (
 	ActionExecutionStatusFailed     ActionExecutionStatus = "Failed"
 )
 
+func (enum ActionExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ActionOwner string
 
 // Enum values for ActionOwner
@@ -6720,6 +6379,15 @@ const (
 	ActionOwnerCustom     ActionOwner = "Custom"
 )
 
+func (enum ActionOwner) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ActionOwner) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ApprovalStatus string
 
 // Enum values for ApprovalStatus
@@ -6728,12 +6396,30 @@ const (
 	ApprovalStatusRejected ApprovalStatus = "Rejected"
 )
 
+func (enum ApprovalStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ApprovalStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ArtifactLocationType string
 
 // Enum values for ArtifactLocationType
 const (
 	ArtifactLocationTypeS3 ArtifactLocationType = "S3"
 )
+
+func (enum ArtifactLocationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ArtifactLocationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ArtifactStoreType string
 
@@ -6742,6 +6428,15 @@ const (
 	ArtifactStoreTypeS3 ArtifactStoreType = "S3"
 )
 
+func (enum ArtifactStoreType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ArtifactStoreType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BlockerType string
 
 // Enum values for BlockerType
@@ -6749,12 +6444,30 @@ const (
 	BlockerTypeSchedule BlockerType = "Schedule"
 )
 
+func (enum BlockerType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BlockerType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type EncryptionKeyType string
 
 // Enum values for EncryptionKeyType
 const (
 	EncryptionKeyTypeKms EncryptionKeyType = "KMS"
 )
+
+func (enum EncryptionKeyType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum EncryptionKeyType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type FailureType string
 
@@ -6767,6 +6480,15 @@ const (
 	FailureTypeRevisionUnavailable FailureType = "RevisionUnavailable"
 	FailureTypeSystemUnavailable   FailureType = "SystemUnavailable"
 )
+
+func (enum FailureType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum FailureType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type JobStatus string
 
@@ -6781,6 +6503,15 @@ const (
 	JobStatusFailed     JobStatus = "Failed"
 )
 
+func (enum JobStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum JobStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type PipelineExecutionStatus string
 
 // Enum values for PipelineExecutionStatus
@@ -6791,6 +6522,15 @@ const (
 	PipelineExecutionStatusFailed     PipelineExecutionStatus = "Failed"
 )
 
+func (enum PipelineExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum PipelineExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StageExecutionStatus string
 
 // Enum values for StageExecutionStatus
@@ -6800,12 +6540,30 @@ const (
 	StageExecutionStatusSucceeded  StageExecutionStatus = "Succeeded"
 )
 
+func (enum StageExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StageExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type StageRetryMode string
 
 // Enum values for StageRetryMode
 const (
 	StageRetryModeFailedActions StageRetryMode = "FAILED_ACTIONS"
 )
+
+func (enum StageRetryMode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StageRetryMode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type StageTransitionType string
 
@@ -6814,3 +6572,30 @@ const (
 	StageTransitionTypeInbound  StageTransitionType = "Inbound"
 	StageTransitionTypeOutbound StageTransitionType = "Outbound"
 )
+
+func (enum StageTransitionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum StageTransitionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type WebhookAuthenticationType string
+
+// Enum values for WebhookAuthenticationType
+const (
+	WebhookAuthenticationTypeGithubHmac      WebhookAuthenticationType = "GITHUB_HMAC"
+	WebhookAuthenticationTypeIp              WebhookAuthenticationType = "IP"
+	WebhookAuthenticationTypeUnauthenticated WebhookAuthenticationType = "UNAUTHENTICATED"
+)
+
+func (enum WebhookAuthenticationType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum WebhookAuthenticationType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

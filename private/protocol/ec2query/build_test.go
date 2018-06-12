@@ -52,15 +52,10 @@ type InputService1ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService1ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService1ProtocolTest client from just a config.
 //     svc := inputservice1protocoltest.New(myConfig)
-//
-//     // Create a InputService1ProtocolTest client with additional configuration
-//     svc := inputservice1protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService1ProtocolTest(config aws.Config) *InputService1ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -101,6 +96,7 @@ const opInputService1TestCaseOperation1 = "OperationName"
 type InputService1TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService1TestShapeInputService1TestCaseOperation1Input
+	Copy  func(*InputService1TestShapeInputService1TestCaseOperation1Input) InputService1TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService1TestCaseOperation1 API request.
@@ -133,10 +129,13 @@ func (c *InputService1ProtocolTest) InputService1TestCaseOperation1Request(input
 		input = &InputService1TestShapeInputService1TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService1TestShapeInputService1TestCaseOperation1Output{})
+	output := &InputService1TestShapeInputService1TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService1TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService1TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService1TestCaseOperation1Request}
 }
 
 type InputService1TestShapeInputService1TestCaseOperation1Input struct {
@@ -147,20 +146,15 @@ type InputService1TestShapeInputService1TestCaseOperation1Input struct {
 	Foo *string `type:"string"`
 }
 
-// SetBar sets the Bar field's value.
-func (s *InputService1TestShapeInputService1TestCaseOperation1Input) SetBar(v string) *InputService1TestShapeInputService1TestCaseOperation1Input {
-	s.Bar = &v
-	return s
-}
-
-// SetFoo sets the Foo field's value.
-func (s *InputService1TestShapeInputService1TestCaseOperation1Input) SetFoo(v string) *InputService1TestShapeInputService1TestCaseOperation1Input {
-	s.Foo = &v
-	return s
-}
-
 type InputService1TestShapeInputService1TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService1TestShapeInputService1TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService2ProtocolTest provides the API operation methods for making requests to
@@ -174,15 +168,10 @@ type InputService2ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService2ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService2ProtocolTest client from just a config.
 //     svc := inputservice2protocoltest.New(myConfig)
-//
-//     // Create a InputService2ProtocolTest client with additional configuration
-//     svc := inputservice2protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService2ProtocolTest(config aws.Config) *InputService2ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -223,6 +212,7 @@ const opInputService2TestCaseOperation1 = "OperationName"
 type InputService2TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService2TestShapeInputService2TestCaseOperation1Input
+	Copy  func(*InputService2TestShapeInputService2TestCaseOperation1Input) InputService2TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService2TestCaseOperation1 API request.
@@ -255,10 +245,13 @@ func (c *InputService2ProtocolTest) InputService2TestCaseOperation1Request(input
 		input = &InputService2TestShapeInputService2TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService2TestShapeInputService2TestCaseOperation1Output{})
+	output := &InputService2TestShapeInputService2TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService2TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService2TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService2TestCaseOperation1Request}
 }
 
 type InputService2TestShapeInputService2TestCaseOperation1Input struct {
@@ -271,26 +264,15 @@ type InputService2TestShapeInputService2TestCaseOperation1Input struct {
 	Yuck *string `locationName:"yuckLocationName" queryName:"yuckQueryName" type:"string"`
 }
 
-// SetBar sets the Bar field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetBar(v string) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.Bar = &v
-	return s
-}
-
-// SetFoo sets the Foo field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetFoo(v string) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.Foo = &v
-	return s
-}
-
-// SetYuck sets the Yuck field's value.
-func (s *InputService2TestShapeInputService2TestCaseOperation1Input) SetYuck(v string) *InputService2TestShapeInputService2TestCaseOperation1Input {
-	s.Yuck = &v
-	return s
-}
-
 type InputService2TestShapeInputService2TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService2TestShapeInputService2TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService3ProtocolTest provides the API operation methods for making requests to
@@ -304,15 +286,10 @@ type InputService3ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService3ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService3ProtocolTest client from just a config.
 //     svc := inputservice3protocoltest.New(myConfig)
-//
-//     // Create a InputService3ProtocolTest client with additional configuration
-//     svc := inputservice3protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService3ProtocolTest(config aws.Config) *InputService3ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -353,6 +330,7 @@ const opInputService3TestCaseOperation1 = "OperationName"
 type InputService3TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService3TestShapeInputService3TestCaseOperation1Input
+	Copy  func(*InputService3TestShapeInputService3TestCaseOperation1Input) InputService3TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService3TestCaseOperation1 API request.
@@ -385,10 +363,13 @@ func (c *InputService3ProtocolTest) InputService3TestCaseOperation1Request(input
 		input = &InputService3TestShapeInputService3TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService3TestShapeInputService3TestCaseOperation1Output{})
+	output := &InputService3TestShapeInputService3TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService3TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService3TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService3TestCaseOperation1Request}
 }
 
 type InputService3TestShapeInputService3TestCaseOperation1Input struct {
@@ -397,26 +378,21 @@ type InputService3TestShapeInputService3TestCaseOperation1Input struct {
 	StructArg *InputService3TestShapeStructType `locationName:"Struct" type:"structure"`
 }
 
-// SetStructArg sets the StructArg field's value.
-func (s *InputService3TestShapeInputService3TestCaseOperation1Input) SetStructArg(v *InputService3TestShapeStructType) *InputService3TestShapeInputService3TestCaseOperation1Input {
-	s.StructArg = v
-	return s
-}
-
 type InputService3TestShapeInputService3TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService3TestShapeInputService3TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type InputService3TestShapeStructType struct {
 	_ struct{} `type:"structure"`
 
 	ScalarArg *string `locationName:"Scalar" type:"string"`
-}
-
-// SetScalarArg sets the ScalarArg field's value.
-func (s *InputService3TestShapeStructType) SetScalarArg(v string) *InputService3TestShapeStructType {
-	s.ScalarArg = &v
-	return s
 }
 
 // InputService4ProtocolTest provides the API operation methods for making requests to
@@ -430,15 +406,10 @@ type InputService4ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService4ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService4ProtocolTest client from just a config.
 //     svc := inputservice4protocoltest.New(myConfig)
-//
-//     // Create a InputService4ProtocolTest client with additional configuration
-//     svc := inputservice4protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService4ProtocolTest(config aws.Config) *InputService4ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -479,6 +450,7 @@ const opInputService4TestCaseOperation1 = "OperationName"
 type InputService4TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService4TestShapeInputService4TestCaseOperation1Input
+	Copy  func(*InputService4TestShapeInputService4TestCaseOperation1Input) InputService4TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService4TestCaseOperation1 API request.
@@ -511,26 +483,36 @@ func (c *InputService4ProtocolTest) InputService4TestCaseOperation1Request(input
 		input = &InputService4TestShapeInputService4TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService4TestShapeInputService4TestCaseOperation1Output{})
+	output := &InputService4TestShapeInputService4TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService4TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService4TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService4TestCaseOperation1Request}
 }
 
 type InputService4TestShapeInputService4TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 
-	ListArg []*string `type:"list"`
-}
+	ListBools []bool `type:"list"`
 
-// SetListArg sets the ListArg field's value.
-func (s *InputService4TestShapeInputService4TestCaseOperation1Input) SetListArg(v []*string) *InputService4TestShapeInputService4TestCaseOperation1Input {
-	s.ListArg = v
-	return s
+	ListFloats []float64 `type:"list"`
+
+	ListIntegers []int64 `type:"list"`
+
+	ListStrings []string `type:"list"`
 }
 
 type InputService4TestShapeInputService4TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService4TestShapeInputService4TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService5ProtocolTest provides the API operation methods for making requests to
@@ -544,15 +526,10 @@ type InputService5ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService5ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService5ProtocolTest client from just a config.
 //     svc := inputservice5protocoltest.New(myConfig)
-//
-//     // Create a InputService5ProtocolTest client with additional configuration
-//     svc := inputservice5protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService5ProtocolTest(config aws.Config) *InputService5ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -593,6 +570,7 @@ const opInputService5TestCaseOperation1 = "OperationName"
 type InputService5TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService5TestShapeInputService5TestCaseOperation1Input
+	Copy  func(*InputService5TestShapeInputService5TestCaseOperation1Input) InputService5TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService5TestCaseOperation1 API request.
@@ -625,26 +603,30 @@ func (c *InputService5ProtocolTest) InputService5TestCaseOperation1Request(input
 		input = &InputService5TestShapeInputService5TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService5TestShapeInputService5TestCaseOperation1Output{})
+	output := &InputService5TestShapeInputService5TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService5TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService5TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService5TestCaseOperation1Request}
 }
 
 type InputService5TestShapeInputService5TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 
-	ListArg []*string `locationName:"ListMemberName" locationNameList:"item" type:"list"`
-}
-
-// SetListArg sets the ListArg field's value.
-func (s *InputService5TestShapeInputService5TestCaseOperation1Input) SetListArg(v []*string) *InputService5TestShapeInputService5TestCaseOperation1Input {
-	s.ListArg = v
-	return s
+	ListArg []string `locationName:"ListMemberName" locationNameList:"item" type:"list"`
 }
 
 type InputService5TestShapeInputService5TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService5TestShapeInputService5TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService6ProtocolTest provides the API operation methods for making requests to
@@ -658,15 +640,10 @@ type InputService6ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService6ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService6ProtocolTest client from just a config.
 //     svc := inputservice6protocoltest.New(myConfig)
-//
-//     // Create a InputService6ProtocolTest client with additional configuration
-//     svc := inputservice6protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService6ProtocolTest(config aws.Config) *InputService6ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -707,6 +684,7 @@ const opInputService6TestCaseOperation1 = "OperationName"
 type InputService6TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService6TestShapeInputService6TestCaseOperation1Input
+	Copy  func(*InputService6TestShapeInputService6TestCaseOperation1Input) InputService6TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService6TestCaseOperation1 API request.
@@ -739,26 +717,30 @@ func (c *InputService6ProtocolTest) InputService6TestCaseOperation1Request(input
 		input = &InputService6TestShapeInputService6TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService6TestShapeInputService6TestCaseOperation1Output{})
+	output := &InputService6TestShapeInputService6TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService6TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService6TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService6TestCaseOperation1Request}
 }
 
 type InputService6TestShapeInputService6TestCaseOperation1Input struct {
 	_ struct{} `type:"structure"`
 
-	ListArg []*string `locationName:"ListMemberName" queryName:"ListQueryName" locationNameList:"item" type:"list"`
-}
-
-// SetListArg sets the ListArg field's value.
-func (s *InputService6TestShapeInputService6TestCaseOperation1Input) SetListArg(v []*string) *InputService6TestShapeInputService6TestCaseOperation1Input {
-	s.ListArg = v
-	return s
+	ListArg []string `locationName:"ListMemberName" queryName:"ListQueryName" locationNameList:"item" type:"list"`
 }
 
 type InputService6TestShapeInputService6TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService6TestShapeInputService6TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService7ProtocolTest provides the API operation methods for making requests to
@@ -772,15 +754,10 @@ type InputService7ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService7ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService7ProtocolTest client from just a config.
 //     svc := inputservice7protocoltest.New(myConfig)
-//
-//     // Create a InputService7ProtocolTest client with additional configuration
-//     svc := inputservice7protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService7ProtocolTest(config aws.Config) *InputService7ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -821,6 +798,7 @@ const opInputService7TestCaseOperation1 = "OperationName"
 type InputService7TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService7TestShapeInputService7TestCaseOperation1Input
+	Copy  func(*InputService7TestShapeInputService7TestCaseOperation1Input) InputService7TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService7TestCaseOperation1 API request.
@@ -853,10 +831,13 @@ func (c *InputService7ProtocolTest) InputService7TestCaseOperation1Request(input
 		input = &InputService7TestShapeInputService7TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService7TestShapeInputService7TestCaseOperation1Output{})
+	output := &InputService7TestShapeInputService7TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService7TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService7TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService7TestCaseOperation1Request}
 }
 
 type InputService7TestShapeInputService7TestCaseOperation1Input struct {
@@ -866,14 +847,15 @@ type InputService7TestShapeInputService7TestCaseOperation1Input struct {
 	BlobArg []byte `type:"blob"`
 }
 
-// SetBlobArg sets the BlobArg field's value.
-func (s *InputService7TestShapeInputService7TestCaseOperation1Input) SetBlobArg(v []byte) *InputService7TestShapeInputService7TestCaseOperation1Input {
-	s.BlobArg = v
-	return s
-}
-
 type InputService7TestShapeInputService7TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService7TestShapeInputService7TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService8ProtocolTest provides the API operation methods for making requests to
@@ -887,15 +869,10 @@ type InputService8ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService8ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService8ProtocolTest client from just a config.
 //     svc := inputservice8protocoltest.New(myConfig)
-//
-//     // Create a InputService8ProtocolTest client with additional configuration
-//     svc := inputservice8protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService8ProtocolTest(config aws.Config) *InputService8ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -936,6 +913,7 @@ const opInputService8TestCaseOperation1 = "OperationName"
 type InputService8TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService8TestShapeInputService8TestCaseOperation1Input
+	Copy  func(*InputService8TestShapeInputService8TestCaseOperation1Input) InputService8TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService8TestCaseOperation1 API request.
@@ -968,10 +946,13 @@ func (c *InputService8ProtocolTest) InputService8TestCaseOperation1Request(input
 		input = &InputService8TestShapeInputService8TestCaseOperation1Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService8TestShapeInputService8TestCaseOperation1Output{})
+	output := &InputService8TestShapeInputService8TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService8TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService8TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService8TestCaseOperation1Request}
 }
 
 type InputService8TestShapeInputService8TestCaseOperation1Input struct {
@@ -980,14 +961,15 @@ type InputService8TestShapeInputService8TestCaseOperation1Input struct {
 	TimeArg *time.Time `type:"timestamp" timestampFormat:"iso8601"`
 }
 
-// SetTimeArg sets the TimeArg field's value.
-func (s *InputService8TestShapeInputService8TestCaseOperation1Input) SetTimeArg(v time.Time) *InputService8TestShapeInputService8TestCaseOperation1Input {
-	s.TimeArg = &v
-	return s
-}
-
 type InputService8TestShapeInputService8TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService8TestShapeInputService8TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService9ProtocolTest provides the API operation methods for making requests to
@@ -1001,15 +983,10 @@ type InputService9ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService9ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService9ProtocolTest client from just a config.
 //     svc := inputservice9protocoltest.New(myConfig)
-//
-//     // Create a InputService9ProtocolTest client with additional configuration
-//     svc := inputservice9protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService9ProtocolTest(config aws.Config) *InputService9ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1050,6 +1027,7 @@ const opInputService9TestCaseOperation1 = "OperationName"
 type InputService9TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService9TestShapeInputService9TestCaseOperation2Input
+	Copy  func(*InputService9TestShapeInputService9TestCaseOperation2Input) InputService9TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService9TestCaseOperation1 API request.
@@ -1082,10 +1060,13 @@ func (c *InputService9ProtocolTest) InputService9TestCaseOperation1Request(input
 		input = &InputService9TestShapeInputService9TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService9TestShapeInputService9TestCaseOperation1Output{})
+	output := &InputService9TestShapeInputService9TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService9TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService9TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService9TestCaseOperation1Request}
 }
 
 const opInputService9TestCaseOperation2 = "OperationName"
@@ -1094,6 +1075,7 @@ const opInputService9TestCaseOperation2 = "OperationName"
 type InputService9TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService9TestShapeInputService9TestCaseOperation2Input
+	Copy  func(*InputService9TestShapeInputService9TestCaseOperation2Input) InputService9TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService9TestCaseOperation2 API request.
@@ -1126,14 +1108,24 @@ func (c *InputService9ProtocolTest) InputService9TestCaseOperation2Request(input
 		input = &InputService9TestShapeInputService9TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService9TestShapeInputService9TestCaseOperation2Output{})
+	output := &InputService9TestShapeInputService9TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService9TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService9TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService9TestCaseOperation2Request}
 }
 
 type InputService9TestShapeInputService9TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService9TestShapeInputService9TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type InputService9TestShapeInputService9TestCaseOperation2Input struct {
@@ -1142,14 +1134,15 @@ type InputService9TestShapeInputService9TestCaseOperation2Input struct {
 	Token *string `type:"string" idempotencyToken:"true"`
 }
 
-// SetToken sets the Token field's value.
-func (s *InputService9TestShapeInputService9TestCaseOperation2Input) SetToken(v string) *InputService9TestShapeInputService9TestCaseOperation2Input {
-	s.Token = &v
-	return s
-}
-
 type InputService9TestShapeInputService9TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService9TestShapeInputService9TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // InputService10ProtocolTest provides the API operation methods for making requests to
@@ -1163,15 +1156,10 @@ type InputService10ProtocolTest struct {
 }
 
 // New creates a new instance of the InputService10ProtocolTest client with a config.
-// If additional configuration is needed for the client instance use the optional
-// aws.Config parameter to add your extra config.
 //
 // Example:
 //     // Create a InputService10ProtocolTest client from just a config.
 //     svc := inputservice10protocoltest.New(myConfig)
-//
-//     // Create a InputService10ProtocolTest client with additional configuration
-//     svc := inputservice10protocoltest.New(myConfig, aws.NewConfig().WithRegion("us-west-2"))
 func NewInputService10ProtocolTest(config aws.Config) *InputService10ProtocolTest {
 	var signingName string
 	signingRegion := config.Region
@@ -1212,6 +1200,7 @@ const opInputService10TestCaseOperation1 = "OperationName"
 type InputService10TestCaseOperation1Request struct {
 	*aws.Request
 	Input *InputService10TestShapeInputService10TestCaseOperation2Input
+	Copy  func(*InputService10TestShapeInputService10TestCaseOperation2Input) InputService10TestCaseOperation1Request
 }
 
 // Send marshals and sends the InputService10TestCaseOperation1 API request.
@@ -1244,10 +1233,13 @@ func (c *InputService10ProtocolTest) InputService10TestCaseOperation1Request(inp
 		input = &InputService10TestShapeInputService10TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService10TestShapeInputService10TestCaseOperation1Output{})
+	output := &InputService10TestShapeInputService10TestCaseOperation1Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService10TestCaseOperation1Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService10TestCaseOperation1Request{Request: req, Input: input, Copy: c.InputService10TestCaseOperation1Request}
 }
 
 const opInputService10TestCaseOperation2 = "OperationName"
@@ -1256,6 +1248,7 @@ const opInputService10TestCaseOperation2 = "OperationName"
 type InputService10TestCaseOperation2Request struct {
 	*aws.Request
 	Input *InputService10TestShapeInputService10TestCaseOperation2Input
+	Copy  func(*InputService10TestShapeInputService10TestCaseOperation2Input) InputService10TestCaseOperation2Request
 }
 
 // Send marshals and sends the InputService10TestCaseOperation2 API request.
@@ -1288,38 +1281,43 @@ func (c *InputService10ProtocolTest) InputService10TestCaseOperation2Request(inp
 		input = &InputService10TestShapeInputService10TestCaseOperation2Input{}
 	}
 
-	req := c.newRequest(op, input, &InputService10TestShapeInputService10TestCaseOperation2Output{})
+	output := &InputService10TestShapeInputService10TestCaseOperation2Output{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(ec2query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return InputService10TestCaseOperation2Request{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InputService10TestCaseOperation2Request{Request: req, Input: input, Copy: c.InputService10TestCaseOperation2Request}
 }
 
 type InputService10TestShapeInputService10TestCaseOperation1Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService10TestShapeInputService10TestCaseOperation1Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type InputService10TestShapeInputService10TestCaseOperation2Input struct {
 	_ struct{} `type:"structure"`
 
-	FooEnum InputService10TestShapeEnumType `type:"string"`
+	FooEnum InputService10TestShapeEnumType `type:"string" enum:"true"`
 
 	ListEnums []InputService10TestShapeEnumType `type:"list"`
 }
 
-// SetFooEnum sets the FooEnum field's value.
-func (s *InputService10TestShapeInputService10TestCaseOperation2Input) SetFooEnum(v InputService10TestShapeEnumType) *InputService10TestShapeInputService10TestCaseOperation2Input {
-	s.FooEnum = v
-	return s
-}
-
-// SetListEnums sets the ListEnums field's value.
-func (s *InputService10TestShapeInputService10TestCaseOperation2Input) SetListEnums(v []InputService10TestShapeEnumType) *InputService10TestShapeInputService10TestCaseOperation2Input {
-	s.ListEnums = v
-	return s
-}
-
 type InputService10TestShapeInputService10TestCaseOperation2Output struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InputService10TestShapeInputService10TestCaseOperation2Output) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type InputService10TestShapeEnumType string
@@ -1329,6 +1327,15 @@ const (
 	EnumTypeFoo InputService10TestShapeEnumType = "foo"
 	EnumTypeBar InputService10TestShapeEnumType = "bar"
 )
+
+func (enum InputService10TestShapeEnumType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InputService10TestShapeEnumType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 //
 // Tests begin here
@@ -1441,10 +1448,25 @@ func TestInputService4ProtocolTestListTypesCase1(t *testing.T) {
 
 	svc := NewInputService4ProtocolTest(cfg)
 	input := &InputService4TestShapeInputService4TestCaseOperation1Input{
-		ListArg: []*string{
-			aws.String("foo"),
-			aws.String("bar"),
-			aws.String("baz"),
+		ListBools: []bool{
+			true,
+			false,
+			false,
+		},
+		ListFloats: []float64{
+			1.1,
+			2.718,
+			3.14,
+		},
+		ListIntegers: []int64{
+			0,
+			1,
+			2,
+		},
+		ListStrings: []string{
+			"foo",
+			"bar",
+			"baz",
 		},
 	}
 
@@ -1462,7 +1484,7 @@ func TestInputService4ProtocolTestListTypesCase1(t *testing.T) {
 		t.Errorf("expect body not to be nil")
 	}
 	body, _ := ioutil.ReadAll(r.Body)
-	awstesting.AssertQuery(t, `Action=OperationName&ListArg.1=foo&ListArg.2=bar&ListArg.3=baz&Version=2014-01-01`, util.Trim(string(body)))
+	awstesting.AssertQuery(t, `Action=OperationName&ListBools.1=true&ListBools.2=false&ListBools.3=false&ListFloats.1=1.1&ListFloats.2=2.718&ListFloats.3=3.14&ListIntegers.1=0&ListIntegers.2=1&ListIntegers.3=2&ListStrings.1=foo&ListStrings.2=bar&ListStrings.3=baz&Version=2014-01-01`, util.Trim(string(body)))
 
 	// assert URL
 	awstesting.AssertURL(t, "https://test/", r.URL.String())
@@ -1477,10 +1499,10 @@ func TestInputService5ProtocolTestListWithLocationNameAppliedToMemberCase1(t *te
 
 	svc := NewInputService5ProtocolTest(cfg)
 	input := &InputService5TestShapeInputService5TestCaseOperation1Input{
-		ListArg: []*string{
-			aws.String("a"),
-			aws.String("b"),
-			aws.String("c"),
+		ListArg: []string{
+			"a",
+			"b",
+			"c",
 		},
 	}
 
@@ -1513,10 +1535,10 @@ func TestInputService6ProtocolTestListWithLocationNameAndQueryNameCase1(t *testi
 
 	svc := NewInputService6ProtocolTest(cfg)
 	input := &InputService6TestShapeInputService6TestCaseOperation1Input{
-		ListArg: []*string{
-			aws.String("a"),
-			aws.String("b"),
-			aws.String("c"),
+		ListArg: []string{
+			"a",
+			"b",
+			"c",
 		},
 	}
 

@@ -17,6 +17,7 @@ const opBatchDeleteAttributes = "BatchDeleteAttributes"
 type BatchDeleteAttributesRequest struct {
 	*aws.Request
 	Input *BatchDeleteAttributesInput
+	Copy  func(*BatchDeleteAttributesInput) BatchDeleteAttributesRequest
 }
 
 // Send marshals and sends the BatchDeleteAttributes API request.
@@ -74,10 +75,13 @@ func (c *SimpleDB) BatchDeleteAttributesRequest(input *BatchDeleteAttributesInpu
 		input = &BatchDeleteAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchDeleteAttributesOutput{})
+	output := &BatchDeleteAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return BatchDeleteAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchDeleteAttributesRequest{Request: req, Input: input, Copy: c.BatchDeleteAttributesRequest}
 }
 
 const opBatchPutAttributes = "BatchPutAttributes"
@@ -86,6 +90,7 @@ const opBatchPutAttributes = "BatchPutAttributes"
 type BatchPutAttributesRequest struct {
 	*aws.Request
 	Input *BatchPutAttributesInput
+	Copy  func(*BatchPutAttributesInput) BatchPutAttributesRequest
 }
 
 // Send marshals and sends the BatchPutAttributes API request.
@@ -162,10 +167,13 @@ func (c *SimpleDB) BatchPutAttributesRequest(input *BatchPutAttributesInput) Bat
 		input = &BatchPutAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &BatchPutAttributesOutput{})
+	output := &BatchPutAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return BatchPutAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return BatchPutAttributesRequest{Request: req, Input: input, Copy: c.BatchPutAttributesRequest}
 }
 
 const opCreateDomain = "CreateDomain"
@@ -174,6 +182,7 @@ const opCreateDomain = "CreateDomain"
 type CreateDomainRequest struct {
 	*aws.Request
 	Input *CreateDomainInput
+	Copy  func(*CreateDomainInput) CreateDomainRequest
 }
 
 // Send marshals and sends the CreateDomain API request.
@@ -216,10 +225,13 @@ func (c *SimpleDB) CreateDomainRequest(input *CreateDomainInput) CreateDomainReq
 		input = &CreateDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDomainOutput{})
+	output := &CreateDomainOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return CreateDomainRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDomainRequest{Request: req, Input: input, Copy: c.CreateDomainRequest}
 }
 
 const opDeleteAttributes = "DeleteAttributes"
@@ -228,6 +240,7 @@ const opDeleteAttributes = "DeleteAttributes"
 type DeleteAttributesRequest struct {
 	*aws.Request
 	Input *DeleteAttributesInput
+	Copy  func(*DeleteAttributesInput) DeleteAttributesRequest
 }
 
 // Send marshals and sends the DeleteAttributes API request.
@@ -272,10 +285,13 @@ func (c *SimpleDB) DeleteAttributesRequest(input *DeleteAttributesInput) DeleteA
 		input = &DeleteAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteAttributesOutput{})
+	output := &DeleteAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteAttributesRequest{Request: req, Input: input, Copy: c.DeleteAttributesRequest}
 }
 
 const opDeleteDomain = "DeleteDomain"
@@ -284,6 +300,7 @@ const opDeleteDomain = "DeleteDomain"
 type DeleteDomainRequest struct {
 	*aws.Request
 	Input *DeleteDomainInput
+	Copy  func(*DeleteDomainInput) DeleteDomainRequest
 }
 
 // Send marshals and sends the DeleteDomain API request.
@@ -323,10 +340,13 @@ func (c *SimpleDB) DeleteDomainRequest(input *DeleteDomainInput) DeleteDomainReq
 		input = &DeleteDomainInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDomainOutput{})
+	output := &DeleteDomainOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return DeleteDomainRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDomainRequest{Request: req, Input: input, Copy: c.DeleteDomainRequest}
 }
 
 const opDomainMetadata = "DomainMetadata"
@@ -335,6 +355,7 @@ const opDomainMetadata = "DomainMetadata"
 type DomainMetadataRequest struct {
 	*aws.Request
 	Input *DomainMetadataInput
+	Copy  func(*DomainMetadataInput) DomainMetadataRequest
 }
 
 // Send marshals and sends the DomainMetadata API request.
@@ -371,8 +392,11 @@ func (c *SimpleDB) DomainMetadataRequest(input *DomainMetadataInput) DomainMetad
 		input = &DomainMetadataInput{}
 	}
 
-	req := c.newRequest(op, input, &DomainMetadataOutput{})
-	return DomainMetadataRequest{Request: req, Input: input}
+	output := &DomainMetadataOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DomainMetadataRequest{Request: req, Input: input, Copy: c.DomainMetadataRequest}
 }
 
 const opGetAttributes = "GetAttributes"
@@ -381,6 +405,7 @@ const opGetAttributes = "GetAttributes"
 type GetAttributesRequest struct {
 	*aws.Request
 	Input *GetAttributesInput
+	Copy  func(*GetAttributesInput) GetAttributesRequest
 }
 
 // Send marshals and sends the GetAttributes API request.
@@ -424,8 +449,11 @@ func (c *SimpleDB) GetAttributesRequest(input *GetAttributesInput) GetAttributes
 		input = &GetAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAttributesOutput{})
-	return GetAttributesRequest{Request: req, Input: input}
+	output := &GetAttributesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAttributesRequest{Request: req, Input: input, Copy: c.GetAttributesRequest}
 }
 
 const opListDomains = "ListDomains"
@@ -434,6 +462,7 @@ const opListDomains = "ListDomains"
 type ListDomainsRequest struct {
 	*aws.Request
 	Input *ListDomainsInput
+	Copy  func(*ListDomainsInput) ListDomainsRequest
 }
 
 // Send marshals and sends the ListDomains API request.
@@ -479,58 +508,57 @@ func (c *SimpleDB) ListDomainsRequest(input *ListDomainsInput) ListDomainsReques
 		input = &ListDomainsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDomainsOutput{})
-	return ListDomainsRequest{Request: req, Input: input}
+	output := &ListDomainsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDomainsRequest{Request: req, Input: input, Copy: c.ListDomainsRequest}
 }
 
-// ListDomainsPages iterates over the pages of a ListDomains operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListDomains method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListDomainsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListDomains operation.
-//    pageNum := 0
-//    err := client.ListDomainsPages(params,
-//        func(page *ListDomainsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListDomainsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SimpleDB) ListDomainsPages(input *ListDomainsInput, fn func(*ListDomainsOutput, bool) bool) error {
-	return c.ListDomainsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListDomainsRequest) Paginate(opts ...aws.Option) ListDomainsPager {
+	return ListDomainsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListDomainsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListDomainsPagesWithContext same as ListDomainsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SimpleDB) ListDomainsPagesWithContext(ctx aws.Context, input *ListDomainsInput, fn func(*ListDomainsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListDomainsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListDomainsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListDomainsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListDomainsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListDomainsPager struct {
+	aws.Pager
+}
+
+func (p *ListDomainsPager) CurrentPage() *ListDomainsOutput {
+	return p.Pager.CurrentPage().(*ListDomainsOutput)
 }
 
 const opPutAttributes = "PutAttributes"
@@ -539,6 +567,7 @@ const opPutAttributes = "PutAttributes"
 type PutAttributesRequest struct {
 	*aws.Request
 	Input *PutAttributesInput
+	Copy  func(*PutAttributesInput) PutAttributesRequest
 }
 
 // Send marshals and sends the PutAttributes API request.
@@ -603,10 +632,13 @@ func (c *SimpleDB) PutAttributesRequest(input *PutAttributesInput) PutAttributes
 		input = &PutAttributesInput{}
 	}
 
-	req := c.newRequest(op, input, &PutAttributesOutput{})
+	output := &PutAttributesOutput{}
+	req := c.newRequest(op, input, output)
 	req.Handlers.Unmarshal.Remove(query.UnmarshalHandler)
 	req.Handlers.Unmarshal.PushBackNamed(protocol.UnmarshalDiscardBodyHandler)
-	return PutAttributesRequest{Request: req, Input: input}
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PutAttributesRequest{Request: req, Input: input, Copy: c.PutAttributesRequest}
 }
 
 const opSelect = "Select"
@@ -615,6 +647,7 @@ const opSelect = "Select"
 type SelectRequest struct {
 	*aws.Request
 	Input *SelectInput
+	Copy  func(*SelectInput) SelectRequest
 }
 
 // Send marshals and sends the Select API request.
@@ -665,58 +698,57 @@ func (c *SimpleDB) SelectRequest(input *SelectInput) SelectRequest {
 		input = &SelectInput{}
 	}
 
-	req := c.newRequest(op, input, &SelectOutput{})
-	return SelectRequest{Request: req, Input: input}
+	output := &SelectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return SelectRequest{Request: req, Input: input, Copy: c.SelectRequest}
 }
 
-// SelectPages iterates over the pages of a Select operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See Select method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a SelectRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a Select operation.
-//    pageNum := 0
-//    err := client.SelectPages(params,
-//        func(page *SelectOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.SelectRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *SimpleDB) SelectPages(input *SelectInput, fn func(*SelectOutput, bool) bool) error {
-	return c.SelectPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *SelectRequest) Paginate(opts ...aws.Option) SelectPager {
+	return SelectPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *SelectInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// SelectPagesWithContext same as SelectPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *SimpleDB) SelectPagesWithContext(ctx aws.Context, input *SelectInput, fn func(*SelectOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *SelectInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.SelectRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*SelectOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// SelectPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type SelectPager struct {
+	aws.Pager
+}
+
+func (p *SelectPager) CurrentPage() *SelectOutput {
+	return p.Pager.CurrentPage().(*SelectOutput)
 }
 
 type Attribute struct {
@@ -747,30 +779,6 @@ func (s Attribute) GoString() string {
 	return s.String()
 }
 
-// SetAlternateNameEncoding sets the AlternateNameEncoding field's value.
-func (s *Attribute) SetAlternateNameEncoding(v string) *Attribute {
-	s.AlternateNameEncoding = &v
-	return s
-}
-
-// SetAlternateValueEncoding sets the AlternateValueEncoding field's value.
-func (s *Attribute) SetAlternateValueEncoding(v string) *Attribute {
-	s.AlternateValueEncoding = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Attribute) SetName(v string) *Attribute {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Attribute) SetValue(v string) *Attribute {
-	s.Value = &v
-	return s
-}
-
 type BatchDeleteAttributesInput struct {
 	_ struct{} `type:"structure"`
 
@@ -782,7 +790,7 @@ type BatchDeleteAttributesInput struct {
 	// A list of items on which to perform the operation.
 	//
 	// Items is a required field
-	Items []*DeletableItem `locationNameList:"Item" type:"list" flattened:"true" required:"true"`
+	Items []DeletableItem `locationNameList:"Item" type:"list" flattened:"true" required:"true"`
 }
 
 // String returns the string representation
@@ -808,9 +816,6 @@ func (s *BatchDeleteAttributesInput) Validate() error {
 	}
 	if s.Items != nil {
 		for i, v := range s.Items {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Items", i), err.(aws.ErrInvalidParams))
 			}
@@ -823,20 +828,10 @@ func (s *BatchDeleteAttributesInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *BatchDeleteAttributesInput) SetDomainName(v string) *BatchDeleteAttributesInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetItems sets the Items field's value.
-func (s *BatchDeleteAttributesInput) SetItems(v []*DeletableItem) *BatchDeleteAttributesInput {
-	s.Items = v
-	return s
-}
-
 type BatchDeleteAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -847,6 +842,11 @@ func (s BatchDeleteAttributesOutput) String() string {
 // GoString returns the string representation
 func (s BatchDeleteAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchDeleteAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type BatchPutAttributesInput struct {
@@ -860,7 +860,7 @@ type BatchPutAttributesInput struct {
 	// A list of items on which to perform the operation.
 	//
 	// Items is a required field
-	Items []*ReplaceableItem `locationNameList:"Item" type:"list" flattened:"true" required:"true"`
+	Items []ReplaceableItem `locationNameList:"Item" type:"list" flattened:"true" required:"true"`
 }
 
 // String returns the string representation
@@ -886,9 +886,6 @@ func (s *BatchPutAttributesInput) Validate() error {
 	}
 	if s.Items != nil {
 		for i, v := range s.Items {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Items", i), err.(aws.ErrInvalidParams))
 			}
@@ -901,20 +898,10 @@ func (s *BatchPutAttributesInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *BatchPutAttributesInput) SetDomainName(v string) *BatchPutAttributesInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetItems sets the Items field's value.
-func (s *BatchPutAttributesInput) SetItems(v []*ReplaceableItem) *BatchPutAttributesInput {
-	s.Items = v
-	return s
-}
-
 type BatchPutAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -925,6 +912,11 @@ func (s BatchPutAttributesOutput) String() string {
 // GoString returns the string representation
 func (s BatchPutAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s BatchPutAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type CreateDomainInput struct {
@@ -961,14 +953,10 @@ func (s *CreateDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *CreateDomainInput) SetDomainName(v string) *CreateDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 type CreateDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -979,6 +967,11 @@ func (s CreateDomainOutput) String() string {
 // GoString returns the string representation
 func (s CreateDomainOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeletableAttribute struct {
@@ -1017,22 +1010,10 @@ func (s *DeletableAttribute) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *DeletableAttribute) SetName(v string) *DeletableAttribute {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *DeletableAttribute) SetValue(v string) *DeletableAttribute {
-	s.Value = &v
-	return s
-}
-
 type DeletableItem struct {
 	_ struct{} `type:"structure"`
 
-	Attributes []*DeletableAttribute `locationNameList:"Attribute" type:"list" flattened:"true"`
+	Attributes []DeletableAttribute `locationNameList:"Attribute" type:"list" flattened:"true"`
 
 	// Name is a required field
 	Name *string `locationName:"ItemName" type:"string" required:"true"`
@@ -1057,9 +1038,6 @@ func (s *DeletableItem) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -1072,24 +1050,12 @@ func (s *DeletableItem) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *DeletableItem) SetAttributes(v []*DeletableAttribute) *DeletableItem {
-	s.Attributes = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DeletableItem) SetName(v string) *DeletableItem {
-	s.Name = &v
-	return s
-}
-
 type DeleteAttributesInput struct {
 	_ struct{} `type:"structure"`
 
 	// A list of Attributes. Similar to columns on a spreadsheet, attributes represent
 	// categories of data that can be assigned to items.
-	Attributes []*DeletableAttribute `locationNameList:"Attribute" type:"list" flattened:"true"`
+	Attributes []DeletableAttribute `locationNameList:"Attribute" type:"list" flattened:"true"`
 
 	// The name of the domain in which to perform the operation.
 	//
@@ -1131,9 +1097,6 @@ func (s *DeleteAttributesInput) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -1146,32 +1109,10 @@ func (s *DeleteAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *DeleteAttributesInput) SetAttributes(v []*DeletableAttribute) *DeleteAttributesInput {
-	s.Attributes = v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteAttributesInput) SetDomainName(v string) *DeleteAttributesInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetExpected sets the Expected field's value.
-func (s *DeleteAttributesInput) SetExpected(v *UpdateCondition) *DeleteAttributesInput {
-	s.Expected = v
-	return s
-}
-
-// SetItemName sets the ItemName field's value.
-func (s *DeleteAttributesInput) SetItemName(v string) *DeleteAttributesInput {
-	s.ItemName = &v
-	return s
-}
-
 type DeleteAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1182,6 +1123,11 @@ func (s DeleteAttributesOutput) String() string {
 // GoString returns the string representation
 func (s DeleteAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DeleteDomainInput struct {
@@ -1217,14 +1163,10 @@ func (s *DeleteDomainInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DeleteDomainInput) SetDomainName(v string) *DeleteDomainInput {
-	s.DomainName = &v
-	return s
-}
-
 type DeleteDomainOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1235,6 +1177,11 @@ func (s DeleteDomainOutput) String() string {
 // GoString returns the string representation
 func (s DeleteDomainOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDomainOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type DomainMetadataInput struct {
@@ -1270,14 +1217,10 @@ func (s *DomainMetadataInput) Validate() error {
 	return nil
 }
 
-// SetDomainName sets the DomainName field's value.
-func (s *DomainMetadataInput) SetDomainName(v string) *DomainMetadataInput {
-	s.DomainName = &v
-	return s
-}
-
 type DomainMetadataOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The number of unique attribute names in the domain.
 	AttributeNameCount *int64 `type:"integer"`
@@ -1311,53 +1254,16 @@ func (s DomainMetadataOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributeNameCount sets the AttributeNameCount field's value.
-func (s *DomainMetadataOutput) SetAttributeNameCount(v int64) *DomainMetadataOutput {
-	s.AttributeNameCount = &v
-	return s
-}
-
-// SetAttributeNamesSizeBytes sets the AttributeNamesSizeBytes field's value.
-func (s *DomainMetadataOutput) SetAttributeNamesSizeBytes(v int64) *DomainMetadataOutput {
-	s.AttributeNamesSizeBytes = &v
-	return s
-}
-
-// SetAttributeValueCount sets the AttributeValueCount field's value.
-func (s *DomainMetadataOutput) SetAttributeValueCount(v int64) *DomainMetadataOutput {
-	s.AttributeValueCount = &v
-	return s
-}
-
-// SetAttributeValuesSizeBytes sets the AttributeValuesSizeBytes field's value.
-func (s *DomainMetadataOutput) SetAttributeValuesSizeBytes(v int64) *DomainMetadataOutput {
-	s.AttributeValuesSizeBytes = &v
-	return s
-}
-
-// SetItemCount sets the ItemCount field's value.
-func (s *DomainMetadataOutput) SetItemCount(v int64) *DomainMetadataOutput {
-	s.ItemCount = &v
-	return s
-}
-
-// SetItemNamesSizeBytes sets the ItemNamesSizeBytes field's value.
-func (s *DomainMetadataOutput) SetItemNamesSizeBytes(v int64) *DomainMetadataOutput {
-	s.ItemNamesSizeBytes = &v
-	return s
-}
-
-// SetTimestamp sets the Timestamp field's value.
-func (s *DomainMetadataOutput) SetTimestamp(v int64) *DomainMetadataOutput {
-	s.Timestamp = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DomainMetadataOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type GetAttributesInput struct {
 	_ struct{} `type:"structure"`
 
 	// The names of the attributes.
-	AttributeNames []*string `locationNameList:"AttributeName" type:"list" flattened:"true"`
+	AttributeNames []string `locationNameList:"AttributeName" type:"list" flattened:"true"`
 
 	// Determines whether or not strong consistency should be enforced when data
 	// is read from SimpleDB. If true
@@ -1402,35 +1308,13 @@ func (s *GetAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributeNames sets the AttributeNames field's value.
-func (s *GetAttributesInput) SetAttributeNames(v []*string) *GetAttributesInput {
-	s.AttributeNames = v
-	return s
-}
-
-// SetConsistentRead sets the ConsistentRead field's value.
-func (s *GetAttributesInput) SetConsistentRead(v bool) *GetAttributesInput {
-	s.ConsistentRead = &v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *GetAttributesInput) SetDomainName(v string) *GetAttributesInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetItemName sets the ItemName field's value.
-func (s *GetAttributesInput) SetItemName(v string) *GetAttributesInput {
-	s.ItemName = &v
-	return s
-}
-
 type GetAttributesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The list of attributes returned by the operation.
-	Attributes []*Attribute `locationNameList:"Attribute" type:"list" flattened:"true"`
+	Attributes []Attribute `locationNameList:"Attribute" type:"list" flattened:"true"`
 }
 
 // String returns the string representation
@@ -1443,10 +1327,9 @@ func (s GetAttributesOutput) GoString() string {
 	return s.String()
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *GetAttributesOutput) SetAttributes(v []*Attribute) *GetAttributesOutput {
-	s.Attributes = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type Item struct {
@@ -1457,7 +1340,7 @@ type Item struct {
 	// A list of attributes.
 	//
 	// Attributes is a required field
-	Attributes []*Attribute `locationNameList:"Attribute" type:"list" flattened:"true" required:"true"`
+	Attributes []Attribute `locationNameList:"Attribute" type:"list" flattened:"true" required:"true"`
 
 	// The name of the item.
 	//
@@ -1473,24 +1356,6 @@ func (s Item) String() string {
 // GoString returns the string representation
 func (s Item) GoString() string {
 	return s.String()
-}
-
-// SetAlternateNameEncoding sets the AlternateNameEncoding field's value.
-func (s *Item) SetAlternateNameEncoding(v string) *Item {
-	s.AlternateNameEncoding = &v
-	return s
-}
-
-// SetAttributes sets the Attributes field's value.
-func (s *Item) SetAttributes(v []*Attribute) *Item {
-	s.Attributes = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Item) SetName(v string) *Item {
-	s.Name = &v
-	return s
 }
 
 type ListDomainsInput struct {
@@ -1515,23 +1380,13 @@ func (s ListDomainsInput) GoString() string {
 	return s.String()
 }
 
-// SetMaxNumberOfDomains sets the MaxNumberOfDomains field's value.
-func (s *ListDomainsInput) SetMaxNumberOfDomains(v int64) *ListDomainsInput {
-	s.MaxNumberOfDomains = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDomainsInput) SetNextToken(v string) *ListDomainsInput {
-	s.NextToken = &v
-	return s
-}
-
 type ListDomainsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of domain names that match the expression.
-	DomainNames []*string `locationNameList:"DomainName" type:"list" flattened:"true"`
+	DomainNames []string `locationNameList:"DomainName" type:"list" flattened:"true"`
 
 	// An opaque token indicating that there are more domains than the specified
 	// MaxNumberOfDomains
@@ -1548,16 +1403,9 @@ func (s ListDomainsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDomainNames sets the DomainNames field's value.
-func (s *ListDomainsOutput) SetDomainNames(v []*string) *ListDomainsOutput {
-	s.DomainNames = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDomainsOutput) SetNextToken(v string) *ListDomainsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDomainsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type PutAttributesInput struct {
@@ -1566,7 +1414,7 @@ type PutAttributesInput struct {
 	// The list of attributes.
 	//
 	// Attributes is a required field
-	Attributes []*ReplaceableAttribute `locationNameList:"Attribute" type:"list" flattened:"true" required:"true"`
+	Attributes []ReplaceableAttribute `locationNameList:"Attribute" type:"list" flattened:"true" required:"true"`
 
 	// The name of the domain in which to perform the operation.
 	//
@@ -1611,9 +1459,6 @@ func (s *PutAttributesInput) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -1626,32 +1471,10 @@ func (s *PutAttributesInput) Validate() error {
 	return nil
 }
 
-// SetAttributes sets the Attributes field's value.
-func (s *PutAttributesInput) SetAttributes(v []*ReplaceableAttribute) *PutAttributesInput {
-	s.Attributes = v
-	return s
-}
-
-// SetDomainName sets the DomainName field's value.
-func (s *PutAttributesInput) SetDomainName(v string) *PutAttributesInput {
-	s.DomainName = &v
-	return s
-}
-
-// SetExpected sets the Expected field's value.
-func (s *PutAttributesInput) SetExpected(v *UpdateCondition) *PutAttributesInput {
-	s.Expected = v
-	return s
-}
-
-// SetItemName sets the ItemName field's value.
-func (s *PutAttributesInput) SetItemName(v string) *PutAttributesInput {
-	s.ItemName = &v
-	return s
-}
-
 type PutAttributesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1662,6 +1485,11 @@ func (s PutAttributesOutput) String() string {
 // GoString returns the string representation
 func (s PutAttributesOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PutAttributesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type ReplaceableAttribute struct {
@@ -1710,31 +1538,13 @@ func (s *ReplaceableAttribute) Validate() error {
 	return nil
 }
 
-// SetName sets the Name field's value.
-func (s *ReplaceableAttribute) SetName(v string) *ReplaceableAttribute {
-	s.Name = &v
-	return s
-}
-
-// SetReplace sets the Replace field's value.
-func (s *ReplaceableAttribute) SetReplace(v bool) *ReplaceableAttribute {
-	s.Replace = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *ReplaceableAttribute) SetValue(v string) *ReplaceableAttribute {
-	s.Value = &v
-	return s
-}
-
 type ReplaceableItem struct {
 	_ struct{} `type:"structure"`
 
 	// The list of attributes for a replaceable item.
 	//
 	// Attributes is a required field
-	Attributes []*ReplaceableAttribute `locationNameList:"Attribute" type:"list" flattened:"true" required:"true"`
+	Attributes []ReplaceableAttribute `locationNameList:"Attribute" type:"list" flattened:"true" required:"true"`
 
 	// The name of the replaceable item.
 	//
@@ -1765,9 +1575,6 @@ func (s *ReplaceableItem) Validate() error {
 	}
 	if s.Attributes != nil {
 		for i, v := range s.Attributes {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "Attributes", i), err.(aws.ErrInvalidParams))
 			}
@@ -1778,18 +1585,6 @@ func (s *ReplaceableItem) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAttributes sets the Attributes field's value.
-func (s *ReplaceableItem) SetAttributes(v []*ReplaceableAttribute) *ReplaceableItem {
-	s.Attributes = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ReplaceableItem) SetName(v string) *ReplaceableItem {
-	s.Name = &v
-	return s
 }
 
 type SelectInput struct {
@@ -1832,29 +1627,13 @@ func (s *SelectInput) Validate() error {
 	return nil
 }
 
-// SetConsistentRead sets the ConsistentRead field's value.
-func (s *SelectInput) SetConsistentRead(v bool) *SelectInput {
-	s.ConsistentRead = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *SelectInput) SetNextToken(v string) *SelectInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSelectExpression sets the SelectExpression field's value.
-func (s *SelectInput) SetSelectExpression(v string) *SelectInput {
-	s.SelectExpression = &v
-	return s
-}
-
 type SelectOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of items that match the select expression.
-	Items []*Item `locationNameList:"Item" type:"list" flattened:"true"`
+	Items []Item `locationNameList:"Item" type:"list" flattened:"true"`
 
 	// An opaque token indicating that more items than MaxNumberOfItems
 	NextToken *string `type:"string"`
@@ -1870,16 +1649,9 @@ func (s SelectOutput) GoString() string {
 	return s.String()
 }
 
-// SetItems sets the Items field's value.
-func (s *SelectOutput) SetItems(v []*Item) *SelectOutput {
-	s.Items = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *SelectOutput) SetNextToken(v string) *SelectOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s SelectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Specifies the conditions under which data should be updated. If an update
@@ -1912,22 +1684,4 @@ func (s UpdateCondition) String() string {
 // GoString returns the string representation
 func (s UpdateCondition) GoString() string {
 	return s.String()
-}
-
-// SetExists sets the Exists field's value.
-func (s *UpdateCondition) SetExists(v bool) *UpdateCondition {
-	s.Exists = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateCondition) SetName(v string) *UpdateCondition {
-	s.Name = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *UpdateCondition) SetValue(v string) *UpdateCondition {
-	s.Value = &v
-	return s
 }

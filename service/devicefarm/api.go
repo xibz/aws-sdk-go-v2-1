@@ -15,6 +15,7 @@ const opCreateDevicePool = "CreateDevicePool"
 type CreateDevicePoolRequest struct {
 	*aws.Request
 	Input *CreateDevicePoolInput
+	Copy  func(*CreateDevicePoolInput) CreateDevicePoolRequest
 }
 
 // Send marshals and sends the CreateDevicePool API request.
@@ -51,8 +52,62 @@ func (c *DeviceFarm) CreateDevicePoolRequest(input *CreateDevicePoolInput) Creat
 		input = &CreateDevicePoolInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateDevicePoolOutput{})
-	return CreateDevicePoolRequest{Request: req, Input: input}
+	output := &CreateDevicePoolOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateDevicePoolRequest{Request: req, Input: input, Copy: c.CreateDevicePoolRequest}
+}
+
+const opCreateInstanceProfile = "CreateInstanceProfile"
+
+// CreateInstanceProfileRequest is a API request type for the CreateInstanceProfile API operation.
+type CreateInstanceProfileRequest struct {
+	*aws.Request
+	Input *CreateInstanceProfileInput
+	Copy  func(*CreateInstanceProfileInput) CreateInstanceProfileRequest
+}
+
+// Send marshals and sends the CreateInstanceProfile API request.
+func (r CreateInstanceProfileRequest) Send() (*CreateInstanceProfileOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateInstanceProfileOutput), nil
+}
+
+// CreateInstanceProfileRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Creates a profile that can be applied to one or more private fleet device
+// instances.
+//
+//    // Example sending a request using the CreateInstanceProfileRequest method.
+//    req := client.CreateInstanceProfileRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateInstanceProfile
+func (c *DeviceFarm) CreateInstanceProfileRequest(input *CreateInstanceProfileInput) CreateInstanceProfileRequest {
+	op := &aws.Operation{
+		Name:       opCreateInstanceProfile,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateInstanceProfileInput{}
+	}
+
+	output := &CreateInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateInstanceProfileRequest{Request: req, Input: input, Copy: c.CreateInstanceProfileRequest}
 }
 
 const opCreateNetworkProfile = "CreateNetworkProfile"
@@ -61,6 +116,7 @@ const opCreateNetworkProfile = "CreateNetworkProfile"
 type CreateNetworkProfileRequest struct {
 	*aws.Request
 	Input *CreateNetworkProfileInput
+	Copy  func(*CreateNetworkProfileInput) CreateNetworkProfileRequest
 }
 
 // Send marshals and sends the CreateNetworkProfile API request.
@@ -97,8 +153,11 @@ func (c *DeviceFarm) CreateNetworkProfileRequest(input *CreateNetworkProfileInpu
 		input = &CreateNetworkProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateNetworkProfileOutput{})
-	return CreateNetworkProfileRequest{Request: req, Input: input}
+	output := &CreateNetworkProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateNetworkProfileRequest{Request: req, Input: input, Copy: c.CreateNetworkProfileRequest}
 }
 
 const opCreateProject = "CreateProject"
@@ -107,6 +166,7 @@ const opCreateProject = "CreateProject"
 type CreateProjectRequest struct {
 	*aws.Request
 	Input *CreateProjectInput
+	Copy  func(*CreateProjectInput) CreateProjectRequest
 }
 
 // Send marshals and sends the CreateProject API request.
@@ -143,8 +203,11 @@ func (c *DeviceFarm) CreateProjectRequest(input *CreateProjectInput) CreateProje
 		input = &CreateProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateProjectOutput{})
-	return CreateProjectRequest{Request: req, Input: input}
+	output := &CreateProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateProjectRequest{Request: req, Input: input, Copy: c.CreateProjectRequest}
 }
 
 const opCreateRemoteAccessSession = "CreateRemoteAccessSession"
@@ -153,6 +216,7 @@ const opCreateRemoteAccessSession = "CreateRemoteAccessSession"
 type CreateRemoteAccessSessionRequest struct {
 	*aws.Request
 	Input *CreateRemoteAccessSessionInput
+	Copy  func(*CreateRemoteAccessSessionInput) CreateRemoteAccessSessionRequest
 }
 
 // Send marshals and sends the CreateRemoteAccessSession API request.
@@ -189,8 +253,11 @@ func (c *DeviceFarm) CreateRemoteAccessSessionRequest(input *CreateRemoteAccessS
 		input = &CreateRemoteAccessSessionInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateRemoteAccessSessionOutput{})
-	return CreateRemoteAccessSessionRequest{Request: req, Input: input}
+	output := &CreateRemoteAccessSessionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateRemoteAccessSessionRequest{Request: req, Input: input, Copy: c.CreateRemoteAccessSessionRequest}
 }
 
 const opCreateUpload = "CreateUpload"
@@ -199,6 +266,7 @@ const opCreateUpload = "CreateUpload"
 type CreateUploadRequest struct {
 	*aws.Request
 	Input *CreateUploadInput
+	Copy  func(*CreateUploadInput) CreateUploadRequest
 }
 
 // Send marshals and sends the CreateUpload API request.
@@ -235,8 +303,62 @@ func (c *DeviceFarm) CreateUploadRequest(input *CreateUploadInput) CreateUploadR
 		input = &CreateUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateUploadOutput{})
-	return CreateUploadRequest{Request: req, Input: input}
+	output := &CreateUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateUploadRequest{Request: req, Input: input, Copy: c.CreateUploadRequest}
+}
+
+const opCreateVPCEConfiguration = "CreateVPCEConfiguration"
+
+// CreateVPCEConfigurationRequest is a API request type for the CreateVPCEConfiguration API operation.
+type CreateVPCEConfigurationRequest struct {
+	*aws.Request
+	Input *CreateVPCEConfigurationInput
+	Copy  func(*CreateVPCEConfigurationInput) CreateVPCEConfigurationRequest
+}
+
+// Send marshals and sends the CreateVPCEConfiguration API request.
+func (r CreateVPCEConfigurationRequest) Send() (*CreateVPCEConfigurationOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*CreateVPCEConfigurationOutput), nil
+}
+
+// CreateVPCEConfigurationRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Creates a configuration record in Device Farm for your Amazon Virtual Private
+// Cloud (VPC) endpoint.
+//
+//    // Example sending a request using the CreateVPCEConfigurationRequest method.
+//    req := client.CreateVPCEConfigurationRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateVPCEConfiguration
+func (c *DeviceFarm) CreateVPCEConfigurationRequest(input *CreateVPCEConfigurationInput) CreateVPCEConfigurationRequest {
+	op := &aws.Operation{
+		Name:       opCreateVPCEConfiguration,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &CreateVPCEConfigurationInput{}
+	}
+
+	output := &CreateVPCEConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateVPCEConfigurationRequest{Request: req, Input: input, Copy: c.CreateVPCEConfigurationRequest}
 }
 
 const opDeleteDevicePool = "DeleteDevicePool"
@@ -245,6 +367,7 @@ const opDeleteDevicePool = "DeleteDevicePool"
 type DeleteDevicePoolRequest struct {
 	*aws.Request
 	Input *DeleteDevicePoolInput
+	Copy  func(*DeleteDevicePoolInput) DeleteDevicePoolRequest
 }
 
 // Send marshals and sends the DeleteDevicePool API request.
@@ -282,8 +405,61 @@ func (c *DeviceFarm) DeleteDevicePoolRequest(input *DeleteDevicePoolInput) Delet
 		input = &DeleteDevicePoolInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteDevicePoolOutput{})
-	return DeleteDevicePoolRequest{Request: req, Input: input}
+	output := &DeleteDevicePoolOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteDevicePoolRequest{Request: req, Input: input, Copy: c.DeleteDevicePoolRequest}
+}
+
+const opDeleteInstanceProfile = "DeleteInstanceProfile"
+
+// DeleteInstanceProfileRequest is a API request type for the DeleteInstanceProfile API operation.
+type DeleteInstanceProfileRequest struct {
+	*aws.Request
+	Input *DeleteInstanceProfileInput
+	Copy  func(*DeleteInstanceProfileInput) DeleteInstanceProfileRequest
+}
+
+// Send marshals and sends the DeleteInstanceProfile API request.
+func (r DeleteInstanceProfileRequest) Send() (*DeleteInstanceProfileOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteInstanceProfileOutput), nil
+}
+
+// DeleteInstanceProfileRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Deletes a profile that can be applied to one or more private device instances.
+//
+//    // Example sending a request using the DeleteInstanceProfileRequest method.
+//    req := client.DeleteInstanceProfileRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteInstanceProfile
+func (c *DeviceFarm) DeleteInstanceProfileRequest(input *DeleteInstanceProfileInput) DeleteInstanceProfileRequest {
+	op := &aws.Operation{
+		Name:       opDeleteInstanceProfile,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteInstanceProfileInput{}
+	}
+
+	output := &DeleteInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteInstanceProfileRequest{Request: req, Input: input, Copy: c.DeleteInstanceProfileRequest}
 }
 
 const opDeleteNetworkProfile = "DeleteNetworkProfile"
@@ -292,6 +468,7 @@ const opDeleteNetworkProfile = "DeleteNetworkProfile"
 type DeleteNetworkProfileRequest struct {
 	*aws.Request
 	Input *DeleteNetworkProfileInput
+	Copy  func(*DeleteNetworkProfileInput) DeleteNetworkProfileRequest
 }
 
 // Send marshals and sends the DeleteNetworkProfile API request.
@@ -328,8 +505,11 @@ func (c *DeviceFarm) DeleteNetworkProfileRequest(input *DeleteNetworkProfileInpu
 		input = &DeleteNetworkProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteNetworkProfileOutput{})
-	return DeleteNetworkProfileRequest{Request: req, Input: input}
+	output := &DeleteNetworkProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteNetworkProfileRequest{Request: req, Input: input, Copy: c.DeleteNetworkProfileRequest}
 }
 
 const opDeleteProject = "DeleteProject"
@@ -338,6 +518,7 @@ const opDeleteProject = "DeleteProject"
 type DeleteProjectRequest struct {
 	*aws.Request
 	Input *DeleteProjectInput
+	Copy  func(*DeleteProjectInput) DeleteProjectRequest
 }
 
 // Send marshals and sends the DeleteProject API request.
@@ -376,8 +557,11 @@ func (c *DeviceFarm) DeleteProjectRequest(input *DeleteProjectInput) DeleteProje
 		input = &DeleteProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteProjectOutput{})
-	return DeleteProjectRequest{Request: req, Input: input}
+	output := &DeleteProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteProjectRequest{Request: req, Input: input, Copy: c.DeleteProjectRequest}
 }
 
 const opDeleteRemoteAccessSession = "DeleteRemoteAccessSession"
@@ -386,6 +570,7 @@ const opDeleteRemoteAccessSession = "DeleteRemoteAccessSession"
 type DeleteRemoteAccessSessionRequest struct {
 	*aws.Request
 	Input *DeleteRemoteAccessSessionInput
+	Copy  func(*DeleteRemoteAccessSessionInput) DeleteRemoteAccessSessionRequest
 }
 
 // Send marshals and sends the DeleteRemoteAccessSession API request.
@@ -422,8 +607,11 @@ func (c *DeviceFarm) DeleteRemoteAccessSessionRequest(input *DeleteRemoteAccessS
 		input = &DeleteRemoteAccessSessionInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRemoteAccessSessionOutput{})
-	return DeleteRemoteAccessSessionRequest{Request: req, Input: input}
+	output := &DeleteRemoteAccessSessionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRemoteAccessSessionRequest{Request: req, Input: input, Copy: c.DeleteRemoteAccessSessionRequest}
 }
 
 const opDeleteRun = "DeleteRun"
@@ -432,6 +620,7 @@ const opDeleteRun = "DeleteRun"
 type DeleteRunRequest struct {
 	*aws.Request
 	Input *DeleteRunInput
+	Copy  func(*DeleteRunInput) DeleteRunRequest
 }
 
 // Send marshals and sends the DeleteRun API request.
@@ -470,8 +659,11 @@ func (c *DeviceFarm) DeleteRunRequest(input *DeleteRunInput) DeleteRunRequest {
 		input = &DeleteRunInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteRunOutput{})
-	return DeleteRunRequest{Request: req, Input: input}
+	output := &DeleteRunOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteRunRequest{Request: req, Input: input, Copy: c.DeleteRunRequest}
 }
 
 const opDeleteUpload = "DeleteUpload"
@@ -480,6 +672,7 @@ const opDeleteUpload = "DeleteUpload"
 type DeleteUploadRequest struct {
 	*aws.Request
 	Input *DeleteUploadInput
+	Copy  func(*DeleteUploadInput) DeleteUploadRequest
 }
 
 // Send marshals and sends the DeleteUpload API request.
@@ -516,8 +709,61 @@ func (c *DeviceFarm) DeleteUploadRequest(input *DeleteUploadInput) DeleteUploadR
 		input = &DeleteUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteUploadOutput{})
-	return DeleteUploadRequest{Request: req, Input: input}
+	output := &DeleteUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteUploadRequest{Request: req, Input: input, Copy: c.DeleteUploadRequest}
+}
+
+const opDeleteVPCEConfiguration = "DeleteVPCEConfiguration"
+
+// DeleteVPCEConfigurationRequest is a API request type for the DeleteVPCEConfiguration API operation.
+type DeleteVPCEConfigurationRequest struct {
+	*aws.Request
+	Input *DeleteVPCEConfigurationInput
+	Copy  func(*DeleteVPCEConfigurationInput) DeleteVPCEConfigurationRequest
+}
+
+// Send marshals and sends the DeleteVPCEConfiguration API request.
+func (r DeleteVPCEConfigurationRequest) Send() (*DeleteVPCEConfigurationOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*DeleteVPCEConfigurationOutput), nil
+}
+
+// DeleteVPCEConfigurationRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
+//
+//    // Example sending a request using the DeleteVPCEConfigurationRequest method.
+//    req := client.DeleteVPCEConfigurationRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteVPCEConfiguration
+func (c *DeviceFarm) DeleteVPCEConfigurationRequest(input *DeleteVPCEConfigurationInput) DeleteVPCEConfigurationRequest {
+	op := &aws.Operation{
+		Name:       opDeleteVPCEConfiguration,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &DeleteVPCEConfigurationInput{}
+	}
+
+	output := &DeleteVPCEConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteVPCEConfigurationRequest{Request: req, Input: input, Copy: c.DeleteVPCEConfigurationRequest}
 }
 
 const opGetAccountSettings = "GetAccountSettings"
@@ -526,6 +772,7 @@ const opGetAccountSettings = "GetAccountSettings"
 type GetAccountSettingsRequest struct {
 	*aws.Request
 	Input *GetAccountSettingsInput
+	Copy  func(*GetAccountSettingsInput) GetAccountSettingsRequest
 }
 
 // Send marshals and sends the GetAccountSettings API request.
@@ -563,8 +810,11 @@ func (c *DeviceFarm) GetAccountSettingsRequest(input *GetAccountSettingsInput) G
 		input = &GetAccountSettingsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetAccountSettingsOutput{})
-	return GetAccountSettingsRequest{Request: req, Input: input}
+	output := &GetAccountSettingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetAccountSettingsRequest{Request: req, Input: input, Copy: c.GetAccountSettingsRequest}
 }
 
 const opGetDevice = "GetDevice"
@@ -573,6 +823,7 @@ const opGetDevice = "GetDevice"
 type GetDeviceRequest struct {
 	*aws.Request
 	Input *GetDeviceInput
+	Copy  func(*GetDeviceInput) GetDeviceRequest
 }
 
 // Send marshals and sends the GetDevice API request.
@@ -609,8 +860,62 @@ func (c *DeviceFarm) GetDeviceRequest(input *GetDeviceInput) GetDeviceRequest {
 		input = &GetDeviceInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDeviceOutput{})
-	return GetDeviceRequest{Request: req, Input: input}
+	output := &GetDeviceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDeviceRequest{Request: req, Input: input, Copy: c.GetDeviceRequest}
+}
+
+const opGetDeviceInstance = "GetDeviceInstance"
+
+// GetDeviceInstanceRequest is a API request type for the GetDeviceInstance API operation.
+type GetDeviceInstanceRequest struct {
+	*aws.Request
+	Input *GetDeviceInstanceInput
+	Copy  func(*GetDeviceInstanceInput) GetDeviceInstanceRequest
+}
+
+// Send marshals and sends the GetDeviceInstance API request.
+func (r GetDeviceInstanceRequest) Send() (*GetDeviceInstanceOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetDeviceInstanceOutput), nil
+}
+
+// GetDeviceInstanceRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Returns information about a device instance belonging to a private device
+// fleet.
+//
+//    // Example sending a request using the GetDeviceInstanceRequest method.
+//    req := client.GetDeviceInstanceRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDeviceInstance
+func (c *DeviceFarm) GetDeviceInstanceRequest(input *GetDeviceInstanceInput) GetDeviceInstanceRequest {
+	op := &aws.Operation{
+		Name:       opGetDeviceInstance,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetDeviceInstanceInput{}
+	}
+
+	output := &GetDeviceInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDeviceInstanceRequest{Request: req, Input: input, Copy: c.GetDeviceInstanceRequest}
 }
 
 const opGetDevicePool = "GetDevicePool"
@@ -619,6 +924,7 @@ const opGetDevicePool = "GetDevicePool"
 type GetDevicePoolRequest struct {
 	*aws.Request
 	Input *GetDevicePoolInput
+	Copy  func(*GetDevicePoolInput) GetDevicePoolRequest
 }
 
 // Send marshals and sends the GetDevicePool API request.
@@ -655,8 +961,11 @@ func (c *DeviceFarm) GetDevicePoolRequest(input *GetDevicePoolInput) GetDevicePo
 		input = &GetDevicePoolInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDevicePoolOutput{})
-	return GetDevicePoolRequest{Request: req, Input: input}
+	output := &GetDevicePoolOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDevicePoolRequest{Request: req, Input: input, Copy: c.GetDevicePoolRequest}
 }
 
 const opGetDevicePoolCompatibility = "GetDevicePoolCompatibility"
@@ -665,6 +974,7 @@ const opGetDevicePoolCompatibility = "GetDevicePoolCompatibility"
 type GetDevicePoolCompatibilityRequest struct {
 	*aws.Request
 	Input *GetDevicePoolCompatibilityInput
+	Copy  func(*GetDevicePoolCompatibilityInput) GetDevicePoolCompatibilityRequest
 }
 
 // Send marshals and sends the GetDevicePoolCompatibility API request.
@@ -701,8 +1011,61 @@ func (c *DeviceFarm) GetDevicePoolCompatibilityRequest(input *GetDevicePoolCompa
 		input = &GetDevicePoolCompatibilityInput{}
 	}
 
-	req := c.newRequest(op, input, &GetDevicePoolCompatibilityOutput{})
-	return GetDevicePoolCompatibilityRequest{Request: req, Input: input}
+	output := &GetDevicePoolCompatibilityOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetDevicePoolCompatibilityRequest{Request: req, Input: input, Copy: c.GetDevicePoolCompatibilityRequest}
+}
+
+const opGetInstanceProfile = "GetInstanceProfile"
+
+// GetInstanceProfileRequest is a API request type for the GetInstanceProfile API operation.
+type GetInstanceProfileRequest struct {
+	*aws.Request
+	Input *GetInstanceProfileInput
+	Copy  func(*GetInstanceProfileInput) GetInstanceProfileRequest
+}
+
+// Send marshals and sends the GetInstanceProfile API request.
+func (r GetInstanceProfileRequest) Send() (*GetInstanceProfileOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetInstanceProfileOutput), nil
+}
+
+// GetInstanceProfileRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Returns information about the specified instance profile.
+//
+//    // Example sending a request using the GetInstanceProfileRequest method.
+//    req := client.GetInstanceProfileRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetInstanceProfile
+func (c *DeviceFarm) GetInstanceProfileRequest(input *GetInstanceProfileInput) GetInstanceProfileRequest {
+	op := &aws.Operation{
+		Name:       opGetInstanceProfile,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetInstanceProfileInput{}
+	}
+
+	output := &GetInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetInstanceProfileRequest{Request: req, Input: input, Copy: c.GetInstanceProfileRequest}
 }
 
 const opGetJob = "GetJob"
@@ -711,6 +1074,7 @@ const opGetJob = "GetJob"
 type GetJobRequest struct {
 	*aws.Request
 	Input *GetJobInput
+	Copy  func(*GetJobInput) GetJobRequest
 }
 
 // Send marshals and sends the GetJob API request.
@@ -747,8 +1111,11 @@ func (c *DeviceFarm) GetJobRequest(input *GetJobInput) GetJobRequest {
 		input = &GetJobInput{}
 	}
 
-	req := c.newRequest(op, input, &GetJobOutput{})
-	return GetJobRequest{Request: req, Input: input}
+	output := &GetJobOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetJobRequest{Request: req, Input: input, Copy: c.GetJobRequest}
 }
 
 const opGetNetworkProfile = "GetNetworkProfile"
@@ -757,6 +1124,7 @@ const opGetNetworkProfile = "GetNetworkProfile"
 type GetNetworkProfileRequest struct {
 	*aws.Request
 	Input *GetNetworkProfileInput
+	Copy  func(*GetNetworkProfileInput) GetNetworkProfileRequest
 }
 
 // Send marshals and sends the GetNetworkProfile API request.
@@ -793,8 +1161,11 @@ func (c *DeviceFarm) GetNetworkProfileRequest(input *GetNetworkProfileInput) Get
 		input = &GetNetworkProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &GetNetworkProfileOutput{})
-	return GetNetworkProfileRequest{Request: req, Input: input}
+	output := &GetNetworkProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetNetworkProfileRequest{Request: req, Input: input, Copy: c.GetNetworkProfileRequest}
 }
 
 const opGetOfferingStatus = "GetOfferingStatus"
@@ -803,6 +1174,7 @@ const opGetOfferingStatus = "GetOfferingStatus"
 type GetOfferingStatusRequest struct {
 	*aws.Request
 	Input *GetOfferingStatusInput
+	Copy  func(*GetOfferingStatusInput) GetOfferingStatusRequest
 }
 
 // Send marshals and sends the GetOfferingStatus API request.
@@ -850,58 +1222,57 @@ func (c *DeviceFarm) GetOfferingStatusRequest(input *GetOfferingStatusInput) Get
 		input = &GetOfferingStatusInput{}
 	}
 
-	req := c.newRequest(op, input, &GetOfferingStatusOutput{})
-	return GetOfferingStatusRequest{Request: req, Input: input}
+	output := &GetOfferingStatusOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetOfferingStatusRequest{Request: req, Input: input, Copy: c.GetOfferingStatusRequest}
 }
 
-// GetOfferingStatusPages iterates over the pages of a GetOfferingStatus operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See GetOfferingStatus method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a GetOfferingStatusRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a GetOfferingStatus operation.
-//    pageNum := 0
-//    err := client.GetOfferingStatusPages(params,
-//        func(page *GetOfferingStatusOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.GetOfferingStatusRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) GetOfferingStatusPages(input *GetOfferingStatusInput, fn func(*GetOfferingStatusOutput, bool) bool) error {
-	return c.GetOfferingStatusPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *GetOfferingStatusRequest) Paginate(opts ...aws.Option) GetOfferingStatusPager {
+	return GetOfferingStatusPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *GetOfferingStatusInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// GetOfferingStatusPagesWithContext same as GetOfferingStatusPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) GetOfferingStatusPagesWithContext(ctx aws.Context, input *GetOfferingStatusInput, fn func(*GetOfferingStatusOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *GetOfferingStatusInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.GetOfferingStatusRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*GetOfferingStatusOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// GetOfferingStatusPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type GetOfferingStatusPager struct {
+	aws.Pager
+}
+
+func (p *GetOfferingStatusPager) CurrentPage() *GetOfferingStatusOutput {
+	return p.Pager.CurrentPage().(*GetOfferingStatusOutput)
 }
 
 const opGetProject = "GetProject"
@@ -910,6 +1281,7 @@ const opGetProject = "GetProject"
 type GetProjectRequest struct {
 	*aws.Request
 	Input *GetProjectInput
+	Copy  func(*GetProjectInput) GetProjectRequest
 }
 
 // Send marshals and sends the GetProject API request.
@@ -946,8 +1318,11 @@ func (c *DeviceFarm) GetProjectRequest(input *GetProjectInput) GetProjectRequest
 		input = &GetProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &GetProjectOutput{})
-	return GetProjectRequest{Request: req, Input: input}
+	output := &GetProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetProjectRequest{Request: req, Input: input, Copy: c.GetProjectRequest}
 }
 
 const opGetRemoteAccessSession = "GetRemoteAccessSession"
@@ -956,6 +1331,7 @@ const opGetRemoteAccessSession = "GetRemoteAccessSession"
 type GetRemoteAccessSessionRequest struct {
 	*aws.Request
 	Input *GetRemoteAccessSessionInput
+	Copy  func(*GetRemoteAccessSessionInput) GetRemoteAccessSessionRequest
 }
 
 // Send marshals and sends the GetRemoteAccessSession API request.
@@ -992,8 +1368,11 @@ func (c *DeviceFarm) GetRemoteAccessSessionRequest(input *GetRemoteAccessSession
 		input = &GetRemoteAccessSessionInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRemoteAccessSessionOutput{})
-	return GetRemoteAccessSessionRequest{Request: req, Input: input}
+	output := &GetRemoteAccessSessionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRemoteAccessSessionRequest{Request: req, Input: input, Copy: c.GetRemoteAccessSessionRequest}
 }
 
 const opGetRun = "GetRun"
@@ -1002,6 +1381,7 @@ const opGetRun = "GetRun"
 type GetRunRequest struct {
 	*aws.Request
 	Input *GetRunInput
+	Copy  func(*GetRunInput) GetRunRequest
 }
 
 // Send marshals and sends the GetRun API request.
@@ -1038,8 +1418,11 @@ func (c *DeviceFarm) GetRunRequest(input *GetRunInput) GetRunRequest {
 		input = &GetRunInput{}
 	}
 
-	req := c.newRequest(op, input, &GetRunOutput{})
-	return GetRunRequest{Request: req, Input: input}
+	output := &GetRunOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetRunRequest{Request: req, Input: input, Copy: c.GetRunRequest}
 }
 
 const opGetSuite = "GetSuite"
@@ -1048,6 +1431,7 @@ const opGetSuite = "GetSuite"
 type GetSuiteRequest struct {
 	*aws.Request
 	Input *GetSuiteInput
+	Copy  func(*GetSuiteInput) GetSuiteRequest
 }
 
 // Send marshals and sends the GetSuite API request.
@@ -1084,8 +1468,11 @@ func (c *DeviceFarm) GetSuiteRequest(input *GetSuiteInput) GetSuiteRequest {
 		input = &GetSuiteInput{}
 	}
 
-	req := c.newRequest(op, input, &GetSuiteOutput{})
-	return GetSuiteRequest{Request: req, Input: input}
+	output := &GetSuiteOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetSuiteRequest{Request: req, Input: input, Copy: c.GetSuiteRequest}
 }
 
 const opGetTest = "GetTest"
@@ -1094,6 +1481,7 @@ const opGetTest = "GetTest"
 type GetTestRequest struct {
 	*aws.Request
 	Input *GetTestInput
+	Copy  func(*GetTestInput) GetTestRequest
 }
 
 // Send marshals and sends the GetTest API request.
@@ -1130,8 +1518,11 @@ func (c *DeviceFarm) GetTestRequest(input *GetTestInput) GetTestRequest {
 		input = &GetTestInput{}
 	}
 
-	req := c.newRequest(op, input, &GetTestOutput{})
-	return GetTestRequest{Request: req, Input: input}
+	output := &GetTestOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetTestRequest{Request: req, Input: input, Copy: c.GetTestRequest}
 }
 
 const opGetUpload = "GetUpload"
@@ -1140,6 +1531,7 @@ const opGetUpload = "GetUpload"
 type GetUploadRequest struct {
 	*aws.Request
 	Input *GetUploadInput
+	Copy  func(*GetUploadInput) GetUploadRequest
 }
 
 // Send marshals and sends the GetUpload API request.
@@ -1176,8 +1568,62 @@ func (c *DeviceFarm) GetUploadRequest(input *GetUploadInput) GetUploadRequest {
 		input = &GetUploadInput{}
 	}
 
-	req := c.newRequest(op, input, &GetUploadOutput{})
-	return GetUploadRequest{Request: req, Input: input}
+	output := &GetUploadOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetUploadRequest{Request: req, Input: input, Copy: c.GetUploadRequest}
+}
+
+const opGetVPCEConfiguration = "GetVPCEConfiguration"
+
+// GetVPCEConfigurationRequest is a API request type for the GetVPCEConfiguration API operation.
+type GetVPCEConfigurationRequest struct {
+	*aws.Request
+	Input *GetVPCEConfigurationInput
+	Copy  func(*GetVPCEConfigurationInput) GetVPCEConfigurationRequest
+}
+
+// Send marshals and sends the GetVPCEConfiguration API request.
+func (r GetVPCEConfigurationRequest) Send() (*GetVPCEConfigurationOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*GetVPCEConfigurationOutput), nil
+}
+
+// GetVPCEConfigurationRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Returns information about the configuration settings for your Amazon Virtual
+// Private Cloud (VPC) endpoint.
+//
+//    // Example sending a request using the GetVPCEConfigurationRequest method.
+//    req := client.GetVPCEConfigurationRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetVPCEConfiguration
+func (c *DeviceFarm) GetVPCEConfigurationRequest(input *GetVPCEConfigurationInput) GetVPCEConfigurationRequest {
+	op := &aws.Operation{
+		Name:       opGetVPCEConfiguration,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &GetVPCEConfigurationInput{}
+	}
+
+	output := &GetVPCEConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetVPCEConfigurationRequest{Request: req, Input: input, Copy: c.GetVPCEConfigurationRequest}
 }
 
 const opInstallToRemoteAccessSession = "InstallToRemoteAccessSession"
@@ -1186,6 +1632,7 @@ const opInstallToRemoteAccessSession = "InstallToRemoteAccessSession"
 type InstallToRemoteAccessSessionRequest struct {
 	*aws.Request
 	Input *InstallToRemoteAccessSessionInput
+	Copy  func(*InstallToRemoteAccessSessionInput) InstallToRemoteAccessSessionRequest
 }
 
 // Send marshals and sends the InstallToRemoteAccessSession API request.
@@ -1224,8 +1671,11 @@ func (c *DeviceFarm) InstallToRemoteAccessSessionRequest(input *InstallToRemoteA
 		input = &InstallToRemoteAccessSessionInput{}
 	}
 
-	req := c.newRequest(op, input, &InstallToRemoteAccessSessionOutput{})
-	return InstallToRemoteAccessSessionRequest{Request: req, Input: input}
+	output := &InstallToRemoteAccessSessionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InstallToRemoteAccessSessionRequest{Request: req, Input: input, Copy: c.InstallToRemoteAccessSessionRequest}
 }
 
 const opListArtifacts = "ListArtifacts"
@@ -1234,6 +1684,7 @@ const opListArtifacts = "ListArtifacts"
 type ListArtifactsRequest struct {
 	*aws.Request
 	Input *ListArtifactsInput
+	Copy  func(*ListArtifactsInput) ListArtifactsRequest
 }
 
 // Send marshals and sends the ListArtifacts API request.
@@ -1276,58 +1727,108 @@ func (c *DeviceFarm) ListArtifactsRequest(input *ListArtifactsInput) ListArtifac
 		input = &ListArtifactsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListArtifactsOutput{})
-	return ListArtifactsRequest{Request: req, Input: input}
+	output := &ListArtifactsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListArtifactsRequest{Request: req, Input: input, Copy: c.ListArtifactsRequest}
 }
 
-// ListArtifactsPages iterates over the pages of a ListArtifacts operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListArtifacts method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListArtifactsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListArtifacts operation.
-//    pageNum := 0
-//    err := client.ListArtifactsPages(params,
-//        func(page *ListArtifactsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListArtifactsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListArtifactsPages(input *ListArtifactsInput, fn func(*ListArtifactsOutput, bool) bool) error {
-	return c.ListArtifactsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListArtifactsRequest) Paginate(opts ...aws.Option) ListArtifactsPager {
+	return ListArtifactsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListArtifactsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListArtifactsPagesWithContext same as ListArtifactsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListArtifactsPagesWithContext(ctx aws.Context, input *ListArtifactsInput, fn func(*ListArtifactsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListArtifactsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListArtifactsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListArtifactsOutput), !p.HasNextPage())
+// ListArtifactsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListArtifactsPager struct {
+	aws.Pager
+}
+
+func (p *ListArtifactsPager) CurrentPage() *ListArtifactsOutput {
+	return p.Pager.CurrentPage().(*ListArtifactsOutput)
+}
+
+const opListDeviceInstances = "ListDeviceInstances"
+
+// ListDeviceInstancesRequest is a API request type for the ListDeviceInstances API operation.
+type ListDeviceInstancesRequest struct {
+	*aws.Request
+	Input *ListDeviceInstancesInput
+	Copy  func(*ListDeviceInstancesInput) ListDeviceInstancesRequest
+}
+
+// Send marshals and sends the ListDeviceInstances API request.
+func (r ListDeviceInstancesRequest) Send() (*ListDeviceInstancesOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
 	}
-	return p.Err()
+
+	return r.Request.Data.(*ListDeviceInstancesOutput), nil
+}
+
+// ListDeviceInstancesRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Returns information about the private device instances associated with one
+// or more AWS accounts.
+//
+//    // Example sending a request using the ListDeviceInstancesRequest method.
+//    req := client.ListDeviceInstancesRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDeviceInstances
+func (c *DeviceFarm) ListDeviceInstancesRequest(input *ListDeviceInstancesInput) ListDeviceInstancesRequest {
+	op := &aws.Operation{
+		Name:       opListDeviceInstances,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ListDeviceInstancesInput{}
+	}
+
+	output := &ListDeviceInstancesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDeviceInstancesRequest{Request: req, Input: input, Copy: c.ListDeviceInstancesRequest}
 }
 
 const opListDevicePools = "ListDevicePools"
@@ -1336,6 +1837,7 @@ const opListDevicePools = "ListDevicePools"
 type ListDevicePoolsRequest struct {
 	*aws.Request
 	Input *ListDevicePoolsInput
+	Copy  func(*ListDevicePoolsInput) ListDevicePoolsRequest
 }
 
 // Send marshals and sends the ListDevicePools API request.
@@ -1378,58 +1880,57 @@ func (c *DeviceFarm) ListDevicePoolsRequest(input *ListDevicePoolsInput) ListDev
 		input = &ListDevicePoolsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDevicePoolsOutput{})
-	return ListDevicePoolsRequest{Request: req, Input: input}
+	output := &ListDevicePoolsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDevicePoolsRequest{Request: req, Input: input, Copy: c.ListDevicePoolsRequest}
 }
 
-// ListDevicePoolsPages iterates over the pages of a ListDevicePools operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListDevicePools method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListDevicePoolsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListDevicePools operation.
-//    pageNum := 0
-//    err := client.ListDevicePoolsPages(params,
-//        func(page *ListDevicePoolsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListDevicePoolsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListDevicePoolsPages(input *ListDevicePoolsInput, fn func(*ListDevicePoolsOutput, bool) bool) error {
-	return c.ListDevicePoolsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListDevicePoolsRequest) Paginate(opts ...aws.Option) ListDevicePoolsPager {
+	return ListDevicePoolsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListDevicePoolsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListDevicePoolsPagesWithContext same as ListDevicePoolsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListDevicePoolsPagesWithContext(ctx aws.Context, input *ListDevicePoolsInput, fn func(*ListDevicePoolsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListDevicePoolsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListDevicePoolsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListDevicePoolsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListDevicePoolsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListDevicePoolsPager struct {
+	aws.Pager
+}
+
+func (p *ListDevicePoolsPager) CurrentPage() *ListDevicePoolsOutput {
+	return p.Pager.CurrentPage().(*ListDevicePoolsOutput)
 }
 
 const opListDevices = "ListDevices"
@@ -1438,6 +1939,7 @@ const opListDevices = "ListDevices"
 type ListDevicesRequest struct {
 	*aws.Request
 	Input *ListDevicesInput
+	Copy  func(*ListDevicesInput) ListDevicesRequest
 }
 
 // Send marshals and sends the ListDevices API request.
@@ -1480,58 +1982,107 @@ func (c *DeviceFarm) ListDevicesRequest(input *ListDevicesInput) ListDevicesRequ
 		input = &ListDevicesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListDevicesOutput{})
-	return ListDevicesRequest{Request: req, Input: input}
+	output := &ListDevicesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListDevicesRequest{Request: req, Input: input, Copy: c.ListDevicesRequest}
 }
 
-// ListDevicesPages iterates over the pages of a ListDevices operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListDevices method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListDevicesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListDevices operation.
-//    pageNum := 0
-//    err := client.ListDevicesPages(params,
-//        func(page *ListDevicesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListDevicesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListDevicesPages(input *ListDevicesInput, fn func(*ListDevicesOutput, bool) bool) error {
-	return c.ListDevicesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListDevicesRequest) Paginate(opts ...aws.Option) ListDevicesPager {
+	return ListDevicesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListDevicesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListDevicesPagesWithContext same as ListDevicesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListDevicesPagesWithContext(ctx aws.Context, input *ListDevicesInput, fn func(*ListDevicesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListDevicesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListDevicesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListDevicesOutput), !p.HasNextPage())
+// ListDevicesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListDevicesPager struct {
+	aws.Pager
+}
+
+func (p *ListDevicesPager) CurrentPage() *ListDevicesOutput {
+	return p.Pager.CurrentPage().(*ListDevicesOutput)
+}
+
+const opListInstanceProfiles = "ListInstanceProfiles"
+
+// ListInstanceProfilesRequest is a API request type for the ListInstanceProfiles API operation.
+type ListInstanceProfilesRequest struct {
+	*aws.Request
+	Input *ListInstanceProfilesInput
+	Copy  func(*ListInstanceProfilesInput) ListInstanceProfilesRequest
+}
+
+// Send marshals and sends the ListInstanceProfiles API request.
+func (r ListInstanceProfilesRequest) Send() (*ListInstanceProfilesOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
 	}
-	return p.Err()
+
+	return r.Request.Data.(*ListInstanceProfilesOutput), nil
+}
+
+// ListInstanceProfilesRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Returns information about all the instance profiles in an AWS account.
+//
+//    // Example sending a request using the ListInstanceProfilesRequest method.
+//    req := client.ListInstanceProfilesRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListInstanceProfiles
+func (c *DeviceFarm) ListInstanceProfilesRequest(input *ListInstanceProfilesInput) ListInstanceProfilesRequest {
+	op := &aws.Operation{
+		Name:       opListInstanceProfiles,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ListInstanceProfilesInput{}
+	}
+
+	output := &ListInstanceProfilesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListInstanceProfilesRequest{Request: req, Input: input, Copy: c.ListInstanceProfilesRequest}
 }
 
 const opListJobs = "ListJobs"
@@ -1540,6 +2091,7 @@ const opListJobs = "ListJobs"
 type ListJobsRequest struct {
 	*aws.Request
 	Input *ListJobsInput
+	Copy  func(*ListJobsInput) ListJobsRequest
 }
 
 // Send marshals and sends the ListJobs API request.
@@ -1555,7 +2107,7 @@ func (r ListJobsRequest) Send() (*ListJobsOutput, error) {
 // ListJobsRequest returns a request value for making API operation for
 // AWS Device Farm.
 //
-// Gets information about jobs.
+// Gets information about jobs for a given test run.
 //
 //    // Example sending a request using the ListJobsRequest method.
 //    req := client.ListJobsRequest(params)
@@ -1582,58 +2134,57 @@ func (c *DeviceFarm) ListJobsRequest(input *ListJobsInput) ListJobsRequest {
 		input = &ListJobsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListJobsOutput{})
-	return ListJobsRequest{Request: req, Input: input}
+	output := &ListJobsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListJobsRequest{Request: req, Input: input, Copy: c.ListJobsRequest}
 }
 
-// ListJobsPages iterates over the pages of a ListJobs operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListJobs method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListJobsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListJobs operation.
-//    pageNum := 0
-//    err := client.ListJobsPages(params,
-//        func(page *ListJobsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListJobsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListJobsPages(input *ListJobsInput, fn func(*ListJobsOutput, bool) bool) error {
-	return c.ListJobsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListJobsRequest) Paginate(opts ...aws.Option) ListJobsPager {
+	return ListJobsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListJobsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListJobsPagesWithContext same as ListJobsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListJobsPagesWithContext(ctx aws.Context, input *ListJobsInput, fn func(*ListJobsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListJobsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListJobsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListJobsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListJobsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListJobsPager struct {
+	aws.Pager
+}
+
+func (p *ListJobsPager) CurrentPage() *ListJobsOutput {
+	return p.Pager.CurrentPage().(*ListJobsOutput)
 }
 
 const opListNetworkProfiles = "ListNetworkProfiles"
@@ -1642,6 +2193,7 @@ const opListNetworkProfiles = "ListNetworkProfiles"
 type ListNetworkProfilesRequest struct {
 	*aws.Request
 	Input *ListNetworkProfilesInput
+	Copy  func(*ListNetworkProfilesInput) ListNetworkProfilesRequest
 }
 
 // Send marshals and sends the ListNetworkProfiles API request.
@@ -1678,8 +2230,11 @@ func (c *DeviceFarm) ListNetworkProfilesRequest(input *ListNetworkProfilesInput)
 		input = &ListNetworkProfilesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListNetworkProfilesOutput{})
-	return ListNetworkProfilesRequest{Request: req, Input: input}
+	output := &ListNetworkProfilesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListNetworkProfilesRequest{Request: req, Input: input, Copy: c.ListNetworkProfilesRequest}
 }
 
 const opListOfferingPromotions = "ListOfferingPromotions"
@@ -1688,6 +2243,7 @@ const opListOfferingPromotions = "ListOfferingPromotions"
 type ListOfferingPromotionsRequest struct {
 	*aws.Request
 	Input *ListOfferingPromotionsInput
+	Copy  func(*ListOfferingPromotionsInput) ListOfferingPromotionsRequest
 }
 
 // Send marshals and sends the ListOfferingPromotions API request.
@@ -1728,8 +2284,11 @@ func (c *DeviceFarm) ListOfferingPromotionsRequest(input *ListOfferingPromotions
 		input = &ListOfferingPromotionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListOfferingPromotionsOutput{})
-	return ListOfferingPromotionsRequest{Request: req, Input: input}
+	output := &ListOfferingPromotionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListOfferingPromotionsRequest{Request: req, Input: input, Copy: c.ListOfferingPromotionsRequest}
 }
 
 const opListOfferingTransactions = "ListOfferingTransactions"
@@ -1738,6 +2297,7 @@ const opListOfferingTransactions = "ListOfferingTransactions"
 type ListOfferingTransactionsRequest struct {
 	*aws.Request
 	Input *ListOfferingTransactionsInput
+	Copy  func(*ListOfferingTransactionsInput) ListOfferingTransactionsRequest
 }
 
 // Send marshals and sends the ListOfferingTransactions API request.
@@ -1785,58 +2345,57 @@ func (c *DeviceFarm) ListOfferingTransactionsRequest(input *ListOfferingTransact
 		input = &ListOfferingTransactionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListOfferingTransactionsOutput{})
-	return ListOfferingTransactionsRequest{Request: req, Input: input}
+	output := &ListOfferingTransactionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListOfferingTransactionsRequest{Request: req, Input: input, Copy: c.ListOfferingTransactionsRequest}
 }
 
-// ListOfferingTransactionsPages iterates over the pages of a ListOfferingTransactions operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListOfferingTransactions method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListOfferingTransactionsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListOfferingTransactions operation.
-//    pageNum := 0
-//    err := client.ListOfferingTransactionsPages(params,
-//        func(page *ListOfferingTransactionsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListOfferingTransactionsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListOfferingTransactionsPages(input *ListOfferingTransactionsInput, fn func(*ListOfferingTransactionsOutput, bool) bool) error {
-	return c.ListOfferingTransactionsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListOfferingTransactionsRequest) Paginate(opts ...aws.Option) ListOfferingTransactionsPager {
+	return ListOfferingTransactionsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListOfferingTransactionsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListOfferingTransactionsPagesWithContext same as ListOfferingTransactionsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListOfferingTransactionsPagesWithContext(ctx aws.Context, input *ListOfferingTransactionsInput, fn func(*ListOfferingTransactionsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListOfferingTransactionsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListOfferingTransactionsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListOfferingTransactionsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListOfferingTransactionsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListOfferingTransactionsPager struct {
+	aws.Pager
+}
+
+func (p *ListOfferingTransactionsPager) CurrentPage() *ListOfferingTransactionsOutput {
+	return p.Pager.CurrentPage().(*ListOfferingTransactionsOutput)
 }
 
 const opListOfferings = "ListOfferings"
@@ -1845,6 +2404,7 @@ const opListOfferings = "ListOfferings"
 type ListOfferingsRequest struct {
 	*aws.Request
 	Input *ListOfferingsInput
+	Copy  func(*ListOfferingsInput) ListOfferingsRequest
 }
 
 // Send marshals and sends the ListOfferings API request.
@@ -1892,58 +2452,57 @@ func (c *DeviceFarm) ListOfferingsRequest(input *ListOfferingsInput) ListOfferin
 		input = &ListOfferingsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListOfferingsOutput{})
-	return ListOfferingsRequest{Request: req, Input: input}
+	output := &ListOfferingsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListOfferingsRequest{Request: req, Input: input, Copy: c.ListOfferingsRequest}
 }
 
-// ListOfferingsPages iterates over the pages of a ListOfferings operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListOfferings method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListOfferingsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListOfferings operation.
-//    pageNum := 0
-//    err := client.ListOfferingsPages(params,
-//        func(page *ListOfferingsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListOfferingsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListOfferingsPages(input *ListOfferingsInput, fn func(*ListOfferingsOutput, bool) bool) error {
-	return c.ListOfferingsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListOfferingsRequest) Paginate(opts ...aws.Option) ListOfferingsPager {
+	return ListOfferingsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListOfferingsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListOfferingsPagesWithContext same as ListOfferingsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListOfferingsPagesWithContext(ctx aws.Context, input *ListOfferingsInput, fn func(*ListOfferingsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListOfferingsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListOfferingsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListOfferingsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListOfferingsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListOfferingsPager struct {
+	aws.Pager
+}
+
+func (p *ListOfferingsPager) CurrentPage() *ListOfferingsOutput {
+	return p.Pager.CurrentPage().(*ListOfferingsOutput)
 }
 
 const opListProjects = "ListProjects"
@@ -1952,6 +2511,7 @@ const opListProjects = "ListProjects"
 type ListProjectsRequest struct {
 	*aws.Request
 	Input *ListProjectsInput
+	Copy  func(*ListProjectsInput) ListProjectsRequest
 }
 
 // Send marshals and sends the ListProjects API request.
@@ -1994,58 +2554,57 @@ func (c *DeviceFarm) ListProjectsRequest(input *ListProjectsInput) ListProjectsR
 		input = &ListProjectsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListProjectsOutput{})
-	return ListProjectsRequest{Request: req, Input: input}
+	output := &ListProjectsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListProjectsRequest{Request: req, Input: input, Copy: c.ListProjectsRequest}
 }
 
-// ListProjectsPages iterates over the pages of a ListProjects operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListProjects method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListProjectsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListProjects operation.
-//    pageNum := 0
-//    err := client.ListProjectsPages(params,
-//        func(page *ListProjectsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListProjectsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListProjectsPages(input *ListProjectsInput, fn func(*ListProjectsOutput, bool) bool) error {
-	return c.ListProjectsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListProjectsRequest) Paginate(opts ...aws.Option) ListProjectsPager {
+	return ListProjectsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListProjectsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListProjectsPagesWithContext same as ListProjectsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListProjectsPagesWithContext(ctx aws.Context, input *ListProjectsInput, fn func(*ListProjectsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListProjectsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListProjectsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListProjectsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListProjectsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListProjectsPager struct {
+	aws.Pager
+}
+
+func (p *ListProjectsPager) CurrentPage() *ListProjectsOutput {
+	return p.Pager.CurrentPage().(*ListProjectsOutput)
 }
 
 const opListRemoteAccessSessions = "ListRemoteAccessSessions"
@@ -2054,6 +2613,7 @@ const opListRemoteAccessSessions = "ListRemoteAccessSessions"
 type ListRemoteAccessSessionsRequest struct {
 	*aws.Request
 	Input *ListRemoteAccessSessionsInput
+	Copy  func(*ListRemoteAccessSessionsInput) ListRemoteAccessSessionsRequest
 }
 
 // Send marshals and sends the ListRemoteAccessSessions API request.
@@ -2090,8 +2650,11 @@ func (c *DeviceFarm) ListRemoteAccessSessionsRequest(input *ListRemoteAccessSess
 		input = &ListRemoteAccessSessionsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListRemoteAccessSessionsOutput{})
-	return ListRemoteAccessSessionsRequest{Request: req, Input: input}
+	output := &ListRemoteAccessSessionsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListRemoteAccessSessionsRequest{Request: req, Input: input, Copy: c.ListRemoteAccessSessionsRequest}
 }
 
 const opListRuns = "ListRuns"
@@ -2100,6 +2663,7 @@ const opListRuns = "ListRuns"
 type ListRunsRequest struct {
 	*aws.Request
 	Input *ListRunsInput
+	Copy  func(*ListRunsInput) ListRunsRequest
 }
 
 // Send marshals and sends the ListRuns API request.
@@ -2142,58 +2706,57 @@ func (c *DeviceFarm) ListRunsRequest(input *ListRunsInput) ListRunsRequest {
 		input = &ListRunsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListRunsOutput{})
-	return ListRunsRequest{Request: req, Input: input}
+	output := &ListRunsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListRunsRequest{Request: req, Input: input, Copy: c.ListRunsRequest}
 }
 
-// ListRunsPages iterates over the pages of a ListRuns operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListRuns method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListRunsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListRuns operation.
-//    pageNum := 0
-//    err := client.ListRunsPages(params,
-//        func(page *ListRunsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListRunsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListRunsPages(input *ListRunsInput, fn func(*ListRunsOutput, bool) bool) error {
-	return c.ListRunsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListRunsRequest) Paginate(opts ...aws.Option) ListRunsPager {
+	return ListRunsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListRunsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListRunsPagesWithContext same as ListRunsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListRunsPagesWithContext(ctx aws.Context, input *ListRunsInput, fn func(*ListRunsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListRunsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListRunsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListRunsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListRunsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListRunsPager struct {
+	aws.Pager
+}
+
+func (p *ListRunsPager) CurrentPage() *ListRunsOutput {
+	return p.Pager.CurrentPage().(*ListRunsOutput)
 }
 
 const opListSamples = "ListSamples"
@@ -2202,6 +2765,7 @@ const opListSamples = "ListSamples"
 type ListSamplesRequest struct {
 	*aws.Request
 	Input *ListSamplesInput
+	Copy  func(*ListSamplesInput) ListSamplesRequest
 }
 
 // Send marshals and sends the ListSamples API request.
@@ -2244,58 +2808,57 @@ func (c *DeviceFarm) ListSamplesRequest(input *ListSamplesInput) ListSamplesRequ
 		input = &ListSamplesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSamplesOutput{})
-	return ListSamplesRequest{Request: req, Input: input}
+	output := &ListSamplesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSamplesRequest{Request: req, Input: input, Copy: c.ListSamplesRequest}
 }
 
-// ListSamplesPages iterates over the pages of a ListSamples operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSamples method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListSamplesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSamples operation.
-//    pageNum := 0
-//    err := client.ListSamplesPages(params,
-//        func(page *ListSamplesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListSamplesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListSamplesPages(input *ListSamplesInput, fn func(*ListSamplesOutput, bool) bool) error {
-	return c.ListSamplesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListSamplesRequest) Paginate(opts ...aws.Option) ListSamplesPager {
+	return ListSamplesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListSamplesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListSamplesPagesWithContext same as ListSamplesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListSamplesPagesWithContext(ctx aws.Context, input *ListSamplesInput, fn func(*ListSamplesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListSamplesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListSamplesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListSamplesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListSamplesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListSamplesPager struct {
+	aws.Pager
+}
+
+func (p *ListSamplesPager) CurrentPage() *ListSamplesOutput {
+	return p.Pager.CurrentPage().(*ListSamplesOutput)
 }
 
 const opListSuites = "ListSuites"
@@ -2304,6 +2867,7 @@ const opListSuites = "ListSuites"
 type ListSuitesRequest struct {
 	*aws.Request
 	Input *ListSuitesInput
+	Copy  func(*ListSuitesInput) ListSuitesRequest
 }
 
 // Send marshals and sends the ListSuites API request.
@@ -2319,7 +2883,7 @@ func (r ListSuitesRequest) Send() (*ListSuitesOutput, error) {
 // ListSuitesRequest returns a request value for making API operation for
 // AWS Device Farm.
 //
-// Gets information about suites.
+// Gets information about test suites for a given job.
 //
 //    // Example sending a request using the ListSuitesRequest method.
 //    req := client.ListSuitesRequest(params)
@@ -2346,58 +2910,57 @@ func (c *DeviceFarm) ListSuitesRequest(input *ListSuitesInput) ListSuitesRequest
 		input = &ListSuitesInput{}
 	}
 
-	req := c.newRequest(op, input, &ListSuitesOutput{})
-	return ListSuitesRequest{Request: req, Input: input}
+	output := &ListSuitesOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListSuitesRequest{Request: req, Input: input, Copy: c.ListSuitesRequest}
 }
 
-// ListSuitesPages iterates over the pages of a ListSuites operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListSuites method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListSuitesRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListSuites operation.
-//    pageNum := 0
-//    err := client.ListSuitesPages(params,
-//        func(page *ListSuitesOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListSuitesRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListSuitesPages(input *ListSuitesInput, fn func(*ListSuitesOutput, bool) bool) error {
-	return c.ListSuitesPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListSuitesRequest) Paginate(opts ...aws.Option) ListSuitesPager {
+	return ListSuitesPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListSuitesInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListSuitesPagesWithContext same as ListSuitesPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListSuitesPagesWithContext(ctx aws.Context, input *ListSuitesInput, fn func(*ListSuitesOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListSuitesInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListSuitesRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListSuitesOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListSuitesPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListSuitesPager struct {
+	aws.Pager
+}
+
+func (p *ListSuitesPager) CurrentPage() *ListSuitesOutput {
+	return p.Pager.CurrentPage().(*ListSuitesOutput)
 }
 
 const opListTests = "ListTests"
@@ -2406,6 +2969,7 @@ const opListTests = "ListTests"
 type ListTestsRequest struct {
 	*aws.Request
 	Input *ListTestsInput
+	Copy  func(*ListTestsInput) ListTestsRequest
 }
 
 // Send marshals and sends the ListTests API request.
@@ -2421,7 +2985,7 @@ func (r ListTestsRequest) Send() (*ListTestsOutput, error) {
 // ListTestsRequest returns a request value for making API operation for
 // AWS Device Farm.
 //
-// Gets information about tests.
+// Gets information about tests in a given test suite.
 //
 //    // Example sending a request using the ListTestsRequest method.
 //    req := client.ListTestsRequest(params)
@@ -2448,58 +3012,57 @@ func (c *DeviceFarm) ListTestsRequest(input *ListTestsInput) ListTestsRequest {
 		input = &ListTestsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTestsOutput{})
-	return ListTestsRequest{Request: req, Input: input}
+	output := &ListTestsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTestsRequest{Request: req, Input: input, Copy: c.ListTestsRequest}
 }
 
-// ListTestsPages iterates over the pages of a ListTests operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTests method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTestsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTests operation.
-//    pageNum := 0
-//    err := client.ListTestsPages(params,
-//        func(page *ListTestsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTestsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListTestsPages(input *ListTestsInput, fn func(*ListTestsOutput, bool) bool) error {
-	return c.ListTestsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTestsRequest) Paginate(opts ...aws.Option) ListTestsPager {
+	return ListTestsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTestsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTestsPagesWithContext same as ListTestsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListTestsPagesWithContext(ctx aws.Context, input *ListTestsInput, fn func(*ListTestsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTestsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTestsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTestsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTestsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTestsPager struct {
+	aws.Pager
+}
+
+func (p *ListTestsPager) CurrentPage() *ListTestsOutput {
+	return p.Pager.CurrentPage().(*ListTestsOutput)
 }
 
 const opListUniqueProblems = "ListUniqueProblems"
@@ -2508,6 +3071,7 @@ const opListUniqueProblems = "ListUniqueProblems"
 type ListUniqueProblemsRequest struct {
 	*aws.Request
 	Input *ListUniqueProblemsInput
+	Copy  func(*ListUniqueProblemsInput) ListUniqueProblemsRequest
 }
 
 // Send marshals and sends the ListUniqueProblems API request.
@@ -2550,58 +3114,57 @@ func (c *DeviceFarm) ListUniqueProblemsRequest(input *ListUniqueProblemsInput) L
 		input = &ListUniqueProblemsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListUniqueProblemsOutput{})
-	return ListUniqueProblemsRequest{Request: req, Input: input}
+	output := &ListUniqueProblemsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListUniqueProblemsRequest{Request: req, Input: input, Copy: c.ListUniqueProblemsRequest}
 }
 
-// ListUniqueProblemsPages iterates over the pages of a ListUniqueProblems operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListUniqueProblems method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListUniqueProblemsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListUniqueProblems operation.
-//    pageNum := 0
-//    err := client.ListUniqueProblemsPages(params,
-//        func(page *ListUniqueProblemsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListUniqueProblemsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListUniqueProblemsPages(input *ListUniqueProblemsInput, fn func(*ListUniqueProblemsOutput, bool) bool) error {
-	return c.ListUniqueProblemsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListUniqueProblemsRequest) Paginate(opts ...aws.Option) ListUniqueProblemsPager {
+	return ListUniqueProblemsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListUniqueProblemsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListUniqueProblemsPagesWithContext same as ListUniqueProblemsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListUniqueProblemsPagesWithContext(ctx aws.Context, input *ListUniqueProblemsInput, fn func(*ListUniqueProblemsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListUniqueProblemsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListUniqueProblemsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListUniqueProblemsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListUniqueProblemsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListUniqueProblemsPager struct {
+	aws.Pager
+}
+
+func (p *ListUniqueProblemsPager) CurrentPage() *ListUniqueProblemsOutput {
+	return p.Pager.CurrentPage().(*ListUniqueProblemsOutput)
 }
 
 const opListUploads = "ListUploads"
@@ -2610,6 +3173,7 @@ const opListUploads = "ListUploads"
 type ListUploadsRequest struct {
 	*aws.Request
 	Input *ListUploadsInput
+	Copy  func(*ListUploadsInput) ListUploadsRequest
 }
 
 // Send marshals and sends the ListUploads API request.
@@ -2652,58 +3216,108 @@ func (c *DeviceFarm) ListUploadsRequest(input *ListUploadsInput) ListUploadsRequ
 		input = &ListUploadsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListUploadsOutput{})
-	return ListUploadsRequest{Request: req, Input: input}
+	output := &ListUploadsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListUploadsRequest{Request: req, Input: input, Copy: c.ListUploadsRequest}
 }
 
-// ListUploadsPages iterates over the pages of a ListUploads operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListUploads method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListUploadsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListUploads operation.
-//    pageNum := 0
-//    err := client.ListUploadsPages(params,
-//        func(page *ListUploadsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListUploadsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *DeviceFarm) ListUploadsPages(input *ListUploadsInput, fn func(*ListUploadsOutput, bool) bool) error {
-	return c.ListUploadsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListUploadsRequest) Paginate(opts ...aws.Option) ListUploadsPager {
+	return ListUploadsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListUploadsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListUploadsPagesWithContext same as ListUploadsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *DeviceFarm) ListUploadsPagesWithContext(ctx aws.Context, input *ListUploadsInput, fn func(*ListUploadsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListUploadsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListUploadsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListUploadsOutput), !p.HasNextPage())
+// ListUploadsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListUploadsPager struct {
+	aws.Pager
+}
+
+func (p *ListUploadsPager) CurrentPage() *ListUploadsOutput {
+	return p.Pager.CurrentPage().(*ListUploadsOutput)
+}
+
+const opListVPCEConfigurations = "ListVPCEConfigurations"
+
+// ListVPCEConfigurationsRequest is a API request type for the ListVPCEConfigurations API operation.
+type ListVPCEConfigurationsRequest struct {
+	*aws.Request
+	Input *ListVPCEConfigurationsInput
+	Copy  func(*ListVPCEConfigurationsInput) ListVPCEConfigurationsRequest
+}
+
+// Send marshals and sends the ListVPCEConfigurations API request.
+func (r ListVPCEConfigurationsRequest) Send() (*ListVPCEConfigurationsOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
 	}
-	return p.Err()
+
+	return r.Request.Data.(*ListVPCEConfigurationsOutput), nil
+}
+
+// ListVPCEConfigurationsRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
+// configurations in the AWS account.
+//
+//    // Example sending a request using the ListVPCEConfigurationsRequest method.
+//    req := client.ListVPCEConfigurationsRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListVPCEConfigurations
+func (c *DeviceFarm) ListVPCEConfigurationsRequest(input *ListVPCEConfigurationsInput) ListVPCEConfigurationsRequest {
+	op := &aws.Operation{
+		Name:       opListVPCEConfigurations,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &ListVPCEConfigurationsInput{}
+	}
+
+	output := &ListVPCEConfigurationsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListVPCEConfigurationsRequest{Request: req, Input: input, Copy: c.ListVPCEConfigurationsRequest}
 }
 
 const opPurchaseOffering = "PurchaseOffering"
@@ -2712,6 +3326,7 @@ const opPurchaseOffering = "PurchaseOffering"
 type PurchaseOfferingRequest struct {
 	*aws.Request
 	Input *PurchaseOfferingInput
+	Copy  func(*PurchaseOfferingInput) PurchaseOfferingRequest
 }
 
 // Send marshals and sends the PurchaseOffering API request.
@@ -2753,8 +3368,11 @@ func (c *DeviceFarm) PurchaseOfferingRequest(input *PurchaseOfferingInput) Purch
 		input = &PurchaseOfferingInput{}
 	}
 
-	req := c.newRequest(op, input, &PurchaseOfferingOutput{})
-	return PurchaseOfferingRequest{Request: req, Input: input}
+	output := &PurchaseOfferingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return PurchaseOfferingRequest{Request: req, Input: input, Copy: c.PurchaseOfferingRequest}
 }
 
 const opRenewOffering = "RenewOffering"
@@ -2763,6 +3381,7 @@ const opRenewOffering = "RenewOffering"
 type RenewOfferingRequest struct {
 	*aws.Request
 	Input *RenewOfferingInput
+	Copy  func(*RenewOfferingInput) RenewOfferingRequest
 }
 
 // Send marshals and sends the RenewOffering API request.
@@ -2803,8 +3422,11 @@ func (c *DeviceFarm) RenewOfferingRequest(input *RenewOfferingInput) RenewOfferi
 		input = &RenewOfferingInput{}
 	}
 
-	req := c.newRequest(op, input, &RenewOfferingOutput{})
-	return RenewOfferingRequest{Request: req, Input: input}
+	output := &RenewOfferingOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return RenewOfferingRequest{Request: req, Input: input, Copy: c.RenewOfferingRequest}
 }
 
 const opScheduleRun = "ScheduleRun"
@@ -2813,6 +3435,7 @@ const opScheduleRun = "ScheduleRun"
 type ScheduleRunRequest struct {
 	*aws.Request
 	Input *ScheduleRunInput
+	Copy  func(*ScheduleRunInput) ScheduleRunRequest
 }
 
 // Send marshals and sends the ScheduleRun API request.
@@ -2849,8 +3472,11 @@ func (c *DeviceFarm) ScheduleRunRequest(input *ScheduleRunInput) ScheduleRunRequ
 		input = &ScheduleRunInput{}
 	}
 
-	req := c.newRequest(op, input, &ScheduleRunOutput{})
-	return ScheduleRunRequest{Request: req, Input: input}
+	output := &ScheduleRunOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ScheduleRunRequest{Request: req, Input: input, Copy: c.ScheduleRunRequest}
 }
 
 const opStopRemoteAccessSession = "StopRemoteAccessSession"
@@ -2859,6 +3485,7 @@ const opStopRemoteAccessSession = "StopRemoteAccessSession"
 type StopRemoteAccessSessionRequest struct {
 	*aws.Request
 	Input *StopRemoteAccessSessionInput
+	Copy  func(*StopRemoteAccessSessionInput) StopRemoteAccessSessionRequest
 }
 
 // Send marshals and sends the StopRemoteAccessSession API request.
@@ -2895,8 +3522,11 @@ func (c *DeviceFarm) StopRemoteAccessSessionRequest(input *StopRemoteAccessSessi
 		input = &StopRemoteAccessSessionInput{}
 	}
 
-	req := c.newRequest(op, input, &StopRemoteAccessSessionOutput{})
-	return StopRemoteAccessSessionRequest{Request: req, Input: input}
+	output := &StopRemoteAccessSessionOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopRemoteAccessSessionRequest{Request: req, Input: input, Copy: c.StopRemoteAccessSessionRequest}
 }
 
 const opStopRun = "StopRun"
@@ -2905,6 +3535,7 @@ const opStopRun = "StopRun"
 type StopRunRequest struct {
 	*aws.Request
 	Input *StopRunInput
+	Copy  func(*StopRunInput) StopRunRequest
 }
 
 // Send marshals and sends the StopRun API request.
@@ -2946,8 +3577,61 @@ func (c *DeviceFarm) StopRunRequest(input *StopRunInput) StopRunRequest {
 		input = &StopRunInput{}
 	}
 
-	req := c.newRequest(op, input, &StopRunOutput{})
-	return StopRunRequest{Request: req, Input: input}
+	output := &StopRunOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return StopRunRequest{Request: req, Input: input, Copy: c.StopRunRequest}
+}
+
+const opUpdateDeviceInstance = "UpdateDeviceInstance"
+
+// UpdateDeviceInstanceRequest is a API request type for the UpdateDeviceInstance API operation.
+type UpdateDeviceInstanceRequest struct {
+	*aws.Request
+	Input *UpdateDeviceInstanceInput
+	Copy  func(*UpdateDeviceInstanceInput) UpdateDeviceInstanceRequest
+}
+
+// Send marshals and sends the UpdateDeviceInstance API request.
+func (r UpdateDeviceInstanceRequest) Send() (*UpdateDeviceInstanceOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateDeviceInstanceOutput), nil
+}
+
+// UpdateDeviceInstanceRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Updates information about an existing private device instance.
+//
+//    // Example sending a request using the UpdateDeviceInstanceRequest method.
+//    req := client.UpdateDeviceInstanceRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDeviceInstance
+func (c *DeviceFarm) UpdateDeviceInstanceRequest(input *UpdateDeviceInstanceInput) UpdateDeviceInstanceRequest {
+	op := &aws.Operation{
+		Name:       opUpdateDeviceInstance,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateDeviceInstanceInput{}
+	}
+
+	output := &UpdateDeviceInstanceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDeviceInstanceRequest{Request: req, Input: input, Copy: c.UpdateDeviceInstanceRequest}
 }
 
 const opUpdateDevicePool = "UpdateDevicePool"
@@ -2956,6 +3640,7 @@ const opUpdateDevicePool = "UpdateDevicePool"
 type UpdateDevicePoolRequest struct {
 	*aws.Request
 	Input *UpdateDevicePoolInput
+	Copy  func(*UpdateDevicePoolInput) UpdateDevicePoolRequest
 }
 
 // Send marshals and sends the UpdateDevicePool API request.
@@ -2994,8 +3679,61 @@ func (c *DeviceFarm) UpdateDevicePoolRequest(input *UpdateDevicePoolInput) Updat
 		input = &UpdateDevicePoolInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateDevicePoolOutput{})
-	return UpdateDevicePoolRequest{Request: req, Input: input}
+	output := &UpdateDevicePoolOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateDevicePoolRequest{Request: req, Input: input, Copy: c.UpdateDevicePoolRequest}
+}
+
+const opUpdateInstanceProfile = "UpdateInstanceProfile"
+
+// UpdateInstanceProfileRequest is a API request type for the UpdateInstanceProfile API operation.
+type UpdateInstanceProfileRequest struct {
+	*aws.Request
+	Input *UpdateInstanceProfileInput
+	Copy  func(*UpdateInstanceProfileInput) UpdateInstanceProfileRequest
+}
+
+// Send marshals and sends the UpdateInstanceProfile API request.
+func (r UpdateInstanceProfileRequest) Send() (*UpdateInstanceProfileOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateInstanceProfileOutput), nil
+}
+
+// UpdateInstanceProfileRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Updates information about an existing private device instance profile.
+//
+//    // Example sending a request using the UpdateInstanceProfileRequest method.
+//    req := client.UpdateInstanceProfileRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateInstanceProfile
+func (c *DeviceFarm) UpdateInstanceProfileRequest(input *UpdateInstanceProfileInput) UpdateInstanceProfileRequest {
+	op := &aws.Operation{
+		Name:       opUpdateInstanceProfile,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateInstanceProfileInput{}
+	}
+
+	output := &UpdateInstanceProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateInstanceProfileRequest{Request: req, Input: input, Copy: c.UpdateInstanceProfileRequest}
 }
 
 const opUpdateNetworkProfile = "UpdateNetworkProfile"
@@ -3004,6 +3742,7 @@ const opUpdateNetworkProfile = "UpdateNetworkProfile"
 type UpdateNetworkProfileRequest struct {
 	*aws.Request
 	Input *UpdateNetworkProfileInput
+	Copy  func(*UpdateNetworkProfileInput) UpdateNetworkProfileRequest
 }
 
 // Send marshals and sends the UpdateNetworkProfile API request.
@@ -3040,8 +3779,11 @@ func (c *DeviceFarm) UpdateNetworkProfileRequest(input *UpdateNetworkProfileInpu
 		input = &UpdateNetworkProfileInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateNetworkProfileOutput{})
-	return UpdateNetworkProfileRequest{Request: req, Input: input}
+	output := &UpdateNetworkProfileOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateNetworkProfileRequest{Request: req, Input: input, Copy: c.UpdateNetworkProfileRequest}
 }
 
 const opUpdateProject = "UpdateProject"
@@ -3050,6 +3792,7 @@ const opUpdateProject = "UpdateProject"
 type UpdateProjectRequest struct {
 	*aws.Request
 	Input *UpdateProjectInput
+	Copy  func(*UpdateProjectInput) UpdateProjectRequest
 }
 
 // Send marshals and sends the UpdateProject API request.
@@ -3086,8 +3829,62 @@ func (c *DeviceFarm) UpdateProjectRequest(input *UpdateProjectInput) UpdateProje
 		input = &UpdateProjectInput{}
 	}
 
-	req := c.newRequest(op, input, &UpdateProjectOutput{})
-	return UpdateProjectRequest{Request: req, Input: input}
+	output := &UpdateProjectOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateProjectRequest{Request: req, Input: input, Copy: c.UpdateProjectRequest}
+}
+
+const opUpdateVPCEConfiguration = "UpdateVPCEConfiguration"
+
+// UpdateVPCEConfigurationRequest is a API request type for the UpdateVPCEConfiguration API operation.
+type UpdateVPCEConfigurationRequest struct {
+	*aws.Request
+	Input *UpdateVPCEConfigurationInput
+	Copy  func(*UpdateVPCEConfigurationInput) UpdateVPCEConfigurationRequest
+}
+
+// Send marshals and sends the UpdateVPCEConfiguration API request.
+func (r UpdateVPCEConfigurationRequest) Send() (*UpdateVPCEConfigurationOutput, error) {
+	err := r.Request.Send()
+	if err != nil {
+		return nil, err
+	}
+
+	return r.Request.Data.(*UpdateVPCEConfigurationOutput), nil
+}
+
+// UpdateVPCEConfigurationRequest returns a request value for making API operation for
+// AWS Device Farm.
+//
+// Updates information about an existing Amazon Virtual Private Cloud (VPC)
+// endpoint configuration.
+//
+//    // Example sending a request using the UpdateVPCEConfigurationRequest method.
+//    req := client.UpdateVPCEConfigurationRequest(params)
+//    resp, err := req.Send()
+//    if err == nil {
+//        fmt.Println(resp)
+//    }
+//
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateVPCEConfiguration
+func (c *DeviceFarm) UpdateVPCEConfigurationRequest(input *UpdateVPCEConfigurationInput) UpdateVPCEConfigurationRequest {
+	op := &aws.Operation{
+		Name:       opUpdateVPCEConfiguration,
+		HTTPMethod: "POST",
+		HTTPPath:   "/",
+	}
+
+	if input == nil {
+		input = &UpdateVPCEConfigurationInput{}
+	}
+
+	output := &UpdateVPCEConfigurationOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UpdateVPCEConfigurationRequest{Request: req, Input: input, Copy: c.UpdateVPCEConfigurationRequest}
 }
 
 // A container for account-level settings within AWS Device Farm.
@@ -3108,17 +3905,26 @@ type AccountSettings struct {
 	// The maximum number of device slots that the AWS account can purchase. Each
 	// maximum is expressed as an offering-id:number pair, where the offering-id
 	// represents one of the IDs returned by the ListOfferings command.
-	MaxSlots map[string]*int64 `locationName:"maxSlots" type:"map"`
+	MaxSlots map[string]int64 `locationName:"maxSlots" type:"map"`
+
+	// When set to true, for private devices, Device Farm will not sign your app
+	// again. For public devices, Device Farm always signs your apps again and this
+	// parameter has no effect.
+	//
+	// For more information about how Device Farm re-signs your app(s), see Do you
+	// modify my app? (https://aws.amazon.com/device-farm/faq/) in the AWS Device
+	// Farm FAQs.
+	SkipAppResign *bool `locationName:"skipAppResign" type:"boolean"`
 
 	// Information about an AWS account's usage of free trial device minutes.
 	TrialMinutes *TrialMinutes `locationName:"trialMinutes" type:"structure"`
 
 	// Returns the unmetered devices you have purchased or want to purchase.
-	UnmeteredDevices map[string]*int64 `locationName:"unmeteredDevices" type:"map"`
+	UnmeteredDevices map[string]int64 `locationName:"unmeteredDevices" type:"map"`
 
 	// Returns the unmetered remote access devices you have purchased or want to
 	// purchase.
-	UnmeteredRemoteAccessDevices map[string]*int64 `locationName:"unmeteredRemoteAccessDevices" type:"map"`
+	UnmeteredRemoteAccessDevices map[string]int64 `locationName:"unmeteredRemoteAccessDevices" type:"map"`
 }
 
 // String returns the string representation
@@ -3129,48 +3935,6 @@ func (s AccountSettings) String() string {
 // GoString returns the string representation
 func (s AccountSettings) GoString() string {
 	return s.String()
-}
-
-// SetAwsAccountNumber sets the AwsAccountNumber field's value.
-func (s *AccountSettings) SetAwsAccountNumber(v string) *AccountSettings {
-	s.AwsAccountNumber = &v
-	return s
-}
-
-// SetDefaultJobTimeoutMinutes sets the DefaultJobTimeoutMinutes field's value.
-func (s *AccountSettings) SetDefaultJobTimeoutMinutes(v int64) *AccountSettings {
-	s.DefaultJobTimeoutMinutes = &v
-	return s
-}
-
-// SetMaxJobTimeoutMinutes sets the MaxJobTimeoutMinutes field's value.
-func (s *AccountSettings) SetMaxJobTimeoutMinutes(v int64) *AccountSettings {
-	s.MaxJobTimeoutMinutes = &v
-	return s
-}
-
-// SetMaxSlots sets the MaxSlots field's value.
-func (s *AccountSettings) SetMaxSlots(v map[string]*int64) *AccountSettings {
-	s.MaxSlots = v
-	return s
-}
-
-// SetTrialMinutes sets the TrialMinutes field's value.
-func (s *AccountSettings) SetTrialMinutes(v *TrialMinutes) *AccountSettings {
-	s.TrialMinutes = v
-	return s
-}
-
-// SetUnmeteredDevices sets the UnmeteredDevices field's value.
-func (s *AccountSettings) SetUnmeteredDevices(v map[string]*int64) *AccountSettings {
-	s.UnmeteredDevices = v
-	return s
-}
-
-// SetUnmeteredRemoteAccessDevices sets the UnmeteredRemoteAccessDevices field's value.
-func (s *AccountSettings) SetUnmeteredRemoteAccessDevices(v map[string]*int64) *AccountSettings {
-	s.UnmeteredRemoteAccessDevices = v
-	return s
 }
 
 // Represents the output of a test. Examples of artifacts include logs and screenshots.
@@ -3237,7 +4001,7 @@ type Artifact struct {
 	//    * APPLICATION_CRASH_REPORT: The application crash report output type.
 	//
 	//    * XCTEST_LOG: The XCode test output type.
-	Type ArtifactType `locationName:"type" type:"string"`
+	Type ArtifactType `locationName:"type" type:"string" enum:"true"`
 
 	// The pre-signed Amazon S3 URL that can be used with a corresponding GET request
 	// to download the artifact's file.
@@ -3252,36 +4016,6 @@ func (s Artifact) String() string {
 // GoString returns the string representation
 func (s Artifact) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Artifact) SetArn(v string) *Artifact {
-	s.Arn = &v
-	return s
-}
-
-// SetExtension sets the Extension field's value.
-func (s *Artifact) SetExtension(v string) *Artifact {
-	s.Extension = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Artifact) SetName(v string) *Artifact {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Artifact) SetType(v ArtifactType) *Artifact {
-	s.Type = v
-	return s
-}
-
-// SetUrl sets the Url field's value.
-func (s *Artifact) SetUrl(v string) *Artifact {
-	s.Url = &v
-	return s
 }
 
 // Represents the amount of CPU that an app is using on a physical device.
@@ -3310,24 +4044,6 @@ func (s CPU) String() string {
 // GoString returns the string representation
 func (s CPU) GoString() string {
 	return s.String()
-}
-
-// SetArchitecture sets the Architecture field's value.
-func (s *CPU) SetArchitecture(v string) *CPU {
-	s.Architecture = &v
-	return s
-}
-
-// SetClock sets the Clock field's value.
-func (s *CPU) SetClock(v float64) *CPU {
-	s.Clock = &v
-	return s
-}
-
-// SetFrequency sets the Frequency field's value.
-func (s *CPU) SetFrequency(v string) *CPU {
-	s.Frequency = &v
-	return s
 }
 
 // Represents entity counters.
@@ -3367,48 +4083,6 @@ func (s Counters) GoString() string {
 	return s.String()
 }
 
-// SetErrored sets the Errored field's value.
-func (s *Counters) SetErrored(v int64) *Counters {
-	s.Errored = &v
-	return s
-}
-
-// SetFailed sets the Failed field's value.
-func (s *Counters) SetFailed(v int64) *Counters {
-	s.Failed = &v
-	return s
-}
-
-// SetPassed sets the Passed field's value.
-func (s *Counters) SetPassed(v int64) *Counters {
-	s.Passed = &v
-	return s
-}
-
-// SetSkipped sets the Skipped field's value.
-func (s *Counters) SetSkipped(v int64) *Counters {
-	s.Skipped = &v
-	return s
-}
-
-// SetStopped sets the Stopped field's value.
-func (s *Counters) SetStopped(v int64) *Counters {
-	s.Stopped = &v
-	return s
-}
-
-// SetTotal sets the Total field's value.
-func (s *Counters) SetTotal(v int64) *Counters {
-	s.Total = &v
-	return s
-}
-
-// SetWarned sets the Warned field's value.
-func (s *Counters) SetWarned(v int64) *Counters {
-	s.Warned = &v
-	return s
-}
-
 // Represents a request to the create device pool operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateDevicePoolRequest
 type CreateDevicePoolInput struct {
@@ -3430,7 +4104,7 @@ type CreateDevicePoolInput struct {
 	// The device pool's rules.
 	//
 	// Rules is a required field
-	Rules []*Rule `locationName:"rules" type:"list" required:"true"`
+	Rules []Rule `locationName:"rules" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -3468,34 +4142,12 @@ func (s *CreateDevicePoolInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateDevicePoolInput) SetDescription(v string) *CreateDevicePoolInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateDevicePoolInput) SetName(v string) *CreateDevicePoolInput {
-	s.Name = &v
-	return s
-}
-
-// SetProjectArn sets the ProjectArn field's value.
-func (s *CreateDevicePoolInput) SetProjectArn(v string) *CreateDevicePoolInput {
-	s.ProjectArn = &v
-	return s
-}
-
-// SetRules sets the Rules field's value.
-func (s *CreateDevicePoolInput) SetRules(v []*Rule) *CreateDevicePoolInput {
-	s.Rules = v
-	return s
-}
-
 // Represents the result of a create device pool request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateDevicePoolResult
 type CreateDevicePoolOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The newly created device pool.
 	DevicePool *DevicePool `locationName:"devicePool" type:"structure"`
@@ -3511,10 +4163,85 @@ func (s CreateDevicePoolOutput) GoString() string {
 	return s.String()
 }
 
-// SetDevicePool sets the DevicePool field's value.
-func (s *CreateDevicePoolOutput) SetDevicePool(v *DevicePool) *CreateDevicePoolOutput {
-	s.DevicePool = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateDevicePoolOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateInstanceProfileRequest
+type CreateInstanceProfileInput struct {
+	_ struct{} `type:"structure"`
+
+	// The description of your instance profile.
+	Description *string `locationName:"description" type:"string"`
+
+	// An array of strings specifying the list of app packages that should not be
+	// cleaned up from the device after a test run is over.
+	//
+	// The list of packages is only considered if you set packageCleanup to true.
+	ExcludeAppPackagesFromCleanup []string `locationName:"excludeAppPackagesFromCleanup" type:"list"`
+
+	// The name of your instance profile.
+	//
+	// Name is a required field
+	Name *string `locationName:"name" type:"string" required:"true"`
+
+	// When set to true, Device Farm will remove app packages after a test run.
+	// The default value is false for private devices.
+	PackageCleanup *bool `locationName:"packageCleanup" type:"boolean"`
+
+	// When set to true, Device Farm will reboot the instance after a test run.
+	// The default value is true.
+	RebootAfterUse *bool `locationName:"rebootAfterUse" type:"boolean"`
+}
+
+// String returns the string representation
+func (s CreateInstanceProfileInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateInstanceProfileInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateInstanceProfileInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateInstanceProfileInput"}
+
+	if s.Name == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Name"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateInstanceProfileResult
+type CreateInstanceProfileOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your instance profile.
+	InstanceProfile *InstanceProfile `locationName:"instanceProfile" type:"structure"`
+}
+
+// String returns the string representation
+func (s CreateInstanceProfileOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateInstanceProfileOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateNetworkProfileRequest
@@ -3550,7 +4277,7 @@ type CreateNetworkProfileInput struct {
 	ProjectArn *string `locationName:"projectArn" min:"32" type:"string" required:"true"`
 
 	// The type of network profile you wish to create. Valid values are listed below.
-	Type NetworkProfileType `locationName:"type" type:"string"`
+	Type NetworkProfileType `locationName:"type" type:"string" enum:"true"`
 
 	// The data throughput rate in bits per second, as an integer from 0 to 104857600.
 	UplinkBandwidthBits *int64 `locationName:"uplinkBandwidthBits" type:"long"`
@@ -3598,81 +4325,11 @@ func (s *CreateNetworkProfileInput) Validate() error {
 	return nil
 }
 
-// SetDescription sets the Description field's value.
-func (s *CreateNetworkProfileInput) SetDescription(v string) *CreateNetworkProfileInput {
-	s.Description = &v
-	return s
-}
-
-// SetDownlinkBandwidthBits sets the DownlinkBandwidthBits field's value.
-func (s *CreateNetworkProfileInput) SetDownlinkBandwidthBits(v int64) *CreateNetworkProfileInput {
-	s.DownlinkBandwidthBits = &v
-	return s
-}
-
-// SetDownlinkDelayMs sets the DownlinkDelayMs field's value.
-func (s *CreateNetworkProfileInput) SetDownlinkDelayMs(v int64) *CreateNetworkProfileInput {
-	s.DownlinkDelayMs = &v
-	return s
-}
-
-// SetDownlinkJitterMs sets the DownlinkJitterMs field's value.
-func (s *CreateNetworkProfileInput) SetDownlinkJitterMs(v int64) *CreateNetworkProfileInput {
-	s.DownlinkJitterMs = &v
-	return s
-}
-
-// SetDownlinkLossPercent sets the DownlinkLossPercent field's value.
-func (s *CreateNetworkProfileInput) SetDownlinkLossPercent(v int64) *CreateNetworkProfileInput {
-	s.DownlinkLossPercent = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateNetworkProfileInput) SetName(v string) *CreateNetworkProfileInput {
-	s.Name = &v
-	return s
-}
-
-// SetProjectArn sets the ProjectArn field's value.
-func (s *CreateNetworkProfileInput) SetProjectArn(v string) *CreateNetworkProfileInput {
-	s.ProjectArn = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *CreateNetworkProfileInput) SetType(v NetworkProfileType) *CreateNetworkProfileInput {
-	s.Type = v
-	return s
-}
-
-// SetUplinkBandwidthBits sets the UplinkBandwidthBits field's value.
-func (s *CreateNetworkProfileInput) SetUplinkBandwidthBits(v int64) *CreateNetworkProfileInput {
-	s.UplinkBandwidthBits = &v
-	return s
-}
-
-// SetUplinkDelayMs sets the UplinkDelayMs field's value.
-func (s *CreateNetworkProfileInput) SetUplinkDelayMs(v int64) *CreateNetworkProfileInput {
-	s.UplinkDelayMs = &v
-	return s
-}
-
-// SetUplinkJitterMs sets the UplinkJitterMs field's value.
-func (s *CreateNetworkProfileInput) SetUplinkJitterMs(v int64) *CreateNetworkProfileInput {
-	s.UplinkJitterMs = &v
-	return s
-}
-
-// SetUplinkLossPercent sets the UplinkLossPercent field's value.
-func (s *CreateNetworkProfileInput) SetUplinkLossPercent(v int64) *CreateNetworkProfileInput {
-	s.UplinkLossPercent = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateNetworkProfileResult
 type CreateNetworkProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The network profile that is returned by the create network profile request.
 	NetworkProfile *NetworkProfile `locationName:"networkProfile" type:"structure"`
@@ -3688,10 +4345,9 @@ func (s CreateNetworkProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetNetworkProfile sets the NetworkProfile field's value.
-func (s *CreateNetworkProfileOutput) SetNetworkProfile(v *NetworkProfile) *CreateNetworkProfileOutput {
-	s.NetworkProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateNetworkProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the create project operation.
@@ -3734,22 +4390,12 @@ func (s *CreateProjectInput) Validate() error {
 	return nil
 }
 
-// SetDefaultJobTimeoutMinutes sets the DefaultJobTimeoutMinutes field's value.
-func (s *CreateProjectInput) SetDefaultJobTimeoutMinutes(v int64) *CreateProjectInput {
-	s.DefaultJobTimeoutMinutes = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateProjectInput) SetName(v string) *CreateProjectInput {
-	s.Name = &v
-	return s
-}
-
 // Represents the result of a create project request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateProjectResult
 type CreateProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The newly created project.
 	Project *Project `locationName:"project" type:"structure"`
@@ -3765,20 +4411,18 @@ func (s CreateProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetProject sets the Project field's value.
-func (s *CreateProjectOutput) SetProject(v *Project) *CreateProjectOutput {
-	s.Project = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// Creates the configuration settings for a remote access session, including
-// the device model and type.
+// Configuration settings for a remote access session, including billing method.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateRemoteAccessSessionConfiguration
 type CreateRemoteAccessSessionConfiguration struct {
 	_ struct{} `type:"structure"`
 
-	// Returns the billing method for purposes of configuring a remote access session.
-	BillingMethod BillingMethod `locationName:"billingMethod" type:"string"`
+	// The billing method for the remote access session.
+	BillingMethod BillingMethod `locationName:"billingMethod" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -3791,12 +4435,6 @@ func (s CreateRemoteAccessSessionConfiguration) GoString() string {
 	return s.String()
 }
 
-// SetBillingMethod sets the BillingMethod field's value.
-func (s *CreateRemoteAccessSessionConfiguration) SetBillingMethod(v BillingMethod) *CreateRemoteAccessSessionConfiguration {
-	s.BillingMethod = v
-	return s
-}
-
 // Creates and submits a request to start a remote access session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateRemoteAccessSessionRequest
 type CreateRemoteAccessSessionInput struct {
@@ -3805,7 +4443,7 @@ type CreateRemoteAccessSessionInput struct {
 	// Unique identifier for the client. If you want access to multiple devices
 	// on the same client, you should pass the same clientId value in each call
 	// to CreateRemoteAccessSession. This is required only if remoteDebugEnabled
-	// is set to true true.
+	// is set to true.
 	ClientId *string `locationName:"clientId" type:"string"`
 
 	// The configuration information for the remote access session request.
@@ -3816,6 +4454,24 @@ type CreateRemoteAccessSessionInput struct {
 	//
 	// DeviceArn is a required field
 	DeviceArn *string `locationName:"deviceArn" min:"32" type:"string" required:"true"`
+
+	// The Amazon Resource Name (ARN) of the device instance for which you want
+	// to create a remote access session.
+	InstanceArn *string `locationName:"instanceArn" min:"32" type:"string"`
+
+	// The interaction mode of the remote access session. Valid values are:
+	//
+	//    * INTERACTIVE: You can interact with the iOS device by viewing, touching,
+	//    and rotating the screen. You cannot run XCUITest framework-based tests
+	//    in this mode.
+	//
+	//    * NO_VIDEO: You are connected to the device but cannot interact with it
+	//    or view the screen. This mode has the fastest test execution speed. You
+	//    can run XCUITest framework-based tests in this mode.
+	//
+	//    * VIDEO_ONLY: You can view the screen but cannot touch or rotate it. You
+	//    can run XCUITest framework-based tests and watch the screen in this mode.
+	InteractionMode InteractionMode `locationName:"interactionMode" type:"string" enum:"true"`
 
 	// The name of the remote access session that you wish to create.
 	Name *string `locationName:"name" type:"string"`
@@ -3829,6 +4485,22 @@ type CreateRemoteAccessSessionInput struct {
 	// Set to true if you want to access devices remotely for debugging in your
 	// remote access session.
 	RemoteDebugEnabled *bool `locationName:"remoteDebugEnabled" type:"boolean"`
+
+	// The Amazon Resource Name (ARN) for the app to be recorded in the remote access
+	// session.
+	RemoteRecordAppArn *string `locationName:"remoteRecordAppArn" min:"32" type:"string"`
+
+	// Set to true to enable remote recording for the remote access session.
+	RemoteRecordEnabled *bool `locationName:"remoteRecordEnabled" type:"boolean"`
+
+	// When set to true, for private devices, Device Farm will not sign your app
+	// again. For public devices, Device Farm always signs your apps again and this
+	// parameter has no effect.
+	//
+	// For more information about how Device Farm re-signs your app(s), see Do you
+	// modify my app? (https://aws.amazon.com/device-farm/faq/) in the AWS Device
+	// Farm FAQs.
+	SkipAppResign *bool `locationName:"skipAppResign" type:"boolean"`
 
 	// The public key of the ssh key pair you want to use for connecting to remote
 	// devices in your remote debugging session. This is only required if remoteDebugEnabled
@@ -3856,12 +4528,18 @@ func (s *CreateRemoteAccessSessionInput) Validate() error {
 	if s.DeviceArn != nil && len(*s.DeviceArn) < 32 {
 		invalidParams.Add(aws.NewErrParamMinLen("DeviceArn", 32))
 	}
+	if s.InstanceArn != nil && len(*s.InstanceArn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("InstanceArn", 32))
+	}
 
 	if s.ProjectArn == nil {
 		invalidParams.Add(aws.NewErrParamRequired("ProjectArn"))
 	}
 	if s.ProjectArn != nil && len(*s.ProjectArn) < 32 {
 		invalidParams.Add(aws.NewErrParamMinLen("ProjectArn", 32))
+	}
+	if s.RemoteRecordAppArn != nil && len(*s.RemoteRecordAppArn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("RemoteRecordAppArn", 32))
 	}
 
 	if invalidParams.Len() > 0 {
@@ -3870,52 +4548,12 @@ func (s *CreateRemoteAccessSessionInput) Validate() error {
 	return nil
 }
 
-// SetClientId sets the ClientId field's value.
-func (s *CreateRemoteAccessSessionInput) SetClientId(v string) *CreateRemoteAccessSessionInput {
-	s.ClientId = &v
-	return s
-}
-
-// SetConfiguration sets the Configuration field's value.
-func (s *CreateRemoteAccessSessionInput) SetConfiguration(v *CreateRemoteAccessSessionConfiguration) *CreateRemoteAccessSessionInput {
-	s.Configuration = v
-	return s
-}
-
-// SetDeviceArn sets the DeviceArn field's value.
-func (s *CreateRemoteAccessSessionInput) SetDeviceArn(v string) *CreateRemoteAccessSessionInput {
-	s.DeviceArn = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateRemoteAccessSessionInput) SetName(v string) *CreateRemoteAccessSessionInput {
-	s.Name = &v
-	return s
-}
-
-// SetProjectArn sets the ProjectArn field's value.
-func (s *CreateRemoteAccessSessionInput) SetProjectArn(v string) *CreateRemoteAccessSessionInput {
-	s.ProjectArn = &v
-	return s
-}
-
-// SetRemoteDebugEnabled sets the RemoteDebugEnabled field's value.
-func (s *CreateRemoteAccessSessionInput) SetRemoteDebugEnabled(v bool) *CreateRemoteAccessSessionInput {
-	s.RemoteDebugEnabled = &v
-	return s
-}
-
-// SetSshPublicKey sets the SshPublicKey field's value.
-func (s *CreateRemoteAccessSessionInput) SetSshPublicKey(v string) *CreateRemoteAccessSessionInput {
-	s.SshPublicKey = &v
-	return s
-}
-
 // Represents the server response from a request to create a remote access session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateRemoteAccessSessionResult
 type CreateRemoteAccessSessionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A container that describes the remote access session when the request to
 	// create a remote access session is sent.
@@ -3932,10 +4570,9 @@ func (s CreateRemoteAccessSessionOutput) GoString() string {
 	return s.String()
 }
 
-// SetRemoteAccessSession sets the RemoteAccessSession field's value.
-func (s *CreateRemoteAccessSessionOutput) SetRemoteAccessSession(v *RemoteAccessSession) *CreateRemoteAccessSessionOutput {
-	s.RemoteAccessSession = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateRemoteAccessSessionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the create upload operation.
@@ -4002,7 +4639,7 @@ type CreateUploadInput struct {
 	// an ArgumentException error.
 	//
 	// Type is a required field
-	Type UploadType `locationName:"type" type:"string" required:"true"`
+	Type UploadType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -4039,34 +4676,12 @@ func (s *CreateUploadInput) Validate() error {
 	return nil
 }
 
-// SetContentType sets the ContentType field's value.
-func (s *CreateUploadInput) SetContentType(v string) *CreateUploadInput {
-	s.ContentType = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *CreateUploadInput) SetName(v string) *CreateUploadInput {
-	s.Name = &v
-	return s
-}
-
-// SetProjectArn sets the ProjectArn field's value.
-func (s *CreateUploadInput) SetProjectArn(v string) *CreateUploadInput {
-	s.ProjectArn = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *CreateUploadInput) SetType(v UploadType) *CreateUploadInput {
-	s.Type = v
-	return s
-}
-
 // Represents the result of a create upload request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateUploadResult
 type CreateUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The newly created upload.
 	Upload *Upload `locationName:"upload" type:"structure"`
@@ -4082,10 +4697,92 @@ func (s CreateUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetUpload sets the Upload field's value.
-func (s *CreateUploadOutput) SetUpload(v *Upload) *CreateUploadOutput {
-	s.Upload = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateVPCEConfigurationRequest
+type CreateVPCEConfigurationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The DNS name of the service running in your VPC that you want Device Farm
+	// to test.
+	//
+	// ServiceDnsName is a required field
+	ServiceDnsName *string `locationName:"serviceDnsName" type:"string" required:"true"`
+
+	// An optional description, providing more details about your VPC endpoint configuration.
+	VpceConfigurationDescription *string `locationName:"vpceConfigurationDescription" type:"string"`
+
+	// The friendly name you give to your VPC endpoint configuration, to manage
+	// your configurations more easily.
+	//
+	// VpceConfigurationName is a required field
+	VpceConfigurationName *string `locationName:"vpceConfigurationName" type:"string" required:"true"`
+
+	// The name of the VPC endpoint service running inside your AWS account that
+	// you want Device Farm to test.
+	//
+	// VpceServiceName is a required field
+	VpceServiceName *string `locationName:"vpceServiceName" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s CreateVPCEConfigurationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateVPCEConfigurationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *CreateVPCEConfigurationInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "CreateVPCEConfigurationInput"}
+
+	if s.ServiceDnsName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("ServiceDnsName"))
+	}
+
+	if s.VpceConfigurationName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("VpceConfigurationName"))
+	}
+
+	if s.VpceServiceName == nil {
+		invalidParams.Add(aws.NewErrParamRequired("VpceServiceName"))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/CreateVPCEConfigurationResult
+type CreateVPCEConfigurationOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your VPC endpoint configuration.
+	VpceConfiguration *VPCEConfiguration `locationName:"vpceConfiguration" type:"structure"`
+}
+
+// String returns the string representation
+func (s CreateVPCEConfigurationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s CreateVPCEConfigurationOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateVPCEConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // A JSON object specifying the paths where the artifacts generated by the customer's
@@ -4100,15 +4797,15 @@ type CustomerArtifactPaths struct {
 
 	// Comma-separated list of paths on the Android device where the artifacts generated
 	// by the customer's tests will be pulled from.
-	AndroidPaths []*string `locationName:"androidPaths" type:"list"`
+	AndroidPaths []string `locationName:"androidPaths" type:"list"`
 
 	// Comma-separated list of paths in the test execution environment where the
 	// artifacts generated by the customer's tests will be pulled from.
-	DeviceHostPaths []*string `locationName:"deviceHostPaths" type:"list"`
+	DeviceHostPaths []string `locationName:"deviceHostPaths" type:"list"`
 
 	// Comma-separated list of paths on the iOS device where the artifacts generated
 	// by the customer's tests will be pulled from.
-	IosPaths []*string `locationName:"iosPaths" type:"list"`
+	IosPaths []string `locationName:"iosPaths" type:"list"`
 }
 
 // String returns the string representation
@@ -4119,24 +4816,6 @@ func (s CustomerArtifactPaths) String() string {
 // GoString returns the string representation
 func (s CustomerArtifactPaths) GoString() string {
 	return s.String()
-}
-
-// SetAndroidPaths sets the AndroidPaths field's value.
-func (s *CustomerArtifactPaths) SetAndroidPaths(v []*string) *CustomerArtifactPaths {
-	s.AndroidPaths = v
-	return s
-}
-
-// SetDeviceHostPaths sets the DeviceHostPaths field's value.
-func (s *CustomerArtifactPaths) SetDeviceHostPaths(v []*string) *CustomerArtifactPaths {
-	s.DeviceHostPaths = v
-	return s
-}
-
-// SetIosPaths sets the IosPaths field's value.
-func (s *CustomerArtifactPaths) SetIosPaths(v []*string) *CustomerArtifactPaths {
-	s.IosPaths = v
-	return s
 }
 
 // Represents a request to the delete device pool operation.
@@ -4178,16 +4857,12 @@ func (s *DeleteDevicePoolInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *DeleteDevicePoolInput) SetArn(v string) *DeleteDevicePoolInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a delete device pool request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteDevicePoolResult
 type DeleteDevicePoolOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4198,6 +4873,71 @@ func (s DeleteDevicePoolOutput) String() string {
 // GoString returns the string representation
 func (s DeleteDevicePoolOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteDevicePoolOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteInstanceProfileRequest
+type DeleteInstanceProfileInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the instance profile you are requesting
+	// to delete.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteInstanceProfileInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteInstanceProfileInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteInstanceProfileInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteInstanceProfileInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteInstanceProfileResult
+type DeleteInstanceProfileOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeleteInstanceProfileOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteInstanceProfileOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteNetworkProfileRequest
@@ -4237,15 +4977,11 @@ func (s *DeleteNetworkProfileInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *DeleteNetworkProfileInput) SetArn(v string) *DeleteNetworkProfileInput {
-	s.Arn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteNetworkProfileResult
 type DeleteNetworkProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4256,6 +4992,11 @@ func (s DeleteNetworkProfileOutput) String() string {
 // GoString returns the string representation
 func (s DeleteNetworkProfileOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteNetworkProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the delete project operation.
@@ -4297,16 +5038,12 @@ func (s *DeleteProjectInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *DeleteProjectInput) SetArn(v string) *DeleteProjectInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a delete project request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteProjectResult
 type DeleteProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4317,6 +5054,11 @@ func (s DeleteProjectOutput) String() string {
 // GoString returns the string representation
 func (s DeleteProjectOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to delete the specified remote access session.
@@ -4358,17 +5100,13 @@ func (s *DeleteRemoteAccessSessionInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *DeleteRemoteAccessSessionInput) SetArn(v string) *DeleteRemoteAccessSessionInput {
-	s.Arn = &v
-	return s
-}
-
 // The response from the server when a request is made to delete the remote
 // access session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteRemoteAccessSessionResult
 type DeleteRemoteAccessSessionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4379,6 +5117,11 @@ func (s DeleteRemoteAccessSessionOutput) String() string {
 // GoString returns the string representation
 func (s DeleteRemoteAccessSessionOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRemoteAccessSessionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the delete run operation.
@@ -4419,16 +5162,12 @@ func (s *DeleteRunInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *DeleteRunInput) SetArn(v string) *DeleteRunInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a delete run request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteRunResult
 type DeleteRunOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4439,6 +5178,11 @@ func (s DeleteRunOutput) String() string {
 // GoString returns the string representation
 func (s DeleteRunOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteRunOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the delete upload operation.
@@ -4480,16 +5224,12 @@ func (s *DeleteUploadInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *DeleteUploadInput) SetArn(v string) *DeleteUploadInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a delete upload request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteUploadResult
 type DeleteUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -4500,6 +5240,71 @@ func (s DeleteUploadOutput) String() string {
 // GoString returns the string representation
 func (s DeleteUploadOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteVPCEConfigurationRequest
+type DeleteVPCEConfigurationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
+	// to delete.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s DeleteVPCEConfigurationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteVPCEConfigurationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *DeleteVPCEConfigurationInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "DeleteVPCEConfigurationInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeleteVPCEConfigurationResult
+type DeleteVPCEConfigurationOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+}
+
+// String returns the string representation
+func (s DeleteVPCEConfigurationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s DeleteVPCEConfigurationOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteVPCEConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a device type that an app is tested against.
@@ -4530,13 +5335,16 @@ type Device struct {
 	//    * PHONE: The phone form factor.
 	//
 	//    * TABLET: The tablet form factor.
-	FormFactor DeviceFormFactor `locationName:"formFactor" type:"string"`
+	FormFactor DeviceFormFactor `locationName:"formFactor" type:"string" enum:"true"`
 
 	// The device's heap size, expressed in bytes.
 	HeapSize *int64 `locationName:"heapSize" type:"long"`
 
 	// The device's image name.
 	Image *string `locationName:"image" type:"string"`
+
+	// The instances belonging to this device.
+	Instances []DeviceInstance `locationName:"instances" type:"list"`
 
 	// The device's manufacturer name.
 	Manufacturer *string `locationName:"manufacturer" type:"string"`
@@ -4546,6 +5354,9 @@ type Device struct {
 
 	// The device's model name.
 	Model *string `locationName:"model" type:"string"`
+
+	// The device's model ID.
+	ModelId *string `locationName:"modelId" type:"string"`
 
 	// The device's display name.
 	Name *string `locationName:"name" type:"string"`
@@ -4560,7 +5371,7 @@ type Device struct {
 	//    * ANDROID: The Android platform.
 	//
 	//    * IOS: The iOS platform.
-	Platform DevicePlatform `locationName:"platform" type:"string"`
+	Platform DevicePlatform `locationName:"platform" type:"string" enum:"true"`
 
 	// The device's radio.
 	Radio *string `locationName:"radio" type:"string"`
@@ -4585,112 +5396,38 @@ func (s Device) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Device) SetArn(v string) *Device {
-	s.Arn = &v
-	return s
+// Represents the device instance.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DeviceInstance
+type DeviceInstance struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the device instance.
+	Arn *string `locationName:"arn" min:"32" type:"string"`
+
+	// The Amazon Resource Name (ARN) of the device.
+	DeviceArn *string `locationName:"deviceArn" min:"32" type:"string"`
+
+	// A object containing information about the instance profile.
+	InstanceProfile *InstanceProfile `locationName:"instanceProfile" type:"structure"`
+
+	// An array of strings describing the device instance.
+	Labels []string `locationName:"labels" type:"list"`
+
+	// The status of the device instance. Valid values are listed below.
+	Status InstanceStatus `locationName:"status" type:"string" enum:"true"`
+
+	// Unique device identifier for the device instance.
+	Udid *string `locationName:"udid" type:"string"`
 }
 
-// SetCarrier sets the Carrier field's value.
-func (s *Device) SetCarrier(v string) *Device {
-	s.Carrier = &v
-	return s
+// String returns the string representation
+func (s DeviceInstance) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetCpu sets the Cpu field's value.
-func (s *Device) SetCpu(v *CPU) *Device {
-	s.Cpu = v
-	return s
-}
-
-// SetFleetName sets the FleetName field's value.
-func (s *Device) SetFleetName(v string) *Device {
-	s.FleetName = &v
-	return s
-}
-
-// SetFleetType sets the FleetType field's value.
-func (s *Device) SetFleetType(v string) *Device {
-	s.FleetType = &v
-	return s
-}
-
-// SetFormFactor sets the FormFactor field's value.
-func (s *Device) SetFormFactor(v DeviceFormFactor) *Device {
-	s.FormFactor = v
-	return s
-}
-
-// SetHeapSize sets the HeapSize field's value.
-func (s *Device) SetHeapSize(v int64) *Device {
-	s.HeapSize = &v
-	return s
-}
-
-// SetImage sets the Image field's value.
-func (s *Device) SetImage(v string) *Device {
-	s.Image = &v
-	return s
-}
-
-// SetManufacturer sets the Manufacturer field's value.
-func (s *Device) SetManufacturer(v string) *Device {
-	s.Manufacturer = &v
-	return s
-}
-
-// SetMemory sets the Memory field's value.
-func (s *Device) SetMemory(v int64) *Device {
-	s.Memory = &v
-	return s
-}
-
-// SetModel sets the Model field's value.
-func (s *Device) SetModel(v string) *Device {
-	s.Model = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Device) SetName(v string) *Device {
-	s.Name = &v
-	return s
-}
-
-// SetOs sets the Os field's value.
-func (s *Device) SetOs(v string) *Device {
-	s.Os = &v
-	return s
-}
-
-// SetPlatform sets the Platform field's value.
-func (s *Device) SetPlatform(v DevicePlatform) *Device {
-	s.Platform = v
-	return s
-}
-
-// SetRadio sets the Radio field's value.
-func (s *Device) SetRadio(v string) *Device {
-	s.Radio = &v
-	return s
-}
-
-// SetRemoteAccessEnabled sets the RemoteAccessEnabled field's value.
-func (s *Device) SetRemoteAccessEnabled(v bool) *Device {
-	s.RemoteAccessEnabled = &v
-	return s
-}
-
-// SetRemoteDebugEnabled sets the RemoteDebugEnabled field's value.
-func (s *Device) SetRemoteDebugEnabled(v bool) *Device {
-	s.RemoteDebugEnabled = &v
-	return s
-}
-
-// SetResolution sets the Resolution field's value.
-func (s *Device) SetResolution(v *Resolution) *Device {
-	s.Resolution = v
-	return s
+// GoString returns the string representation
+func (s DeviceInstance) GoString() string {
+	return s.String()
 }
 
 // Represents the total (metered or unmetered) minutes used by the resource
@@ -4722,24 +5459,6 @@ func (s DeviceMinutes) GoString() string {
 	return s.String()
 }
 
-// SetMetered sets the Metered field's value.
-func (s *DeviceMinutes) SetMetered(v float64) *DeviceMinutes {
-	s.Metered = &v
-	return s
-}
-
-// SetTotal sets the Total field's value.
-func (s *DeviceMinutes) SetTotal(v float64) *DeviceMinutes {
-	s.Total = &v
-	return s
-}
-
-// SetUnmetered sets the Unmetered field's value.
-func (s *DeviceMinutes) SetUnmetered(v float64) *DeviceMinutes {
-	s.Unmetered = &v
-	return s
-}
-
 // Represents a collection of device types.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/DevicePool
 type DevicePool struct {
@@ -4755,7 +5474,7 @@ type DevicePool struct {
 	Name *string `locationName:"name" type:"string"`
 
 	// Information about the device pool's rules.
-	Rules []*Rule `locationName:"rules" type:"list"`
+	Rules []Rule `locationName:"rules" type:"list"`
 
 	// The device pool's type.
 	//
@@ -4765,7 +5484,7 @@ type DevicePool struct {
 	//
 	//    * PRIVATE: A device pool that is created and managed by the device pool
 	//    developer.
-	Type DevicePoolType `locationName:"type" type:"string"`
+	Type DevicePoolType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -4776,36 +5495,6 @@ func (s DevicePool) String() string {
 // GoString returns the string representation
 func (s DevicePool) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *DevicePool) SetArn(v string) *DevicePool {
-	s.Arn = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *DevicePool) SetDescription(v string) *DevicePool {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *DevicePool) SetName(v string) *DevicePool {
-	s.Name = &v
-	return s
-}
-
-// SetRules sets the Rules field's value.
-func (s *DevicePool) SetRules(v []*Rule) *DevicePool {
-	s.Rules = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *DevicePool) SetType(v DevicePoolType) *DevicePool {
-	s.Type = v
-	return s
 }
 
 // Represents a device pool compatibility result.
@@ -4820,7 +5509,7 @@ type DevicePoolCompatibilityResult struct {
 	Device *Device `locationName:"device" type:"structure"`
 
 	// Information about the compatibility.
-	IncompatibilityMessages []*IncompatibilityMessage `locationName:"incompatibilityMessages" type:"list"`
+	IncompatibilityMessages []IncompatibilityMessage `locationName:"incompatibilityMessages" type:"list"`
 }
 
 // String returns the string representation
@@ -4831,24 +5520,6 @@ func (s DevicePoolCompatibilityResult) String() string {
 // GoString returns the string representation
 func (s DevicePoolCompatibilityResult) GoString() string {
 	return s.String()
-}
-
-// SetCompatible sets the Compatible field's value.
-func (s *DevicePoolCompatibilityResult) SetCompatible(v bool) *DevicePoolCompatibilityResult {
-	s.Compatible = &v
-	return s
-}
-
-// SetDevice sets the Device field's value.
-func (s *DevicePoolCompatibilityResult) SetDevice(v *Device) *DevicePoolCompatibilityResult {
-	s.Device = v
-	return s
-}
-
-// SetIncompatibilityMessages sets the IncompatibilityMessages field's value.
-func (s *DevicePoolCompatibilityResult) SetIncompatibilityMessages(v []*IncompatibilityMessage) *DevicePoolCompatibilityResult {
-	s.IncompatibilityMessages = v
-	return s
 }
 
 // Represents configuration information about a test run, such as the execution
@@ -4867,6 +5538,15 @@ type ExecutionConfiguration struct {
 
 	// The number of minutes a test run will execute before it times out.
 	JobTimeoutMinutes *int64 `locationName:"jobTimeoutMinutes" type:"integer"`
+
+	// When set to true, for private devices, Device Farm will not sign your app
+	// again. For public devices, Device Farm always signs your apps again and this
+	// parameter has no effect.
+	//
+	// For more information about how Device Farm re-signs your app(s), see Do you
+	// modify my app? (https://aws.amazon.com/device-farm/faq/) in the AWS Device
+	// Farm FAQs.
+	SkipAppResign *bool `locationName:"skipAppResign" type:"boolean"`
 }
 
 // String returns the string representation
@@ -4877,24 +5557,6 @@ func (s ExecutionConfiguration) String() string {
 // GoString returns the string representation
 func (s ExecutionConfiguration) GoString() string {
 	return s.String()
-}
-
-// SetAccountsCleanup sets the AccountsCleanup field's value.
-func (s *ExecutionConfiguration) SetAccountsCleanup(v bool) *ExecutionConfiguration {
-	s.AccountsCleanup = &v
-	return s
-}
-
-// SetAppPackagesCleanup sets the AppPackagesCleanup field's value.
-func (s *ExecutionConfiguration) SetAppPackagesCleanup(v bool) *ExecutionConfiguration {
-	s.AppPackagesCleanup = &v
-	return s
-}
-
-// SetJobTimeoutMinutes sets the JobTimeoutMinutes field's value.
-func (s *ExecutionConfiguration) SetJobTimeoutMinutes(v int64) *ExecutionConfiguration {
-	s.JobTimeoutMinutes = &v
-	return s
 }
 
 // Represents the request sent to retrieve the account settings.
@@ -4919,6 +5581,8 @@ func (s GetAccountSettingsInput) GoString() string {
 type GetAccountSettingsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The account settings.
 	AccountSettings *AccountSettings `locationName:"accountSettings" type:"structure"`
 }
@@ -4933,10 +5597,9 @@ func (s GetAccountSettingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetAccountSettings sets the AccountSettings field's value.
-func (s *GetAccountSettingsOutput) SetAccountSettings(v *AccountSettings) *GetAccountSettingsOutput {
-	s.AccountSettings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetAccountSettingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get device request.
@@ -4977,16 +5640,75 @@ func (s *GetDeviceInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetDeviceInput) SetArn(v string) *GetDeviceInput {
-	s.Arn = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDeviceInstanceRequest
+type GetDeviceInstanceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the instance you're requesting information
+	// about.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetDeviceInstanceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDeviceInstanceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetDeviceInstanceInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetDeviceInstanceInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDeviceInstanceResult
+type GetDeviceInstanceOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your device instance.
+	DeviceInstance *DeviceInstance `locationName:"deviceInstance" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetDeviceInstanceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetDeviceInstanceOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDeviceInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the result of a get device request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDeviceResult
 type GetDeviceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An object containing information about the requested device.
 	Device *Device `locationName:"device" type:"structure"`
@@ -5002,10 +5724,9 @@ func (s GetDeviceOutput) GoString() string {
 	return s.String()
 }
 
-// SetDevice sets the Device field's value.
-func (s *GetDeviceOutput) SetDevice(v *Device) *GetDeviceOutput {
-	s.Device = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDeviceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get device pool compatibility operation.
@@ -5015,6 +5736,9 @@ type GetDevicePoolCompatibilityInput struct {
 
 	// The ARN of the app that is associated with the specified device pool.
 	AppArn *string `locationName:"appArn" min:"32" type:"string"`
+
+	// An object containing information about the settings for a run.
+	Configuration *ScheduleRunConfiguration `locationName:"configuration" type:"structure"`
 
 	// The device pool's ARN.
 	//
@@ -5057,7 +5781,7 @@ type GetDevicePoolCompatibilityInput struct {
 	//    * XCTEST: The XCode test type.
 	//
 	//    * XCTEST_UI: The XCode UI test type.
-	TestType TestType `locationName:"testType" type:"string"`
+	TestType TestType `locationName:"testType" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -5083,6 +5807,11 @@ func (s *GetDevicePoolCompatibilityInput) Validate() error {
 	if s.DevicePoolArn != nil && len(*s.DevicePoolArn) < 32 {
 		invalidParams.Add(aws.NewErrParamMinLen("DevicePoolArn", 32))
 	}
+	if s.Configuration != nil {
+		if err := s.Configuration.Validate(); err != nil {
+			invalidParams.AddNested("Configuration", err.(aws.ErrInvalidParams))
+		}
+	}
 	if s.Test != nil {
 		if err := s.Test.Validate(); err != nil {
 			invalidParams.AddNested("Test", err.(aws.ErrInvalidParams))
@@ -5095,40 +5824,18 @@ func (s *GetDevicePoolCompatibilityInput) Validate() error {
 	return nil
 }
 
-// SetAppArn sets the AppArn field's value.
-func (s *GetDevicePoolCompatibilityInput) SetAppArn(v string) *GetDevicePoolCompatibilityInput {
-	s.AppArn = &v
-	return s
-}
-
-// SetDevicePoolArn sets the DevicePoolArn field's value.
-func (s *GetDevicePoolCompatibilityInput) SetDevicePoolArn(v string) *GetDevicePoolCompatibilityInput {
-	s.DevicePoolArn = &v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *GetDevicePoolCompatibilityInput) SetTest(v *ScheduleRunTest) *GetDevicePoolCompatibilityInput {
-	s.Test = v
-	return s
-}
-
-// SetTestType sets the TestType field's value.
-func (s *GetDevicePoolCompatibilityInput) SetTestType(v TestType) *GetDevicePoolCompatibilityInput {
-	s.TestType = v
-	return s
-}
-
 // Represents the result of describe device pool compatibility request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevicePoolCompatibilityResult
 type GetDevicePoolCompatibilityOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about compatible devices.
-	CompatibleDevices []*DevicePoolCompatibilityResult `locationName:"compatibleDevices" type:"list"`
+	CompatibleDevices []DevicePoolCompatibilityResult `locationName:"compatibleDevices" type:"list"`
 
 	// Information about incompatible devices.
-	IncompatibleDevices []*DevicePoolCompatibilityResult `locationName:"incompatibleDevices" type:"list"`
+	IncompatibleDevices []DevicePoolCompatibilityResult `locationName:"incompatibleDevices" type:"list"`
 }
 
 // String returns the string representation
@@ -5141,16 +5848,9 @@ func (s GetDevicePoolCompatibilityOutput) GoString() string {
 	return s.String()
 }
 
-// SetCompatibleDevices sets the CompatibleDevices field's value.
-func (s *GetDevicePoolCompatibilityOutput) SetCompatibleDevices(v []*DevicePoolCompatibilityResult) *GetDevicePoolCompatibilityOutput {
-	s.CompatibleDevices = v
-	return s
-}
-
-// SetIncompatibleDevices sets the IncompatibleDevices field's value.
-func (s *GetDevicePoolCompatibilityOutput) SetIncompatibleDevices(v []*DevicePoolCompatibilityResult) *GetDevicePoolCompatibilityOutput {
-	s.IncompatibleDevices = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDevicePoolCompatibilityOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get device pool operation.
@@ -5191,16 +5891,12 @@ func (s *GetDevicePoolInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetDevicePoolInput) SetArn(v string) *GetDevicePoolInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get device pool request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetDevicePoolResult
 type GetDevicePoolOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An object containing information about the requested device pool.
 	DevicePool *DevicePool `locationName:"devicePool" type:"structure"`
@@ -5216,10 +5912,71 @@ func (s GetDevicePoolOutput) GoString() string {
 	return s.String()
 }
 
-// SetDevicePool sets the DevicePool field's value.
-func (s *GetDevicePoolOutput) SetDevicePool(v *DevicePool) *GetDevicePoolOutput {
-	s.DevicePool = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetDevicePoolOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetInstanceProfileRequest
+type GetInstanceProfileInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of your instance profile.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetInstanceProfileInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetInstanceProfileInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetInstanceProfileInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetInstanceProfileInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetInstanceProfileResult
+type GetInstanceProfileOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your instance profile.
+	InstanceProfile *InstanceProfile `locationName:"instanceProfile" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetInstanceProfileOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetInstanceProfileOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get job operation.
@@ -5260,16 +6017,12 @@ func (s *GetJobInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetJobInput) SetArn(v string) *GetJobInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get job request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetJobResult
 type GetJobOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An object containing information about the requested job.
 	Job *Job `locationName:"job" type:"structure"`
@@ -5285,10 +6038,9 @@ func (s GetJobOutput) GoString() string {
 	return s.String()
 }
 
-// SetJob sets the Job field's value.
-func (s *GetJobOutput) SetJob(v *Job) *GetJobOutput {
-	s.Job = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetJobOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetNetworkProfileRequest
@@ -5329,15 +6081,11 @@ func (s *GetNetworkProfileInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetNetworkProfileInput) SetArn(v string) *GetNetworkProfileInput {
-	s.Arn = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetNetworkProfileResult
 type GetNetworkProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The network profile.
 	NetworkProfile *NetworkProfile `locationName:"networkProfile" type:"structure"`
@@ -5353,10 +6101,9 @@ func (s GetNetworkProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetNetworkProfile sets the NetworkProfile field's value.
-func (s *GetNetworkProfileOutput) SetNetworkProfile(v *NetworkProfile) *GetNetworkProfileOutput {
-	s.NetworkProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetNetworkProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to retrieve the offering status for the specified
@@ -5393,22 +6140,18 @@ func (s *GetOfferingStatusInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *GetOfferingStatusInput) SetNextToken(v string) *GetOfferingStatusInput {
-	s.NextToken = &v
-	return s
-}
-
 // Returns the status result for a device offering.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetOfferingStatusResult
 type GetOfferingStatusOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// When specified, gets the offering status for the current period.
-	Current map[string]*OfferingStatus `locationName:"current" type:"map"`
+	Current map[string]OfferingStatus `locationName:"current" type:"map"`
 
 	// When specified, gets the offering status for the next period.
-	NextPeriod map[string]*OfferingStatus `locationName:"nextPeriod" type:"map"`
+	NextPeriod map[string]OfferingStatus `locationName:"nextPeriod" type:"map"`
 
 	// An identifier that was returned from the previous call to this operation,
 	// which can be used to return the next set of items in the list.
@@ -5425,22 +6168,9 @@ func (s GetOfferingStatusOutput) GoString() string {
 	return s.String()
 }
 
-// SetCurrent sets the Current field's value.
-func (s *GetOfferingStatusOutput) SetCurrent(v map[string]*OfferingStatus) *GetOfferingStatusOutput {
-	s.Current = v
-	return s
-}
-
-// SetNextPeriod sets the NextPeriod field's value.
-func (s *GetOfferingStatusOutput) SetNextPeriod(v map[string]*OfferingStatus) *GetOfferingStatusOutput {
-	s.NextPeriod = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetOfferingStatusOutput) SetNextToken(v string) *GetOfferingStatusOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetOfferingStatusOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get project operation.
@@ -5481,16 +6211,12 @@ func (s *GetProjectInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetProjectInput) SetArn(v string) *GetProjectInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get project request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetProjectResult
 type GetProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The project you wish to get information about.
 	Project *Project `locationName:"project" type:"structure"`
@@ -5506,10 +6232,9 @@ func (s GetProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetProject sets the Project field's value.
-func (s *GetProjectOutput) SetProject(v *Project) *GetProjectOutput {
-	s.Project = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to get information about the specified remote access
@@ -5552,17 +6277,13 @@ func (s *GetRemoteAccessSessionInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetRemoteAccessSessionInput) SetArn(v string) *GetRemoteAccessSessionInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the response from the server that lists detailed information about
 // the remote access session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetRemoteAccessSessionResult
 type GetRemoteAccessSessionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A container that lists detailed information about the remote access session.
 	RemoteAccessSession *RemoteAccessSession `locationName:"remoteAccessSession" type:"structure"`
@@ -5578,10 +6299,9 @@ func (s GetRemoteAccessSessionOutput) GoString() string {
 	return s.String()
 }
 
-// SetRemoteAccessSession sets the RemoteAccessSession field's value.
-func (s *GetRemoteAccessSessionOutput) SetRemoteAccessSession(v *RemoteAccessSession) *GetRemoteAccessSessionOutput {
-	s.RemoteAccessSession = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRemoteAccessSessionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get run operation.
@@ -5622,16 +6342,12 @@ func (s *GetRunInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetRunInput) SetArn(v string) *GetRunInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get run request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetRunResult
 type GetRunOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The run you wish to get results from.
 	Run *Run `locationName:"run" type:"structure"`
@@ -5647,10 +6363,9 @@ func (s GetRunOutput) GoString() string {
 	return s.String()
 }
 
-// SetRun sets the Run field's value.
-func (s *GetRunOutput) SetRun(v *Run) *GetRunOutput {
-	s.Run = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetRunOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get suite operation.
@@ -5691,16 +6406,12 @@ func (s *GetSuiteInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetSuiteInput) SetArn(v string) *GetSuiteInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get suite request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetSuiteResult
 type GetSuiteOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A collection of one or more tests.
 	Suite *Suite `locationName:"suite" type:"structure"`
@@ -5716,10 +6427,9 @@ func (s GetSuiteOutput) GoString() string {
 	return s.String()
 }
 
-// SetSuite sets the Suite field's value.
-func (s *GetSuiteOutput) SetSuite(v *Suite) *GetSuiteOutput {
-	s.Suite = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetSuiteOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get test operation.
@@ -5760,16 +6470,12 @@ func (s *GetTestInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetTestInput) SetArn(v string) *GetTestInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get test request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetTestResult
 type GetTestOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A test condition that is evaluated.
 	Test *Test `locationName:"test" type:"structure"`
@@ -5785,10 +6491,9 @@ func (s GetTestOutput) GoString() string {
 	return s.String()
 }
 
-// SetTest sets the Test field's value.
-func (s *GetTestOutput) SetTest(v *Test) *GetTestOutput {
-	s.Test = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetTestOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the get upload operation.
@@ -5829,16 +6534,12 @@ func (s *GetUploadInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *GetUploadInput) SetArn(v string) *GetUploadInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the result of a get upload request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetUploadResult
 type GetUploadOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An app or a set of one or more tests to upload or that have been uploaded.
 	Upload *Upload `locationName:"upload" type:"structure"`
@@ -5854,10 +6555,72 @@ func (s GetUploadOutput) GoString() string {
 	return s.String()
 }
 
-// SetUpload sets the Upload field's value.
-func (s *GetUploadOutput) SetUpload(v *Upload) *GetUploadOutput {
-	s.Upload = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetUploadOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetVPCEConfigurationRequest
+type GetVPCEConfigurationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
+	// to describe.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+}
+
+// String returns the string representation
+func (s GetVPCEConfigurationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetVPCEConfigurationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *GetVPCEConfigurationInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "GetVPCEConfigurationInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/GetVPCEConfigurationResult
+type GetVPCEConfigurationOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your VPC endpoint configuration.
+	VpceConfiguration *VPCEConfiguration `locationName:"vpceConfiguration" type:"structure"`
+}
+
+// String returns the string representation
+func (s GetVPCEConfigurationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s GetVPCEConfigurationOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetVPCEConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents information about incompatibility.
@@ -5883,7 +6646,7 @@ type IncompatibilityMessage struct {
 	//    * REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
 	//
 	//    * APPIUM_VERSION: The Appium version for the test.
-	Type DeviceAttribute `locationName:"type" type:"string"`
+	Type DeviceAttribute `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -5894,18 +6657,6 @@ func (s IncompatibilityMessage) String() string {
 // GoString returns the string representation
 func (s IncompatibilityMessage) GoString() string {
 	return s.String()
-}
-
-// SetMessage sets the Message field's value.
-func (s *IncompatibilityMessage) SetMessage(v string) *IncompatibilityMessage {
-	s.Message = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *IncompatibilityMessage) SetType(v DeviceAttribute) *IncompatibilityMessage {
-	s.Type = v
-	return s
 }
 
 // Represents the request to install an Android application (in .apk format)
@@ -5961,23 +6712,13 @@ func (s *InstallToRemoteAccessSessionInput) Validate() error {
 	return nil
 }
 
-// SetAppArn sets the AppArn field's value.
-func (s *InstallToRemoteAccessSessionInput) SetAppArn(v string) *InstallToRemoteAccessSessionInput {
-	s.AppArn = &v
-	return s
-}
-
-// SetRemoteAccessSessionArn sets the RemoteAccessSessionArn field's value.
-func (s *InstallToRemoteAccessSessionInput) SetRemoteAccessSessionArn(v string) *InstallToRemoteAccessSessionInput {
-	s.RemoteAccessSessionArn = &v
-	return s
-}
-
 // Represents the response from the server after AWS Device Farm makes a request
 // to install to a remote access session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/InstallToRemoteAccessSessionResult
 type InstallToRemoteAccessSessionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An app to upload or that has been uploaded.
 	AppUpload *Upload `locationName:"appUpload" type:"structure"`
@@ -5993,10 +6734,48 @@ func (s InstallToRemoteAccessSessionOutput) GoString() string {
 	return s.String()
 }
 
-// SetAppUpload sets the AppUpload field's value.
-func (s *InstallToRemoteAccessSessionOutput) SetAppUpload(v *Upload) *InstallToRemoteAccessSessionOutput {
-	s.AppUpload = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InstallToRemoteAccessSessionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Represents the instance profile.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/InstanceProfile
+type InstanceProfile struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the instance profile.
+	Arn *string `locationName:"arn" min:"32" type:"string"`
+
+	// The description of the instance profile.
+	Description *string `locationName:"description" type:"string"`
+
+	// An array of strings specifying the list of app packages that should not be
+	// cleaned up from the device after a test run is over.
+	//
+	// The list of packages is only considered if you set packageCleanup to true.
+	ExcludeAppPackagesFromCleanup []string `locationName:"excludeAppPackagesFromCleanup" type:"list"`
+
+	// The name of the instance profile.
+	Name *string `locationName:"name" type:"string"`
+
+	// When set to true, Device Farm will remove app packages after a test run.
+	// The default value is false for private devices.
+	PackageCleanup *bool `locationName:"packageCleanup" type:"boolean"`
+
+	// When set to true, Device Farm will reboot the instance after a test run.
+	// The default value is true.
+	RebootAfterUse *bool `locationName:"rebootAfterUse" type:"boolean"`
+}
+
+// String returns the string representation
+func (s InstanceProfile) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s InstanceProfile) GoString() string {
+	return s.String()
 }
 
 // Represents a device.
@@ -6018,6 +6797,9 @@ type Job struct {
 
 	// Represents the total (metered or unmetered) minutes used by the job.
 	DeviceMinutes *DeviceMinutes `locationName:"deviceMinutes" type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the instance.
+	InstanceArn *string `locationName:"instanceArn" min:"32" type:"string"`
 
 	// A message about the job's result.
 	Message *string `locationName:"message" type:"string"`
@@ -6042,7 +6824,7 @@ type Job struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	Result ExecutionResult `locationName:"result" type:"string"`
+	Result ExecutionResult `locationName:"result" type:"string" enum:"true"`
 
 	// The job's start time.
 	Started *time.Time `locationName:"started" type:"timestamp" timestampFormat:"unix"`
@@ -6068,7 +6850,7 @@ type Job struct {
 	//    * COMPLETED: A completed status.
 	//
 	//    * STOPPING: A stopping status.
-	Status ExecutionStatus `locationName:"status" type:"string"`
+	Status ExecutionStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The job's stop time.
 	Stopped *time.Time `locationName:"stopped" type:"timestamp" timestampFormat:"unix"`
@@ -6106,7 +6888,7 @@ type Job struct {
 	//    * XCTEST: The XCode test type.
 	//
 	//    * XCTEST_UI: The XCode UI test type.
-	Type TestType `locationName:"type" type:"string"`
+	Type TestType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6117,78 +6899,6 @@ func (s Job) String() string {
 // GoString returns the string representation
 func (s Job) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Job) SetArn(v string) *Job {
-	s.Arn = &v
-	return s
-}
-
-// SetCounters sets the Counters field's value.
-func (s *Job) SetCounters(v *Counters) *Job {
-	s.Counters = v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *Job) SetCreated(v time.Time) *Job {
-	s.Created = &v
-	return s
-}
-
-// SetDevice sets the Device field's value.
-func (s *Job) SetDevice(v *Device) *Job {
-	s.Device = v
-	return s
-}
-
-// SetDeviceMinutes sets the DeviceMinutes field's value.
-func (s *Job) SetDeviceMinutes(v *DeviceMinutes) *Job {
-	s.DeviceMinutes = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Job) SetMessage(v string) *Job {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Job) SetName(v string) *Job {
-	s.Name = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *Job) SetResult(v ExecutionResult) *Job {
-	s.Result = v
-	return s
-}
-
-// SetStarted sets the Started field's value.
-func (s *Job) SetStarted(v time.Time) *Job {
-	s.Started = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Job) SetStatus(v ExecutionStatus) *Job {
-	s.Status = v
-	return s
-}
-
-// SetStopped sets the Stopped field's value.
-func (s *Job) SetStopped(v time.Time) *Job {
-	s.Stopped = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Job) SetType(v TestType) *Job {
-	s.Type = v
-	return s
 }
 
 // Represents a request to the list artifacts operation.
@@ -6216,7 +6926,7 @@ type ListArtifactsInput struct {
 	//    * SCREENSHOT: The artifacts are screenshots.
 	//
 	// Type is a required field
-	Type ArtifactCategory `locationName:"type" type:"string" required:"true"`
+	Type ArtifactCategory `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -6252,31 +6962,15 @@ func (s *ListArtifactsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListArtifactsInput) SetArn(v string) *ListArtifactsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListArtifactsInput) SetNextToken(v string) *ListArtifactsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ListArtifactsInput) SetType(v ArtifactCategory) *ListArtifactsInput {
-	s.Type = v
-	return s
-}
-
 // Represents the result of a list artifacts operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListArtifactsResult
 type ListArtifactsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the artifacts.
-	Artifacts []*Artifact `locationName:"artifacts" type:"list"`
+	Artifacts []Artifact `locationName:"artifacts" type:"list"`
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -6294,16 +6988,74 @@ func (s ListArtifactsOutput) GoString() string {
 	return s.String()
 }
 
-// SetArtifacts sets the Artifacts field's value.
-func (s *ListArtifactsOutput) SetArtifacts(v []*Artifact) *ListArtifactsOutput {
-	s.Artifacts = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListArtifactsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListArtifactsOutput) SetNextToken(v string) *ListArtifactsOutput {
-	s.NextToken = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDeviceInstancesRequest
+type ListDeviceInstancesInput struct {
+	_ struct{} `type:"structure"`
+
+	// An integer specifying the maximum number of items you want to return in the
+	// API response.
+	MaxResults *int64 `locationName:"maxResults" type:"integer"`
+
+	// An identifier that was returned from the previous call to this operation,
+	// which can be used to return the next set of items in the list.
+	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
+}
+
+// String returns the string representation
+func (s ListDeviceInstancesInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListDeviceInstancesInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListDeviceInstancesInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ListDeviceInstancesInput"}
+	if s.NextToken != nil && len(*s.NextToken) < 4 {
+		invalidParams.Add(aws.NewErrParamMinLen("NextToken", 4))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDeviceInstancesResult
+type ListDeviceInstancesOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your device instances.
+	DeviceInstances []DeviceInstance `locationName:"deviceInstances" type:"list"`
+
+	// An identifier that can be used in the next call to this operation to return
+	// the next set of items in the list.
+	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
+}
+
+// String returns the string representation
+func (s ListDeviceInstancesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListDeviceInstancesOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDeviceInstancesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the result of a list device pools request.
@@ -6328,7 +7080,7 @@ type ListDevicePoolsInput struct {
 	//
 	//    * PRIVATE: A device pool that is created and managed by the device pool
 	//    developer.
-	Type DevicePoolType `locationName:"type" type:"string"`
+	Type DevicePoolType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6361,31 +7113,15 @@ func (s *ListDevicePoolsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListDevicePoolsInput) SetArn(v string) *ListDevicePoolsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDevicePoolsInput) SetNextToken(v string) *ListDevicePoolsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ListDevicePoolsInput) SetType(v DevicePoolType) *ListDevicePoolsInput {
-	s.Type = v
-	return s
-}
-
 // Represents the result of a list device pools request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDevicePoolsResult
 type ListDevicePoolsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the device pools.
-	DevicePools []*DevicePool `locationName:"devicePools" type:"list"`
+	DevicePools []DevicePool `locationName:"devicePools" type:"list"`
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -6403,16 +7139,9 @@ func (s ListDevicePoolsOutput) GoString() string {
 	return s.String()
 }
 
-// SetDevicePools sets the DevicePools field's value.
-func (s *ListDevicePoolsOutput) SetDevicePools(v []*DevicePool) *ListDevicePoolsOutput {
-	s.DevicePools = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDevicePoolsOutput) SetNextToken(v string) *ListDevicePoolsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDevicePoolsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the result of a list devices request.
@@ -6454,25 +7183,15 @@ func (s *ListDevicesInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListDevicesInput) SetArn(v string) *ListDevicesInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListDevicesInput) SetNextToken(v string) *ListDevicesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list devices operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListDevicesResult
 type ListDevicesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the devices.
-	Devices []*Device `locationName:"devices" type:"list"`
+	Devices []Device `locationName:"devices" type:"list"`
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -6490,16 +7209,74 @@ func (s ListDevicesOutput) GoString() string {
 	return s.String()
 }
 
-// SetDevices sets the Devices field's value.
-func (s *ListDevicesOutput) SetDevices(v []*Device) *ListDevicesOutput {
-	s.Devices = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListDevicesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListDevicesOutput) SetNextToken(v string) *ListDevicesOutput {
-	s.NextToken = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListInstanceProfilesRequest
+type ListInstanceProfilesInput struct {
+	_ struct{} `type:"structure"`
+
+	// An integer specifying the maximum number of items you want to return in the
+	// API response.
+	MaxResults *int64 `locationName:"maxResults" type:"integer"`
+
+	// An identifier that was returned from the previous call to this operation,
+	// which can be used to return the next set of items in the list.
+	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
+}
+
+// String returns the string representation
+func (s ListInstanceProfilesInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListInstanceProfilesInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListInstanceProfilesInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ListInstanceProfilesInput"}
+	if s.NextToken != nil && len(*s.NextToken) < 4 {
+		invalidParams.Add(aws.NewErrParamMinLen("NextToken", 4))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListInstanceProfilesResult
+type ListInstanceProfilesOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your instance profiles.
+	InstanceProfiles []InstanceProfile `locationName:"instanceProfiles" type:"list"`
+
+	// An identifier that can be used in the next call to this operation to return
+	// the next set of items in the list.
+	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
+}
+
+// String returns the string representation
+func (s ListInstanceProfilesOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListInstanceProfilesOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListInstanceProfilesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list jobs operation.
@@ -6507,7 +7284,7 @@ func (s *ListDevicesOutput) SetNextToken(v string) *ListDevicesOutput {
 type ListJobsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The jobs' ARNs.
+	// The run's Amazon Resource Name (ARN).
 	//
 	// Arn is a required field
 	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
@@ -6547,25 +7324,15 @@ func (s *ListJobsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListJobsInput) SetArn(v string) *ListJobsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListJobsInput) SetNextToken(v string) *ListJobsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list jobs request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListJobsResult
 type ListJobsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// Information about the jobs.
-	Jobs []*Job `locationName:"jobs" type:"list"`
+	Jobs []Job `locationName:"jobs" type:"list"`
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -6583,16 +7350,9 @@ func (s ListJobsOutput) GoString() string {
 	return s.String()
 }
 
-// SetJobs sets the Jobs field's value.
-func (s *ListJobsOutput) SetJobs(v []*Job) *ListJobsOutput {
-	s.Jobs = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListJobsOutput) SetNextToken(v string) *ListJobsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListJobsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListNetworkProfilesRequest
@@ -6611,7 +7371,7 @@ type ListNetworkProfilesInput struct {
 
 	// The type of network profile you wish to return information about. Valid values
 	// are listed below.
-	Type NetworkProfileType `locationName:"type" type:"string"`
+	Type NetworkProfileType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -6644,30 +7404,14 @@ func (s *ListNetworkProfilesInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListNetworkProfilesInput) SetArn(v string) *ListNetworkProfilesInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListNetworkProfilesInput) SetNextToken(v string) *ListNetworkProfilesInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ListNetworkProfilesInput) SetType(v NetworkProfileType) *ListNetworkProfilesInput {
-	s.Type = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListNetworkProfilesResult
 type ListNetworkProfilesOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of the available network profiles.
-	NetworkProfiles []*NetworkProfile `locationName:"networkProfiles" type:"list"`
+	NetworkProfiles []NetworkProfile `locationName:"networkProfiles" type:"list"`
 
 	// An identifier that was returned from the previous call to this operation,
 	// which can be used to return the next set of items in the list.
@@ -6684,16 +7428,9 @@ func (s ListNetworkProfilesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNetworkProfiles sets the NetworkProfiles field's value.
-func (s *ListNetworkProfilesOutput) SetNetworkProfiles(v []*NetworkProfile) *ListNetworkProfilesOutput {
-	s.NetworkProfiles = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListNetworkProfilesOutput) SetNextToken(v string) *ListNetworkProfilesOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListNetworkProfilesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingPromotionsRequest
@@ -6728,22 +7465,18 @@ func (s *ListOfferingPromotionsInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOfferingPromotionsInput) SetNextToken(v string) *ListOfferingPromotionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingPromotionsResult
 type ListOfferingPromotionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An identifier to be used in the next call to this operation, to return the
 	// next set of items in the list.
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the offering promotions.
-	OfferingPromotions []*OfferingPromotion `locationName:"offeringPromotions" type:"list"`
+	OfferingPromotions []OfferingPromotion `locationName:"offeringPromotions" type:"list"`
 }
 
 // String returns the string representation
@@ -6756,16 +7489,9 @@ func (s ListOfferingPromotionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOfferingPromotionsOutput) SetNextToken(v string) *ListOfferingPromotionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetOfferingPromotions sets the OfferingPromotions field's value.
-func (s *ListOfferingPromotionsOutput) SetOfferingPromotions(v []*OfferingPromotion) *ListOfferingPromotionsOutput {
-	s.OfferingPromotions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListOfferingPromotionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to list the offering transaction history.
@@ -6801,16 +7527,12 @@ func (s *ListOfferingTransactionsInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOfferingTransactionsInput) SetNextToken(v string) *ListOfferingTransactionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Returns the transaction log of the specified offerings.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingTransactionsResult
 type ListOfferingTransactionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An identifier that was returned from the previous call to this operation,
 	// which can be used to return the next set of items in the list.
@@ -6818,7 +7540,7 @@ type ListOfferingTransactionsOutput struct {
 
 	// The audit log of subscriptions you have purchased and modified through AWS
 	// Device Farm.
-	OfferingTransactions []*OfferingTransaction `locationName:"offeringTransactions" type:"list"`
+	OfferingTransactions []OfferingTransaction `locationName:"offeringTransactions" type:"list"`
 }
 
 // String returns the string representation
@@ -6831,16 +7553,9 @@ func (s ListOfferingTransactionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOfferingTransactionsOutput) SetNextToken(v string) *ListOfferingTransactionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetOfferingTransactions sets the OfferingTransactions field's value.
-func (s *ListOfferingTransactionsOutput) SetOfferingTransactions(v []*OfferingTransaction) *ListOfferingTransactionsOutput {
-	s.OfferingTransactions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListOfferingTransactionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to list all offerings.
@@ -6876,23 +7591,19 @@ func (s *ListOfferingsInput) Validate() error {
 	return nil
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOfferingsInput) SetNextToken(v string) *ListOfferingsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the return values of the list of offerings.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListOfferingsResult
 type ListOfferingsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An identifier that was returned from the previous call to this operation,
 	// which can be used to return the next set of items in the list.
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// A value representing the list offering results.
-	Offerings []*Offering `locationName:"offerings" type:"list"`
+	Offerings []Offering `locationName:"offerings" type:"list"`
 }
 
 // String returns the string representation
@@ -6905,16 +7616,9 @@ func (s ListOfferingsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListOfferingsOutput) SetNextToken(v string) *ListOfferingsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetOfferings sets the Offerings field's value.
-func (s *ListOfferingsOutput) SetOfferings(v []*Offering) *ListOfferingsOutput {
-	s.Offerings = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListOfferingsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list projects operation.
@@ -6958,22 +7662,12 @@ func (s *ListProjectsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListProjectsInput) SetArn(v string) *ListProjectsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListProjectsInput) SetNextToken(v string) *ListProjectsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list projects request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListProjectsResult
 type ListProjectsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -6981,7 +7675,7 @@ type ListProjectsOutput struct {
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the projects.
-	Projects []*Project `locationName:"projects" type:"list"`
+	Projects []Project `locationName:"projects" type:"list"`
 }
 
 // String returns the string representation
@@ -6994,16 +7688,9 @@ func (s ListProjectsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListProjectsOutput) SetNextToken(v string) *ListProjectsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetProjects sets the Projects field's value.
-func (s *ListProjectsOutput) SetProjects(v []*Project) *ListProjectsOutput {
-	s.Projects = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListProjectsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to return information about the remote access session.
@@ -7052,23 +7739,13 @@ func (s *ListRemoteAccessSessionsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListRemoteAccessSessionsInput) SetArn(v string) *ListRemoteAccessSessionsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListRemoteAccessSessionsInput) SetNextToken(v string) *ListRemoteAccessSessionsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the response from the server after AWS Device Farm makes a request
 // to return information about the remote access session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListRemoteAccessSessionsResult
 type ListRemoteAccessSessionsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An identifier that was returned from the previous call to this operation,
 	// which can be used to return the next set of items in the list.
@@ -7076,7 +7753,7 @@ type ListRemoteAccessSessionsOutput struct {
 
 	// A container representing the metadata from the service about each remote
 	// access session you are requesting.
-	RemoteAccessSessions []*RemoteAccessSession `locationName:"remoteAccessSessions" type:"list"`
+	RemoteAccessSessions []RemoteAccessSession `locationName:"remoteAccessSessions" type:"list"`
 }
 
 // String returns the string representation
@@ -7089,16 +7766,9 @@ func (s ListRemoteAccessSessionsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListRemoteAccessSessionsOutput) SetNextToken(v string) *ListRemoteAccessSessionsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRemoteAccessSessions sets the RemoteAccessSessions field's value.
-func (s *ListRemoteAccessSessionsOutput) SetRemoteAccessSessions(v []*RemoteAccessSession) *ListRemoteAccessSessionsOutput {
-	s.RemoteAccessSessions = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListRemoteAccessSessionsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list runs operation.
@@ -7147,22 +7817,12 @@ func (s *ListRunsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListRunsInput) SetArn(v string) *ListRunsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListRunsInput) SetNextToken(v string) *ListRunsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list runs request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListRunsResult
 type ListRunsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -7170,7 +7830,7 @@ type ListRunsOutput struct {
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the runs.
-	Runs []*Run `locationName:"runs" type:"list"`
+	Runs []Run `locationName:"runs" type:"list"`
 }
 
 // String returns the string representation
@@ -7183,16 +7843,9 @@ func (s ListRunsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListRunsOutput) SetNextToken(v string) *ListRunsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetRuns sets the Runs field's value.
-func (s *ListRunsOutput) SetRuns(v []*Run) *ListRunsOutput {
-	s.Runs = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListRunsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list samples operation.
@@ -7241,22 +7894,12 @@ func (s *ListSamplesInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListSamplesInput) SetArn(v string) *ListSamplesInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListSamplesInput) SetNextToken(v string) *ListSamplesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list samples request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListSamplesResult
 type ListSamplesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -7264,7 +7907,7 @@ type ListSamplesOutput struct {
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the samples.
-	Samples []*Sample `locationName:"samples" type:"list"`
+	Samples []Sample `locationName:"samples" type:"list"`
 }
 
 // String returns the string representation
@@ -7277,16 +7920,9 @@ func (s ListSamplesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSamplesOutput) SetNextToken(v string) *ListSamplesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSamples sets the Samples field's value.
-func (s *ListSamplesOutput) SetSamples(v []*Sample) *ListSamplesOutput {
-	s.Samples = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSamplesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list suites operation.
@@ -7294,7 +7930,7 @@ func (s *ListSamplesOutput) SetSamples(v []*Sample) *ListSamplesOutput {
 type ListSuitesInput struct {
 	_ struct{} `type:"structure"`
 
-	// The suites' ARNs.
+	// The job's Amazon Resource Name (ARN).
 	//
 	// Arn is a required field
 	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
@@ -7334,22 +7970,12 @@ func (s *ListSuitesInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListSuitesInput) SetArn(v string) *ListSuitesInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListSuitesInput) SetNextToken(v string) *ListSuitesInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list suites request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListSuitesResult
 type ListSuitesOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -7357,7 +7983,7 @@ type ListSuitesOutput struct {
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the suites.
-	Suites []*Suite `locationName:"suites" type:"list"`
+	Suites []Suite `locationName:"suites" type:"list"`
 }
 
 // String returns the string representation
@@ -7370,16 +7996,9 @@ func (s ListSuitesOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListSuitesOutput) SetNextToken(v string) *ListSuitesOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetSuites sets the Suites field's value.
-func (s *ListSuitesOutput) SetSuites(v []*Suite) *ListSuitesOutput {
-	s.Suites = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListSuitesOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list tests operation.
@@ -7387,7 +8006,7 @@ func (s *ListSuitesOutput) SetSuites(v []*Suite) *ListSuitesOutput {
 type ListTestsInput struct {
 	_ struct{} `type:"structure"`
 
-	// The tests' ARNs.
+	// The test suite's Amazon Resource Name (ARN).
 	//
 	// Arn is a required field
 	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
@@ -7427,22 +8046,12 @@ func (s *ListTestsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListTestsInput) SetArn(v string) *ListTestsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListTestsInput) SetNextToken(v string) *ListTestsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list tests request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListTestsResult
 type ListTestsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -7450,7 +8059,7 @@ type ListTestsOutput struct {
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the tests.
-	Tests []*Test `locationName:"tests" type:"list"`
+	Tests []Test `locationName:"tests" type:"list"`
 }
 
 // String returns the string representation
@@ -7463,16 +8072,9 @@ func (s ListTestsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTestsOutput) SetNextToken(v string) *ListTestsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTests sets the Tests field's value.
-func (s *ListTestsOutput) SetTests(v []*Test) *ListTestsOutput {
-	s.Tests = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTestsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list unique problems operation.
@@ -7520,22 +8122,12 @@ func (s *ListUniqueProblemsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListUniqueProblemsInput) SetArn(v string) *ListUniqueProblemsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListUniqueProblemsInput) SetNextToken(v string) *ListUniqueProblemsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list unique problems request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListUniqueProblemsResult
 type ListUniqueProblemsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -7559,7 +8151,7 @@ type ListUniqueProblemsOutput struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	UniqueProblems map[string][]*UniqueProblem `locationName:"uniqueProblems" type:"map"`
+	UniqueProblems map[string][]UniqueProblem `locationName:"uniqueProblems" type:"map"`
 }
 
 // String returns the string representation
@@ -7572,16 +8164,9 @@ func (s ListUniqueProblemsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListUniqueProblemsOutput) SetNextToken(v string) *ListUniqueProblemsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetUniqueProblems sets the UniqueProblems field's value.
-func (s *ListUniqueProblemsOutput) SetUniqueProblems(v map[string][]*UniqueProblem) *ListUniqueProblemsOutput {
-	s.UniqueProblems = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListUniqueProblemsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the list uploads operation.
@@ -7630,22 +8215,12 @@ func (s *ListUploadsInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *ListUploadsInput) SetArn(v string) *ListUploadsInput {
-	s.Arn = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListUploadsInput) SetNextToken(v string) *ListUploadsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Represents the result of a list uploads request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListUploadsResult
 type ListUploadsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// If the number of items that are returned is significantly large, this is
 	// an identifier that is also returned, which can be used in a subsequent call
@@ -7653,7 +8228,7 @@ type ListUploadsOutput struct {
 	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
 
 	// Information about the uploads.
-	Uploads []*Upload `locationName:"uploads" type:"list"`
+	Uploads []Upload `locationName:"uploads" type:"list"`
 }
 
 // String returns the string representation
@@ -7666,16 +8241,75 @@ func (s ListUploadsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListUploadsOutput) SetNextToken(v string) *ListUploadsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListUploadsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
-// SetUploads sets the Uploads field's value.
-func (s *ListUploadsOutput) SetUploads(v []*Upload) *ListUploadsOutput {
-	s.Uploads = v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListVPCEConfigurationsRequest
+type ListVPCEConfigurationsInput struct {
+	_ struct{} `type:"structure"`
+
+	// An integer specifying the maximum number of items you want to return in the
+	// API response.
+	MaxResults *int64 `locationName:"maxResults" type:"integer"`
+
+	// An identifier that was returned from the previous call to this operation,
+	// which can be used to return the next set of items in the list.
+	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
+}
+
+// String returns the string representation
+func (s ListVPCEConfigurationsInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListVPCEConfigurationsInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *ListVPCEConfigurationsInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "ListVPCEConfigurationsInput"}
+	if s.NextToken != nil && len(*s.NextToken) < 4 {
+		invalidParams.Add(aws.NewErrParamMinLen("NextToken", 4))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ListVPCEConfigurationsResult
+type ListVPCEConfigurationsOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An identifier that was returned from the previous call to this operation,
+	// which can be used to return the next set of items in the list.
+	NextToken *string `locationName:"nextToken" min:"4" type:"string"`
+
+	// An array of VPCEConfiguration objects containing information about your VPC
+	// endpoint configuration.
+	VpceConfigurations []VPCEConfiguration `locationName:"vpceConfigurations" type:"list"`
+}
+
+// String returns the string representation
+func (s ListVPCEConfigurationsOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s ListVPCEConfigurationsOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListVPCEConfigurationsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a latitude and longitude pair, expressed in geographic coordinate
@@ -7725,18 +8359,6 @@ func (s *Location) Validate() error {
 	return nil
 }
 
-// SetLatitude sets the Latitude field's value.
-func (s *Location) SetLatitude(v float64) *Location {
-	s.Latitude = &v
-	return s
-}
-
-// SetLongitude sets the Longitude field's value.
-func (s *Location) SetLongitude(v float64) *Location {
-	s.Longitude = &v
-	return s
-}
-
 // A number representing the monetary amount for an offering or transaction.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/MonetaryAmount
 type MonetaryAmount struct {
@@ -7746,7 +8368,7 @@ type MonetaryAmount struct {
 	Amount *float64 `locationName:"amount" type:"double"`
 
 	// The currency code of a monetary amount. For example, USD means "U.S. dollars."
-	CurrencyCode CurrencyCode `locationName:"currencyCode" type:"string"`
+	CurrencyCode CurrencyCode `locationName:"currencyCode" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7757,18 +8379,6 @@ func (s MonetaryAmount) String() string {
 // GoString returns the string representation
 func (s MonetaryAmount) GoString() string {
 	return s.String()
-}
-
-// SetAmount sets the Amount field's value.
-func (s *MonetaryAmount) SetAmount(v float64) *MonetaryAmount {
-	s.Amount = &v
-	return s
-}
-
-// SetCurrencyCode sets the CurrencyCode field's value.
-func (s *MonetaryAmount) SetCurrencyCode(v CurrencyCode) *MonetaryAmount {
-	s.CurrencyCode = v
-	return s
 }
 
 // An array of settings that describes characteristics of a network profile.
@@ -7800,7 +8410,7 @@ type NetworkProfile struct {
 	Name *string `locationName:"name" type:"string"`
 
 	// The type of network profile. Valid values are listed below.
-	Type NetworkProfileType `locationName:"type" type:"string"`
+	Type NetworkProfileType `locationName:"type" type:"string" enum:"true"`
 
 	// The data throughput rate in bits per second, as an integer from 0 to 104857600.
 	UplinkBandwidthBits *int64 `locationName:"uplinkBandwidthBits" type:"long"`
@@ -7827,78 +8437,6 @@ func (s NetworkProfile) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *NetworkProfile) SetArn(v string) *NetworkProfile {
-	s.Arn = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *NetworkProfile) SetDescription(v string) *NetworkProfile {
-	s.Description = &v
-	return s
-}
-
-// SetDownlinkBandwidthBits sets the DownlinkBandwidthBits field's value.
-func (s *NetworkProfile) SetDownlinkBandwidthBits(v int64) *NetworkProfile {
-	s.DownlinkBandwidthBits = &v
-	return s
-}
-
-// SetDownlinkDelayMs sets the DownlinkDelayMs field's value.
-func (s *NetworkProfile) SetDownlinkDelayMs(v int64) *NetworkProfile {
-	s.DownlinkDelayMs = &v
-	return s
-}
-
-// SetDownlinkJitterMs sets the DownlinkJitterMs field's value.
-func (s *NetworkProfile) SetDownlinkJitterMs(v int64) *NetworkProfile {
-	s.DownlinkJitterMs = &v
-	return s
-}
-
-// SetDownlinkLossPercent sets the DownlinkLossPercent field's value.
-func (s *NetworkProfile) SetDownlinkLossPercent(v int64) *NetworkProfile {
-	s.DownlinkLossPercent = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *NetworkProfile) SetName(v string) *NetworkProfile {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *NetworkProfile) SetType(v NetworkProfileType) *NetworkProfile {
-	s.Type = v
-	return s
-}
-
-// SetUplinkBandwidthBits sets the UplinkBandwidthBits field's value.
-func (s *NetworkProfile) SetUplinkBandwidthBits(v int64) *NetworkProfile {
-	s.UplinkBandwidthBits = &v
-	return s
-}
-
-// SetUplinkDelayMs sets the UplinkDelayMs field's value.
-func (s *NetworkProfile) SetUplinkDelayMs(v int64) *NetworkProfile {
-	s.UplinkDelayMs = &v
-	return s
-}
-
-// SetUplinkJitterMs sets the UplinkJitterMs field's value.
-func (s *NetworkProfile) SetUplinkJitterMs(v int64) *NetworkProfile {
-	s.UplinkJitterMs = &v
-	return s
-}
-
-// SetUplinkLossPercent sets the UplinkLossPercent field's value.
-func (s *NetworkProfile) SetUplinkLossPercent(v int64) *NetworkProfile {
-	s.UplinkLossPercent = &v
-	return s
-}
-
 // Represents the metadata of a device offering.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/Offering
 type Offering struct {
@@ -7911,13 +8449,13 @@ type Offering struct {
 	Id *string `locationName:"id" min:"32" type:"string"`
 
 	// The platform of the device (e.g., ANDROID or IOS).
-	Platform DevicePlatform `locationName:"platform" type:"string"`
+	Platform DevicePlatform `locationName:"platform" type:"string" enum:"true"`
 
 	// Specifies whether there are recurring charges for the offering.
-	RecurringCharges []*RecurringCharge `locationName:"recurringCharges" type:"list"`
+	RecurringCharges []RecurringCharge `locationName:"recurringCharges" type:"list"`
 
 	// The type of offering (e.g., "RECURRING") for a device.
-	Type OfferingType `locationName:"type" type:"string"`
+	Type OfferingType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -7928,36 +8466,6 @@ func (s Offering) String() string {
 // GoString returns the string representation
 func (s Offering) GoString() string {
 	return s.String()
-}
-
-// SetDescription sets the Description field's value.
-func (s *Offering) SetDescription(v string) *Offering {
-	s.Description = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *Offering) SetId(v string) *Offering {
-	s.Id = &v
-	return s
-}
-
-// SetPlatform sets the Platform field's value.
-func (s *Offering) SetPlatform(v DevicePlatform) *Offering {
-	s.Platform = v
-	return s
-}
-
-// SetRecurringCharges sets the RecurringCharges field's value.
-func (s *Offering) SetRecurringCharges(v []*RecurringCharge) *Offering {
-	s.RecurringCharges = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Offering) SetType(v OfferingType) *Offering {
-	s.Type = v
-	return s
 }
 
 // Represents information about an offering promotion.
@@ -7982,18 +8490,6 @@ func (s OfferingPromotion) GoString() string {
 	return s.String()
 }
 
-// SetDescription sets the Description field's value.
-func (s *OfferingPromotion) SetDescription(v string) *OfferingPromotion {
-	s.Description = &v
-	return s
-}
-
-// SetId sets the Id field's value.
-func (s *OfferingPromotion) SetId(v string) *OfferingPromotion {
-	s.Id = &v
-	return s
-}
-
 // The status of the offering.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/OfferingStatus
 type OfferingStatus struct {
@@ -8009,7 +8505,7 @@ type OfferingStatus struct {
 	Quantity *int64 `locationName:"quantity" type:"integer"`
 
 	// The type specified for the offering status.
-	Type OfferingTransactionType `locationName:"type" type:"string"`
+	Type OfferingTransactionType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8020,30 +8516,6 @@ func (s OfferingStatus) String() string {
 // GoString returns the string representation
 func (s OfferingStatus) GoString() string {
 	return s.String()
-}
-
-// SetEffectiveOn sets the EffectiveOn field's value.
-func (s *OfferingStatus) SetEffectiveOn(v time.Time) *OfferingStatus {
-	s.EffectiveOn = &v
-	return s
-}
-
-// SetOffering sets the Offering field's value.
-func (s *OfferingStatus) SetOffering(v *Offering) *OfferingStatus {
-	s.Offering = v
-	return s
-}
-
-// SetQuantity sets the Quantity field's value.
-func (s *OfferingStatus) SetQuantity(v int64) *OfferingStatus {
-	s.Quantity = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *OfferingStatus) SetType(v OfferingTransactionType) *OfferingStatus {
-	s.Type = v
-	return s
 }
 
 // Represents the metadata of an offering transaction.
@@ -8077,36 +8549,6 @@ func (s OfferingTransaction) GoString() string {
 	return s.String()
 }
 
-// SetCost sets the Cost field's value.
-func (s *OfferingTransaction) SetCost(v *MonetaryAmount) *OfferingTransaction {
-	s.Cost = v
-	return s
-}
-
-// SetCreatedOn sets the CreatedOn field's value.
-func (s *OfferingTransaction) SetCreatedOn(v time.Time) *OfferingTransaction {
-	s.CreatedOn = &v
-	return s
-}
-
-// SetOfferingPromotionId sets the OfferingPromotionId field's value.
-func (s *OfferingTransaction) SetOfferingPromotionId(v string) *OfferingTransaction {
-	s.OfferingPromotionId = &v
-	return s
-}
-
-// SetOfferingStatus sets the OfferingStatus field's value.
-func (s *OfferingTransaction) SetOfferingStatus(v *OfferingStatus) *OfferingTransaction {
-	s.OfferingStatus = v
-	return s
-}
-
-// SetTransactionId sets the TransactionId field's value.
-func (s *OfferingTransaction) SetTransactionId(v string) *OfferingTransaction {
-	s.TransactionId = &v
-	return s
-}
-
 // Represents a specific warning or failure.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/Problem
 type Problem struct {
@@ -8138,7 +8580,7 @@ type Problem struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	Result ExecutionResult `locationName:"result" type:"string"`
+	Result ExecutionResult `locationName:"result" type:"string" enum:"true"`
 
 	// Information about the associated run.
 	Run *ProblemDetail `locationName:"run" type:"structure"`
@@ -8158,48 +8600,6 @@ func (s Problem) String() string {
 // GoString returns the string representation
 func (s Problem) GoString() string {
 	return s.String()
-}
-
-// SetDevice sets the Device field's value.
-func (s *Problem) SetDevice(v *Device) *Problem {
-	s.Device = v
-	return s
-}
-
-// SetJob sets the Job field's value.
-func (s *Problem) SetJob(v *ProblemDetail) *Problem {
-	s.Job = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Problem) SetMessage(v string) *Problem {
-	s.Message = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *Problem) SetResult(v ExecutionResult) *Problem {
-	s.Result = v
-	return s
-}
-
-// SetRun sets the Run field's value.
-func (s *Problem) SetRun(v *ProblemDetail) *Problem {
-	s.Run = v
-	return s
-}
-
-// SetSuite sets the Suite field's value.
-func (s *Problem) SetSuite(v *ProblemDetail) *Problem {
-	s.Suite = v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *Problem) SetTest(v *ProblemDetail) *Problem {
-	s.Test = v
-	return s
 }
 
 // Information about a problem detail.
@@ -8222,18 +8622,6 @@ func (s ProblemDetail) String() string {
 // GoString returns the string representation
 func (s ProblemDetail) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *ProblemDetail) SetArn(v string) *ProblemDetail {
-	s.Arn = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ProblemDetail) SetName(v string) *ProblemDetail {
-	s.Name = &v
-	return s
 }
 
 // Represents an operating-system neutral workspace for running and managing
@@ -8264,30 +8652,6 @@ func (s Project) String() string {
 // GoString returns the string representation
 func (s Project) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Project) SetArn(v string) *Project {
-	s.Arn = &v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *Project) SetCreated(v time.Time) *Project {
-	s.Created = &v
-	return s
-}
-
-// SetDefaultJobTimeoutMinutes sets the DefaultJobTimeoutMinutes field's value.
-func (s *Project) SetDefaultJobTimeoutMinutes(v int64) *Project {
-	s.DefaultJobTimeoutMinutes = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Project) SetName(v string) *Project {
-	s.Name = &v
-	return s
 }
 
 // Represents a request for a purchase offering.
@@ -8331,28 +8695,12 @@ func (s *PurchaseOfferingInput) Validate() error {
 	return nil
 }
 
-// SetOfferingId sets the OfferingId field's value.
-func (s *PurchaseOfferingInput) SetOfferingId(v string) *PurchaseOfferingInput {
-	s.OfferingId = &v
-	return s
-}
-
-// SetOfferingPromotionId sets the OfferingPromotionId field's value.
-func (s *PurchaseOfferingInput) SetOfferingPromotionId(v string) *PurchaseOfferingInput {
-	s.OfferingPromotionId = &v
-	return s
-}
-
-// SetQuantity sets the Quantity field's value.
-func (s *PurchaseOfferingInput) SetQuantity(v int64) *PurchaseOfferingInput {
-	s.Quantity = &v
-	return s
-}
-
 // The result of the purchase offering (e.g., success or failure).
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/PurchaseOfferingResult
 type PurchaseOfferingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Represents the offering transaction for the purchase result.
 	OfferingTransaction *OfferingTransaction `locationName:"offeringTransaction" type:"structure"`
@@ -8368,10 +8716,9 @@ func (s PurchaseOfferingOutput) GoString() string {
 	return s.String()
 }
 
-// SetOfferingTransaction sets the OfferingTransaction field's value.
-func (s *PurchaseOfferingOutput) SetOfferingTransaction(v *OfferingTransaction) *PurchaseOfferingOutput {
-	s.OfferingTransaction = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s PurchaseOfferingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the set of radios and their states on a device. Examples of radios
@@ -8403,30 +8750,6 @@ func (s Radios) GoString() string {
 	return s.String()
 }
 
-// SetBluetooth sets the Bluetooth field's value.
-func (s *Radios) SetBluetooth(v bool) *Radios {
-	s.Bluetooth = &v
-	return s
-}
-
-// SetGps sets the Gps field's value.
-func (s *Radios) SetGps(v bool) *Radios {
-	s.Gps = &v
-	return s
-}
-
-// SetNfc sets the Nfc field's value.
-func (s *Radios) SetNfc(v bool) *Radios {
-	s.Nfc = &v
-	return s
-}
-
-// SetWifi sets the Wifi field's value.
-func (s *Radios) SetWifi(v bool) *Radios {
-	s.Wifi = &v
-	return s
-}
-
 // Specifies whether charges for devices will be recurring.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/RecurringCharge
 type RecurringCharge struct {
@@ -8436,7 +8759,7 @@ type RecurringCharge struct {
 	Cost *MonetaryAmount `locationName:"cost" type:"structure"`
 
 	// The frequency in which charges will recur.
-	Frequency RecurringChargeFrequency `locationName:"frequency" type:"string"`
+	Frequency RecurringChargeFrequency `locationName:"frequency" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -8447,18 +8770,6 @@ func (s RecurringCharge) String() string {
 // GoString returns the string representation
 func (s RecurringCharge) GoString() string {
 	return s.String()
-}
-
-// SetCost sets the Cost field's value.
-func (s *RecurringCharge) SetCost(v *MonetaryAmount) *RecurringCharge {
-	s.Cost = v
-	return s
-}
-
-// SetFrequency sets the Frequency field's value.
-func (s *RecurringCharge) SetFrequency(v RecurringChargeFrequency) *RecurringCharge {
-	s.Frequency = v
-	return s
 }
 
 // Represents information about the remote access session.
@@ -8472,7 +8783,7 @@ type RemoteAccessSession struct {
 	// The billing method of the remote access session. Possible values include
 	// METERED or UNMETERED. For more information about metered devices, see AWS
 	// Device Farm terminology (http://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology)."
-	BillingMethod BillingMethod `locationName:"billingMethod" type:"string"`
+	BillingMethod BillingMethod `locationName:"billingMethod" type:"string" enum:"true"`
 
 	// Unique identifier of your client for the remote access session. Only returned
 	// if remote debugging is enabled for the remote access session.
@@ -8499,6 +8810,23 @@ type RemoteAccessSession struct {
 	// Only returned if remote debugging is enabled for the remote access session.
 	HostAddress *string `locationName:"hostAddress" type:"string"`
 
+	// The Amazon Resource Name (ARN) of the instance.
+	InstanceArn *string `locationName:"instanceArn" min:"32" type:"string"`
+
+	// The interaction mode of the remote access session. Valid values are:
+	//
+	//    * INTERACTIVE: You can interact with the iOS device by viewing, touching,
+	//    and rotating the screen. You cannot run XCUITest framework-based tests
+	//    in this mode.
+	//
+	//    * NO_VIDEO: You are connected to the device but cannot interact with it
+	//    or view the screen. This mode has the fastest test execution speed. You
+	//    can run XCUITest framework-based tests in this mode.
+	//
+	//    * VIDEO_ONLY: You can view the screen but cannot touch or rotate it. You
+	//    can run XCUITest framework-based tests and watch the screen in this mode.
+	InteractionMode InteractionMode `locationName:"interactionMode" type:"string" enum:"true"`
+
 	// A message about the remote access session.
 	Message *string `locationName:"message" type:"string"`
 
@@ -8508,6 +8836,14 @@ type RemoteAccessSession struct {
 	// This flag is set to true if remote debugging is enabled for the remote access
 	// session.
 	RemoteDebugEnabled *bool `locationName:"remoteDebugEnabled" type:"boolean"`
+
+	// The Amazon Resource Name (ARN) for the app to be recorded in the remote access
+	// session.
+	RemoteRecordAppArn *string `locationName:"remoteRecordAppArn" min:"32" type:"string"`
+
+	// This flag is set to true if remote recording is enabled for the remote access
+	// session.
+	RemoteRecordEnabled *bool `locationName:"remoteRecordEnabled" type:"boolean"`
 
 	// The result of the remote access session. Can be any of the following:
 	//
@@ -8524,7 +8860,16 @@ type RemoteAccessSession struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	Result ExecutionResult `locationName:"result" type:"string"`
+	Result ExecutionResult `locationName:"result" type:"string" enum:"true"`
+
+	// When set to true, for private devices, Device Farm will not sign your app
+	// again. For public devices, Device Farm always signs your apps again and this
+	// parameter has no effect.
+	//
+	// For more information about how Device Farm re-signs your app(s), see Do you
+	// modify my app? (https://aws.amazon.com/device-farm/faq/) in the AWS Device
+	// Farm FAQs.
+	SkipAppResign *bool `locationName:"skipAppResign" type:"boolean"`
 
 	// The date and time the remote access session was started.
 	Started *time.Time `locationName:"started" type:"timestamp" timestampFormat:"unix"`
@@ -8548,7 +8893,7 @@ type RemoteAccessSession struct {
 	//    * COMPLETED: A completed status.
 	//
 	//    * STOPPING: A stopping status.
-	Status ExecutionStatus `locationName:"status" type:"string"`
+	Status ExecutionStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The date and time the remote access session was stopped.
 	Stopped *time.Time `locationName:"stopped" type:"timestamp" timestampFormat:"unix"`
@@ -8562,102 +8907,6 @@ func (s RemoteAccessSession) String() string {
 // GoString returns the string representation
 func (s RemoteAccessSession) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *RemoteAccessSession) SetArn(v string) *RemoteAccessSession {
-	s.Arn = &v
-	return s
-}
-
-// SetBillingMethod sets the BillingMethod field's value.
-func (s *RemoteAccessSession) SetBillingMethod(v BillingMethod) *RemoteAccessSession {
-	s.BillingMethod = v
-	return s
-}
-
-// SetClientId sets the ClientId field's value.
-func (s *RemoteAccessSession) SetClientId(v string) *RemoteAccessSession {
-	s.ClientId = &v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *RemoteAccessSession) SetCreated(v time.Time) *RemoteAccessSession {
-	s.Created = &v
-	return s
-}
-
-// SetDevice sets the Device field's value.
-func (s *RemoteAccessSession) SetDevice(v *Device) *RemoteAccessSession {
-	s.Device = v
-	return s
-}
-
-// SetDeviceMinutes sets the DeviceMinutes field's value.
-func (s *RemoteAccessSession) SetDeviceMinutes(v *DeviceMinutes) *RemoteAccessSession {
-	s.DeviceMinutes = v
-	return s
-}
-
-// SetDeviceUdid sets the DeviceUdid field's value.
-func (s *RemoteAccessSession) SetDeviceUdid(v string) *RemoteAccessSession {
-	s.DeviceUdid = &v
-	return s
-}
-
-// SetEndpoint sets the Endpoint field's value.
-func (s *RemoteAccessSession) SetEndpoint(v string) *RemoteAccessSession {
-	s.Endpoint = &v
-	return s
-}
-
-// SetHostAddress sets the HostAddress field's value.
-func (s *RemoteAccessSession) SetHostAddress(v string) *RemoteAccessSession {
-	s.HostAddress = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *RemoteAccessSession) SetMessage(v string) *RemoteAccessSession {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *RemoteAccessSession) SetName(v string) *RemoteAccessSession {
-	s.Name = &v
-	return s
-}
-
-// SetRemoteDebugEnabled sets the RemoteDebugEnabled field's value.
-func (s *RemoteAccessSession) SetRemoteDebugEnabled(v bool) *RemoteAccessSession {
-	s.RemoteDebugEnabled = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *RemoteAccessSession) SetResult(v ExecutionResult) *RemoteAccessSession {
-	s.Result = v
-	return s
-}
-
-// SetStarted sets the Started field's value.
-func (s *RemoteAccessSession) SetStarted(v time.Time) *RemoteAccessSession {
-	s.Started = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *RemoteAccessSession) SetStatus(v ExecutionStatus) *RemoteAccessSession {
-	s.Status = v
-	return s
-}
-
-// SetStopped sets the Stopped field's value.
-func (s *RemoteAccessSession) SetStopped(v time.Time) *RemoteAccessSession {
-	s.Stopped = &v
-	return s
 }
 
 // A request representing an offering renewal.
@@ -8695,22 +8944,12 @@ func (s *RenewOfferingInput) Validate() error {
 	return nil
 }
 
-// SetOfferingId sets the OfferingId field's value.
-func (s *RenewOfferingInput) SetOfferingId(v string) *RenewOfferingInput {
-	s.OfferingId = &v
-	return s
-}
-
-// SetQuantity sets the Quantity field's value.
-func (s *RenewOfferingInput) SetQuantity(v int64) *RenewOfferingInput {
-	s.Quantity = &v
-	return s
-}
-
 // The result of a renewal offering.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/RenewOfferingResult
 type RenewOfferingOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Represents the status of the offering transaction for the renewal.
 	OfferingTransaction *OfferingTransaction `locationName:"offeringTransaction" type:"structure"`
@@ -8726,10 +8965,9 @@ func (s RenewOfferingOutput) GoString() string {
 	return s.String()
 }
 
-// SetOfferingTransaction sets the OfferingTransaction field's value.
-func (s *RenewOfferingOutput) SetOfferingTransaction(v *OfferingTransaction) *RenewOfferingOutput {
-	s.OfferingTransaction = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s RenewOfferingOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the screen resolution of a device in height and width, expressed
@@ -8755,18 +8993,6 @@ func (s Resolution) GoString() string {
 	return s.String()
 }
 
-// SetHeight sets the Height field's value.
-func (s *Resolution) SetHeight(v int64) *Resolution {
-	s.Height = &v
-	return s
-}
-
-// SetWidth sets the Width field's value.
-func (s *Resolution) SetWidth(v int64) *Resolution {
-	s.Width = &v
-	return s
-}
-
 // Represents a condition for a device pool.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/Rule
 type Rule struct {
@@ -8787,7 +9013,11 @@ type Rule struct {
 	//    * REMOTE_ACCESS_ENABLED: Whether the device is enabled for remote access.
 	//
 	//    * APPIUM_VERSION: The Appium version for the test.
-	Attribute DeviceAttribute `locationName:"attribute" type:"string"`
+	//
+	//    * INSTANCE_ARN: The Amazon Resource Name (ARN) of the device instance.
+	//
+	//    * INSTANCE_LABELS: The label of the device instance.
+	Attribute DeviceAttribute `locationName:"attribute" type:"string" enum:"true"`
 
 	// The rule's operator.
 	//
@@ -8802,7 +9032,7 @@ type Rule struct {
 	//    * NOT_IN: The not-in operator.
 	//
 	//    * CONTAINS: The contains operator.
-	Operator RuleOperator `locationName:"operator" type:"string"`
+	Operator RuleOperator `locationName:"operator" type:"string" enum:"true"`
 
 	// The rule's value.
 	Value *string `locationName:"value" type:"string"`
@@ -8818,36 +9048,21 @@ func (s Rule) GoString() string {
 	return s.String()
 }
 
-// SetAttribute sets the Attribute field's value.
-func (s *Rule) SetAttribute(v DeviceAttribute) *Rule {
-	s.Attribute = v
-	return s
-}
-
-// SetOperator sets the Operator field's value.
-func (s *Rule) SetOperator(v RuleOperator) *Rule {
-	s.Operator = v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Rule) SetValue(v string) *Rule {
-	s.Value = &v
-	return s
-}
-
 // Represents a test run on a set of devices with a given app package, test
 // parameters, etc.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/Run
 type Run struct {
 	_ struct{} `type:"structure"`
 
+	// An app to upload or that has been uploaded.
+	AppUpload *string `locationName:"appUpload" min:"32" type:"string"`
+
 	// The run's ARN.
 	Arn *string `locationName:"arn" min:"32" type:"string"`
 
 	// Specifies the billing method for a test run: metered or unmetered. If the
 	// parameter is not specified, the default value is metered.
-	BillingMethod BillingMethod `locationName:"billingMethod" type:"string"`
+	BillingMethod BillingMethod `locationName:"billingMethod" type:"string" enum:"true"`
 
 	// The total number of completed jobs.
 	CompletedJobs *int64 `locationName:"completedJobs" type:"integer"`
@@ -8863,6 +9078,22 @@ type Run struct {
 
 	// Represents the total (metered or unmetered) minutes used by the test run.
 	DeviceMinutes *DeviceMinutes `locationName:"deviceMinutes" type:"structure"`
+
+	// The ARN of the device pool for the run.
+	DevicePoolArn *string `locationName:"devicePoolArn" min:"32" type:"string"`
+
+	// For fuzz tests, this is the number of events, between 1 and 10000, that the
+	// UI fuzz test should perform.
+	EventCount *int64 `locationName:"eventCount" type:"integer"`
+
+	// The number of minutes the job will execute before it times out.
+	JobTimeoutMinutes *int64 `locationName:"jobTimeoutMinutes" type:"integer"`
+
+	// Information about the locale that is used for the run.
+	Locale *string `locationName:"locale" type:"string"`
+
+	// Information about the location that is used for the run.
+	Location *Location `locationName:"location" type:"structure"`
 
 	// A message about the run's result.
 	Message *string `locationName:"message" type:"string"`
@@ -8885,7 +9116,10 @@ type Run struct {
 	//    * ANDROID: The Android platform.
 	//
 	//    * IOS: The iOS platform.
-	Platform DevicePlatform `locationName:"platform" type:"string"`
+	Platform DevicePlatform `locationName:"platform" type:"string" enum:"true"`
+
+	// Information about the radio states for the run.
+	Radios *Radios `locationName:"radios" type:"structure"`
 
 	// The run's result.
 	//
@@ -8904,11 +9138,24 @@ type Run struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	Result ExecutionResult `locationName:"result" type:"string"`
+	Result ExecutionResult `locationName:"result" type:"string" enum:"true"`
 
 	// Supporting field for the result field. Set only if result is SKIPPED. PARSING_FAILED
 	// if the result is skipped because of test package parsing failure.
-	ResultCode ExecutionResultCode `locationName:"resultCode" type:"string"`
+	ResultCode ExecutionResultCode `locationName:"resultCode" type:"string" enum:"true"`
+
+	// For fuzz tests, this is a seed to use for randomizing the UI fuzz test. Using
+	// the same seed value between tests ensures identical event sequences.
+	Seed *int64 `locationName:"seed" type:"integer"`
+
+	// When set to true, for private devices, Device Farm will not sign your app
+	// again. For public devices, Device Farm always signs your apps again and this
+	// parameter has no effect.
+	//
+	// For more information about how Device Farm re-signs your app(s), see Do you
+	// modify my app? (https://aws.amazon.com/device-farm/faq/) in the AWS Device
+	// Farm FAQs.
+	SkipAppResign *bool `locationName:"skipAppResign" type:"boolean"`
 
 	// The run's start time.
 	Started *time.Time `locationName:"started" type:"timestamp" timestampFormat:"unix"`
@@ -8934,7 +9181,7 @@ type Run struct {
 	//    * COMPLETED: A completed status.
 	//
 	//    * STOPPING: A stopping status.
-	Status ExecutionStatus `locationName:"status" type:"string"`
+	Status ExecutionStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The run's stop time.
 	Stopped *time.Time `locationName:"stopped" type:"timestamp" timestampFormat:"unix"`
@@ -8975,7 +9222,10 @@ type Run struct {
 	//    * XCTEST: The XCode test type.
 	//
 	//    * XCTEST_UI: The XCode UI test type.
-	Type TestType `locationName:"type" type:"string"`
+	Type TestType `locationName:"type" type:"string" enum:"true"`
+
+	// The Device Farm console URL for the recording of the run.
+	WebUrl *string `locationName:"webUrl" type:"string"`
 }
 
 // String returns the string representation
@@ -8986,120 +9236,6 @@ func (s Run) String() string {
 // GoString returns the string representation
 func (s Run) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Run) SetArn(v string) *Run {
-	s.Arn = &v
-	return s
-}
-
-// SetBillingMethod sets the BillingMethod field's value.
-func (s *Run) SetBillingMethod(v BillingMethod) *Run {
-	s.BillingMethod = v
-	return s
-}
-
-// SetCompletedJobs sets the CompletedJobs field's value.
-func (s *Run) SetCompletedJobs(v int64) *Run {
-	s.CompletedJobs = &v
-	return s
-}
-
-// SetCounters sets the Counters field's value.
-func (s *Run) SetCounters(v *Counters) *Run {
-	s.Counters = v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *Run) SetCreated(v time.Time) *Run {
-	s.Created = &v
-	return s
-}
-
-// SetCustomerArtifactPaths sets the CustomerArtifactPaths field's value.
-func (s *Run) SetCustomerArtifactPaths(v *CustomerArtifactPaths) *Run {
-	s.CustomerArtifactPaths = v
-	return s
-}
-
-// SetDeviceMinutes sets the DeviceMinutes field's value.
-func (s *Run) SetDeviceMinutes(v *DeviceMinutes) *Run {
-	s.DeviceMinutes = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Run) SetMessage(v string) *Run {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Run) SetName(v string) *Run {
-	s.Name = &v
-	return s
-}
-
-// SetNetworkProfile sets the NetworkProfile field's value.
-func (s *Run) SetNetworkProfile(v *NetworkProfile) *Run {
-	s.NetworkProfile = v
-	return s
-}
-
-// SetParsingResultUrl sets the ParsingResultUrl field's value.
-func (s *Run) SetParsingResultUrl(v string) *Run {
-	s.ParsingResultUrl = &v
-	return s
-}
-
-// SetPlatform sets the Platform field's value.
-func (s *Run) SetPlatform(v DevicePlatform) *Run {
-	s.Platform = v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *Run) SetResult(v ExecutionResult) *Run {
-	s.Result = v
-	return s
-}
-
-// SetResultCode sets the ResultCode field's value.
-func (s *Run) SetResultCode(v ExecutionResultCode) *Run {
-	s.ResultCode = v
-	return s
-}
-
-// SetStarted sets the Started field's value.
-func (s *Run) SetStarted(v time.Time) *Run {
-	s.Started = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Run) SetStatus(v ExecutionStatus) *Run {
-	s.Status = v
-	return s
-}
-
-// SetStopped sets the Stopped field's value.
-func (s *Run) SetStopped(v time.Time) *Run {
-	s.Stopped = &v
-	return s
-}
-
-// SetTotalJobs sets the TotalJobs field's value.
-func (s *Run) SetTotalJobs(v int64) *Run {
-	s.TotalJobs = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Run) SetType(v TestType) *Run {
-	s.Type = v
-	return s
 }
 
 // Represents a sample of performance data.
@@ -9152,7 +9288,7 @@ type Sample struct {
 	//
 	//    * TX_RATE: The total number of bytes per second (TCP and UDP) that are
 	//    received, by app process.
-	Type SampleType `locationName:"type" type:"string"`
+	Type SampleType `locationName:"type" type:"string" enum:"true"`
 
 	// The pre-signed Amazon S3 URL that can be used with a corresponding GET request
 	// to download the sample's file.
@@ -9169,24 +9305,6 @@ func (s Sample) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Sample) SetArn(v string) *Sample {
-	s.Arn = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Sample) SetType(v SampleType) *Sample {
-	s.Type = v
-	return s
-}
-
-// SetUrl sets the Url field's value.
-func (s *Sample) SetUrl(v string) *Sample {
-	s.Url = &v
-	return s
-}
-
 // Represents the settings for a run. Includes things like location, radio states,
 // auxiliary apps, and network profiles.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ScheduleRunConfiguration
@@ -9194,11 +9312,11 @@ type ScheduleRunConfiguration struct {
 	_ struct{} `type:"structure"`
 
 	// A list of auxiliary apps for the run.
-	AuxiliaryApps []*string `locationName:"auxiliaryApps" type:"list"`
+	AuxiliaryApps []string `locationName:"auxiliaryApps" type:"list"`
 
 	// Specifies the billing method for a test run: metered or unmetered. If the
 	// parameter is not specified, the default value is metered.
-	BillingMethod BillingMethod `locationName:"billingMethod" type:"string"`
+	BillingMethod BillingMethod `locationName:"billingMethod" type:"string" enum:"true"`
 
 	// Input CustomerArtifactPaths object for the scheduled run configuration.
 	CustomerArtifactPaths *CustomerArtifactPaths `locationName:"customerArtifactPaths" type:"structure"`
@@ -9219,6 +9337,9 @@ type ScheduleRunConfiguration struct {
 
 	// Information about the radio states for the run.
 	Radios *Radios `locationName:"radios" type:"structure"`
+
+	// An array of Amazon Resource Names (ARNs) for your VPC endpoint configurations.
+	VpceConfigurationArns []string `locationName:"vpceConfigurationArns" type:"list"`
 }
 
 // String returns the string representation
@@ -9250,54 +9371,6 @@ func (s *ScheduleRunConfiguration) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetAuxiliaryApps sets the AuxiliaryApps field's value.
-func (s *ScheduleRunConfiguration) SetAuxiliaryApps(v []*string) *ScheduleRunConfiguration {
-	s.AuxiliaryApps = v
-	return s
-}
-
-// SetBillingMethod sets the BillingMethod field's value.
-func (s *ScheduleRunConfiguration) SetBillingMethod(v BillingMethod) *ScheduleRunConfiguration {
-	s.BillingMethod = v
-	return s
-}
-
-// SetCustomerArtifactPaths sets the CustomerArtifactPaths field's value.
-func (s *ScheduleRunConfiguration) SetCustomerArtifactPaths(v *CustomerArtifactPaths) *ScheduleRunConfiguration {
-	s.CustomerArtifactPaths = v
-	return s
-}
-
-// SetExtraDataPackageArn sets the ExtraDataPackageArn field's value.
-func (s *ScheduleRunConfiguration) SetExtraDataPackageArn(v string) *ScheduleRunConfiguration {
-	s.ExtraDataPackageArn = &v
-	return s
-}
-
-// SetLocale sets the Locale field's value.
-func (s *ScheduleRunConfiguration) SetLocale(v string) *ScheduleRunConfiguration {
-	s.Locale = &v
-	return s
-}
-
-// SetLocation sets the Location field's value.
-func (s *ScheduleRunConfiguration) SetLocation(v *Location) *ScheduleRunConfiguration {
-	s.Location = v
-	return s
-}
-
-// SetNetworkProfileArn sets the NetworkProfileArn field's value.
-func (s *ScheduleRunConfiguration) SetNetworkProfileArn(v string) *ScheduleRunConfiguration {
-	s.NetworkProfileArn = &v
-	return s
-}
-
-// SetRadios sets the Radios field's value.
-func (s *ScheduleRunConfiguration) SetRadios(v *Radios) *ScheduleRunConfiguration {
-	s.Radios = v
-	return s
 }
 
 // Represents a request to the schedule run operation.
@@ -9385,52 +9458,12 @@ func (s *ScheduleRunInput) Validate() error {
 	return nil
 }
 
-// SetAppArn sets the AppArn field's value.
-func (s *ScheduleRunInput) SetAppArn(v string) *ScheduleRunInput {
-	s.AppArn = &v
-	return s
-}
-
-// SetConfiguration sets the Configuration field's value.
-func (s *ScheduleRunInput) SetConfiguration(v *ScheduleRunConfiguration) *ScheduleRunInput {
-	s.Configuration = v
-	return s
-}
-
-// SetDevicePoolArn sets the DevicePoolArn field's value.
-func (s *ScheduleRunInput) SetDevicePoolArn(v string) *ScheduleRunInput {
-	s.DevicePoolArn = &v
-	return s
-}
-
-// SetExecutionConfiguration sets the ExecutionConfiguration field's value.
-func (s *ScheduleRunInput) SetExecutionConfiguration(v *ExecutionConfiguration) *ScheduleRunInput {
-	s.ExecutionConfiguration = v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *ScheduleRunInput) SetName(v string) *ScheduleRunInput {
-	s.Name = &v
-	return s
-}
-
-// SetProjectArn sets the ProjectArn field's value.
-func (s *ScheduleRunInput) SetProjectArn(v string) *ScheduleRunInput {
-	s.ProjectArn = &v
-	return s
-}
-
-// SetTest sets the Test field's value.
-func (s *ScheduleRunInput) SetTest(v *ScheduleRunTest) *ScheduleRunInput {
-	s.Test = v
-	return s
-}
-
 // Represents the result of a schedule run request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/ScheduleRunResult
 type ScheduleRunOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the scheduled run.
 	Run *Run `locationName:"run" type:"structure"`
@@ -9446,10 +9479,9 @@ func (s ScheduleRunOutput) GoString() string {
 	return s.String()
 }
 
-// SetRun sets the Run field's value.
-func (s *ScheduleRunOutput) SetRun(v *Run) *ScheduleRunOutput {
-	s.Run = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ScheduleRunOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents additional test settings.
@@ -9533,7 +9565,7 @@ type ScheduleRunTest struct {
 	// Running a single test: "com.android.abc.Test1#smoke"
 	//
 	// Running multiple tests: "com.android.abc.Test1,com.android.abc.Test2"
-	Parameters map[string]*string `locationName:"parameters" type:"map"`
+	Parameters map[string]string `locationName:"parameters" type:"map"`
 
 	// The ARN of the uploaded test that will be run.
 	TestPackageArn *string `locationName:"testPackageArn" min:"32" type:"string"`
@@ -9573,7 +9605,7 @@ type ScheduleRunTest struct {
 	//    * XCTEST_UI: The XCode UI test type.
 	//
 	// Type is a required field
-	Type TestType `locationName:"type" type:"string" required:"true"`
+	Type TestType `locationName:"type" type:"string" required:"true" enum:"true"`
 }
 
 // String returns the string representation
@@ -9600,30 +9632,6 @@ func (s *ScheduleRunTest) Validate() error {
 		return invalidParams
 	}
 	return nil
-}
-
-// SetFilter sets the Filter field's value.
-func (s *ScheduleRunTest) SetFilter(v string) *ScheduleRunTest {
-	s.Filter = &v
-	return s
-}
-
-// SetParameters sets the Parameters field's value.
-func (s *ScheduleRunTest) SetParameters(v map[string]*string) *ScheduleRunTest {
-	s.Parameters = v
-	return s
-}
-
-// SetTestPackageArn sets the TestPackageArn field's value.
-func (s *ScheduleRunTest) SetTestPackageArn(v string) *ScheduleRunTest {
-	s.TestPackageArn = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *ScheduleRunTest) SetType(v TestType) *ScheduleRunTest {
-	s.Type = v
-	return s
 }
 
 // Represents the request to stop the remote access session.
@@ -9664,17 +9672,13 @@ func (s *StopRemoteAccessSessionInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *StopRemoteAccessSessionInput) SetArn(v string) *StopRemoteAccessSessionInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the response from the server that describes the remote access
 // session when AWS Device Farm stops the session.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopRemoteAccessSessionResult
 type StopRemoteAccessSessionOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A container representing the metadata from the service about the remote access
 	// session you are stopping.
@@ -9691,10 +9695,9 @@ func (s StopRemoteAccessSessionOutput) GoString() string {
 	return s.String()
 }
 
-// SetRemoteAccessSession sets the RemoteAccessSession field's value.
-func (s *StopRemoteAccessSessionOutput) SetRemoteAccessSession(v *RemoteAccessSession) *StopRemoteAccessSessionOutput {
-	s.RemoteAccessSession = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopRemoteAccessSessionOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents the request to stop a specific run.
@@ -9736,16 +9739,12 @@ func (s *StopRunInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *StopRunInput) SetArn(v string) *StopRunInput {
-	s.Arn = &v
-	return s
-}
-
 // Represents the results of your stop run attempt.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/StopRunResult
 type StopRunOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The run that was stopped.
 	Run *Run `locationName:"run" type:"structure"`
@@ -9761,10 +9760,9 @@ func (s StopRunOutput) GoString() string {
 	return s.String()
 }
 
-// SetRun sets the Run field's value.
-func (s *StopRunOutput) SetRun(v *Run) *StopRunOutput {
-	s.Run = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s StopRunOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a collection of one or more tests.
@@ -9807,7 +9805,7 @@ type Suite struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	Result ExecutionResult `locationName:"result" type:"string"`
+	Result ExecutionResult `locationName:"result" type:"string" enum:"true"`
 
 	// The suite's start time.
 	Started *time.Time `locationName:"started" type:"timestamp" timestampFormat:"unix"`
@@ -9833,7 +9831,7 @@ type Suite struct {
 	//    * COMPLETED: A completed status.
 	//
 	//    * STOPPING: A stopping status.
-	Status ExecutionStatus `locationName:"status" type:"string"`
+	Status ExecutionStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The suite's stop time.
 	Stopped *time.Time `locationName:"stopped" type:"timestamp" timestampFormat:"unix"`
@@ -9871,7 +9869,7 @@ type Suite struct {
 	//    * XCTEST: The XCode test type.
 	//
 	//    * XCTEST_UI: The XCode UI test type.
-	Type TestType `locationName:"type" type:"string"`
+	Type TestType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -9882,72 +9880,6 @@ func (s Suite) String() string {
 // GoString returns the string representation
 func (s Suite) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Suite) SetArn(v string) *Suite {
-	s.Arn = &v
-	return s
-}
-
-// SetCounters sets the Counters field's value.
-func (s *Suite) SetCounters(v *Counters) *Suite {
-	s.Counters = v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *Suite) SetCreated(v time.Time) *Suite {
-	s.Created = &v
-	return s
-}
-
-// SetDeviceMinutes sets the DeviceMinutes field's value.
-func (s *Suite) SetDeviceMinutes(v *DeviceMinutes) *Suite {
-	s.DeviceMinutes = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Suite) SetMessage(v string) *Suite {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Suite) SetName(v string) *Suite {
-	s.Name = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *Suite) SetResult(v ExecutionResult) *Suite {
-	s.Result = v
-	return s
-}
-
-// SetStarted sets the Started field's value.
-func (s *Suite) SetStarted(v time.Time) *Suite {
-	s.Started = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Suite) SetStatus(v ExecutionStatus) *Suite {
-	s.Status = v
-	return s
-}
-
-// SetStopped sets the Stopped field's value.
-func (s *Suite) SetStopped(v time.Time) *Suite {
-	s.Stopped = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Suite) SetType(v TestType) *Suite {
-	s.Type = v
-	return s
 }
 
 // Represents a condition that is evaluated.
@@ -9990,7 +9922,7 @@ type Test struct {
 	//    * ERRORED: An error condition.
 	//
 	//    * STOPPED: A stopped condition.
-	Result ExecutionResult `locationName:"result" type:"string"`
+	Result ExecutionResult `locationName:"result" type:"string" enum:"true"`
 
 	// The test's start time.
 	Started *time.Time `locationName:"started" type:"timestamp" timestampFormat:"unix"`
@@ -10016,7 +9948,7 @@ type Test struct {
 	//    * COMPLETED: A completed status.
 	//
 	//    * STOPPING: A stopping status.
-	Status ExecutionStatus `locationName:"status" type:"string"`
+	Status ExecutionStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The test's stop time.
 	Stopped *time.Time `locationName:"stopped" type:"timestamp" timestampFormat:"unix"`
@@ -10054,7 +9986,7 @@ type Test struct {
 	//    * XCTEST: The XCode test type.
 	//
 	//    * XCTEST_UI: The XCode UI test type.
-	Type TestType `locationName:"type" type:"string"`
+	Type TestType `locationName:"type" type:"string" enum:"true"`
 }
 
 // String returns the string representation
@@ -10065,72 +9997,6 @@ func (s Test) String() string {
 // GoString returns the string representation
 func (s Test) GoString() string {
 	return s.String()
-}
-
-// SetArn sets the Arn field's value.
-func (s *Test) SetArn(v string) *Test {
-	s.Arn = &v
-	return s
-}
-
-// SetCounters sets the Counters field's value.
-func (s *Test) SetCounters(v *Counters) *Test {
-	s.Counters = v
-	return s
-}
-
-// SetCreated sets the Created field's value.
-func (s *Test) SetCreated(v time.Time) *Test {
-	s.Created = &v
-	return s
-}
-
-// SetDeviceMinutes sets the DeviceMinutes field's value.
-func (s *Test) SetDeviceMinutes(v *DeviceMinutes) *Test {
-	s.DeviceMinutes = v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Test) SetMessage(v string) *Test {
-	s.Message = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Test) SetName(v string) *Test {
-	s.Name = &v
-	return s
-}
-
-// SetResult sets the Result field's value.
-func (s *Test) SetResult(v ExecutionResult) *Test {
-	s.Result = v
-	return s
-}
-
-// SetStarted sets the Started field's value.
-func (s *Test) SetStarted(v time.Time) *Test {
-	s.Started = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Test) SetStatus(v ExecutionStatus) *Test {
-	s.Status = v
-	return s
-}
-
-// SetStopped sets the Stopped field's value.
-func (s *Test) SetStopped(v time.Time) *Test {
-	s.Stopped = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Test) SetType(v TestType) *Test {
-	s.Type = v
-	return s
 }
 
 // Represents information about free trial device minutes for an AWS account.
@@ -10155,18 +10021,6 @@ func (s TrialMinutes) GoString() string {
 	return s.String()
 }
 
-// SetRemaining sets the Remaining field's value.
-func (s *TrialMinutes) SetRemaining(v float64) *TrialMinutes {
-	s.Remaining = &v
-	return s
-}
-
-// SetTotal sets the Total field's value.
-func (s *TrialMinutes) SetTotal(v float64) *TrialMinutes {
-	s.Total = &v
-	return s
-}
-
 // A collection of one or more problems, grouped by their result.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UniqueProblem
 type UniqueProblem struct {
@@ -10176,7 +10030,7 @@ type UniqueProblem struct {
 	Message *string `locationName:"message" type:"string"`
 
 	// Information about the problems.
-	Problems []*Problem `locationName:"problems" type:"list"`
+	Problems []Problem `locationName:"problems" type:"list"`
 }
 
 // String returns the string representation
@@ -10189,16 +10043,76 @@ func (s UniqueProblem) GoString() string {
 	return s.String()
 }
 
-// SetMessage sets the Message field's value.
-func (s *UniqueProblem) SetMessage(v string) *UniqueProblem {
-	s.Message = &v
-	return s
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDeviceInstanceRequest
+type UpdateDeviceInstanceInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the device instance.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+
+	// An array of strings that you want to associate with the device instance.
+	Labels []string `locationName:"labels" type:"list"`
+
+	// The Amazon Resource Name (ARN) of the profile that you want to associate
+	// with the device instance.
+	ProfileArn *string `locationName:"profileArn" min:"32" type:"string"`
 }
 
-// SetProblems sets the Problems field's value.
-func (s *UniqueProblem) SetProblems(v []*Problem) *UniqueProblem {
-	s.Problems = v
-	return s
+// String returns the string representation
+func (s UpdateDeviceInstanceInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateDeviceInstanceInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateDeviceInstanceInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateDeviceInstanceInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+	if s.ProfileArn != nil && len(*s.ProfileArn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("ProfileArn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDeviceInstanceResult
+type UpdateDeviceInstanceOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your device instance.
+	DeviceInstance *DeviceInstance `locationName:"deviceInstance" type:"structure"`
+}
+
+// String returns the string representation
+func (s UpdateDeviceInstanceOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateDeviceInstanceOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDeviceInstanceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the update device pool operation.
@@ -10221,7 +10135,7 @@ type UpdateDevicePoolInput struct {
 	// Represents the rules you wish to modify for the device pool. Updating rules
 	// is optional; however, if you choose to update rules for your request, the
 	// update will replace the existing rules.
-	Rules []*Rule `locationName:"rules" type:"list"`
+	Rules []Rule `locationName:"rules" type:"list"`
 }
 
 // String returns the string representation
@@ -10251,34 +10165,12 @@ func (s *UpdateDevicePoolInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *UpdateDevicePoolInput) SetArn(v string) *UpdateDevicePoolInput {
-	s.Arn = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateDevicePoolInput) SetDescription(v string) *UpdateDevicePoolInput {
-	s.Description = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateDevicePoolInput) SetName(v string) *UpdateDevicePoolInput {
-	s.Name = &v
-	return s
-}
-
-// SetRules sets the Rules field's value.
-func (s *UpdateDevicePoolInput) SetRules(v []*Rule) *UpdateDevicePoolInput {
-	s.Rules = v
-	return s
-}
-
 // Represents the result of an update device pool request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateDevicePoolResult
 type UpdateDevicePoolOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The device pool you just updated.
 	DevicePool *DevicePool `locationName:"devicePool" type:"structure"`
@@ -10294,18 +10186,99 @@ func (s UpdateDevicePoolOutput) GoString() string {
 	return s.String()
 }
 
-// SetDevicePool sets the DevicePool field's value.
-func (s *UpdateDevicePoolOutput) SetDevicePool(v *DevicePool) *UpdateDevicePoolOutput {
-	s.DevicePool = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateDevicePoolOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateInstanceProfileRequest
+type UpdateInstanceProfileInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the instance profile.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+
+	// The updated description for your instance profile.
+	Description *string `locationName:"description" type:"string"`
+
+	// An array of strings specifying the list of app packages that should not be
+	// cleaned up from the device after a test run is over.
+	//
+	// The list of packages is only considered if you set packageCleanup to true.
+	ExcludeAppPackagesFromCleanup []string `locationName:"excludeAppPackagesFromCleanup" type:"list"`
+
+	// The updated name for your instance profile.
+	Name *string `locationName:"name" type:"string"`
+
+	// The updated choice for whether you want to specify package cleanup. The default
+	// value is false for private devices.
+	PackageCleanup *bool `locationName:"packageCleanup" type:"boolean"`
+
+	// The updated choice for whether you want to reboot the device after use. The
+	// default value is true.
+	RebootAfterUse *bool `locationName:"rebootAfterUse" type:"boolean"`
+}
+
+// String returns the string representation
+func (s UpdateInstanceProfileInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateInstanceProfileInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateInstanceProfileInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateInstanceProfileInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateInstanceProfileResult
+type UpdateInstanceProfileOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your instance profile.
+	InstanceProfile *InstanceProfile `locationName:"instanceProfile" type:"structure"`
+}
+
+// String returns the string representation
+func (s UpdateInstanceProfileOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateInstanceProfileOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateInstanceProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateNetworkProfileRequest
 type UpdateNetworkProfileInput struct {
 	_ struct{} `type:"structure"`
 
-	// The Amazon Resource Name (ARN) of the project that you wish to update network
-	// profile settings.
+	// The Amazon Resource Name (ARN) of the project for which you want to update
+	// network profile settings.
 	//
 	// Arn is a required field
 	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
@@ -10332,7 +10305,7 @@ type UpdateNetworkProfileInput struct {
 
 	// The type of network profile you wish to return information about. Valid values
 	// are listed below.
-	Type NetworkProfileType `locationName:"type" type:"string"`
+	Type NetworkProfileType `locationName:"type" type:"string" enum:"true"`
 
 	// The data throughput rate in bits per second, as an integer from 0 to 104857600.
 	UplinkBandwidthBits *int64 `locationName:"uplinkBandwidthBits" type:"long"`
@@ -10376,81 +10349,11 @@ func (s *UpdateNetworkProfileInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *UpdateNetworkProfileInput) SetArn(v string) *UpdateNetworkProfileInput {
-	s.Arn = &v
-	return s
-}
-
-// SetDescription sets the Description field's value.
-func (s *UpdateNetworkProfileInput) SetDescription(v string) *UpdateNetworkProfileInput {
-	s.Description = &v
-	return s
-}
-
-// SetDownlinkBandwidthBits sets the DownlinkBandwidthBits field's value.
-func (s *UpdateNetworkProfileInput) SetDownlinkBandwidthBits(v int64) *UpdateNetworkProfileInput {
-	s.DownlinkBandwidthBits = &v
-	return s
-}
-
-// SetDownlinkDelayMs sets the DownlinkDelayMs field's value.
-func (s *UpdateNetworkProfileInput) SetDownlinkDelayMs(v int64) *UpdateNetworkProfileInput {
-	s.DownlinkDelayMs = &v
-	return s
-}
-
-// SetDownlinkJitterMs sets the DownlinkJitterMs field's value.
-func (s *UpdateNetworkProfileInput) SetDownlinkJitterMs(v int64) *UpdateNetworkProfileInput {
-	s.DownlinkJitterMs = &v
-	return s
-}
-
-// SetDownlinkLossPercent sets the DownlinkLossPercent field's value.
-func (s *UpdateNetworkProfileInput) SetDownlinkLossPercent(v int64) *UpdateNetworkProfileInput {
-	s.DownlinkLossPercent = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateNetworkProfileInput) SetName(v string) *UpdateNetworkProfileInput {
-	s.Name = &v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *UpdateNetworkProfileInput) SetType(v NetworkProfileType) *UpdateNetworkProfileInput {
-	s.Type = v
-	return s
-}
-
-// SetUplinkBandwidthBits sets the UplinkBandwidthBits field's value.
-func (s *UpdateNetworkProfileInput) SetUplinkBandwidthBits(v int64) *UpdateNetworkProfileInput {
-	s.UplinkBandwidthBits = &v
-	return s
-}
-
-// SetUplinkDelayMs sets the UplinkDelayMs field's value.
-func (s *UpdateNetworkProfileInput) SetUplinkDelayMs(v int64) *UpdateNetworkProfileInput {
-	s.UplinkDelayMs = &v
-	return s
-}
-
-// SetUplinkJitterMs sets the UplinkJitterMs field's value.
-func (s *UpdateNetworkProfileInput) SetUplinkJitterMs(v int64) *UpdateNetworkProfileInput {
-	s.UplinkJitterMs = &v
-	return s
-}
-
-// SetUplinkLossPercent sets the UplinkLossPercent field's value.
-func (s *UpdateNetworkProfileInput) SetUplinkLossPercent(v int64) *UpdateNetworkProfileInput {
-	s.UplinkLossPercent = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateNetworkProfileResult
 type UpdateNetworkProfileOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// A list of the available network profiles.
 	NetworkProfile *NetworkProfile `locationName:"networkProfile" type:"structure"`
@@ -10466,10 +10369,9 @@ func (s UpdateNetworkProfileOutput) GoString() string {
 	return s.String()
 }
 
-// SetNetworkProfile sets the NetworkProfile field's value.
-func (s *UpdateNetworkProfileOutput) SetNetworkProfile(v *NetworkProfile) *UpdateNetworkProfileOutput {
-	s.NetworkProfile = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateNetworkProfileOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Represents a request to the update project operation.
@@ -10517,28 +10419,12 @@ func (s *UpdateProjectInput) Validate() error {
 	return nil
 }
 
-// SetArn sets the Arn field's value.
-func (s *UpdateProjectInput) SetArn(v string) *UpdateProjectInput {
-	s.Arn = &v
-	return s
-}
-
-// SetDefaultJobTimeoutMinutes sets the DefaultJobTimeoutMinutes field's value.
-func (s *UpdateProjectInput) SetDefaultJobTimeoutMinutes(v int64) *UpdateProjectInput {
-	s.DefaultJobTimeoutMinutes = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *UpdateProjectInput) SetName(v string) *UpdateProjectInput {
-	s.Name = &v
-	return s
-}
-
 // Represents the result of an update project request.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateProjectResult
 type UpdateProjectOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The project you wish to update.
 	Project *Project `locationName:"project" type:"structure"`
@@ -10554,10 +10440,87 @@ func (s UpdateProjectOutput) GoString() string {
 	return s.String()
 }
 
-// SetProject sets the Project field's value.
-func (s *UpdateProjectOutput) SetProject(v *Project) *UpdateProjectOutput {
-	s.Project = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateProjectOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateVPCEConfigurationRequest
+type UpdateVPCEConfigurationInput struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the VPC endpoint configuration you want
+	// to update.
+	//
+	// Arn is a required field
+	Arn *string `locationName:"arn" min:"32" type:"string" required:"true"`
+
+	// The DNS (domain) name used to connect to your private service in your Amazon
+	// VPC. The DNS name must not already be in use on the Internet.
+	ServiceDnsName *string `locationName:"serviceDnsName" type:"string"`
+
+	// An optional description, providing more details about your VPC endpoint configuration.
+	VpceConfigurationDescription *string `locationName:"vpceConfigurationDescription" type:"string"`
+
+	// The friendly name you give to your VPC endpoint configuration, to manage
+	// your configurations more easily.
+	VpceConfigurationName *string `locationName:"vpceConfigurationName" type:"string"`
+
+	// The name of the VPC endpoint service running inside your AWS account that
+	// you want Device Farm to test.
+	VpceServiceName *string `locationName:"vpceServiceName" type:"string"`
+}
+
+// String returns the string representation
+func (s UpdateVPCEConfigurationInput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateVPCEConfigurationInput) GoString() string {
+	return s.String()
+}
+
+// Validate inspects the fields of the type to determine if they are valid.
+func (s *UpdateVPCEConfigurationInput) Validate() error {
+	invalidParams := aws.ErrInvalidParams{Context: "UpdateVPCEConfigurationInput"}
+
+	if s.Arn == nil {
+		invalidParams.Add(aws.NewErrParamRequired("Arn"))
+	}
+	if s.Arn != nil && len(*s.Arn) < 32 {
+		invalidParams.Add(aws.NewErrParamMinLen("Arn", 32))
+	}
+
+	if invalidParams.Len() > 0 {
+		return invalidParams
+	}
+	return nil
+}
+
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/UpdateVPCEConfigurationResult
+type UpdateVPCEConfigurationOutput struct {
+	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
+
+	// An object containing information about your VPC endpoint configuration.
+	VpceConfiguration *VPCEConfiguration `locationName:"vpceConfiguration" type:"structure"`
+}
+
+// String returns the string representation
+func (s UpdateVPCEConfigurationOutput) String() string {
+	return awsutil.Prettify(s)
+}
+
+// GoString returns the string representation
+func (s UpdateVPCEConfigurationOutput) GoString() string {
+	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UpdateVPCEConfigurationOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // An app or a set of one or more tests to upload or that have been uploaded.
@@ -10596,7 +10559,7 @@ type Upload struct {
 	//    * PROCESSING: A processing status.
 	//
 	//    * SUCCEEDED: A succeeded status.
-	Status UploadStatus `locationName:"status" type:"string"`
+	Status UploadStatus `locationName:"status" type:"string" enum:"true"`
 
 	// The upload's type.
 	//
@@ -10636,7 +10599,7 @@ type Upload struct {
 	//    * XCTEST_TEST_PACKAGE: An XCode test package upload.
 	//
 	//    * XCTEST_UI_TEST_PACKAGE: An XCode UI test package upload.
-	Type UploadType `locationName:"type" type:"string"`
+	Type UploadType `locationName:"type" type:"string" enum:"true"`
 
 	// The pre-signed Amazon S3 URL that was used to store a file through a corresponding
 	// PUT request.
@@ -10653,58 +10616,38 @@ func (s Upload) GoString() string {
 	return s.String()
 }
 
-// SetArn sets the Arn field's value.
-func (s *Upload) SetArn(v string) *Upload {
-	s.Arn = &v
-	return s
+// Represents an Amazon Virtual Private Cloud (VPC) endpoint configuration.
+// Please also see https://docs.aws.amazon.com/goto/WebAPI/devicefarm-2015-06-23/VPCEConfiguration
+type VPCEConfiguration struct {
+	_ struct{} `type:"structure"`
+
+	// The Amazon Resource Name (ARN) of the VPC endpoint configuration.
+	Arn *string `locationName:"arn" min:"32" type:"string"`
+
+	// The DNS name that maps to the private IP address of the service you want
+	// to access.
+	ServiceDnsName *string `locationName:"serviceDnsName" type:"string"`
+
+	// An optional description, providing more details about your VPC endpoint configuration.
+	VpceConfigurationDescription *string `locationName:"vpceConfigurationDescription" type:"string"`
+
+	// The friendly name you give to your VPC endpoint configuration, to manage
+	// your configurations more easily.
+	VpceConfigurationName *string `locationName:"vpceConfigurationName" type:"string"`
+
+	// The name of the VPC endpoint service running inside your AWS account that
+	// you want Device Farm to test.
+	VpceServiceName *string `locationName:"vpceServiceName" type:"string"`
 }
 
-// SetContentType sets the ContentType field's value.
-func (s *Upload) SetContentType(v string) *Upload {
-	s.ContentType = &v
-	return s
+// String returns the string representation
+func (s VPCEConfiguration) String() string {
+	return awsutil.Prettify(s)
 }
 
-// SetCreated sets the Created field's value.
-func (s *Upload) SetCreated(v time.Time) *Upload {
-	s.Created = &v
-	return s
-}
-
-// SetMessage sets the Message field's value.
-func (s *Upload) SetMessage(v string) *Upload {
-	s.Message = &v
-	return s
-}
-
-// SetMetadata sets the Metadata field's value.
-func (s *Upload) SetMetadata(v string) *Upload {
-	s.Metadata = &v
-	return s
-}
-
-// SetName sets the Name field's value.
-func (s *Upload) SetName(v string) *Upload {
-	s.Name = &v
-	return s
-}
-
-// SetStatus sets the Status field's value.
-func (s *Upload) SetStatus(v UploadStatus) *Upload {
-	s.Status = v
-	return s
-}
-
-// SetType sets the Type field's value.
-func (s *Upload) SetType(v UploadType) *Upload {
-	s.Type = v
-	return s
-}
-
-// SetUrl sets the Url field's value.
-func (s *Upload) SetUrl(v string) *Upload {
-	s.Url = &v
-	return s
+// GoString returns the string representation
+func (s VPCEConfiguration) GoString() string {
+	return s.String()
 }
 
 type ArtifactCategory string
@@ -10715,6 +10658,15 @@ const (
 	ArtifactCategoryFile       ArtifactCategory = "FILE"
 	ArtifactCategoryLog        ArtifactCategory = "LOG"
 )
+
+func (enum ArtifactCategory) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ArtifactCategory) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ArtifactType string
 
@@ -10749,6 +10701,15 @@ const (
 	ArtifactTypeCustomerArtifactLog    ArtifactType = "CUSTOMER_ARTIFACT_LOG"
 )
 
+func (enum ArtifactType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ArtifactType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type BillingMethod string
 
 // Enum values for BillingMethod
@@ -10757,12 +10718,30 @@ const (
 	BillingMethodUnmetered BillingMethod = "UNMETERED"
 )
 
+func (enum BillingMethod) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BillingMethod) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type CurrencyCode string
 
 // Enum values for CurrencyCode
 const (
 	CurrencyCodeUsd CurrencyCode = "USD"
 )
+
+func (enum CurrencyCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum CurrencyCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DeviceAttribute string
 
@@ -10775,7 +10754,19 @@ const (
 	DeviceAttributeRemoteAccessEnabled DeviceAttribute = "REMOTE_ACCESS_ENABLED"
 	DeviceAttributeRemoteDebugEnabled  DeviceAttribute = "REMOTE_DEBUG_ENABLED"
 	DeviceAttributeAppiumVersion       DeviceAttribute = "APPIUM_VERSION"
+	DeviceAttributeInstanceArn         DeviceAttribute = "INSTANCE_ARN"
+	DeviceAttributeInstanceLabels      DeviceAttribute = "INSTANCE_LABELS"
+	DeviceAttributeFleetType           DeviceAttribute = "FLEET_TYPE"
 )
+
+func (enum DeviceAttribute) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DeviceAttribute) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type DeviceFormFactor string
 
@@ -10785,6 +10776,15 @@ const (
 	DeviceFormFactorTablet DeviceFormFactor = "TABLET"
 )
 
+func (enum DeviceFormFactor) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DeviceFormFactor) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DevicePlatform string
 
 // Enum values for DevicePlatform
@@ -10793,6 +10793,15 @@ const (
 	DevicePlatformIos     DevicePlatform = "IOS"
 )
 
+func (enum DevicePlatform) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DevicePlatform) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type DevicePoolType string
 
 // Enum values for DevicePoolType
@@ -10800,6 +10809,15 @@ const (
 	DevicePoolTypeCurated DevicePoolType = "CURATED"
 	DevicePoolTypePrivate DevicePoolType = "PRIVATE"
 )
+
+func (enum DevicePoolType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum DevicePoolType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ExecutionResult string
 
@@ -10814,12 +10832,31 @@ const (
 	ExecutionResultStopped ExecutionResult = "STOPPED"
 )
 
+func (enum ExecutionResult) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExecutionResult) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type ExecutionResultCode string
 
 // Enum values for ExecutionResultCode
 const (
-	ExecutionResultCodeParsingFailed ExecutionResultCode = "PARSING_FAILED"
+	ExecutionResultCodeParsingFailed          ExecutionResultCode = "PARSING_FAILED"
+	ExecutionResultCodeVpcEndpointSetupFailed ExecutionResultCode = "VPC_ENDPOINT_SETUP_FAILED"
 )
+
+func (enum ExecutionResultCode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExecutionResultCode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ExecutionStatus string
 
@@ -10836,6 +10873,52 @@ const (
 	ExecutionStatusStopping           ExecutionStatus = "STOPPING"
 )
 
+func (enum ExecutionStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ExecutionStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InstanceStatus string
+
+// Enum values for InstanceStatus
+const (
+	InstanceStatusInUse        InstanceStatus = "IN_USE"
+	InstanceStatusPreparing    InstanceStatus = "PREPARING"
+	InstanceStatusAvailable    InstanceStatus = "AVAILABLE"
+	InstanceStatusNotAvailable InstanceStatus = "NOT_AVAILABLE"
+)
+
+func (enum InstanceStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InstanceStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
+type InteractionMode string
+
+// Enum values for InteractionMode
+const (
+	InteractionModeInteractive InteractionMode = "INTERACTIVE"
+	InteractionModeNoVideo     InteractionMode = "NO_VIDEO"
+	InteractionModeVideoOnly   InteractionMode = "VIDEO_ONLY"
+)
+
+func (enum InteractionMode) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum InteractionMode) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type NetworkProfileType string
 
 // Enum values for NetworkProfileType
@@ -10843,6 +10926,15 @@ const (
 	NetworkProfileTypeCurated NetworkProfileType = "CURATED"
 	NetworkProfileTypePrivate NetworkProfileType = "PRIVATE"
 )
+
+func (enum NetworkProfileType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum NetworkProfileType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type OfferingTransactionType string
 
@@ -10853,6 +10945,15 @@ const (
 	OfferingTransactionTypeSystem   OfferingTransactionType = "SYSTEM"
 )
 
+func (enum OfferingTransactionType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OfferingTransactionType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type OfferingType string
 
 // Enum values for OfferingType
@@ -10860,12 +10961,30 @@ const (
 	OfferingTypeRecurring OfferingType = "RECURRING"
 )
 
+func (enum OfferingType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum OfferingType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type RecurringChargeFrequency string
 
 // Enum values for RecurringChargeFrequency
 const (
 	RecurringChargeFrequencyMonthly RecurringChargeFrequency = "MONTHLY"
 )
+
+func (enum RecurringChargeFrequency) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RecurringChargeFrequency) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type RuleOperator string
 
@@ -10878,6 +10997,15 @@ const (
 	RuleOperatorNotIn       RuleOperator = "NOT_IN"
 	RuleOperatorContains    RuleOperator = "CONTAINS"
 )
+
+func (enum RuleOperator) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum RuleOperator) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type SampleType string
 
@@ -10902,25 +11030,46 @@ const (
 	SampleTypeOpenglMaxDrawtime SampleType = "OPENGL_MAX_DRAWTIME"
 )
 
+func (enum SampleType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum SampleType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type TestType string
 
 // Enum values for TestType
 const (
-	TestTypeBuiltinFuzz         TestType = "BUILTIN_FUZZ"
-	TestTypeBuiltinExplorer     TestType = "BUILTIN_EXPLORER"
-	TestTypeAppiumJavaJunit     TestType = "APPIUM_JAVA_JUNIT"
-	TestTypeAppiumJavaTestng    TestType = "APPIUM_JAVA_TESTNG"
-	TestTypeAppiumPython        TestType = "APPIUM_PYTHON"
-	TestTypeAppiumWebJavaJunit  TestType = "APPIUM_WEB_JAVA_JUNIT"
-	TestTypeAppiumWebJavaTestng TestType = "APPIUM_WEB_JAVA_TESTNG"
-	TestTypeAppiumWebPython     TestType = "APPIUM_WEB_PYTHON"
-	TestTypeCalabash            TestType = "CALABASH"
-	TestTypeInstrumentation     TestType = "INSTRUMENTATION"
-	TestTypeUiautomation        TestType = "UIAUTOMATION"
-	TestTypeUiautomator         TestType = "UIAUTOMATOR"
-	TestTypeXctest              TestType = "XCTEST"
-	TestTypeXctestUi            TestType = "XCTEST_UI"
+	TestTypeBuiltinFuzz           TestType = "BUILTIN_FUZZ"
+	TestTypeBuiltinExplorer       TestType = "BUILTIN_EXPLORER"
+	TestTypeWebPerformanceProfile TestType = "WEB_PERFORMANCE_PROFILE"
+	TestTypeAppiumJavaJunit       TestType = "APPIUM_JAVA_JUNIT"
+	TestTypeAppiumJavaTestng      TestType = "APPIUM_JAVA_TESTNG"
+	TestTypeAppiumPython          TestType = "APPIUM_PYTHON"
+	TestTypeAppiumWebJavaJunit    TestType = "APPIUM_WEB_JAVA_JUNIT"
+	TestTypeAppiumWebJavaTestng   TestType = "APPIUM_WEB_JAVA_TESTNG"
+	TestTypeAppiumWebPython       TestType = "APPIUM_WEB_PYTHON"
+	TestTypeCalabash              TestType = "CALABASH"
+	TestTypeInstrumentation       TestType = "INSTRUMENTATION"
+	TestTypeUiautomation          TestType = "UIAUTOMATION"
+	TestTypeUiautomator           TestType = "UIAUTOMATOR"
+	TestTypeXctest                TestType = "XCTEST"
+	TestTypeXctestUi              TestType = "XCTEST_UI"
+	TestTypeRemoteAccessRecord    TestType = "REMOTE_ACCESS_RECORD"
+	TestTypeRemoteAccessReplay    TestType = "REMOTE_ACCESS_REPLAY"
 )
+
+func (enum TestType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum TestType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type UploadStatus string
 
@@ -10931,6 +11080,15 @@ const (
 	UploadStatusSucceeded   UploadStatus = "SUCCEEDED"
 	UploadStatusFailed      UploadStatus = "FAILED"
 )
+
+func (enum UploadStatus) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UploadStatus) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type UploadType string
 
@@ -10953,3 +11111,12 @@ const (
 	UploadTypeXctestTestPackage              UploadType = "XCTEST_TEST_PACKAGE"
 	UploadTypeXctestUiTestPackage            UploadType = "XCTEST_UI_TEST_PACKAGE"
 )
+
+func (enum UploadType) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum UploadType) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

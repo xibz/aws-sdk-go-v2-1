@@ -16,6 +16,7 @@ const opCreateCluster = "CreateCluster"
 type CreateClusterRequest struct {
 	*aws.Request
 	Input *CreateClusterInput
+	Copy  func(*CreateClusterInput) CreateClusterRequest
 }
 
 // Send marshals and sends the CreateCluster API request.
@@ -52,8 +53,11 @@ func (c *CloudHSMV2) CreateClusterRequest(input *CreateClusterInput) CreateClust
 		input = &CreateClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateClusterOutput{})
-	return CreateClusterRequest{Request: req, Input: input}
+	output := &CreateClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateClusterRequest{Request: req, Input: input, Copy: c.CreateClusterRequest}
 }
 
 const opCreateHsm = "CreateHsm"
@@ -62,6 +66,7 @@ const opCreateHsm = "CreateHsm"
 type CreateHsmRequest struct {
 	*aws.Request
 	Input *CreateHsmInput
+	Copy  func(*CreateHsmInput) CreateHsmRequest
 }
 
 // Send marshals and sends the CreateHsm API request.
@@ -99,8 +104,11 @@ func (c *CloudHSMV2) CreateHsmRequest(input *CreateHsmInput) CreateHsmRequest {
 		input = &CreateHsmInput{}
 	}
 
-	req := c.newRequest(op, input, &CreateHsmOutput{})
-	return CreateHsmRequest{Request: req, Input: input}
+	output := &CreateHsmOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return CreateHsmRequest{Request: req, Input: input, Copy: c.CreateHsmRequest}
 }
 
 const opDeleteCluster = "DeleteCluster"
@@ -109,6 +117,7 @@ const opDeleteCluster = "DeleteCluster"
 type DeleteClusterRequest struct {
 	*aws.Request
 	Input *DeleteClusterInput
+	Copy  func(*DeleteClusterInput) DeleteClusterRequest
 }
 
 // Send marshals and sends the DeleteCluster API request.
@@ -147,8 +156,11 @@ func (c *CloudHSMV2) DeleteClusterRequest(input *DeleteClusterInput) DeleteClust
 		input = &DeleteClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteClusterOutput{})
-	return DeleteClusterRequest{Request: req, Input: input}
+	output := &DeleteClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteClusterRequest{Request: req, Input: input, Copy: c.DeleteClusterRequest}
 }
 
 const opDeleteHsm = "DeleteHsm"
@@ -157,6 +169,7 @@ const opDeleteHsm = "DeleteHsm"
 type DeleteHsmRequest struct {
 	*aws.Request
 	Input *DeleteHsmInput
+	Copy  func(*DeleteHsmInput) DeleteHsmRequest
 }
 
 // Send marshals and sends the DeleteHsm API request.
@@ -196,8 +209,11 @@ func (c *CloudHSMV2) DeleteHsmRequest(input *DeleteHsmInput) DeleteHsmRequest {
 		input = &DeleteHsmInput{}
 	}
 
-	req := c.newRequest(op, input, &DeleteHsmOutput{})
-	return DeleteHsmRequest{Request: req, Input: input}
+	output := &DeleteHsmOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DeleteHsmRequest{Request: req, Input: input, Copy: c.DeleteHsmRequest}
 }
 
 const opDescribeBackups = "DescribeBackups"
@@ -206,6 +222,7 @@ const opDescribeBackups = "DescribeBackups"
 type DescribeBackupsRequest struct {
 	*aws.Request
 	Input *DescribeBackupsInput
+	Copy  func(*DescribeBackupsInput) DescribeBackupsRequest
 }
 
 // Send marshals and sends the DescribeBackups API request.
@@ -255,58 +272,57 @@ func (c *CloudHSMV2) DescribeBackupsRequest(input *DescribeBackupsInput) Describ
 		input = &DescribeBackupsInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeBackupsOutput{})
-	return DescribeBackupsRequest{Request: req, Input: input}
+	output := &DescribeBackupsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeBackupsRequest{Request: req, Input: input, Copy: c.DescribeBackupsRequest}
 }
 
-// DescribeBackupsPages iterates over the pages of a DescribeBackups operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeBackups method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeBackupsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeBackups operation.
-//    pageNum := 0
-//    err := client.DescribeBackupsPages(params,
-//        func(page *DescribeBackupsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeBackupsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudHSMV2) DescribeBackupsPages(input *DescribeBackupsInput, fn func(*DescribeBackupsOutput, bool) bool) error {
-	return c.DescribeBackupsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeBackupsRequest) Paginate(opts ...aws.Option) DescribeBackupsPager {
+	return DescribeBackupsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeBackupsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeBackupsPagesWithContext same as DescribeBackupsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudHSMV2) DescribeBackupsPagesWithContext(ctx aws.Context, input *DescribeBackupsInput, fn func(*DescribeBackupsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeBackupsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeBackupsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeBackupsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeBackupsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeBackupsPager struct {
+	aws.Pager
+}
+
+func (p *DescribeBackupsPager) CurrentPage() *DescribeBackupsOutput {
+	return p.Pager.CurrentPage().(*DescribeBackupsOutput)
 }
 
 const opDescribeClusters = "DescribeClusters"
@@ -315,6 +331,7 @@ const opDescribeClusters = "DescribeClusters"
 type DescribeClustersRequest struct {
 	*aws.Request
 	Input *DescribeClustersInput
+	Copy  func(*DescribeClustersInput) DescribeClustersRequest
 }
 
 // Send marshals and sends the DescribeClusters API request.
@@ -364,58 +381,57 @@ func (c *CloudHSMV2) DescribeClustersRequest(input *DescribeClustersInput) Descr
 		input = &DescribeClustersInput{}
 	}
 
-	req := c.newRequest(op, input, &DescribeClustersOutput{})
-	return DescribeClustersRequest{Request: req, Input: input}
+	output := &DescribeClustersOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return DescribeClustersRequest{Request: req, Input: input, Copy: c.DescribeClustersRequest}
 }
 
-// DescribeClustersPages iterates over the pages of a DescribeClusters operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See DescribeClusters method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a DescribeClustersRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a DescribeClusters operation.
-//    pageNum := 0
-//    err := client.DescribeClustersPages(params,
-//        func(page *DescribeClustersOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.DescribeClustersRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudHSMV2) DescribeClustersPages(input *DescribeClustersInput, fn func(*DescribeClustersOutput, bool) bool) error {
-	return c.DescribeClustersPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *DescribeClustersRequest) Paginate(opts ...aws.Option) DescribeClustersPager {
+	return DescribeClustersPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *DescribeClustersInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// DescribeClustersPagesWithContext same as DescribeClustersPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudHSMV2) DescribeClustersPagesWithContext(ctx aws.Context, input *DescribeClustersInput, fn func(*DescribeClustersOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *DescribeClustersInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.DescribeClustersRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*DescribeClustersOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// DescribeClustersPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type DescribeClustersPager struct {
+	aws.Pager
+}
+
+func (p *DescribeClustersPager) CurrentPage() *DescribeClustersOutput {
+	return p.Pager.CurrentPage().(*DescribeClustersOutput)
 }
 
 const opInitializeCluster = "InitializeCluster"
@@ -424,6 +440,7 @@ const opInitializeCluster = "InitializeCluster"
 type InitializeClusterRequest struct {
 	*aws.Request
 	Input *InitializeClusterInput
+	Copy  func(*InitializeClusterInput) InitializeClusterRequest
 }
 
 // Send marshals and sends the InitializeCluster API request.
@@ -463,8 +480,11 @@ func (c *CloudHSMV2) InitializeClusterRequest(input *InitializeClusterInput) Ini
 		input = &InitializeClusterInput{}
 	}
 
-	req := c.newRequest(op, input, &InitializeClusterOutput{})
-	return InitializeClusterRequest{Request: req, Input: input}
+	output := &InitializeClusterOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return InitializeClusterRequest{Request: req, Input: input, Copy: c.InitializeClusterRequest}
 }
 
 const opListTags = "ListTags"
@@ -473,6 +493,7 @@ const opListTags = "ListTags"
 type ListTagsRequest struct {
 	*aws.Request
 	Input *ListTagsInput
+	Copy  func(*ListTagsInput) ListTagsRequest
 }
 
 // Send marshals and sends the ListTags API request.
@@ -521,58 +542,57 @@ func (c *CloudHSMV2) ListTagsRequest(input *ListTagsInput) ListTagsRequest {
 		input = &ListTagsInput{}
 	}
 
-	req := c.newRequest(op, input, &ListTagsOutput{})
-	return ListTagsRequest{Request: req, Input: input}
+	output := &ListTagsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return ListTagsRequest{Request: req, Input: input, Copy: c.ListTagsRequest}
 }
 
-// ListTagsPages iterates over the pages of a ListTags operation,
-// calling the "fn" function with the response data for each page. To stop
-// iterating, return false from the fn function.
-//
-// See ListTags method for more information on how to use this operation.
+// Paginate pages iterates over the pages of a ListTagsRequest operation,
+// calling the Next method for each page. Using the paginators Next
+// method will depict whether or not there are more pages.
 //
 // Note: This operation can generate multiple requests to a service.
 //
 //    // Example iterating over at most 3 pages of a ListTags operation.
-//    pageNum := 0
-//    err := client.ListTagsPages(params,
-//        func(page *ListTagsOutput, lastPage bool) bool {
-//            pageNum++
-//            fmt.Println(page)
-//            return pageNum <= 3
-//        })
+//		req := client.ListTagsRequest(input)
+//		p := req.Paginate()
+//		for p.Next() {
+//			page := p.CurrentPage()
+//		}
 //
-func (c *CloudHSMV2) ListTagsPages(input *ListTagsInput, fn func(*ListTagsOutput, bool) bool) error {
-	return c.ListTagsPagesWithContext(aws.BackgroundContext(), input, fn)
-}
+//		if err := p.Err(); err != nil {
+//			return err
+//		}
+//
+func (p *ListTagsRequest) Paginate(opts ...aws.Option) ListTagsPager {
+	return ListTagsPager{
+		Pager: aws.Pager{
+			NewRequest: func() (*aws.Request, error) {
+				var inCpy *ListTagsInput
+				if p.Input != nil {
+					tmp := *p.Input
+					inCpy = &tmp
+				}
 
-// ListTagsPagesWithContext same as ListTagsPages except
-// it takes a Context and allows setting request options on the pages.
-//
-// The context must be non-nil and will be used for request cancellation. If
-// the context is nil a panic will occur. In the future the SDK may create
-// sub-contexts for http.Requests. See https://golang.org/pkg/context/
-// for more information on using Contexts.
-func (c *CloudHSMV2) ListTagsPagesWithContext(ctx aws.Context, input *ListTagsInput, fn func(*ListTagsOutput, bool) bool, opts ...aws.Option) error {
-	p := aws.Pagination{
-		NewRequest: func() (*aws.Request, error) {
-			var inCpy *ListTagsInput
-			if input != nil {
-				tmp := *input
-				inCpy = &tmp
-			}
-			req := c.ListTagsRequest(inCpy)
-			req.SetContext(ctx)
-			req.ApplyOptions(opts...)
-			return req.Request, nil
+				req := p.Copy(inCpy)
+				req.ApplyOptions(opts...)
+
+				return req.Request, nil
+			},
 		},
 	}
+}
 
-	cont := true
-	for p.Next() && cont {
-		cont = fn(p.Page().(*ListTagsOutput), !p.HasNextPage())
-	}
-	return p.Err()
+// ListTagsPager is used to paginate the request. This can be done by
+// calling Next and CurrentPage.
+type ListTagsPager struct {
+	aws.Pager
+}
+
+func (p *ListTagsPager) CurrentPage() *ListTagsOutput {
+	return p.Pager.CurrentPage().(*ListTagsOutput)
 }
 
 const opTagResource = "TagResource"
@@ -581,6 +601,7 @@ const opTagResource = "TagResource"
 type TagResourceRequest struct {
 	*aws.Request
 	Input *TagResourceInput
+	Copy  func(*TagResourceInput) TagResourceRequest
 }
 
 // Send marshals and sends the TagResource API request.
@@ -617,8 +638,11 @@ func (c *CloudHSMV2) TagResourceRequest(input *TagResourceInput) TagResourceRequ
 		input = &TagResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &TagResourceOutput{})
-	return TagResourceRequest{Request: req, Input: input}
+	output := &TagResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return TagResourceRequest{Request: req, Input: input, Copy: c.TagResourceRequest}
 }
 
 const opUntagResource = "UntagResource"
@@ -627,6 +651,7 @@ const opUntagResource = "UntagResource"
 type UntagResourceRequest struct {
 	*aws.Request
 	Input *UntagResourceInput
+	Copy  func(*UntagResourceInput) UntagResourceRequest
 }
 
 // Send marshals and sends the UntagResource API request.
@@ -663,8 +688,11 @@ func (c *CloudHSMV2) UntagResourceRequest(input *UntagResourceInput) UntagResour
 		input = &UntagResourceInput{}
 	}
 
-	req := c.newRequest(op, input, &UntagResourceOutput{})
-	return UntagResourceRequest{Request: req, Input: input}
+	output := &UntagResourceOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return UntagResourceRequest{Request: req, Input: input, Copy: c.UntagResourceRequest}
 }
 
 // Contains information about a backup of an AWS CloudHSM cluster.
@@ -678,7 +706,7 @@ type Backup struct {
 	BackupId *string `type:"string" required:"true"`
 
 	// The state of the backup.
-	BackupState BackupState `type:"string"`
+	BackupState BackupState `type:"string" enum:"true"`
 
 	// The identifier (ID) of the cluster that was backed up.
 	ClusterId *string `type:"string"`
@@ -695,30 +723,6 @@ func (s Backup) String() string {
 // GoString returns the string representation
 func (s Backup) GoString() string {
 	return s.String()
-}
-
-// SetBackupId sets the BackupId field's value.
-func (s *Backup) SetBackupId(v string) *Backup {
-	s.BackupId = &v
-	return s
-}
-
-// SetBackupState sets the BackupState field's value.
-func (s *Backup) SetBackupState(v BackupState) *Backup {
-	s.BackupState = v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *Backup) SetClusterId(v string) *Backup {
-	s.ClusterId = &v
-	return s
-}
-
-// SetCreateTimestamp sets the CreateTimestamp field's value.
-func (s *Backup) SetCreateTimestamp(v time.Time) *Backup {
-	s.CreateTimestamp = &v
-	return s
 }
 
 // Contains one or more certificates or a certificate signing request (CSR).
@@ -754,43 +758,13 @@ func (s Certificates) GoString() string {
 	return s.String()
 }
 
-// SetAwsHardwareCertificate sets the AwsHardwareCertificate field's value.
-func (s *Certificates) SetAwsHardwareCertificate(v string) *Certificates {
-	s.AwsHardwareCertificate = &v
-	return s
-}
-
-// SetClusterCertificate sets the ClusterCertificate field's value.
-func (s *Certificates) SetClusterCertificate(v string) *Certificates {
-	s.ClusterCertificate = &v
-	return s
-}
-
-// SetClusterCsr sets the ClusterCsr field's value.
-func (s *Certificates) SetClusterCsr(v string) *Certificates {
-	s.ClusterCsr = &v
-	return s
-}
-
-// SetHsmCertificate sets the HsmCertificate field's value.
-func (s *Certificates) SetHsmCertificate(v string) *Certificates {
-	s.HsmCertificate = &v
-	return s
-}
-
-// SetManufacturerHardwareCertificate sets the ManufacturerHardwareCertificate field's value.
-func (s *Certificates) SetManufacturerHardwareCertificate(v string) *Certificates {
-	s.ManufacturerHardwareCertificate = &v
-	return s
-}
-
 // Contains information about an AWS CloudHSM cluster.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/Cluster
 type Cluster struct {
 	_ struct{} `type:"structure"`
 
 	// The cluster's backup policy.
-	BackupPolicy BackupPolicy `type:"string"`
+	BackupPolicy BackupPolicy `type:"string" enum:"true"`
 
 	// Contains one or more certificates or a certificate signing request (CSR).
 	Certificates *Certificates `type:"structure"`
@@ -805,7 +779,7 @@ type Cluster struct {
 	HsmType *string `type:"string"`
 
 	// Contains information about the HSMs in the cluster.
-	Hsms []*Hsm `type:"list"`
+	Hsms []Hsm `type:"list"`
 
 	// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
 	PreCoPassword *string `min:"7" type:"string"`
@@ -818,13 +792,13 @@ type Cluster struct {
 	SourceBackupId *string `type:"string"`
 
 	// The cluster's state.
-	State ClusterState `type:"string"`
+	State ClusterState `type:"string" enum:"true"`
 
 	// A description of the cluster's state.
 	StateMessage *string `type:"string"`
 
 	// A map of the cluster's subnets and their corresponding Availability Zones.
-	SubnetMapping map[string]*string `type:"map"`
+	SubnetMapping map[string]string `type:"map"`
 
 	// The identifier (ID) of the virtual private cloud (VPC) that contains the
 	// cluster.
@@ -839,84 +813,6 @@ func (s Cluster) String() string {
 // GoString returns the string representation
 func (s Cluster) GoString() string {
 	return s.String()
-}
-
-// SetBackupPolicy sets the BackupPolicy field's value.
-func (s *Cluster) SetBackupPolicy(v BackupPolicy) *Cluster {
-	s.BackupPolicy = v
-	return s
-}
-
-// SetCertificates sets the Certificates field's value.
-func (s *Cluster) SetCertificates(v *Certificates) *Cluster {
-	s.Certificates = v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *Cluster) SetClusterId(v string) *Cluster {
-	s.ClusterId = &v
-	return s
-}
-
-// SetCreateTimestamp sets the CreateTimestamp field's value.
-func (s *Cluster) SetCreateTimestamp(v time.Time) *Cluster {
-	s.CreateTimestamp = &v
-	return s
-}
-
-// SetHsmType sets the HsmType field's value.
-func (s *Cluster) SetHsmType(v string) *Cluster {
-	s.HsmType = &v
-	return s
-}
-
-// SetHsms sets the Hsms field's value.
-func (s *Cluster) SetHsms(v []*Hsm) *Cluster {
-	s.Hsms = v
-	return s
-}
-
-// SetPreCoPassword sets the PreCoPassword field's value.
-func (s *Cluster) SetPreCoPassword(v string) *Cluster {
-	s.PreCoPassword = &v
-	return s
-}
-
-// SetSecurityGroup sets the SecurityGroup field's value.
-func (s *Cluster) SetSecurityGroup(v string) *Cluster {
-	s.SecurityGroup = &v
-	return s
-}
-
-// SetSourceBackupId sets the SourceBackupId field's value.
-func (s *Cluster) SetSourceBackupId(v string) *Cluster {
-	s.SourceBackupId = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *Cluster) SetState(v ClusterState) *Cluster {
-	s.State = v
-	return s
-}
-
-// SetStateMessage sets the StateMessage field's value.
-func (s *Cluster) SetStateMessage(v string) *Cluster {
-	s.StateMessage = &v
-	return s
-}
-
-// SetSubnetMapping sets the SubnetMapping field's value.
-func (s *Cluster) SetSubnetMapping(v map[string]*string) *Cluster {
-	s.SubnetMapping = v
-	return s
-}
-
-// SetVpcId sets the VpcId field's value.
-func (s *Cluster) SetVpcId(v string) *Cluster {
-	s.VpcId = &v
-	return s
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/CreateClusterRequest
@@ -943,7 +839,7 @@ type CreateClusterInput struct {
 	//    * You can specify only one subnet per Availability Zone.
 	//
 	// SubnetIds is a required field
-	SubnetIds []*string `min:"1" type:"list" required:"true"`
+	SubnetIds []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -977,27 +873,11 @@ func (s *CreateClusterInput) Validate() error {
 	return nil
 }
 
-// SetHsmType sets the HsmType field's value.
-func (s *CreateClusterInput) SetHsmType(v string) *CreateClusterInput {
-	s.HsmType = &v
-	return s
-}
-
-// SetSourceBackupId sets the SourceBackupId field's value.
-func (s *CreateClusterInput) SetSourceBackupId(v string) *CreateClusterInput {
-	s.SourceBackupId = &v
-	return s
-}
-
-// SetSubnetIds sets the SubnetIds field's value.
-func (s *CreateClusterInput) SetSubnetIds(v []*string) *CreateClusterInput {
-	s.SubnetIds = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/CreateClusterResponse
 type CreateClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the cluster that was created.
 	Cluster *Cluster `type:"structure"`
@@ -1013,10 +893,9 @@ func (s CreateClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *CreateClusterOutput) SetCluster(v *Cluster) *CreateClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/CreateHsmRequest
@@ -1069,27 +948,11 @@ func (s *CreateHsmInput) Validate() error {
 	return nil
 }
 
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *CreateHsmInput) SetAvailabilityZone(v string) *CreateHsmInput {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *CreateHsmInput) SetClusterId(v string) *CreateHsmInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetIpAddress sets the IpAddress field's value.
-func (s *CreateHsmInput) SetIpAddress(v string) *CreateHsmInput {
-	s.IpAddress = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/CreateHsmResponse
 type CreateHsmOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the HSM that was created.
 	Hsm *Hsm `type:"structure"`
@@ -1105,10 +968,9 @@ func (s CreateHsmOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsm sets the Hsm field's value.
-func (s *CreateHsmOutput) SetHsm(v *Hsm) *CreateHsmOutput {
-	s.Hsm = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s CreateHsmOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteClusterRequest
@@ -1146,15 +1008,11 @@ func (s *DeleteClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *DeleteClusterInput) SetClusterId(v string) *DeleteClusterInput {
-	s.ClusterId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteClusterResponse
 type DeleteClusterOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// Information about the cluster that was deleted.
 	Cluster *Cluster `type:"structure"`
@@ -1170,10 +1028,9 @@ func (s DeleteClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetCluster sets the Cluster field's value.
-func (s *DeleteClusterOutput) SetCluster(v *Cluster) *DeleteClusterOutput {
-	s.Cluster = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteHsmRequest
@@ -1221,33 +1078,11 @@ func (s *DeleteHsmInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *DeleteHsmInput) SetClusterId(v string) *DeleteHsmInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetEniId sets the EniId field's value.
-func (s *DeleteHsmInput) SetEniId(v string) *DeleteHsmInput {
-	s.EniId = &v
-	return s
-}
-
-// SetEniIp sets the EniIp field's value.
-func (s *DeleteHsmInput) SetEniIp(v string) *DeleteHsmInput {
-	s.EniIp = &v
-	return s
-}
-
-// SetHsmId sets the HsmId field's value.
-func (s *DeleteHsmInput) SetHsmId(v string) *DeleteHsmInput {
-	s.HsmId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteHsmResponse
 type DeleteHsmOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// The identifier (ID) of the HSM that was deleted.
 	HsmId *string `type:"string"`
@@ -1263,10 +1098,9 @@ func (s DeleteHsmOutput) GoString() string {
 	return s.String()
 }
 
-// SetHsmId sets the HsmId field's value.
-func (s *DeleteHsmOutput) SetHsmId(v string) *DeleteHsmOutput {
-	s.HsmId = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DeleteHsmOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DescribeBackupsRequest
@@ -1282,7 +1116,7 @@ type DescribeBackupsInput struct {
 	// Specify clusters by their cluster identifier (ID).
 	//
 	// Use the states filter to return only backups that match the specified state.
-	Filters map[string][]*string `type:"map"`
+	Filters map[string][]string `type:"map"`
 
 	// The maximum number of backups to return in the response. When there are more
 	// backups than the number you specify, the response contains a NextToken value.
@@ -1316,30 +1150,14 @@ func (s *DescribeBackupsInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeBackupsInput) SetFilters(v map[string][]*string) *DescribeBackupsInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeBackupsInput) SetMaxResults(v int64) *DescribeBackupsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBackupsInput) SetNextToken(v string) *DescribeBackupsInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DescribeBackupsResponse
 type DescribeBackupsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of backups.
-	Backups []*Backup `type:"list"`
+	Backups []Backup `type:"list"`
 
 	// An opaque string that indicates that the response contains only a subset
 	// of backups. Use this value in a subsequent DescribeBackups request to get
@@ -1357,16 +1175,9 @@ func (s DescribeBackupsOutput) GoString() string {
 	return s.String()
 }
 
-// SetBackups sets the Backups field's value.
-func (s *DescribeBackupsOutput) SetBackups(v []*Backup) *DescribeBackupsOutput {
-	s.Backups = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeBackupsOutput) SetNextToken(v string) *DescribeBackupsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeBackupsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DescribeClustersRequest
@@ -1382,7 +1193,7 @@ type DescribeClustersInput struct {
 	// private clouds (VPCs). Specify VPCs by their VPC identifier (ID).
 	//
 	// Use the states filter to return only clusters that match the specified state.
-	Filters map[string][]*string `type:"map"`
+	Filters map[string][]string `type:"map"`
 
 	// The maximum number of clusters to return in the response. When there are
 	// more clusters than the number you specify, the response contains a NextToken
@@ -1417,30 +1228,14 @@ func (s *DescribeClustersInput) Validate() error {
 	return nil
 }
 
-// SetFilters sets the Filters field's value.
-func (s *DescribeClustersInput) SetFilters(v map[string][]*string) *DescribeClustersInput {
-	s.Filters = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *DescribeClustersInput) SetMaxResults(v int64) *DescribeClustersInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeClustersInput) SetNextToken(v string) *DescribeClustersInput {
-	s.NextToken = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DescribeClustersResponse
 type DescribeClustersOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// A list of clusters.
-	Clusters []*Cluster `type:"list"`
+	Clusters []Cluster `type:"list"`
 
 	// An opaque string that indicates that the response contains only a subset
 	// of clusters. Use this value in a subsequent DescribeClusters request to get
@@ -1458,16 +1253,9 @@ func (s DescribeClustersOutput) GoString() string {
 	return s.String()
 }
 
-// SetClusters sets the Clusters field's value.
-func (s *DescribeClustersOutput) SetClusters(v []*Cluster) *DescribeClustersOutput {
-	s.Clusters = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *DescribeClustersOutput) SetNextToken(v string) *DescribeClustersOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s DescribeClustersOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains information about a hardware security module (HSM) in an AWS CloudHSM
@@ -1494,7 +1282,7 @@ type Hsm struct {
 	HsmId *string `type:"string" required:"true"`
 
 	// The HSM's state.
-	State HsmState `type:"string"`
+	State HsmState `type:"string" enum:"true"`
 
 	// A description of the HSM's state.
 	StateMessage *string `type:"string"`
@@ -1513,54 +1301,6 @@ func (s Hsm) GoString() string {
 	return s.String()
 }
 
-// SetAvailabilityZone sets the AvailabilityZone field's value.
-func (s *Hsm) SetAvailabilityZone(v string) *Hsm {
-	s.AvailabilityZone = &v
-	return s
-}
-
-// SetClusterId sets the ClusterId field's value.
-func (s *Hsm) SetClusterId(v string) *Hsm {
-	s.ClusterId = &v
-	return s
-}
-
-// SetEniId sets the EniId field's value.
-func (s *Hsm) SetEniId(v string) *Hsm {
-	s.EniId = &v
-	return s
-}
-
-// SetEniIp sets the EniIp field's value.
-func (s *Hsm) SetEniIp(v string) *Hsm {
-	s.EniIp = &v
-	return s
-}
-
-// SetHsmId sets the HsmId field's value.
-func (s *Hsm) SetHsmId(v string) *Hsm {
-	s.HsmId = &v
-	return s
-}
-
-// SetState sets the State field's value.
-func (s *Hsm) SetState(v HsmState) *Hsm {
-	s.State = v
-	return s
-}
-
-// SetStateMessage sets the StateMessage field's value.
-func (s *Hsm) SetStateMessage(v string) *Hsm {
-	s.StateMessage = &v
-	return s
-}
-
-// SetSubnetId sets the SubnetId field's value.
-func (s *Hsm) SetSubnetId(v string) *Hsm {
-	s.SubnetId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/InitializeClusterRequest
 type InitializeClusterInput struct {
 	_ struct{} `type:"structure"`
@@ -1572,7 +1312,8 @@ type InitializeClusterInput struct {
 	ClusterId *string `type:"string" required:"true"`
 
 	// The cluster certificate issued (signed) by your issuing certificate authority
-	// (CA). The certificate must be in PEM format.
+	// (CA). The certificate must be in PEM format and can contain a maximum of
+	// 5000 characters.
 	//
 	// SignedCert is a required field
 	SignedCert *string `type:"string" required:"true"`
@@ -1581,7 +1322,7 @@ type InitializeClusterInput struct {
 	// (signed) the cluster certificate. This can be a root (self-signed) certificate
 	// or a certificate chain that begins with the certificate that issued the cluster
 	// certificate and ends with a root certificate. The certificate or certificate
-	// chain must be in PEM format.
+	// chain must be in PEM format and can contain a maximum of 5000 characters.
 	//
 	// TrustAnchor is a required field
 	TrustAnchor *string `type:"string" required:"true"`
@@ -1619,30 +1360,14 @@ func (s *InitializeClusterInput) Validate() error {
 	return nil
 }
 
-// SetClusterId sets the ClusterId field's value.
-func (s *InitializeClusterInput) SetClusterId(v string) *InitializeClusterInput {
-	s.ClusterId = &v
-	return s
-}
-
-// SetSignedCert sets the SignedCert field's value.
-func (s *InitializeClusterInput) SetSignedCert(v string) *InitializeClusterInput {
-	s.SignedCert = &v
-	return s
-}
-
-// SetTrustAnchor sets the TrustAnchor field's value.
-func (s *InitializeClusterInput) SetTrustAnchor(v string) *InitializeClusterInput {
-	s.TrustAnchor = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/InitializeClusterResponse
 type InitializeClusterOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The cluster's state.
-	State ClusterState `type:"string"`
+	State ClusterState `type:"string" enum:"true"`
 
 	// A description of the cluster's state.
 	StateMessage *string `type:"string"`
@@ -1658,16 +1383,9 @@ func (s InitializeClusterOutput) GoString() string {
 	return s.String()
 }
 
-// SetState sets the State field's value.
-func (s *InitializeClusterOutput) SetState(v ClusterState) *InitializeClusterOutput {
-	s.State = v
-	return s
-}
-
-// SetStateMessage sets the StateMessage field's value.
-func (s *InitializeClusterOutput) SetStateMessage(v string) *InitializeClusterOutput {
-	s.StateMessage = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s InitializeClusterOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/ListTagsRequest
@@ -1716,27 +1434,11 @@ func (s *ListTagsInput) Validate() error {
 	return nil
 }
 
-// SetMaxResults sets the MaxResults field's value.
-func (s *ListTagsInput) SetMaxResults(v int64) *ListTagsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsInput) SetNextToken(v string) *ListTagsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetResourceId sets the ResourceId field's value.
-func (s *ListTagsInput) SetResourceId(v string) *ListTagsInput {
-	s.ResourceId = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/ListTagsResponse
 type ListTagsOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 
 	// An opaque string that indicates that the response contains only a subset
 	// of tags. Use this value in a subsequent ListTags request to get more tags.
@@ -1745,7 +1447,7 @@ type ListTagsOutput struct {
 	// A list of tags.
 	//
 	// TagList is a required field
-	TagList []*Tag `min:"1" type:"list" required:"true"`
+	TagList []Tag `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1758,16 +1460,9 @@ func (s ListTagsOutput) GoString() string {
 	return s.String()
 }
 
-// SetNextToken sets the NextToken field's value.
-func (s *ListTagsOutput) SetNextToken(v string) *ListTagsOutput {
-	s.NextToken = &v
-	return s
-}
-
-// SetTagList sets the TagList field's value.
-func (s *ListTagsOutput) SetTagList(v []*Tag) *ListTagsOutput {
-	s.TagList = v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s ListTagsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Contains a tag. A tag is a key-value pair.
@@ -1817,18 +1512,6 @@ func (s *Tag) Validate() error {
 	return nil
 }
 
-// SetKey sets the Key field's value.
-func (s *Tag) SetKey(v string) *Tag {
-	s.Key = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Tag) SetValue(v string) *Tag {
-	s.Value = &v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/TagResourceRequest
 type TagResourceInput struct {
 	_ struct{} `type:"structure"`
@@ -1842,7 +1525,7 @@ type TagResourceInput struct {
 	// A list of one or more tags.
 	//
 	// TagList is a required field
-	TagList []*Tag `min:"1" type:"list" required:"true"`
+	TagList []Tag `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1871,9 +1554,6 @@ func (s *TagResourceInput) Validate() error {
 	}
 	if s.TagList != nil {
 		for i, v := range s.TagList {
-			if v == nil {
-				continue
-			}
 			if err := v.Validate(); err != nil {
 				invalidParams.AddNested(fmt.Sprintf("%s[%v]", "TagList", i), err.(aws.ErrInvalidParams))
 			}
@@ -1886,21 +1566,11 @@ func (s *TagResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *TagResourceInput) SetResourceId(v string) *TagResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagList sets the TagList field's value.
-func (s *TagResourceInput) SetTagList(v []*Tag) *TagResourceInput {
-	s.TagList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/TagResourceResponse
 type TagResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1911,6 +1581,11 @@ func (s TagResourceOutput) String() string {
 // GoString returns the string representation
 func (s TagResourceOutput) GoString() string {
 	return s.String()
+}
+
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s TagResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/UntagResourceRequest
@@ -1927,7 +1602,7 @@ type UntagResourceInput struct {
 	// only the tag keys, not the tag values.
 	//
 	// TagKeyList is a required field
-	TagKeyList []*string `min:"1" type:"list" required:"true"`
+	TagKeyList []string `min:"1" type:"list" required:"true"`
 }
 
 // String returns the string representation
@@ -1961,21 +1636,11 @@ func (s *UntagResourceInput) Validate() error {
 	return nil
 }
 
-// SetResourceId sets the ResourceId field's value.
-func (s *UntagResourceInput) SetResourceId(v string) *UntagResourceInput {
-	s.ResourceId = &v
-	return s
-}
-
-// SetTagKeyList sets the TagKeyList field's value.
-func (s *UntagResourceInput) SetTagKeyList(v []*string) *UntagResourceInput {
-	s.TagKeyList = v
-	return s
-}
-
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/UntagResourceResponse
 type UntagResourceOutput struct {
 	_ struct{} `type:"structure"`
+
+	responseMetadata aws.Response
 }
 
 // String returns the string representation
@@ -1988,12 +1653,26 @@ func (s UntagResourceOutput) GoString() string {
 	return s.String()
 }
 
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s UntagResourceOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
+}
+
 type BackupPolicy string
 
 // Enum values for BackupPolicy
 const (
 	BackupPolicyDefault BackupPolicy = "DEFAULT"
 )
+
+func (enum BackupPolicy) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BackupPolicy) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type BackupState string
 
@@ -2003,6 +1682,15 @@ const (
 	BackupStateReady            BackupState = "READY"
 	BackupStateDeleted          BackupState = "DELETED"
 )
+
+func (enum BackupState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum BackupState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
 
 type ClusterState string
 
@@ -2019,6 +1707,15 @@ const (
 	ClusterStateDegraded             ClusterState = "DEGRADED"
 )
 
+func (enum ClusterState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum ClusterState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
+
 type HsmState string
 
 // Enum values for HsmState
@@ -2029,3 +1726,12 @@ const (
 	HsmStateDeleteInProgress HsmState = "DELETE_IN_PROGRESS"
 	HsmStateDeleted          HsmState = "DELETED"
 )
+
+func (enum HsmState) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum HsmState) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}

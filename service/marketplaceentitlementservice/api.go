@@ -15,6 +15,7 @@ const opGetEntitlements = "GetEntitlements"
 type GetEntitlementsRequest struct {
 	*aws.Request
 	Input *GetEntitlementsInput
+	Copy  func(*GetEntitlementsInput) GetEntitlementsRequest
 }
 
 // Send marshals and sends the GetEntitlements API request.
@@ -52,8 +53,11 @@ func (c *MarketplaceEntitlementService) GetEntitlementsRequest(input *GetEntitle
 		input = &GetEntitlementsInput{}
 	}
 
-	req := c.newRequest(op, input, &GetEntitlementsOutput{})
-	return GetEntitlementsRequest{Request: req, Input: input}
+	output := &GetEntitlementsOutput{}
+	req := c.newRequest(op, input, output)
+	output.responseMetadata = aws.Response{Request: req}
+
+	return GetEntitlementsRequest{Request: req, Input: input, Copy: c.GetEntitlementsRequest}
 }
 
 // An entitlement represents capacity in a product owned by the customer. For
@@ -99,36 +103,6 @@ func (s Entitlement) GoString() string {
 	return s.String()
 }
 
-// SetCustomerIdentifier sets the CustomerIdentifier field's value.
-func (s *Entitlement) SetCustomerIdentifier(v string) *Entitlement {
-	s.CustomerIdentifier = &v
-	return s
-}
-
-// SetDimension sets the Dimension field's value.
-func (s *Entitlement) SetDimension(v string) *Entitlement {
-	s.Dimension = &v
-	return s
-}
-
-// SetExpirationDate sets the ExpirationDate field's value.
-func (s *Entitlement) SetExpirationDate(v time.Time) *Entitlement {
-	s.ExpirationDate = &v
-	return s
-}
-
-// SetProductCode sets the ProductCode field's value.
-func (s *Entitlement) SetProductCode(v string) *Entitlement {
-	s.ProductCode = &v
-	return s
-}
-
-// SetValue sets the Value field's value.
-func (s *Entitlement) SetValue(v *EntitlementValue) *Entitlement {
-	s.Value = v
-	return s
-}
-
 // The EntitlementValue represents the amount of capacity that the customer
 // is entitled to for the product.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/entitlement.marketplace-2017-01-11/EntitlementValue
@@ -162,30 +136,6 @@ func (s EntitlementValue) GoString() string {
 	return s.String()
 }
 
-// SetBooleanValue sets the BooleanValue field's value.
-func (s *EntitlementValue) SetBooleanValue(v bool) *EntitlementValue {
-	s.BooleanValue = &v
-	return s
-}
-
-// SetDoubleValue sets the DoubleValue field's value.
-func (s *EntitlementValue) SetDoubleValue(v float64) *EntitlementValue {
-	s.DoubleValue = &v
-	return s
-}
-
-// SetIntegerValue sets the IntegerValue field's value.
-func (s *EntitlementValue) SetIntegerValue(v int64) *EntitlementValue {
-	s.IntegerValue = &v
-	return s
-}
-
-// SetStringValue sets the StringValue field's value.
-func (s *EntitlementValue) SetStringValue(v string) *EntitlementValue {
-	s.StringValue = &v
-	return s
-}
-
 // The GetEntitlementsRequest contains parameters for the GetEntitlements operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/entitlement.marketplace-2017-01-11/GetEntitlementsRequest
 type GetEntitlementsInput struct {
@@ -195,7 +145,7 @@ type GetEntitlementsInput struct {
 	// dimension. Filters are described as keys mapped to a lists of values. Filtered
 	// requests are unioned for each value in the value list, and then intersected
 	// for each filter key.
-	Filter map[string][]*string `type:"map"`
+	Filter map[string][]string `type:"map"`
 
 	// The maximum number of items to retrieve from the GetEntitlements operation.
 	// For pagination, use the NextToken field in subsequent calls to GetEntitlements.
@@ -240,39 +190,17 @@ func (s *GetEntitlementsInput) Validate() error {
 	return nil
 }
 
-// SetFilter sets the Filter field's value.
-func (s *GetEntitlementsInput) SetFilter(v map[string][]*string) *GetEntitlementsInput {
-	s.Filter = v
-	return s
-}
-
-// SetMaxResults sets the MaxResults field's value.
-func (s *GetEntitlementsInput) SetMaxResults(v int64) *GetEntitlementsInput {
-	s.MaxResults = &v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetEntitlementsInput) SetNextToken(v string) *GetEntitlementsInput {
-	s.NextToken = &v
-	return s
-}
-
-// SetProductCode sets the ProductCode field's value.
-func (s *GetEntitlementsInput) SetProductCode(v string) *GetEntitlementsInput {
-	s.ProductCode = &v
-	return s
-}
-
 // The GetEntitlementsRequest contains results from the GetEntitlements operation.
 // Please also see https://docs.aws.amazon.com/goto/WebAPI/entitlement.marketplace-2017-01-11/GetEntitlementsResult
 type GetEntitlementsOutput struct {
 	_ struct{} `type:"structure"`
 
+	responseMetadata aws.Response
+
 	// The set of entitlements found through the GetEntitlements operation. If the
 	// result contains an empty set of entitlements, NextToken might still be present
 	// and should be used.
-	Entitlements []*Entitlement `type:"list"`
+	Entitlements []Entitlement `type:"list"`
 
 	// For paginated results, use NextToken in subsequent calls to GetEntitlements.
 	// If the result contains an empty set of entitlements, NextToken might still
@@ -290,16 +218,9 @@ func (s GetEntitlementsOutput) GoString() string {
 	return s.String()
 }
 
-// SetEntitlements sets the Entitlements field's value.
-func (s *GetEntitlementsOutput) SetEntitlements(v []*Entitlement) *GetEntitlementsOutput {
-	s.Entitlements = v
-	return s
-}
-
-// SetNextToken sets the NextToken field's value.
-func (s *GetEntitlementsOutput) SetNextToken(v string) *GetEntitlementsOutput {
-	s.NextToken = &v
-	return s
+// SDKResponseMetdata return sthe response metadata for the API.
+func (s GetEntitlementsOutput) SDKResponseMetadata() aws.Response {
+	return s.responseMetadata
 }
 
 type GetEntitlementFilterName string
@@ -309,3 +230,12 @@ const (
 	GetEntitlementFilterNameCustomerIdentifier GetEntitlementFilterName = "CUSTOMER_IDENTIFIER"
 	GetEntitlementFilterNameDimension          GetEntitlementFilterName = "DIMENSION"
 )
+
+func (enum GetEntitlementFilterName) MarshalValue() (string, error) {
+	return string(enum), nil
+}
+
+func (enum GetEntitlementFilterName) MarshalValueBuf(b []byte) ([]byte, error) {
+	b = b[0:0]
+	return append(b, enum...), nil
+}
